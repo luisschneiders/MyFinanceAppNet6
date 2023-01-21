@@ -1,0 +1,213 @@
+﻿html, body {
+    height: 100%;
+}
+
+a, .btn-link {
+    text-decoration: none;
+}
+
+a:hover {
+    color: #493640;
+}
+
+input[disabled] {
+    cursor: not-allowed;
+}
+
+h1:focus {
+    outline: none;
+}
+
+.app-outline-none {
+    outline: none;
+}
+.app-bg-color-mode {
+    background: rgb(0,0,0);
+    background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 50%, rgba(255,255,255,1) 50%, rgba(255,255,255,1) 100%);
+}
+.app-text-shadow {
+    text-shadow: 1px 1px 2px #000;
+}
+
+/*
+* The component Virtualize won't work if we don't set a fix height for tables
+*/
+.app-page-responsive-height {
+    height: calc(100vh - (3rem + 252px));
+    overflow-y: auto;
+}
+
+.app-page-responsive-height thead tr th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+[data-bs-theme=dark] .app-page-responsive-height th {
+    background-color: #252a2e;
+}
+
+[data-bs-theme=light] .app-page-responsive-height th {
+    background-color: #f8f8f8;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+}
+
+.blazor-error-boundary {
+    background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTYiIGhlaWdodD0iNDkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIG92ZXJmbG93PSJoaWRkZW4iPjxkZWZzPjxjbGlwUGF0aCBpZD0iY2xpcDAiPjxyZWN0IHg9IjIzNSIgeT0iNTEiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0OSIvPjwvY2xpcFBhdGg+PC9kZWZzPjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMCkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yMzUgLTUxKSI+PHBhdGggZD0iTTI2My41MDYgNTFDMjY0LjcxNyA1MSAyNjUuODEzIDUxLjQ4MzcgMjY2LjYwNiA1Mi4yNjU4TDI2Ny4wNTIgNTIuNzk4NyAyNjcuNTM5IDUzLjYyODMgMjkwLjE4NSA5Mi4xODMxIDI5MC41NDUgOTIuNzk1IDI5MC42NTYgOTIuOTk2QzI5MC44NzcgOTMuNTEzIDI5MSA5NC4wODE1IDI5MSA5NC42NzgyIDI5MSA5Ny4wNjUxIDI4OS4wMzggOTkgMjg2LjYxNyA5OUwyNDAuMzgzIDk5QzIzNy45NjMgOTkgMjM2IDk3LjA2NTEgMjM2IDk0LjY3ODIgMjM2IDk0LjM3OTkgMjM2LjAzMSA5NC4wODg2IDIzNi4wODkgOTMuODA3MkwyMzYuMzM4IDkzLjAxNjIgMjM2Ljg1OCA5Mi4xMzE0IDI1OS40NzMgNTMuNjI5NCAyNTkuOTYxIDUyLjc5ODUgMjYwLjQwNyA1Mi4yNjU4QzI2MS4yIDUxLjQ4MzcgMjYyLjI5NiA1MSAyNjMuNTA2IDUxWk0yNjMuNTg2IDY2LjAxODNDMjYwLjczNyA2Ni4wMTgzIDI1OS4zMTMgNjcuMTI0NSAyNTkuMzEzIDY5LjMzNyAyNTkuMzEzIDY5LjYxMDIgMjU5LjMzMiA2OS44NjA4IDI1OS4zNzEgNzAuMDg4N0wyNjEuNzk1IDg0LjAxNjEgMjY1LjM4IDg0LjAxNjEgMjY3LjgyMSA2OS43NDc1QzI2Ny44NiA2OS43MzA5IDI2Ny44NzkgNjkuNTg3NyAyNjcuODc5IDY5LjMxNzkgMjY3Ljg3OSA2Ny4xMTgyIDI2Ni40NDggNjYuMDE4MyAyNjMuNTg2IDY2LjAxODNaTTI2My41NzYgODYuMDU0N0MyNjEuMDQ5IDg2LjA1NDcgMjU5Ljc4NiA4Ny4zMDA1IDI1OS43ODYgODkuNzkyMSAyNTkuNzg2IDkyLjI4MzcgMjYxLjA0OSA5My41Mjk1IDI2My41NzYgOTMuNTI5NSAyNjYuMTE2IDkzLjUyOTUgMjY3LjM4NyA5Mi4yODM3IDI2Ny4zODcgODkuNzkyMSAyNjcuMzg3IDg3LjMwMDUgMjY2LjExNiA4Ni4wNTQ3IDI2My41NzYgODYuMDU0N1oiIGZpbGw9IiNGRkU1MDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvZz48L3N2Zz4=) no-repeat 1rem/1.8rem, #b32121;
+    padding: 1rem 1rem 1rem 3.7rem;
+    color: white;
+}
+
+.blazor-error-boundary::after {
+    content: "An error has occurred."
+}
+
+.btn-default {
+    --bs-btn-color: var(--bs-white);
+    --bs-btn-bg: var(--bs-purple);
+    --bs-btn-border-color: var(--bs-purple);
+    --bs-btn-hover-color: var(--bs-white);
+    --bs-btn-hover-bg: #59359a;
+    --bs-btn-hover-border-color: #432874;
+    --bs-btn-focus-shadow-rgb: 111,66,193;
+    --bs-btn-active-color: var(--bs-white);
+    --bs-btn-active-bg: #432874;
+    --bs-btn-active-border-color: #2c1a4d;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: var(--bs-white);
+    --bs-btn-disabled-bg: var(--bs-purple);
+    --bs-btn-disabled-border-color: var(--bs-purple);
+}
+
+.btn-outline-default {
+    --bs-btn-color: var(--bs-purple);
+    --bs-btn-border-color: var(--bs-purple);
+    --bs-btn-hover-color: var(--bs-white);
+    --bs-btn-hover-bg: var(--bs-purple);
+    --bs-btn-hover-border-color: var(--bs-purple);
+    --bs-btn-focus-shadow-rgb: 111,66,193;
+    --bs-btn-active-color: var(--bs-white);
+    --bs-btn-active-bg: var(--bs-purple);
+    --bs-btn-active-border-color: var(--bs-purple);
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: var(--bs-purple);
+    --bs-btn-disabled-bg: transparent;
+    --bs-gradient: none;
+}
+
+.btn:disabled {
+    cursor: not-allowed;
+    pointer-events: initial;
+}
+
+.breadcrumb-divider {
+    --bs-breadcrumb-divider: '/';
+}
+
+.breadcrumb-no-divider {
+    --bs-breadcrumb-divider: '';
+}
+
+.flex-container {
+    display: grid;
+    grid-template-columns: 100%;
+    height: 100%;
+}
+
+.flex-container .flex-container-list {
+    overflow-y: auto;
+}
+
+.flex-container .flex-container-list-search {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #f3f2f1;
+}
+
+.flex-container .flex-container-main {
+    flex-grow: 2;
+}
+
+.hero-section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.hero-section-left, .hero-section-right {
+    width: 100%;
+    height: 50vh;
+}
+
+.valid.modified:not([type=checkbox]) {
+    border-color: var(--bs-success);
+}
+
+.invalid {
+    border-color: var(--bs-danger);
+}
+
+.main {
+    padding-top: 58px;
+}
+
+[data-bs-theme=dark] .main, [data-bs-theme=dark] .app-navbar {
+    background-color: #252a2e;
+}
+
+[data-bs-theme=light] .main, [data-bs-theme=light] .app-navbar {
+    background-color: #f8f8f8;
+}
+
+.validation-message {
+    color: var(--bs-danger);
+}
+
+@media (max-width: 640.98px) {
+    .app-dropdown-menu {
+        border-color: transparent;
+    }
+}
+
+@media (min-width: 992px) {
+    .content {
+        width: calc(100% - 1.5rem);
+    }
+
+    .hero-section {
+        flex-direction: row;
+    }
+
+    .hero-section-left, .hero-section-right {
+        width: 50%;
+        height: calc(100vh - 58px);
+    }
+    .app-page-responsive-height {
+        height: calc(100vh - (3rem + 260px));
+    }
+}
+
+@media (min-width: 1200px) {
+    .flex-container {
+        grid-template-columns: 40% auto;
+    }
+}
