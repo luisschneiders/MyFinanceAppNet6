@@ -1,0 +1,76 @@
+﻿@page "/settings"
+@using MainApp.Components.Page
+@using MainApp.Components.Card
+@using MainApp.Components.Message
+@using MainApp.Components.Breadcrumb
+@using MainApp.Components.ListGroup
+
+<div class="container-lg">
+    <AuthorizeView>
+        <Authorized>
+            <PageWrapper>
+
+                <PageTopView>
+                    <PageTopWrapper>
+                        <PageTopTitle Title="Settings" />
+                        <Breadcrumb AppPageLink="@EndPoint.Settings" />
+                    </PageTopWrapper>
+                </PageTopView>
+
+                <PageMiddleView>
+                    <PageMiddleWrapper>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
+
+                                <CardView Styles="border-0 w-100">
+                                    <CardMiddle>
+                                        <div class="d-grid gap-3">
+                                            <SettingsAppearance OnClickSuccess="OpenAppearanceOffCanvas" />
+                                            <button class="btn p-0 border-0" disabled="disabled">
+                                                <CardView Styles="border-0">
+                                                    <CardMiddle>
+                                                        <div class="d-flex w-100 align-items-center">
+                                                            <i class="bi bi-send-fill pe-3"></i>
+                                                            <div class="w-100 text-start">
+                                                                <h2 class="mb-1 h5">Give feedback</h2>
+                                                                <small class="text-secondary">Help us improve the app</small>
+                                                            </div>
+                                                            <div>
+                                                                <i class="bi bi-chevron-right"></i>
+                                                            </div>
+                                                        </div>
+                                                    </CardMiddle>
+                                                </CardView>
+                                            </button>
+                                        </div>
+                                    </CardMiddle>
+                                </CardView>
+                            </div>
+                            <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
+                                <CardView Styles="border-0 w-100">
+                                    <CardMiddle Styles="d-flex align-items-center justify-content-center">
+                                        <div>New feature coming soon!</div>
+                                    </CardMiddle>
+                                </CardView>
+                            </div>
+                            <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
+                                <CardView Styles="border-0 w-100">
+                                    <CardMiddle Styles="d-flex align-items-center justify-content-center">
+                                        <div class="text-center">New feature coming soon!</div>
+                                    </CardMiddle>
+                                </CardView>
+                            </div>
+                        </div>
+                    </PageMiddleWrapper>
+                </PageMiddleView>
+
+                <PageBottomView />
+
+            </PageWrapper>
+            <SettingsAppearanceOffCanvas @ref="_settingsAppearanceOffCanvas"/>
+        </Authorized>
+        <NotAuthorized>
+            <NotAuthorizedMessage />
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
