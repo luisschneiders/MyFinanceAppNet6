@@ -1,0 +1,13 @@
+﻿<div class="dropdown @(IsDisplayLargeNone ? "d-lg-none" : "")">
+    <button class="btn btn-light"
+            title="More actions"
+            id="dropdownMenuOptions"
+            data-bs-toggle="dropdown"
+            aria-expanded="false">
+        <i class="bi bi-three-dots text-@IconColor.ToString().ToLower()"></i>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg"
+        aria-labelledby="dropdownMenuOptions">
+        @ChildContent
+    </ul>
+</div>

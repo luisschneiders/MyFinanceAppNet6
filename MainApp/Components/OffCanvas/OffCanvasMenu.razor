@@ -1,0 +1,96 @@
+﻿<div class="offcanvas-lg offcanvas-start flex-grow-1 app-navbar"
+     id="offcanvasLeft"
+     aria-labelledby="offcanvasLeftLabel"
+     data-bs-scroll="false">
+    <div class="offcanvas-header px-4 pb-0">
+        <h5 class="offcanvas-title" id="offcanvasLeftLabel">@Label.AppTitle</h5>
+        <button type="button" class="btn btn-close" data-bs-dismiss="offcanvas" aria-label="Close" data-bs-target="#offcanvasLeft"></button>
+    </div>
+
+    <div class="offcanvas-body p-4 pt-0 p-lg-0 align-items-center">
+        <hr class="d-lg-none">
+        <ul class="navbar-nav me-auto justify-content-end gap-3">
+            <AuthorizeView>
+                <Authorized>
+                    <li class="nav-item col-12 col-lg-auto">
+                        <NavLink class="nav-link app-nav-link" href="@EndPoint.Dashboard" Match="NavLinkMatch.All">
+                            Dashboard
+                        </NavLink>
+                    </li>
+                </Authorized>
+            </AuthorizeView>
+            @*Only user with role "Admin" have access - start*@
+            <AuthorizeView Policy="Admin">
+                <li class="nav-item dropdown">
+                    <NavLink class="nav-link app-nav-link app-outline-none" href="@EndPoint.Setup" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-grid-3x3-gap pe-1"></i>Setup<i class="bi bi-chevron-down ps-2"></i>
+                    </NavLink>
+                    <ul class="dropdown-menu app-dropdown-menu border-0 shadow-sm" aria-labelledby="navbarDropdownSettingsLink">
+                        <li class="px-2">
+                            <NavLink class="dropdown-item rounded" href="@EndPoint.SetupBank">
+                                Bank
+                            </NavLink>
+                        </li>
+                        <li class="px-2">
+                            <NavLink class="dropdown-item rounded" href="@EndPoint.SetupExpense">
+                                Expense
+                            </NavLink>
+                        </li>
+                        <li class="px-2">
+                            <NavLink class="dropdown-item rounded" href="@EndPoint.SetupTransaction">
+                                Transaction
+                            </NavLink>
+                        </li>
+                        <li class="px-2">
+                            <hr />
+                            <NavLink class="dropdown-item rounded" href="@EndPoint.SetupCompany">
+                                Company
+                            </NavLink>
+                        </li>
+                        <li class="px-2">
+                            <NavLink class="dropdown-item rounded" href="@EndPoint.SetupVehicle">
+                                Vehicle
+                            </NavLink>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <NavLink class="nav-link app-nav-link app-outline-none" href="@EndPoint.Admin" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Admin<i class="bi bi-chevron-down ps-2"></i>
+                    </NavLink>
+                    <ul class="dropdown-menu app-dropdown-menu border-0 shadow-sm" aria-labelledby="navbarDropdownSettingsLink">
+                        <li class="px-2">
+                            <NavLink class="dropdown-item rounded" href="@EndPoint.AdminExpenses">
+                                Expenses
+                            </NavLink>
+                        </li>
+                        <li class="px-2">
+                            <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTransactions">
+                                Transactions
+                            </NavLink>
+                        </li>
+                        <li class="px-2">
+                            <hr />
+                            <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTimesheet">
+                                Timesheet
+                            </NavLink>
+                        </li>
+                        <li class="px-2">
+                            <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTrips">
+                                Trips
+                            </NavLink>
+                        </li>
+                    </ul>
+                </li>
+            </AuthorizeView>
+            @*Only user with role "Admin" have access - end*@
+        </ul>
+
+        <div>
+            <hr class="d-lg-none">
+            <LoginDisplay />
+            <LoginOrRegister />
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,20 @@
+﻿<div class="offcanvas offcanvas-@PositionX.ToString().ToLower() flex-grow-1 @_offCanvasClass"
+     id="@_offCanvasId"
+     aria-labelledby="offcanvasRightLabel-@_offCanvasId"
+     data-bs-scroll="false">
+    <div class="offcanvas-header px-4 border-bottom">
+        <h5 class="offcanvas-title" id="offcanvasRightLabel-@_offCanvasId">@Title</h5>
+        <button type="button"
+                class="btn-close"
+                aria-label="Close"
+                data-bs-target="#@_offCanvasId"
+                @onclick="() => Close(_offCanvasId)"></button>
+    </div>
+    <div class="offcanvas-body p-4 pt-0">
+        @ChildContent
+    </div>
+</div>
+@if (_showBackdrop)
+{
+    <div class="offcanvas-backdrop fade @_offCanvasClass"></div>
+}

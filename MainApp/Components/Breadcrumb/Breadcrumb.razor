@@ -1,0 +1,24 @@
+﻿@if (IsVisible)
+{
+    <nav class="d-none d-lg-block @(_appPageLink.Length > 0 ? "breadcrumb-divider" : "breadcrumb-no-divider" )" aria-label="breadcrumb">
+        <ol class="breadcrumb text-capitalize">
+
+            @foreach (var breadcrumb in _breadcrumbLinks.Select((x, i) => new { Value = x, Index = i }))
+            {
+                @if (breadcrumb.Index > 0)
+                {
+                    <li class="breadcrumb-item @(breadcrumb.Value.IsActive ? "active" : "text-secondary" )">
+                        @if (breadcrumb.Value.IsActive)
+                        {
+                            <a href="@breadcrumb.Value.AppPageURL">@breadcrumb.Value.AppPageTitle</a>
+                        }
+                        else
+                        {
+                            @breadcrumb.Value.AppPageTitle
+                        }
+                    </li>
+                }
+            }
+        </ol>
+    </nav>
+}
