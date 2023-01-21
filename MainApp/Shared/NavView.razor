@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Hosting
+@using MainApp.Components.OffCanvas
+
+<nav class="navbar navbar-expand-lg fixed-top app-navbar shadow-sm">
+    <div class="container-lg">
+        <AuthorizeView>
+            <Authorized>
+                <a class="navbar-brand d-flex align-items-center" href="@EndPoint.Dashboard">
+                    <img src="@Image.Logo" alt="logo" width="28" height="28" class="rounded">
+                    <span class="px-1 navbar-brand-title">@Label.AppTitle</span>
+                </a>
+            </Authorized>
+            <NotAuthorized>
+                <a class="navbar-brand d-flex align-items-center" href="@EndPoint.Home">
+                    <img src="@Image.Logo" alt="logo" width="28" height="28" class="rounded">
+                    <span class="px-1 navbar-brand-title">@Label.AppTitle</span>
+                </a>
+            </NotAuthorized>
+        </AuthorizeView>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasLeft"
+                aria-controls="offcanvasLeft">
+            <i class="bi bi-justify"></i>
+        </button>
+
+        <OffCanvasMenu />
+
+    </div>
+</nav>
