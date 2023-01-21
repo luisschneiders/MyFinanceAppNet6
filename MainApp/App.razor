@@ -1,0 +1,30 @@
+﻿@using MainApp.Components.Message;
+
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(App).Assembly">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <NotAuthorized>
+                    <NotAuthorizedMessage />
+                </NotAuthorized>
+            </AuthorizeRouteView>
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </Found>
+        <NotFound>
+            <PageTitle>Not found</PageTitle>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <div class="row py-5">
+                    <div class="col-sm-12 col-md-4 col-lg-4 m-auto">
+                        <MessageView Icon="bi-search fs-2 text-warning"
+                                     Title="Page not found"
+                                     Message="Sorry, we could not find the page.">
+                            <ChildContent>
+                                <button class="btn btn-light" @onclick="BackToHome">Back to Home</button>
+                            </ChildContent>
+                        </MessageView>
+                    </div>
+                </div>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="MongoDB.Driver" />
+    <None Remove="Microsoft.Extensions.Configuration.Abstractions" />
+    <None Remove="DataAccess\NoSql\" />
+    <None Remove="DataAccess\Sql\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataAccess\NoSql\" />
+    <Folder Include="DataAccess\Sql\" />
+  </ItemGroup>
+</Project>
