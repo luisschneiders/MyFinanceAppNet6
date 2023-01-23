@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
-using MainApp.Services;
 using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
 using MainApp.Components.Chart;
@@ -41,9 +40,13 @@ public static class RegisterServices
 
     public static void AddSingletonServices(this WebApplicationBuilder builder)
     {
-        builder.Services.AddSingleton<IDbConnection, DbConnection>();
-
+        //MongoDB
+        builder.Services.AddSingleton<IDbConnection, MongoDbConnection>();
         builder.Services.AddSingleton<IUserData, MongoUserData>();
+
+        //Mysql
+        builder.Services.AddSingleton<IDataAccess, MysqlDataAccess>();
+        builder.Services.AddSingleton<IBankData, BankData>();
     }
 
     public static void AddScopedServices(this WebApplicationBuilder builder)
@@ -51,5 +54,6 @@ public static class RegisterServices
         builder.Services.AddScoped<SpinnerService>();
         builder.Services.AddScoped<ToastService>();
         builder.Services.AddScoped<IChartService, ChartService>();
+        builder.Services.AddScoped<IBankService, BankService>();
     }
 }
