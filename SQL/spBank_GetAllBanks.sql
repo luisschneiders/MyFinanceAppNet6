@@ -3,6 +3,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spBank_GetAllBanks`(IN userId varch
 BEGIN
 SELECT Id, Description, Account, InitialBalance, CurrentBalance, IsActive
     FROM Bank
-    WHERE UpdatedBy = userId;
+    WHERE UpdatedBy = userId
+    AND IsArchived = FALSE;
 END$$
 DELIMITER ;
