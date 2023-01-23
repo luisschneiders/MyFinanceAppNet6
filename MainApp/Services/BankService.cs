@@ -23,10 +23,10 @@ public class BankService : IBankService
         _authProvider = authProvider;
     }
 
-    public async Task<List<BankModel>> GetAllBanksByUserId()
+    public async Task<List<BankModel>> GetAllBanks()
     {
         var user = await GetLoggedInUser();
-        List<BankModel> results = await _bankData.GetAllBanksByUserId(user.Id);
+        List<BankModel> results = await _bankData.GetAllBanks(user.Id);
 
         return results;
     }
@@ -34,5 +34,13 @@ public class BankService : IBankService
     private async Task<UserModel> GetLoggedInUser()
     {
         return _loggedInUser =  await _authProvider.GetUserFromAuth(_userData);
+    }
+
+    public async Task<BankModel> GetBankById(string bankId)
+    {
+        var user = await GetLoggedInUser();
+        BankModel result = await _bankData.GetBankById(user.Id, bankId);
+
+        return result;
     }
 }

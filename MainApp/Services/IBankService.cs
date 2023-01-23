@@ -2,5 +2,6 @@
 
 public interface IBankService
 {
-    Task<List<BankModel>> GetAllBanksByUserId();
+    Task<List<BankModel>> GetAllBanks();
+    Task<BankModel> GetBankById(string bankId);
 }

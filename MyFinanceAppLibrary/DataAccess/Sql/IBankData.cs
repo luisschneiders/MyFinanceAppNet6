@@ -2,5 +2,6 @@
 
 public interface IBankData
 {
-    Task<List<BankModel>> GetAllBanksByUserId(string userId);
+    Task<List<BankModel>> GetAllBanks(string userId);
+    Task<BankModel> GetBankById(string userId, string bankId);
 }

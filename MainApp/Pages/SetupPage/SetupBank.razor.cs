@@ -33,7 +33,7 @@ public partial class SetupBank : ComponentBase
 
     private async Task FetchDataAsync()
     {
-        _banks = await _bankService.GetAllBanksByUserId();
+        _banks = await _bankService.GetAllBanks();
 
         //if (_paginationResponse.Success == false)
         //{
