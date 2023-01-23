@@ -1,0 +1,188 @@
+﻿@page "/setup/bank"
+
+@using MainApp.Components.Page
+@using MainApp.Components.Card
+@using MainApp.Components.Message
+@using MainApp.Components.Breadcrumb
+@using MainApp.Components.ListGroup
+@using MainApp.Components.Badge
+@using MainApp.Components.Dropdown
+@using MainApp.Components.Spinner
+
+<div class="container-lg">
+    <AuthorizeView Policy="Admin">
+        <Authorized>
+            <PageWrapper>
+
+                <PageTopView>
+                    <PageTopWrapper>
+                        <div class="d-flex flex-row">
+                            <PageTopTitle Title="Bank" />
+                            <sup>
+                                <Badge BackgroundColor="@Theme.Success" Message="New" />
+                            </sup>
+                        </div>
+                        <Breadcrumb AppPageLink="@EndPoint.SetupBank" />
+                    </PageTopWrapper>
+                </PageTopView>
+
+                <PageMiddleView>
+                    <PageMiddleWrapper>
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-8">
+                                <CardView Styles="border-0">
+                                    <CardMiddle>
+                                        <div class="row flex-row-reverse justify-content-between pb-2">
+                                            <div class="col-2 col-md-2 col-lg-2 d-flex justify-content-end pb-2">
+                                                <DropdownActions IconColor="@Theme.Success">
+                                                    <li>
+                                                        <button class="dropdown-item"
+                                                                @onclick="() => AddRecordAsync()">
+                                                            <i class="bi bi-plus-lg pe-1"></i>New Bank
+                                                        </button>
+                                                    </li>
+                                                </DropdownActions>
+                                            </div>
+                                            <div class="col-10 col-md-8 col-lg-6 pb-2">
+                                                <div class="row">
+                                                    <div class="col-10">
+                                                        <input type="text"
+                                                               class="form-control"
+                                                               placeholder="Search for banks..."
+                                                               aria-label="search">
+
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <button class="btn btn-outline-primary"
+                                                                @onclick="() => SearchAsync()">
+                                                            Search
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="table-responsive app-page-responsive-height">
+                                                    <table class="table table-hover">
+                                                        <thead class="app-table-head-text">
+                                                            <tr>
+                                                                <th class="col-2">
+                                                                    Description
+                                                                </th>
+                                                                <th class="col-2">
+                                                                    Account
+                                                                </th>
+                                                                <th class="col-2 text-end">
+                                                                    Initial Balance
+                                                                </th>
+                                                                <th class="col-2 text-end">
+                                                                    Current Balance
+                                                                </th>
+                                                                <th class="col-1 text-center">
+                                                                    Is Active?
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                            @if (_banks is null)
+                                                            {
+                                                                <tr>
+                                                                    <td class="text-center" colspan="4">
+                                                                        <Spinner Size="Size.Sm" />
+                                                                        <span>
+                                                                            Loading...
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                            else
+                                                            {
+                                                                foreach (var record in _banks)
+                                                                {
+
+                                                                    <tr>
+                                                                        <td>
+                                                                            @record.Description
+                                                                        </td>
+                                                                        <td>
+                                                                            @record.Account
+                                                                        </td>
+                                                                        <td class="text-end">
+                                                                            @record.InitialBalance
+                                                                        </td>
+                                                                        <td class="text-end">
+                                                                            @record.CurrentBalance
+                                                                        </td>
+                                                                        <td class="text-center">
+                                                                            @record.IsActive
+                                                                        </td>
+                                                                        @*<td class="text-center">
+                                                                            <button class="btn btn-link p-0 text-info"
+                                                                                    type="button"
+                                                                                    title="See more details for @record.Country"
+                                                                                    @onclick="() => ShowDetails(record)">
+                                                                                <i class="bi bi-info-square"></i>
+                                                                            </button>
+                                                                        </td>*@
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                    @*@if (_paginationResponse.Data?.Count > 0)
+                                                    {
+                                                        <div class="text-center">
+
+                                                            <button class="btn btn-primary"
+                                                                    @onclick="LoadMoreRecordsAsync"
+                                                                    disabled="@(_isLoading ? true : false)"
+                                                                    type="button">
+                                                                @(_isLoading ? "Loading..." : "Load more...")
+                                                            </button>
+
+                                                        </div>
+                                                    }*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </CardMiddle>
+                                </CardView>
+                            </div>
+                            <div class="col-sm-12 col-lg-4 d-none d-lg-block">
+                                <CardView Styles="w-100 border-0">
+                                    <CardMiddle>
+                                        <div class="row justify-content-between">
+                                            <div class="col-auto">
+                                                <div class="text-uppercase">
+                                                    Chart
+                                                    <sup>
+                                                        <Badge BackgroundColor="@Theme.Warning" Message="Coming soon!" />
+                                                    </sup>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="bi bi-graph-up display-6 text-warning"></i>
+                                            </div>
+                                            <span>
+                                                Display name: @_loggedInUser.Id
+                                            </span>
+                                        </div>
+                                    </CardMiddle>
+                                </CardView>
+
+                            </div>
+                        </div>
+                    </PageMiddleWrapper>
+                </PageMiddleView>
+
+                <PageBottomView />
+
+            </PageWrapper>
+        </Authorized>
+        <NotAuthorized>
+            <NotAuthorizedMessage />
+        </NotAuthorized>
+    </AuthorizeView>
+</div>

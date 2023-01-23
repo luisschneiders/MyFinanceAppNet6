@@ -1,0 +1,60 @@
+﻿@page "/setup"
+
+@using MainApp.Components.Page
+@using MainApp.Components.Card
+@using MainApp.Components.Message
+@using MainApp.Components.Breadcrumb
+@using MainApp.Components.ListGroup
+
+<div class="container-lg">
+    <AuthorizeView>
+        <Authorized>
+            <PageWrapper>
+
+                <PageTopView>
+                    <PageTopWrapper>
+                        <PageTopTitle Title="Setup" />
+                        <Breadcrumb AppPageLink="@EndPoint.Setup" />
+                    </PageTopWrapper>
+                </PageTopView>
+
+                <PageMiddleView>
+                    <PageMiddleWrapper>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
+
+                                <CardView Styles="border-0 w-100">
+                                    <CardMiddle>
+                                        <div class="d-grid gap-3">
+                                            <div>New feature coming soon!</div>
+                                        </div>
+                                    </CardMiddle>
+                                </CardView>
+                            </div>
+                            <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
+                                <CardView Styles="border-0 w-100">
+                                    <CardMiddle Styles="d-flex align-items-center justify-content-center">
+                                        <div>New feature coming soon!</div>
+                                    </CardMiddle>
+                                </CardView>
+                            </div>
+                            <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
+                                <CardView Styles="border-0 w-100">
+                                    <CardMiddle Styles="d-flex align-items-center justify-content-center">
+                                        <div class="text-center">New feature coming soon!</div>
+                                    </CardMiddle>
+                                </CardView>
+                            </div>
+                        </div>
+                    </PageMiddleWrapper>
+                </PageMiddleView>
+
+                <PageBottomView />
+
+            </PageWrapper>
+        </Authorized>
+        <NotAuthorized>
+            <NotAuthorizedMessage />
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
