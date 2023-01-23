@@ -30,6 +30,8 @@ public class MysqlDataAccess : IDataAccess
                 parameters,
                 commandType: CommandType.StoredProcedure);
 
+            connection.Close();
+
             return rows.ToList();
         };
     }
@@ -46,6 +48,8 @@ public class MysqlDataAccess : IDataAccess
                     storedProcedure,
                     parameters,
                     commandType: CommandType.StoredProcedure);
+
+            connection.Close();
         };
     }
 }

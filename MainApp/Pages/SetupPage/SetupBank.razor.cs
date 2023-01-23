@@ -9,13 +9,6 @@ public partial class SetupBank : ComponentBase
     [Inject]
     IBankService _bankService { get; set; } = default!;
 
-    [Inject]
-    private AuthenticationStateProvider _authProvider { get; set; } = default!;
-
-    [Inject]
-    private IUserData _userData { get; set; } = default!;
-
-    private UserModel _loggedInUser { get; set; } = new();
     private List<BankModel> _banks { get; set; } = new();
 
     public SetupBank()
@@ -24,7 +17,6 @@ public partial class SetupBank : ComponentBase
 
     protected async override Task OnInitializedAsync()
     {
-        _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
         await FetchDataAsync();
         await Task.CompletedTask;
     }
@@ -41,7 +33,7 @@ public partial class SetupBank : ComponentBase
 
     private async Task FetchDataAsync()
     {
-        _banks = await _bankService.GetAllBanksByUserId(_loggedInUser.Id);
+        _banks = await _bankService.GetAllBanksByUserId();
 
         //if (_paginationResponse.Success == false)
         //{
@@ -54,6 +46,21 @@ public partial class SetupBank : ComponentBase
         //    _paginationService.Filter = paginationFilter;
         //}
 
+        await Task.CompletedTask;
+    }
+
+    private async Task UpdateStatusAsync(BankModel bankModel)
+    {
+        await Task.CompletedTask;
+    }
+
+    private async Task ViewRecordAsync(BankModel bankModel)
+    {
+        await Task.CompletedTask;
+    }
+
+    private async Task EditRecordAsync(BankModel bankModel)
+    {
         await Task.CompletedTask;
     }
 
