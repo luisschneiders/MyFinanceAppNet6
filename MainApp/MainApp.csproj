@@ -15,9 +15,15 @@
   <ItemGroup>
     <None Remove="Microsoft.Identity.Web" />
     <None Remove="Microsoft.Identity.Web.UI" />
+    <None Remove="Pages\SetupPage\" />
+    <None Remove="Services\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Web" Version="1.25.10" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.25.10" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages\SetupPage\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 </Project>

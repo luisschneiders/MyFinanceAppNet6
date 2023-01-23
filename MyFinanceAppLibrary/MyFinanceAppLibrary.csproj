@@ -11,10 +11,14 @@
     <None Remove="Microsoft.Extensions.Configuration.Abstractions" />
     <None Remove="DataAccess\NoSql\" />
     <None Remove="DataAccess\Sql\" />
+    <None Remove="Dapper" />
+    <None Remove="MySql.Data" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="MySql.Data" Version="8.0.28" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataAccess\NoSql\" />

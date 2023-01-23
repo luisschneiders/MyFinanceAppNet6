@@ -2,7 +2,7 @@
 
 namespace MyFinanceAppLibrary.DataAccess.NoSql;
 
-public class DbConnection : IDbConnection
+public class MongoDbConnection : IDbConnection
 {
     private readonly IConfiguration _config;
     private readonly IMongoDatabase _db;
@@ -14,7 +14,7 @@ public class DbConnection : IDbConnection
     public MongoClient Client { get; private set; }
     public IMongoCollection<UserModel> UserCollection { get; private set; }
 
-    public DbConnection(IConfiguration config)
+    public MongoDbConnection(IConfiguration config)
     {
         _config = config;
         Client = new MongoClient(_config.GetConnectionString(_connectionId));

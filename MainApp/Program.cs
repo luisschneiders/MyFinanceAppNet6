@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using MainApp.Data;
 using MainApp;
 using Microsoft.AspNetCore.Rewrite;
 
