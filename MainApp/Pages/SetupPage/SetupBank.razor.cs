@@ -18,6 +18,10 @@ public partial class SetupBank : ComponentBase
     protected async override Task OnInitializedAsync()
     {
         await FetchDataAsync();
+
+        // Please delete me!
+        await CreateDummyRecord();
+
         await Task.CompletedTask;
     }
 
@@ -33,18 +37,7 @@ public partial class SetupBank : ComponentBase
 
     private async Task FetchDataAsync()
     {
-        _banks = await _bankService.GetAllBanks();
-
-        //if (_paginationResponse.Success == false)
-        //{
-        //    _toastService.ShowToast(_paginationResponse.ErrorMessage, Theme.Danger);
-        //}
-
-        //if (_covid19Service.HasDataAsync())
-        //{
-        //    _covid19Countries = await _covid19Service.GetDataListAsync();
-        //    _paginationService.Filter = paginationFilter;
-        //}
+        _banks = await _bankService.GetBanks();
 
         await Task.CompletedTask;
     }
@@ -61,6 +54,30 @@ public partial class SetupBank : ComponentBase
 
     private async Task EditRecordAsync(BankModel bankModel)
     {
+        await Task.CompletedTask;
+    }
+
+
+    // Please delete me!
+    private async Task CreateDummyRecord()
+    {
+        Random rnd = new();
+        var amount = rnd.Next(88, 888);
+
+        BankModel bankModel = new()
+        {
+            Account = $"Account {DateTime.Now}",
+            Description = $"Description {DateTime.Now}",
+            InitialBalance = amount,
+            CurrentBalance = amount
+        };
+
+        await _bankService.CreateBank(bankModel);
+
+        bankModel.Id = await _bankService.GetLastInsertedId();
+
+        _banks.Add(bankModel);
+
         await Task.CompletedTask;
     }
 
