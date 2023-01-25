@@ -1,12 +1,12 @@
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spBank_Create`(
-	IN Account varchar(45),
-	IN Description varchar(45),
-	IN InitialBalance decimal(10,2),
-	IN CurrentBalance decimal(10,2),
-	IN UpdatedBy varchar(28),
-	IN CreatedAt datetime,
-	IN UpdatedAt datetime
+	IN bankAccount varchar(45),
+	IN bankDescription varchar(45),
+	IN bankInitialBalance decimal(10,2),
+	IN bankCurrentBalance decimal(10,2),
+	IN bankUpdatedBy varchar(28),
+	IN bankCreatedAt datetime,
+	IN bankUpdatedAt datetime
 )
 BEGIN
 
@@ -20,17 +20,14 @@ INSERT INTO `myfinancedb`.`Bank` (
 	`UpdatedAt`
 )
 VALUES (
-	Account,
-	Description,
-	InitialBalance,
-	CurrentBalance,
-	UpdatedBy,
-	CreatedAt,
-	UpdatedAt
+	bankAccount,
+	bankDescription,
+	bankInitialBalance,
+	bankCurrentBalance,
+	bankUpdatedBy,
+	bankCreatedAt,
+	bankUpdatedAt
 );
-
-SET @LastInsertedId = LAST_INSERT_ID();
-SELECT @LastInsertedId;
 
 END$$
 DELIMITER ;
