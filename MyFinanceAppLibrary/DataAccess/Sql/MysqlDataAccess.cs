@@ -44,7 +44,7 @@ public class MysqlDataAccess : IDataAccess
     {
         string connectionString = _config.GetConnectionString(connectionStringName);
 
-        using (IDbConnection connection = new MySqlConnection(connectionString))
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             connection.Open();
 
