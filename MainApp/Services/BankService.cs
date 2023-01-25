@@ -31,16 +31,18 @@ public class BankService : IBankService
         return results;
     }
 
-    private async Task<UserModel> GetLoggedInUser()
-    {
-        return _loggedInUser =  await _authProvider.GetUserFromAuth(_userData);
-    }
 
     public async Task<BankModel> GetBankById(string bankId)
     {
         var user = await GetLoggedInUser();
         BankModel result = await _bankData.GetBankById(user.Id, bankId);
         return result;
+    }
+
+    public async Task<ulong> GetLastInsertedId()
+    {
+        var lastInsertedId = await _bankData.GetLastInsertedId();
+        return await Task.FromResult(lastInsertedId);
     }
 
     public async Task CreateBank(BankModel bankModel)
@@ -59,9 +61,27 @@ public class BankService : IBankService
         await Task.CompletedTask;
     }
 
-    public async Task<ulong> GetLastInsertedId()
+    public async Task UpdateBank(BankModel bankModel)
     {
-        var lastInsertedId = await _bankData.GetLastInsertedId();
-        return await Task.FromResult(lastInsertedId);
+        var user = await GetLoggedInUser();
+        BankModel newBank = new()
+        {
+            Id = bankModel.Id,
+            Account = bankModel.Account,
+            Description = bankModel.Description,
+            CurrentBalance = bankModel.CurrentBalance,
+            IsActive = bankModel.IsActive,
+            UpdatedBy = user.Id,
+            UpdatedAt = DateTime.Now,
+        };
+
+        await _bankData.UpdateBank(newBank);
+        await Task.CompletedTask;
     }
+
+    private async Task<UserModel> GetLoggedInUser()
+    {
+        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
+    }
+
 }

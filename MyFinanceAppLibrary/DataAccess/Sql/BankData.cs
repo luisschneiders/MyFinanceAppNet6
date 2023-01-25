@@ -29,16 +29,16 @@ public class BankData : IBankData
 
     public async Task CreateBank(BankModel bankModel)
     {
-        var result = await _dataAccess.LoadData<BankModel, dynamic>(
+        await _dataAccess.LoadData<BankModel, dynamic>(
             "myfinancedb.spBank_Create",
             new {
-                Account = bankModel.Account,
-                Description = bankModel.Description,
-                InitialBalance = bankModel.InitialBalance,
-                CurrentBalance = bankModel.CurrentBalance,
-                UpdatedBy = bankModel.UpdatedBy,
-                CreatedAt = bankModel.CreatedAt,
-                UpdatedAt = bankModel.UpdatedAt,
+                bankAccount = bankModel.Account,
+                bankDescription = bankModel.Description,
+                bankInitialBalance = bankModel.InitialBalance,
+                bankCurrentBalance = bankModel.CurrentBalance,
+                bankUpdatedBy = bankModel.UpdatedBy,
+                bankCreatedAt = bankModel.CreatedAt,
+                bankUpdatedAt = bankModel.UpdatedAt,
             },
             "Mysql");
         await Task.CompletedTask;
@@ -50,8 +50,22 @@ public class BankData : IBankData
         return await Task.FromResult(lastInsertedId);
     }
 
-    public Task<BankModel> UpdateBank(BankModel bankModel)
+    public async Task UpdateBank(BankModel bankModel)
     {
-        throw new NotImplementedException();
+        await _dataAccess.SaveData<dynamic>(
+            "myfinancedb.spBank_Update",
+            new
+            {
+                bankId = bankModel.Id,
+                bankAccount = bankModel.Account,
+                bankDescription = bankModel.Description,
+                bankCurrentBalance = bankModel.CurrentBalance,
+                bankIsActive = bankModel.IsActive,
+                bankUpdatedBy = bankModel.UpdatedBy,
+                bankUpdatedAt = bankModel.UpdatedAt,
+            },
+            "Mysql");
+            
+        await Task.CompletedTask;
     }
 }

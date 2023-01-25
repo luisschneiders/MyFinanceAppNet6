@@ -6,5 +6,5 @@ public interface IBankData
     Task<BankModel> GetBankById(string userId, string bankId);
     Task<ulong> GetLastInsertedId();
     Task CreateBank(BankModel bankModel);
-    Task<BankModel> UpdateBank(BankModel bankModel);
+    Task UpdateBank(BankModel bankModel);
 }
