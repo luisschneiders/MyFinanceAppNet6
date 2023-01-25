@@ -18,19 +18,10 @@ public partial class SetupBank : ComponentBase
     protected async override Task OnInitializedAsync()
     {
         await FetchDataAsync();
-
-        // Please delete me!
-        await CreateDummyRecord();
-
         await Task.CompletedTask;
     }
 
     private async Task SearchAsync()
-    {
-        await Task.CompletedTask;
-    }
-
-    private async Task AddRecordAsync()
     {
         await Task.CompletedTask;
     }
@@ -52,13 +43,23 @@ public partial class SetupBank : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task EditRecordAsync(BankModel bankModel)
+    private async Task AddRecordAsync()
     {
+        // PLEASE DELETE ME!!!!
+        await CreateDummyRecord();
+
         await Task.CompletedTask;
     }
 
+    private async Task EditRecordAsync(BankModel bankModel)
+    {
+        // PLEASE DELETE ME!!!!
+        await UpdateDummyRecord(bankModel);
 
-    // Please delete me!
+        await Task.CompletedTask;
+    }
+
+    // PLEASE DELETE ME!!!!
     private async Task CreateDummyRecord()
     {
         Random rnd = new();
@@ -66,8 +67,8 @@ public partial class SetupBank : ComponentBase
 
         BankModel bankModel = new()
         {
-            Account = $"Account {DateTime.Now}",
-            Description = $"Description {DateTime.Now}",
+            Account = $"Account added {DateTime.Now}",
+            Description = $"Description aded {DateTime.Now}",
             InitialBalance = amount,
             CurrentBalance = amount
         };
@@ -81,4 +82,19 @@ public partial class SetupBank : ComponentBase
         await Task.CompletedTask;
     }
 
+    // PLEASE DELETE ME!!!!
+    private async Task UpdateDummyRecord(BankModel bankModel)
+    {
+        Random rnd = new();
+        var amount = rnd.Next(88, 8888);
+
+        bankModel.Account = $"Account updated {DateTime.Now}";
+        bankModel.Description = $"Description updated {DateTime.Now}";
+        bankModel.CurrentBalance = amount;
+        bankModel.IsActive = false;
+
+        await _bankService.UpdateBank(bankModel);
+
+        await Task.CompletedTask;
+    }
 }
