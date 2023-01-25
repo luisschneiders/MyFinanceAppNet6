@@ -1,5 +1,7 @@
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `spBank_GetAllBanks`(IN userId varchar(28))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spBank_GetAll`(
+	IN userId varchar(28)
+)
 BEGIN
 SELECT Id, Description, Account, InitialBalance, CurrentBalance, IsActive
     FROM Bank
