@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using MyFinanceAppLibrary.DataAccess.Sql;
 
 namespace MainApp.Services;
 
@@ -23,11 +24,10 @@ public class BankService : IBankService
         _authProvider = authProvider;
     }
 
-    public async Task<List<BankModel>> GetAllBanks()
+    public async Task<List<BankModel>> GetBanks()
     {
         var user = await GetLoggedInUser();
-        List<BankModel> results = await _bankData.GetAllBanks(user.Id);
-
+        List<BankModel> results = await _bankData.GetBanks(user.Id);
         return results;
     }
 
@@ -40,7 +40,28 @@ public class BankService : IBankService
     {
         var user = await GetLoggedInUser();
         BankModel result = await _bankData.GetBankById(user.Id, bankId);
-
         return result;
+    }
+
+    public async Task CreateBank(BankModel bankModel)
+    {
+        var user = await GetLoggedInUser();
+        BankModel newBank = new()
+        {
+            Account = bankModel.Account,
+            Description = bankModel.Description,
+            InitialBalance = bankModel.InitialBalance,
+            CurrentBalance = bankModel.InitialBalance,
+            UpdatedBy = user.Id
+        };
+
+        await _bankData.CreateBank(newBank);
+        await Task.CompletedTask;
+    }
+
+    public async Task<ulong> GetLastInsertedId()
+    {
+        var lastInsertedId = await _bankData.GetLastInsertedId();
+        return await Task.FromResult(lastInsertedId);
     }
 }

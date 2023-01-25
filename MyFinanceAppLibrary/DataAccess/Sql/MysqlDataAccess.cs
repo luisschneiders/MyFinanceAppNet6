@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using Dapper;
 using Microsoft.Extensions.Configuration;
+using MyFinanceAppLibrary.Models;
 using MySql.Data.MySqlClient;
 
 namespace MyFinanceAppLibrary.DataAccess.Sql;
@@ -10,6 +11,7 @@ public class MysqlDataAccess : IDataAccess
 
 #nullable disable
     private readonly IConfiguration _config;
+    private dynamic _lastInsertedId;
 #nullable enable
 
     public MysqlDataAccess(IConfiguration config)
@@ -21,7 +23,7 @@ public class MysqlDataAccess : IDataAccess
     {
         string connectionString = _config.GetConnectionString(connectionStringName);
 
-        using (IDbConnection connection = new MySqlConnection(connectionString))
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             connection.Open();
 
@@ -29,6 +31,8 @@ public class MysqlDataAccess : IDataAccess
                 storedProcedure,
                 parameters,
                 commandType: CommandType.StoredProcedure);
+
+            _lastInsertedId = connection.ExecuteScalar("SELECT LAST_INSERT_ID();");
 
             connection.Close();
 
@@ -51,5 +55,11 @@ public class MysqlDataAccess : IDataAccess
 
             connection.Close();
         };
+    }
+
+    public async Task<ulong> GetLastInsertedId()
+    {
+        ulong lastInsertedId = _lastInsertedId;
+        return await Task.FromResult(lastInsertedId);
     }
 }
