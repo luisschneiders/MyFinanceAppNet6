@@ -27,31 +27,36 @@ public class MysqlDataAccess : IDataAccess
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                connection.Open();
+                try
+                {
+                    connection.Open();
+                    var rows = await connection.QueryAsync<T>(
+                        storedProcedure,
+                        parameters,
+                        commandType: CommandType.StoredProcedure);
 
-                var rows = await connection.QueryAsync<T>(
-                    storedProcedure,
-                    parameters,
-                    commandType: CommandType.StoredProcedure);
+                    _lastInsertedId = connection.ExecuteScalar("SELECT LAST_INSERT_ID();");
 
-                _lastInsertedId = connection.ExecuteScalar("SELECT LAST_INSERT_ID();");
+                    return rows.ToList();
+                }
+                catch (MySqlException ex)
+                {
+                    Console.WriteLine("Connection exception: " + ex.Message);
+                    throw;
+                }
+                finally
+                {
+                    connection.Close();
+                }
 
-                connection.Close();
-
-                return rows.ToList();
             };
 
         }
-        catch (MySqlException ex)
+        catch (Exception ex)
         {
-            Console.WriteLine("Connection exception: " + ex.Message);
+            Console.WriteLine("An exception occurred: " + ex.Message);
             throw;
         }
-        finally
-        {
-            Console.WriteLine("Connection error! Please try again!");
-        }
-
     }
 
     public async Task SaveData<T>(string storedProcedure, T parameters, string connectionStringName)
@@ -62,24 +67,30 @@ public class MysqlDataAccess : IDataAccess
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                connection.Open();
+                try
+                {
+                    connection.Open();
+                    await connection.ExecuteAsync(
+                            storedProcedure,
+                            parameters,
+                            commandType: CommandType.StoredProcedure);
 
-                await connection.ExecuteAsync(
-                        storedProcedure,
-                        parameters,
-                        commandType: CommandType.StoredProcedure);
+                }
+                catch (MySqlException ex)
+                {
+                    Console.WriteLine("Connection exception: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
 
-                connection.Close();
             };
         }
         catch (Exception ex)
         {
             Console.WriteLine("Connection exception: " + ex.Message);
             throw;
-        }
-        finally
-        {
-            Console.WriteLine("Connection error! Please try again!");
         }
     }
 
