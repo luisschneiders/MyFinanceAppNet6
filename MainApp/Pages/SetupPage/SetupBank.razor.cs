@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using MainApp.Components.Toast;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using MyFinanceAppLibrary.DataAccess.NoSql;
 
@@ -8,6 +9,9 @@ public partial class SetupBank : ComponentBase
 {
     [Inject]
     IBankService _bankService { get; set; } = default!;
+
+    [Inject]
+    private ToastService _toastService { get; set; } = new();
 
     private List<BankModel> _banks { get; set; } = new();
 
@@ -28,7 +32,15 @@ public partial class SetupBank : ComponentBase
 
     private async Task FetchDataAsync()
     {
-        _banks = await _bankService.GetBanks();
+        try
+        {
+            _banks = await _bankService.GetBanks();
+        }
+        catch (Exception ex)
+        {
+            await Task.Delay((int)Delay.DataError);
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
 
         await Task.CompletedTask;
     }
@@ -62,24 +74,30 @@ public partial class SetupBank : ComponentBase
     // PLEASE DELETE ME!!!!
     private async Task CreateDummyRecord()
     {
-        Random rnd = new();
-        var amount = rnd.Next(88, 888);
-
-        BankModel bankModel = new()
+        try
         {
-            Account = $"Account added {DateTime.Now}",
-            Description = $"Description aded {DateTime.Now}",
-            InitialBalance = amount,
-            CurrentBalance = amount
-        };
+            Random rnd = new();
+            var amount = rnd.Next(88, 888);
 
-        await _bankService.CreateBank(bankModel);
+            BankModel bankModel = new()
+            {
+                Account = $"Account added {DateTime.Now}",
+                Description = $"Description aded {DateTime.Now}",
+                InitialBalance = amount,
+                CurrentBalance = amount
+            };
 
-        bankModel.Id = await _bankService.GetLastInsertedId();
+            await _bankService.CreateBank(bankModel);
 
-        _banks.Add(bankModel);
+            bankModel.Id = await _bankService.GetLastInsertedId();
 
-        await Task.CompletedTask;
+            _banks.Add(bankModel);
+        }
+        catch (Exception ex)
+        {
+            await Task.Delay((int)Delay.DataError);
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
     }
 
     // PLEASE DELETE ME!!!!

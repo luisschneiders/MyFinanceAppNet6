@@ -8,6 +8,7 @@
 @using MainApp.Components.Badge
 @using MainApp.Components.Dropdown
 @using MainApp.Components.Spinner
+@using MainApp.Components.Toast
 
 <div class="container-lg">
     <AuthorizeView Policy="Admin">
@@ -191,6 +192,7 @@
                 <PageBottomView />
 
             </PageWrapper>
+            <Toast />
         </Authorized>
         <NotAuthorized>
             <NotAuthorizedMessage />

@@ -26,17 +26,33 @@ public class BankService : IBankService
 
     public async Task<List<BankModel>> GetBanks()
     {
-        var user = await GetLoggedInUser();
-        List<BankModel> results = await _bankData.GetBanks(user.Id);
-        return results;
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<BankModel> results = await _bankData.GetBanks(user.Id);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
 
     public async Task<BankModel> GetBankById(string bankId)
     {
-        var user = await GetLoggedInUser();
-        BankModel result = await _bankData.GetBankById(user.Id, bankId);
-        return result;
+        try
+        {
+            var user = await GetLoggedInUser();
+            BankModel result = await _bankData.GetBankById(user.Id, bankId);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public async Task<ulong> GetLastInsertedId()
@@ -47,36 +63,50 @@ public class BankService : IBankService
 
     public async Task CreateBank(BankModel bankModel)
     {
-        var user = await GetLoggedInUser();
-        BankModel newBank = new()
+        try
         {
-            Account = bankModel.Account,
-            Description = bankModel.Description,
-            InitialBalance = bankModel.InitialBalance,
-            CurrentBalance = bankModel.InitialBalance,
-            UpdatedBy = user.Id
-        };
+            var user = await GetLoggedInUser();
+            BankModel newBank = new()
+            {
+                Account = bankModel.Account,
+                Description = bankModel.Description,
+                InitialBalance = bankModel.InitialBalance,
+                CurrentBalance = bankModel.InitialBalance,
+                UpdatedBy = user.Id
+            };
 
-        await _bankData.CreateBank(newBank);
-        await Task.CompletedTask;
+            await _bankData.CreateBank(newBank);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public async Task UpdateBank(BankModel bankModel)
     {
-        var user = await GetLoggedInUser();
-        BankModel newBank = new()
+        try
         {
-            Id = bankModel.Id,
-            Account = bankModel.Account,
-            Description = bankModel.Description,
-            CurrentBalance = bankModel.CurrentBalance,
-            IsActive = bankModel.IsActive,
-            UpdatedBy = user.Id,
-            UpdatedAt = DateTime.Now,
-        };
+            var user = await GetLoggedInUser();
+            BankModel newBank = new()
+            {
+                Id = bankModel.Id,
+                Account = bankModel.Account,
+                Description = bankModel.Description,
+                CurrentBalance = bankModel.CurrentBalance,
+                IsActive = bankModel.IsActive,
+                UpdatedBy = user.Id,
+                UpdatedAt = DateTime.Now,
+            };
 
-        await _bankData.UpdateBank(newBank);
-        await Task.CompletedTask;
+            await _bankData.UpdateBank(newBank);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     private async Task<UserModel> GetLoggedInUser()

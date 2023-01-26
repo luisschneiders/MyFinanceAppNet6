@@ -21,40 +21,66 @@ public class MysqlDataAccess : IDataAccess
 
     public async Task<List<T>> LoadData<T, U>(string storedProcedure, U parameters, string connectionStringName)
     {
-        string connectionString = _config.GetConnectionString(connectionStringName);
-
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        try
         {
-            connection.Open();
+            string connectionString = _config.GetConnectionString(connectionStringName);
 
-            var rows = await connection.QueryAsync<T>(
-                storedProcedure,
-                parameters,
-                commandType: CommandType.StoredProcedure);
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
 
-            _lastInsertedId = connection.ExecuteScalar("SELECT LAST_INSERT_ID();");
-
-            connection.Close();
-
-            return rows.ToList();
-        };
-    }
-
-    public async Task SaveData<T>(string storedProcedure, T parameters, string connectionStringName)
-    {
-        string connectionString = _config.GetConnectionString(connectionStringName);
-
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            connection.Open();
-
-            await connection.ExecuteAsync(
+                var rows = await connection.QueryAsync<T>(
                     storedProcedure,
                     parameters,
                     commandType: CommandType.StoredProcedure);
 
-            connection.Close();
-        };
+                _lastInsertedId = connection.ExecuteScalar("SELECT LAST_INSERT_ID();");
+
+                connection.Close();
+
+                return rows.ToList();
+            };
+
+        }
+        catch (MySqlException ex)
+        {
+            Console.WriteLine("Connection exception: " + ex.Message);
+            throw;
+        }
+        finally
+        {
+            Console.WriteLine("Connection error! Please try again!");
+        }
+
+    }
+
+    public async Task SaveData<T>(string storedProcedure, T parameters, string connectionStringName)
+    {
+        try
+        {
+            string connectionString = _config.GetConnectionString(connectionStringName);
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                await connection.ExecuteAsync(
+                        storedProcedure,
+                        parameters,
+                        commandType: CommandType.StoredProcedure);
+
+                connection.Close();
+            };
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Connection exception: " + ex.Message);
+            throw;
+        }
+        finally
+        {
+            Console.WriteLine("Connection error! Please try again!");
+        }
     }
 
     public async Task<ulong> GetLastInsertedId()
