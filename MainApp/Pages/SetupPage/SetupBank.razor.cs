@@ -14,6 +14,10 @@ public partial class SetupBank : ComponentBase
     private ToastService _toastService { get; set; } = new();
 
     private List<BankModel> _banks { get; set; } = new();
+    private List<BankModel> _searchResults { get; set; } = new();
+    private string _searchTerm { get; set; } = string.Empty;
+    private bool _isSearching { get; set; } = false;
+    private bool _searchButtonEnabled { get; set; } = false;
 
     public SetupBank()
     {
@@ -25,8 +29,41 @@ public partial class SetupBank : ComponentBase
         await Task.CompletedTask;
     }
 
+    private async Task SearchTermAsync(ChangeEventArgs eventArgs)
+    {
+        var searchTerm = eventArgs?.Value?.ToString();
+
+        if (string.IsNullOrWhiteSpace(searchTerm))
+        {
+            _searchResults = new();
+            _isSearching = false;
+            _searchButtonEnabled = false;
+        }
+        else
+        {
+            _searchButtonEnabled = true;
+        }
+        await Task.CompletedTask;
+    }
+
     private async Task SearchAsync()
     {
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(_searchTerm))
+            {
+                _isSearching = true;
+                _searchResults = await _bankService.GetSearchResults(_searchTerm);
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            await Task.Delay((int)Delay.DataError);
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+
+        }
+
         await Task.CompletedTask;
     }
 
@@ -47,6 +84,15 @@ public partial class SetupBank : ComponentBase
 
     private async Task UpdateStatusAsync(BankModel bankModel)
     {
+        try
+        {
+            await _bankService.UpdateBankStatus(bankModel);
+        }
+        catch (Exception ex)
+        {
+            await Task.Delay((int)Delay.DataError);
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
         await Task.CompletedTask;
     }
 
