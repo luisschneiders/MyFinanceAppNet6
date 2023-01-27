@@ -1,9 +1,6 @@
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `spBank_Update`(
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spBank_UpdateStatus`(
     IN bankId int,
-    IN bankAccount varchar(45),
-    IN bankDescription varchar(45),
-    IN bankCurrentBalance decimal(10,2),
     IN bankIsActive bool,
     IN bankUpdatedBy varchar(28),
     IN bankUpdatedAt datetime
@@ -11,9 +8,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spBank_Update`(
 BEGIN
 	UPDATE `myfinancedb`.`Bank`
 	SET
-		`Account` = bankAccount,
-		`Description` = bankDescription,
-		`CurrentBalance` = bankCurrentBalance,
 		`IsActive` = bankIsActive,
 		`UpdatedBy` = bankUpdatedBy,
 		`UpdatedAt` = bankUpdatedAt
