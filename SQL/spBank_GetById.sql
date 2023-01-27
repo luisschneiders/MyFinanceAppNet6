@@ -4,7 +4,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spBank_GetById`(
     IN bankId int)
 BEGIN
 SELECT
-	Id,
+    Id,
     Description,
     Account,
     InitialBalance,
