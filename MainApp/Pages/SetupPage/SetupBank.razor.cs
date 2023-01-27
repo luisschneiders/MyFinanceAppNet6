@@ -1,4 +1,5 @@
-﻿using MainApp.Components.Toast;
+﻿using MainApp.Components.OffCanvas;
+using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using MyFinanceAppLibrary.DataAccess.NoSql;
@@ -12,6 +13,12 @@ public partial class SetupBank : ComponentBase
 
     [Inject]
     private ToastService _toastService { get; set; } = new();
+
+    /*
+     * Add OffCanvas component reference
+     */
+    private SetupBankOffCanvas _setupBankOffCanvas { get; set; } = new();
+    private BankModel _bankModel { get; set; } = new();
 
     private List<BankModel> _banks { get; set; } = new();
     private List<BankModel> _searchResults { get; set; } = new();
@@ -96,24 +103,46 @@ public partial class SetupBank : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task ViewRecordAsync(BankModel bankModel)
+    private async Task RefreshList()
     {
+        // TODO: add service to refresh the list
+        BankModel updatedModel = _setupBankOffCanvas.BankModel;
+        BankModel model = _banks.FirstOrDefault(b => b.Id == updatedModel.Id)!;
+
+        var index = _banks.IndexOf(model);
+
+        if (index != -1)
+        {
+            _banks[index] = updatedModel;
+        }
+        else
+        {
+            _banks.Add(updatedModel);
+        }
+
+        await InvokeAsync(StateHasChanged);
         await Task.CompletedTask;
     }
 
     private async Task AddRecordAsync()
     {
         // PLEASE DELETE ME!!!!
-        await CreateDummyRecord();
-
+        //await CreateDummyRecord();
+        await Task.FromResult(_setupBankOffCanvas.AddRecordOffCanvasAsync());
         await Task.CompletedTask;
     }
 
     private async Task EditRecordAsync(BankModel bankModel)
     {
         // PLEASE DELETE ME!!!!
-        await UpdateDummyRecord(bankModel);
+        //await UpdateDummyRecord(bankModel);
+        await Task.FromResult(_setupBankOffCanvas.EditRecordOffCanvasAsync(bankModel.Id.ToString()));
+        await Task.CompletedTask;
+    }
 
+    private async Task ViewRecordAsync(BankModel bankModel)
+    {
+        await Task.FromResult(_setupBankOffCanvas.ViewRecordOffCanvasAsync(bankModel.Id.ToString()));
         await Task.CompletedTask;
     }
 

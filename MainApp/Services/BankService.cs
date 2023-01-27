@@ -24,6 +24,7 @@ public class BankService : IBankService
         _authProvider = authProvider;
     }
 
+    // TODO: Add pagination capabilities
     public async Task<List<BankModel>> GetBanks()
     {
         try
@@ -84,8 +85,8 @@ public class BankService : IBankService
             {
                 Account = bankModel.Account,
                 Description = bankModel.Description,
-                InitialBalance = bankModel.InitialBalance,
-                CurrentBalance = bankModel.InitialBalance,
+                InitialBalance = bankModel.CurrentBalance,
+                CurrentBalance = bankModel.CurrentBalance,
                 UpdatedBy = user.Id
             };
 
@@ -128,15 +129,13 @@ public class BankService : IBankService
         try
         {
             var user = await GetLoggedInUser();
-            BankModel newBank = new()
-            {
-                Id = bankModel.Id,
-                IsActive = !bankModel.IsActive,
-                UpdatedBy = user.Id,
-                UpdatedAt = DateTime.Now,
-            };
 
-            await _bankData.UpdateBankStatus(newBank);
+            BankModel bankStatusUpdate = bankModel;
+            bankStatusUpdate.IsActive = !bankModel.IsActive;
+            bankStatusUpdate.UpdatedBy = user.Id;
+            bankStatusUpdate.UpdatedAt = DateTime.Now;
+
+            await _bankData.UpdateBankStatus(bankStatusUpdate);
         }
         catch (Exception ex)
         {
