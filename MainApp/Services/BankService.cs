@@ -39,7 +39,6 @@ public class BankService : IBankService
         }
     }
 
-
     public async Task<BankModel> GetBankById(string bankId)
     {
         try
@@ -47,6 +46,21 @@ public class BankService : IBankService
             var user = await GetLoggedInUser();
             BankModel result = await _bankData.GetBankById(user.Id, bankId);
             return result;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<List<BankModel>> GetSearchResults(string search)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<BankModel> results = await _bankData.GetSearchResults(user.Id, search);
+            return results;
         }
         catch (Exception ex)
         {
@@ -109,9 +123,30 @@ public class BankService : IBankService
         }
     }
 
+    public async Task UpdateBankStatus(BankModel bankModel)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            BankModel newBank = new()
+            {
+                Id = bankModel.Id,
+                IsActive = !bankModel.IsActive,
+                UpdatedBy = user.Id,
+                UpdatedAt = DateTime.Now,
+            };
+
+            await _bankData.UpdateBankStatus(newBank);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     private async Task<UserModel> GetLoggedInUser()
     {
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
     }
-
 }

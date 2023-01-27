@@ -9,15 +9,38 @@ public class BankData : IBankData
         _dataAccess = dataAccess;
     }
 
-    public Task<List<BankModel>> GetBanks(string userId)
+    public async Task<List<BankModel>> GetBanks(string userId)
     {
         try
         {
-            return _dataAccess.LoadData<BankModel, dynamic>(
+            var results = await _dataAccess.LoadData<BankModel, dynamic>(
                 "myfinancedb.spBank_GetAll",
                 new { userId = userId },
                 "Mysql");
 
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<List<BankModel>> GetSearchResults(string userId, string search)
+    {
+        try
+        {
+            var results = await _dataAccess.LoadData<BankModel, dynamic>(
+                "myfinancedb.spBank_GetSearchResults",
+                new
+                {
+                    userId = userId,
+                    searchBank = search,
+                },
+                "Mysql");
+
+            return results;
         }
         catch (Exception ex)
         {
@@ -98,4 +121,27 @@ public class BankData : IBankData
             throw;
         }
     }
+
+    public async Task UpdateBankStatus(BankModel bankModel)
+    {
+        try
+        {
+            await _dataAccess.SaveData<dynamic>(
+                "myfinancedb.spBank_UpdateStatus",
+                new
+                {
+                    bankId = bankModel.Id,
+                    bankIsActive = bankModel.IsActive,
+                    bankUpdatedBy = bankModel.UpdatedBy,
+                    bankUpdatedAt = bankModel.UpdatedAt,
+                },
+                "Mysql");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
 }
