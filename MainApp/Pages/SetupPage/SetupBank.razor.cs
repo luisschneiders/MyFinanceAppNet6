@@ -113,7 +113,15 @@ public partial class SetupBank : ComponentBase
 
         if (index != -1)
         {
-            _banks[index] = updatedModel;
+            if (updatedModel.IsArchived)
+            {
+                var archivedModel = _banks[index] = updatedModel;
+                _banks.Remove(archivedModel);
+            }
+            else
+            {
+                _banks[index] = updatedModel;
+            }
         }
         else
         {
@@ -128,6 +136,8 @@ public partial class SetupBank : ComponentBase
     {
         // PLEASE DELETE ME!!!!
         //await CreateDummyRecord();
+
+        // TODO: create OffCanvas Service
         await Task.FromResult(_setupBankOffCanvas.AddRecordOffCanvasAsync());
         await Task.CompletedTask;
     }

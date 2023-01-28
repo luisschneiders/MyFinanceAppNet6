@@ -90,6 +90,21 @@ public partial class SetupBankOffCanvas
         await Task.CompletedTask;
     }
 
+    private async Task ArchiveRecordAsync()
+    {
+        try
+        {
+            await Task.FromResult(SetOffCanvasState(OffCanvasViewType.Archive, Theme.Danger));
+        }
+        catch (Exception ex)
+        {
+            await Task.Delay((int)Delay.DataError);
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;
+    }
+
     private async Task HandleValidSubmitAsync()
     {
         _displayValidationErrorMessages = false;
@@ -110,6 +125,11 @@ public partial class SetupBankOffCanvas
         {
             await _bankService.UpdateBank(_bankModel);
             _toastService.ShowToast("Bank updated!", Theme.Success);
+        }
+        else if (_offCanvasViewType == OffCanvasViewType.Archive)
+        {
+            await _bankService.ArchiveBank(_bankModel);
+            _toastService.ShowToast("Bank archived!", Theme.Success);
         }
 
         _isProcessing = false;

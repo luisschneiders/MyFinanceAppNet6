@@ -144,6 +144,26 @@ public class BankService : IBankService
         }
     }
 
+    public async Task ArchiveBank(BankModel bankModel)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+
+            BankModel bankStatusUpdate = bankModel;
+            bankStatusUpdate.IsArchived = true;
+            bankStatusUpdate.UpdatedBy = user.Id;
+            bankStatusUpdate.UpdatedAt = DateTime.Now;
+
+            await _bankData.ArchiveBank(bankModel);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     private async Task<UserModel> GetLoggedInUser()
     {
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);

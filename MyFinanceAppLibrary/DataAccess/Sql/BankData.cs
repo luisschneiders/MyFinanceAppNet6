@@ -144,4 +144,25 @@ public class BankData : IBankData
         }
     }
 
+    public async Task ArchiveBank(BankModel bankModel)
+    {
+        try
+        {
+            await _dataAccess.SaveData<dynamic>(
+                "myfinancedb.spBank_Archive",
+                new
+                {
+                    bankId = bankModel.Id,
+                    bankIsArchived = bankModel.IsArchived,
+                    bankUpdatedBy = bankModel.UpdatedBy,
+                    bankUpdatedAt = bankModel.UpdatedAt,
+                },
+                "Mysql");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
 }

@@ -9,4 +9,5 @@ public interface IBankData
     Task CreateBank(BankModel bankModel);
     Task UpdateBank(BankModel bankModel);
     Task UpdateBankStatus(BankModel bankModel);
+    Task ArchiveBank(BankModel bankModel);
 }

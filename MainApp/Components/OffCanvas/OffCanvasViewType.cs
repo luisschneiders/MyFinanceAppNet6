@@ -5,4 +5,5 @@ public enum OffCanvasViewType
 	View,
 	Add,
 	Edit,
+	Archive
 }

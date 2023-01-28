@@ -1,4 +1,5 @@
 ﻿@using MainApp.Components.OffCanvas
+@using MainApp.Components.Dropdown
 @using MainApp.Components.Badge
 
 <OffCanvas @ref="_offCanvas" PositionX="Position.End">
@@ -7,10 +8,23 @@
               OnInvalidSubmit="@HandleInvalidSubmitAsync"
               autocomplete="off">
         <ObjectGraphDataAnnotationsValidator />
-        <div class="row">
-            <div class="col-12 my-4">
+        <div class="row align-items-center">
+            <div class="col my-4">
                 <Badge BackgroundColor="@_badgeBackground" Message="@($"{_offCanvasViewType}ing...")" />
             </div>
+            @if (_offCanvasViewType == OffCanvasViewType.View || _offCanvasViewType == OffCanvasViewType.Edit)
+            {
+                <div class="col my-4 d-flex justify-content-end">
+                    <DropdownActions IconColor="@Theme.Success">
+                        <li>
+                            <button class="dropdown-item"
+                                    @onclick="() => ArchiveRecordAsync()">
+                                <i class="bi bi-archive pe-1"></i>Archive
+                            </button>
+                        </li>
+                    </DropdownActions>
+                </div>
+            }
         </div>
         @if (_offCanvasViewType == OffCanvasViewType.View)
         {
