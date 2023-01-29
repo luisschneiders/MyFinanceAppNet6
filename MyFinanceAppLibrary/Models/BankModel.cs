@@ -1,16 +1,24 @@
-﻿namespace MyFinanceAppLibrary.Models;
+﻿using System.ComponentModel.DataAnnotations;
 
-public class BankModel
+namespace MyFinanceAppLibrary.Models;
+
+public class BankModel : BaseModel
 {
 #nullable disable
-    public int Id { get; set; }
-    public string Account { get; set; }
+    public ulong Id { get; set; }
+
+    [Required]
     public string Description { get; set; }
+
+    [Required]
+    public string Account { get; set; }
+
+    [Required]
+    [RegularExpression(@"^\d+(.\d{1,2})?$", ErrorMessage = "Invalid value")]
     public decimal InitialBalance { get; set; }
+
+    [Required]
+    [RegularExpression(@"^\d+(.\d{1,2})?$", ErrorMessage = "Invalid value")]
     public decimal CurrentBalance { get; set; }
-    public bool IsActive { get; set; }
-    public string UpdatedBy { get; set; }
-    public DateTime CreateAt { get; set; } = DateTime.Now;
-    public DateTime UpdateAt { get; set; } = DateTime.Now;
 #nullable enable
 }

@@ -1,0 +1,118 @@
+﻿@using MainApp.Components.OffCanvas
+@using MainApp.Components.Dropdown
+@using MainApp.Components.Badge
+
+<OffCanvas @ref="_offCanvas" PositionX="Position.End">
+    <EditForm Model="@_bankModel"
+              OnValidSubmit="@HandleValidSubmitAsync"
+              OnInvalidSubmit="@HandleInvalidSubmitAsync"
+              autocomplete="off">
+        <ObjectGraphDataAnnotationsValidator />
+        <div class="row align-items-center">
+            <div class="col my-4">
+                <Badge BackgroundColor="@_badgeBackground" Message="@($"{_offCanvasViewType}ing...")" />
+            </div>
+            @if (_offCanvasViewType == OffCanvasViewType.View || _offCanvasViewType == OffCanvasViewType.Edit)
+            {
+                <div class="col my-4 d-flex justify-content-end">
+                    <DropdownActions IconColor="@Theme.Success">
+                        <li>
+                            <button class="dropdown-item"
+                                    @onclick="() => ArchiveRecordAsync()">
+                                <i class="bi bi-archive pe-1"></i>Archive
+                            </button>
+                        </li>
+                    </DropdownActions>
+                </div>
+            }
+        </div>
+        @if (_offCanvasViewType == OffCanvasViewType.View)
+        {
+            <div class="row">
+                <div class="col-sm-12">
+                    <button class="btn btn-primary w-100"
+                            type="button"
+                            @onclick="() => UpdateFormState(OffCanvasViewType.Edit, Theme.Danger)">
+                        Edit
+                    </button>
+                </div>
+            </div>
+            <div class="py-3">
+                <hr />
+            </div>
+        }
+        <div class="row">
+            <div class="col-12">
+                <div class="form-floating mb-3">
+                    <InputText class="@(_offCanvasViewType == OffCanvasViewType.View ? "form-control-plaintext" : "form-control")"
+                               id="BankDescription"
+                               placeholder="Description"
+                               readonly="@(_offCanvasViewType == OffCanvasViewType.View ? true: false)"
+                               @bind-Value="_bankModel.Description" />
+                    <label for="BankDescription">Description</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputText class="@(_offCanvasViewType == OffCanvasViewType.View ? "form-control-plaintext" : "form-control")"
+                               id="BankAccount"
+                               placeholder="Account"
+                               readonly="@(_offCanvasViewType == OffCanvasViewType.View ? true: false)"
+                               @bind-Value="_bankModel.Account" />
+                    <label for="BankAccount">Account</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputNumber class="@(_offCanvasViewType == OffCanvasViewType.View ? "form-control-plaintext" : "form-control")"
+                                    id="BankCurrentBalance"
+                                    min="0.00"
+                                    placeholder="Current Balance"
+                                    readonly="@(_offCanvasViewType == OffCanvasViewType.View ? true: false)"
+                                    @bind-Value="_bankModel.CurrentBalance" />
+                    <label for="BankCurrentBalance">Current Balance</label>
+                </div>
+            </div>
+        </div>
+        @if (_offCanvasViewType == OffCanvasViewType.Edit)
+        {
+            <div class="row">
+                <div class="col-12 d-flex align-items-start">
+                    <div class="form-check form-switch form-check-reverse">
+                        <label class="form-check-label" for="IsActive">Active?</label>
+                        <InputCheckbox class="form-check-input"
+                                       type="checkbox"
+                                       role="switch"
+                                       id="IsActive"
+                                       @bind-Value="_bankModel.IsActive" />
+                    </div>
+                </div>
+            </div>
+        }
+        @if (_offCanvasViewType == OffCanvasViewType.Add || _offCanvasViewType == OffCanvasViewType.Edit)
+        {
+            <div class="py-2">
+                <hr />
+            </div>
+            @if (_displayValidationErrorMessages)
+            {
+                <div class="row">
+                    <div class="col-12">
+                        <ValidationSummary />
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="col-6">
+                    <button class="btn btn-outline-secondary w-100"
+                            @onclick="() => CloseOffCanvasAsync()">
+                        Cancel
+                    </button>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-success w-100"
+                            disabled="@(_isProcessing ? true : false)"
+                            type="submit">
+                        @(_isProcessing ? "Saving..." : "Save")
+                    </button>
+                </div>
+            </div>
+        }
+    </EditForm>
+</OffCanvas>

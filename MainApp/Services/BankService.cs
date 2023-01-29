@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using MyFinanceAppLibrary.DataAccess.Sql;
 
 namespace MainApp.Services;
 
@@ -23,24 +24,148 @@ public class BankService : IBankService
         _authProvider = authProvider;
     }
 
-    public async Task<List<BankModel>> GetAllBanks()
+    // TODO: Add pagination capabilities
+    public async Task<List<BankModel>> GetBanks()
     {
-        var user = await GetLoggedInUser();
-        List<BankModel> results = await _bankData.GetAllBanks(user.Id);
-
-        return results;
-    }
-
-    private async Task<UserModel> GetLoggedInUser()
-    {
-        return _loggedInUser =  await _authProvider.GetUserFromAuth(_userData);
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<BankModel> results = await _bankData.GetBanks(user.Id);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public async Task<BankModel> GetBankById(string bankId)
     {
-        var user = await GetLoggedInUser();
-        BankModel result = await _bankData.GetBankById(user.Id, bankId);
+        try
+        {
+            var user = await GetLoggedInUser();
+            BankModel result = await _bankData.GetBankById(user.Id, bankId);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
 
-        return result;
+    public async Task<List<BankModel>> GetSearchResults(string search)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<BankModel> results = await _bankData.GetSearchResults(user.Id, search);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<ulong> GetLastInsertedId()
+    {
+        var lastInsertedId = await _bankData.GetLastInsertedId();
+        return await Task.FromResult(lastInsertedId);
+    }
+
+    public async Task CreateBank(BankModel bankModel)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            BankModel newBank = new()
+            {
+                Account = bankModel.Account,
+                Description = bankModel.Description,
+                InitialBalance = bankModel.CurrentBalance,
+                CurrentBalance = bankModel.CurrentBalance,
+                UpdatedBy = user.Id
+            };
+
+            await _bankData.CreateBank(newBank);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task UpdateBank(BankModel bankModel)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            BankModel newBank = new()
+            {
+                Id = bankModel.Id,
+                Account = bankModel.Account,
+                Description = bankModel.Description,
+                CurrentBalance = bankModel.CurrentBalance,
+                IsActive = bankModel.IsActive,
+                UpdatedBy = user.Id,
+                UpdatedAt = DateTime.Now,
+            };
+
+            await _bankData.UpdateBank(newBank);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task UpdateBankStatus(BankModel bankModel)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+
+            BankModel bankStatusUpdate = bankModel;
+            bankStatusUpdate.IsActive = !bankModel.IsActive;
+            bankStatusUpdate.UpdatedBy = user.Id;
+            bankStatusUpdate.UpdatedAt = DateTime.Now;
+
+            await _bankData.UpdateBankStatus(bankStatusUpdate);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task ArchiveBank(BankModel bankModel)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+
+            BankModel bankStatusUpdate = bankModel;
+            bankStatusUpdate.IsArchived = true;
+            bankStatusUpdate.UpdatedBy = user.Id;
+            bankStatusUpdate.UpdatedAt = DateTime.Now;
+
+            await _bankData.ArchiveBank(bankModel);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    private async Task<UserModel> GetLoggedInUser()
+    {
+        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
     }
 }

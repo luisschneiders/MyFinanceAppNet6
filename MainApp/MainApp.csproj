@@ -17,10 +17,12 @@
     <None Remove="Microsoft.Identity.Web.UI" />
     <None Remove="Pages\SetupPage\" />
     <None Remove="Services\" />
+    <None Remove="Microsoft.AspNetCore.Components.DataAnnotations.Validation" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Web" Version="1.25.10" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.25.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.DataAnnotations.Validation" Version="3.2.0-rc1.20223.4" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\SetupPage\" />

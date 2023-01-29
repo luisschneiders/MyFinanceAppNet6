@@ -8,6 +8,7 @@
 @using MainApp.Components.Badge
 @using MainApp.Components.Dropdown
 @using MainApp.Components.Spinner
+@using MainApp.Components.Toast
 
 <div class="container-lg">
     <AuthorizeView Policy="Admin">
@@ -29,6 +30,7 @@
                 <PageMiddleView>
                     <PageMiddleWrapper>
                         <div class="row">
+                            @*TODO: split into Panel left and righ*@
                             <div class="col-sm-12 col-lg-8">
                                 <CardView Styles="border-0">
                                     <CardMiddle>
@@ -45,17 +47,20 @@
                                             </div>
                                             <div class="col-10 col-md-8 col-lg-6 pb-2">
                                                 <div class="row">
-                                                    <div class="col-10">
+                                                    <div class="col-8 col-md-8">
                                                         <input type="text"
                                                                class="form-control"
-                                                               placeholder="Search for banks..."
-                                                               aria-label="search">
+                                                               placeholder="Search here..."
+                                                               aria-label="search"
+                                                               @bind-value="_searchTerm"
+                                                               @oninput="SearchTermAsync">
 
                                                     </div>
                                                     <div class="col-2">
-                                                        <button class="btn btn-outline-primary"
-                                                                @onclick="() => SearchAsync()">
-                                                            Search
+                                                        <button class="btn btn-primary"
+                                                                @onclick="() => SearchAsync()"
+                                                                disabled="@(_searchButtonEnabled ? false : true)">
+                                                            <i class="bi bi-search"></i>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -85,21 +90,9 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-
-                                                            @if (_banks is null)
+                                                            @if (_isSearching)
                                                             {
-                                                                <tr>
-                                                                    <td class="text-center" colspan="7">
-                                                                        <Spinner Size="Size.Sm" />
-                                                                        <span>
-                                                                            Loading...
-                                                                        </span>
-                                                                    </td>
-                                                                </tr>
-                                                            }
-                                                            else
-                                                            {
-                                                                foreach (var record in _banks)
+                                                                foreach (var record in _searchResults)
                                                                 {
 
                                                                     <tr>
@@ -156,6 +149,81 @@
                                                                     </tr>
                                                                 }
                                                             }
+                                                            else
+                                                            {
+                                                                @if (_banks.Count <= 0)
+                                                                {
+                                                                    <tr>
+                                                                        <td class="text-center" colspan="7">
+                                                                            <Spinner Size="Size.Sm" />
+                                                                            <span>
+                                                                                Loading...
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                                else
+                                                                {
+                                                                    foreach (var record in _banks)
+                                                                    {
+
+                                                                        <tr>
+                                                                            <td>
+                                                                                @record.Description
+                                                                            </td>
+                                                                            <td>
+                                                                                @record.Account
+                                                                            </td>
+                                                                            <td class="text-end">
+                                                                                @record.InitialBalance.ToString("C")
+                                                                            </td>
+                                                                            <td class="text-end">
+                                                                                @record.CurrentBalance.ToString("C")
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="form-check form-switch">
+                                                                                    @if (record.IsActive)
+                                                                                    {
+                                                                                        <input class="form-check-input"
+                                                                                               type="checkbox"
+                                                                                               role="switch"
+                                                                                               id="IsActive"
+                                                                                               checked
+                                                                                               @onclick="() => UpdateStatusAsync(record)" />
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <input class="form-check-input"
+                                                                                               type="checkbox"
+                                                                                               role="switch"
+                                                                                               id="IsActive"
+                                                                                               @onclick="() => UpdateStatusAsync(record)" />
+                                                                                    }
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <button class="btn btn-link p-0 text-info"
+                                                                                        type="button"
+                                                                                        title="View details"
+                                                                                        @onclick="() => ViewRecordAsync(record)">
+                                                                                    <i class="bi bi-eye-fill"></i>
+
+                                                                                </button>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <button class="btn btn-link p-0 text-danger"
+                                                                                        type="button"
+                                                                                        title="Edit"
+                                                                                        @onclick="() => EditRecordAsync(record)">
+                                                                                    <i class="bi bi-pencil"></i>
+                                                                                </button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    }
+                                                                }
+
+                                                            }
+
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -191,6 +259,8 @@
                 <PageBottomView />
 
             </PageWrapper>
+            <SetupBankOffCanvas @ref="_setupBankOffCanvas" OnSubmitSuccess="RefreshList" />
+            <Toast />
         </Authorized>
         <NotAuthorized>
             <NotAuthorizedMessage />
