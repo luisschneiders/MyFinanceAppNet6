@@ -2,7 +2,7 @@
 
 namespace MainApp.Components.OffCanvas;
 
-public partial class OffCanvas : ComponentBase, IOffCanvas
+public partial class OffCanvas : ComponentBase
 {
 
     [Parameter]
