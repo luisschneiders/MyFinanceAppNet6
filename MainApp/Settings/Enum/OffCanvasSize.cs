@@ -1,4 +1,4 @@
-﻿namespace MainApp.Components.OffCanvas;
+﻿namespace MainApp.Settings.Enum;
 
 public enum OffCanvasSize
 {
