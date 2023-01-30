@@ -2,8 +2,8 @@
 
 namespace MainApp.Components.OffCanvas;
 
-	public partial class OffCanvas : ComponentBase
-	{
+public partial class OffCanvas : ComponentBase
+{
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -23,7 +23,7 @@ namespace MainApp.Components.OffCanvas;
     private bool _showBackdrop { get; set; } = false;
 
     public OffCanvas()
-	{
+    {
     }
 
     public async Task Open(string target)
@@ -35,6 +35,7 @@ namespace MainApp.Components.OffCanvas;
         _showBackdrop = true;
 
         StateHasChanged();
+        await Task.CompletedTask;
     }
 
     public async Task Close(string target)
@@ -45,5 +46,6 @@ namespace MainApp.Components.OffCanvas;
         _showBackdrop = false;
 
         StateHasChanged();
+        await Task.CompletedTask;
     }
 }

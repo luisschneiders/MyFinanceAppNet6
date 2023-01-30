@@ -4,6 +4,7 @@ using Microsoft.Identity.Web.UI;
 using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
 using MainApp.Components.Chart;
+using MainApp.Components.OffCanvas;
 
 namespace MainApp;
 
@@ -54,6 +55,7 @@ public static class RegisterServices
         builder.Services.AddScoped<SpinnerService>();
         builder.Services.AddScoped<ToastService>();
         builder.Services.AddScoped<IChartService, ChartService>();
+        builder.Services.AddScoped<IOffCanvasService, OffCanvasService>();
         builder.Services.AddScoped<IBankService, BankService>();
     }
 }

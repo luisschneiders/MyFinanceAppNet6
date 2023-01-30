@@ -2,7 +2,7 @@
 @using MainApp.Components.Dropdown
 @using MainApp.Components.Badge
 
-<OffCanvas @ref="_offCanvas" PositionX="Position.End">
+<OffCanvas @ref="_offCanvasService.OffCanvas" PositionX="Position.End">
     <EditForm Model="@_bankModel"
               OnValidSubmit="@HandleValidSubmitAsync"
               OnInvalidSubmit="@HandleInvalidSubmitAsync"
@@ -10,15 +10,15 @@
         <ObjectGraphDataAnnotationsValidator />
         <div class="row align-items-center">
             <div class="col my-4">
-                <Badge BackgroundColor="@_badgeBackground" Message="@($"{_offCanvasViewType}ing...")" />
+                <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing...")" />
             </div>
-            @if (_offCanvasViewType == OffCanvasViewType.View || _offCanvasViewType == OffCanvasViewType.Edit)
+            @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View || _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
             {
                 <div class="col my-4 d-flex justify-content-end">
                     <DropdownActions IconColor="@Theme.Success">
-                        <li>
+                        <li class="px-2">
                             <button class="dropdown-item"
-                                    @onclick="() => ArchiveRecordAsync()">
+                                    @onclick="ArchiveAsync">
                                 <i class="bi bi-archive pe-1"></i>Archive
                             </button>
                         </li>
@@ -26,13 +26,13 @@
                 </div>
             }
         </div>
-        @if (_offCanvasViewType == OffCanvasViewType.View)
+        @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View)
         {
             <div class="row">
                 <div class="col-sm-12">
                     <button class="btn btn-primary w-100"
                             type="button"
-                            @onclick="() => UpdateFormState(OffCanvasViewType.Edit, Theme.Danger)">
+                            @onclick="UpdateFormStateAsync">
                         Edit
                     </button>
                 </div>
@@ -44,33 +44,33 @@
         <div class="row">
             <div class="col-12">
                 <div class="form-floating mb-3">
-                    <InputText class="@(_offCanvasViewType == OffCanvasViewType.View ? "form-control-plaintext" : "form-control")"
+                    <InputText class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View || _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? "form-control-plaintext" : "form-control")"
                                id="BankDescription"
                                placeholder="Description"
-                               readonly="@(_offCanvasViewType == OffCanvasViewType.View ? true: false)"
+                               readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View || _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                @bind-Value="_bankModel.Description" />
                     <label for="BankDescription">Description</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <InputText class="@(_offCanvasViewType == OffCanvasViewType.View ? "form-control-plaintext" : "form-control")"
+                    <InputText class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View || _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? "form-control-plaintext" : "form-control")"
                                id="BankAccount"
                                placeholder="Account"
-                               readonly="@(_offCanvasViewType == OffCanvasViewType.View ? true: false)"
+                               readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View || _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                @bind-Value="_bankModel.Account" />
                     <label for="BankAccount">Account</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <InputNumber class="@(_offCanvasViewType == OffCanvasViewType.View ? "form-control-plaintext" : "form-control")"
+                    <InputNumber class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View || _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? "form-control-plaintext" : "form-control")"
                                     id="BankCurrentBalance"
                                     min="0.00"
                                     placeholder="Current Balance"
-                                    readonly="@(_offCanvasViewType == OffCanvasViewType.View ? true: false)"
+                                    readonly="@(_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ? true: false)"
                                     @bind-Value="_bankModel.CurrentBalance" />
                     <label for="BankCurrentBalance">Current Balance</label>
                 </div>
             </div>
         </div>
-        @if (_offCanvasViewType == OffCanvasViewType.Edit)
+        @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
         {
             <div class="row">
                 <div class="col-12 d-flex align-items-start">
@@ -85,12 +85,12 @@
                 </div>
             </div>
         }
-        @if (_offCanvasViewType == OffCanvasViewType.Add || _offCanvasViewType == OffCanvasViewType.Edit)
+        @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add || _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
         {
             <div class="py-2">
                 <hr />
             </div>
-            @if (_displayValidationErrorMessages)
+            @if (_displayErrorMessages)
             {
                 <div class="row">
                     <div class="col-12">

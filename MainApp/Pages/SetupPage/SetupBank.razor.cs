@@ -106,7 +106,7 @@ public partial class SetupBank : ComponentBase
     private async Task RefreshList()
     {
         // TODO: add service to refresh the list
-        BankModel updatedModel = _setupBankOffCanvas.BankModel;
+        BankModel updatedModel = _setupBankOffCanvas.DataModel;
         BankModel model = _banks.FirstOrDefault(b => b.Id == updatedModel.Id)!;
 
         var index = _banks.IndexOf(model);
@@ -134,70 +134,19 @@ public partial class SetupBank : ComponentBase
 
     private async Task AddRecordAsync()
     {
-        // PLEASE DELETE ME!!!!
-        //await CreateDummyRecord();
-
-        // TODO: create OffCanvas Service
-        await Task.FromResult(_setupBankOffCanvas.AddRecordOffCanvasAsync());
+        await _setupBankOffCanvas.AddRecordOffCanvasAsync();
         await Task.CompletedTask;
     }
 
     private async Task EditRecordAsync(BankModel bankModel)
     {
-        // PLEASE DELETE ME!!!!
-        //await UpdateDummyRecord(bankModel);
-        await Task.FromResult(_setupBankOffCanvas.EditRecordOffCanvasAsync(bankModel.Id.ToString()));
+        await _setupBankOffCanvas.EditRecordOffCanvasAsync(bankModel.Id.ToString());
         await Task.CompletedTask;
     }
 
     private async Task ViewRecordAsync(BankModel bankModel)
     {
-        await Task.FromResult(_setupBankOffCanvas.ViewRecordOffCanvasAsync(bankModel.Id.ToString()));
-        await Task.CompletedTask;
-    }
-
-    // PLEASE DELETE ME!!!!
-    private async Task CreateDummyRecord()
-    {
-        try
-        {
-            Random rnd = new();
-            var amount = rnd.Next(88, 888);
-
-            BankModel bankModel = new()
-            {
-                Account = $"Account added {DateTime.Now}",
-                Description = $"Description aded {DateTime.Now}",
-                InitialBalance = amount,
-                CurrentBalance = amount
-            };
-
-            await _bankService.CreateBank(bankModel);
-
-            bankModel.Id = await _bankService.GetLastInsertedId();
-
-            _banks.Add(bankModel);
-        }
-        catch (Exception ex)
-        {
-            await Task.Delay((int)Delay.DataError);
-            _toastService.ShowToast(ex.Message, Theme.Danger);
-        }
-    }
-
-    // PLEASE DELETE ME!!!!
-    private async Task UpdateDummyRecord(BankModel bankModel)
-    {
-        Random rnd = new();
-        var amount = rnd.Next(88, 8888);
-
-        bankModel.Account = $"Account updated {DateTime.Now}";
-        bankModel.Description = $"Description updated {DateTime.Now}";
-        bankModel.CurrentBalance = amount;
-        bankModel.IsActive = false;
-
-        await _bankService.UpdateBank(bankModel);
-
+        await _setupBankOffCanvas.ViewRecordOffCanvasAsync(bankModel.Id.ToString());
         await Task.CompletedTask;
     }
 }

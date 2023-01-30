@@ -7,22 +7,23 @@ namespace MainApp.Pages.SetupPage;
 
 public partial class SetupBankOffCanvas
 {
-    [Inject]
-    private ToastService _toastService { get; set; } = default!;
 
     [Inject]
-    IBankService _bankService { get; set; } = default!;
+    private IBankService _bankService { get; set; } = default!;
+
+    [Inject]
+    private IOffCanvasService _offCanvasService { get; set; } = default!;
+
+    [Inject]
+    private ToastService _toastService { get; set; } = default!;
 
     [Parameter]
     public EventCallback OnSubmitSuccess { get; set; }
 
-    public BankModel BankModel { get; set; } = new();
+    [Parameter]
+    public BankModel DataModel { get; set; } = default!;
 
-    private OffCanvas _offCanvas { get; set; } = default!;
-    private OffCanvasViewType _offCanvasViewType { get; set; }
-    private string _offCanvasTarget { get; set; } = string.Empty;
-    private Theme _badgeBackground { get; set; } = Theme.Info;
-    private bool _displayValidationErrorMessages { get; set; } = false;
+    private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
 
     private BankModel _bankModel { get; set; } = new();
@@ -35,66 +36,37 @@ public partial class SetupBankOffCanvas
     {
         _bankModel = new();
 
-        await Task.FromResult(SetOffCanvasState(OffCanvasViewType.Add, Theme.Success));
-
-        await Task.FromResult(_offCanvas.Open(Guid.NewGuid().ToString()));
+        await _offCanvasService.AddRecordAsync();
         await Task.CompletedTask;
     }
 
     public async Task EditRecordOffCanvasAsync(string id)
     {
-        await Task.FromResult(SetOffCanvasState(OffCanvasViewType.Edit, Theme.Danger));
-        await Task.FromResult(SetOffCanvasInfo(id));
+        _bankModel = await _bankService.GetBankById(id);
 
-        await Task.FromResult(_offCanvas.Open(_offCanvasTarget));
-
+        await _offCanvasService.EditRecordAsync(id);
         await Task.CompletedTask;
     }
 
     public async Task ViewRecordOffCanvasAsync(string id)
     {
-        await Task.FromResult(SetOffCanvasState(OffCanvasViewType.View, Theme.Info));
-        await Task.FromResult(SetOffCanvasInfo(id));
-
-        await Task.FromResult(_offCanvas.Open(_offCanvasTarget));
-        await Task.CompletedTask;
-    }
-
-    private async Task SetOffCanvasState(OffCanvasViewType offCanvasViewType, Theme theme)
-    {
-        _offCanvasViewType = offCanvasViewType;
-        _badgeBackground = theme;
-
-        await Task.CompletedTask;
-    }
-
-    private async Task SetOffCanvasInfo(string id)
-    {
-        _offCanvasTarget = id;
         _bankModel = await _bankService.GetBankById(id);
 
+        await _offCanvasService.ViewRecordAsync(id);
         await Task.CompletedTask;
     }
 
-    private async Task CloseOffCanvasAsync()
+    private async Task UpdateFormStateAsync()
     {
-        _bankModel = new();
-
-        await Task.FromResult(_offCanvas.Close(_offCanvasTarget));
+        await _offCanvasService.UpdateFormStateAsync();
         await Task.CompletedTask;
     }
 
-    private async Task UpdateFormState(OffCanvasViewType offCanvasViewType, Theme theme)
-    {
-        await Task.FromResult(SetOffCanvasState(offCanvasViewType, theme));
-        await Task.CompletedTask;
-    }
-
-    private async Task ArchiveRecordAsync()
+    private async Task ArchiveAsync()
     {
         try
         {
-            await Task.FromResult(SetOffCanvasState(OffCanvasViewType.Archive, Theme.Danger));
+            await _offCanvasService.ArchiveRecordAsync();
         }
         catch (Exception ex)
         {
@@ -107,13 +79,14 @@ public partial class SetupBankOffCanvas
 
     private async Task HandleValidSubmitAsync()
     {
-        _displayValidationErrorMessages = false;
+        _displayErrorMessages = false;
         _isProcessing = true;
 
-        if (_offCanvasViewType == OffCanvasViewType.Add)
-        {
+        var offCanvasViewType = _offCanvasService.GetOffCanvasViewType();
 
-            // Set the initial balance to the same as the current balance for new records
+        if (offCanvasViewType == OffCanvasViewType.Add)
+        {
+            // Set the initial balance equal to current balance for new records
             _bankModel.InitialBalance = _bankModel.CurrentBalance;
 
             await _bankService.CreateBank(_bankModel);
@@ -121,12 +94,12 @@ public partial class SetupBankOffCanvas
             _bankModel.Id = await _bankService.GetLastInsertedId();
             _toastService.ShowToast("Bank added!", Theme.Success);
         }
-        else if (_offCanvasViewType == OffCanvasViewType.Edit)
+        else if (offCanvasViewType == OffCanvasViewType.Edit)
         {
             await _bankService.UpdateBank(_bankModel);
             _toastService.ShowToast("Bank updated!", Theme.Success);
         }
-        else if (_offCanvasViewType == OffCanvasViewType.Archive)
+        else if (offCanvasViewType == OffCanvasViewType.Archive)
         {
             await _bankService.ArchiveBank(_bankModel);
             _toastService.ShowToast("Bank archived!", Theme.Success);
@@ -134,7 +107,7 @@ public partial class SetupBankOffCanvas
 
         _isProcessing = false;
 
-        BankModel = _bankModel;
+        DataModel = _bankModel;
 
         await OnSubmitSuccess.InvokeAsync();
 
@@ -142,14 +115,20 @@ public partial class SetupBankOffCanvas
 
         await CloseOffCanvasAsync();
         await Task.CompletedTask;
-
     }
 
     private async Task HandleInvalidSubmitAsync()
     {
         _isProcessing = false;
-        _displayValidationErrorMessages = true;
+        _displayErrorMessages = true;
         await Task.CompletedTask;
     }
 
+    private async Task CloseOffCanvasAsync()
+    {
+        _bankModel = new();
+
+        await _offCanvasService.CloseAsync();
+        await Task.CompletedTask;
+    }
 }
