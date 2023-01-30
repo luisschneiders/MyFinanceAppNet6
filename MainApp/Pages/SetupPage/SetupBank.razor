@@ -259,7 +259,7 @@
                 <PageBottomView />
 
             </PageWrapper>
-            <SetupBankOffCanvas @ref="_setupBankOffCanvas" OnSubmitSuccess="RefreshList" />
+            <SetupBankOffCanvas @ref="_setupBankOffCanvas" OnSubmitSuccess="RefreshList" DataModel="_bankModel" />
             <Toast />
         </Authorized>
         <NotAuthorized>
