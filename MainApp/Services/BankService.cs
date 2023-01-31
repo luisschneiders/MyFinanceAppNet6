@@ -7,7 +7,7 @@ namespace MainApp.Services;
 public class BankService : IBankService
 {
     [Inject]
-    IBankData _bankData { get; set; } = default!;
+    IBankData<BankModel> _bankData { get; set; } = default!;
 
     [Inject]
     private AuthenticationStateProvider _authProvider { get; set; } = default!;
@@ -17,7 +17,7 @@ public class BankService : IBankService
 
     private UserModel _loggedInUser { get; set; } = new();
 
-    public BankService(IBankData bankData, IUserData userData, AuthenticationStateProvider authProvider)
+    public BankService(IBankData<BankModel> bankData, IUserData userData, AuthenticationStateProvider authProvider)
     {
         _bankData = bankData;
         _userData = userData;
@@ -30,23 +30,8 @@ public class BankService : IBankService
         try
         {
             var user = await GetLoggedInUser();
-            List<BankModel> results = await _bankData.GetBanks(user.Id);
+            List<BankModel> results = await _bankData.GetRecords(user.Id);
             return results;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("An exception occurred: " + ex.Message);
-            throw;
-        }
-    }
-
-    public async Task<BankModel> GetBankById(string bankId)
-    {
-        try
-        {
-            var user = await GetLoggedInUser();
-            BankModel result = await _bankData.GetBankById(user.Id, bankId);
-            return result;
         }
         catch (Exception ex)
         {
@@ -70,27 +55,42 @@ public class BankService : IBankService
         }
     }
 
+    public async Task<BankModel> GetBankById(string modelId)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            BankModel result = await _bankData.GetRecordById(user.Id, modelId);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public async Task<ulong> GetLastInsertedId()
     {
         var lastInsertedId = await _bankData.GetLastInsertedId();
         return await Task.FromResult(lastInsertedId);
     }
 
-    public async Task CreateBank(BankModel bankModel)
+    public async Task CreateBank(BankModel model)
     {
         try
         {
             var user = await GetLoggedInUser();
             BankModel newBank = new()
             {
-                Account = bankModel.Account,
-                Description = bankModel.Description,
-                InitialBalance = bankModel.CurrentBalance,
-                CurrentBalance = bankModel.CurrentBalance,
+                Account = model.Account,
+                Description = model.Description,
+                InitialBalance = model.CurrentBalance,
+                CurrentBalance = model.CurrentBalance,
                 UpdatedBy = user.Id
             };
 
-            await _bankData.CreateBank(newBank);
+            await _bankData.CreateRecord(newBank);
         }
         catch (Exception ex)
         {
@@ -99,7 +99,7 @@ public class BankService : IBankService
         }
     }
 
-    public async Task UpdateBank(BankModel bankModel)
+    public async Task UpdateBank(BankModel model)
     {
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
@@ -107,16 +107,16 @@ public class BankService : IBankService
             var user = await GetLoggedInUser();
             BankModel newBank = new()
             {
-                Id = bankModel.Id,
-                Account = bankModel.Account,
-                Description = bankModel.Description,
-                CurrentBalance = bankModel.CurrentBalance,
-                IsActive = bankModel.IsActive,
+                Id = model.Id,
+                Account = model.Account,
+                Description = model.Description,
+                CurrentBalance = model.CurrentBalance,
+                IsActive = model.IsActive,
                 UpdatedBy = user.Id,
                 UpdatedAt = DateTime.Now,
             };
 
-            await _bankData.UpdateBank(newBank);
+            await _bankData.UpdateRecord(newBank);
         }
         catch (Exception ex)
         {
@@ -125,19 +125,19 @@ public class BankService : IBankService
         }
     }
 
-    public async Task UpdateBankStatus(BankModel bankModel)
+    public async Task UpdateBankStatus(BankModel model)
     {
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
         {
             var user = await GetLoggedInUser();
 
-            BankModel bankStatusUpdate = bankModel;
-            bankStatusUpdate.IsActive = !bankModel.IsActive;
+            BankModel bankStatusUpdate = model;
+            bankStatusUpdate.IsActive = !model.IsActive;
             bankStatusUpdate.UpdatedBy = user.Id;
             bankStatusUpdate.UpdatedAt = DateTime.Now;
 
-            await _bankData.UpdateBankStatus(bankStatusUpdate);
+            await _bankData.UpdateRecordStatus(bankStatusUpdate);
         }
         catch (Exception ex)
         {
@@ -146,18 +146,18 @@ public class BankService : IBankService
         }
     }
 
-    public async Task ArchiveBank(BankModel bankModel)
+    public async Task ArchiveBank(BankModel model)
     {
         try
         {
             var user = await GetLoggedInUser();
 
-            BankModel bankStatusUpdate = bankModel;
+            BankModel bankStatusUpdate = model;
             bankStatusUpdate.IsArchived = true;
             bankStatusUpdate.UpdatedBy = user.Id;
             bankStatusUpdate.UpdatedAt = DateTime.Now;
 
-            await _bankData.ArchiveBank(bankModel);
+            await _bankData.ArchiveRecord(bankStatusUpdate);
         }
         catch (Exception ex)
         {
