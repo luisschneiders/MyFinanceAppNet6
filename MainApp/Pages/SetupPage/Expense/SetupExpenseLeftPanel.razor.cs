@@ -19,7 +19,7 @@ public partial class SetupExpenseLeftPanel : ComponentBase
     /*
      * Add OffCanvas component reference
      */
-    //private SetupExpenseOffCanvas _setupOffCanvas { get; set; } = new();
+    private SetupExpenseOffCanvas _setupOffCanvas { get; set; } = new();
     private ExpenseModel _expenseModel { get; set; } = new();
 
     private List<ExpenseModel> _expenses { get; set; } = new();
@@ -73,7 +73,7 @@ public partial class SetupExpenseLeftPanel : ComponentBase
             if (!string.IsNullOrWhiteSpace(_searchTerm))
             {
                 _isSearching = true;
-                //_searchResults = await _expenseService.GetSearchResults(_searchTerm);
+                _searchResults = await _expenseService.GetSearchResults(_searchTerm);
                 StateHasChanged();
             }
         }
@@ -107,7 +107,7 @@ public partial class SetupExpenseLeftPanel : ComponentBase
     {
         try
         {
-            //await _expenseService.UpdateExpenseStatus(expenseModel);
+            await _expenseService.UpdateExpenseStatus(expenseModel);
         }
         catch (Exception ex)
         {
@@ -120,27 +120,27 @@ public partial class SetupExpenseLeftPanel : ComponentBase
     private async Task RefreshList()
     {
         // TODO: add service to refresh the list
-        //ExpenseModel updatedModel = _setupOffCanvas.DataModel;
-        //ExpenseModel model = _expenses.FirstOrDefault(b => b.Id == updatedModel.Id)!;
+        ExpenseModel updatedModel = _setupOffCanvas.DataModel;
+        ExpenseModel model = _expenses.FirstOrDefault(b => b.Id == updatedModel.Id)!;
 
-        //var index = _expenses.IndexOf(model);
+        var index = _expenses.IndexOf(model);
 
-        //if (index != -1)
-        //{
-        //    if (updatedModel.IsArchived)
-        //    {
-        //        var archivedModel = _expenses[index] = updatedModel;
-        //        _expenses.Remove(archivedModel);
-        //    }
-        //    else
-        //    {
-        //        _expenses[index] = updatedModel;
-        //    }
-        //}
-        //else
-        //{
-        //    _expenses.Add(updatedModel);
-        //}
+        if (index != -1)
+        {
+            if (updatedModel.IsArchived)
+            {
+                var archivedModel = _expenses[index] = updatedModel;
+                _expenses.Remove(archivedModel);
+            }
+            else
+            {
+                _expenses[index] = updatedModel;
+            }
+        }
+        else
+        {
+            _expenses.Add(updatedModel);
+        }
 
         await InvokeAsync(StateHasChanged);
         await Task.CompletedTask;
@@ -148,7 +148,7 @@ public partial class SetupExpenseLeftPanel : ComponentBase
 
     private async Task AddRecordAsync()
     {
-        //await _setupOffCanvas.AddRecordOffCanvasAsync();
+        await _setupOffCanvas.AddRecordOffCanvasAsync();
         await Task.CompletedTask;
     }
 
@@ -156,7 +156,7 @@ public partial class SetupExpenseLeftPanel : ComponentBase
     {
         try
         {
-            //await _setupOffCanvas.EditRecordOffCanvasAsync(expenseModel.Id.ToString());
+            await _setupOffCanvas.EditRecordOffCanvasAsync(expenseModel.Id.ToString());
         }
         catch (Exception ex)
         {
@@ -170,7 +170,7 @@ public partial class SetupExpenseLeftPanel : ComponentBase
     {
         try
         {
-            //await _setupOffCanvas.ViewRecordOffCanvasAsync(expenseModel.Id.ToString());
+            await _setupOffCanvas.ViewRecordOffCanvasAsync(expenseModel.Id.ToString());
         }
         catch (Exception ex)
         {
