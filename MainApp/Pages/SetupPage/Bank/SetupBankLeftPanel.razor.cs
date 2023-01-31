@@ -1,27 +1,31 @@
-﻿using MainApp.Components.Toast;
+﻿using MainApp.Components.Spinner;
+using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Pages.SetupPage.Bank
 {
     public partial class SetupBankLeftPanel : ComponentBase
     {
-
         [Inject]
         IBankService _bankService { get; set; } = default!;
 
         [Inject]
         private ToastService _toastService { get; set; } = new();
 
+        [Inject]
+        private SpinnerService _spinnerService { get; set; } = new();
+
         /*
          * Add OffCanvas component reference
          */
-        private SetupBankOffCanvas _setupBankOffCanvas { get; set; } = new();
+        private SetupBankOffCanvas _setupOffCanvas { get; set; } = new();
         private BankModel _bankModel { get; set; } = new();
 
         private List<BankModel> _banks { get; set; } = new();
         private List<BankModel> _searchResults { get; set; } = new();
         private string _searchTerm { get; set; } = string.Empty;
         private bool _isSearching { get; set; } = false;
+        private bool _isLoading { get; set; } = true;
         private bool _searchButtonEnabled { get; set; } = false;
 
         public SetupBankLeftPanel()
@@ -31,6 +35,16 @@ namespace MainApp.Pages.SetupPage.Bank
         protected async override Task OnInitializedAsync()
         {
             await FetchDataAsync();
+            await Task.CompletedTask;
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                await Task.Run(() => _spinnerService.ShowSpinner());
+            }
+
             await Task.CompletedTask;
         }
 
@@ -77,6 +91,7 @@ namespace MainApp.Pages.SetupPage.Bank
             try
             {
                 _banks = await _bankService.GetBanks();
+                _isLoading = false;
             }
             catch (Exception ex)
             {
@@ -104,7 +119,7 @@ namespace MainApp.Pages.SetupPage.Bank
         private async Task RefreshList()
         {
             // TODO: add service to refresh the list
-            BankModel updatedModel = _setupBankOffCanvas.DataModel;
+            BankModel updatedModel = _setupOffCanvas.DataModel;
             BankModel model = _banks.FirstOrDefault(b => b.Id == updatedModel.Id)!;
 
             var index = _banks.IndexOf(model);
@@ -132,7 +147,7 @@ namespace MainApp.Pages.SetupPage.Bank
 
         private async Task AddRecordAsync()
         {
-            await _setupBankOffCanvas.AddRecordOffCanvasAsync();
+            await _setupOffCanvas.AddRecordOffCanvasAsync();
             await Task.CompletedTask;
         }
 
@@ -140,7 +155,7 @@ namespace MainApp.Pages.SetupPage.Bank
         {
             try
             {
-                await _setupBankOffCanvas.EditRecordOffCanvasAsync(bankModel.Id.ToString());
+                await _setupOffCanvas.EditRecordOffCanvasAsync(bankModel.Id.ToString());
             }
             catch (Exception ex)
             {
@@ -154,7 +169,7 @@ namespace MainApp.Pages.SetupPage.Bank
         {
             try
             {
-                await _setupBankOffCanvas.ViewRecordOffCanvasAsync(bankModel.Id.ToString());
+                await _setupOffCanvas.ViewRecordOffCanvasAsync(bankModel.Id.ToString());
             }
             catch (Exception ex)
             {
