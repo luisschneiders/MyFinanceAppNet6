@@ -1,0 +1,20 @@
+﻿@using MainApp.Components.Card
+@using MainApp.Components.Badge
+
+<CardView Styles="w-100 border-0">
+    <CardMiddle>
+        <div class="row justify-content-between">
+            <div class="col-auto">
+                <div class="text-uppercase">
+                    Chart
+                    <sup>
+                        <Badge BackgroundColor="@Theme.Warning" Message="Coming soon!" />
+                    </sup>
+                </div>
+            </div>
+            <div class="col-auto">
+                <i class="bi bi-graph-up display-6 text-info"></i>
+            </div>
+        </div>
+    </CardMiddle>
+</CardView>
