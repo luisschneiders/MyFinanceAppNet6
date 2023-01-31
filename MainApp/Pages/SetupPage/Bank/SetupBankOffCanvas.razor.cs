@@ -3,7 +3,7 @@ using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 using MyFinanceAppLibrary.Models;
 
-namespace MainApp.Pages.SetupPage;
+namespace MainApp.Pages.SetupPage.Bank;
 
 public partial class SetupBankOffCanvas
 {
@@ -42,17 +42,49 @@ public partial class SetupBankOffCanvas
 
     public async Task EditRecordOffCanvasAsync(string id)
     {
-        _bankModel = await _bankService.GetBankById(id);
-
-        await _offCanvasService.EditRecordAsync(id);
+        try
+        {
+            _bankModel = await _bankService.GetBankById(id);
+            if (_bankModel is not null)
+            {
+                await _offCanvasService.EditRecordAsync(id);
+            }
+            else
+            {
+                _bankModel = new();
+                await Task.Delay((int)Delay.DataError);
+                _toastService.ShowToast("No record found!", Theme.Danger);
+            }
+        }
+        catch (Exception ex)
+        {
+            await Task.Delay((int)Delay.DataError);
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
         await Task.CompletedTask;
     }
 
     public async Task ViewRecordOffCanvasAsync(string id)
     {
-        _bankModel = await _bankService.GetBankById(id);
-
-        await _offCanvasService.ViewRecordAsync(id);
+        try
+        {
+            _bankModel = await _bankService.GetBankById(id);
+            if (_bankModel is not null)
+            {
+                await _offCanvasService.ViewRecordAsync(id);
+            }
+            else
+            {
+                _bankModel = new();
+                await Task.Delay((int)Delay.DataError);
+                _toastService.ShowToast("No record found!", Theme.Danger);
+            }
+        }
+        catch (Exception ex)
+        {
+            await Task.Delay((int)Delay.DataError);
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
         await Task.CompletedTask;
     }
 

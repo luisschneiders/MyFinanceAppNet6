@@ -101,6 +101,7 @@ public class BankService : IBankService
 
     public async Task UpdateBank(BankModel bankModel)
     {
+        // TODO: check if record is not archived in Mysql Stored Procedure
         try
         {
             var user = await GetLoggedInUser();
@@ -126,6 +127,7 @@ public class BankService : IBankService
 
     public async Task UpdateBankStatus(BankModel bankModel)
     {
+        // TODO: check if record is not archived in Mysql Stored Procedure
         try
         {
             var user = await GetLoggedInUser();

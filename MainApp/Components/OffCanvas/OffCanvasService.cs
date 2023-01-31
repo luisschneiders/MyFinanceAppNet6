@@ -24,19 +24,34 @@ public class OffCanvasService : IOffCanvasService
 
     public async Task EditRecordAsync(string id)
     {
-        _offCanvasTarget = id;
+        try
+        {
+            _offCanvasTarget = id;
 
-        await SetOffCanvasStateAsync(OffCanvasViewType.Edit, Theme.Danger);
-        await OffCanvas.Open(_offCanvasTarget);
+            await SetOffCanvasStateAsync(OffCanvasViewType.Edit, Theme.Danger);
+            await OffCanvas.Open(_offCanvasTarget);
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+        }
         await Task.CompletedTask;
     }
 
     public async Task ViewRecordAsync(string id)
     {
-        _offCanvasTarget = id;
+        try
+        {
+            _offCanvasTarget = id;
 
-        await SetOffCanvasStateAsync(OffCanvasViewType.View, Theme.Info);
-        await OffCanvas.Open(_offCanvasTarget);
+            await SetOffCanvasStateAsync(OffCanvasViewType.View, Theme.Info);
+            await OffCanvas.Open(_offCanvasTarget);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+        }
         await Task.CompletedTask;
     }
 
