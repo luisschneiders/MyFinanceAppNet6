@@ -1,6 +1,5 @@
 ﻿namespace MyFinanceAppLibrary.DataAccess.Sql;
 
-public interface IExpenseData
+public interface IExpenseData<T> : IBaseData<T>
 {
-    Task<List<ExpenseModel>> GetExpenses(string userId);
 }

@@ -1,13 +1,5 @@
 ﻿namespace MyFinanceAppLibrary.DataAccess.Sql;
 
-public interface IBankData
+public interface IBankData<T> : IBaseData<T>
 {
-    Task<List<BankModel>> GetBanks(string userId);
-    Task<List<BankModel>> GetSearchResults(string userId, string search);
-    Task<BankModel> GetBankById(string userId, string bankId);
-    Task<ulong> GetLastInsertedId();
-    Task CreateBank(BankModel bankModel);
-    Task UpdateBank(BankModel bankModel);
-    Task UpdateBankStatus(BankModel bankModel);
-    Task ArchiveBank(BankModel bankModel);
 }
