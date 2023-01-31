@@ -1,6 +1,6 @@
 ﻿namespace MyFinanceAppLibrary.DataAccess.Sql;
 
-public class BankData : IBankData
+public class BankData : IBankData<BankModel>
 {
     private readonly IDataAccess _dataAccess;
 
@@ -9,7 +9,7 @@ public class BankData : IBankData
         _dataAccess = dataAccess;
     }
 
-    public async Task ArchiveBank(BankModel bankModel)
+    public async Task ArchiveRecord(BankModel model)
     {
         try
         {
@@ -17,10 +17,10 @@ public class BankData : IBankData
                 "myfinancedb.spBank_Archive",
                 new
                 {
-                    bankId = bankModel.Id,
-                    bankIsArchived = bankModel.IsArchived,
-                    bankUpdatedBy = bankModel.UpdatedBy,
-                    bankUpdatedAt = bankModel.UpdatedAt,
+                    bankId = model.Id,
+                    bankIsArchived = model.IsArchived,
+                    bankUpdatedBy = model.UpdatedBy,
+                    bankUpdatedAt = model.UpdatedAt,
                 },
                 "Mysql");
         }
@@ -31,7 +31,7 @@ public class BankData : IBankData
         }
     }
 
-    public async Task CreateBank(BankModel bankModel)
+    public async Task CreateRecord(BankModel model)
     {
         try
         {
@@ -39,13 +39,13 @@ public class BankData : IBankData
                 "myfinancedb.spBank_Create",
                 new
                 {
-                    bankAccount = bankModel.Account,
-                    bankDescription = bankModel.Description,
-                    bankInitialBalance = bankModel.InitialBalance,
-                    bankCurrentBalance = bankModel.CurrentBalance,
-                    bankUpdatedBy = bankModel.UpdatedBy,
-                    bankCreatedAt = bankModel.CreatedAt,
-                    bankUpdatedAt = bankModel.UpdatedAt,
+                    bankAccount = model.Account,
+                    bankDescription = model.Description,
+                    bankInitialBalance = model.InitialBalance,
+                    bankCurrentBalance = model.CurrentBalance,
+                    bankUpdatedBy = model.UpdatedBy,
+                    bankCreatedAt = model.CreatedAt,
+                    bankUpdatedAt = model.UpdatedAt,
                 },
                 "Mysql");
         }
@@ -56,13 +56,19 @@ public class BankData : IBankData
         }
     }
 
-    public async Task<BankModel> GetBankById(string userId, string bankId)
+    public async Task<ulong> GetLastInsertedId()
+    {
+        var lastInsertedId = await _dataAccess.GetLastInsertedId();
+        return await Task.FromResult(lastInsertedId);
+    }
+
+    public async Task<BankModel> GetRecordById(string userId, string modelId)
     {
         try
         {
             var result = await _dataAccess.LoadData<BankModel, dynamic>(
                 "myfinancedb.spBank_GetById",
-                new { userId = userId, bankId = bankId },
+                new { userId = userId, bankId = modelId },
                 "Mysql");
 
             return result.FirstOrDefault()!;
@@ -74,7 +80,7 @@ public class BankData : IBankData
         }
     }
 
-    public async Task<List<BankModel>> GetBanks(string userId)
+    public async Task<List<BankModel>> GetRecords(string userId)
     {
         try
         {
@@ -90,12 +96,6 @@ public class BankData : IBankData
             Console.WriteLine("An exception occurred: " + ex.Message);
             throw;
         }
-    }
-
-    public async Task<ulong> GetLastInsertedId()
-    {
-        var lastInsertedId = await _dataAccess.GetLastInsertedId();
-        return await Task.FromResult(lastInsertedId);
     }
 
     public async Task<List<BankModel>> GetSearchResults(string userId, string search)
@@ -120,7 +120,7 @@ public class BankData : IBankData
         }
     }
 
-    public async Task UpdateBank(BankModel bankModel)
+    public async Task UpdateRecord(BankModel model)
     {
         try
         {
@@ -128,13 +128,13 @@ public class BankData : IBankData
                 "myfinancedb.spBank_Update",
                 new
                 {
-                    bankId = bankModel.Id,
-                    bankAccount = bankModel.Account,
-                    bankDescription = bankModel.Description,
-                    bankCurrentBalance = bankModel.CurrentBalance,
-                    bankIsActive = bankModel.IsActive,
-                    bankUpdatedBy = bankModel.UpdatedBy,
-                    bankUpdatedAt = bankModel.UpdatedAt,
+                    bankId = model.Id,
+                    bankAccount = model.Account,
+                    bankDescription = model.Description,
+                    bankCurrentBalance = model.CurrentBalance,
+                    bankIsActive = model.IsActive,
+                    bankUpdatedBy = model.UpdatedBy,
+                    bankUpdatedAt = model.UpdatedAt,
                 },
                 "Mysql");
         }
@@ -145,7 +145,7 @@ public class BankData : IBankData
         }
     }
 
-    public async Task UpdateBankStatus(BankModel bankModel)
+    public async Task UpdateRecordStatus(BankModel model)
     {
         try
         {
@@ -153,10 +153,10 @@ public class BankData : IBankData
                 "myfinancedb.spBank_UpdateStatus",
                 new
                 {
-                    bankId = bankModel.Id,
-                    bankIsActive = bankModel.IsActive,
-                    bankUpdatedBy = bankModel.UpdatedBy,
-                    bankUpdatedAt = bankModel.UpdatedAt,
+                    bankId = model.Id,
+                    bankIsActive = model.IsActive,
+                    bankUpdatedBy = model.UpdatedBy,
+                    bankUpdatedAt = model.UpdatedAt,
                 },
                 "Mysql");
         }
