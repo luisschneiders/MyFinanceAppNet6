@@ -9,16 +9,20 @@ public class BankData : IBankData
         _dataAccess = dataAccess;
     }
 
-    public async Task<List<BankModel>> GetBanks(string userId)
+    public async Task ArchiveBank(BankModel bankModel)
     {
         try
         {
-            var results = await _dataAccess.LoadData<BankModel, dynamic>(
-                "myfinancedb.spBank_GetAll",
-                new { userId = userId },
+            await _dataAccess.SaveData<dynamic>(
+                "myfinancedb.spBank_Archive",
+                new
+                {
+                    bankId = bankModel.Id,
+                    bankIsArchived = bankModel.IsArchived,
+                    bankUpdatedBy = bankModel.UpdatedBy,
+                    bankUpdatedAt = bankModel.UpdatedAt,
+                },
                 "Mysql");
-
-            return results;
         }
         catch (Exception ex)
         {
@@ -27,20 +31,23 @@ public class BankData : IBankData
         }
     }
 
-    public async Task<List<BankModel>> GetSearchResults(string userId, string search)
+    public async Task CreateBank(BankModel bankModel)
     {
         try
         {
-            var results = await _dataAccess.LoadData<BankModel, dynamic>(
-                "myfinancedb.spBank_GetSearchResults",
+            await _dataAccess.LoadData<BankModel, dynamic>(
+                "myfinancedb.spBank_Create",
                 new
                 {
-                    userId = userId,
-                    searchBank = search,
+                    bankAccount = bankModel.Account,
+                    bankDescription = bankModel.Description,
+                    bankInitialBalance = bankModel.InitialBalance,
+                    bankCurrentBalance = bankModel.CurrentBalance,
+                    bankUpdatedBy = bankModel.UpdatedBy,
+                    bankCreatedAt = bankModel.CreatedAt,
+                    bankUpdatedAt = bankModel.UpdatedAt,
                 },
                 "Mysql");
-
-            return results;
         }
         catch (Exception ex)
         {
@@ -67,28 +74,44 @@ public class BankData : IBankData
         }
     }
 
+    public async Task<List<BankModel>> GetBanks(string userId)
+    {
+        try
+        {
+            var results = await _dataAccess.LoadData<BankModel, dynamic>(
+                "myfinancedb.spBank_GetAll",
+                new { userId = userId },
+                "Mysql");
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public async Task<ulong> GetLastInsertedId()
     {
         var lastInsertedId = await _dataAccess.GetLastInsertedId();
         return await Task.FromResult(lastInsertedId);
     }
 
-    public async Task CreateBank(BankModel bankModel)
+    public async Task<List<BankModel>> GetSearchResults(string userId, string search)
     {
         try
         {
-            await _dataAccess.LoadData<BankModel, dynamic>(
-                "myfinancedb.spBank_Create",
-                new {
-                    bankAccount = bankModel.Account,
-                    bankDescription = bankModel.Description,
-                    bankInitialBalance = bankModel.InitialBalance,
-                    bankCurrentBalance = bankModel.CurrentBalance,
-                    bankUpdatedBy = bankModel.UpdatedBy,
-                    bankCreatedAt = bankModel.CreatedAt,
-                    bankUpdatedAt = bankModel.UpdatedAt,
+            var results = await _dataAccess.LoadData<BankModel, dynamic>(
+                "myfinancedb.spBank_GetSearchResults",
+                new
+                {
+                    userId = userId,
+                    searchBank = search,
                 },
                 "Mysql");
+
+            return results;
         }
         catch (Exception ex)
         {
@@ -132,28 +155,6 @@ public class BankData : IBankData
                 {
                     bankId = bankModel.Id,
                     bankIsActive = bankModel.IsActive,
-                    bankUpdatedBy = bankModel.UpdatedBy,
-                    bankUpdatedAt = bankModel.UpdatedAt,
-                },
-                "Mysql");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("An exception occurred: " + ex.Message);
-            throw;
-        }
-    }
-
-    public async Task ArchiveBank(BankModel bankModel)
-    {
-        try
-        {
-            await _dataAccess.SaveData<dynamic>(
-                "myfinancedb.spBank_Archive",
-                new
-                {
-                    bankId = bankModel.Id,
-                    bankIsArchived = bankModel.IsArchived,
                     bankUpdatedBy = bankModel.UpdatedBy,
                     bankUpdatedAt = bankModel.UpdatedAt,
                 },
