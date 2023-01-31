@@ -20,6 +20,7 @@
     <None Remove="Microsoft.AspNetCore.Components.DataAnnotations.Validation" />
     <None Remove="Pages\SetupPage\Bank\" />
     <None Remove="Pages\SetupPage\Bank\SetupBankLeftPanel.razorcs" />
+    <None Remove="Pages\SetupPage\Expense\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Web" Version="1.25.10" />
@@ -30,5 +31,6 @@
     <Folder Include="Pages\SetupPage\" />
     <Folder Include="Services\" />
     <Folder Include="Pages\SetupPage\Bank\" />
+    <Folder Include="Pages\SetupPage\Expense\" />
   </ItemGroup>
 </Project>
