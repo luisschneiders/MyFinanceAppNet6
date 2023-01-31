@@ -47,8 +47,8 @@ public static class RegisterServices
 
         //Mysql
         builder.Services.AddSingleton<IDataAccess, MysqlDataAccess>();
-        builder.Services.AddSingleton<IBankData, BankData>();
-        builder.Services.AddSingleton<IExpenseData, ExpenseData>();
+        builder.Services.AddSingleton<IBankData<BankModel>, BankData>();
+        builder.Services.AddSingleton<IExpenseData<ExpenseModel>, ExpenseData>();
     }
 
     public static void AddScopedServices(this WebApplicationBuilder builder)
