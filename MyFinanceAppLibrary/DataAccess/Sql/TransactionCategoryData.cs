@@ -40,7 +40,7 @@ public class TransactionCategoryData : ITransactionCategoryData<TransactionCateg
                 new
                 {
                     transactionCategoryDescription = model.Description,
-                    transactionCategoryAction = model.ActionType,
+                    transactionCategoryActionType = model.ActionType,
                     transactionCategoryUpdatedBy = model.UpdatedBy,
                     transactionCategoryCreatedAt = model.CreatedAt,
                     transactionCategoryUpdatedAt = model.UpdatedAt,
@@ -128,7 +128,7 @@ public class TransactionCategoryData : ITransactionCategoryData<TransactionCateg
                 {
                     transactionCategoryId = model.Id,
                     transactionCategoryDescription = model.Description,
-                    transactionCategoryAction = model.ActionType,
+                    transactionCategoryActionType = model.ActionType,
                     transactionCategoryIsActive = model.IsActive,
                     transactionCategoryUpdatedBy = model.UpdatedBy,
                     transactionCategoryUpdatedAt = model.UpdatedAt,
