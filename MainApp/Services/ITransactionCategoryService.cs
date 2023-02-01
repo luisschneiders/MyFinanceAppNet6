@@ -2,7 +2,7 @@
 
 public interface ITransactionCategoryService
 {
-    Task<List<TransactionCategoryModel>> GetTransactionCategorys();
+    Task<List<TransactionCategoryModel>> GetTransactionCategories();
     Task<List<TransactionCategoryModel>> GetSearchResults(string search);
     Task<TransactionCategoryModel> GetTransactionCategoryById(string modelId);
     Task<ulong> GetLastInsertedId();

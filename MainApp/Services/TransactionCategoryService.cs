@@ -24,7 +24,7 @@ public class TransactionCategoryService : ITransactionCategoryService
     }
 
     // TODO: Add pagination capabilities
-    public async Task<List<TransactionCategoryModel>> GetTransactionCategorys()
+    public async Task<List<TransactionCategoryModel>> GetTransactionCategories()
     {
         try
         {
