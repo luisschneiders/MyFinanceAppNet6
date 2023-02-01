@@ -15,14 +15,14 @@ public class ExpenseData : IExpenseData<ExpenseModel>
         {
             await _dataAccess.SaveData<dynamic>(
                 "myfinancedb.spExpense_Archive",
-            new
-            {
-                expenseId = model.Id,
-                expenseIsArchived = model.IsArchived,
-                expenseUpdatedBy = model.UpdatedBy,
-                expenseUpdatedAt = model.UpdatedAt,
-            },
-            "Mysql");
+                new
+                {
+                    expenseId = model.Id,
+                    expenseIsArchived = model.IsArchived,
+                    expenseUpdatedBy = model.UpdatedBy,
+                    expenseUpdatedAt = model.UpdatedAt,
+                },
+                "Mysql");
         }
         catch (Exception ex)
         {

@@ -7,7 +7,7 @@ namespace MainApp.Services;
 public class BankService : IBankService
 {
     [Inject]
-    IBankData<BankModel> _bankData { get; set; } = default!;
+    private IBankData<BankModel> _bankData { get; set; } = default!;
 
     [Inject]
     private AuthenticationStateProvider _authProvider { get; set; } = default!;

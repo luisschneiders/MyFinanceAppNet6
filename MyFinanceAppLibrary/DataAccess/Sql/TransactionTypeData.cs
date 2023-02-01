@@ -15,14 +15,14 @@ public class TransactionTypeData : ITransactionTypeData<TransactionTypeModel>
         {
             await _dataAccess.SaveData<dynamic>(
                 "myfinancedb.spTransactionType_Archive",
-            new
-            {
-                transactionTypeId = model.Id,
-                transactionTypeIsArchived = model.IsArchived,
-                transactionTypeUpdatedBy = model.UpdatedBy,
-                transactionTypeUpdatedAt = model.UpdatedAt,
-            },
-            "Mysql");
+                new
+                {
+                    transactionTypeId = model.Id,
+                    transactionTypeIsArchived = model.IsArchived,
+                    transactionTypeUpdatedBy = model.UpdatedBy,
+                    transactionTypeUpdatedAt = model.UpdatedAt,
+                },
+                "Mysql");
         }
         catch (Exception ex)
         {
