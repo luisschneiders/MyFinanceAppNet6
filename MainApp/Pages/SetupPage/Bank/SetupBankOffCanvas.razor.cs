@@ -111,41 +111,52 @@ public partial class SetupBankOffCanvas
 
     private async Task HandleValidSubmitAsync()
     {
-        _displayErrorMessages = false;
-        _isProcessing = true;
-
-        var offCanvasViewType = _offCanvasService.GetOffCanvasViewType();
-
-        if (offCanvasViewType == OffCanvasViewType.Add)
+        try
         {
-            // Set the initial balance equal to current balance for new records
-            _bankModel.InitialBalance = _bankModel.CurrentBalance;
+            _displayErrorMessages = false;
+            _isProcessing = true;
 
-            await _bankService.CreateBank(_bankModel);
+            var offCanvasViewType = _offCanvasService.GetOffCanvasViewType();
 
-            _bankModel.Id = await _bankService.GetLastInsertedId();
-            _toastService.ShowToast("Bank added!", Theme.Success);
+            if (offCanvasViewType == OffCanvasViewType.Add)
+            {
+                // Set the initial balance equal to current balance for new records
+                _bankModel.InitialBalance = _bankModel.CurrentBalance;
+
+                await _bankService.CreateBank(_bankModel);
+
+                _bankModel.Id = await _bankService.GetLastInsertedId();
+                _toastService.ShowToast("Bank added!", Theme.Success);
+            }
+            else if (offCanvasViewType == OffCanvasViewType.Edit)
+            {
+                await _bankService.UpdateBank(_bankModel);
+                _toastService.ShowToast("Bank updated!", Theme.Success);
+            }
+            else if (offCanvasViewType == OffCanvasViewType.Archive)
+            {
+                await _bankService.ArchiveBank(_bankModel);
+                _toastService.ShowToast("Bank archived!", Theme.Success);
+            }
+
+            _isProcessing = false;
+
+            DataModel = _bankModel;
+
+            await OnSubmitSuccess.InvokeAsync();
+
+            await Task.Delay((int)Delay.DataSuccess);
+
+            await CloseOffCanvasAsync();
+
         }
-        else if (offCanvasViewType == OffCanvasViewType.Edit)
+        catch (Exception ex)
         {
-            await _bankService.UpdateBank(_bankModel);
-            _toastService.ShowToast("Bank updated!", Theme.Success);
+            _isProcessing = false;
+
+            await Task.Delay((int)Delay.DataError);
+            _toastService.ShowToast(ex.Message, Theme.Danger);
         }
-        else if (offCanvasViewType == OffCanvasViewType.Archive)
-        {
-            await _bankService.ArchiveBank(_bankModel);
-            _toastService.ShowToast("Bank archived!", Theme.Success);
-        }
-
-        _isProcessing = false;
-
-        DataModel = _bankModel;
-
-        await OnSubmitSuccess.InvokeAsync();
-
-        await Task.Delay((int)Delay.DataSuccess);
-
-        await CloseOffCanvasAsync();
         await Task.CompletedTask;
     }
 

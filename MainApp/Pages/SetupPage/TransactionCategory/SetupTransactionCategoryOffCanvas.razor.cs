@@ -139,37 +139,48 @@ public partial class SetupTransactionCategoryOffCanvas : ComponentBase
 
     private async Task HandleValidSubmitAsync()
     {
-        _displayErrorMessages = false;
-        _isProcessing = true;
-
-        var offCanvasViewType = _offCanvasService.GetOffCanvasViewType();
-
-        if (offCanvasViewType == OffCanvasViewType.Add)
+        try
         {
-            await _transactionCategoryService.CreateTransactionCategory(_transactionCategoryModel);
+            _displayErrorMessages = false;
+            _isProcessing = true;
 
-            _transactionCategoryModel.Id = await _transactionCategoryService.GetLastInsertedId();
-            _toastService.ShowToast("Transaction Category added!", Theme.Success);
+            var offCanvasViewType = _offCanvasService.GetOffCanvasViewType();
+
+            if (offCanvasViewType == OffCanvasViewType.Add)
+            {
+                await _transactionCategoryService.CreateTransactionCategory(_transactionCategoryModel);
+
+                _transactionCategoryModel.Id = await _transactionCategoryService.GetLastInsertedId();
+                _toastService.ShowToast("Transaction Category added!", Theme.Success);
+            }
+            else if (offCanvasViewType == OffCanvasViewType.Edit)
+            {
+                await _transactionCategoryService.UpdateTransactionCategory(_transactionCategoryModel);
+                _toastService.ShowToast("Transaction Category updated!", Theme.Success);
+            }
+            else if (offCanvasViewType == OffCanvasViewType.Archive)
+            {
+                await _transactionCategoryService.ArchiveTransactionCategory(_transactionCategoryModel);
+                _toastService.ShowToast("Transaction Category archived!", Theme.Success);
+            }
+            _isProcessing = false;
+
+            DataModel = _transactionCategoryModel;
+
+            await OnSubmitSuccess.InvokeAsync();
+
+            await Task.Delay((int)Delay.DataSuccess);
+
+            await CloseOffCanvasAsync();
+
         }
-        else if (offCanvasViewType == OffCanvasViewType.Edit)
+        catch (Exception ex)
         {
-            await _transactionCategoryService.UpdateTransactionCategory(_transactionCategoryModel);
-            _toastService.ShowToast("Transaction Category updated!", Theme.Success);
+            _isProcessing = false;
+
+            await Task.Delay((int)Delay.DataError);
+            _toastService.ShowToast(ex.Message, Theme.Danger);
         }
-        else if (offCanvasViewType == OffCanvasViewType.Archive)
-        {
-            await _transactionCategoryService.ArchiveTransactionCategory(_transactionCategoryModel);
-            _toastService.ShowToast("Transaction Category archived!", Theme.Success);
-        }
-        _isProcessing = false;
-
-        DataModel = _transactionCategoryModel;
-
-        await OnSubmitSuccess.InvokeAsync();
-
-        await Task.Delay((int)Delay.DataSuccess);
-
-        await CloseOffCanvasAsync();
         await Task.CompletedTask;
     }
 
