@@ -21,6 +21,7 @@
     <None Remove="Pages\SetupPage\Bank\" />
     <None Remove="Pages\SetupPage\Bank\SetupBankLeftPanel.razorcs" />
     <None Remove="Pages\SetupPage\Expense\" />
+    <None Remove="Pages\SetupPage\TransactionType\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Web" Version="1.25.10" />
@@ -32,5 +33,6 @@
     <Folder Include="Services\" />
     <Folder Include="Pages\SetupPage\Bank\" />
     <Folder Include="Pages\SetupPage\Expense\" />
+    <Folder Include="Pages\SetupPage\TransactionType\" />
   </ItemGroup>
 </Project>
