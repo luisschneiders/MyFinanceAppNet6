@@ -8,9 +8,9 @@ public class TransactionCategoryModel : BaseModel
     public ulong Id { get; set; }
 
     [Required]
-    public string ActionType { get; set; }
+    public string Description { get; set; }
 
     [Required]
-    public string Description { get; set; }
+    public string ActionType { get; set; }
 #nullable enable    
 }

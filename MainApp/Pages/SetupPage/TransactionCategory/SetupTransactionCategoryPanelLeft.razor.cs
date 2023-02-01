@@ -20,7 +20,7 @@ public partial class SetupTransactionCategoryPanelLeft : ComponentBase
      * Add OffCanvas component reference
      */
     private SetupTransactionCategoryOffCanvas _setupOffCanvas { get; set; } = new();
-    private TransactionCategoryModel _expenseModel { get; set; } = new();
+    private TransactionCategoryModel _transactionCategoryModel { get; set; } = new();
 
     private List<TransactionCategoryModel> _transactionCategories { get; set; } = new();
     private List<TransactionCategoryModel> _searchResults { get; set; } = new();
@@ -120,35 +120,35 @@ public partial class SetupTransactionCategoryPanelLeft : ComponentBase
     private async Task RefreshList()
     {
         // TODO: add service to refresh the list
-        //TransactionCategoryModel updatedModel = _setupOffCanvas.DataModel;
-        //TransactionCategoryModel model = _transactionCategories.FirstOrDefault(b => b.Id == updatedModel.Id)!;
+        TransactionCategoryModel updatedModel = _setupOffCanvas.DataModel;
+        TransactionCategoryModel model = _transactionCategories.FirstOrDefault(b => b.Id == updatedModel.Id)!;
 
-        //var index = _transactionCategories.IndexOf(model);
+        var index = _transactionCategories.IndexOf(model);
 
-        //if (index != -1)
-        //{
-        //    if (updatedModel.IsArchived)
-        //    {
-        //        var archivedModel = _transactionCategories[index] = updatedModel;
-        //        _transactionCategories.Remove(archivedModel);
-        //    }
-        //    else
-        //    {
-        //        _transactionCategories[index] = updatedModel;
-        //    }
-        //}
-        //else
-        //{
-        //    _transactionCategories.Add(updatedModel);
-        //}
+        if (index != -1)
+        {
+            if (updatedModel.IsArchived)
+            {
+                var archivedModel = _transactionCategories[index] = updatedModel;
+                _transactionCategories.Remove(archivedModel);
+            }
+            else
+            {
+                _transactionCategories[index] = updatedModel;
+            }
+        }
+        else
+        {
+            _transactionCategories.Add(updatedModel);
+        }
 
-        //await InvokeAsync(StateHasChanged);
+        await InvokeAsync(StateHasChanged);
         await Task.CompletedTask;
     }
 
     private async Task AddRecordAsync()
     {
-        //await _setupOffCanvas.AddRecordOffCanvasAsync();
+        await _setupOffCanvas.AddRecordOffCanvasAsync();
         await Task.CompletedTask;
     }
 
@@ -156,7 +156,7 @@ public partial class SetupTransactionCategoryPanelLeft : ComponentBase
     {
         try
         {
-            //await _setupOffCanvas.EditRecordOffCanvasAsync(transactionCategoryModel.Id.ToString());
+            await _setupOffCanvas.EditRecordOffCanvasAsync(transactionCategoryModel.Id.ToString());
         }
         catch (Exception ex)
         {
@@ -170,7 +170,7 @@ public partial class SetupTransactionCategoryPanelLeft : ComponentBase
     {
         try
         {
-            //await _setupOffCanvas.ViewRecordOffCanvasAsync(transactionCategoryModel.Id.ToString());
+            await _setupOffCanvas.ViewRecordOffCanvasAsync(transactionCategoryModel.Id.ToString());
         }
         catch (Exception ex)
         {

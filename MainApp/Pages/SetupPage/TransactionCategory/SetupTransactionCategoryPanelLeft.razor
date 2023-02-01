@@ -4,13 +4,13 @@
 @using MainApp.Components.Spinner
 <CardView Styles="border-0">
     <CardMiddle>
-        @*<div class="row flex-row-reverse justify-content-between pb-2">
+        <div class="row flex-row-reverse justify-content-between pb-2">
             <div class="col-2 col-md-2 col-lg-2 d-flex justify-content-end pb-2">
                 <DropdownActions IconColor="@Theme.Success">
                     <li class="px-2">
                         <button class="dropdown-item"
                                 @onclick="() => AddRecordAsync()">
-                            <i class="bi bi-plus-lg pe-1"></i>New Expense
+                            <i class="bi bi-plus-lg pe-1"></i>New Transaction Category
                         </button>
                     </li>
                 </DropdownActions>
@@ -42,8 +42,11 @@
                     <table class="table table-hover">
                         <thead class="app-table-head-text">
                             <tr>
-                                <th class="col-10">
+                                <th class="col-7">
                                     Description
+                                </th>
+                                <th class="col-3 text-center">
+                                    Action Type
                                 </th>
                                 <th class="col" colspan="3">
                                     Status
@@ -59,6 +62,9 @@
                                     <tr>
                                         <td>
                                             @record.Description
+                                        </td>
+                                        <td class="text-center">
+                                            @record.ActionType
                                         </td>
                                         <td>
                                             <div class="form-check form-switch">
@@ -119,7 +125,7 @@
                                 else
                                 {
 
-                                    @if (_expenses.Count <= 0)
+                                    @if (_transactionCategories.Count <= 0)
                                     {
                                         <tr>
                                             <td class="text-center" colspan="4">
@@ -131,7 +137,7 @@
                                     }
                                     else
                                     {
-                                        foreach (var record in _expenses)
+                                        foreach (var record in _transactionCategories)
                                         {
 
                                             <tr>
@@ -187,8 +193,8 @@
                     </table>
                 </div>
             </div>
-        </div>*@
+        </div>
     </CardMiddle>
 </CardView>
-@*<SetupExpenseOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" DataModel="_expenseModel" />*@
+<SetupTransactionCategoryOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" DataModel="_transactionCategoryModel" />
 <Toast />
