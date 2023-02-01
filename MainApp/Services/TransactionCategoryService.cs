@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Components.Authorization;
 
 namespace MainApp.Services;
 
-public class TransactionTypeService : ITransactionTypeService
+public class TransactionCategoryService : ITransactionCategoryService
 {
     [Inject]
-    private ITransactionTypeData<TransactionTypeModel> _transactionTypeData { get; set; } = default!;
+    private ITransactionCategoryData<TransactionCategoryModel> _transactionCategoryData { get; set; } = default!;
 
     [Inject]
     private AuthenticationStateProvider _authProvider { get; set; } = default!;
@@ -16,20 +16,20 @@ public class TransactionTypeService : ITransactionTypeService
 
     private UserModel _loggedInUser { get; set; } = new();
 
-    public TransactionTypeService(ITransactionTypeData<TransactionTypeModel> transactionTypeData, IUserData userData, AuthenticationStateProvider authProvider)
+    public TransactionCategoryService(ITransactionCategoryData<TransactionCategoryModel> transactionCategoryData, IUserData userData, AuthenticationStateProvider authProvider)
     {
-        _transactionTypeData = transactionTypeData;
+        _transactionCategoryData = transactionCategoryData;
         _userData = userData;
         _authProvider = authProvider;
     }
 
     // TODO: Add pagination capabilities
-    public async Task<List<TransactionTypeModel>> GetTransactionTypes()
+    public async Task<List<TransactionCategoryModel>> GetTransactionCategorys()
     {
         try
         {
             var user = await GetLoggedInUser();
-            List<TransactionTypeModel> results = await _transactionTypeData.GetRecords(user.Id);
+            List<TransactionCategoryModel> results = await _transactionCategoryData.GetRecords(user.Id);
             return results;
         }
         catch (Exception ex)
@@ -39,12 +39,12 @@ public class TransactionTypeService : ITransactionTypeService
         }
     }
 
-    public async Task<List<TransactionTypeModel>> GetSearchResults(string search)
+    public async Task<List<TransactionCategoryModel>> GetSearchResults(string search)
     {
         try
         {
             var user = await GetLoggedInUser();
-            List<TransactionTypeModel> results = await _transactionTypeData.GetSearchResults(user.Id, search);
+            List<TransactionCategoryModel> results = await _transactionCategoryData.GetSearchResults(user.Id, search);
             return results;
         }
         catch (Exception ex)
@@ -54,12 +54,12 @@ public class TransactionTypeService : ITransactionTypeService
         }
     }
 
-    public async Task<TransactionTypeModel> GetTransactionTypeById(string modelId)
+    public async Task<TransactionCategoryModel> GetTransactionCategoryById(string modelId)
     {
         try
         {
             var user = await GetLoggedInUser();
-            TransactionTypeModel result = await _transactionTypeData.GetRecordById(user.Id, modelId);
+            TransactionCategoryModel result = await _transactionCategoryData.GetRecordById(user.Id, modelId);
             return result;
         }
         catch (Exception ex)
@@ -71,23 +71,23 @@ public class TransactionTypeService : ITransactionTypeService
 
     public async Task<ulong> GetLastInsertedId()
     {
-        var lastInsertedId = await _transactionTypeData.GetLastInsertedId();
+        var lastInsertedId = await _transactionCategoryData.GetLastInsertedId();
         return await Task.FromResult(lastInsertedId);
     }
 
-    public async Task CreateTransactionType(TransactionTypeModel model)
+    public async Task CreateTransactionCategory(TransactionCategoryModel model)
     {
         try
         {
             var user = await GetLoggedInUser();
-            TransactionTypeModel newTransactionType = new()
+            TransactionCategoryModel newTransactionCategory = new()
             {
                 Description = model.Description,
                 ActionType = model.ActionType,
                 UpdatedBy = user.Id
             };
 
-            await _transactionTypeData.CreateRecord(newTransactionType);
+            await _transactionCategoryData.CreateRecord(newTransactionCategory);
         }
         catch (Exception ex)
         {
@@ -96,13 +96,13 @@ public class TransactionTypeService : ITransactionTypeService
         }
     }
 
-    public async Task UpdateTransactionType(TransactionTypeModel model)
+    public async Task UpdateTransactionCategory(TransactionCategoryModel model)
     {
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
         {
             var user = await GetLoggedInUser();
-            TransactionTypeModel newTransactionType = new()
+            TransactionCategoryModel newTransactionCategory = new()
             {
                 Id = model.Id,
                 Description = model.Description,
@@ -112,7 +112,7 @@ public class TransactionTypeService : ITransactionTypeService
                 UpdatedAt = DateTime.Now,
             };
 
-            await _transactionTypeData.UpdateRecord(newTransactionType);
+            await _transactionCategoryData.UpdateRecord(newTransactionCategory);
         }
         catch (Exception ex)
         {
@@ -121,19 +121,19 @@ public class TransactionTypeService : ITransactionTypeService
         }
     }
 
-    public async Task UpdateTransactionTypeStatus(TransactionTypeModel model)
+    public async Task UpdateTransactionCategoryStatus(TransactionCategoryModel model)
     {
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
         {
             var user = await GetLoggedInUser();
 
-            TransactionTypeModel transactionTypeStatusUpdate = model;
-            transactionTypeStatusUpdate.IsActive = !model.IsActive;
-            transactionTypeStatusUpdate.UpdatedBy = user.Id;
-            transactionTypeStatusUpdate.UpdatedAt = DateTime.Now;
+            TransactionCategoryModel transactionCategoryStatusUpdate = model;
+            transactionCategoryStatusUpdate.IsActive = !model.IsActive;
+            transactionCategoryStatusUpdate.UpdatedBy = user.Id;
+            transactionCategoryStatusUpdate.UpdatedAt = DateTime.Now;
 
-            await _transactionTypeData.UpdateRecordStatus(transactionTypeStatusUpdate);
+            await _transactionCategoryData.UpdateRecordStatus(transactionCategoryStatusUpdate);
         }
         catch (Exception ex)
         {
@@ -142,18 +142,18 @@ public class TransactionTypeService : ITransactionTypeService
         }
     }
 
-    public async Task ArchiveTransactionType(TransactionTypeModel model)
+    public async Task ArchiveTransactionCategory(TransactionCategoryModel model)
     {
         try
         {
             var user = await GetLoggedInUser();
 
-            TransactionTypeModel transactionTypeStatusUpdate = model;
-            transactionTypeStatusUpdate.IsArchived = true;
-            transactionTypeStatusUpdate.UpdatedBy = user.Id;
-            transactionTypeStatusUpdate.UpdatedAt = DateTime.Now;
+            TransactionCategoryModel transactionCategoryStatusUpdate = model;
+            transactionCategoryStatusUpdate.IsArchived = true;
+            transactionCategoryStatusUpdate.UpdatedBy = user.Id;
+            transactionCategoryStatusUpdate.UpdatedAt = DateTime.Now;
 
-            await _transactionTypeData.ArchiveRecord(transactionTypeStatusUpdate);
+            await _transactionCategoryData.ArchiveRecord(transactionCategoryStatusUpdate);
         }
         catch (Exception ex)
         {

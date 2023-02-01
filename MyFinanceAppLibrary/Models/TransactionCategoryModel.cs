@@ -2,7 +2,7 @@
 
 namespace MyFinanceAppLibrary.Models;
 
-public class TransactionTypeModel : BaseModel
+public class TransactionCategoryModel : BaseModel
 {
 #nullable disable
     public ulong Id { get; set; }
