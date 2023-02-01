@@ -2,9 +2,9 @@
 
 namespace MainApp.Pages.SetupPage.TransactionType;
 
-public partial class SetupTransactionRightPanel : ComponentBase
+public partial class SetupTransactionTypeLeftPanel : ComponentBase
 {
-    public SetupTransactionRightPanel()
+    public SetupTransactionTypeLeftPanel()
     {
     }
 }
