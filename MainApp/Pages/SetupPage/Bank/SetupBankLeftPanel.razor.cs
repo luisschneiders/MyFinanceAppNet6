@@ -2,181 +2,181 @@
 using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 
-namespace MainApp.Pages.SetupPage.Bank
+namespace MainApp.Pages.SetupPage.Bank;
+
+public partial class SetupBankLeftPanel : ComponentBase
 {
-    public partial class SetupBankLeftPanel : ComponentBase
+    [Inject]
+    IBankService<BankModel> _bankService { get; set; } = default!;
+
+    [Inject]
+    private ToastService _toastService { get; set; } = new();
+
+    [Inject]
+    private SpinnerService _spinnerService { get; set; } = new();
+
+    /*
+     * Add OffCanvas component reference
+     */
+    private SetupBankOffCanvas _setupOffCanvas { get; set; } = new();
+    private BankModel _bankModel { get; set; } = new();
+
+    private List<BankModel> _banks { get; set; } = new();
+    private List<BankModel> _searchResults { get; set; } = new();
+    private string _searchTerm { get; set; } = string.Empty;
+    private bool _isSearching { get; set; } = false;
+    private bool _isLoading { get; set; } = true;
+    private bool _searchButtonEnabled { get; set; } = false;
+
+    public SetupBankLeftPanel()
     {
-        [Inject]
-        IBankService<BankModel> _bankService { get; set; } = default!;
+    }
 
-        [Inject]
-        private ToastService _toastService { get; set; } = new();
+    protected async override Task OnInitializedAsync()
+    {
+        await FetchDataAsync();
+        await Task.CompletedTask;
+    }
 
-        [Inject]
-        private SpinnerService _spinnerService { get; set; } = new();
-
-        /*
-         * Add OffCanvas component reference
-         */
-        private SetupBankOffCanvas _setupOffCanvas { get; set; } = new();
-        private BankModel _bankModel { get; set; } = new();
-
-        private List<BankModel> _banks { get; set; } = new();
-        private List<BankModel> _searchResults { get; set; } = new();
-        private string _searchTerm { get; set; } = string.Empty;
-        private bool _isSearching { get; set; } = false;
-        private bool _isLoading { get; set; } = true;
-        private bool _searchButtonEnabled { get; set; } = false;
-
-        public SetupBankLeftPanel()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
         {
+            await Task.Run(() => _spinnerService.ShowSpinner());
         }
 
-        protected async override Task OnInitializedAsync()
-        {
-            await FetchDataAsync();
-            await Task.CompletedTask;
-        }
+        await Task.CompletedTask;
+    }
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+    private async Task SearchTermAsync(ChangeEventArgs eventArgs)
+    {
+        var searchTerm = eventArgs?.Value?.ToString();
+
+        if (string.IsNullOrWhiteSpace(searchTerm))
         {
-            if (firstRender)
+            _searchResults = new();
+            _isSearching = false;
+            _searchButtonEnabled = false;
+        }
+        else
+        {
+            _searchButtonEnabled = true;
+        }
+        await Task.CompletedTask;
+    }
+
+    private async Task SearchAsync()
+    {
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(_searchTerm))
             {
-                await Task.Run(() => _spinnerService.ShowSpinner());
+                _isSearching = true;
+                _searchResults = await _bankService.GetSearchResults(_searchTerm);
+                StateHasChanged();
             }
+        }
+        catch (Exception ex)
+        {
+            await Task.Delay((int)Delay.DataError);
+            _toastService.ShowToast(ex.Message, Theme.Danger);
 
-            await Task.CompletedTask;
         }
 
-        private async Task SearchTermAsync(ChangeEventArgs eventArgs)
-        {
-            var searchTerm = eventArgs?.Value?.ToString();
+        await Task.CompletedTask;
+    }
 
-            if (string.IsNullOrWhiteSpace(searchTerm))
+    private async Task FetchDataAsync()
+    {
+        try
+        {
+            _banks = await _bankService.GetRecords();
+            _isLoading = false;
+        }
+        catch (Exception ex)
+        {
+            _isLoading = false;
+            await Task.Delay((int)Delay.DataError);
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;
+    }
+
+    private async Task UpdateStatusAsync(BankModel bankModel)
+    {
+        try
+        {
+            await _bankService.UpdateRecordStatus(bankModel);
+        }
+        catch (Exception ex)
+        {
+            await Task.Delay((int)Delay.DataError);
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+        await Task.CompletedTask;
+    }
+
+    private async Task RefreshList()
+    {
+        // TODO: add service to refresh the list
+        BankModel updatedModel = _setupOffCanvas.DataModel;
+        BankModel model = _banks.FirstOrDefault(b => b.Id == updatedModel.Id)!;
+
+        var index = _banks.IndexOf(model);
+
+        if (index != -1)
+        {
+            if (updatedModel.IsArchived)
             {
-                _searchResults = new();
-                _isSearching = false;
-                _searchButtonEnabled = false;
+                var archivedModel = _banks[index] = updatedModel;
+                _banks.Remove(archivedModel);
             }
             else
             {
-                _searchButtonEnabled = true;
+                _banks[index] = updatedModel;
             }
-            await Task.CompletedTask;
         }
-
-        private async Task SearchAsync()
+        else
         {
-            try
-            {
-                if (!string.IsNullOrWhiteSpace(_searchTerm))
-                {
-                    _isSearching = true;
-                    _searchResults = await _bankService.GetSearchResults(_searchTerm);
-                    StateHasChanged();
-                }
-            }
-            catch (Exception ex)
-            {
-                await Task.Delay((int)Delay.DataError);
-                _toastService.ShowToast(ex.Message, Theme.Danger);
-
-            }
-
-            await Task.CompletedTask;
+            _banks.Add(updatedModel);
         }
 
-        private async Task FetchDataAsync()
+        await InvokeAsync(StateHasChanged);
+        await Task.CompletedTask;
+    }
+
+    private async Task AddRecordAsync()
+    {
+        await _setupOffCanvas.AddRecordOffCanvasAsync();
+        await Task.CompletedTask;
+    }
+
+    private async Task EditRecordAsync(BankModel bankModel)
+    {
+        try
         {
-            try
-            {
-                _banks = await _bankService.GetRecords();
-                _isLoading = false;
-            }
-            catch (Exception ex)
-            {
-                await Task.Delay((int)Delay.DataError);
-                _toastService.ShowToast(ex.Message, Theme.Danger);
-            }
-
-            await Task.CompletedTask;
+            await _setupOffCanvas.EditRecordOffCanvasAsync(bankModel.Id.ToString());
         }
-
-        private async Task UpdateStatusAsync(BankModel bankModel)
+        catch (Exception ex)
         {
-            try
-            {
-                await _bankService.UpdateRecordStatus(bankModel);
-            }
-            catch (Exception ex)
-            {
-                await Task.Delay((int)Delay.DataError);
-                _toastService.ShowToast(ex.Message, Theme.Danger);
-            }
-            await Task.CompletedTask;
+            await Task.Delay((int)Delay.DataError);
+            _toastService.ShowToast(ex.Message, Theme.Danger);
         }
+        await Task.CompletedTask;
+    }
 
-        private async Task RefreshList()
+    private async Task ViewRecordAsync(BankModel bankModel)
+    {
+        try
         {
-            // TODO: add service to refresh the list
-            BankModel updatedModel = _setupOffCanvas.DataModel;
-            BankModel model = _banks.FirstOrDefault(b => b.Id == updatedModel.Id)!;
-
-            var index = _banks.IndexOf(model);
-
-            if (index != -1)
-            {
-                if (updatedModel.IsArchived)
-                {
-                    var archivedModel = _banks[index] = updatedModel;
-                    _banks.Remove(archivedModel);
-                }
-                else
-                {
-                    _banks[index] = updatedModel;
-                }
-            }
-            else
-            {
-                _banks.Add(updatedModel);
-            }
-
-            await InvokeAsync(StateHasChanged);
-            await Task.CompletedTask;
+            await _setupOffCanvas.ViewRecordOffCanvasAsync(bankModel.Id.ToString());
         }
-
-        private async Task AddRecordAsync()
+        catch (Exception ex)
         {
-            await _setupOffCanvas.AddRecordOffCanvasAsync();
-            await Task.CompletedTask;
+            await Task.Delay((int)Delay.DataError);
+            _toastService.ShowToast(ex.Message, Theme.Danger);
         }
-
-        private async Task EditRecordAsync(BankModel bankModel)
-        {
-            try
-            {
-                await _setupOffCanvas.EditRecordOffCanvasAsync(bankModel.Id.ToString());
-            }
-            catch (Exception ex)
-            {
-                await Task.Delay((int)Delay.DataError);
-                _toastService.ShowToast(ex.Message, Theme.Danger);
-            }
-            await Task.CompletedTask;
-        }
-
-        private async Task ViewRecordAsync(BankModel bankModel)
-        {
-            try
-            {
-                await _setupOffCanvas.ViewRecordOffCanvasAsync(bankModel.Id.ToString());
-            }
-            catch (Exception ex)
-            {
-                await Task.Delay((int)Delay.DataError);
-                _toastService.ShowToast(ex.Message, Theme.Danger);
-            }
-            await Task.CompletedTask;
-        }
+        await Task.CompletedTask;
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace MainApp.Pages.SetupPage;
+namespace MainApp.Pages.SetupPage.Expense;
 
 public partial class SetupExpense : ComponentBase
 {
