@@ -50,6 +50,7 @@ public static class RegisterServices
         builder.Services.AddSingleton<IBankData<BankModel>, BankData>();
         builder.Services.AddSingleton<IExpenseData<ExpenseModel>, ExpenseData>();
         builder.Services.AddSingleton<ITransactionCategoryData<TransactionCategoryModel>, TransactionCategoryData>();
+        builder.Services.AddSingleton<IVehicleData<VehicleModel>, VehicleData>();
     }
 
     public static void AddScopedServices(this WebApplicationBuilder builder)
@@ -61,5 +62,6 @@ public static class RegisterServices
         builder.Services.AddScoped<IBankService<BankModel>, BankService>();
         builder.Services.AddScoped<IExpenseService<ExpenseModel>, ExpenseService>();
         builder.Services.AddScoped<ITransactionCategoryService<TransactionCategoryModel>, TransactionCategoryService>();
+        builder.Services.AddScoped<IVehicleService<VehicleModel>, VehicleService>();
     }
 }
