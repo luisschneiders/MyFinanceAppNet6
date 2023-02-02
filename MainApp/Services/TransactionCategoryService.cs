@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 
 namespace MainApp.Services;
 
-public class TransactionCategoryService : ITransactionCategoryService
+public class TransactionCategoryService : ITransactionCategoryService<TransactionCategoryModel>
 {
     [Inject]
     private ITransactionCategoryData<TransactionCategoryModel> _transactionCategoryData { get; set; } = default!;
@@ -24,7 +24,7 @@ public class TransactionCategoryService : ITransactionCategoryService
     }
 
     // TODO: Add pagination capabilities
-    public async Task<List<TransactionCategoryModel>> GetTransactionCategories()
+    public async Task<List<TransactionCategoryModel>> GetRecords()
     {
         try
         {
@@ -54,7 +54,7 @@ public class TransactionCategoryService : ITransactionCategoryService
         }
     }
 
-    public async Task<TransactionCategoryModel> GetTransactionCategoryById(string modelId)
+    public async Task<TransactionCategoryModel> GetRecordById(string modelId)
     {
         try
         {
@@ -75,7 +75,7 @@ public class TransactionCategoryService : ITransactionCategoryService
         return await Task.FromResult(lastInsertedId);
     }
 
-    public async Task CreateTransactionCategory(TransactionCategoryModel model)
+    public async Task CreateRecord(TransactionCategoryModel model)
     {
         try
         {
@@ -96,7 +96,7 @@ public class TransactionCategoryService : ITransactionCategoryService
         }
     }
 
-    public async Task UpdateTransactionCategory(TransactionCategoryModel model)
+    public async Task UpdateRecord(TransactionCategoryModel model)
     {
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
@@ -121,7 +121,7 @@ public class TransactionCategoryService : ITransactionCategoryService
         }
     }
 
-    public async Task UpdateTransactionCategoryStatus(TransactionCategoryModel model)
+    public async Task UpdateRecordStatus(TransactionCategoryModel model)
     {
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
@@ -142,7 +142,7 @@ public class TransactionCategoryService : ITransactionCategoryService
         }
     }
 
-    public async Task ArchiveTransactionCategory(TransactionCategoryModel model)
+    public async Task ArchiveRecord(TransactionCategoryModel model)
     {
         try
         {

@@ -4,7 +4,7 @@ using MyFinanceAppLibrary.DataAccess.Sql;
 
 namespace MainApp.Services;
 
-public class BankService : IBankService
+public class BankService : IBankService<BankModel>
 {
     [Inject]
     private IBankData<BankModel> _bankData { get; set; } = default!;
@@ -25,7 +25,7 @@ public class BankService : IBankService
     }
 
     // TODO: Add pagination capabilities
-    public async Task<List<BankModel>> GetBanks()
+    public async Task<List<BankModel>> GetRecords()
     {
         try
         {
@@ -55,7 +55,7 @@ public class BankService : IBankService
         }
     }
 
-    public async Task<BankModel> GetBankById(string modelId)
+    public async Task<BankModel> GetRecordById(string modelId)
     {
         try
         {
@@ -76,7 +76,7 @@ public class BankService : IBankService
         return await Task.FromResult(lastInsertedId);
     }
 
-    public async Task CreateBank(BankModel model)
+    public async Task CreateRecord(BankModel model)
     {
         try
         {
@@ -99,7 +99,7 @@ public class BankService : IBankService
         }
     }
 
-    public async Task UpdateBank(BankModel model)
+    public async Task UpdateRecord(BankModel model)
     {
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
@@ -125,7 +125,7 @@ public class BankService : IBankService
         }
     }
 
-    public async Task UpdateBankStatus(BankModel model)
+    public async Task UpdateRecordStatus(BankModel model)
     {
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
@@ -146,7 +146,7 @@ public class BankService : IBankService
         }
     }
 
-    public async Task ArchiveBank(BankModel model)
+    public async Task ArchiveRecord(BankModel model)
     {
         try
         {

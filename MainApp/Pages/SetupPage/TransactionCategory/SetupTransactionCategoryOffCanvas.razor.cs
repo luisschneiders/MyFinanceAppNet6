@@ -8,7 +8,7 @@ namespace MainApp.Pages.SetupPage.TransactionCategory;
 public partial class SetupTransactionCategoryOffCanvas : ComponentBase
 {
     [Inject]
-    private ITransactionCategoryService _transactionCategoryService { get; set; } = default!;
+    private ITransactionCategoryService<TransactionCategoryModel> _transactionCategoryService { get; set; } = default!;
 
     [Inject]
     private IOffCanvasService _offCanvasService { get; set; } = default!;
@@ -72,7 +72,7 @@ public partial class SetupTransactionCategoryOffCanvas : ComponentBase
     {
         try
         {
-            _transactionCategoryModel = await _transactionCategoryService.GetTransactionCategoryById(id);
+            _transactionCategoryModel = await _transactionCategoryService.GetRecordById(id);
             if (_transactionCategoryModel is not null)
             {
                 await _offCanvasService.EditRecordAsync(id);
@@ -96,7 +96,7 @@ public partial class SetupTransactionCategoryOffCanvas : ComponentBase
     {
         try
         {
-            _transactionCategoryModel = await _transactionCategoryService.GetTransactionCategoryById(id);
+            _transactionCategoryModel = await _transactionCategoryService.GetRecordById(id);
             if (_transactionCategoryModel is not null)
             {
                 await _offCanvasService.ViewRecordAsync(id);
@@ -148,19 +148,19 @@ public partial class SetupTransactionCategoryOffCanvas : ComponentBase
 
             if (offCanvasViewType == OffCanvasViewType.Add)
             {
-                await _transactionCategoryService.CreateTransactionCategory(_transactionCategoryModel);
+                await _transactionCategoryService.CreateRecord(_transactionCategoryModel);
 
                 _transactionCategoryModel.Id = await _transactionCategoryService.GetLastInsertedId();
                 _toastService.ShowToast("Transaction Category added!", Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Edit)
             {
-                await _transactionCategoryService.UpdateTransactionCategory(_transactionCategoryModel);
+                await _transactionCategoryService.UpdateRecord(_transactionCategoryModel);
                 _toastService.ShowToast("Transaction Category updated!", Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Archive)
             {
-                await _transactionCategoryService.ArchiveTransactionCategory(_transactionCategoryModel);
+                await _transactionCategoryService.ArchiveRecord(_transactionCategoryModel);
                 _toastService.ShowToast("Transaction Category archived!", Theme.Success);
             }
             _isProcessing = false;

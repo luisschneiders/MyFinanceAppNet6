@@ -9,7 +9,7 @@ public partial class SetupBankOffCanvas
 {
 
     [Inject]
-    private IBankService _bankService { get; set; } = default!;
+    private IBankService<BankModel> _bankService { get; set; } = default!;
 
     [Inject]
     private IOffCanvasService _offCanvasService { get; set; } = default!;
@@ -44,7 +44,7 @@ public partial class SetupBankOffCanvas
     {
         try
         {
-            _bankModel = await _bankService.GetBankById(id);
+            _bankModel = await _bankService.GetRecordById(id);
             if (_bankModel is not null)
             {
                 await _offCanvasService.EditRecordAsync(id);
@@ -68,7 +68,7 @@ public partial class SetupBankOffCanvas
     {
         try
         {
-            _bankModel = await _bankService.GetBankById(id);
+            _bankModel = await _bankService.GetRecordById(id);
             if (_bankModel is not null)
             {
                 await _offCanvasService.ViewRecordAsync(id);
@@ -123,19 +123,19 @@ public partial class SetupBankOffCanvas
                 // Set the initial balance equal to current balance for new records
                 _bankModel.InitialBalance = _bankModel.CurrentBalance;
 
-                await _bankService.CreateBank(_bankModel);
+                await _bankService.CreateRecord(_bankModel);
 
                 _bankModel.Id = await _bankService.GetLastInsertedId();
                 _toastService.ShowToast("Bank added!", Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Edit)
             {
-                await _bankService.UpdateBank(_bankModel);
+                await _bankService.UpdateRecord(_bankModel);
                 _toastService.ShowToast("Bank updated!", Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Archive)
             {
-                await _bankService.ArchiveBank(_bankModel);
+                await _bankService.ArchiveRecord(_bankModel);
                 _toastService.ShowToast("Bank archived!", Theme.Success);
             }
 

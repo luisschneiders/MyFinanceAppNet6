@@ -8,7 +8,7 @@ namespace MainApp.Pages.SetupPage.Expense;
 public partial class SetupExpenseOffCanvas : ComponentBase
 {
     [Inject]
-    private IExpenseService _expenseService { get; set; } = default!;
+    private IExpenseService<ExpenseModel> _expenseService { get; set; } = default!;
 
     [Inject]
     private IOffCanvasService _offCanvasService { get; set; } = default!;
@@ -43,7 +43,7 @@ public partial class SetupExpenseOffCanvas : ComponentBase
     {
         try
         {
-            _expenseModel = await _expenseService.GetExpenseById(id);
+            _expenseModel = await _expenseService.GetRecordById(id);
             if (_expenseModel is not null)
             {
                 await _offCanvasService.EditRecordAsync(id);
@@ -67,7 +67,7 @@ public partial class SetupExpenseOffCanvas : ComponentBase
     {
         try
         {
-            _expenseModel = await _expenseService.GetExpenseById(id);
+            _expenseModel = await _expenseService.GetRecordById(id);
             if (_expenseModel is not null)
             {
                 await _offCanvasService.ViewRecordAsync(id);
@@ -119,19 +119,19 @@ public partial class SetupExpenseOffCanvas : ComponentBase
 
             if (offCanvasViewType == OffCanvasViewType.Add)
             {
-                await _expenseService.CreateExpense(_expenseModel);
+                await _expenseService.CreateRecord(_expenseModel);
 
                 _expenseModel.Id = await _expenseService.GetLastInsertedId();
                 _toastService.ShowToast("Expense added!", Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Edit)
             {
-                await _expenseService.UpdateExpense(_expenseModel);
+                await _expenseService.UpdateRecord(_expenseModel);
                 _toastService.ShowToast("Expense updated!", Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Archive)
             {
-                await _expenseService.ArchiveExpense(_expenseModel);
+                await _expenseService.ArchiveRecord(_expenseModel);
                 _toastService.ShowToast("Expense archived!", Theme.Success);
             }
 

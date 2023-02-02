@@ -58,8 +58,8 @@ public static class RegisterServices
         builder.Services.AddScoped<ToastService>();
         builder.Services.AddScoped<IChartService, ChartService>();
         builder.Services.AddScoped<IOffCanvasService, OffCanvasService>();
-        builder.Services.AddScoped<IBankService, BankService>();
-        builder.Services.AddScoped<IExpenseService, ExpenseService>();
-        builder.Services.AddScoped<ITransactionCategoryService, TransactionCategoryService>();
+        builder.Services.AddScoped<IBankService<BankModel>, BankService>();
+        builder.Services.AddScoped<IExpenseService<ExpenseModel>, ExpenseService>();
+        builder.Services.AddScoped<ITransactionCategoryService<TransactionCategoryModel>, TransactionCategoryService>();
     }
 }

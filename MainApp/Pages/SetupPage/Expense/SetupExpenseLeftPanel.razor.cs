@@ -8,7 +8,7 @@ namespace MainApp.Pages.SetupPage.Expense;
 public partial class SetupExpenseLeftPanel : ComponentBase
 {
     [Inject]
-    IExpenseService _expenseService { get; set; } = default!;
+    IExpenseService<ExpenseModel> _expenseService { get; set; } = default!;
 
     [Inject]
     private ToastService _toastService { get; set; } = new();
@@ -91,7 +91,7 @@ public partial class SetupExpenseLeftPanel : ComponentBase
     {
         try
         {
-            _expenses = await _expenseService.GetExpenses();
+            _expenses = await _expenseService.GetRecords();
             _isLoading = false;
         }
         catch (Exception ex)
@@ -107,7 +107,7 @@ public partial class SetupExpenseLeftPanel : ComponentBase
     {
         try
         {
-            await _expenseService.UpdateExpenseStatus(expenseModel);
+            await _expenseService.UpdateRecordStatus(expenseModel);
         }
         catch (Exception ex)
         {
