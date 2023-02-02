@@ -8,7 +8,7 @@ namespace MainApp.Pages.SetupPage.TransactionCategory;
 public partial class SetupTransactionCategoryPanelLeft : ComponentBase
 {
     [Inject]
-    ITransactionCategoryService _transactionCategoryService { get; set; } = default!;
+    private ITransactionCategoryService<TransactionCategoryModel> _transactionCategoryService { get; set; } = default!;
 
     [Inject]
     private ToastService _toastService { get; set; } = new();
@@ -91,7 +91,7 @@ public partial class SetupTransactionCategoryPanelLeft : ComponentBase
     {
         try
         {
-            _transactionCategories = await _transactionCategoryService.GetTransactionCategories();
+            _transactionCategories = await _transactionCategoryService.GetRecords();
             _isLoading = false;
         }
         catch (Exception ex)
@@ -107,7 +107,7 @@ public partial class SetupTransactionCategoryPanelLeft : ComponentBase
     {
         try
         {
-            await _transactionCategoryService.UpdateTransactionCategoryStatus(transactionCategoryModel);
+            await _transactionCategoryService.UpdateRecordStatus(transactionCategoryModel);
         }
         catch (Exception ex)
         {

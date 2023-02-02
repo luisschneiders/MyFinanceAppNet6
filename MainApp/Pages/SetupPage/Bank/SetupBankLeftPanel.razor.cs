@@ -7,7 +7,7 @@ namespace MainApp.Pages.SetupPage.Bank
     public partial class SetupBankLeftPanel : ComponentBase
     {
         [Inject]
-        IBankService _bankService { get; set; } = default!;
+        IBankService<BankModel> _bankService { get; set; } = default!;
 
         [Inject]
         private ToastService _toastService { get; set; } = new();
@@ -90,7 +90,7 @@ namespace MainApp.Pages.SetupPage.Bank
         {
             try
             {
-                _banks = await _bankService.GetBanks();
+                _banks = await _bankService.GetRecords();
                 _isLoading = false;
             }
             catch (Exception ex)
@@ -106,7 +106,7 @@ namespace MainApp.Pages.SetupPage.Bank
         {
             try
             {
-                await _bankService.UpdateBankStatus(bankModel);
+                await _bankService.UpdateRecordStatus(bankModel);
             }
             catch (Exception ex)
             {

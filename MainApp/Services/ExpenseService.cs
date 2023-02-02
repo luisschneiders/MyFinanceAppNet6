@@ -4,7 +4,7 @@ using MyFinanceAppLibrary.DataAccess.NoSql;
 
 namespace MainApp.Services
 {
-    public class ExpenseService : IExpenseService
+    public class ExpenseService : IExpenseService<ExpenseModel>
     {
         [Inject]
         private IExpenseData<ExpenseModel> _expenseData { get; set; } = default!;
@@ -25,7 +25,7 @@ namespace MainApp.Services
         }
 
         // TODO: Add pagination capabilities
-        public async Task<List<ExpenseModel>> GetExpenses()
+        public async Task<List<ExpenseModel>> GetRecords()
         {
             try
             {
@@ -55,7 +55,7 @@ namespace MainApp.Services
             }
         }
 
-        public async Task<ExpenseModel> GetExpenseById(string modelId)
+        public async Task<ExpenseModel> GetRecordById(string modelId)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace MainApp.Services
             return await Task.FromResult(lastInsertedId);
         }
 
-        public async Task CreateExpense(ExpenseModel model)
+        public async Task CreateRecord(ExpenseModel model)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace MainApp.Services
             }
         }
 
-        public async Task UpdateExpense(ExpenseModel model)
+        public async Task UpdateRecord(ExpenseModel model)
         {
             // TODO: check if record is not archived in Mysql Stored Procedure
             try
@@ -120,7 +120,7 @@ namespace MainApp.Services
             }
         }
 
-        public async Task UpdateExpenseStatus(ExpenseModel model)
+        public async Task UpdateRecordStatus(ExpenseModel model)
         {
             // TODO: check if record is not archived in Mysql Stored Procedure
             try
@@ -141,7 +141,7 @@ namespace MainApp.Services
             }
         }
 
-        public async Task ArchiveExpense(ExpenseModel model)
+        public async Task ArchiveRecord(ExpenseModel model)
         {
             try
             {
