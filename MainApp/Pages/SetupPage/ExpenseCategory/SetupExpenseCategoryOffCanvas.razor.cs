@@ -3,12 +3,12 @@ using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 using MyFinanceAppLibrary.Models;
 
-namespace MainApp.Pages.SetupPage.Expense;
+namespace MainApp.Pages.SetupPage.ExpenseCategory;
 
-public partial class SetupExpenseOffCanvas : ComponentBase
+public partial class SetupExpenseCategoryOffCanvas : ComponentBase
 {
     [Inject]
-    private IExpenseService<ExpenseModel> _expenseService { get; set; } = default!;
+    private IExpenseCategoryService<ExpenseCategoryModel> _expenseCategoryService { get; set; } = default!;
 
     [Inject]
     private IOffCanvasService _offCanvasService { get; set; } = default!;
@@ -20,20 +20,20 @@ public partial class SetupExpenseOffCanvas : ComponentBase
     public EventCallback OnSubmitSuccess { get; set; }
 
     [Parameter]
-    public ExpenseModel DataModel { get; set; } = default!;
+    public ExpenseCategoryModel DataModel { get; set; } = default!;
 
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
 
-    private ExpenseModel _expenseModel { get; set; } = new();
+    private ExpenseCategoryModel _expenseCategoryModel { get; set; } = new();
 
-    public SetupExpenseOffCanvas()
+    public SetupExpenseCategoryOffCanvas()
     {
     }
 
     public async Task AddRecordOffCanvasAsync()
     {
-        _expenseModel = new();
+        _expenseCategoryModel = new();
 
         await _offCanvasService.AddRecordAsync();
         await Task.CompletedTask;
@@ -43,14 +43,14 @@ public partial class SetupExpenseOffCanvas : ComponentBase
     {
         try
         {
-            _expenseModel = await _expenseService.GetRecordById(id);
-            if (_expenseModel is not null)
+            _expenseCategoryModel = await _expenseCategoryService.GetRecordById(id);
+            if (_expenseCategoryModel is not null)
             {
                 await _offCanvasService.EditRecordAsync(id);
             }
             else
             {
-                _expenseModel = new();
+                _expenseCategoryModel = new();
                 await Task.Delay((int)Delay.DataError);
                 _toastService.ShowToast("No record found!", Theme.Danger);
             }
@@ -67,14 +67,14 @@ public partial class SetupExpenseOffCanvas : ComponentBase
     {
         try
         {
-            _expenseModel = await _expenseService.GetRecordById(id);
-            if (_expenseModel is not null)
+            _expenseCategoryModel = await _expenseCategoryService.GetRecordById(id);
+            if (_expenseCategoryModel is not null)
             {
                 await _offCanvasService.ViewRecordAsync(id);
             }
             else
             {
-                _expenseModel = new();
+                _expenseCategoryModel = new();
                 await Task.Delay((int)Delay.DataError);
                 _toastService.ShowToast("No record found!", Theme.Danger);
             }
@@ -119,25 +119,25 @@ public partial class SetupExpenseOffCanvas : ComponentBase
 
             if (offCanvasViewType == OffCanvasViewType.Add)
             {
-                await _expenseService.CreateRecord(_expenseModel);
+                await _expenseCategoryService.CreateRecord(_expenseCategoryModel);
 
-                _expenseModel.Id = await _expenseService.GetLastInsertedId();
-                _toastService.ShowToast("Expense added!", Theme.Success);
+                _expenseCategoryModel.Id = await _expenseCategoryService.GetLastInsertedId();
+                _toastService.ShowToast("Expense category added!", Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Edit)
             {
-                await _expenseService.UpdateRecord(_expenseModel);
-                _toastService.ShowToast("Expense updated!", Theme.Success);
+                await _expenseCategoryService.UpdateRecord(_expenseCategoryModel);
+                _toastService.ShowToast("Expense category updated!", Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Archive)
             {
-                await _expenseService.ArchiveRecord(_expenseModel);
-                _toastService.ShowToast("Expense archived!", Theme.Success);
+                await _expenseCategoryService.ArchiveRecord(_expenseCategoryModel);
+                _toastService.ShowToast("Expense category archived!", Theme.Success);
             }
 
             _isProcessing = false;
 
-            DataModel = _expenseModel;
+            DataModel = _expenseCategoryModel;
 
             await OnSubmitSuccess.InvokeAsync();
 
@@ -164,7 +164,7 @@ public partial class SetupExpenseOffCanvas : ComponentBase
 
     private async Task CloseOffCanvasAsync()
     {
-        _expenseModel = new();
+        _expenseCategoryModel = new();
 
         await _offCanvasService.CloseAsync();
         await Task.CompletedTask;

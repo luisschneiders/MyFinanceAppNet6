@@ -1,14 +1,14 @@
 ﻿using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
-using MainApp.Pages.SetupPage.Expense;
+using MainApp.Pages.SetupPage.ExpenseCategory;
 using Microsoft.AspNetCore.Components;
 
-namespace MainApp.Pages.SetupPage.Expense;
+namespace MainApp.Pages.SetupPage.ExpenseCategory;
 
-public partial class SetupExpenseLeftPanel : ComponentBase
+public partial class SetupExpenseCategoryPanelLeft : ComponentBase
 {
     [Inject]
-    IExpenseService<ExpenseModel> _expenseService { get; set; } = default!;
+    IExpenseCategoryService<ExpenseCategoryModel> _expenseCategoryService { get; set; } = default!;
 
     [Inject]
     private ToastService _toastService { get; set; } = new();
@@ -19,17 +19,17 @@ public partial class SetupExpenseLeftPanel : ComponentBase
     /*
      * Add OffCanvas component reference
      */
-    private SetupExpenseOffCanvas _setupOffCanvas { get; set; } = new();
-    private ExpenseModel _expenseModel { get; set; } = new();
+    private SetupExpenseCategoryOffCanvas _setupOffCanvas { get; set; } = new();
+    private ExpenseCategoryModel _expenseCategoryModel { get; set; } = new();
 
-    private List<ExpenseModel> _expenses { get; set; } = new();
-    private List<ExpenseModel> _searchResults { get; set; } = new();
+    private List<ExpenseCategoryModel> _expenseCategories { get; set; } = new();
+    private List<ExpenseCategoryModel> _searchResults { get; set; } = new();
     private string _searchTerm { get; set; } = string.Empty;
     private bool _isSearching { get; set; } = false;
     private bool _isLoading { get; set; } = true;
     private bool _searchButtonEnabled { get; set; } = false;
 
-    public SetupExpenseLeftPanel()
+    public SetupExpenseCategoryPanelLeft()
     {
     }
 
@@ -73,7 +73,7 @@ public partial class SetupExpenseLeftPanel : ComponentBase
             if (!string.IsNullOrWhiteSpace(_searchTerm))
             {
                 _isSearching = true;
-                _searchResults = await _expenseService.GetSearchResults(_searchTerm);
+                _searchResults = await _expenseCategoryService.GetSearchResults(_searchTerm);
                 StateHasChanged();
             }
         }
@@ -91,7 +91,7 @@ public partial class SetupExpenseLeftPanel : ComponentBase
     {
         try
         {
-            _expenses = await _expenseService.GetRecords();
+            _expenseCategories = await _expenseCategoryService.GetRecords();
             _isLoading = false;
         }
         catch (Exception ex)
@@ -104,11 +104,11 @@ public partial class SetupExpenseLeftPanel : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task UpdateStatusAsync(ExpenseModel expenseModel)
+    private async Task UpdateStatusAsync(ExpenseCategoryModel expenseCategoryModel)
     {
         try
         {
-            await _expenseService.UpdateRecordStatus(expenseModel);
+            await _expenseCategoryService.UpdateRecordStatus(expenseCategoryModel);
         }
         catch (Exception ex)
         {
@@ -121,26 +121,26 @@ public partial class SetupExpenseLeftPanel : ComponentBase
     private async Task RefreshList()
     {
         // TODO: add service to refresh the list
-        ExpenseModel updatedModel = _setupOffCanvas.DataModel;
-        ExpenseModel model = _expenses.FirstOrDefault(b => b.Id == updatedModel.Id)!;
+        ExpenseCategoryModel updatedModel = _setupOffCanvas.DataModel;
+        ExpenseCategoryModel model = _expenseCategories.FirstOrDefault(b => b.Id == updatedModel.Id)!;
 
-        var index = _expenses.IndexOf(model);
+        var index = _expenseCategories.IndexOf(model);
 
         if (index != -1)
         {
             if (updatedModel.IsArchived)
             {
-                var archivedModel = _expenses[index] = updatedModel;
-                _expenses.Remove(archivedModel);
+                var archivedModel = _expenseCategories[index] = updatedModel;
+                _expenseCategories.Remove(archivedModel);
             }
             else
             {
-                _expenses[index] = updatedModel;
+                _expenseCategories[index] = updatedModel;
             }
         }
         else
         {
-            _expenses.Add(updatedModel);
+            _expenseCategories.Add(updatedModel);
         }
 
         await InvokeAsync(StateHasChanged);
@@ -153,11 +153,11 @@ public partial class SetupExpenseLeftPanel : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task EditRecordAsync(ExpenseModel expenseModel)
+    private async Task EditRecordAsync(ExpenseCategoryModel expenseCategoryModel)
     {
         try
         {
-            await _setupOffCanvas.EditRecordOffCanvasAsync(expenseModel.Id.ToString());
+            await _setupOffCanvas.EditRecordOffCanvasAsync(expenseCategoryModel.Id.ToString());
         }
         catch (Exception ex)
         {
@@ -167,11 +167,11 @@ public partial class SetupExpenseLeftPanel : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task ViewRecordAsync(ExpenseModel expenseModel)
+    private async Task ViewRecordAsync(ExpenseCategoryModel expenseCategoryModel)
     {
         try
         {
-            await _setupOffCanvas.ViewRecordOffCanvasAsync(expenseModel.Id.ToString());
+            await _setupOffCanvas.ViewRecordOffCanvasAsync(expenseCategoryModel.Id.ToString());
         }
         catch (Exception ex)
         {

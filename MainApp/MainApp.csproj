@@ -20,7 +20,6 @@
     <None Remove="Microsoft.AspNetCore.Components.DataAnnotations.Validation" />
     <None Remove="Pages\SetupPage\Bank\" />
     <None Remove="Pages\SetupPage\Bank\SetupBankLeftPanel.razorcs" />
-    <None Remove="Pages\SetupPage\Expense\" />
     <None Remove="Pages\SetupPage\Vehicle\" />
   </ItemGroup>
   <ItemGroup>
@@ -32,7 +31,6 @@
     <Folder Include="Pages\SetupPage\" />
     <Folder Include="Services\" />
     <Folder Include="Pages\SetupPage\Bank\" />
-    <Folder Include="Pages\SetupPage\Expense\" />
     <Folder Include="Pages\SetupPage\Vehicle\" />
   </ItemGroup>
 </Project>
