@@ -49,6 +49,7 @@ public static class RegisterServices
         builder.Services.AddSingleton<IDataAccess, MysqlDataAccess>();
         builder.Services.AddSingleton<IBankData<BankModel>, BankData>();
         builder.Services.AddSingleton<IExpenseData<ExpenseModel>, ExpenseData>();
+        builder.Services.AddSingleton<ITransactionCategoryData<TransactionCategoryModel>, TransactionCategoryData>();
     }
 
     public static void AddScopedServices(this WebApplicationBuilder builder)
@@ -59,5 +60,6 @@ public static class RegisterServices
         builder.Services.AddScoped<IOffCanvasService, OffCanvasService>();
         builder.Services.AddScoped<IBankService, BankService>();
         builder.Services.AddScoped<IExpenseService, ExpenseService>();
+        builder.Services.AddScoped<ITransactionCategoryService, TransactionCategoryService>();
     }
 }

@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using MyFinanceAppLibrary.DataAccess.Sql;
 
 namespace MainApp.Services;
 
-public class BankService : IBankService
+public class TransactionCategoryService : ITransactionCategoryService
 {
     [Inject]
-    private IBankData<BankModel> _bankData { get; set; } = default!;
+    private ITransactionCategoryData<TransactionCategoryModel> _transactionCategoryData { get; set; } = default!;
 
     [Inject]
     private AuthenticationStateProvider _authProvider { get; set; } = default!;
@@ -17,20 +16,20 @@ public class BankService : IBankService
 
     private UserModel _loggedInUser { get; set; } = new();
 
-    public BankService(IBankData<BankModel> bankData, IUserData userData, AuthenticationStateProvider authProvider)
+    public TransactionCategoryService(ITransactionCategoryData<TransactionCategoryModel> transactionCategoryData, IUserData userData, AuthenticationStateProvider authProvider)
     {
-        _bankData = bankData;
+        _transactionCategoryData = transactionCategoryData;
         _userData = userData;
         _authProvider = authProvider;
     }
 
     // TODO: Add pagination capabilities
-    public async Task<List<BankModel>> GetBanks()
+    public async Task<List<TransactionCategoryModel>> GetTransactionCategories()
     {
         try
         {
             var user = await GetLoggedInUser();
-            List<BankModel> results = await _bankData.GetRecords(user.Id);
+            List<TransactionCategoryModel> results = await _transactionCategoryData.GetRecords(user.Id);
             return results;
         }
         catch (Exception ex)
@@ -40,12 +39,12 @@ public class BankService : IBankService
         }
     }
 
-    public async Task<List<BankModel>> GetSearchResults(string search)
+    public async Task<List<TransactionCategoryModel>> GetSearchResults(string search)
     {
         try
         {
             var user = await GetLoggedInUser();
-            List<BankModel> results = await _bankData.GetSearchResults(user.Id, search);
+            List<TransactionCategoryModel> results = await _transactionCategoryData.GetSearchResults(user.Id, search);
             return results;
         }
         catch (Exception ex)
@@ -55,12 +54,12 @@ public class BankService : IBankService
         }
     }
 
-    public async Task<BankModel> GetBankById(string modelId)
+    public async Task<TransactionCategoryModel> GetTransactionCategoryById(string modelId)
     {
         try
         {
             var user = await GetLoggedInUser();
-            BankModel result = await _bankData.GetRecordById(user.Id, modelId);
+            TransactionCategoryModel result = await _transactionCategoryData.GetRecordById(user.Id, modelId);
             return result;
         }
         catch (Exception ex)
@@ -72,25 +71,23 @@ public class BankService : IBankService
 
     public async Task<ulong> GetLastInsertedId()
     {
-        var lastInsertedId = await _bankData.GetLastInsertedId();
+        var lastInsertedId = await _transactionCategoryData.GetLastInsertedId();
         return await Task.FromResult(lastInsertedId);
     }
 
-    public async Task CreateBank(BankModel model)
+    public async Task CreateTransactionCategory(TransactionCategoryModel model)
     {
         try
         {
             var user = await GetLoggedInUser();
-            BankModel newBank = new()
+            TransactionCategoryModel newTransactionCategory = new()
             {
-                Account = model.Account,
                 Description = model.Description,
-                InitialBalance = model.CurrentBalance,
-                CurrentBalance = model.CurrentBalance,
+                ActionType = model.ActionType,
                 UpdatedBy = user.Id
             };
 
-            await _bankData.CreateRecord(newBank);
+            await _transactionCategoryData.CreateRecord(newTransactionCategory);
         }
         catch (Exception ex)
         {
@@ -99,24 +96,23 @@ public class BankService : IBankService
         }
     }
 
-    public async Task UpdateBank(BankModel model)
+    public async Task UpdateTransactionCategory(TransactionCategoryModel model)
     {
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
         {
             var user = await GetLoggedInUser();
-            BankModel newBank = new()
+            TransactionCategoryModel newTransactionCategory = new()
             {
                 Id = model.Id,
-                Account = model.Account,
                 Description = model.Description,
-                CurrentBalance = model.CurrentBalance,
+                ActionType = model.ActionType,
                 IsActive = model.IsActive,
                 UpdatedBy = user.Id,
                 UpdatedAt = DateTime.Now,
             };
 
-            await _bankData.UpdateRecord(newBank);
+            await _transactionCategoryData.UpdateRecord(newTransactionCategory);
         }
         catch (Exception ex)
         {
@@ -125,19 +121,19 @@ public class BankService : IBankService
         }
     }
 
-    public async Task UpdateBankStatus(BankModel model)
+    public async Task UpdateTransactionCategoryStatus(TransactionCategoryModel model)
     {
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
         {
             var user = await GetLoggedInUser();
 
-            BankModel bankStatusUpdate = model;
-            bankStatusUpdate.IsActive = !model.IsActive;
-            bankStatusUpdate.UpdatedBy = user.Id;
-            bankStatusUpdate.UpdatedAt = DateTime.Now;
+            TransactionCategoryModel transactionCategoryStatusUpdate = model;
+            transactionCategoryStatusUpdate.IsActive = !model.IsActive;
+            transactionCategoryStatusUpdate.UpdatedBy = user.Id;
+            transactionCategoryStatusUpdate.UpdatedAt = DateTime.Now;
 
-            await _bankData.UpdateRecordStatus(bankStatusUpdate);
+            await _transactionCategoryData.UpdateRecordStatus(transactionCategoryStatusUpdate);
         }
         catch (Exception ex)
         {
@@ -146,18 +142,18 @@ public class BankService : IBankService
         }
     }
 
-    public async Task ArchiveBank(BankModel model)
+    public async Task ArchiveTransactionCategory(TransactionCategoryModel model)
     {
         try
         {
             var user = await GetLoggedInUser();
 
-            BankModel bankStatusUpdate = model;
-            bankStatusUpdate.IsArchived = true;
-            bankStatusUpdate.UpdatedBy = user.Id;
-            bankStatusUpdate.UpdatedAt = DateTime.Now;
+            TransactionCategoryModel transactionCategoryStatusUpdate = model;
+            transactionCategoryStatusUpdate.IsArchived = true;
+            transactionCategoryStatusUpdate.UpdatedBy = user.Id;
+            transactionCategoryStatusUpdate.UpdatedAt = DateTime.Now;
 
-            await _bankData.ArchiveRecord(bankStatusUpdate);
+            await _transactionCategoryData.ArchiveRecord(transactionCategoryStatusUpdate);
         }
         catch (Exception ex)
         {

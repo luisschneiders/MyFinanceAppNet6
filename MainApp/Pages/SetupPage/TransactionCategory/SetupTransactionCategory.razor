@@ -1,4 +1,4 @@
-﻿@page "/setup/expense"
+﻿@page "/setup/transaction"
 
 @using MainApp.Components.Page
 @using MainApp.Components.Card
@@ -14,12 +14,12 @@
                 <PageTopView>
                     <PageTopWrapper>
                         <div class="d-flex flex-row">
-                            <PageTopTitle Title="Setup Expense" />
+                            <PageTopTitle Title="Setup Transaction" />
                             <sup>
                                 <Badge BackgroundColor="@Theme.Success" Message="New" />
                             </sup>
                         </div>
-                        <Breadcrumb AppPageLink="@EndPoint.SetupExpense" />
+                        <Breadcrumb AppPageLink="@EndPoint.SetupTransaction" />
                     </PageTopWrapper>
                 </PageTopView>
 
@@ -27,10 +27,10 @@
                     <PageMiddleWrapper>
                         <div class="row">
                             <div class="col-sm-12 col-lg-8">
-                                <SetupExpenseLeftPanel />
+                                <SetupTransactionCategoryPanelLeft />
                             </div>
                             <div class="col-sm-12 col-lg-4 d-none d-lg-block">
-                                <SetupExpenseRightPanel />
+                                <SetupTransactionCategoryPanelRight />
                             </div>
                         </div>
                     </PageMiddleWrapper>

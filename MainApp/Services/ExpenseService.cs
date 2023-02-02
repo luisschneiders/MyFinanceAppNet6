@@ -7,7 +7,7 @@ namespace MainApp.Services
     public class ExpenseService : IExpenseService
     {
         [Inject]
-        IExpenseData<ExpenseModel> _expenseData { get; set; } = default!;
+        private IExpenseData<ExpenseModel> _expenseData { get; set; } = default!;
 
         [Inject]
         private AuthenticationStateProvider _authProvider { get; set; } = default!;

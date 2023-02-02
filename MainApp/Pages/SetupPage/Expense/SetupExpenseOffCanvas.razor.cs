@@ -110,38 +110,48 @@ public partial class SetupExpenseOffCanvas : ComponentBase
 
     private async Task HandleValidSubmitAsync()
     {
-        _displayErrorMessages = false;
-        _isProcessing = true;
-
-        var offCanvasViewType = _offCanvasService.GetOffCanvasViewType();
-
-        if (offCanvasViewType == OffCanvasViewType.Add)
+        try
         {
-            await _expenseService.CreateExpense(_expenseModel);
+            _displayErrorMessages = false;
+            _isProcessing = true;
 
-            _expenseModel.Id = await _expenseService.GetLastInsertedId();
-            _toastService.ShowToast("Expense added!", Theme.Success);
+            var offCanvasViewType = _offCanvasService.GetOffCanvasViewType();
+
+            if (offCanvasViewType == OffCanvasViewType.Add)
+            {
+                await _expenseService.CreateExpense(_expenseModel);
+
+                _expenseModel.Id = await _expenseService.GetLastInsertedId();
+                _toastService.ShowToast("Expense added!", Theme.Success);
+            }
+            else if (offCanvasViewType == OffCanvasViewType.Edit)
+            {
+                await _expenseService.UpdateExpense(_expenseModel);
+                _toastService.ShowToast("Expense updated!", Theme.Success);
+            }
+            else if (offCanvasViewType == OffCanvasViewType.Archive)
+            {
+                await _expenseService.ArchiveExpense(_expenseModel);
+                _toastService.ShowToast("Expense archived!", Theme.Success);
+            }
+
+            _isProcessing = false;
+
+            DataModel = _expenseModel;
+
+            await OnSubmitSuccess.InvokeAsync();
+
+            await Task.Delay((int)Delay.DataSuccess);
+
+            await CloseOffCanvasAsync();
         }
-        else if (offCanvasViewType == OffCanvasViewType.Edit)
+        catch (Exception ex)
         {
-            await _expenseService.UpdateExpense(_expenseModel);
-            _toastService.ShowToast("Expense updated!", Theme.Success);
+            _isProcessing = false;
+
+            await Task.Delay((int)Delay.DataError);
+            _toastService.ShowToast(ex.Message, Theme.Danger);
         }
-        else if (offCanvasViewType == OffCanvasViewType.Archive)
-        {
-            await _expenseService.ArchiveExpense(_expenseModel);
-            _toastService.ShowToast("Expense archived!", Theme.Success);
-        }
-
-        _isProcessing = false;
-
-        DataModel = _expenseModel;
-
-        await OnSubmitSuccess.InvokeAsync();
-
-        await Task.Delay((int)Delay.DataSuccess);
-
-        await CloseOffCanvasAsync();
         await Task.CompletedTask;
     }
 

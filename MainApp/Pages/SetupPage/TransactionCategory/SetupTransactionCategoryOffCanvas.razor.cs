@@ -3,13 +3,12 @@ using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 using MyFinanceAppLibrary.Models;
 
-namespace MainApp.Pages.SetupPage.Bank;
+namespace MainApp.Pages.SetupPage.TransactionCategory;
 
-public partial class SetupBankOffCanvas
+public partial class SetupTransactionCategoryOffCanvas : ComponentBase
 {
-
     [Inject]
-    private IBankService _bankService { get; set; } = default!;
+    private ITransactionCategoryService _transactionCategoryService { get; set; } = default!;
 
     [Inject]
     private IOffCanvasService _offCanvasService { get; set; } = default!;
@@ -21,20 +20,49 @@ public partial class SetupBankOffCanvas
     public EventCallback OnSubmitSuccess { get; set; }
 
     [Parameter]
-    public BankModel DataModel { get; set; } = default!;
+    public TransactionCategoryModel DataModel { get; set; } = default!;
 
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
 
-    private BankModel _bankModel { get; set; } = new();
+    private TransactionCategoryModel _transactionCategoryModel { get; set; } = new();
 
-    public SetupBankOffCanvas()
+    private List<ActionTypeModel> _actionTypes { get; set; } = new();
+
+    public SetupTransactionCategoryOffCanvas()
     {
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+
+        ActionTypeModel actionTypeModel = new()
+        {
+            Id = "C",
+            Name = "Credit"
+        };
+        _actionTypes.Add(actionTypeModel);
+
+        actionTypeModel = new()
+        {
+            Id = "D",
+            Name = "Debit"
+        };
+        _actionTypes.Add(actionTypeModel);
+
+        actionTypeModel = new()
+        {
+            Id = "T",
+            Name = "Transfer"
+        };
+        _actionTypes.Add(actionTypeModel);
+
+        await Task.CompletedTask;
     }
 
     public async Task AddRecordOffCanvasAsync()
     {
-        _bankModel = new();
+        _transactionCategoryModel = new();
 
         await _offCanvasService.AddRecordAsync();
         await Task.CompletedTask;
@@ -44,14 +72,14 @@ public partial class SetupBankOffCanvas
     {
         try
         {
-            _bankModel = await _bankService.GetBankById(id);
-            if (_bankModel is not null)
+            _transactionCategoryModel = await _transactionCategoryService.GetTransactionCategoryById(id);
+            if (_transactionCategoryModel is not null)
             {
                 await _offCanvasService.EditRecordAsync(id);
             }
             else
             {
-                _bankModel = new();
+                _transactionCategoryModel = new();
                 await Task.Delay((int)Delay.DataError);
                 _toastService.ShowToast("No record found!", Theme.Danger);
             }
@@ -68,14 +96,14 @@ public partial class SetupBankOffCanvas
     {
         try
         {
-            _bankModel = await _bankService.GetBankById(id);
-            if (_bankModel is not null)
+            _transactionCategoryModel = await _transactionCategoryService.GetTransactionCategoryById(id);
+            if (_transactionCategoryModel is not null)
             {
                 await _offCanvasService.ViewRecordAsync(id);
             }
             else
             {
-                _bankModel = new();
+                _transactionCategoryModel = new();
                 await Task.Delay((int)Delay.DataError);
                 _toastService.ShowToast("No record found!", Theme.Danger);
             }
@@ -120,28 +148,24 @@ public partial class SetupBankOffCanvas
 
             if (offCanvasViewType == OffCanvasViewType.Add)
             {
-                // Set the initial balance equal to current balance for new records
-                _bankModel.InitialBalance = _bankModel.CurrentBalance;
+                await _transactionCategoryService.CreateTransactionCategory(_transactionCategoryModel);
 
-                await _bankService.CreateBank(_bankModel);
-
-                _bankModel.Id = await _bankService.GetLastInsertedId();
-                _toastService.ShowToast("Bank added!", Theme.Success);
+                _transactionCategoryModel.Id = await _transactionCategoryService.GetLastInsertedId();
+                _toastService.ShowToast("Transaction Category added!", Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Edit)
             {
-                await _bankService.UpdateBank(_bankModel);
-                _toastService.ShowToast("Bank updated!", Theme.Success);
+                await _transactionCategoryService.UpdateTransactionCategory(_transactionCategoryModel);
+                _toastService.ShowToast("Transaction Category updated!", Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Archive)
             {
-                await _bankService.ArchiveBank(_bankModel);
-                _toastService.ShowToast("Bank archived!", Theme.Success);
+                await _transactionCategoryService.ArchiveTransactionCategory(_transactionCategoryModel);
+                _toastService.ShowToast("Transaction Category archived!", Theme.Success);
             }
-
             _isProcessing = false;
 
-            DataModel = _bankModel;
+            DataModel = _transactionCategoryModel;
 
             await OnSubmitSuccess.InvokeAsync();
 
@@ -169,7 +193,7 @@ public partial class SetupBankOffCanvas
 
     private async Task CloseOffCanvasAsync()
     {
-        _bankModel = new();
+        _transactionCategoryModel = new();
 
         await _offCanvasService.CloseAsync();
         await Task.CompletedTask;
