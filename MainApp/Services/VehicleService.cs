@@ -29,12 +29,12 @@ public class VehicleService : IVehicleService<VehicleModel>
         {
             var user = await GetLoggedInUser();
 
-            VehicleModel modelStatusUpdate = model;
-            modelStatusUpdate.IsArchived = true;
-            modelStatusUpdate.UpdatedBy = user.Id;
-            modelStatusUpdate.UpdatedAt = DateTime.Now;
+            VehicleModel recordModel = model;
+            recordModel.IsArchived = true;
+            recordModel.UpdatedBy = user.Id;
+            recordModel.UpdatedAt = DateTime.Now;
 
-            await _vehicleData.ArchiveRecord(modelStatusUpdate);
+            await _vehicleData.ArchiveRecord(recordModel);
         }
         catch (Exception ex)
         {
@@ -48,14 +48,14 @@ public class VehicleService : IVehicleService<VehicleModel>
         try
         {
             var user = await GetLoggedInUser();
-            VehicleModel newRecord = new()
+            VehicleModel recordModel = new()
             {
                 Description = model.Description,
                 Plate = model.Plate,
                 UpdatedBy = user.Id
             };
 
-            await _vehicleData.CreateRecord(newRecord);
+            await _vehicleData.CreateRecord(recordModel);
         }
         catch (Exception ex)
         {
@@ -122,7 +122,7 @@ public class VehicleService : IVehicleService<VehicleModel>
         try
         {
             var user = await GetLoggedInUser();
-            VehicleModel updatedModel = new()
+            VehicleModel recordModel = new()
             {
                 Id = model.Id,
                 Description = model.Description,
@@ -132,7 +132,7 @@ public class VehicleService : IVehicleService<VehicleModel>
                 UpdatedAt = DateTime.Now,
             };
 
-            await _vehicleData.UpdateRecord(updatedModel);
+            await _vehicleData.UpdateRecord(recordModel);
         }
         catch (Exception ex)
         {
@@ -148,12 +148,12 @@ public class VehicleService : IVehicleService<VehicleModel>
         {
             var user = await GetLoggedInUser();
 
-            VehicleModel modelStatusUpdate = model;
-            modelStatusUpdate.IsActive = !model.IsActive;
-            modelStatusUpdate.UpdatedBy = user.Id;
-            modelStatusUpdate.UpdatedAt = DateTime.Now;
+            VehicleModel recordModel = model;
+            recordModel.IsActive = !model.IsActive;
+            recordModel.UpdatedBy = user.Id;
+            recordModel.UpdatedAt = DateTime.Now;
 
-            await _vehicleData.UpdateRecordStatus(modelStatusUpdate);
+            await _vehicleData.UpdateRecordStatus(recordModel);
         }
         catch (Exception ex)
         {

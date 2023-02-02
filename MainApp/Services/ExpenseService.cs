@@ -81,13 +81,13 @@ namespace MainApp.Services
             try
             {
                 var user = await GetLoggedInUser();
-                ExpenseModel newExpense = new()
+                ExpenseModel recordModel = new()
                 {
                     Description = model.Description,
                     UpdatedBy = user.Id
                 };
 
-                await _expenseData.CreateRecord(newExpense);
+                await _expenseData.CreateRecord(recordModel);
             }
             catch (Exception ex)
             {
@@ -102,7 +102,7 @@ namespace MainApp.Services
             try
             {
                 var user = await GetLoggedInUser();
-                ExpenseModel newExpense = new()
+                ExpenseModel recordModel = new()
                 {
                     Id = model.Id,
                     Description = model.Description,
@@ -111,7 +111,7 @@ namespace MainApp.Services
                     UpdatedAt = DateTime.Now,
                 };
 
-                await _expenseData.UpdateRecord(newExpense);
+                await _expenseData.UpdateRecord(recordModel);
             }
             catch (Exception ex)
             {
@@ -127,12 +127,12 @@ namespace MainApp.Services
             {
                 var user = await GetLoggedInUser();
 
-                ExpenseModel expenseStatusUpdate = model;
-                expenseStatusUpdate.IsActive = !model.IsActive;
-                expenseStatusUpdate.UpdatedBy = user.Id;
-                expenseStatusUpdate.UpdatedAt = DateTime.Now;
+                ExpenseModel recordModel = model;
+                recordModel.IsActive = !model.IsActive;
+                recordModel.UpdatedBy = user.Id;
+                recordModel.UpdatedAt = DateTime.Now;
 
-                await _expenseData.UpdateRecordStatus(expenseStatusUpdate);
+                await _expenseData.UpdateRecordStatus(recordModel);
             }
             catch (Exception ex)
             {
@@ -147,12 +147,12 @@ namespace MainApp.Services
             {
                 var user = await GetLoggedInUser();
 
-                ExpenseModel expenseStatusUpdate = model;
-                expenseStatusUpdate.IsArchived = true;
-                expenseStatusUpdate.UpdatedBy = user.Id;
-                expenseStatusUpdate.UpdatedAt = DateTime.Now;
+                ExpenseModel recordModel = model;
+                recordModel.IsArchived = true;
+                recordModel.UpdatedBy = user.Id;
+                recordModel.UpdatedAt = DateTime.Now;
 
-                await _expenseData.ArchiveRecord(expenseStatusUpdate);
+                await _expenseData.ArchiveRecord(recordModel);
             }
             catch (Exception ex)
             {
