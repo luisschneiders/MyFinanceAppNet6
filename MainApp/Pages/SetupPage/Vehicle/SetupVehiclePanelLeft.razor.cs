@@ -1,13 +1,14 @@
 ﻿using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
+using MainApp.Pages.SetupPage.Vehicle;
 using Microsoft.AspNetCore.Components;
 
-namespace MainApp.Pages.SetupPage.Bank;
+namespace MainApp.Pages.SetupPage.Vehicle;
 
-public partial class SetupBankLeftPanel : ComponentBase
+public partial class SetupVehiclePanelLeft : ComponentBase
 {
     [Inject]
-    IBankService<BankModel> _bankService { get; set; } = default!;
+    IVehicleService<VehicleModel> _vehicleService { get; set; } = default!;
 
     [Inject]
     private ToastService _toastService { get; set; } = new();
@@ -18,20 +19,19 @@ public partial class SetupBankLeftPanel : ComponentBase
     /*
      * Add OffCanvas component reference
      */
-    private SetupBankOffCanvas _setupOffCanvas { get; set; } = new();
-    private BankModel _bankModel { get; set; } = new();
+    private SetupVehicleOffCanvas _setupOffCanvas { get; set; } = new();
+    private VehicleModel _vehicleModel { get; set; } = new();
 
-    private List<BankModel> _banks { get; set; } = new();
-    private List<BankModel> _searchResults { get; set; } = new();
+    private List<VehicleModel> _vehicles { get; set; } = new();
+    private List<VehicleModel> _searchResults { get; set; } = new();
     private string _searchTerm { get; set; } = string.Empty;
     private bool _isSearching { get; set; } = false;
     private bool _isLoading { get; set; } = true;
     private bool _searchButtonEnabled { get; set; } = false;
 
-    public SetupBankLeftPanel()
+    public SetupVehiclePanelLeft()
     {
     }
-
     protected async override Task OnInitializedAsync()
     {
         await FetchDataAsync();
@@ -72,7 +72,7 @@ public partial class SetupBankLeftPanel : ComponentBase
             if (!string.IsNullOrWhiteSpace(_searchTerm))
             {
                 _isSearching = true;
-                _searchResults = await _bankService.GetSearchResults(_searchTerm);
+                _searchResults = await _vehicleService.GetSearchResults(_searchTerm);
                 StateHasChanged();
             }
         }
@@ -90,7 +90,7 @@ public partial class SetupBankLeftPanel : ComponentBase
     {
         try
         {
-            _banks = await _bankService.GetRecords();
+            _vehicles = await _vehicleService.GetRecords();
             _isLoading = false;
         }
         catch (Exception ex)
@@ -103,11 +103,11 @@ public partial class SetupBankLeftPanel : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task UpdateStatusAsync(BankModel bankModel)
+    private async Task UpdateStatusAsync(VehicleModel vehicleModel)
     {
         try
         {
-            await _bankService.UpdateRecordStatus(bankModel);
+            await _vehicleService.UpdateRecordStatus(vehicleModel);
         }
         catch (Exception ex)
         {
@@ -120,26 +120,26 @@ public partial class SetupBankLeftPanel : ComponentBase
     private async Task RefreshList()
     {
         // TODO: add service to refresh the list
-        BankModel updatedModel = _setupOffCanvas.DataModel;
-        BankModel model = _banks.FirstOrDefault(b => b.Id == updatedModel.Id)!;
+        VehicleModel updatedModel = _setupOffCanvas.DataModel;
+        VehicleModel model = _vehicles.FirstOrDefault(b => b.Id == updatedModel.Id)!;
 
-        var index = _banks.IndexOf(model);
+        var index = _vehicles.IndexOf(model);
 
         if (index != -1)
         {
             if (updatedModel.IsArchived)
             {
-                var archivedModel = _banks[index] = updatedModel;
-                _banks.Remove(archivedModel);
+                var archivedModel = _vehicles[index] = updatedModel;
+                _vehicles.Remove(archivedModel);
             }
             else
             {
-                _banks[index] = updatedModel;
+                _vehicles[index] = updatedModel;
             }
         }
         else
         {
-            _banks.Add(updatedModel);
+            _vehicles.Add(updatedModel);
         }
 
         await InvokeAsync(StateHasChanged);
@@ -152,11 +152,11 @@ public partial class SetupBankLeftPanel : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task EditRecordAsync(BankModel bankModel)
+    private async Task EditRecordAsync(VehicleModel vehicleModel)
     {
         try
         {
-            await _setupOffCanvas.EditRecordOffCanvasAsync(bankModel.Id.ToString());
+            await _setupOffCanvas.EditRecordOffCanvasAsync(vehicleModel.Id.ToString());
         }
         catch (Exception ex)
         {
@@ -166,11 +166,11 @@ public partial class SetupBankLeftPanel : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task ViewRecordAsync(BankModel bankModel)
+    private async Task ViewRecordAsync(VehicleModel vehicleModel)
     {
         try
         {
-            await _setupOffCanvas.ViewRecordOffCanvasAsync(bankModel.Id.ToString());
+            await _setupOffCanvas.ViewRecordOffCanvasAsync(vehicleModel.Id.ToString());
         }
         catch (Exception ex)
         {

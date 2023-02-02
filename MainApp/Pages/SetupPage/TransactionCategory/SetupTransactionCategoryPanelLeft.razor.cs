@@ -1,6 +1,6 @@
 ﻿using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
-using MainApp.Pages.SetupPage.Expense;
+using MainApp.Pages.SetupPage.TransactionCategory;
 using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Pages.SetupPage.TransactionCategory;
@@ -96,6 +96,7 @@ public partial class SetupTransactionCategoryPanelLeft : ComponentBase
         }
         catch (Exception ex)
         {
+            _isLoading = false;
             await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }

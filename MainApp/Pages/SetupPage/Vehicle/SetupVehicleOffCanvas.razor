@@ -3,7 +3,7 @@
 @using MainApp.Components.Badge
 
 <OffCanvas @ref="_offCanvasService.OffCanvas" PositionX="Position.End">
-    <EditForm Model="@_transactionCategoryModel"
+    <EditForm Model="@_vehicleModel"
               OnValidSubmit="@HandleValidSubmitAsync"
               OnInvalidSubmit="@HandleInvalidSubmitAsync"
               autocomplete="off">
@@ -13,7 +13,7 @@
                 <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing...")" />
             </div>
             @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                  _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
+                   _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
             {
                 <div class="col my-4 d-flex justify-content-end">
                     <DropdownActions IconColor="@Theme.Success">
@@ -47,30 +47,22 @@
                 <div class="form-floating mb-3">
                     <InputText class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                         _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? "form-control-plaintext" : "form-control")"
-                               id="TransactionCategoryDescription"
+                               id="VehicleDescription"
                                placeholder="Description"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
-                               @bind-Value="_transactionCategoryModel.Description" />
-                    <label for="TransactionCategoryDescription">Description</label>
+                               @bind-Value="_vehicleModel.Description" />
+                    <label for="VehicleDescription">Description</label>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
                 <div class="form-floating mb-3">
-                    <InputSelect class="form-select"
-                                 id="TransactionCategoryActionType"
-                                 disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                 _offCanvasService.GetOffCanvasViewType()== OffCanvasViewType.Archive) ? true: false)"
-                                 @bind-Value="_transactionCategoryModel.ActionType">
-                        <option value="">-- Select action type --</option>
-                        @foreach (var (item, index) in _actionTypes.Select((value, index) => (value, index)))
-                        {
-                            <option value="@item.Id">@item.Name</option>
-                        }
-                    </InputSelect>
-                    <label for="ActionType">Action</label>
+                    <InputText class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? "form-control-plaintext" : "form-control")"
+                               id="VehiclePlate"
+                               placeholder="Plate"
+                               readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
+                               @bind-Value="_vehicleModel.Plate" />
+                    <label for="VehiclePlate">Plate</label>
                 </div>
             </div>
         </div>
@@ -84,13 +76,13 @@
                                        type="checkbox"
                                        role="switch"
                                        id="IsActive"
-                                       @bind-Value="_transactionCategoryModel.IsActive" />
+                                       @bind-Value="_vehicleModel.IsActive" />
                     </div>
                 </div>
             </div>
         }
         @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add ||
-              _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
+               _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
         {
             <div class="py-2">
                 <hr />

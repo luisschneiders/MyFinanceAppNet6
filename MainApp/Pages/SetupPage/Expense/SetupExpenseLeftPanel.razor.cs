@@ -96,6 +96,7 @@ public partial class SetupExpenseLeftPanel : ComponentBase
         }
         catch (Exception ex)
         {
+            _isLoading = false;
             await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
