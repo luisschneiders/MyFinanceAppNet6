@@ -151,17 +151,17 @@ public partial class SetupTransactionCategoryOffCanvas : ComponentBase
                 await _transactionCategoryService.CreateRecord(_transactionCategoryModel);
 
                 _transactionCategoryModel.Id = await _transactionCategoryService.GetLastInsertedId();
-                _toastService.ShowToast("Transaction Category added!", Theme.Success);
+                _toastService.ShowToast("Transaction category added!", Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Edit)
             {
                 await _transactionCategoryService.UpdateRecord(_transactionCategoryModel);
-                _toastService.ShowToast("Transaction Category updated!", Theme.Success);
+                _toastService.ShowToast("Transaction category updated!", Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Archive)
             {
                 await _transactionCategoryService.ArchiveRecord(_transactionCategoryModel);
-                _toastService.ShowToast("Transaction Category archived!", Theme.Success);
+                _toastService.ShowToast("Transaction category archived!", Theme.Success);
             }
             _isProcessing = false;
 

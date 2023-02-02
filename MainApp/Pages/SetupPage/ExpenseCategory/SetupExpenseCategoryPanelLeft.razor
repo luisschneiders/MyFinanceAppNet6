@@ -119,7 +119,7 @@
                                 else
                                 {
 
-                                    @if (_expenses.Count <= 0)
+                                    @if (_expenseCategories.Count <= 0)
                                     {
                                         <tr>
                                             <td class="text-center" colspan="4">
@@ -131,7 +131,7 @@
                                     }
                                     else
                                     {
-                                        foreach (var record in _expenses)
+                                        foreach (var record in _expenseCategories)
                                         {
 
                                             <tr>
@@ -190,5 +190,5 @@
         </div>
     </CardMiddle>
 </CardView>
-<SetupExpenseOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" DataModel="_expenseModel" />
+<SetupExpenseCategoryOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" DataModel="_expenseCategoryModel" />
 <Toast />

@@ -3,7 +3,7 @@
 @using MainApp.Components.Badge
 
 <OffCanvas @ref="_offCanvasService.OffCanvas" PositionX="Position.End">
-    <EditForm Model="@_expenseModel"
+    <EditForm Model="@_expenseCategoryModel"
               OnValidSubmit="@HandleValidSubmitAsync"
               OnInvalidSubmit="@HandleInvalidSubmitAsync"
               autocomplete="off">
@@ -51,7 +51,7 @@
                                placeholder="Description"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
-                               @bind-Value="_expenseModel.Description" />
+                               @bind-Value="_expenseCategoryModel.Description" />
                     <label for="ExpenseDescription">Description</label>
                 </div>
             </div>
@@ -66,7 +66,7 @@
                                        type="checkbox"
                                        role="switch"
                                        id="IsActive"
-                                       @bind-Value="_expenseModel.IsActive" />
+                                       @bind-Value="_expenseCategoryModel.IsActive" />
                     </div>
                 </div>
             </div>
