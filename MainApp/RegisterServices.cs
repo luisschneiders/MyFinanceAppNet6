@@ -48,6 +48,7 @@ public static class RegisterServices
         //Mysql
         builder.Services.AddSingleton<IDataAccess, MysqlDataAccess>();
         builder.Services.AddSingleton<IBankData<BankModel>, BankData>();
+        builder.Services.AddSingleton<ICompanyData<CompanyModel>, CompanyData>();
         builder.Services.AddSingleton<IExpenseCategoryData<ExpenseCategoryModel>, ExpenseCategoryData>();
         builder.Services.AddSingleton<ITransactionCategoryData<TransactionCategoryModel>, TransactionCategoryData>();
         builder.Services.AddSingleton<IVehicleData<VehicleModel>, VehicleData>();
@@ -60,6 +61,7 @@ public static class RegisterServices
         builder.Services.AddScoped<IChartService, ChartService>();
         builder.Services.AddScoped<IOffCanvasService, OffCanvasService>();
         builder.Services.AddScoped<IBankService<BankModel>, BankService>();
+        builder.Services.AddScoped<ICompanyService<CompanyModel>, CompanyService>();
         builder.Services.AddScoped<IExpenseCategoryService<ExpenseCategoryModel>, ExpenseCategoryService>();
         builder.Services.AddScoped<ITransactionCategoryService<TransactionCategoryModel>, TransactionCategoryService>();
         builder.Services.AddScoped<IVehicleService<VehicleModel>, VehicleService>();
