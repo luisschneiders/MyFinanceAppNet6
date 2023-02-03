@@ -1,0 +1,130 @@
+﻿@using MainApp.Components.OffCanvas
+@using MainApp.Components.Dropdown
+@using MainApp.Components.Badge
+
+<OffCanvas @ref="_offCanvasService.OffCanvas" PositionX="Position.End">
+    <EditForm Model="@_companyModel"
+              OnValidSubmit="@HandleValidSubmitAsync"
+              OnInvalidSubmit="@HandleInvalidSubmitAsync"
+              autocomplete="off">
+        <ObjectGraphDataAnnotationsValidator />
+        <div class="row align-items-center">
+            <div class="col my-4">
+                <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing...")" />
+            </div>
+            @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                 _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
+            {
+                <div class="col my-4 d-flex justify-content-end">
+                    <DropdownActions IconColor="@Theme.Success">
+                        <li class="px-2">
+                            <button class="dropdown-item"
+                                    @onclick="ArchiveAsync">
+                                <i class="bi bi-archive pe-1"></i>Archive
+                            </button>
+                        </li>
+                    </DropdownActions>
+                </div>
+            }
+        </div>
+        @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View)
+        {
+            <div class="row">
+                <div class="col-sm-12">
+                    <button class="btn btn-primary w-100"
+                            type="button"
+                            @onclick="UpdateFormStateAsync">
+                        Edit
+                    </button>
+                </div>
+            </div>
+            <div class="py-3">
+                <hr />
+            </div>
+        }
+        <div class="row">
+            <div class="col-12">
+                <div class="form-floating mb-3">
+                    <InputText class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? "form-control-plaintext" : "form-control")"
+                               id="CompanyDescription"
+                               placeholder="Description"
+                               readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
+                               @bind-Value="_companyModel.Description" />
+                    <label for="CompanyDescription">Description</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputNumber class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? "form-control-plaintext" : "form-control")"
+                                 id="CompanyRate"
+                                 min="0.00"
+                                 placeholder="Rates"
+                                 readonly="@(_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ? true: false)"
+                                 @bind-Value="_companyModel.Rate" />
+                    <label for="CompanyRate">Rates</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputSelect class="form-select"
+                                 id="CompanyCType"
+                                 disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                 _offCanvasService.GetOffCanvasViewType()== OffCanvasViewType.Archive) ? true: false)"
+                                 @bind-Value="_companyModel.CType">
+                        <option value="0">-- Select type --</option>
+                        @foreach (var (cType, index) in _companyTypes.Select((value, index) => (value, index)))
+                        {
+                            int companyTypeValue = index + 1;
+                            <option value="@companyTypeValue"> @($"{cType}") </option>
+                        }
+                    </InputSelect>
+                    <label for="CompanyCType">Company Type</label>
+                </div>
+            </div>
+        </div>
+        @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
+        {
+            <div class="row">
+                <div class="col-12 d-flex align-items-start">
+                    <div class="form-check form-switch form-check-reverse">
+                        <label class="form-check-label" for="IsActive">Active?</label>
+                        <InputCheckbox class="form-check-input"
+                                       type="checkbox"
+                                       role="switch"
+                                       id="IsActive"
+                                       @bind-Value="_companyModel.IsActive" />
+                    </div>
+                </div>
+            </div>
+        }
+        @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add ||
+             _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
+        {
+            <div class="py-2">
+                <hr />
+            </div>
+            @if (_displayErrorMessages)
+            {
+                <div class="row">
+                    <div class="col-12">
+                        <ValidationSummary />
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="col-6">
+                    <button class="btn btn-outline-secondary w-100"
+                            @onclick="() => CloseOffCanvasAsync()">
+                        Cancel
+                    </button>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-success w-100"
+                            disabled="@(_isProcessing ? true : false)"
+                            type="submit">
+                        @(_isProcessing ? "Saving..." : "Save")
+                    </button>
+                </div>
+            </div>
+        }
+    </EditForm>
+</OffCanvas>
