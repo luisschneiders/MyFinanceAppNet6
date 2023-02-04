@@ -1,0 +1,28 @@
+﻿@using MainApp.Components.Card
+@using MainApp.Components.Badge
+
+<CardView Styles="w-100 border-0">
+    <CardMiddle>
+        <div class="row justify-content-between">
+            <div class="col-auto">
+                <div class="text-uppercase">
+                    Chart
+                    <sup>
+                        <Badge BackgroundColor="@Theme.Success" Message="New" />
+                    </sup>
+                </div>
+            </div>
+            <div class="col-auto">
+                <i class="bi bi-graph-up display-6 text-info"></i>
+            </div>
+        </div>
+        <Chart Id="BankBalanceSum"
+               Type="ChartType.Bar"
+               Title="Bank Balances"
+               Data="@(Data)"
+               BackgroundColor="@(_chartBackgroundColors)"
+               BorderColor="@(_chartBorderColors)"
+               Labels="@(_chartLabels)"
+               OnSubmitSuccess="SetChartObjectReference" />
+    </CardMiddle>
+</CardView>

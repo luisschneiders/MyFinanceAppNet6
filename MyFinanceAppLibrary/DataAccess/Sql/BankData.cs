@@ -56,6 +56,27 @@ public class BankData : IBankData<BankModel>
         }
     }
 
+    public async Task<BankModelBalanceSumDTO> GetBankBalancesSum(string userId)
+    {
+        try
+        {
+            var result = await _dataAccess.LoadData<BankModelBalanceSumDTO, dynamic>(
+                "myfinancedb.spBank_GetBalancesSum",
+                new
+                {
+                    userId = userId
+                },
+                "Mysql");
+
+            return result.FirstOrDefault()!;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public async Task<ulong> GetLastInsertedId()
     {
         var lastInsertedId = await _dataAccess.GetLastInsertedId();

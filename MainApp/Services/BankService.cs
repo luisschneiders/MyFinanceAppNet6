@@ -166,8 +166,24 @@ public class BankService : IBankService<BankModel>
         }
     }
 
+    public async Task<BankModelBalanceSumDTO> GetBankBalancesSum()
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            BankModelBalanceSumDTO result = await _bankData.GetBankBalancesSum(user.Id);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     private async Task<UserModel> GetLoggedInUser()
     {
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
     }
+
 }

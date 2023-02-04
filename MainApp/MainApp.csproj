@@ -22,6 +22,7 @@
     <None Remove="Pages\SetupPage\Bank\SetupBankLeftPanel.razorcs" />
     <None Remove="Pages\SetupPage\Vehicle\" />
     <None Remove="Pages\SetupPage\Company\" />
+    <None Remove="Components\Chart\Bank\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Web" Version="1.25.10" />
@@ -34,5 +35,6 @@
     <Folder Include="Pages\SetupPage\Bank\" />
     <Folder Include="Pages\SetupPage\Vehicle\" />
     <Folder Include="Pages\SetupPage\Company\" />
+    <Folder Include="Components\Chart\Bank\" />
   </ItemGroup>
 </Project>
