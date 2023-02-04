@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Pages.SetupPage.Bank;
 
-public partial class SetupBankLeftPanel : ComponentBase
+public partial class SetupBankPanelLeft : ComponentBase
 {
     [Inject]
     IBankService<BankModel> _bankService { get; set; } = default!;
@@ -28,7 +28,7 @@ public partial class SetupBankLeftPanel : ComponentBase
     private bool _isLoading { get; set; } = true;
     private bool _searchButtonEnabled { get; set; } = false;
 
-    public SetupBankLeftPanel()
+    public SetupBankPanelLeft()
     {
     }
 
