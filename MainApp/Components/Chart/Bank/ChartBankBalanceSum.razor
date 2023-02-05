@@ -6,7 +6,7 @@
         <div class="row justify-content-between">
             <div class="col-auto">
                 <div class="text-uppercase">
-                    Chart
+                    Bank
                     <sup>
                         <Badge BackgroundColor="@Theme.Success" Message="New" />
                     </sup>
@@ -17,9 +17,9 @@
             </div>
         </div>
         <Chart Id="BankBalanceSum"
-               Type="ChartType.Bar"
-               Title="Bank Balances"
-               Data="@(Data)"
+               Type="ChartType.Line"
+               Title="Balances"
+               Data="@(_chartData)"
                BackgroundColor="@(_chartBackgroundColors)"
                BorderColor="@(_chartBorderColors)"
                Labels="@(_chartLabels)"

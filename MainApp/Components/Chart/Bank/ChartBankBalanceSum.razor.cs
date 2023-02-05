@@ -1,6 +1,7 @@
 ﻿using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using MyFinanceAppLibrary.Models;
 
 namespace MainApp.Components.Chart.Bank;
 
@@ -9,12 +10,18 @@ public partial class ChartBankBalanceSum : ComponentBase
     [Inject]
     private IChartService _chartService { get; set; } = default!;
 
-    [Parameter]
-    public List<string> Data { get; set; } = new();
+    [Inject]
+    IBankService<BankModel> _bankService { get; set; } = default!;
+
+    [Inject]
+    private ToastService _toastService { get; set; } = new();
 
     private List<string> _chartBackgroundColors { get; set; } = new();
     private List<string> _chartBorderColors { get; set; } = new();
     private List<string> _chartLabels { get; set; } = new();
+    private List<string> _chartData { get; set; } = new();
+
+    private BankModelBalanceSumDTO _bankModelBalanceSumDTO { get; set; } = new();
 
     public ChartBankBalanceSum()
     {
@@ -28,9 +35,35 @@ public partial class ChartBankBalanceSum : ComponentBase
         _chartBorderColors.Add(BorderColor.Green);
     }
 
+    protected async override Task OnInitializedAsync()
+    {
+        await FetchDataAsync();
+        await Task.CompletedTask;
+    }
+
+    private async Task FetchDataAsync()
+    {
+        try
+        {
+            _bankModelBalanceSumDTO = await _bankService.GetBankBalancesSum();
+            _chartData.Add(_bankModelBalanceSumDTO.BankTotalInitialBalance.ToString());
+            _chartData.Add(_bankModelBalanceSumDTO.BankTotalCurrentBalance.ToString());
+
+            var chartObjectReference = await _chartService.GetChartObjectReference();
+            await _chartService.UpdateChartData(chartObjectReference, _chartData);
+        }
+        catch (Exception ex)
+        {
+            await Task.Delay((int)Delay.DataError);
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;
+    }
+
     private async Task SetChartObjectReference(IJSObjectReference chartObjectReference)
     {
-        await _chartService.UpdateChartData(chartObjectReference, Data);
+        await _chartService.UpdateChartData(chartObjectReference, _chartData);
         await Task.CompletedTask;
     }
 }
