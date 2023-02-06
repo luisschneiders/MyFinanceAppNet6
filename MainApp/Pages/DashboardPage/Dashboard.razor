@@ -6,6 +6,7 @@
 @using MainApp.Components.Badge
 @using MainApp.Components.Message
 @using MainApp.Components.Chart.Bank
+@using MainApp.Components.Spinner
 
 <div class="container-lg">
     <AuthorizeView>
@@ -23,10 +24,43 @@
                     <PageMiddleWrapper>
                         <div class="row g-3">
                             <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
+                                <CardView Styles="w-100 border-0">
+                                    @if (_isLoadingChartBankAccountActive)
+                                    {
+                                        <ChartBankAccountActive />
+                                    }
+                                    else
+                                    {
+                                        <div class="d-flex justify-content-center h-100">
+                                            <div class="d-flex align-items-center">
+                                                <Spinner Size="Size.Sm" />
+                                                <span class="ps-1">
+                                                    Loading ...
+                                                </span>
+                                            </div>
+                                        </div>
+                                    }
+                                </CardView>
 
                             </div>
                             <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
-                                <ChartBankBalanceSum />
+                                <CardView Styles="w-100 border-0">
+                                    @if (_isLoadingChartBankBalanceSum)
+                                    {
+                                        <ChartBankBalanceSum />
+                                    }
+                                    else
+                                    {
+                                        <div class="d-flex justify-content-center h-100">
+                                            <div class="d-flex align-items-center">
+                                                <Spinner Size="Size.Sm" />
+                                                <span class="ps-1">
+                                                    Loading ...
+                                                </span>
+                                            </div>
+                                        </div>
+                                    }
+                                </CardView>
                             </div>
                             <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
                                 <CardView Styles="w-100 border-0">

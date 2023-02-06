@@ -119,6 +119,24 @@ public class BankData : IBankData<BankModel>
         }
     }
 
+    public async Task<List<BankModel>> GetRecordsActive(string userId)
+    {
+        try
+        {
+            var results = await _dataAccess.LoadData<BankModel, dynamic>(
+                "myfinancedb.spBank_GetAllActive",
+                new { userId = userId },
+                "Mysql");
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public async Task<List<BankModel>> GetSearchResults(string userId, string search)
     {
         try

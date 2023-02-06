@@ -3,6 +3,7 @@
 public interface IBaseService<T>
 {
     Task<List<T>> GetRecords();
+    Task<List<T>> GetRecordsActive();
     Task<List<T>> GetSearchResults(string search);
     Task<T> GetRecordById(string modelId);
     Task<ulong> GetLastInsertedId();

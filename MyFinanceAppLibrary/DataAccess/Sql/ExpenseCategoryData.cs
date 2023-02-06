@@ -95,6 +95,11 @@ public class ExpenseCategoryData : IExpenseCategoryData<ExpenseCategoryModel>
         }
     }
 
+    public Task<List<ExpenseCategoryModel>> GetRecordsActive(string userId)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<List<ExpenseCategoryModel>> GetSearchResults(string userId, string search)
     {
         try

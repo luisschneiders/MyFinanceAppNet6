@@ -23,6 +23,8 @@ public partial class ChartBankBalanceSum : ComponentBase
 
     private BankModelBalanceSumDTO _bankModelBalanceSumDTO { get; set; } = new();
 
+    private IJSObjectReference _chartObjectReference = default!;
+
     public ChartBankBalanceSum()
     {
         _chartLabels.Add(Graphic.BankBalanceInitialSum);
@@ -37,8 +39,18 @@ public partial class ChartBankBalanceSum : ComponentBase
 
     protected async override Task OnInitializedAsync()
     {
-        await FetchDataAsync();
+        //await FetchDataAsync();
         await Task.CompletedTask;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await FetchDataAsync();
+        }
+        await Task.CompletedTask;
+
     }
 
     private async Task FetchDataAsync()
@@ -49,8 +61,8 @@ public partial class ChartBankBalanceSum : ComponentBase
             _chartData.Add(_bankModelBalanceSumDTO.BankTotalInitialBalance.ToString());
             _chartData.Add(_bankModelBalanceSumDTO.BankTotalCurrentBalance.ToString());
 
-            var chartObjectReference = await _chartService.GetChartObjectReference();
-            await _chartService.UpdateChartData(chartObjectReference, _chartData);
+            _chartObjectReference = await _chartService.GetChartObjectReference();
+            await _chartService.UpdateChartData(_chartObjectReference, _chartData);
         }
         catch (Exception ex)
         {

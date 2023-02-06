@@ -186,4 +186,18 @@ public class BankService : IBankService<BankModel>
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
     }
 
+    public async Task<List<BankModel>> GetRecordsActive()
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<BankModel> results = await _bankData.GetRecordsActive(user.Id);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
 }

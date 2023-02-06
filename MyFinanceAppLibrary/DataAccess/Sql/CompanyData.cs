@@ -97,6 +97,11 @@ public class CompanyData : ICompanyData<CompanyModel>
         }
     }
 
+    public Task<List<CompanyModel>> GetRecordsActive(string userId)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<List<CompanyModel>> GetSearchResults(string userId, string search)
     {
         try

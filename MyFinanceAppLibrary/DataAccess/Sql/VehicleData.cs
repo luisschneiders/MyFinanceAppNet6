@@ -96,6 +96,11 @@ public class VehicleData : IVehicleData<VehicleModel>
         }
     }
 
+    public Task<List<VehicleModel>> GetRecordsActive(string userId)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<List<VehicleModel>> GetSearchResults(string userId, string search)
     {
         try
