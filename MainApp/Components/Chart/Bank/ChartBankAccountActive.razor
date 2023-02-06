@@ -1,0 +1,28 @@
+﻿@using MainApp.Components.Card
+@using MainApp.Components.Badge
+
+@*<CardView Styles="w-100 border-0">*@
+    <CardMiddle>
+        <div class="row justify-content-between">
+            <div class="col-auto">
+                <div class="text-uppercase">
+                    Bank
+                    <sup>
+                        <Badge BackgroundColor="@Theme.Success" Message="New" />
+                    </sup>
+                </div>
+            </div>
+            <div class="col-auto">
+                <i class="bi bi-graph-up display-6 text-info"></i>
+            </div>
+        </div>
+        <Chart Id="BankAccountActive"
+               Type="ChartType.Doughnut"
+               Title="Active Accounts"
+               Data="@(_chartData)"
+               BackgroundColor="@(_chartBackgroundColors)"
+               BorderColor="@(_chartBorderColors)"
+               Labels="@(_chartLabels)"
+               OnSubmitSuccess="SetChartObjectReference" />
+    </CardMiddle>
+@*</CardView>*@
