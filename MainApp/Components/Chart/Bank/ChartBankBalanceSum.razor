@@ -2,20 +2,14 @@
 @using MainApp.Components.Badge
 @using MainApp.Components.Spinner
 @using MainApp.Components.Toast
+@using MainApp.Components.Shared
 
-<div class="row justify-content-between">
-    <div class="col-auto">
-        <div class="text-uppercase">
-            All Accounts
-            <sup>
-                <Badge BackgroundColor="@Theme.Success" Message="New" />
-            </sup>
-        </div>
-    </div>
-    <div class="col-auto">
-        <i class="bi bi-graph-up display-6 text-info"></i>
-    </div>
-</div>
+<SharedHeader Title="All Accounts"
+              Icon="bi-graph-up"
+              IconColor="Theme.Info"
+              BadgeBackgroundColor="@Theme.Success"
+              BadgeTitle="New" />
+
 @if (_isLoading)
 {
     <div class="d-flex justify-content-center align-items-center">

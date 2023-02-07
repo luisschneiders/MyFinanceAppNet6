@@ -6,6 +6,7 @@
 @using MainApp.Components.Badge
 @using MainApp.Components.Message
 @using MainApp.Components.Chart.Bank
+@using MainApp.Components.Shared
 
 <div class="container-lg">
     <AuthorizeView>
@@ -39,19 +40,11 @@
                             <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
                                 <CardView Styles="w-100 border-0">
                                     <CardMiddle>
-                                        <div class="row justify-content-between">
-                                            <div class="col-auto">
-                                                <div class="text-uppercase">
-                                                    Feeds
-                                                    <sup>
-                                                        <Badge BackgroundColor="@Theme.Warning" Message="Coming soon!" />
-                                                    </sup>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="bi bi-rss display-6 text-info"></i>
-                                            </div>
-                                        </div>
+                                        <SharedHeader Title="Feeds"
+                                                      Icon="bi-rss"
+                                                      IconColor="Theme.Info"
+                                                      BadgeBackgroundColor="@Theme.Warning"
+                                                      BadgeTitle="Coming soon!" />
                                     </CardMiddle>
                                 </CardView>
                             </div>
