@@ -1,6 +1,7 @@
 ﻿@using MainApp.Components.Card
 @using MainApp.Components.Badge
 @using MainApp.Components.Spinner
+@using MainApp.Components.Toast
 
 <div class="row justify-content-between">
     <div class="col-auto">
@@ -17,13 +18,11 @@
 </div>
 @if (_isLoading)
 {
-    <div class="d-flex justify-content-center h-100">
-        <div class="d-flex align-items-center">
-            <Spinner Size="Size.Sm" />
-            <span class="ps-1">
-                Loading ...
-            </span>
-        </div>
+    <div class="d-flex justify-content-center align-items-center">
+        <Spinner Size="Size.Sm" />
+        <span class="ps-1">
+            Loading ...
+        </span>
     </div>
 }
 else
@@ -37,3 +36,4 @@ else
            Labels="@(_chartLabels)"
            OnSubmitSuccess="SetChartObjectReference" />
 }
+<Toast />
