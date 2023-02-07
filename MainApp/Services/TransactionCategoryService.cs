@@ -166,4 +166,9 @@ public class TransactionCategoryService : ITransactionCategoryService<Transactio
     {
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
     }
+
+    public Task<List<TransactionCategoryModel>> GetRecordsActive()
+    {
+        throw new NotImplementedException();
+    }
 }

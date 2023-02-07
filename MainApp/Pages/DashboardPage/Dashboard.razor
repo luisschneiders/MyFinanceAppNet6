@@ -1,0 +1,70 @@
+﻿@page "/dashboard"
+
+@using MainApp.Components.Page
+@using MainApp.Components.Card
+@using MainApp.Components.Breadcrumb
+@using MainApp.Components.Badge
+@using MainApp.Components.Message
+@using MainApp.Components.Chart.Bank
+
+<div class="container-lg">
+    <AuthorizeView>
+        <Authorized>
+            <PageWrapper>
+
+                <PageTopView>
+                    <PageTopWrapper>
+                        <PageTopTitle Title="Dashboard" />
+                        <Breadcrumb AppPageLink="@EndPoint.Dashboard" />
+                    </PageTopWrapper>
+                </PageTopView>
+
+                <PageMiddleView>
+                    <PageMiddleWrapper>
+                        <div class="row g-3">
+                            <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
+                                <CardView Styles="w-100 border-0">
+                                    <CardMiddle>
+                                        <ChartBankAccountActive />
+                                    </CardMiddle>
+                                </CardView>
+                            </div>
+                            <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
+                                <CardView Styles="w-100 border-0">
+                                    <CardMiddle>
+                                        <ChartBankBalanceSum />
+                                    </CardMiddle>
+                                </CardView>
+                            </div>
+                            <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
+                                <CardView Styles="w-100 border-0">
+                                    <CardMiddle>
+                                        <div class="row justify-content-between">
+                                            <div class="col-auto">
+                                                <div class="text-uppercase">
+                                                    Feeds
+                                                    <sup>
+                                                        <Badge BackgroundColor="@Theme.Warning" Message="Coming soon!" />
+                                                    </sup>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="bi bi-rss display-6 text-info"></i>
+                                            </div>
+                                        </div>
+                                    </CardMiddle>
+                                </CardView>
+                            </div>
+                        </div>
+                    </PageMiddleWrapper>
+                </PageMiddleView>
+
+                <PageBottomView />
+
+            </PageWrapper>
+        </Authorized>
+        <NotAuthorized>
+            <NotAuthorizedMessage />
+        </NotAuthorized>
+    </AuthorizeView>
+</div>

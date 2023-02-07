@@ -168,4 +168,9 @@ public class CompanyService : ICompanyService<CompanyModel>
     {
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
     }
+
+    public Task<List<CompanyModel>> GetRecordsActive()
+    {
+        throw new NotImplementedException();
+    }
 }

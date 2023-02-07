@@ -1,4 +1,5 @@
-﻿using MainApp.Components.Spinner;
+﻿using Google.Protobuf.WellKnownTypes;
+using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -6,7 +7,7 @@ using MyFinanceAppLibrary.Models;
 
 namespace MainApp.Components.Chart.Bank;
 
-public partial class ChartBankBalanceSum : ComponentBase
+public partial class ChartBankAccountActive : ComponentBase
 {
     [Inject]
     private IChartService _chartService { get; set; } = default!;
@@ -27,11 +28,9 @@ public partial class ChartBankBalanceSum : ComponentBase
 
     private bool _isLoading { get; set; } = true;
 
-    private BankModelBalanceSumDTO _bankModelBalanceSumDTO { get; set; } = new();
+    private List<BankModel> _banks { get; set; } = new();
 
-    private IJSObjectReference _chartObjectReference = default!;
-
-    public ChartBankBalanceSum()
+    public ChartBankAccountActive()
     {
     }
 
@@ -58,7 +57,7 @@ public partial class ChartBankBalanceSum : ComponentBase
     {
         try
         {
-            _bankModelBalanceSumDTO = await _bankService.GetBankBalancesSum();
+            _banks = await _bankService.GetRecordsActive();
             _isLoading = false;
             StateHasChanged();
         }
@@ -75,22 +74,31 @@ public partial class ChartBankBalanceSum : ComponentBase
     {
         try
         {
-            if (_bankModelBalanceSumDTO is not null)
+            if (_banks.Count > 0)
             {
-                _chartLabels.Add(Graphic.BankBalanceInitialSum);
-                _chartLabels.Add(Graphic.BankBalanceCurrentSum);
+                foreach (var bank in _banks)
+                {
+                    if (bank.CurrentBalance >= 0 && bank.CurrentBalance <= 1000)
+                    {
+                        _chartBackgroundColors.Add(BackgroundColor.Gray);
+                        _chartBorderColors.Add(BorderColor.Gray);
+                    }
+                    else if (bank.CurrentBalance >= 1000 && bank.CurrentBalance <= 20000)
+                    {
+                        _chartBackgroundColors.Add(BackgroundColor.Green);
+                        _chartBorderColors.Add(BorderColor.Green);
+                    }
+                    else
+                    {
+                        _chartBackgroundColors.Add(BackgroundColor.Blue);
+                        _chartBorderColors.Add(BorderColor.Blue);
+                    }
+                    _chartLabels.Add(bank.Description);
+                    _chartData.Add(bank.CurrentBalance.ToString());
+                }
 
-                _chartBackgroundColors.Add(BackgroundColor.Gray);
-                _chartBackgroundColors.Add(BackgroundColor.Green);
-
-                _chartBorderColors.Add(BorderColor.Gray);
-                _chartBorderColors.Add(BorderColor.Green);
-
-                _chartData.Add(_bankModelBalanceSumDTO.BankTotalInitialBalance.ToString());
-                _chartData.Add(_bankModelBalanceSumDTO.BankTotalCurrentBalance.ToString());
-
-                _chartObjectReference = await _chartService.GetChartObjectReference();
-                await _chartService.UpdateChartData(_chartObjectReference, _chartData);
+                var chartObjectReference = await _chartService.GetChartObjectReference();
+                await _chartService.UpdateChartData(chartObjectReference, _chartData);
             }
         }
         catch (Exception ex)

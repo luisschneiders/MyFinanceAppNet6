@@ -166,4 +166,9 @@ public class VehicleService : IVehicleService<VehicleModel>
     {
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
     }
+
+    public Task<List<VehicleModel>> GetRecordsActive()
+    {
+        throw new NotImplementedException();
+    }
 }

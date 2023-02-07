@@ -5,7 +5,7 @@
 <div class="row justify-content-between">
     <div class="col-auto">
         <div class="text-uppercase">
-            All Accounts
+            Active Accounts
             <sup>
                 <Badge BackgroundColor="@Theme.Success" Message="New" />
             </sup>
@@ -28,9 +28,9 @@
 }
 else
 {
-    <Chart Id="BankBalanceSum"
-           Type="ChartType.Line"
-           Title="Balances"
+    <Chart Id="BankAccountActive"
+           Type="ChartType.Doughnut"
+           Title="Active Accounts"
            Data="@(_chartData)"
            BackgroundColor="@(_chartBackgroundColors)"
            BorderColor="@(_chartBorderColors)"

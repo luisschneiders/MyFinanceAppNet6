@@ -42,7 +42,7 @@ public partial class SetupBankPanelLeft : ComponentBase
     {
         if (firstRender)
         {
-            await Task.Run(() => _spinnerService.ShowSpinner());
+            _spinnerService.ShowSpinner();
         }
 
         await Task.CompletedTask;

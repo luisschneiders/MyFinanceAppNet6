@@ -13,7 +13,6 @@ public class ChartService : IChartService, IAsyncDisposable
 
     private List<string> _chartData { get; set; } = new();
 
-
     public ChartService(IJSRuntime JS)
     {   
         _js = JS;
@@ -31,17 +30,27 @@ public class ChartService : IChartService, IAsyncDisposable
         return await Task.FromResult(_chartObjectReference);
     }
 
-    public async Task UpdateChartData(IJSObjectReference chartObjectReference, List<string> chartData)
-    {
-        _chartObjectReference = chartObjectReference;
-
-        await _chartModule.InvokeVoidAsync("updateChartData", chartObjectReference, chartData);
-        await Task.CompletedTask;
-    }
-
     public async Task<IJSObjectReference> GetChartObjectReference()
     {
         return await Task.FromResult(_chartObjectReference);
+    }
+
+    public async Task UpdateChartData(IJSObjectReference chartObjectReference, List<string> chartData)
+    {
+        _chartObjectReference = chartObjectReference;
+        if (chartObjectReference is not null)
+        {
+            await _chartModule.InvokeVoidAsync("updateChartData", chartObjectReference, chartData);
+        }
+        await Task.CompletedTask;
+    }
+
+    public async Task RemoveChartData(IJSObjectReference chartObjectReference)
+    {
+        _chartObjectReference = chartObjectReference;
+
+        await _chartModule.InvokeVoidAsync("removeChartData", chartObjectReference);
+        await Task.CompletedTask;
     }
 
     async ValueTask IAsyncDisposable.DisposeAsync()
@@ -56,5 +65,4 @@ public class ChartService : IChartService, IAsyncDisposable
             await _chartObjectReference.DisposeAsync();
         }
     }
-
 }

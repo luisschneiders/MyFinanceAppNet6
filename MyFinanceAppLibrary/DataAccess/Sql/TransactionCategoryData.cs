@@ -96,6 +96,11 @@ public class TransactionCategoryData : ITransactionCategoryData<TransactionCateg
         }
     }
 
+    public Task<List<TransactionCategoryModel>> GetRecordsActive(string userId)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<List<TransactionCategoryModel>> GetSearchResults(string userId, string search)
     {
         try

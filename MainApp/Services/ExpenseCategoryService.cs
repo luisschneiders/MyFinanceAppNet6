@@ -165,5 +165,10 @@ namespace MainApp.Services
         {
             return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
         }
+
+        public Task<List<ExpenseCategoryModel>> GetRecordsActive()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
