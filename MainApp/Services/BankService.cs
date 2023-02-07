@@ -181,11 +181,6 @@ public class BankService : IBankService<BankModel>
         }
     }
 
-    private async Task<UserModel> GetLoggedInUser()
-    {
-        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
-    }
-
     public async Task<List<BankModel>> GetRecordsActive()
     {
         try
@@ -199,5 +194,10 @@ public class BankService : IBankService<BankModel>
             Console.WriteLine("An exception occurred: " + ex.Message);
             throw;
         }
+    }
+
+    private async Task<UserModel> GetLoggedInUser()
+    {
+        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
     }
 }
