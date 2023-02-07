@@ -20,7 +20,7 @@ public partial class Chart : ComponentBase
 	public ChartType Type { get; set; } = ChartType.Bar;
 
     [Parameter]
-	public List<string> Data { get; set; } = default!;
+	public List<string> Data { get; set; } = new();
 
     [Parameter]
     public List<string> BackgroundColor { get; set; } = default!;
@@ -60,5 +60,4 @@ public partial class Chart : ComponentBase
 
         await Task.CompletedTask;
     }
-
 }

@@ -1,4 +1,5 @@
-﻿using MainApp.Components.Toast;
+﻿using MainApp.Components.Spinner;
+using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MyFinanceAppLibrary.Models;
@@ -16,10 +17,15 @@ public partial class ChartBankBalanceSum : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = new();
 
+    [Inject]
+    private SpinnerService _spinnerService { get; set; } = new();
+
     private List<string> _chartBackgroundColors { get; set; } = new();
     private List<string> _chartBorderColors { get; set; } = new();
     private List<string> _chartLabels { get; set; } = new();
     private List<string> _chartData { get; set; } = new();
+
+    private bool _isLoading { get; set; } = true;
 
     private BankModelBalanceSumDTO _bankModelBalanceSumDTO { get; set; } = new();
 
@@ -27,30 +33,25 @@ public partial class ChartBankBalanceSum : ComponentBase
 
     public ChartBankBalanceSum()
     {
-        _chartLabels.Add(Graphic.BankBalanceInitialSum);
-        _chartLabels.Add(Graphic.BankBalanceCurrentSum);
-
-        _chartBackgroundColors.Add(BackgroundColor.Gray);
-        _chartBackgroundColors.Add(BackgroundColor.Green);
-
-        _chartBorderColors.Add(BorderColor.Gray);
-        _chartBorderColors.Add(BorderColor.Green);
-    }
-
-    protected async override Task OnInitializedAsync()
-    {
-        //await FetchDataAsync();
-        await Task.CompletedTask;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            await FetchDataAsync();
+            try
+            {
+                _spinnerService.ShowSpinner();
+                await FetchDataAsync();
+                await SetDataAsync();
+            }
+            catch (Exception ex)
+            {
+                await Task.Delay((int)Delay.DataError);
+                _toastService.ShowToast(ex.Message, Theme.Danger);
+            }
         }
         await Task.CompletedTask;
-
     }
 
     private async Task FetchDataAsync()
@@ -58,11 +59,39 @@ public partial class ChartBankBalanceSum : ComponentBase
         try
         {
             _bankModelBalanceSumDTO = await _bankService.GetBankBalancesSum();
-            _chartData.Add(_bankModelBalanceSumDTO.BankTotalInitialBalance.ToString());
-            _chartData.Add(_bankModelBalanceSumDTO.BankTotalCurrentBalance.ToString());
+            _isLoading = false;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            await Task.Delay((int)Delay.DataError);
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
 
-            _chartObjectReference = await _chartService.GetChartObjectReference();
-            await _chartService.UpdateChartData(_chartObjectReference, _chartData);
+        await Task.CompletedTask;
+    }
+
+    private async Task SetDataAsync()
+    {
+        try
+        {
+            if (_bankModelBalanceSumDTO is not null)
+            {
+                _chartLabels.Add(Graphic.BankBalanceInitialSum);
+                _chartLabels.Add(Graphic.BankBalanceCurrentSum);
+
+                _chartBackgroundColors.Add(BackgroundColor.Gray);
+                _chartBackgroundColors.Add(BackgroundColor.Green);
+
+                _chartBorderColors.Add(BorderColor.Gray);
+                _chartBorderColors.Add(BorderColor.Green);
+
+                _chartData.Add(_bankModelBalanceSumDTO.BankTotalInitialBalance.ToString());
+                _chartData.Add(_bankModelBalanceSumDTO.BankTotalCurrentBalance.ToString());
+
+                _chartObjectReference = await _chartService.GetChartObjectReference();
+                await _chartService.UpdateChartData(_chartObjectReference, _chartData);
+            }
         }
         catch (Exception ex)
         {
