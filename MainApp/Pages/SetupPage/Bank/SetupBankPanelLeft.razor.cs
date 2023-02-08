@@ -7,7 +7,7 @@ namespace MainApp.Pages.SetupPage.Bank;
 public partial class SetupBankPanelLeft : ComponentBase
 {
     [Inject]
-    IBankService<BankModel> _bankService { get; set; } = default!;
+    private IBankService<BankModel> _bankService { get; set; } = default!;
 
     [Inject]
     private ToastService _toastService { get; set; } = new();
