@@ -7,11 +7,14 @@ namespace MainApp.Components.Dropdown;
 
 public partial class DropdownDateRange : ComponentBase
 {
+    [Inject]
+    private IDateTimeService _dateTimeService { get; set; } = default!;
+
     [Parameter]
     public EventCallback OnSubmitSuccess { get; set; }
 
     [Parameter]
-    public IDateTimeRange DateTimeRange { get; set; }
+    public DateTimeRangeModel DateTimeRange { get; set; }
 
     [Parameter]
     public bool IsDisplayLargeNone { get; set; }
@@ -37,7 +40,7 @@ public partial class DropdownDateRange : ComponentBase
         _isValidDateRange = true;
         _dateRangeLabel = $"No date assigned!";
 
-        DateTimeRange = new DateTimeRange
+        DateTimeRange = new DateTimeRangeModel
         {
             Start = DateTime.Now,
             End = DateTime.Now
@@ -76,8 +79,8 @@ public partial class DropdownDateRange : ComponentBase
 
     private async Task ChangeDateAsync()
     {
-        DateTimeRange.CheckDate();
-        if (!DateTimeRange.CheckDate())
+        var isValidRange = _dateTimeService.CheckDateRange(DateTimeRange);
+        if (!isValidRange)
         {
             _isValidDateRange = false;
         }
@@ -87,8 +90,21 @@ public partial class DropdownDateRange : ComponentBase
             _dateRangeLabel = await UpdateDateRangeLabel();
 
             await OnSubmitSuccess.InvokeAsync();
-
         }
+
+        //DateTimeRange.CheckDate();
+        //if (!DateTimeRange.CheckDate())
+        //{
+        //    _isValidDateRange = false;
+        //}
+        //else
+        //{
+        //    _isValidDateRange = true;
+        //    _dateRangeLabel = await UpdateDateRangeLabel();
+
+        //    await OnSubmitSuccess.InvokeAsync();
+
+        //}
         await Task.CompletedTask;
     }
 }
