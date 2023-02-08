@@ -26,6 +26,7 @@
     <None Remove="Pages\DashboardPage\" />
     <None Remove="Pages\AdminPage\" />
     <None Remove="Pages\AdminPage\Timesheet\" />
+    <None Remove="Components\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Web" Version="1.25.10" />
@@ -42,5 +43,6 @@
     <Folder Include="Pages\DashboardPage\" />
     <Folder Include="Pages\AdminPage\" />
     <Folder Include="Pages\AdminPage\Timesheet\" />
+    <Folder Include="Components\Shared\" />
   </ItemGroup>
 </Project>
