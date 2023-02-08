@@ -7,11 +7,55 @@
         <SharedHeader Title="Playground"
                       Icon="bi-controller"
                       IconColor="Theme.Success" />
-        <p>
-            Hours worked: @_timesheetModel.HoursWorked
-        </p>
-        <p>
-            Total amount: @_timesheetModel.TotalAmount
-        </p>
+
+        <EditForm Model="@_timesheetModel"
+                  autocomplete="off">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-floating mb-3">
+                        <InputNumber class="form-control"
+                                     id="HourRate"
+                                     placeholder="Hour Rate"
+                                     @bind-Value="_timesheetModel.HourRate" />
+                        <label for="HourRate">Hour Rate</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <InputDate class="form-control"
+                                   id="TimeIn"
+                                   placeholder="Punch in"
+                                   @bind-Value="_timesheetModel.TimeIn"
+                                   Type="InputDateType.DateTimeLocal" />
+                        <label for="TimeIn">Punch in</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <InputNumber class="form-control"
+                                     id="TimeBreak"
+                                     placeholder="Break (in minutes)"
+                                     min="0"
+                                     max="60"
+                                     @bind-Value="_timesheetModel.TimeBreak" />
+                        <label for="TimeBreak">Break (in minutes)</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <InputDate class="form-control"
+                                   id="TimeOut"
+                                   placeholder="Punch in"
+                                   @bind-Value="_timesheetModel.TimeOut"
+                                   Type="InputDateType.DateTimeLocal" />
+                        <label for="TimeOut">Punch out</label>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+        <div class="row">
+            <div class="col-12">
+                <p>
+                    Hours worked: @_timesheetModel.HoursWorked
+                </p>
+                <p>
+                    Total amount: @_timesheetModel.TotalAmount.ToString("C")
+                </p>
+            </div>
+        </div>
     </CardMiddle>
 </CardView>
