@@ -60,6 +60,7 @@ public static class RegisterServices
         builder.Services.AddScoped<SpinnerService>();
         builder.Services.AddScoped<ToastService>();
         builder.Services.AddScoped<IChartService, ChartService>();
+        builder.Services.AddScoped<IDateTimeService, DateTimeService>();
         builder.Services.AddScoped<IOffCanvasService, OffCanvasService>();
         builder.Services.AddScoped<IBankService<BankModel>, BankService>();
         builder.Services.AddScoped<ICompanyService<CompanyModel>, CompanyService>();
