@@ -13,7 +13,6 @@ public class TimesheetModel : BaseModel
     [Required]
     public DateTime TimeIn { get; set; }
 
-    [Required]
     public int TimeBreak { get; set; }
 
     [Required]
@@ -34,7 +33,7 @@ public class TimesheetModel : BaseModel
         get
         {
             var hoursWorked = TimeOut - TimeIn;
-            TimeSpan timeBreak = TimeSpan.FromMinutes(TimeBreak);
+            var timeBreak = TimeSpan.FromMinutes(TimeBreak);
             var result = hoursWorked.Subtract(timeBreak);
 
             return result;
