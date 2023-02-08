@@ -11,6 +11,9 @@
     <ProjectReference Include="..\MyFinanceAppLibrary\MyFinanceAppLibrary.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\DateTimeLibrary\DateTimeLibrary.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Remove="Microsoft.Identity.Web" />
