@@ -2,7 +2,7 @@
 
 namespace MyFinanceAppLibrary.Models;
 
-public class TimesheetModel : BaseModel
+public class TimesheetModel : BaseModel, IValidatableObject
 {
 #nullable disable
     public ulong Id { get; set; }
@@ -48,5 +48,17 @@ public class TimesheetModel : BaseModel
             var total = (((decimal)seconds) * HourRate);
             return total;
         }
+    }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        List<ValidationResult> results = new();
+
+        if (TimeOut >= TimeIn)
+        {
+            results.Add(new ValidationResult("Punch out must be greater that Punch in", new[] { "TimeOut" } ));
+        }
+
+        return results;
     }
 }
