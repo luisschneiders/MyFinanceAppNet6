@@ -43,6 +43,7 @@ public class TimesheetData : ITimesheetData<TimesheetModel>
                     timesheetTimeIn = model.TimeIn,
                     timesheetTimeBreak = model.TimeBreak,
                     timesheetTimeOut = model.TimeOut,
+                    timesheetPayStatus = model.PayStatus,
                     timesheetHoursWorked = model.HoursWorked,
                     timesheetHourRate = model.HourRate,
                     timesheetTotalAmount = model.TotalAmount,
@@ -84,13 +85,23 @@ public class TimesheetData : ITimesheetData<TimesheetModel>
         }
     }
 
-    public async Task<List<TimesheetModel>> GetRecords(string userId)
+    public Task<List<TimesheetModel>> GetRecords(string userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<List<TimesheetModel>> GetRecordsByDateRange(string userId, DateTimeRangeModel dateTimeRangeModel)
     {
         try
         {
             var results = await _dataAccess.LoadData<TimesheetModel, dynamic>(
-                "myfinancedb.spTimesheet_GetAll",
-                new { userId = userId },
+                "myfinancedb.spTimesheet_GetRecordsByDateRange",
+                new
+                {
+                    userId = userId,
+                    startDate = dateTimeRangeModel.Start,
+                    endDate = dateTimeRangeModel.End
+                },
                 "Mysql");
 
             return results;

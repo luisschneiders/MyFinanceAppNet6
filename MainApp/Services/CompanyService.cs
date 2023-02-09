@@ -102,6 +102,21 @@ public class CompanyService : ICompanyService<CompanyModel>
         }
     }
 
+    public async Task<List<CompanyModel>> GetRecordsActive()
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<CompanyModel> results = await _companyData.GetRecordsActive(user.Id);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public async Task<List<CompanyModel>> GetSearchResults(string search)
     {
         try
@@ -169,8 +184,17 @@ public class CompanyService : ICompanyService<CompanyModel>
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
     }
 
-    public Task<List<CompanyModel>> GetRecordsActive()
+    public async Task<decimal> GetHourRate(string modelId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            CompanyModel companyModel = await GetRecordById(modelId);
+            return companyModel.Rate;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 }

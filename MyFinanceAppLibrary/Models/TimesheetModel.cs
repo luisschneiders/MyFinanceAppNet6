@@ -8,6 +8,7 @@ public class TimesheetModel : BaseModel, IValidatableObject
     public ulong Id { get; set; }
 
     [Required]
+    [Range(1, int.MaxValue, ErrorMessage = "Please select a company.")]
     public ulong CompanyId { get; set; }
 
     [Required]
@@ -19,7 +20,7 @@ public class TimesheetModel : BaseModel, IValidatableObject
     public DateTime TimeOut { get; set; }
 
     [Required]
-    public string PayStatus { get; set; }
+    public int PayStatus { get; set; } = 0;
 
     [Required]
     [RegularExpression(@"^\d+(.\d{1,2})?$", ErrorMessage = "Invalid value")]
@@ -54,7 +55,7 @@ public class TimesheetModel : BaseModel, IValidatableObject
     {
         List<ValidationResult> results = new();
 
-        if (TimeOut >= TimeIn)
+        if (TimeIn >= TimeOut)
         {
             results.Add(new ValidationResult("Punch out must be greater that Punch in", new[] { "TimeOut" } ));
         }

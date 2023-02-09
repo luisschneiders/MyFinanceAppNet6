@@ -10,6 +10,9 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
     private ITimesheetData<TimesheetModel> _timesheetData { get; set; } = default!;
 
     [Inject]
+    private ICompanyService<CompanyModel> _companyService { get; set; } = default!;
+
+    [Inject]
     private AuthenticationStateProvider _authProvider { get; set; } = default!;
 
     [Inject]
@@ -17,11 +20,12 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
 
     private UserModel _loggedInUser { get; set; } = new();
 
-    public TimesheetService(ITimesheetData<TimesheetModel> timesheetData, IUserData userData, AuthenticationStateProvider authProvider)
+    public TimesheetService(ITimesheetData<TimesheetModel> timesheetData, IUserData userData, AuthenticationStateProvider authProvider, ICompanyService<CompanyModel> companyService)
     {
         _timesheetData = timesheetData;
         _userData = userData;
         _authProvider = authProvider;
+        _companyService = companyService;
     }
 
     public async Task ArchiveRecord(TimesheetModel model)
@@ -49,6 +53,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         try
         {
             var user = await GetLoggedInUser();
+            var hourRate = await _companyService.GetHourRate(model.CompanyId.ToString());
 
             TimesheetModel recordModel = new()
             {
@@ -57,7 +62,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
                 TimeBreak = model.TimeBreak,
                 TimeOut = model.TimeOut,
                 Comments = model.Comments,
-                HourRate = model.HourRate,
+                HourRate = hourRate,
                 UpdatedBy = user.Id
             };
 
@@ -91,12 +96,17 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         }
     }
 
-    public async Task<List<TimesheetModel>> GetRecords()
+    public Task<List<TimesheetModel>> GetRecords()
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<List<TimesheetModel>> GetRecordsByDateRange(DateTimeRangeModel dateTimeRangeModel)
     {
         try
         {
             var user = await GetLoggedInUser();
-            List<TimesheetModel> results = await _timesheetData.GetRecords(user.Id);
+            List<TimesheetModel> results = await _timesheetData.GetRecordsByDateRange(user.Id, dateTimeRangeModel);
             return results;
         }
         catch (Exception ex)
