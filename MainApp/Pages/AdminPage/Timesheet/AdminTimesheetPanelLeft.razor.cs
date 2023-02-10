@@ -2,6 +2,7 @@
 using MainApp.Pages.AdminPage.Timesheet;
 using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
+using MyFinanceAppLibrary.Constants;
 
 namespace MainApp.Pages.AdminPage.Timesheet;
 
@@ -27,10 +28,14 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     private DateTimeRangeModel _dateTimeRangeModel { get; set; } = new();
 
     private List<TimesheetModelListDTO> _timesheets { get; set; } = new();
+
+    private PayStatus[] _payStatuses { get; set; } = default!;
+
     private bool _isLoading { get; set; } = true;
 
     public AdminTimesheetPanelLeft()
     {
+        _payStatuses = (PayStatus[])Enum.GetValues(typeof(PayStatus));
     }
 
     protected async override Task OnInitializedAsync()
@@ -94,10 +99,29 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
+    private async Task UpdatePayStatusAsync(TimesheetModelListDTO timesheetModelListDTO, int payStatus)
+    {
+        try
+        {
+            TimesheetModel timesheetModel = new()
+            {
+                Id = timesheetModelListDTO.Id,
+                PayStatus = payStatus
+            };
+            await _timesheetService.UpdateRecordPayStatus(timesheetModel);
+            await RefreshList();
+        }
+        catch (Exception ex)
+        {
+            await Task.Delay((int)Delay.DataError);
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+        await Task.CompletedTask;
+    }
+
     private async Task RefreshList()
     {
         await FetchDataAsync();
-        StateHasChanged();
         await Task.CompletedTask;
     }
 
@@ -141,5 +165,20 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
 
         _toastService.ShowToast("Date range has changed!", Theme.Info);
         await Task.CompletedTask;
+    }
+    private string UpdatePayStatusTitle(int payStatus)
+    {
+        var payStatusTitle = _payStatuses[payStatus];
+        return payStatusTitle.ToString();
+    }
+
+    private Theme UpdatePayStatusButtonColor(int payStatus)
+    {
+        if (payStatus == (int)PayStatus.Paid)
+        {
+            return Theme.Success;
+        }
+
+        return Theme.Light;
     }
 }
