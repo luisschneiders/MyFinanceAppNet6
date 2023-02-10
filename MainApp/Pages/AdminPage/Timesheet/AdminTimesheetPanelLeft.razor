@@ -117,7 +117,7 @@
                                             <td>
                                                 @record.PayStatus
                                             </td>
-                                            @*<td>
+                                            <td>
                                                 <div class="form-check form-switch">
                                                     @if (record.IsActive)
                                                     {
@@ -126,7 +126,7 @@
                                                                 role="switch"
                                                                 id="IsActive"
                                                                 checked
-                                                                @onclick="() => UpdateStatusAsync(record.Id)" />
+                                                                @onclick="() => UpdateStatusAsync(record)" />
                                                     }
                                                     else
                                                     {
@@ -134,7 +134,7 @@
                                                                 type="checkbox"
                                                                 role="switch"
                                                                 id="IsActive"
-                                                                @onclick="() => UpdateStatusAsync(record.Id)" />
+                                                                @onclick="() => UpdateStatusAsync(record)" />
                                                     }
                                                 </div>
                                             </td>
@@ -145,7 +145,7 @@
                                                         @onclick="() => EditRecordAsync(record)">
                                                     <i class="bi bi-pencil"></i>
                                                 </button>
-                                            </td>*@
+                                            </td>
                                             <td>
                                                 @record.Comments
                                             </td>

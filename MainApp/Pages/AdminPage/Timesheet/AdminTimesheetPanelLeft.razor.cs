@@ -75,10 +75,15 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task UpdateStatusAsync(TimesheetModel timesheetModel)
+    private async Task UpdateStatusAsync(TimesheetModelListDTO timesheetModelListDTO)
     {
         try
         {
+            TimesheetModel timesheetModel = new()
+            {
+                Id = timesheetModelListDTO.Id,
+                IsActive = timesheetModelListDTO.IsActive
+            };
             await _timesheetService.UpdateRecordStatus(timesheetModel);
         }
         catch (Exception ex)
@@ -102,7 +107,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task EditRecordAsync(TimesheetModel timesheetModel)
+    private async Task EditRecordAsync(TimesheetModelListDTO timesheetModel)
     {
         try
         {
