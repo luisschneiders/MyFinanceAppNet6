@@ -103,13 +103,13 @@
                                                 @record.TimeIn.ToString("t")
                                             </td>
                                             <td class="text-nowrap">
-                                                @($"{record.TimeBreak} mins")
+                                                @($"{record.TimeBreak}m")
                                             </td>
                                             <td>
                                                 @record.TimeOut.ToString("t")
                                             </td>
                                             <td>
-                                                @record.HoursWorked
+                                                @record.HoursWorked.ToString("h'h 'm'm '")
                                             </td>
                                             <td>
                                                 @record.TotalAmount.ToString("C")
