@@ -1,5 +1,5 @@
 ﻿<div class="@DropdownPosition @(IsDisplayLargeNone ? "d-lg-none" : "") ">
-    <button class="btn @("btn-" + ButtonSize.ToString().ToLower() + " btn-" + ButtonColor.ToString().ToLower()) text-nowrap"
+    <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + ButtonColor.ToString().ToLower() + "-emphasis") text-nowrap"
             title="Change date range"
             id="dropdownDateRange"
             data-bs-toggle="dropdown"

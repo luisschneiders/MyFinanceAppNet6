@@ -49,11 +49,11 @@
         </EditForm>
         <div class="row">
             <div class="col-12">
-                <p>
-                    Hours worked: @_timesheetModel.HoursWorked.ToString("h'h 'm'm '")
+                <p class="opacity-75">
+                    Hours worked: <span class="fw-semibold">@_timesheetModel.HoursWorked.ToString("h'h 'm'm '")</span>
                 </p>
-                <p>
-                    Total amount: @_timesheetModel.TotalAmount.ToString("C")
+                <p class="opacity-75">
+                    Total amount: <span class="fw-semibold">@_timesheetModel.TotalAmount.ToString("C")</span>
                 </p>
             </div>
         </div>
