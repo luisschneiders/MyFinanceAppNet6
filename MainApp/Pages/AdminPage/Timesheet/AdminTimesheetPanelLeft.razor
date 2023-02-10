@@ -29,36 +29,36 @@
                     <table class="table table-hover">
                         <thead class="app-table-head-vertical-align-top">
                             <tr>
-                                <th class="col-2">
+                                <th class="col-3 text-nowrap">
                                     Company
                                 </th>
-                                <th class="col">
+                                <th class="col text-nowrap">
                                     Date
                                 </th>
-                                <th class="col">
+                                <th class="col text-nowrap">
                                     Clock in
                                 </th>
-                                <th class="col">
+                                <th class="col text-nowrap">
                                     Break
                                 </th>
-                                <th class="col">
+                                <th class="col text-nowrap">
                                     Clock out
                                 </th>
-                                <th class="col">
+                                <th class="coltext-nowrap">
                                     Hours worked
                                 </th>
-                                <th class="col text-end">
+                                <th class="col text-nowrap text-end">
                                     Total
                                 </th>
-                                <th class="col-2">
+                                <th class="col text-nowrap">
                                     Pay Status
                                 </th>
-                                <th class="col" colspan="2">
-                                    Status
-                                </th>
-                                <th class="col">
+                                <th class="col text-nowrap" colspan="2">
                                     Comments
                                 </th>
+                                @*<th class="col" colspan="2">
+                                    Status
+                                </th>*@
                             </tr>
                         </thead>
                         <tbody>
@@ -93,16 +93,16 @@
                                     {
 
                                         <tr>
-                                            <td>
+                                            <td class="text-nowrap">
                                                 @record.Description
                                             </td>
                                             <td>
-                                                @record.TimeIn.ToString("dd/MM/yyyy")
+                                                @record.TimeIn.ToString("dd/MM/yy")
                                             </td>
                                             <td>
                                                 @record.TimeIn.ToString("t")
                                             </td>
-                                            <td>
+                                            <td class="text-nowrap">
                                                 @($"{record.TimeBreak} mins")
                                             </td>
                                             <td>
@@ -132,7 +132,10 @@
                                                     }
                                                 </DropdownActions>
                                             </td>
-                                            <td>
+                                            <td class="text-nowrap">
+                                                @record.Comments
+                                            </td>
+                                            @*<td>
                                                 <div class="form-check form-switch">
                                                     @if (record.IsActive)
                                                     {
@@ -152,7 +155,7 @@
                                                                 @onclick="() => UpdateStatusAsync(record)" />
                                                     }
                                                 </div>
-                                            </td>
+                                            </td>*@
                                             <td class="text-center">
                                                 <button class="btn btn-link p-0 text-danger"
                                                         type="button"
@@ -161,13 +164,9 @@
                                                     <i class="bi bi-pencil"></i>
                                                 </button>
                                             </td>
-                                            <td>
-                                                @record.Comments
-                                            </td>
                                         </tr>
                                     }
                                 }
-
                             }
                         </tbody>
                     </table>
