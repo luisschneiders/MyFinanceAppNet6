@@ -8,14 +8,21 @@ public partial class DropdownActions : ComponentBase
     public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
-    public bool IsDisplayLargeNone { get; set; }
+    public bool IsDisplayLargeNone { get; set; } = false;
 
     [Parameter]
-    public Theme IconColor { get; set; }
+    public Size ButtonSize { get; set; } = Size.Md;
+
+    [Parameter]
+    public string Icon { get; set; } = "bi-three-dots";
+
+    [Parameter]
+    public Theme ButtonColor { get; set; } = Theme.Light;
+
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
 
     public DropdownActions()
     {
-        IsDisplayLargeNone = false;
-        IconColor = Theme.Success;
     }
 }

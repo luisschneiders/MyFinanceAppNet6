@@ -17,40 +17,31 @@ public partial class DropdownDateRange : ComponentBase
     public DateTimeRangeModel DateTimeRange { get; set; }
 
     [Parameter]
-    public bool IsDisplayLargeNone { get; set; }
+    public bool IsDisplayLargeNone { get; set; } = false;
 
     [Parameter]
-    public Theme IconColor { get; set; }
+    public Theme IconColor { get; set; } = Theme.Success;
 
     [Parameter]
-    public Theme ButtonColor { get; set; }
+    public Theme ButtonColor { get; set; } = Theme.Light;
 
     [Parameter]
-    public Size ButtonSize { get; set; }
+    public Size ButtonSize { get; set; } = Size.Md;
 
     [Parameter]
-    public string DropdownPosition { get; set; }
+    public string DropdownPosition { get; set; } = "dropdown";
 
-    private string _dateRangeLabel { get; set; }
+    private string _dateRangeLabel { get; set; } = "No date assigned!";
 
-    private bool _isValidDateRange { get; set; }
+    private bool _isValidDateRange { get; set; } = true;
 
     public DropdownDateRange()
 	{
-        _isValidDateRange = true;
-        _dateRangeLabel = $"No date assigned!";
-
         DateTimeRange = new DateTimeRangeModel
         {
             Start = DateTime.Now,
             End = DateTime.Now
-        };
-
-        IsDisplayLargeNone = false;
-        ButtonColor = Theme.Light;
-        IconColor = Theme.Success;
-        ButtonSize = Size.Md;
-        DropdownPosition = "dropdown";
+        };        
     }
 
     protected override async Task OnInitializedAsync()
