@@ -44,7 +44,7 @@
                                 <th class="col text-nowrap">
                                     Clock out
                                 </th>
-                                <th class="coltext-nowrap">
+                                <th class="col text-nowrap">
                                     Hours worked
                                 </th>
                                 <th class="col text-nowrap text-end">
@@ -65,7 +65,7 @@
                             @if (_isLoading)
                             {
                                 <tr>
-                                    <td class="text-center" colspan="12">
+                                    <td class="text-center" colspan="10">
                                         <div>
                                             <Spinner Size="Size.Sm" />
                                             <span>
@@ -80,7 +80,7 @@
                                 @if (_timesheets.Count <= 0)
                                 {
                                     <tr>
-                                        <td class="text-center" colspan="12">
+                                        <td class="text-center" colspan="10">
                                             <div>
                                                 Not record found!
                                             </div>
@@ -96,25 +96,25 @@
                                             <td class="text-nowrap">
                                                 @record.Description
                                             </td>
-                                            <td>
+                                            <td class="text-nowrap">
                                                 @record.TimeIn.ToString("dd/MM/yy")
                                             </td>
-                                            <td>
+                                            <td class="text-nowrap">
                                                 @record.TimeIn.ToString("t")
                                             </td>
                                             <td class="text-nowrap">
                                                 @($"{record.TimeBreak}m")
                                             </td>
-                                            <td>
+                                            <td class="text-nowrap">
                                                 @record.TimeOut.ToString("t")
                                             </td>
-                                            <td>
+                                            <td class="text-nowrap">
                                                 @record.HoursWorked.ToString("h'h 'm'm '")
                                             </td>
-                                            <td>
+                                            <td class="text-nowrap">
                                                 @record.TotalAmount.ToString("C")
                                             </td>
-                                            <td>
+                                            <td class="text-nowrap">
                                                 <DropdownActions Title="@UpdatePayStatusTitle(record.PayStatus)"
                                                                  ButtonSize="Size.Sm"
                                                                  Icon="bi-chevron-down"
