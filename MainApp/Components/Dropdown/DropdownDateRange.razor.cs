@@ -36,7 +36,7 @@ public partial class DropdownDateRange : ComponentBase
     private bool _isValidDateRange { get; set; }
 
     public DropdownDateRange()
-		{
+	{
         _isValidDateRange = true;
         _dateRangeLabel = $"No date assigned!";
 
@@ -51,20 +51,18 @@ public partial class DropdownDateRange : ComponentBase
         IconColor = Theme.Success;
         ButtonSize = Size.Md;
         DropdownPosition = "dropdown";
-
-
     }
 
     protected override async Task OnInitializedAsync()
     {
         _dateRangeLabel = await UpdateDateRangeLabel();
-
         await Task.CompletedTask;
     }
 
     private async Task<string> UpdateDateRangeLabel()
     {
         string dateRangeDescription = string.Empty;
+
         if (DateTimeRange.Start.Date == DateTimeRange.End.Date)
         {
             dateRangeDescription = $"{DateTimeRange.Start.Date.ToString("dd/MM/yy")}";
@@ -80,6 +78,7 @@ public partial class DropdownDateRange : ComponentBase
     private async Task ChangeDateAsync()
     {
         var isValidRange = _dateTimeService.CheckDateRange(DateTimeRange);
+
         if (!isValidRange)
         {
             _isValidDateRange = false;
@@ -92,19 +91,6 @@ public partial class DropdownDateRange : ComponentBase
             await OnSubmitSuccess.InvokeAsync();
         }
 
-        //DateTimeRange.CheckDate();
-        //if (!DateTimeRange.CheckDate())
-        //{
-        //    _isValidDateRange = false;
-        //}
-        //else
-        //{
-        //    _isValidDateRange = true;
-        //    _dateRangeLabel = await UpdateDateRangeLabel();
-
-        //    await OnSubmitSuccess.InvokeAsync();
-
-        //}
         await Task.CompletedTask;
     }
 }

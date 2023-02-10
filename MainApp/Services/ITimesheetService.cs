@@ -2,6 +2,6 @@
 
 public interface ITimesheetService<T> : IBaseService<T>
 {
-    Task<List<TimesheetModel>> GetRecordsByDateRange(DateTimeRangeModel dateTimeRangeModel);
+    Task<List<TimesheetModelListDTO>> GetRecordsByDateRange(DateTimeRangeModel dateTimeRangeModel);
     Task UpdateRecordPayStatus(T model);
 }

@@ -26,7 +26,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     private TimesheetModel _timesheetModel { get; set; } = new();
     private DateTimeRangeModel _dateTimeRangeModel { get; set; } = new();
 
-    private List<TimesheetModel> _timesheets { get; set; } = new();
+    private List<TimesheetModelListDTO> _timesheets { get; set; } = new();
     private bool _isLoading { get; set; } = true;
 
     public AdminTimesheetPanelLeft()
@@ -91,30 +91,8 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
 
     private async Task RefreshList()
     {
-        // TODO: add service to refresh the list
-        TimesheetModel updatedModel = _setupOffCanvas.DataModel;
-        TimesheetModel model = _timesheets.FirstOrDefault(b => b.Id == updatedModel.Id)!;
-
-        var index = _timesheets.IndexOf(model);
-
-        if (index != -1)
-        {
-            if (updatedModel.IsArchived)
-            {
-                var archivedModel = _timesheets[index] = updatedModel;
-                _timesheets.Remove(archivedModel);
-            }
-            else
-            {
-                _timesheets[index] = updatedModel;
-            }
-        }
-        else
-        {
-            _timesheets.Add(updatedModel);
-        }
-
-        await InvokeAsync(StateHasChanged);
+        await FetchDataAsync();
+        StateHasChanged();
         await Task.CompletedTask;
     }
 
@@ -154,9 +132,9 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
 
     private async Task RefreshListFromDropdownDateRange()
     {
-        _toastService.ShowToast("Date range has changed!", Theme.Info);
+        await FetchDataAsync();
 
-        //await RefreshVirtualizeContainer();
+        _toastService.ShowToast("Date range has changed!", Theme.Info);
         await Task.CompletedTask;
     }
 }

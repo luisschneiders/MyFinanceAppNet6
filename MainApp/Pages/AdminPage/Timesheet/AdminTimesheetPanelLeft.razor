@@ -51,13 +51,13 @@
                                     Total
                                 </th>
                                 <th class="col">
-                                    Comments
-                                </th>
-                                <th class="col">
                                     Pay Status
                                 </th>
-                                <th class="col" colspan="3">
+                                <th class="col" colspan="2">
                                     Status
+                                </th>
+                                <th class="col">
+                                    Comments
                                 </th>
                             </tr>
                         </thead>
@@ -94,7 +94,7 @@
 
                                         <tr>
                                             <td>
-                                                @record.CompanyId
+                                                @record.Description
                                             </td>
                                             <td>
                                                 @record.TimeIn.ToString("dd/MM/yyyy")
@@ -115,12 +115,9 @@
                                                 @record.TotalAmount.ToString("C")
                                             </td>
                                             <td>
-                                                @record.Comments
-                                            </td>
-                                            <td>
                                                 @record.PayStatus
                                             </td>
-                                            <td>
+                                            @*<td>
                                                 <div class="form-check form-switch">
                                                     @if (record.IsActive)
                                                     {
@@ -129,7 +126,7 @@
                                                                 role="switch"
                                                                 id="IsActive"
                                                                 checked
-                                                                @onclick="() => UpdateStatusAsync(record)" />
+                                                                @onclick="() => UpdateStatusAsync(record.Id)" />
                                                     }
                                                     else
                                                     {
@@ -137,18 +134,9 @@
                                                                 type="checkbox"
                                                                 role="switch"
                                                                 id="IsActive"
-                                                                @onclick="() => UpdateStatusAsync(record)" />
+                                                                @onclick="() => UpdateStatusAsync(record.Id)" />
                                                     }
                                                 </div>
-                                            </td>
-                                            <td class="text-center">
-                                                <button class="btn btn-link p-0 text-info"
-                                                        type="button"
-                                                        title="View details"
-                                                        @onclick="() => ViewRecordAsync(record)">
-                                                    <i class="bi bi-eye-fill"></i>
-
-                                                </button>
                                             </td>
                                             <td class="text-center">
                                                 <button class="btn btn-link p-0 text-danger"
@@ -157,6 +145,9 @@
                                                         @onclick="() => EditRecordAsync(record)">
                                                     <i class="bi bi-pencil"></i>
                                                 </button>
+                                            </td>*@
+                                            <td>
+                                                @record.Comments
                                             </td>
                                         </tr>
                                     }
@@ -170,5 +161,5 @@
         </div>
     </CardMiddle>
 </CardView>
-<AdminTimesheetOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" DataModel="_timesheetModel" />
+<AdminTimesheetOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
 <Toast />

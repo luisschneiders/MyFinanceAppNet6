@@ -101,12 +101,12 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         throw new NotImplementedException();
     }
 
-    public async Task<List<TimesheetModel>> GetRecordsByDateRange(DateTimeRangeModel dateTimeRangeModel)
+    public async Task<List<TimesheetModelListDTO>> GetRecordsByDateRange(DateTimeRangeModel dateTimeRangeModel)
     {
         try
         {
             var user = await GetLoggedInUser();
-            List<TimesheetModel> results = await _timesheetData.GetRecordsByDateRange(user.Id, dateTimeRangeModel);
+            List<TimesheetModelListDTO> results = await _timesheetData.GetRecordsByDateRange(user.Id, dateTimeRangeModel);
             return results;
         }
         catch (Exception ex)

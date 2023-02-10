@@ -23,9 +23,6 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
     [Parameter]
     public EventCallback OnSubmitSuccess { get; set; }
 
-    [Parameter]
-    public TimesheetModel DataModel { get; set; } = default!;
-
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
     private bool _isLoading { get; set; } = true;
@@ -179,8 +176,6 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
                 _toastService.ShowToast("Timesheet archived!", Theme.Success);
             }
             _isProcessing = false;
-
-            DataModel = _timesheetModel;
 
             await OnSubmitSuccess.InvokeAsync();
 

@@ -90,11 +90,11 @@ public class TimesheetData : ITimesheetData<TimesheetModel>
         throw new NotImplementedException();
     }
 
-    public async Task<List<TimesheetModel>> GetRecordsByDateRange(string userId, DateTimeRangeModel dateTimeRangeModel)
+    public async Task<List<TimesheetModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRangeModel dateTimeRangeModel)
     {
         try
         {
-            var results = await _dataAccess.LoadData<TimesheetModel, dynamic>(
+            var results = await _dataAccess.LoadData<TimesheetModelListDTO, dynamic>(
                 "myfinancedb.spTimesheet_GetRecordsByDateRange",
                 new
                 {
