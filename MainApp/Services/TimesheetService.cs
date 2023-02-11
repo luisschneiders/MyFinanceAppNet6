@@ -141,7 +141,6 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
                 Id = model.Id,
                 Comments = model.Comments,
                 IsActive = model.IsActive,
-                PayStatus = model.PayStatus,
                 UpdatedBy = user.Id,
                 UpdatedAt = DateTime.Now,
             };

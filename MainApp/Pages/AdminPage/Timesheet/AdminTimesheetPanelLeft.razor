@@ -50,15 +50,12 @@
                                 <th class="col text-nowrap text-end">
                                     Total
                                 </th>
-                                <th class="col text-nowrap">
+                                <th class="col text-nowrap" colspan="2">
                                     Pay Status
                                 </th>
-                                <th class="col text-nowrap" colspan="2">
+                                <th class="col text-nowrap">
                                     Comments
                                 </th>
-                                @*<th class="col" colspan="2">
-                                    Status
-                                </th>*@
                             </tr>
                         </thead>
                         <tbody>
@@ -132,30 +129,6 @@
                                                     }
                                                 </DropdownActions>
                                             </td>
-                                            <td class="text-nowrap">
-                                                @record.Comments
-                                            </td>
-                                            @*<td>
-                                                <div class="form-check form-switch">
-                                                    @if (record.IsActive)
-                                                    {
-                                                        <input class="form-check-input"
-                                                                type="checkbox"
-                                                                role="switch"
-                                                                id="IsActive"
-                                                                checked
-                                                                @onclick="() => UpdateStatusAsync(record)" />
-                                                    }
-                                                    else
-                                                    {
-                                                        <input class="form-check-input"
-                                                                type="checkbox"
-                                                                role="switch"
-                                                                id="IsActive"
-                                                                @onclick="() => UpdateStatusAsync(record)" />
-                                                    }
-                                                </div>
-                                            </td>*@
                                             <td class="text-center">
                                                 <button class="btn btn-link p-0 text-danger"
                                                         type="button"
@@ -163,6 +136,9 @@
                                                         @onclick="() => EditRecordAsync(record)">
                                                     <i class="bi bi-pencil"></i>
                                                 </button>
+                                            </td>
+                                            <td class="text-nowrap">
+                                                @record.Comments
                                             </td>
                                         </tr>
                                     }

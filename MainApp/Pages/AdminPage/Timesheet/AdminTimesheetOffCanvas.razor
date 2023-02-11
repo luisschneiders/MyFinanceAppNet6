@@ -53,10 +53,12 @@
                     else
                     {
                         <InputSelect class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? "form-control-plaintext" : "form-control")"
+                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit ) ? "form-control-plaintext" : "form-control")"
                                      id="CompanyId"
                                      disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                               _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
+                                               _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                               _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit ) ? true: false)"
                                      @oninput="OnValueChanged"
                                      @bind-Value="_timesheetModel.CompanyId">
                             <option value="0">-- Select Company --</option>
@@ -70,34 +72,40 @@
                 </div>
                 <div class="form-floating mb-3">
                     <InputDate class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? "form-control-plaintext" : "form-control")"
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control")"
                                id="TimeIn"
                                placeholder="Clock in"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
+                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
                                @bind-Value="_timesheetModel.TimeIn"
                                Type="InputDateType.DateTimeLocal" />
                     <label for="TimeIn">Clock in</label>
                 </div>
                 <div class="form-floating mb-3">
                     <InputNumber class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? "form-control-plaintext" : "form-control")"
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control")"
                                  id="TimeBreak"
                                  placeholder="Break (in minutes)"
                                  min="0"
                                  max="60"
                                  readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
+                                             _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                             _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit ) ? true: false)"
                                  @bind-Value="_timesheetModel.TimeBreak" />
                     <label for="TimeBreak">Break (in minutes)</label>
                 </div>
                 <div class="form-floating mb-3">
                     <InputDate class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? "form-control-plaintext" : "form-control")"
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control")"
                                id="TimeOut"
                                placeholder="Clock out"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
+                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
                                @bind-Value="_timesheetModel.TimeOut"
                                Type="InputDateType.DateTimeLocal" />
                     <label for="TimeOut">Clock out</label>
@@ -114,7 +122,7 @@
                 </div>
                 @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add)
                 {
-                    <div class="form-check form-switch form-check-reverse">
+                    <div class="form-check form-switch form-check-reverse d-flex justify-content-start">
                         <label class="form-check-label" for="IsDifferentRate">Public holiday or different rate?</label>
                         <InputCheckbox class="form-check-input"
                                        type="checkbox"

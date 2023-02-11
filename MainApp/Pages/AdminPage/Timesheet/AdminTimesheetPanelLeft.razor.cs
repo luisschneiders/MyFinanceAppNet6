@@ -55,8 +55,11 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
             }
             catch (Exception ex)
             {
+                _isLoading = false;
                 _toastService.ShowToast(ex.Message, Theme.Danger);
             }
+
+            StateHasChanged();
         }
 
         await Task.CompletedTask;
@@ -68,7 +71,6 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         {
             _timesheets = await _timesheetService.GetRecordsByDateRange(_dateTimeRangeModel);
             _isLoading = false;
-            StateHasChanged();
         }
         catch (Exception ex)
         {
