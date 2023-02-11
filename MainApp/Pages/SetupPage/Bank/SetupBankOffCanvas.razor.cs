@@ -35,7 +35,6 @@ public partial class SetupBankOffCanvas
     public async Task AddRecordOffCanvasAsync()
     {
         _bankModel = new();
-
         await _offCanvasService.AddRecordAsync();
         await Task.CompletedTask;
     }
@@ -52,15 +51,14 @@ public partial class SetupBankOffCanvas
             else
             {
                 _bankModel = new();
-                await Task.Delay((int)Delay.DataError);
                 _toastService.ShowToast("No record found!", Theme.Danger);
             }
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
+
         await Task.CompletedTask;
     }
 
@@ -76,15 +74,14 @@ public partial class SetupBankOffCanvas
             else
             {
                 _bankModel = new();
-                await Task.Delay((int)Delay.DataError);
                 _toastService.ShowToast("No record found!", Theme.Danger);
             }
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
+
         await Task.CompletedTask;
     }
 
@@ -102,7 +99,6 @@ public partial class SetupBankOffCanvas
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 
@@ -144,19 +140,15 @@ public partial class SetupBankOffCanvas
             DataModel = _bankModel;
 
             await OnSubmitSuccess.InvokeAsync();
-
             await Task.Delay((int)Delay.DataSuccess);
-
             await CloseOffCanvasAsync();
-
         }
         catch (Exception ex)
         {
             _isProcessing = false;
-
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
+
         await Task.CompletedTask;
     }
 
@@ -170,7 +162,6 @@ public partial class SetupBankOffCanvas
     private async Task CloseOffCanvasAsync()
     {
         _bankModel = new();
-
         await _offCanvasService.CloseAsync();
         await Task.CompletedTask;
     }

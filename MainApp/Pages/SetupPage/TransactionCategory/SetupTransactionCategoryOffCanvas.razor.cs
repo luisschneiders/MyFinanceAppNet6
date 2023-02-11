@@ -80,15 +80,14 @@ public partial class SetupTransactionCategoryOffCanvas : ComponentBase
             else
             {
                 _transactionCategoryModel = new();
-                await Task.Delay((int)Delay.DataError);
                 _toastService.ShowToast("No record found!", Theme.Danger);
             }
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
+
         await Task.CompletedTask;
     }
 
@@ -104,15 +103,14 @@ public partial class SetupTransactionCategoryOffCanvas : ComponentBase
             else
             {
                 _transactionCategoryModel = new();
-                await Task.Delay((int)Delay.DataError);
                 _toastService.ShowToast("No record found!", Theme.Danger);
             }
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
+
         await Task.CompletedTask;
     }
 
@@ -130,7 +128,6 @@ public partial class SetupTransactionCategoryOffCanvas : ComponentBase
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 
@@ -168,19 +165,15 @@ public partial class SetupTransactionCategoryOffCanvas : ComponentBase
             DataModel = _transactionCategoryModel;
 
             await OnSubmitSuccess.InvokeAsync();
-
             await Task.Delay((int)Delay.DataSuccess);
-
             await CloseOffCanvasAsync();
-
         }
         catch (Exception ex)
         {
             _isProcessing = false;
-
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
+
         await Task.CompletedTask;
     }
 
@@ -194,7 +187,6 @@ public partial class SetupTransactionCategoryOffCanvas : ComponentBase
     private async Task CloseOffCanvasAsync()
     {
         _transactionCategoryModel = new();
-
         await _offCanvasService.CloseAsync();
         await Task.CompletedTask;
     }

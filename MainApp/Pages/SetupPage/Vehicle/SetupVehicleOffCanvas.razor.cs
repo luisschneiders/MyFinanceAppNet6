@@ -51,15 +51,14 @@ public partial class SetupVehicleOffCanvas : ComponentBase
             else
             {
                 _vehicleModel = new();
-                await Task.Delay((int)Delay.DataError);
                 _toastService.ShowToast("No record found!", Theme.Danger);
             }
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
+
         await Task.CompletedTask;
     }
 
@@ -75,15 +74,14 @@ public partial class SetupVehicleOffCanvas : ComponentBase
             else
             {
                 _vehicleModel = new();
-                await Task.Delay((int)Delay.DataError);
                 _toastService.ShowToast("No record found!", Theme.Danger);
             }
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
+
         await Task.CompletedTask;
     }
 
@@ -101,7 +99,6 @@ public partial class SetupVehicleOffCanvas : ComponentBase
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 
@@ -139,19 +136,15 @@ public partial class SetupVehicleOffCanvas : ComponentBase
             DataModel = _vehicleModel;
 
             await OnSubmitSuccess.InvokeAsync();
-
             await Task.Delay((int)Delay.DataSuccess);
-
             await CloseOffCanvasAsync();
-
         }
         catch (Exception ex)
         {
             _isProcessing = false;
-
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
+
         await Task.CompletedTask;
     }
 
@@ -165,7 +158,6 @@ public partial class SetupVehicleOffCanvas : ComponentBase
     private async Task CloseOffCanvasAsync()
     {
         _vehicleModel = new();
-
         await _offCanvasService.CloseAsync();
         await Task.CompletedTask;
     }

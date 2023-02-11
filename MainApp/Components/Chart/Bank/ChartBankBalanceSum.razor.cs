@@ -47,10 +47,10 @@ public partial class ChartBankBalanceSum : ComponentBase
             }
             catch (Exception ex)
             {
-                await Task.Delay((int)Delay.DataError);
                 _toastService.ShowToast(ex.Message, Theme.Danger);
             }
         }
+
         await Task.CompletedTask;
     }
 
@@ -64,7 +64,6 @@ public partial class ChartBankBalanceSum : ComponentBase
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 
@@ -95,7 +94,6 @@ public partial class ChartBankBalanceSum : ComponentBase
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 

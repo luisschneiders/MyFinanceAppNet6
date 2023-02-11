@@ -55,10 +55,10 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
             }
             catch (Exception ex)
             {
-                await Task.Delay((int)Delay.DataError);
                 _toastService.ShowToast(ex.Message, Theme.Danger);
             }
         }
+
         await Task.CompletedTask;
     }
 
@@ -73,7 +73,6 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         catch (Exception ex)
         {
             _isLoading = false;
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 
@@ -89,13 +88,14 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
                 Id = timesheetModelListDTO.Id,
                 IsActive = timesheetModelListDTO.IsActive
             };
+
             await _timesheetService.UpdateRecordStatus(timesheetModel);
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
+
         await Task.CompletedTask;
     }
 
@@ -108,14 +108,15 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
                 Id = timesheetModelListDTO.Id,
                 PayStatus = payStatus
             };
+
             await _timesheetService.UpdateRecordPayStatus(timesheetModel);
             await RefreshList();
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
+
         await Task.CompletedTask;
     }
 
@@ -139,9 +140,9 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
+
         await Task.CompletedTask;
     }
 
@@ -153,16 +154,15 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
+
         await Task.CompletedTask;
     }
 
     private async Task RefreshListFromDropdownDateRange()
     {
         await FetchDataAsync();
-
         _toastService.ShowToast("Date range has changed!", Theme.Info);
         await Task.CompletedTask;
     }

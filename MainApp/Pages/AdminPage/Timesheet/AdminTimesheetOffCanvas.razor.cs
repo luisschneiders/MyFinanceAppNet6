@@ -44,7 +44,6 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
             }
             catch (Exception ex)
             {
-                await Task.Delay((int)Delay.DataError);
                 _toastService.ShowToast(ex.Message, Theme.Danger);
             }
         }
@@ -73,13 +72,11 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
             else
             {
                 _timesheetModel = new();
-                await Task.Delay((int)Delay.DataError);
                 _toastService.ShowToast("No record found!", Theme.Danger);
             }
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
         await Task.CompletedTask;
@@ -97,13 +94,11 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
             else
             {
                 _timesheetModel = new();
-                await Task.Delay((int)Delay.DataError);
                 _toastService.ShowToast("No record found!", Theme.Danger);
             }
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
         await Task.CompletedTask;
@@ -120,7 +115,6 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
         catch (Exception ex)
         {
             _isLoading = false;
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 
@@ -141,7 +135,6 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 
@@ -159,10 +152,7 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
 
             if (offCanvasViewType == OffCanvasViewType.Add)
             {
-
                 await _timesheetService.CreateRecord(_timesheetModel);
-
-                _timesheetModel.Id = await _timesheetService.GetLastInsertedId();
                 _toastService.ShowToast("Timesheet added!", Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Edit)
@@ -175,20 +165,16 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
                 await _timesheetService.ArchiveRecord(_timesheetModel);
                 _toastService.ShowToast("Timesheet archived!", Theme.Success);
             }
+
             _isProcessing = false;
 
             await OnSubmitSuccess.InvokeAsync();
-
             await Task.Delay((int)Delay.DataSuccess);
-
             await CloseOffCanvasAsync();
-
         }
         catch (Exception ex)
         {
             _isProcessing = false;
-
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
         await Task.CompletedTask;
