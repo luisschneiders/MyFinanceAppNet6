@@ -24,6 +24,7 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
     public EventCallback OnSubmitSuccess { get; set; }
 
     private bool _displayErrorMessages { get; set; } = false;
+    private bool _isDifferentRate { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
     private bool _isLoading { get; set; } = true;
 
@@ -193,5 +194,21 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
 
         await _offCanvasService.CloseAsync();
         await Task.CompletedTask;
+    }
+
+    private async void OnValueChanged(ChangeEventArgs args)
+    {
+        var valueChanged = args?.Value;
+
+        if (valueChanged is not null)
+        {
+            ulong companyId = ulong.Parse(valueChanged.ToString()!);
+
+            if (companyId > 0)
+            {
+                _timesheetModel.HourRate = await _companyService.GetHourRate(companyId.ToString());
+                StateHasChanged();
+            }
+        }
     }
 }

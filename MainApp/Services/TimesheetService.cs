@@ -10,9 +10,6 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
     private ITimesheetData<TimesheetModel> _timesheetData { get; set; } = default!;
 
     [Inject]
-    private ICompanyService<CompanyModel> _companyService { get; set; } = default!;
-
-    [Inject]
     private AuthenticationStateProvider _authProvider { get; set; } = default!;
 
     [Inject]
@@ -20,12 +17,11 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
 
     private UserModel _loggedInUser { get; set; } = new();
 
-    public TimesheetService(ITimesheetData<TimesheetModel> timesheetData, IUserData userData, AuthenticationStateProvider authProvider, ICompanyService<CompanyModel> companyService)
+    public TimesheetService(ITimesheetData<TimesheetModel> timesheetData, IUserData userData, AuthenticationStateProvider authProvider)
     {
         _timesheetData = timesheetData;
         _userData = userData;
         _authProvider = authProvider;
-        _companyService = companyService;
     }
 
     public async Task ArchiveRecord(TimesheetModel model)
@@ -53,7 +49,6 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         try
         {
             var user = await GetLoggedInUser();
-            var hourRate = await _companyService.GetHourRate(model.CompanyId.ToString());
 
             TimesheetModel recordModel = new()
             {
@@ -62,7 +57,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
                 TimeBreak = model.TimeBreak,
                 TimeOut = model.TimeOut,
                 Comments = model.Comments,
-                HourRate = hourRate,
+                HourRate = model.HourRate,
                 UpdatedBy = user.Id
             };
 

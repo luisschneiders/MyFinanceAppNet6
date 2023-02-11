@@ -57,6 +57,7 @@
                                      id="CompanyId"
                                      disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
+                                     @oninput="OnValueChanged"
                                      @bind-Value="_timesheetModel.CompanyId">
                             <option value="0">-- Select Company --</option>
                             @foreach (var (company, index) in _activeCompanies.Select((value, index) => (value, index)))
@@ -111,6 +112,27 @@
                                @bind-Value="_timesheetModel.Comments" />
                     <label for="Comments">Comments</label>
                 </div>
+                @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add)
+                {
+                    <div class="form-check form-switch form-check-reverse">
+                        <label class="form-check-label" for="IsDifferentRate">Public holiday or different rate?</label>
+                        <InputCheckbox class="form-check-input"
+                                       type="checkbox"
+                                       role="switch"
+                                       id="IsDifferentRate"
+                                       @bind-Value="_isDifferentRate" />
+                    </div>
+                    if (_isDifferentRate)
+                    {
+                        <div class="form-floating mb-3">
+                            <InputNumber class="form-control"
+                                         id="HourRate"
+                                         placeholder="Hour Rate"
+                                         @bind-Value="_timesheetModel.HourRate" />
+                            <label for="HourRate">Hour Rate</label>
+                        </div>
+                    }
+                }
             </div>
         </div>
         @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
