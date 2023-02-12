@@ -7,11 +7,32 @@
 <CardView Styles="border-0">
     <CardMiddle>
         <div class="row justify-content-between pb-2">
-            <div class="col-10 col-md-8 col-lg-6 pb-2">
-                <DropdownDateRange IconColor="Theme.Info"
-                                   ButtonSize="Size.Md"
-                                   DateTimeRange="@_dateTimeRangeModel"
-                                   OnSubmitSuccess="RefreshListFromDropdownDateRange" />
+            <div class="col-10 col-md-8 col-lg-6 pb-2 d-flex justify-content-between">
+                <div>
+                    <DropdownDateRange IconColor="Theme.Info"
+                                       ButtonSize="Size.Md"
+                                       DateTimeRange="@_dateTimeRangeModel"
+                                       OnSubmitSuccess="RefreshListFromDropdownDateRange" />
+
+                </div>
+                <div class="px-3 d-flex">
+                    <DropdownActions Title="Filter by Company"
+                                     ButtonSize="Size.Md"
+                                     Icon="bi-chevron-down">
+                        @foreach (var (company, index) in _companies.Select((value, index) => (value, index)))
+                        {
+                            <li class="px-2">
+                                <button class="dropdown-item"
+                                        @onclick="() => RefreshListFromCompanyFilter()">
+                                    @($"{company.Description}")
+                                </button>
+                            </li>
+                        }
+                    </DropdownActions>
+                    <sup>
+                        <Badge BackgroundColor="Theme.Warning" Message="Coming soon!"/>
+                    </sup>
+                </div>
             </div>
             <div class="col-2 col-md-2 col-lg-2 d-flex justify-content-end pb-2">
                 <DropdownActions>

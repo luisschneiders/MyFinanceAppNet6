@@ -15,6 +15,9 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
     [Inject]
+    private ICompanyService<CompanyModel> _companyService { get; set; } = default!;
+
+    [Inject]
     private SpinnerService _spinnerService { get; set; } = new();
 
     [Inject]
@@ -28,6 +31,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     private DateTimeRangeModel _dateTimeRangeModel { get; set; } = new();
 
     private List<TimesheetModelListDTO> _timesheets { get; set; } = new();
+    private List<CompanyModel> _companies { get; set; } = new();
 
     private PayStatus[] _payStatuses { get; set; } = default!;
 
@@ -69,6 +73,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     {
         try
         {
+            _companies = await _companyService.GetRecordsActive();
             _timesheets = await _timesheetService.GetRecordsByDateRange(_dateTimeRangeModel);
             _isLoading = false;
         }
@@ -166,6 +171,10 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     {
         await FetchDataAsync();
         _toastService.ShowToast("Date range has changed!", Theme.Info);
+        await Task.CompletedTask;
+    }
+    private async Task RefreshListFromCompanyFilter()
+    {
         await Task.CompletedTask;
     }
     private string UpdatePayStatusTitle(int payStatus)
