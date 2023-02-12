@@ -8,3 +8,4 @@ global using MainApp.Settings.Theme;
 global using MainApp.Services;
 global using DateTimeLibrary.Models;
 global using DateTimeLibrary.Services;
+global using ExtensionsLibrary;

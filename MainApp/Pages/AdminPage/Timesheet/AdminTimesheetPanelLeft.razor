@@ -113,7 +113,7 @@
 
                                         <tr class="@(record.IsActive == false ? "text-secondary text-opacity-50" : "" )">
                                             <td class="text-nowrap">
-                                                @record.Description
+                                                @record.Description.Truncate((int)Truncate.Company)
                                             </td>
                                             <td class="text-nowrap">
                                                 @record.TimeIn.ToString("dd/MM/yy")
