@@ -1,29 +1,20 @@
 ﻿@using MainApp.Components.Card
 @using MainApp.Components.Badge
 @using MainApp.Components.Spinner
+@using MainApp.Components.Toast
+@using MainApp.Components.Shared
 
-<div class="row justify-content-between">
-    <div class="col-auto">
-        <div class="text-uppercase">
-            Active Accounts
-            <sup>
-                <Badge BackgroundColor="@Theme.Success" Message="New" />
-            </sup>
-        </div>
-    </div>
-    <div class="col-auto">
-        <i class="bi bi-graph-up display-6 text-info"></i>
-    </div>
-</div>
+<SharedHeader Title="Active Accounts"
+              Icon="bi-graph-up"
+              IconColor="Theme.Info" />
+
 @if (_isLoading)
 {
-    <div class="d-flex justify-content-center h-100">
-        <div class="d-flex align-items-center">
-            <Spinner Size="Size.Sm" />
-            <span class="ps-1">
-                Loading ...
-            </span>
-        </div>
+    <div class="d-flex justify-content-center align-items-center">
+        <Spinner Size="Size.Sm" />
+        <span class="ps-1">
+            Loading ...
+        </span>
     </div>
 }
 else
@@ -37,3 +28,4 @@ else
            Labels="@(_chartLabels)"
            OnSubmitSuccess="SetChartObjectReference" />
 }
+<Toast />

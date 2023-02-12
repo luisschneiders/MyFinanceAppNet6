@@ -63,6 +63,7 @@ public partial class SetupExpenseCategoryPanelLeft : ComponentBase
         {
             _searchButtonEnabled = true;
         }
+
         await Task.CompletedTask;
     }
 
@@ -79,9 +80,7 @@ public partial class SetupExpenseCategoryPanelLeft : ComponentBase
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
-
         }
 
         await Task.CompletedTask;
@@ -97,7 +96,6 @@ public partial class SetupExpenseCategoryPanelLeft : ComponentBase
         catch (Exception ex)
         {
             _isLoading = false;
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 
@@ -112,9 +110,9 @@ public partial class SetupExpenseCategoryPanelLeft : ComponentBase
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
+
         await Task.CompletedTask;
     }
 
@@ -161,9 +159,9 @@ public partial class SetupExpenseCategoryPanelLeft : ComponentBase
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
+
         await Task.CompletedTask;
     }
 
@@ -175,9 +173,9 @@ public partial class SetupExpenseCategoryPanelLeft : ComponentBase
         }
         catch (Exception ex)
         {
-            await Task.Delay((int)Delay.DataError);
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
+
         await Task.CompletedTask;
     }
 }

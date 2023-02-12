@@ -97,9 +97,22 @@ public class CompanyData : ICompanyData<CompanyModel>
         }
     }
 
-    public Task<List<CompanyModel>> GetRecordsActive(string userId)
+    public async Task<List<CompanyModel>> GetRecordsActive(string userId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var results = await _dataAccess.LoadData<CompanyModel, dynamic>(
+                "myfinancedb.spCompany_GetAllActive",
+                new { userId = userId },
+                "Mysql");
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public async Task<List<CompanyModel>> GetSearchResults(string userId, string search)

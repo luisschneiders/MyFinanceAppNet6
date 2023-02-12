@@ -11,6 +11,9 @@
     <ProjectReference Include="..\MyFinanceAppLibrary\MyFinanceAppLibrary.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\DateTimeLibrary\DateTimeLibrary.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Remove="Microsoft.Identity.Web" />
@@ -24,6 +27,9 @@
     <None Remove="Pages\SetupPage\Company\" />
     <None Remove="Components\Chart\Bank\" />
     <None Remove="Pages\DashboardPage\" />
+    <None Remove="Pages\AdminPage\" />
+    <None Remove="Pages\AdminPage\Timesheet\" />
+    <None Remove="Components\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Web" Version="1.25.10" />
@@ -38,5 +44,8 @@
     <Folder Include="Pages\SetupPage\Company\" />
     <Folder Include="Components\Chart\Bank\" />
     <Folder Include="Pages\DashboardPage\" />
+    <Folder Include="Pages\AdminPage\" />
+    <Folder Include="Pages\AdminPage\Timesheet\" />
+    <Folder Include="Components\Shared\" />
   </ItemGroup>
 </Project>

@@ -29,6 +29,9 @@ h1:focus {
     text-shadow: 1px 1px 2px #000;
 }
 
+.app-table-head-vertical-align-top {
+    vertical-align: top !important;
+}
 /*
 * The component Virtualize won't work if we don't set a fix height for tables
 */

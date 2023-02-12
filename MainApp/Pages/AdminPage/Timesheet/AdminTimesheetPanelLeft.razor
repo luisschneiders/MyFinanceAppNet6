@@ -1,0 +1,183 @@
+﻿@using MainApp.Components.Card
+@using MainApp.Components.Dropdown
+@using MainApp.Components.Toast
+@using MainApp.Components.Spinner
+@using MainApp.Components.Badge
+
+<CardView Styles="border-0">
+    <CardMiddle>
+        <div class="row justify-content-between pb-2">
+            <div class="col-10 col-md-8 col-lg-6 pb-2 d-flex justify-content-between">
+                <div>
+                    <DropdownDateRange IconColor="Theme.Info"
+                                       ButtonSize="Size.Md"
+                                       DateTimeRange="@_dateTimeRangeModel"
+                                       OnSubmitSuccess="RefreshListFromDropdownDateRange" />
+
+                </div>
+                <div class="px-3 d-flex">
+                    <DropdownActions Title="Filter by Company"
+                                     ButtonSize="Size.Md"
+                                     Icon="bi-chevron-down">
+                        @foreach (var (company, index) in _companies.Select((value, index) => (value, index)))
+                        {
+                            <li class="px-2">
+                                <button class="dropdown-item"
+                                        @onclick="() => RefreshListFromCompanyFilter()">
+                                    @($"{company.Description}")
+                                </button>
+                            </li>
+                        }
+                    </DropdownActions>
+                    <sup>
+                        <Badge BackgroundColor="Theme.Warning" Message="Coming soon!"/>
+                    </sup>
+                </div>
+            </div>
+            <div class="col-2 col-md-2 col-lg-2 d-flex justify-content-end pb-2">
+                <DropdownActions>
+                    <li class="px-2">
+                        <button class="dropdown-item"
+                                @onclick="() => AddRecordAsync()">
+                            <i class="bi bi-plus-lg pe-1"></i>New timesheet
+                        </button>
+                    </li>
+                </DropdownActions>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive app-page-responsive-height">
+                    <table class="table table-hover">
+                        <thead class="app-table-head-vertical-align-top">
+                            <tr>
+                                <th class="col-3 text-nowrap">
+                                    Company
+                                </th>
+                                <th class="col text-nowrap">
+                                    Date
+                                </th>
+                                <th class="col text-nowrap">
+                                    Clock in
+                                </th>
+                                <th class="col text-nowrap">
+                                    Break
+                                </th>
+                                <th class="col text-nowrap">
+                                    Clock out
+                                </th>
+                                <th class="col text-nowrap">
+                                    Hours worked
+                                </th>
+                                <th class="col text-nowrap text-end">
+                                    Total
+                                </th>
+                                <th class="col text-nowrap" colspan="2">
+                                    Pay Status
+                                </th>
+                                <th class="col text-nowrap">
+                                    Comments
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (_isLoading)
+                            {
+                                <tr>
+                                    <td class="text-center" colspan="10">
+                                        <div>
+                                            <Spinner Size="Size.Sm" />
+                                            <span>
+                                                Loading ...
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @if (_timesheets.Count <= 0)
+                                {
+                                    <tr>
+                                        <td class="text-center" colspan="10">
+                                            <div>
+                                                Not record found!
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    foreach (var record in _timesheets)
+                                    {
+
+                                        <tr class="@(record.IsActive == false ? "text-secondary text-opacity-50" : "" )">
+                                            <td class="text-nowrap">
+                                                @record.Description
+                                            </td>
+                                            <td class="text-nowrap">
+                                                @record.TimeIn.ToString("dd/MM/yy")
+                                            </td>
+                                            <td class="text-nowrap">
+                                                @record.TimeIn.ToString("t")
+                                            </td>
+                                            <td class="text-nowrap">
+                                                @($"{record.TimeBreak}m")
+                                            </td>
+                                            <td class="text-nowrap">
+                                                @record.TimeOut.ToString("t")
+                                            </td>
+                                            <td class="text-nowrap">
+                                                @record.HoursWorked.ToString("h'h 'm'm '")
+                                                @if (record.IsActive == false)
+                                                {
+                                                    <sup class="text-uppercase">
+                                                        <Badge BackgroundColor="Theme.Info" Message="Inactive"/>
+                                                    </sup>
+                                                }
+                                            </td>
+                                            <td class="text-nowrap">
+                                                @record.TotalAmount.ToString("C")
+                                            </td>
+                                            <td class="text-nowrap">
+                                                <DropdownActions Title="@UpdatePayStatusTitle(record.PayStatus)"
+                                                                 ButtonSize="Size.Sm"
+                                                                 Icon="bi-chevron-down"
+                                                                 ButtonColor="@UpdatePayStatusButtonColor(record.PayStatus)">
+                                                    @foreach (var (status, index) in _payStatuses.Select((value, index) => (value, index)))
+                                                    {
+                                                        int statusValue = index;
+                                                        
+                                                        <li class="px-2">
+                                                            <button class="dropdown-item"
+                                                                    @onclick="() => UpdatePayStatusAsync(record, statusValue)">
+                                                                @($"{status}")
+                                                            </button>
+                                                        </li>
+                                                    }
+                                                </DropdownActions>
+                                            </td>
+                                            <td class="text-center">
+                                                <button class="btn btn-link p-0 text-danger"
+                                                        type="button"
+                                                        title="Edit"
+                                                        @onclick="() => EditRecordAsync(record)">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                            </td>
+                                            <td class="text-nowrap">
+                                                @record.Comments
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </CardMiddle>
+</CardView>
+<AdminTimesheetOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
+<Toast />

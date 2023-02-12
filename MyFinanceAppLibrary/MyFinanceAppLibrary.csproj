@@ -24,4 +24,7 @@
     <Folder Include="DataAccess\NoSql\" />
     <Folder Include="DataAccess\Sql\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DateTimeLibrary\DateTimeLibrary.csproj" />
+  </ItemGroup>
 </Project>

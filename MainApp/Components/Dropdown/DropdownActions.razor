@@ -1,10 +1,19 @@
 ﻿<div class="dropdown @(IsDisplayLargeNone ? "d-lg-none" : "")">
-    <button class="btn btn-light"
+    <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + ButtonColor.ToString().ToLower() + "-emphasis") text-nowrap"
             title="More actions"
             id="dropdownMenuOptions"
             data-bs-toggle="dropdown"
             aria-expanded="false">
-        <i class="bi bi-three-dots text-@IconColor.ToString().ToLower()"></i>
+        <div>
+            @if (Title.Length > 0)
+            {
+                <span class="pe-1">@Title</span>
+            }
+            @if (Icon.Length > 0)
+            {
+                <i class="bi @Icon" ></i>
+            }
+        </div>
     </button>
     <ul class="dropdown-menu dropdown-menu-end border-0 bg-light-subtle shadow-sm"
         aria-labelledby="dropdownMenuOptions">

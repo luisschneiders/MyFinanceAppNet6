@@ -1,0 +1,43 @@
+﻿<div class="@DropdownPosition @(IsDisplayLargeNone ? "d-lg-none" : "") ">
+    <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + ButtonColor.ToString().ToLower() + "-emphasis") text-nowrap"
+            title="Change date range"
+            id="dropdownDateRange"
+            data-bs-toggle="dropdown"
+            data-bs-auto-close="outside"
+            aria-expanded="false">
+        <i class="bi bi-calendar3 text-@IconColor.ToString().ToLower()"></i>
+        @_dateRangeLabel
+        <i class="bi bi-chevron-down ps-1"></i>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end border-0 bg-light-subtle shadow-sm ps-2"
+        aria-labelledby="dropdownDateRange">
+
+        <li class="d-flex pe-2 gap-2">
+            <input class="form-control form-control-sm"
+                    id="Start"
+                    type="date"
+                    placeholder="Start date"
+                    @bind-value="DateTimeRange.Start" />
+
+            <input class="form-control form-control-sm"
+                    id="End"
+                    type="date"
+                    placeholder="End date"
+                    @bind-value="DateTimeRange.End" />
+            <button type="submit"
+                    class="btn btn-primary btn-sm"
+                    title="Confirm"
+                    @onclick="() => ChangeDateAsync()">
+                <i class="bi bi-check-lg"></i>
+            </button>
+        </li>
+        @if (!_isValidDateRange)
+        {
+            <li class="d-flex px-2 gap-2">
+                <span class="validation-message">
+                    Invalid date range, please check!
+                </span>
+            </li>
+        }
+    </ul>
+</div>

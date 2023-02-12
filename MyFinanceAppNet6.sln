@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainApp", "MainApp\MainApp.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFinanceAppLibrary", "MyFinanceAppLibrary\MyFinanceAppLibrary.csproj", "{BB33CFCA-95CA-4FC0-AEE4-29421A843141}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DateTimeLibrary", "DateTimeLibrary\DateTimeLibrary.csproj", "{4006DF20-DE3B-4431-A786-F42E85A6B26A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{BB33CFCA-95CA-4FC0-AEE4-29421A843141}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB33CFCA-95CA-4FC0-AEE4-29421A843141}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB33CFCA-95CA-4FC0-AEE4-29421A843141}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4006DF20-DE3B-4431-A786-F42E85A6B26A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4006DF20-DE3B-4431-A786-F42E85A6B26A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4006DF20-DE3B-4431-A786-F42E85A6B26A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4006DF20-DE3B-4431-A786-F42E85A6B26A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
