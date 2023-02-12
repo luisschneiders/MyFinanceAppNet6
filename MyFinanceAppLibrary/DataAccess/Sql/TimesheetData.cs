@@ -147,7 +147,6 @@ public class TimesheetData : ITimesheetData<TimesheetModel>
                     timesheetId = model.Id,
                     timesheetComments = model.Comments,
                     timesheetIsActive = model.IsActive,
-                    timesheetPayStatus = model.PayStatus,
                     timesheetUpdatedBy = model.UpdatedBy,
                     timesheetUpdatedAt = model.UpdatedAt,
                 },

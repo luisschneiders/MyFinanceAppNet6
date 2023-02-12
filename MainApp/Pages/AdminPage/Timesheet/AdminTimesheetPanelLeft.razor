@@ -2,6 +2,7 @@
 @using MainApp.Components.Dropdown
 @using MainApp.Components.Toast
 @using MainApp.Components.Spinner
+@using MainApp.Components.Badge
 
 <CardView Styles="border-0">
     <CardMiddle>
@@ -89,7 +90,7 @@
                                     foreach (var record in _timesheets)
                                     {
 
-                                        <tr>
+                                        <tr class="@(record.IsActive == false ? "text-secondary text-opacity-50" : "" )">
                                             <td class="text-nowrap">
                                                 @record.Description
                                             </td>
@@ -107,6 +108,12 @@
                                             </td>
                                             <td class="text-nowrap">
                                                 @record.HoursWorked.ToString("h'h 'm'm '")
+                                                @if (record.IsActive == false)
+                                                {
+                                                    <sup class="text-uppercase">
+                                                        <Badge BackgroundColor="Theme.Info" Message="Inactive"/>
+                                                    </sup>
+                                                }
                                             </td>
                                             <td class="text-nowrap">
                                                 @record.TotalAmount.ToString("C")
