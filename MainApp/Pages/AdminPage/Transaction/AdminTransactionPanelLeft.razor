@@ -1,0 +1,32 @@
+﻿@using MainApp.Components.Card
+@using MainApp.Components.Dropdown
+@using MainApp.Components.Toast
+@using MainApp.Components.Spinner
+@using MainApp.Components.Badge
+
+<CardView Styles="border-0">
+    <CardMiddle>
+        <div class="row justify-content-between pb-2">
+            <div class="col-10 col-md-8 col-lg-6 pb-2 d-flex justify-content-between">
+            </div>
+            <div class="col-2 col-md-2 col-lg-2 d-flex justify-content-end pb-2">
+                <DropdownActions>
+                    <li class="px-2">
+                        <button class="dropdown-item">
+                            <i class="bi bi-plus-lg pe-1"></i>New transaction
+                        </button>
+                    </li>
+                </DropdownActions>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive app-page-responsive-height">
+
+                </div>
+            </div>
+        </div>
+    </CardMiddle>
+</CardView>
+@*<AdminTransactionOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />*@
+<Toast />
