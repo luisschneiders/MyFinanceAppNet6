@@ -62,7 +62,8 @@
                     <InputSelect class="form-select"
                                  id="TransactionCategoryActionType"
                                  disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                 _offCanvasService.GetOffCanvasViewType()== OffCanvasViewType.Archive) ? true: false)"
+                                             _offCanvasService.GetOffCanvasViewType()== OffCanvasViewType.Archive ||
+                                             _offCanvasService.GetOffCanvasViewType()== OffCanvasViewType.Edit) ? true: false)"
                                  @bind-Value="_transactionCategoryModel.ActionType">
                         <option value="">-- Select action type --</option>
                         @foreach (var (item, index) in _actionTypes.Select((value, index) => (value, index)))
