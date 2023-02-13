@@ -14,7 +14,13 @@ public partial class DropdownActions : ComponentBase
     public Size ButtonSize { get; set; } = Size.Md;
 
     [Parameter]
-    public string Icon { get; set; } = "bi-three-dots";
+    public string IconStart { get; set; } = string.Empty;
+
+    [Parameter]
+    public Theme IconStartColor { get; set; } = Theme.Light;
+
+    [Parameter]
+    public string IconEnd { get; set; } = "bi-three-dots";
 
     [Parameter]
     public Theme ButtonColor { get; set; } = Theme.Light;

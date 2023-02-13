@@ -18,7 +18,10 @@
                 <div class="px-3 d-flex">
                     <DropdownActions Title="Filter by Company"
                                      ButtonSize="Size.Md"
-                                     Icon="bi-chevron-down">
+                                     IconEnd="bi-chevron-down"
+                                     IconStart="bi-building"
+                                     IconStartColor="Theme.Info"
+                                     >
                         @foreach (var (company, index) in _companies.Select((value, index) => (value, index)))
                         {
                             <li class="px-2">
@@ -142,7 +145,7 @@
                                             <td class="text-nowrap">
                                                 <DropdownActions Title="@UpdatePayStatusTitle(record.PayStatus)"
                                                                  ButtonSize="Size.Sm"
-                                                                 Icon="bi-chevron-down"
+                                                                 IconEnd="bi-chevron-down"
                                                                  ButtonColor="@UpdatePayStatusButtonColor(record.PayStatus)">
                                                     @foreach (var (status, index) in _payStatuses.Select((value, index) => (value, index)))
                                                     {
