@@ -167,8 +167,18 @@ public class TransactionCategoryService : ITransactionCategoryService<Transactio
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
     }
 
-    public Task<List<TransactionCategoryModel>> GetRecordsActive()
+    public async Task<List<TransactionCategoryModel>> GetRecordsActive()
     {
-        throw new NotImplementedException();
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<TransactionCategoryModel> results = await _transactionCategoryData.GetRecordsActive(user.Id);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 }

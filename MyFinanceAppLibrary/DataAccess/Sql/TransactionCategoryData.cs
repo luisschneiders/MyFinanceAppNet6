@@ -96,9 +96,22 @@ public class TransactionCategoryData : ITransactionCategoryData<TransactionCateg
         }
     }
 
-    public Task<List<TransactionCategoryModel>> GetRecordsActive(string userId)
+    public async Task<List<TransactionCategoryModel>> GetRecordsActive(string userId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var results = await _dataAccess.LoadData<TransactionCategoryModel, dynamic>(
+                "myfinancedb.spTransactionCategory_GetAllActive",
+                new { userId = userId },
+                "Mysql");
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public async Task<List<TransactionCategoryModel>> GetSearchResults(string userId, string search)
