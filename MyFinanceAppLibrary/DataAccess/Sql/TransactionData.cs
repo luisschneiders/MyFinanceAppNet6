@@ -9,14 +9,119 @@ public class TransactionData : ITransactionData<TransactionModel>
         _dataAccess = dataAccess;
     }
 
-    public Task ArchiveRecord(TransactionModel model)
+    public async Task ArchiveRecord(TransactionModel model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            await _dataAccess.SaveData<dynamic>(
+                "myfinancedb.spTransaction_Archive",
+                new
+                {
+                    transactionId = model.Id,
+                    transactionIsArchived = model.IsArchived,
+                    transactionUpdatedBy = model.UpdatedBy,
+                    transactionUpdatedAt = model.UpdatedAt,
+                },
+                "Mysql");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public Task CreateRecord(TransactionModel model)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task CreateRecordCredit(TransactionModel model)
+    {
+        try
+        {
+            await _dataAccess.LoadData<TransactionModel, dynamic>(
+                "myfinancedb.spTransaction_CreateCredit",
+                new
+                {
+                    //transactionLink = model.Link,
+                    transactionTDate = model.TDate,
+                    transactionFromBank = model.FromBank,
+                    transactionTCategoryTypeId = model.TCategoryType,
+                    //transactionAction = model.Action,
+                    //transactionLabel = model.Label,
+                    transactionAmount = model.Amount,
+                    transactionComments = model.Comments,
+                    transactionUpdatedBy = model.UpdatedBy,
+                    transactionCreatedAt = model.CreatedAt,
+                    transactionUpdatedAt = model.UpdatedAt,
+                },
+                "Mysql");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task CreateRecordDebit(TransactionModel model)
+    {
+        try
+        {
+            await _dataAccess.LoadData<TransactionModel, dynamic>(
+                "myfinancedb.spTransaction_CreateDebit",
+                new
+                {
+                    //transactionTLink = model.TLink,
+                    transactionTDate = model.TDate,
+                    transactionFromBank = model.FromBank,
+                    transactionTCategoryTypeId = model.TCategoryType,
+                    //transactionTAction = model.TAction,
+                    //transactionTLabel = model.TLabel,
+                    transactionAmount = model.Amount,
+                    transactionComments = model.Comments,
+                    transactionUpdatedBy = model.UpdatedBy,
+                    transactionCreatedAt = model.CreatedAt,
+                    transactionUpdatedAt = model.UpdatedAt,
+                },
+                "Mysql");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task CreateRecordTransfer(TransactionModel model)
+    {
+        try
+        {
+            await _dataAccess.LoadData<TransactionModel, dynamic>(
+                "myfinancedb.spTransaction_CreateTransfer",
+                new
+                {
+                    //transactionTLink = model.TLink,
+                    transactionTDate = model.TDate,
+                    transactionFromBank = model.FromBank,
+                    transactionToBank = model.ToBank, // For transfers only
+                    transactionTCategoryTypeId = model.TCategoryType,
+                    //transactionTAction = model.TAction,
+                    //transactionTLabel = model.TLabel,
+                    transactionAmount = model.Amount,
+                    transactionComments = model.Comments,
+                    transactionUpdatedBy = model.UpdatedBy,
+                    transactionCreatedAt = model.CreatedAt,
+                    transactionUpdatedAt = model.UpdatedAt,
+                },
+                "Mysql");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public Task<ulong> GetLastInsertedId()

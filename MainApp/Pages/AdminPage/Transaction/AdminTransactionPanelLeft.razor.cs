@@ -13,4 +13,16 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     public AdminTransactionPanelLeft()
     {
     }
+
+    private async Task AddRecordAsync()
+    {
+        await _setupOffCanvas.AddRecordOffCanvasAsync();
+        await Task.CompletedTask;
+    }
+
+    private async Task RefreshList()
+    {
+        //await FetchDataAsync();
+        await Task.CompletedTask;
+    }
 }

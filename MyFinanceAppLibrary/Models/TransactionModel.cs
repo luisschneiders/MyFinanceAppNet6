@@ -12,11 +12,18 @@ public class TransactionModel : BaseModel, IValidatableObject
     [Required]
     public DateTime TDate { get; set; }
 
-    public TransactionCategoryModel TCategoryType { get; set; } = new();
+    [Range(1, int.MaxValue, ErrorMessage = "The Action field is required.")]
+    public ulong TCategoryType { get; set; }
 
-    public BankModel FromBank { get; set; } = new();
+    [Range(1, int.MaxValue, ErrorMessage = "The From Bank field is required.")]
+    public ulong FromBank { get; set; }
 
-    public BankModel ToBank { get; set; } = new();
+    public ulong ToBank { get; set; }
+
+    // For validation
+    public TransactionCategoryModel TCategoryTypeModel { get; set; } = new();
+    public BankModel FromBankModel { get; set; } = new();
+    public BankModel ToBankModel { get; set; } = new();
 
     //[Required]
     //public string Action { get; set; }
@@ -38,33 +45,24 @@ public class TransactionModel : BaseModel, IValidatableObject
     {
         List<ValidationResult> results = new();
 
-        if (TCategoryType.Id <= 0)
+        if (TCategoryTypeModel.ActionType == TransactionActionType.T.ToString() ||
+            TCategoryTypeModel.ActionType == TransactionActionType.D.ToString())
         {
-            results.Add(new ValidationResult("The Action field is required.", new[] { nameof(TCategoryType.Id) }));
-        }
-
-        if (FromBank.Id <= 0)
-        {
-            results.Add(new ValidationResult("The From Bank field is required.", new[] { nameof(FromBank.Id) }));
-        }
-
-        if (TCategoryType.ActionType == "T" || TCategoryType.ActionType == "D")
-        {
-            if (FromBank.CurrentBalance < Amount)
+            if (FromBankModel.CurrentBalance < Amount)
             {
                 results.Add(new ValidationResult("Not enough funds.", new[] { nameof(Amount) }));
             }
         }
 
-        if (TCategoryType.ActionType == "T")
+        if (TCategoryTypeModel.ActionType == TransactionActionType.T.ToString())
         {
-            if (ToBank.Id <=0 )
+            if (ToBankModel.Id <= 0)
             {
-                results.Add(new ValidationResult("The To Bank field is required.", new[] { nameof(ToBank.Id) }));
+                results.Add(new ValidationResult("The To Bank field is required.", new[] { nameof(ToBank) }));
             }
-            if (FromBank.Id == ToBank.Id)
+            if (FromBankModel.Id == ToBankModel.Id)
             {
-                results.Add(new ValidationResult("From Bank and To Bank can not be the same.", new[] { nameof(ToBank.Id) }));
+                results.Add(new ValidationResult("From Bank and To Bank can not be the same.", new[] { nameof(ToBank) }));
             }
         }
 

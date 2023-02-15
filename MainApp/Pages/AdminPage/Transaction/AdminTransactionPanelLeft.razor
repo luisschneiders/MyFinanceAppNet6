@@ -12,7 +12,8 @@
             <div class="col-2 col-md-2 col-lg-2 d-flex justify-content-end pb-2">
                 <DropdownActions>
                     <li class="px-2">
-                        <button class="dropdown-item">
+                        <button class="dropdown-item"
+                                @onclick="() => AddRecordAsync()">
                             <i class="bi bi-plus-lg pe-1"></i>New transaction
                         </button>
                     </li>
@@ -28,5 +29,5 @@
         </div>
     </CardMiddle>
 </CardView>
-@*<AdminTransactionOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />*@
+<AdminTransactionOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
 <Toast />
