@@ -76,9 +76,31 @@ public class TransactionService : ITransactionService<TransactionModel>
         }
     }
 
-    public Task CreateRecordDebit(TransactionModel model)
+    public async Task CreateRecordDebit(TransactionModel model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var user = await GetLoggedInUser();
+
+            TransactionModel recordModel = new()
+            {
+                TDate = model.TDate,
+                FromBank = model.FromBank,
+                TCategoryType = model.TCategoryType,
+                Action = TransactionActionType.D.ToString(),
+                Label = model.TCategoryTypeModel.ActionType,
+                Amount = model.Amount,
+                Comments = model.Comments,
+                UpdatedBy = user.Id
+            };
+
+            await _transactionData.CreateRecordDebit(recordModel);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public Task CreateRecordTransfer(TransactionModel model)
