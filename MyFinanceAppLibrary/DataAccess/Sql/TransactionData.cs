@@ -100,7 +100,6 @@ public class TransactionData : ITransactionData<TransactionModel>
                 "myfinancedb.spTransaction_CreateTransfer",
                 new
                 {
-                    //transactionTLink = model.TLink,
                     transactionTDate = model.TDate,
                     transactionFromBank = model.FromBank,
                     transactionToBank = model.ToBank, // For transfers only
