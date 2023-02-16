@@ -132,14 +132,15 @@
                 }
                 <div class="form-floating mb-3">
                     <InputText class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control")"
-                               id="Comments"
-                               placeholder="Comments"
-                               readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
-                               @bind-Value="_transactionModel.Comments" />
+                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control")"
+                                id="Comments"
+                                placeholder="Comments"
+                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit ||
+                                            _actionType == TransactionActionType.T.ToString()) ? true: false)"
+                                @bind-Value="_transactionModel.Comments" />
                     <label for="Comments">Comments</label>
                 </div>
                 <div class="form-floating mb-3">

@@ -185,6 +185,15 @@ public partial class AdminTransactionOffCanvas : ComponentBase
                 var result = _activeTransactionCategories.Find(c => c.Id == categotyId);
                 _actionType = result!.ActionType;
                 _transactionModel.TCategoryTypeModel = result;
+
+                if (_actionType == TransactionActionType.T.ToString())
+                {
+                    _transactionModel.Comments = $"Comments are disabled for Transfers";
+                }
+                else
+                {
+                    _transactionModel.Comments = string.Empty;
+                }
             }
             else
             {

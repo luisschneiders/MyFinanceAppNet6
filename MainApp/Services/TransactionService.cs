@@ -103,9 +103,31 @@ public class TransactionService : ITransactionService<TransactionModel>
         }
     }
 
-    public Task CreateRecordTransfer(TransactionModel model)
+    public async Task CreateRecordTransfer(TransactionModel model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var user = await GetLoggedInUser();
+
+            TransactionModel recordModel = new()
+            {
+                TDate = model.TDate,
+                FromBank = model.FromBank,
+                ToBank = model.ToBank,
+                TCategoryType = model.TCategoryType,
+                Label = model.TCategoryTypeModel.ActionType,
+                Amount = model.Amount,
+                Comments = $"Transfer from {model.FromBankModel.Description} to {model.ToBankModel.Description}",
+                UpdatedBy = user.Id
+            };
+
+            await _transactionData.CreateRecordTransfer(recordModel);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public Task<ulong> GetLastInsertedId()

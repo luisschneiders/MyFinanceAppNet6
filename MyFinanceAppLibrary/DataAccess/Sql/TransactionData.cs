@@ -44,7 +44,6 @@ public class TransactionData : ITransactionData<TransactionModel>
                 "myfinancedb.spTransaction_CreateCredit",
                 new
                 {
-                    //transactionLink = model.Link,
                     transactionTDate = model.TDate,
                     transactionFromBank = model.FromBank,
                     transactionTCategoryType = model.TCategoryType,
@@ -73,7 +72,6 @@ public class TransactionData : ITransactionData<TransactionModel>
                 "myfinancedb.spTransaction_CreateDebit",
                 new
                 {
-                    //transactionTLink = model.TLink,
                     transactionTDate = model.TDate,
                     transactionFromBank = model.FromBank,
                     transactionTCategoryType = model.TCategoryType,
@@ -107,8 +105,7 @@ public class TransactionData : ITransactionData<TransactionModel>
                     transactionFromBank = model.FromBank,
                     transactionToBank = model.ToBank, // For transfers only
                     transactionTCategoryType = model.TCategoryType,
-                    //transactionTAction = model.TAction,
-                    //transactionTLabel = model.TLabel,
+                    transactionLabel = model.Label,
                     transactionAmount = model.Amount,
                     transactionComments = model.Comments,
                     transactionUpdatedBy = model.UpdatedBy,
