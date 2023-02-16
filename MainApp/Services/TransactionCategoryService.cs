@@ -80,14 +80,10 @@ public class TransactionCategoryService : ITransactionCategoryService<Transactio
         try
         {
             var user = await GetLoggedInUser();
-            TransactionCategoryModel recordModel = new()
-            {
-                Description = model.Description,
-                ActionType = model.ActionType,
-                UpdatedBy = user.Id
-            };
 
-            await _transactionCategoryData.CreateRecord(recordModel);
+            model.UpdatedBy = user.Id;
+
+            await _transactionCategoryData.CreateRecord(model);
         }
         catch (Exception ex)
         {
@@ -102,17 +98,11 @@ public class TransactionCategoryService : ITransactionCategoryService<Transactio
         try
         {
             var user = await GetLoggedInUser();
-            TransactionCategoryModel recordModel = new()
-            {
-                Id = model.Id,
-                Description = model.Description,
-                ActionType = model.ActionType,
-                IsActive = model.IsActive,
-                UpdatedBy = user.Id,
-                UpdatedAt = DateTime.Now,
-            };
 
-            await _transactionCategoryData.UpdateRecord(recordModel);
+            model.UpdatedBy = user.Id;
+            model.UpdatedAt = DateTime.Now;
+
+            await _transactionCategoryData.UpdateRecord(model);
         }
         catch (Exception ex)
         {
@@ -128,12 +118,11 @@ public class TransactionCategoryService : ITransactionCategoryService<Transactio
         {
             var user = await GetLoggedInUser();
 
-            TransactionCategoryModel recordModel = model;
-            recordModel.IsActive = !model.IsActive;
-            recordModel.UpdatedBy = user.Id;
-            recordModel.UpdatedAt = DateTime.Now;
+            model.IsActive = !model.IsActive;
+            model.UpdatedBy = user.Id;
+            model.UpdatedAt = DateTime.Now;
 
-            await _transactionCategoryData.UpdateRecordStatus(recordModel);
+            await _transactionCategoryData.UpdateRecordStatus(model);
         }
         catch (Exception ex)
         {
@@ -148,12 +137,11 @@ public class TransactionCategoryService : ITransactionCategoryService<Transactio
         {
             var user = await GetLoggedInUser();
 
-            TransactionCategoryModel recordModel = model;
-            recordModel.IsArchived = true;
-            recordModel.UpdatedBy = user.Id;
-            recordModel.UpdatedAt = DateTime.Now;
+            model.IsArchived = true;
+            model.UpdatedBy = user.Id;
+            model.UpdatedAt = DateTime.Now;
 
-            await _transactionCategoryData.ArchiveRecord(recordModel);
+            await _transactionCategoryData.ArchiveRecord(model);
         }
         catch (Exception ex)
         {

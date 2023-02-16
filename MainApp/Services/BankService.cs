@@ -81,16 +81,11 @@ public class BankService : IBankService<BankModel>
         try
         {
             var user = await GetLoggedInUser();
-            BankModel recordModel = new()
-            {
-                Account = model.Account,
-                Description = model.Description,
-                InitialBalance = model.CurrentBalance,
-                CurrentBalance = model.CurrentBalance,
-                UpdatedBy = user.Id
-            };
 
-            await _bankData.CreateRecord(recordModel);
+            model.InitialBalance = model.CurrentBalance;
+            model.UpdatedBy = user.Id;
+
+            await _bankData.CreateRecord(model);
         }
         catch (Exception ex)
         {
@@ -105,18 +100,11 @@ public class BankService : IBankService<BankModel>
         try
         {
             var user = await GetLoggedInUser();
-            BankModel recordModel = new()
-            {
-                Id = model.Id,
-                Account = model.Account,
-                Description = model.Description,
-                CurrentBalance = model.CurrentBalance,
-                IsActive = model.IsActive,
-                UpdatedBy = user.Id,
-                UpdatedAt = DateTime.Now,
-            };
 
-            await _bankData.UpdateRecord(recordModel);
+            model.UpdatedBy = user.Id;
+            model.UpdatedAt = DateTime.Now;
+
+            await _bankData.UpdateRecord(model);
         }
         catch (Exception ex)
         {
@@ -132,12 +120,11 @@ public class BankService : IBankService<BankModel>
         {
             var user = await GetLoggedInUser();
 
-            BankModel recordModel = model;
-            recordModel.IsActive = !model.IsActive;
-            recordModel.UpdatedBy = user.Id;
-            recordModel.UpdatedAt = DateTime.Now;
+            model.IsActive = !model.IsActive;
+            model.UpdatedBy = user.Id;
+            model.UpdatedAt = DateTime.Now;
 
-            await _bankData.UpdateRecordStatus(recordModel);
+            await _bankData.UpdateRecordStatus(model);
         }
         catch (Exception ex)
         {
@@ -152,12 +139,11 @@ public class BankService : IBankService<BankModel>
         {
             var user = await GetLoggedInUser();
 
-            BankModel recordModel = model;
-            recordModel.IsArchived = true;
-            recordModel.UpdatedBy = user.Id;
-            recordModel.UpdatedAt = DateTime.Now;
+            model.IsArchived = true;
+            model.UpdatedBy = user.Id;
+            model.UpdatedAt = DateTime.Now;
 
-            await _bankData.ArchiveRecord(recordModel);
+            await _bankData.ArchiveRecord(model);
         }
         catch (Exception ex)
         {

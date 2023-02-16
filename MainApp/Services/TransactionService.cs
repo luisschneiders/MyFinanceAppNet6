@@ -55,19 +55,11 @@ public class TransactionService : ITransactionService<TransactionModel>
         {
             var user = await GetLoggedInUser();
 
-            TransactionModel recordModel = new()
-            {
-                TDate = model.TDate,
-                FromBank = model.FromBank,
-                TCategoryType = model.TCategoryType,
-                Action = TransactionActionType.C.ToString(),
-                Label = model.TCategoryTypeModel.ActionType,
-                Amount = model.Amount,
-                Comments = model.Comments,
-                UpdatedBy = user.Id
-            };
+            model.Action = TransactionActionType.C.ToString();
+            model.Label = model.TCategoryTypeModel.ActionType;
+            model.UpdatedBy = user.Id;
 
-            await _transactionData.CreateRecordCredit(recordModel);
+            await _transactionData.CreateRecordCredit(model);
         }
         catch (Exception ex)
         {
@@ -82,19 +74,11 @@ public class TransactionService : ITransactionService<TransactionModel>
         {
             var user = await GetLoggedInUser();
 
-            TransactionModel recordModel = new()
-            {
-                TDate = model.TDate,
-                FromBank = model.FromBank,
-                TCategoryType = model.TCategoryType,
-                Action = TransactionActionType.D.ToString(),
-                Label = model.TCategoryTypeModel.ActionType,
-                Amount = model.Amount,
-                Comments = model.Comments,
-                UpdatedBy = user.Id
-            };
+            model.Action = TransactionActionType.D.ToString();
+            model.Label = model.TCategoryTypeModel.ActionType;
+            model.UpdatedBy = user.Id;
 
-            await _transactionData.CreateRecordDebit(recordModel);
+            await _transactionData.CreateRecordDebit(model);
         }
         catch (Exception ex)
         {
@@ -109,19 +93,11 @@ public class TransactionService : ITransactionService<TransactionModel>
         {
             var user = await GetLoggedInUser();
 
-            TransactionModel recordModel = new()
-            {
-                TDate = model.TDate,
-                FromBank = model.FromBank,
-                ToBank = model.ToBank,
-                TCategoryType = model.TCategoryType,
-                Label = model.TCategoryTypeModel.ActionType,
-                Amount = model.Amount,
-                Comments = $"Transfer from {model.FromBankModel.Description} to {model.ToBankModel.Description}",
-                UpdatedBy = user.Id
-            };
+            model.Label = model.TCategoryTypeModel.ActionType;
+            model.Comments = $"Transfer from {model.FromBankModel.Description} to {model.ToBankModel.Description}";
+            model.UpdatedBy = user.Id;
 
-            await _transactionData.CreateRecordTransfer(recordModel);
+            await _transactionData.CreateRecordTransfer(model);
         }
         catch (Exception ex)
         {
