@@ -6,7 +6,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spTransaction_CreateCredit`(
     IN transactionAction char (1),
     IN transactionLabel char (1),
 	IN transactionAmount decimal(10,2),
-    IN transactionComments varchar(45),
+    IN transactionComments varchar(200),
 	IN transactionUpdatedBy varchar(28),
 	IN transactionCreatedAt datetime,
 	IN transactionUpdatedAt datetime
