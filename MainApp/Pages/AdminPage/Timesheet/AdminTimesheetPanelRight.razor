@@ -48,13 +48,15 @@
             </div>
         </EditForm>
         <div class="row">
-            <div class="col-12">
-                <p class="opacity-75">
-                    Hours worked: <span class="fw-semibold">@_timesheetModel.HoursWorked.ToString("h'h 'm'm '")</span>
-                </p>
-                <p class="opacity-75">
-                    Total amount: <span class="fw-semibold">@_timesheetModel.TotalAmount.ToString("C")</span>
-                </p>
+            <div class="col-12 opacity-75">
+                <div class="form-control form-control-sm bg-info-subtle p-3">
+                    <div>
+                        Hours worked: <span class="fw-semibold">@_timesheetModel.HoursWorked.ToString("h'h 'm'm '")</span>
+                    </div>
+                    <div>
+                        Total amount: <span class="fw-semibold">@_timesheetModel.TotalAmount.ToString("C")</span>
+                    </div>
+                </div>
             </div>
         </div>
     </CardMiddle>
