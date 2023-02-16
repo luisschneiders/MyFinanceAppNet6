@@ -55,8 +55,7 @@
                             {
                                 foreach (var record in _searchResults)
                                 {
-
-                                    <tr>
+                                    <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
                                         <td>
                                             @record.Description
                                         </td>
@@ -118,7 +117,6 @@
                                 }
                                 else
                                 {
-
                                     @if (_expenseCategories.Count <= 0)
                                     {
                                         <tr>
@@ -133,8 +131,7 @@
                                     {
                                         foreach (var record in _expenseCategories)
                                         {
-
-                                            <tr>
+                                            <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
                                                 <td>
                                                     @record.Description
                                                 </td>
@@ -180,9 +177,7 @@
                                         }
                                     }
                                 }
-
                             }
-
                         </tbody>
                     </table>
                 </div>

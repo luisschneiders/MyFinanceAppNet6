@@ -59,8 +59,7 @@
                             {
                                 foreach (var record in _searchResults)
                                 {
-
-                                    <tr>
+                                    <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
                                         <td>
                                             @record.Description
                                         </td>
@@ -139,8 +138,7 @@
                                     {
                                         foreach (var record in _vehicles)
                                         {
-
-                                            <tr>
+                                            <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
                                                 <td>
                                                     @record.Description
                                                 </td>
@@ -188,11 +186,8 @@
                                             </tr>
                                         }
                                     }
-
                                 }
-
                             }
-
                         </tbody>
                     </table>
                 </div>
