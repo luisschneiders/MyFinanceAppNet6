@@ -33,6 +33,7 @@ public partial class AdminTransactionOffCanvas : ComponentBase
     private List<BankModel> _activeBanks { get; set; } = new();
     private List<TransactionCategoryModel> _activeTransactionCategories { get; set; } = new();
 
+    private bool _shouldRender { get; set; } = true;
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
     private bool _isLoading { get; set; } = true;
@@ -56,7 +57,18 @@ public partial class AdminTransactionOffCanvas : ComponentBase
                 _toastService.ShowToast(ex.Message, Theme.Danger);
             }
         }
+
         await Task.CompletedTask;
+    }
+
+    protected override bool ShouldRender()
+    {
+        if (_shouldRender)
+        {
+            Task.FromResult(FetchDataAsync());
+        }
+
+        return _shouldRender;
     }
 
     public async Task AddRecordOffCanvasAsync()
@@ -107,6 +119,7 @@ public partial class AdminTransactionOffCanvas : ComponentBase
             }
 
             _isProcessing = false;
+            _toastService.ShowToast("Transaction added!", Theme.Success);
 
             await OnSubmitSuccess.InvokeAsync();
             await Task.Delay((int)Delay.DataSuccess);
@@ -152,6 +165,7 @@ public partial class AdminTransactionOffCanvas : ComponentBase
     private async Task CloseOffCanvasAsync()
     {
         _transactionModel = new();
+        _activeBanks = new();
         _actionType = string.Empty;
 
         await _offCanvasService.CloseAsync();

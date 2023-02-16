@@ -60,14 +60,14 @@ public class TransactionService : ITransactionService<TransactionModel>
                 TDate = model.TDate,
                 FromBank = model.FromBank,
                 TCategoryType = model.TCategoryType,
-                //Action = "C", // Set it here or in the db?
-                //Label = transactionCategoryModel.ActionType,
+                Action = TransactionActionType.C.ToString(),
+                Label = model.TCategoryTypeModel.ActionType,
                 Amount = model.Amount,
                 Comments = model.Comments,
                 UpdatedBy = user.Id
             };
 
-            await _transactionData.CreateRecord(recordModel);
+            await _transactionData.CreateRecordCredit(recordModel);
         }
         catch (Exception ex)
         {

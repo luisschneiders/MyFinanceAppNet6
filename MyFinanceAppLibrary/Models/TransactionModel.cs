@@ -18,18 +18,15 @@ public class TransactionModel : BaseModel, IValidatableObject
     [Range(1, int.MaxValue, ErrorMessage = "The From Bank field is required.")]
     public ulong FromBank { get; set; }
 
+    // For validation only, not part of the schema - start
     public ulong ToBank { get; set; }
-
-    // For validation
     public TransactionCategoryModel TCategoryTypeModel { get; set; } = new();
     public BankModel FromBankModel { get; set; } = new();
     public BankModel ToBankModel { get; set; } = new();
+    // For validation only, not part of the schema - end
 
-    //[Required]
-    //public string Action { get; set; }
-
-    //[Required]
-    //public string Label { get; set; }
+    public string Action { get; set; }
+    public string Label { get; set; }
 
     [Required]
     public string Comments { get; set; }
