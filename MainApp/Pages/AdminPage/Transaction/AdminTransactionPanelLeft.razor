@@ -3,15 +3,29 @@
 @using MainApp.Components.Toast
 @using MainApp.Components.Spinner
 @using MainApp.Components.Badge
+@using MainApp.Components.Accordion
 
 <CardView Styles="border-0">
     <CardMiddle>
         <div class="row justify-content-between pb-2">
-            <div class="col-10 col-md-8 col-lg-6 pb-2 d-flex justify-content-between">
+            <div class="col-10 col-lg-8 pb-2 d-flex">
+                <div>
+                    <DropdownDateRange IconColor="Theme.Info"
+                                       ButtonSize="Size.Md"
+                                       DateTimeRange="@_dateTimeRangeModel"
+                                       OnSubmitSuccess="RefreshListFromDropdownDateRange" />
+
+                </div>
             </div>
-            <div class="col-2 col-md-2 col-lg-2 d-flex justify-content-end pb-2">
+            <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
+                <div class="d-none d-lg-block pe-2">
+                    <button class="btn btn-md bg-primary-subtle text-primary-emphasis"
+                            @onclick="() => AddRecordAsync()">
+                        <i class="bi bi-plus-lg pe-1"></i>New transaction
+                    </button>
+                </div>
                 <DropdownActions ButtonColor="Theme.Primary">
-                    <li class="px-2">
+                    <li class="px-2 d-block d-lg-none">
                         <button class="dropdown-item"
                                 @onclick="() => AddRecordAsync()">
                             <i class="bi bi-plus-lg pe-1"></i>New transaction
@@ -22,8 +36,83 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="table-responsive app-page-responsive-height">
+                <div class="app-page-responsive-height">
+                    <Accordion Id="Transactions">
+                        @foreach (var (record, index) in _transactionsDummy.Select((value, index) => (value, index)))
+                        {
+                            <AccordionItem>
+                                <AccordionHeader Id="@index.ToString()">
+                                    <div>
+                                        @record.TCategoryTypeDescription
+                                    </div>
+                                    <div>
+                                        @record.Amount.ToString("C")
+                                    </div>
+                                </AccordionHeader>
+                                <AccordionBody Id="@index.ToString()">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead class="app-table-head-vertical-align-top">
+                                                <tr>
+                                                    <th class="col-2 text-nowrap">
+                                                        Date
+                                                    </th>
+                                                    <th class="col-2 text-nowrap text-center">
+                                                        Action
+                                                    </th>
+                                                    <th class="col-3 text-nowrap">
+                                                        Bank
+                                                    </th>
+                                                    <th class="col-3 text-nowrap">
+                                                        Comments
+                                                    </th>
+                                                    <th class="col-2 text-nowrap text-end">
+                                                        Amount
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (_transactionsDummy.Count <= 0)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center" colspan="5">
+                                                            <div>
+                                                                Not record found!
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    foreach (var record in _transactionsDummy)
+                                                    {
+                                                    <tr>
+                                                        <td class="text-nowrap">
+                                                            @record.TDate.ToString("dd/MM/yy")
+                                                        </td>
+                                                        <td class="text-nowrap text-center">
+                                                            @record.Label
+                                                        </td>
+                                                        <td class="text-nowrap">
+                                                            @record.BankDescription
+                                                        </td>
+                                                        <td class="text-nowrap">
+                                                            @record.Comments
+                                                        </td>
+                                                        <td class="text-nowrap text-end">
+                                                            @record.Amount.ToString("C")
+                                                        </td>
+                                                    </tr>
 
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </AccordionBody>
+                            </AccordionItem>
+                        }
+                    </Accordion>
                 </div>
             </div>
         </div>
