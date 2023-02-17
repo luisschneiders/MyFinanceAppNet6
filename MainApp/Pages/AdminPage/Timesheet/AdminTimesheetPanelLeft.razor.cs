@@ -173,10 +173,12 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         _toastService.ShowToast("Date range has changed!", Theme.Info);
         await Task.CompletedTask;
     }
+
     private async Task RefreshListFromCompanyFilter()
     {
         await Task.CompletedTask;
     }
+
     private string UpdatePayStatusTitle(int payStatus)
     {
         var payStatusTitle = _payStatuses[payStatus];

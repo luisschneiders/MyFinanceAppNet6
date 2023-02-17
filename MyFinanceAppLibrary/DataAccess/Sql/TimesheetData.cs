@@ -90,6 +90,24 @@ public class TimesheetData : ITimesheetData<TimesheetModel>
         throw new NotImplementedException();
     }
 
+    public async Task<List<TimesheetModel>> GetRecordsActive(string userId)
+    {
+        try
+        {
+            var results = await _dataAccess.LoadData<TimesheetModel, dynamic>(
+                "myfinancedb.spTimesheet_GetAllActive",
+                new { userId = userId },
+                "Mysql");
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public async Task<List<TimesheetModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRangeModel dateTimeRangeModel)
     {
         try
@@ -102,24 +120,6 @@ public class TimesheetData : ITimesheetData<TimesheetModel>
                     startDate = dateTimeRangeModel.Start,
                     endDate = dateTimeRangeModel.End
                 },
-                "Mysql");
-
-            return results;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("An exception occurred: " + ex.Message);
-            throw;
-        }
-    }
-
-    public async Task<List<TimesheetModel>> GetRecordsActive(string userId)
-    {
-        try
-        {
-            var results = await _dataAccess.LoadData<TimesheetModel, dynamic>(
-                "myfinancedb.spTimesheet_GetAllActive",
-                new { userId = userId },
                 "Mysql");
 
             return results;
