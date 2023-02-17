@@ -140,6 +140,29 @@ public class TransactionData : ITransactionData<TransactionModel>
         throw new NotImplementedException();
     }
 
+    public async Task<List<TransactionModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRangeModel dateTimeRangeModel)
+    {
+        try
+        {
+            var results = await _dataAccess.LoadData<TransactionModelListDTO, dynamic>(
+                "myfinancedb.spTransaction_GetRecordsByDateRange",
+                new
+                {
+                    userId = userId,
+                    startDate = dateTimeRangeModel.Start,
+                    endDate = dateTimeRangeModel.End
+                },
+                "Mysql");
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public Task<List<TransactionModel>> GetSearchResults(string userId, string search)
     {
         throw new NotImplementedException();

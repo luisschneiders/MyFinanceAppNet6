@@ -39,9 +39,23 @@ public class TransactionService : ITransactionService<TransactionModel>
         _authProvider = authProvider;
     }
 
-    public Task ArchiveRecord(TransactionModel model)
+    public async Task ArchiveRecord(TransactionModel model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var user = await GetLoggedInUser();
+
+            model.IsArchived = true;
+            model.UpdatedBy = user.Id;
+            model.UpdatedAt = DateTime.Now;
+
+            await _transactionData.ArchiveRecord(model);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public Task CreateRecord(TransactionModel model)
@@ -124,6 +138,21 @@ public class TransactionService : ITransactionService<TransactionModel>
     public Task<List<TransactionModel>> GetRecordsActive()
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<List<TransactionModelListDTO>> GetRecordsByDateRange(DateTimeRangeModel dateTimeRangeModel)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<TransactionModelListDTO> results = await _transactionData.GetRecordsByDateRange(user.Id, dateTimeRangeModel);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public Task<List<TransactionModel>> GetSearchResults(string search)
