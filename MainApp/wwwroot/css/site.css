@@ -23,6 +23,10 @@ h1:focus {
     outline: none;
 }
 
+.accordion-button:focus {
+    box-shadow: none;
+}
+
 .app-outline-none {
     outline: none;
 }
