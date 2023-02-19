@@ -21,7 +21,7 @@
                                      IconEnd="bi-chevron-down"
                                      IconStart="bi-building"
                                      IconStartColor="Theme.Info"
-                                     >
+                                     DropdownPosition="Position.Start">
                         @foreach (var (company, index) in _companies.Select((value, index) => (value, index)))
                         {
                             <li class="px-2">
@@ -44,7 +44,8 @@
                         <i class="bi bi-plus-lg pe-1"></i>New timesheet
                     </button>
                 </div>
-                <DropdownActions ButtonColor="Theme.Primary">
+                <DropdownActions ButtonColor="Theme.Primary"
+                                 DropdownPosition="Position.End">
                     <li class="px-2 d-block d-lg-none">
                         <button class="dropdown-item"
                                 @onclick="() => AddRecordAsync()">
