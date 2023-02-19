@@ -155,6 +155,28 @@ public class TransactionService : ITransactionService<TransactionModel>
         }
     }
 
+    public async Task<List<TransactionModelByCategoryGroupDTO>> GetRecordsByGroupAndDateRange(DateTimeRangeModel dateTimeRangeModel)
+    {
+        try
+        {
+            var records = await GetRecordsByDateRange(dateTimeRangeModel);
+            var resultsGroupBy = records.GroupBy(tc => tc.TCategoryTypeDescription);
+            var results = resultsGroupBy.Select(tcGroup => new TransactionModelByCategoryGroupDTO()
+            {
+                Description = tcGroup.Key,
+                Total = tcGroup.Sum(a => a.Amount),
+                Transactions = tcGroup.ToList()
+            }).ToList();
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public Task<List<TransactionModel>> GetSearchResults(string search)
     {
         throw new NotImplementedException();
@@ -174,4 +196,5 @@ public class TransactionService : ITransactionService<TransactionModel>
     {
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
     }
+
 }
