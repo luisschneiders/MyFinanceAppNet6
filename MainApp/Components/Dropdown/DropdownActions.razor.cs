@@ -28,6 +28,9 @@ public partial class DropdownActions : ComponentBase
     [Parameter]
     public string Title { get; set; } = string.Empty;
 
+    [Parameter]
+    public Position DropdownPosition { get; set; } = Position.Start;
+
     public DropdownActions()
     {
     }
