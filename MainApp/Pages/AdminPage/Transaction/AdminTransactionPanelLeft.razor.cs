@@ -1,4 +1,5 @@
-﻿using MainApp.Components.Toast;
+﻿using MainApp.Components.Spinner;
+using MainApp.Components.Toast;
 using MainApp.Pages.AdminPage.Timesheet;
 using Microsoft.AspNetCore.Components;
 
@@ -7,10 +8,16 @@ namespace MainApp.Pages.AdminPage.Transaction;
 public partial class AdminTransactionPanelLeft : ComponentBase
 {
     [Inject]
+    private ITransactionService<TransactionModel> _transactionService { get; set; } = default!;
+
+    [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
     [Inject]
     private ToastService _toastService { get; set; } = new();
+
+    [Inject]
+    private SpinnerService _spinnerService { get; set; } = new();
 
     /*
      * Add OffCanvas component reference
@@ -19,44 +26,54 @@ public partial class AdminTransactionPanelLeft : ComponentBase
 
     private DateTimeRangeModel _dateTimeRangeModel { get; set; } = new();
 
-    private List<TransactionModelListDTO> _transactionsDummy { get; set; } = new();
+    private List<TransactionModelByCategoryGroupDTO> _transactionsByGroup { get; set; } = new();
+
+    private bool _isLoading { get; set; } = true;
 
     public AdminTransactionPanelLeft()
     {
-        TransactionModelListDTO transactionModelListDTO = new();
-        transactionModelListDTO.Id = 1;
-        transactionModelListDTO.BankDescription = "Bank 1";
-        transactionModelListDTO.TDate = DateTime.Now;
-        transactionModelListDTO.TCategoryTypeDescription = "Transfer";
-        transactionModelListDTO.Action = "D";
-        transactionModelListDTO.Label = "T";
-        transactionModelListDTO.Amount = 12;
-        _transactionsDummy.Add(transactionModelListDTO);
-
-        transactionModelListDTO = new();
-        transactionModelListDTO.Id = 2;
-        transactionModelListDTO.BankDescription = "Bank 2";
-        transactionModelListDTO.TDate = DateTime.Now;
-        transactionModelListDTO.TCategoryTypeDescription = "Purchases";
-        transactionModelListDTO.Action = "C";
-        transactionModelListDTO.Label = "T";
-        transactionModelListDTO.Amount = 1234;
-        _transactionsDummy.Add(transactionModelListDTO);
-
-        transactionModelListDTO = new();
-        transactionModelListDTO.Id = 3;
-        transactionModelListDTO.BankDescription = "Bank 3";
-        transactionModelListDTO.TDate = DateTime.Now;
-        transactionModelListDTO.TCategoryTypeDescription = "ABN";
-        transactionModelListDTO.Action = "C";
-        transactionModelListDTO.Label = "C";
-        transactionModelListDTO.Amount = 8888;
-        _transactionsDummy.Add(transactionModelListDTO);
     }
 
     protected async override Task OnInitializedAsync()
     {
         _dateTimeRangeModel = _dateTimeService.GetCurrentMonth();
+        await Task.CompletedTask;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                _spinnerService.ShowSpinner();
+                await FetchDataAsync();
+            }
+            catch (Exception ex)
+            {
+                _isLoading = false;
+                _toastService.ShowToast(ex.Message, Theme.Danger);
+            }
+
+            StateHasChanged();
+        }
+
+        await Task.CompletedTask;
+    }
+
+    private async Task FetchDataAsync()
+    {
+        try
+        {
+            _transactionsByGroup = await _transactionService.GetRecordsByGroupAndDateRange(_dateTimeRangeModel);
+            _isLoading = false;
+        }
+        catch (Exception ex)
+        {
+            _isLoading = false;
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
         await Task.CompletedTask;
     }
 
@@ -68,13 +85,13 @@ public partial class AdminTransactionPanelLeft : ComponentBase
 
     private async Task RefreshList()
     {
-        //await FetchDataAsync();
+        await FetchDataAsync();
         await Task.CompletedTask;
     }
 
     private async Task RefreshListFromDropdownDateRange()
     {
-        //await FetchDataAsync();
+        await FetchDataAsync();
         _toastService.ShowToast("Date range has changed!", Theme.Info);
         await Task.CompletedTask;
     }

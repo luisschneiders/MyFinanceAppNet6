@@ -39,15 +39,15 @@
             <div class="col-12">
                 <div class="app-page-responsive-height">
                     <Accordion Id="Transactions">
-                        @foreach (var (record, index) in _transactionsDummy.Select((value, index) => (value, index)))
+                        @foreach (var (record, index) in _transactionsByGroup.Select((value, index) => (value, index)))
                         {
                             <AccordionItem>
                                 <AccordionHeader Id="@index.ToString()">
                                     <div>
-                                        @record.TCategoryTypeDescription
+                                        @record.Description
                                     </div>
                                     <div>
-                                        @record.Amount.ToString("C")
+                                        @record.Total.ToString("C")
                                     </div>
                                 </AccordionHeader>
                                 <AccordionBody Id="@index.ToString()">
@@ -73,7 +73,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @if (_transactionsDummy.Count <= 0)
+                                                @if (_transactionsByGroup.Count <= 0)
                                                 {
                                                     <tr>
                                                         <td class="text-center" colspan="5">
@@ -85,26 +85,25 @@
                                                 }
                                                 else
                                                 {
-                                                    foreach (var record in _transactionsDummy)
+                                                    foreach (var record in _transactionsByGroup[index].Transactions)
                                                     {
-                                                    <tr>
-                                                        <td class="text-nowrap">
-                                                            @record.TDate.ToString("dd/MM/yy")
-                                                        </td>
-                                                        <td class="text-nowrap text-center">
-                                                            @record.Label
-                                                        </td>
-                                                        <td class="text-nowrap">
-                                                            @record.BankDescription
-                                                        </td>
-                                                        <td class="text-nowrap">
-                                                            @record.Comments
-                                                        </td>
-                                                        <td class="text-nowrap text-end">
-                                                            @record.Amount.ToString("C")
-                                                        </td>
-                                                    </tr>
-
+                                                        <tr>
+                                                            <td class="text-nowrap">
+                                                                @record.TDate.ToString("dd/MM/yy")
+                                                            </td>
+                                                            <td class="text-nowrap text-center">
+                                                                @record.Label
+                                                            </td>
+                                                            <td class="text-nowrap">
+                                                                @record.BankDescription
+                                                            </td>
+                                                            <td class="text-nowrap">
+                                                                @record.Comments
+                                                            </td>
+                                                            <td class="text-nowrap text-end">
+                                                                @record.Amount.ToString("C")
+                                                            </td>
+                                                        </tr>
                                                     }
                                                 }
                                             </tbody>
