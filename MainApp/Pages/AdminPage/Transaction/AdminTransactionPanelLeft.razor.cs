@@ -83,6 +83,20 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
+    private async Task ViewRecordAsync(TransactionModelListDTO transactionModelListDTO)
+    {
+        try
+        {
+            //await _setupOffCanvas.ViewRecordOffCanvasAsync(transactionModelListDTO.Id.ToString());
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;
+    }
+
     private async Task RefreshList()
     {
         await FetchDataAsync();
