@@ -78,13 +78,13 @@
                                                             <th class="col-2">
                                                                 Date
                                                             </th>
-                                                            <th class="col-2 text-center">
+                                                            <th class="col-1 text-center">
                                                                 Action
                                                             </th>
                                                             <th class="col-3">
                                                                 Bank
                                                             </th>
-                                                            <th class="col-3">
+                                                            <th class="col-4">
                                                                 Comments
                                                             </th>
                                                             <th class="col-2 text-end">
@@ -96,7 +96,7 @@
                                                     <tbody>
                                                         @if (_transactionsByGroup.Count <= 0)
                                                         {
-                                                            <tr>
+                                                            <tr class="bg-light-subtle">
                                                                 <td class="text-center" colspan="5">
                                                                     <div>
                                                                         Not record found!
@@ -108,7 +108,7 @@
                                                         {
                                                             foreach (var record in _transactionsByGroup[index].Transactions)
                                                             {
-                                                                <tr>
+                                                                <tr class="bg-light-subtle">
                                                                     <td>
                                                                         @record.TDate.ToString("dd/MM/yy")
                                                                     </td>
