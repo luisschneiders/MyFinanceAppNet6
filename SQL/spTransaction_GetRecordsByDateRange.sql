@@ -20,7 +20,7 @@ BEGIN
 	JOIN Bank b ON b.Id = t.FromBank
     JOIN TransactionCategory tc ON tc.Id = t.TCategoryType
 	WHERE t.UpdatedBy = userId
-		AND (t.TDate >= startDate AND t.TDate <= endDate)
+		AND (date(t.TDate) >= date(startDate) AND date(t.TDate) <= date(endDate))
         AND (t.Action <> "D" OR t.Label <> "T")
         AND t.IsActive = TRUE
 		AND t.IsArchived = FALSE
