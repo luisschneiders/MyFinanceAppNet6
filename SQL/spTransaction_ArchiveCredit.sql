@@ -9,19 +9,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spTransaction_ArchiveCredit`(
 BEGIN
 	DECLARE rowCountTransaction int default 0;
 	DECLARE rowCountBank int default 0;
-	DECLARE varId int default 0;
 	DECLARE varFromBank int default 0;
     DECLARE varAmount decimal(10,2) default 0;
-	DECLARE varUpdatedBy varchar(28);
     DECLARE varCurrentBalance decimal(10,2) default 0;
     
 	START TRANSACTION;
 		SELECT
-			Id,
             FromBank,
-			Amount,
-            UpdatedBy
-		INTO varId, varFromBank, varAmount, varUpdatedBy
+			Amount
+		INTO varFromBank, varAmount
         FROM Transaction
         WHERE Id = transactionId
         AND UpdatedBy = transactionUpdatedBy;
