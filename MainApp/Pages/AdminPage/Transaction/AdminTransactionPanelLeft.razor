@@ -115,7 +115,7 @@
                                                                     <td class="text-center">
                                                                         @record.Label
                                                                     </td>
-                                                                    <td >
+                                                                    <td>
                                                                         @record.BankDescription
                                                                     </td>
                                                                     <td>
@@ -128,7 +128,7 @@
                                                                         <button class="btn btn-link p-0 text-danger"
                                                                                 type="button"
                                                                                 title="Archive"
-                                                                                @onclick="() => ViewRecordAsync(record)">
+                                                                                @onclick="() => ArchiveRecordAsync(record)">
                                                                             <i class="bi bi-archive"></i>
                                                                         </button>
                                                                     </td>
@@ -151,4 +151,5 @@
     </CardMiddle>
 </CardView>
 <AdminTransactionOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
+<AdminTransactionModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
 <Toast />

@@ -24,6 +24,11 @@ public partial class AdminTransactionPanelLeft : ComponentBase
      */
     private AdminTransactionOffCanvas _setupOffCanvas { get; set; } = new();
 
+    /*
+     * Add Modal component reference
+     */
+    private AdminTransactionModal _setupModal { get; set; } = new();
+
     private DateTimeRangeModel _dateTimeRangeModel { get; set; } = new();
 
     private List<TransactionModelByCategoryGroupDTO> _transactionsByGroup { get; set; } = new();
@@ -83,11 +88,11 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task ViewRecordAsync(TransactionModelListDTO transactionModelListDTO)
+    private async Task ArchiveRecordAsync(TransactionModelListDTO transactionModelListDTO)
     {
         try
         {
-            //await _setupOffCanvas.ViewRecordOffCanvasAsync(transactionModelListDTO.Id.ToString());
+            await _setupModal.OpenModalAsync(transactionModelListDTO.Id.ToString());
         }
         catch (Exception ex)
         {
