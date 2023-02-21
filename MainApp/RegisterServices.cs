@@ -49,6 +49,7 @@ public static class RegisterServices
         builder.Services.AddSingleton<IDataAccess, MysqlDataAccess>();
         builder.Services.AddSingleton<IBankData<BankModel>, BankData>();
         builder.Services.AddSingleton<ICompanyData<CompanyModel>, CompanyData>();
+        builder.Services.AddSingleton<IExpenseData<ExpenseModel>, ExpenseData>();
         builder.Services.AddSingleton<IExpenseCategoryData<ExpenseCategoryModel>, ExpenseCategoryData>();
         builder.Services.AddSingleton<ITimesheetData<TimesheetModel>, TimesheetData>();
         builder.Services.AddSingleton<ITransactionData<TransactionModel>, TransactionData>();
@@ -65,6 +66,7 @@ public static class RegisterServices
         builder.Services.AddScoped<IOffCanvasService, OffCanvasService>();
         builder.Services.AddScoped<IBankService<BankModel>, BankService>();
         builder.Services.AddScoped<ICompanyService<CompanyModel>, CompanyService>();
+        builder.Services.AddScoped<IExpenseService<ExpenseModel>, ExpenseService>();
         builder.Services.AddScoped<IExpenseCategoryService<ExpenseCategoryModel>, ExpenseCategoryService>();
         builder.Services.AddScoped<ITimesheetService<TimesheetModel>, TimesheetService>();
         builder.Services.AddScoped<ITransactionService<TransactionModel>, TransactionService>();
