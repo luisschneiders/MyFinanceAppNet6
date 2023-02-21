@@ -18,21 +18,23 @@
                 </div>
             </div>
             <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
-                <div class="d-none d-lg-block pe-2">
+                <div class="d-none d-lg-block">
                     <button class="btn btn-md bg-primary-subtle text-primary-emphasis"
                             @onclick="() => AddRecordAsync()">
                         <i class="bi bi-plus-lg pe-1"></i>New transaction
                     </button>
                 </div>
-                <DropdownActions ButtonColor="Theme.Primary"
-                                 DropdownPosition="Position.End">
-                    <li class="px-2 d-block d-lg-none">
-                        <button class="dropdown-item"
-                                @onclick="() => AddRecordAsync()">
-                            <i class="bi bi-plus-lg pe-1"></i>New transaction
-                        </button>
-                    </li>
-                </DropdownActions>
+                <div class="d-block d-lg-none">
+                    <DropdownActions ButtonColor="Theme.Primary"
+                                     DropdownPosition="Position.End">
+                        <li class="px-2 d-block d-lg-none">
+                            <button class="dropdown-item"
+                                    @onclick="() => AddRecordAsync()">
+                                <i class="bi bi-plus-lg pe-1"></i>New transaction
+                            </button>
+                        </li>
+                    </DropdownActions>
+                </div>
             </div>
         </div>
         <div class="row">
