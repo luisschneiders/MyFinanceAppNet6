@@ -1,8 +1,7 @@
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spTransaction_ArchiveDebit`(
     IN transactionId int,
-    IN transactionFromBank int,
-    IN transactionAmount decimal(10,2),
+	IN transactionIsActive bool,
     IN transactionIsArchived bool,
     IN transactionUpdatedBy varchar(28),
     IN transactionUpdatedAt datetime
@@ -10,11 +9,27 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spTransaction_ArchiveDebit`(
 BEGIN
 	DECLARE rowCountTransaction int default 0;
 	DECLARE rowCountBank int default 0;
+	DECLARE varId int default 0;
+	DECLARE varFromBank int default 0;
+    DECLARE varAmount decimal(10,2) default 0;
+	DECLARE varUpdatedBy varchar(28);
+    DECLARE varCurrentBalance decimal(10,2) default 0;
     
 	START TRANSACTION;
+		SELECT
+			Id,
+            FromBank,
+			Amount,
+            UpdatedBy
+		INTO varId, varFromBank, varAmount, varUpdatedBy
+        FROM Transaction
+        WHERE Id = transactionId
+        AND UpdatedBy = transactionUpdatedBy;
+        
 	/* Revert Debit Transaction */
 		UPDATE `myfinancedb`.`Transaction`
 		SET
+			`IsActive` = transactionIsActive,
 			`IsArchived` = transactionIsArchived,
 			`UpdatedBy` = transactionUpdatedBy,
 			`UpdatedAt` = transactionUpdatedAt
@@ -22,12 +37,18 @@ BEGIN
         SET rowCountTransaction = ROW_COUNT();
         
 		IF rowCountTransaction > 0 THEN
+			SELECT
+				CurrentBalance
+			INTO varCurrentBalance
+			FROM Bank
+			WHERE Id = varFromBank;
+        
 			UPDATE `myfinancedb`.`Bank`
 			SET
-				`CurrentBalance` = (bankCurrentBalance + transactionAmount),
+				`CurrentBalance` = (varCurrentBalance + varAmount),
 				`UpdatedBy` = transactionUpdatedBy,
 				`UpdatedAt` = transactionUpdatedAt
-			WHERE (`Id` = transactionFromBank);
+			WHERE (`Id` = varFromBank);
             SET rowCountBank = ROW_COUNT();
 		END IF;
 		
