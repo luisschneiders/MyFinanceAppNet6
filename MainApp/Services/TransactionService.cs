@@ -46,10 +46,22 @@ public class TransactionService : ITransactionService<TransactionModel>
             var user = await GetLoggedInUser();
 
             model.IsArchived = true;
+            model.IsActive = false;
             model.UpdatedBy = user.Id;
             model.UpdatedAt = DateTime.Now;
 
-            await _transactionData.ArchiveRecord(model);
+            switch (model.Label)
+            {
+                case "T":
+                    await _transactionData.ArchiveRecordTransfer(model);
+                    break;
+                case "D":
+                    await _transactionData.ArchiveRecordDebit(model);
+                    break;
+                case "C":
+                    await _transactionData.ArchiveRecordCredit(model);
+                    break;
+            }
         }
         catch (Exception ex)
         {
@@ -125,9 +137,19 @@ public class TransactionService : ITransactionService<TransactionModel>
         throw new NotImplementedException();
     }
 
-    public Task<TransactionModel> GetRecordById(string modelId)
+    public async Task<TransactionModel> GetRecordById(string modelId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var user = await GetLoggedInUser();
+            TransactionModel result = await _transactionData.GetRecordById(user.Id, modelId);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public Task<List<TransactionModel>> GetRecords()
@@ -196,5 +218,4 @@ public class TransactionService : ITransactionService<TransactionModel>
     {
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
     }
-
 }

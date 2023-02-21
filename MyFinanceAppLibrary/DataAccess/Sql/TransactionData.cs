@@ -9,15 +9,67 @@ public class TransactionData : ITransactionData<TransactionModel>
         _dataAccess = dataAccess;
     }
 
-    public async Task ArchiveRecord(TransactionModel model)
+    public Task ArchiveRecord(TransactionModel model)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task ArchiveRecordCredit(TransactionModel model)
     {
         try
         {
             await _dataAccess.SaveData<dynamic>(
-                "myfinancedb.spTransaction_Archive",
+                "myfinancedb.spTransaction_ArchiveCredit",
                 new
                 {
                     transactionId = model.Id,
+                    transactionIsActive = model.IsActive,
+                    transactionIsArchived = model.IsArchived,
+                    transactionUpdatedBy = model.UpdatedBy,
+                    transactionUpdatedAt = model.UpdatedAt,
+                },
+                "Mysql");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task ArchiveRecordDebit(TransactionModel model)
+    {
+        try
+        {
+            await _dataAccess.SaveData<dynamic>(
+                "myfinancedb.spTransaction_ArchiveDebit",
+                new
+                {
+                    transactionId = model.Id,
+                    transactionIsActive = model.IsActive,
+                    transactionIsArchived = model.IsArchived,
+                    transactionUpdatedBy = model.UpdatedBy,
+                    transactionUpdatedAt = model.UpdatedAt,
+                },
+                "Mysql");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task ArchiveRecordTransfer(TransactionModel model)
+    {
+        try
+        {
+            await _dataAccess.SaveData<dynamic>(
+                "myfinancedb.spTransaction_ArchiveTransfer",
+                new
+                {
+                    transactionId = model.Id,
+                    transactionIsActive = model.IsActive,
                     transactionIsArchived = model.IsArchived,
                     transactionUpdatedBy = model.UpdatedBy,
                     transactionUpdatedAt = model.UpdatedAt,
@@ -125,9 +177,22 @@ public class TransactionData : ITransactionData<TransactionModel>
         throw new NotImplementedException();
     }
 
-    public Task<TransactionModel> GetRecordById(string userId, string modelId)
+    public async Task<TransactionModel> GetRecordById(string userId, string modelId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var result = await _dataAccess.LoadData<TransactionModel, dynamic>(
+                "myfinancedb.spTransaction_GetById",
+                new { userId = userId, transactionId = modelId },
+                "Mysql");
+
+            return result.FirstOrDefault()!;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public Task<List<TransactionModel>> GetRecords(string userId)
