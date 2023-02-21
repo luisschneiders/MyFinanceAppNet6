@@ -5,17 +5,21 @@
             data-bs-toggle="dropdown"
             aria-expanded="false">
         <div>
+            @if (IconStart.Length > 0)
+            {
+                <i class="bi @IconStart text-@IconStartColor.ToString().ToLower() pe-1"></i>
+            }
             @if (Title.Length > 0)
             {
                 <span class="pe-1">@Title</span>
             }
-            @if (Icon.Length > 0)
+            @if (IconEnd.Length > 0)
             {
-                <i class="bi @Icon" ></i>
+                <i class="bi @IconEnd"></i>
             }
         </div>
     </button>
-    <ul class="dropdown-menu dropdown-menu-end border-0 bg-light-subtle shadow-sm"
+    <ul class="dropdown-menu dropdown-menu-@DropdownPosition.ToString().ToLower() border-0 bg-light-subtle shadow-sm"
         aria-labelledby="dropdownMenuOptions">
         @ChildContent
     </ul>

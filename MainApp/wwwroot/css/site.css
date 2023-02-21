@@ -14,8 +14,17 @@ input[disabled] {
     cursor: not-allowed;
 }
 
+.form-select:disabled {
+    background-color: transparent;
+    border: none;
+}
+
 h1:focus {
     outline: none;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
 }
 
 .app-outline-none {

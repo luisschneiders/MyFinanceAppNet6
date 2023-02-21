@@ -1,0 +1,221 @@
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using MyFinanceAppLibrary.DataAccess.NoSql;
+using MyFinanceAppLibrary.DataAccess.Sql;
+using MyFinanceAppLibrary.Models;
+
+namespace MainApp.Services;
+
+public class TransactionService : ITransactionService<TransactionModel>
+{
+    [Inject]
+    private ITransactionData<TransactionModel> _transactionData { get; set; } = default!;
+
+    [Inject]
+    private IBankData<BankModel> _bankData { get; set; } = default!;
+
+    [Inject]
+    private ITransactionCategoryData<TransactionCategoryModel> _transactionCategoryData { get; set; } = default!;
+
+    [Inject]
+    private AuthenticationStateProvider _authProvider { get; set; } = default!;
+
+    [Inject]
+    private IUserData _userData { get; set; } = default!;
+
+    private UserModel _loggedInUser { get; set; } = new();
+
+    public TransactionService(
+        ITransactionData<TransactionModel> transactionData,
+        IBankData<BankModel> bankData,
+        ITransactionCategoryData<TransactionCategoryModel> transactionCategoryData,
+        IUserData userData,
+        AuthenticationStateProvider authProvider)
+    {
+        _transactionData = transactionData;
+        _bankData = bankData;
+        _transactionCategoryData = transactionCategoryData;
+        _userData = userData;
+        _authProvider = authProvider;
+    }
+
+    public async Task ArchiveRecord(TransactionModel model)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+
+            model.IsArchived = true;
+            model.IsActive = false;
+            model.UpdatedBy = user.Id;
+            model.UpdatedAt = DateTime.Now;
+
+            switch (model.Label)
+            {
+                case "T":
+                    await _transactionData.ArchiveRecordTransfer(model);
+                    break;
+                case "D":
+                    await _transactionData.ArchiveRecordDebit(model);
+                    break;
+                case "C":
+                    await _transactionData.ArchiveRecordCredit(model);
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public Task CreateRecord(TransactionModel model)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task CreateRecordCredit(TransactionModel model)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+
+            model.Action = TransactionActionType.C.ToString();
+            model.Label = model.TCategoryTypeModel.ActionType;
+            model.UpdatedBy = user.Id;
+
+            await _transactionData.CreateRecordCredit(model);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task CreateRecordDebit(TransactionModel model)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+
+            model.Action = TransactionActionType.D.ToString();
+            model.Label = model.TCategoryTypeModel.ActionType;
+            model.UpdatedBy = user.Id;
+
+            await _transactionData.CreateRecordDebit(model);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task CreateRecordTransfer(TransactionModel model)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+
+            model.Label = model.TCategoryTypeModel.ActionType;
+            model.Comments = $"Transfer from {model.FromBankModel.Description} to {model.ToBankModel.Description}";
+            model.UpdatedBy = user.Id;
+
+            await _transactionData.CreateRecordTransfer(model);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public Task<ulong> GetLastInsertedId()
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<TransactionModel> GetRecordById(string modelId)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            TransactionModel result = await _transactionData.GetRecordById(user.Id, modelId);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public Task<List<TransactionModel>> GetRecords()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<TransactionModel>> GetRecordsActive()
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<List<TransactionModelListDTO>> GetRecordsByDateRange(DateTimeRangeModel dateTimeRangeModel)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<TransactionModelListDTO> results = await _transactionData.GetRecordsByDateRange(user.Id, dateTimeRangeModel);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<List<TransactionModelByCategoryGroupDTO>> GetRecordsByGroupAndDateRange(DateTimeRangeModel dateTimeRangeModel)
+    {
+        try
+        {
+            var records = await GetRecordsByDateRange(dateTimeRangeModel);
+            var resultsGroupBy = records.GroupBy(tc => tc.TCategoryTypeDescription);
+            var results = resultsGroupBy.Select(tcGroup => new TransactionModelByCategoryGroupDTO()
+            {
+                Description = tcGroup.Key,
+                Total = tcGroup.Sum(a => a.Amount),
+                Transactions = tcGroup.ToList()
+            }).ToList();
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public Task<List<TransactionModel>> GetSearchResults(string search)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task UpdateRecord(TransactionModel model)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task UpdateRecordStatus(TransactionModel model)
+    {
+        throw new NotImplementedException();
+    }
+
+    private async Task<UserModel> GetLoggedInUser()
+    {
+        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
+    }
+}

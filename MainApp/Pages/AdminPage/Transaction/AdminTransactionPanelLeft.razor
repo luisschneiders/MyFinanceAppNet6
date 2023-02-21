@@ -1,0 +1,155 @@
+﻿@using MainApp.Components.Card
+@using MainApp.Components.Dropdown
+@using MainApp.Components.Toast
+@using MainApp.Components.Spinner
+@using MainApp.Components.Badge
+@using MainApp.Components.Accordion
+
+<CardView Styles="border-0">
+    <CardMiddle>
+        <div class="row justify-content-between pb-2">
+            <div class="col-10 col-lg-8 pb-2 d-flex">
+                <div>
+                    <DropdownDateRange IconColor="Theme.Info"
+                                       ButtonSize="Size.Md"
+                                       DateTimeRange="@_dateTimeRangeModel"
+                                       OnSubmitSuccess="RefreshListFromDropdownDateRange" />
+
+                </div>
+            </div>
+            <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
+                <div class="d-none d-lg-block pe-2">
+                    <button class="btn btn-md bg-primary-subtle text-primary-emphasis"
+                            @onclick="() => AddRecordAsync()">
+                        <i class="bi bi-plus-lg pe-1"></i>New transaction
+                    </button>
+                </div>
+                <DropdownActions ButtonColor="Theme.Primary"
+                                 DropdownPosition="Position.End">
+                    <li class="px-2 d-block d-lg-none">
+                        <button class="dropdown-item"
+                                @onclick="() => AddRecordAsync()">
+                            <i class="bi bi-plus-lg pe-1"></i>New transaction
+                        </button>
+                    </li>
+                </DropdownActions>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="app-page-responsive-height">
+                    @if (_isLoading)
+                    {
+                        <div class="d-flex justify-content-center align-items-center">
+                            <Spinner Size="Size.Sm" />
+                            <span class="ps-2">
+                                Loading ...
+                            </span>
+                        </div>
+                    }
+                    else
+                    {
+
+                        @if (_transactionsByGroup.Count <= 0)
+                        {
+                            <div class="text-center">
+                                Not record found!
+                            </div>
+                        }
+                        else
+                        {
+                            <Accordion Id="Transactions">
+                                @foreach (var (record, index) in _transactionsByGroup.Select((value, index) => (value, index)))
+                                {
+                                    <AccordionItem>
+                                        <AccordionHeader Id="@index.ToString()">
+                                            <div>
+                                                @record.Description
+                                            </div>
+                                            <div>
+                                                @record.Total.ToString("C")
+                                            </div>
+                                        </AccordionHeader>
+                                        <AccordionBody Id="@index.ToString()">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead class="app-table-head-vertical-align-top">
+                                                        <tr>
+                                                            <th class="col-2">
+                                                                Date
+                                                            </th>
+                                                            <th class="col-1 text-center">
+                                                                Action
+                                                            </th>
+                                                            <th class="col-3">
+                                                                Bank
+                                                            </th>
+                                                            <th class="col-4">
+                                                                Comments
+                                                            </th>
+                                                            <th class="col-2 text-end">
+                                                                Amount
+                                                            </th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (_transactionsByGroup.Count <= 0)
+                                                        {
+                                                            <tr class="bg-light-subtle">
+                                                                <td class="text-center" colspan="5">
+                                                                    <div>
+                                                                        Not record found!
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                        else
+                                                        {
+                                                            foreach (var record in _transactionsByGroup[index].Transactions)
+                                                            {
+                                                                <tr class="bg-light-subtle">
+                                                                    <td>
+                                                                        @record.TDate.ToString("dd/MM/yy")
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        @record.Label
+                                                                    </td>
+                                                                    <td>
+                                                                        @record.BankDescription
+                                                                    </td>
+                                                                    <td>
+                                                                        @record.Comments
+                                                                    </td>
+                                                                    <td class="text-end">
+                                                                        @record.Amount.ToString("C")
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        <button class="btn btn-link p-0 text-danger"
+                                                                                type="button"
+                                                                                title="Archive"
+                                                                                @onclick="() => ArchiveRecordAsync(record)">
+                                                                            <i class="bi bi-archive"></i>
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </AccordionBody>
+                                    </AccordionItem>
+                                }
+                            </Accordion>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </CardMiddle>
+</CardView>
+<AdminTransactionOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
+<AdminTransactionModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
+<Toast />

@@ -35,7 +35,6 @@ public partial class SetupTransactionCategoryOffCanvas : ComponentBase
 
     protected async override Task OnInitializedAsync()
     {
-
         ActionTypeModel actionTypeModel = new()
         {
             Id = "C",

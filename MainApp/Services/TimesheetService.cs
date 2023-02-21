@@ -30,12 +30,11 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         {
             var user = await GetLoggedInUser();
 
-            TimesheetModel recordModel = model;
-            recordModel.IsArchived = true;
-            recordModel.UpdatedBy = user.Id;
-            recordModel.UpdatedAt = DateTime.Now;
+            model.IsArchived = true;
+            model.UpdatedBy = user.Id;
+            model.UpdatedAt = DateTime.Now;
 
-            await _timesheetData.ArchiveRecord(recordModel);
+            await _timesheetData.ArchiveRecord(model);
         }
         catch (Exception ex)
         {
@@ -50,18 +49,9 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         {
             var user = await GetLoggedInUser();
 
-            TimesheetModel recordModel = new()
-            {
-                CompanyId = model.CompanyId,
-                TimeIn = model.TimeIn,
-                TimeBreak = model.TimeBreak,
-                TimeOut = model.TimeOut,
-                Comments = model.Comments,
-                HourRate = model.HourRate,
-                UpdatedBy = user.Id
-            };
+            model.UpdatedBy = user.Id;
 
-            await _timesheetData.CreateRecord(recordModel);
+            await _timesheetData.CreateRecord(model);
         }
         catch (Exception ex)
         {
@@ -96,12 +86,12 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         throw new NotImplementedException();
     }
 
-    public async Task<List<TimesheetModelListDTO>> GetRecordsByDateRange(DateTimeRangeModel dateTimeRangeModel)
+    public async Task<List<TimesheetModel>> GetRecordsActive()
     {
         try
         {
             var user = await GetLoggedInUser();
-            List<TimesheetModelListDTO> results = await _timesheetData.GetRecordsByDateRange(user.Id, dateTimeRangeModel);
+            List<TimesheetModel> results = await _timesheetData.GetRecordsActive(user.Id);
             return results;
         }
         catch (Exception ex)
@@ -111,12 +101,12 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         }
     }
 
-    public async Task<List<TimesheetModel>> GetRecordsActive()
+    public async Task<List<TimesheetModelListDTO>> GetRecordsByDateRange(DateTimeRangeModel dateTimeRangeModel)
     {
         try
         {
             var user = await GetLoggedInUser();
-            List<TimesheetModel> results = await _timesheetData.GetRecordsActive(user.Id);
+            List<TimesheetModelListDTO> results = await _timesheetData.GetRecordsByDateRange(user.Id, dateTimeRangeModel);
             return results;
         }
         catch (Exception ex)
@@ -136,16 +126,11 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         try
         {
             var user = await GetLoggedInUser();
-            TimesheetModel recordModel = new()
-            {
-                Id = model.Id,
-                Comments = model.Comments,
-                IsActive = model.IsActive,
-                UpdatedBy = user.Id,
-                UpdatedAt = DateTime.Now,
-            };
 
-            await _timesheetData.UpdateRecord(recordModel);
+            model.UpdatedBy = user.Id;
+            model.UpdatedAt = DateTime.Now;
+
+            await _timesheetData.UpdateRecord(model);
         }
         catch (Exception ex)
         {
@@ -160,12 +145,11 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         {
             var user = await GetLoggedInUser();
 
-            TimesheetModel recordModel = model;
-            recordModel.IsActive = !model.IsActive;
-            recordModel.UpdatedBy = user.Id;
-            recordModel.UpdatedAt = DateTime.Now;
+            model.IsActive = !model.IsActive;
+            model.UpdatedBy = user.Id;
+            model.UpdatedAt = DateTime.Now;
 
-            await _timesheetData.UpdateRecordStatus(recordModel);
+            await _timesheetData.UpdateRecordStatus(model);
         }
         catch (Exception ex)
         {
@@ -180,12 +164,10 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         {
             var user = await GetLoggedInUser();
 
-            TimesheetModel recordModel = model;
-            recordModel.PayStatus = model.PayStatus;
-            recordModel.UpdatedBy = user.Id;
-            recordModel.UpdatedAt = DateTime.Now;
+            model.UpdatedBy = user.Id;
+            model.UpdatedAt = DateTime.Now;
 
-            await _timesheetData.UpdateRecordPayStatus(recordModel);
+            await _timesheetData.UpdateRecordPayStatus(model);
         }
         catch (Exception ex)
         {

@@ -29,7 +29,7 @@ public partial class DropdownDateRange : ComponentBase
     public Size ButtonSize { get; set; } = Size.Md;
 
     [Parameter]
-    public string DropdownPosition { get; set; } = "dropdown";
+    public Position DropdownPosition { get; set; } = Position.Start;
 
     private string _dateRangeLabel { get; set; } = "No date assigned!";
 

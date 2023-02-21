@@ -6,8 +6,9 @@
 <CardView Styles="border-0">
     <CardMiddle>
         <div class="row flex-row-reverse justify-content-between pb-2">
-            <div class="col-2 col-md-2 col-lg-2 d-flex justify-content-end pb-2">
-                <DropdownActions>
+            <div class="col-2 col-md-2 d-flex justify-content-end pb-2">
+                <DropdownActions ButtonColor="Theme.Primary"
+                                 DropdownPosition="Position.End">
                     <li class="px-2">
                         <button class="dropdown-item"
                                 @onclick="() => AddRecordAsync()">
@@ -65,8 +66,7 @@
                             {
                                 foreach (var record in _searchResults)
                                 {
-
-                                    <tr>
+                                    <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
                                         <td>
                                             @record.Description
                                         </td>
@@ -151,8 +151,7 @@
                                     {
                                         foreach (var record in _banks)
                                         {
-
-                                            <tr>
+                                            <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
                                                 <td>
                                                     @record.Description
                                                 </td>
@@ -206,11 +205,8 @@
                                             </tr>
                                         }
                                     }
-
                                 }
-
                             }
-
                         </tbody>
                     </table>
                 </div>

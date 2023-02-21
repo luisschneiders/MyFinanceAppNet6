@@ -151,20 +151,20 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
 
             var offCanvasViewType = _offCanvasService.GetOffCanvasViewType();
 
-            if (offCanvasViewType == OffCanvasViewType.Add)
+            switch (offCanvasViewType)
             {
-                await _timesheetService.CreateRecord(_timesheetModel);
-                _toastService.ShowToast("Timesheet added!", Theme.Success);
-            }
-            else if (offCanvasViewType == OffCanvasViewType.Edit)
-            {
-                await _timesheetService.UpdateRecord(_timesheetModel);
-                _toastService.ShowToast("Timesheet updated!", Theme.Success);
-            }
-            else if (offCanvasViewType == OffCanvasViewType.Archive)
-            {
-                await _timesheetService.ArchiveRecord(_timesheetModel);
-                _toastService.ShowToast("Timesheet archived!", Theme.Success);
+                case OffCanvasViewType.Add:
+                    await _timesheetService.CreateRecord(_timesheetModel);
+                    _toastService.ShowToast("Timesheet added!", Theme.Success);
+                    break;
+                case OffCanvasViewType.Edit:
+                    await _timesheetService.UpdateRecord(_timesheetModel);
+                    _toastService.ShowToast("Timesheet updated!", Theme.Success);
+                    break;
+                case OffCanvasViewType.Archive:
+                    await _timesheetService.ArchiveRecord(_timesheetModel);
+                    _toastService.ShowToast("Timesheet archived!", Theme.Success);
+                    break;
             }
 
             _isProcessing = false;

@@ -81,13 +81,10 @@ namespace MainApp.Services
             try
             {
                 var user = await GetLoggedInUser();
-                ExpenseCategoryModel recordModel = new()
-                {
-                    Description = model.Description,
-                    UpdatedBy = user.Id
-                };
 
-                await _expenseCategoryData.CreateRecord(recordModel);
+                model.UpdatedBy = user.Id;
+
+                await _expenseCategoryData.CreateRecord(model);
             }
             catch (Exception ex)
             {
@@ -102,16 +99,11 @@ namespace MainApp.Services
             try
             {
                 var user = await GetLoggedInUser();
-                ExpenseCategoryModel recordModel = new()
-                {
-                    Id = model.Id,
-                    Description = model.Description,
-                    IsActive = model.IsActive,
-                    UpdatedBy = user.Id,
-                    UpdatedAt = DateTime.Now,
-                };
 
-                await _expenseCategoryData.UpdateRecord(recordModel);
+                model.UpdatedBy = user.Id;
+                model.UpdatedAt = DateTime.Now;
+
+                await _expenseCategoryData.UpdateRecord(model);
             }
             catch (Exception ex)
             {
@@ -127,12 +119,11 @@ namespace MainApp.Services
             {
                 var user = await GetLoggedInUser();
 
-                ExpenseCategoryModel recordModel = model;
-                recordModel.IsActive = !model.IsActive;
-                recordModel.UpdatedBy = user.Id;
-                recordModel.UpdatedAt = DateTime.Now;
+                model.IsActive = !model.IsActive;
+                model.UpdatedBy = user.Id;
+                model.UpdatedAt = DateTime.Now;
 
-                await _expenseCategoryData.UpdateRecordStatus(recordModel);
+                await _expenseCategoryData.UpdateRecordStatus(model);
             }
             catch (Exception ex)
             {
@@ -147,12 +138,11 @@ namespace MainApp.Services
             {
                 var user = await GetLoggedInUser();
 
-                ExpenseCategoryModel recordModel = model;
-                recordModel.IsArchived = true;
-                recordModel.UpdatedBy = user.Id;
-                recordModel.UpdatedAt = DateTime.Now;
+                model.IsArchived = true;
+                model.UpdatedBy = user.Id;
+                model.UpdatedAt = DateTime.Now;
 
-                await _expenseCategoryData.ArchiveRecord(recordModel);
+                await _expenseCategoryData.ArchiveRecord(model);
             }
             catch (Exception ex)
             {

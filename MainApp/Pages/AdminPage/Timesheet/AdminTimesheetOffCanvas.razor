@@ -52,9 +52,7 @@
                     }
                     else
                     {
-                        <InputSelect class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit ) ? "form-control-plaintext" : "form-control")"
+                        <InputSelect class="form-select"
                                      id="CompanyId"
                                      disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
@@ -135,6 +133,7 @@
                         <div class="form-floating mb-3">
                             <InputNumber class="form-control"
                                          id="HourRate"
+                                         min="0"
                                          placeholder="Hour Rate"
                                          @bind-Value="_timesheetModel.HourRate" />
                             <label for="HourRate">Hour Rate</label>

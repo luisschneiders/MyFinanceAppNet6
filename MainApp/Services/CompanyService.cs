@@ -29,12 +29,11 @@ public class CompanyService : ICompanyService<CompanyModel>
         {
             var user = await GetLoggedInUser();
 
-            CompanyModel recordModel = model;
-            recordModel.IsArchived = true;
-            recordModel.UpdatedBy = user.Id;
-            recordModel.UpdatedAt = DateTime.Now;
+            model.IsArchived = true;
+            model.UpdatedBy = user.Id;
+            model.UpdatedAt = DateTime.Now;
 
-            await _companyData.ArchiveRecord(recordModel);
+            await _companyData.ArchiveRecord(model);
         }
         catch (Exception ex)
         {
@@ -48,15 +47,10 @@ public class CompanyService : ICompanyService<CompanyModel>
         try
         {
             var user = await GetLoggedInUser();
-            CompanyModel recordModel = new()
-            {
-                Description = model.Description,
-                Rate = model.Rate,
-                CType = model.CType,
-                UpdatedBy = user.Id
-            };
 
-            await _companyData.CreateRecord(recordModel);
+            model.UpdatedBy = user.Id;
+
+            await _companyData.CreateRecord(model);
         }
         catch (Exception ex)
         {
@@ -138,18 +132,11 @@ public class CompanyService : ICompanyService<CompanyModel>
         try
         {
             var user = await GetLoggedInUser();
-            CompanyModel recordModel = new()
-            {
-                Id = model.Id,
-                Description = model.Description,
-                Rate = model.Rate,
-                CType = model.CType,
-                IsActive = model.IsActive,
-                UpdatedBy = user.Id,
-                UpdatedAt = DateTime.Now,
-            };
 
-            await _companyData.UpdateRecord(recordModel);
+            model.UpdatedBy = user.Id;
+            model.UpdatedAt = DateTime.Now;
+
+            await _companyData.UpdateRecord(model);
         }
         catch (Exception ex)
         {
@@ -165,12 +152,11 @@ public class CompanyService : ICompanyService<CompanyModel>
         {
             var user = await GetLoggedInUser();
 
-            CompanyModel recordModel = model;
-            recordModel.IsActive = !model.IsActive;
-            recordModel.UpdatedBy = user.Id;
-            recordModel.UpdatedAt = DateTime.Now;
+            model.IsActive = !model.IsActive;
+            model.UpdatedBy = user.Id;
+            model.UpdatedAt = DateTime.Now;
 
-            await _companyData.UpdateRecordStatus(recordModel);
+            await _companyData.UpdateRecordStatus(model);
         }
         catch (Exception ex)
         {
