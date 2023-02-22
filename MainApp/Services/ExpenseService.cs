@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using MyFinanceAppLibrary.DataAccess.Sql;
 
 namespace MainApp.Services;
 
@@ -37,14 +36,41 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         _authProvider = authProvider;
     }
 
-    public Task ArchiveRecord(ExpenseModel model)
+    public async Task ArchiveRecord(ExpenseModel model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var user = await GetLoggedInUser();
+
+            model.IsArchived = true;
+            model.IsActive = false;
+            model.UpdatedBy = user.Id;
+            model.UpdatedAt = DateTime.Now;
+
+            await _expenseData.ArchiveRecord(model);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
-    public Task CreateRecord(ExpenseModel model)
+    public async Task CreateRecord(ExpenseModel model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var user = await GetLoggedInUser();
+
+            model.UpdatedBy = user.Id;
+
+            await _expenseData.CreateRecord(model);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public Task<ulong> GetLastInsertedId()
@@ -52,9 +78,19 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         throw new NotImplementedException();
     }
 
-    public Task<ExpenseModel> GetRecordById(string modelId)
+    public async Task<ExpenseModel> GetRecordById(string modelId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var user = await GetLoggedInUser();
+            ExpenseModel result = await _expenseData.GetRecordById(user.Id, modelId);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public Task<List<ExpenseModel>> GetRecords()
@@ -67,14 +103,41 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         throw new NotImplementedException();
     }
 
-    public Task<List<ExpenseModelListDTO>> GetRecordsByDateRange(DateTimeRangeModel dateTimeRangeModel)
+    public async Task<List<ExpenseModelListDTO>> GetRecordsByDateRange(DateTimeRangeModel dateTimeRangeModel)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<ExpenseModelListDTO> results = await _expenseData.GetRecordsByDateRange(user.Id, dateTimeRangeModel);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
-    public Task<List<ExpenseModelByCategoryGroupDTO>> GetRecordsByGroupAndDateRange(DateTimeRangeModel dateTimeRangeModel)
+    public async Task<List<ExpenseModelByCategoryGroupDTO>> GetRecordsByGroupAndDateRange(DateTimeRangeModel dateTimeRangeModel)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var records = await GetRecordsByDateRange(dateTimeRangeModel);
+            var resultsGroupBy = records.GroupBy(tc => tc.ExpenseCategoryDescription);
+            var results = resultsGroupBy.Select(tcGroup => new ExpenseModelByCategoryGroupDTO()
+            {
+                Description = tcGroup.Key,
+                Total = tcGroup.Sum(a => a.Amount),
+                Expenses = tcGroup.ToList()
+            }).ToList();
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public Task<List<ExpenseModel>> GetSearchResults(string search)
@@ -90,5 +153,10 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     public Task UpdateRecordStatus(ExpenseModel model)
     {
         throw new NotImplementedException();
+    }
+
+    private async Task<UserModel> GetLoggedInUser()
+    {
+        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
     }
 }

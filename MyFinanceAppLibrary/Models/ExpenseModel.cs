@@ -10,13 +10,11 @@ public class ExpenseModel : BaseModel, IValidatableObject
     [Required]
     public DateTime EDate { get; set; }
 
-    [Range(1, int.MaxValue, ErrorMessage = "The Expense field is required.")]
-    public ulong ExpenseCategoryId { get; set; }
-
     [Range(1, int.MaxValue, ErrorMessage = "The Bank field is required.")]
     public ulong BankId { get; set; }
 
-    public ulong TransactionId { get; set; }
+    [Range(1, int.MaxValue, ErrorMessage = "The Expense field is required.")]
+    public ulong ExpenseCategoryId { get; set; }
 
     [Required]
     public string Comments { get; set; }
@@ -25,6 +23,8 @@ public class ExpenseModel : BaseModel, IValidatableObject
     [RegularExpression(@"^\d+(.\d{1,2})?$", ErrorMessage = "Invalid value")]
     [Range(0.01, int.MaxValue, ErrorMessage = "The Amount must be greater than $0.00.")]
     public decimal Amount { get; set; }
+
+    public ulong TransactionId { get; set; }
 #nullable enable
 
     // For validation only, not part of the schema - start

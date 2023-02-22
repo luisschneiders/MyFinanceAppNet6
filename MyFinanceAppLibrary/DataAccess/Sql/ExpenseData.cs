@@ -9,14 +9,53 @@ public class ExpenseData : IExpenseData<ExpenseModel>
         _dataAccess = dataAccess;
     }
 
-    public Task ArchiveRecord(ExpenseModel model)
+    public async Task ArchiveRecord(ExpenseModel model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            await _dataAccess.SaveData<dynamic>(
+                "myfinancedb.spExpense_Archive",
+                new
+                {
+                    expenseId = model.Id,
+                    expenseIsActive = model.IsActive,
+                    expenseIsArchived = model.IsArchived,
+                    expenseUpdatedBy = model.UpdatedBy,
+                    expenseUpdatedAt = model.UpdatedAt,
+                },
+                "Mysql");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
-    public Task CreateRecord(ExpenseModel model)
+    public async Task CreateRecord(ExpenseModel model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            await _dataAccess.LoadData<ExpenseModel, dynamic>(
+                "myfinancedb.spExpense_Create",
+                new
+                {
+                    expenseEDate = model.EDate,
+                    expenseBankId = model.BankId,
+                    expenseCategoryId = model.ExpenseCategoryId,
+                    expenseComments = model.Comments,
+                    expenseAmount = model.Amount,
+                    expenseUpdatedBy = model.UpdatedBy,
+                    expenseCreatedAt = model.CreatedAt,
+                    expenseUpdatedAt = model.UpdatedAt,
+                },
+                "Mysql");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public Task<ulong> GetLastInsertedId()
@@ -24,9 +63,22 @@ public class ExpenseData : IExpenseData<ExpenseModel>
         throw new NotImplementedException();
     }
 
-    public Task<ExpenseModel> GetRecordById(string userId, string modelId)
+    public async Task<ExpenseModel> GetRecordById(string userId, string modelId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var result = await _dataAccess.LoadData<ExpenseModel, dynamic>(
+                "myfinancedb.spExpense_GetById",
+                new { userId = userId, expenseId = modelId },
+                "Mysql");
+
+            return result.FirstOrDefault()!;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public Task<List<ExpenseModel>> GetRecords(string userId)
@@ -39,9 +91,27 @@ public class ExpenseData : IExpenseData<ExpenseModel>
         throw new NotImplementedException();
     }
 
-    public Task<List<ExpenseModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRangeModel dateTimeRangeModel)
+    public async Task<List<ExpenseModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRangeModel dateTimeRangeModel)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var results = await _dataAccess.LoadData<ExpenseModelListDTO, dynamic>(
+                "myfinancedb.spExpense_GetRecordsByDateRange",
+                new
+                {
+                    userId = userId,
+                    startDate = dateTimeRangeModel.Start,
+                    endDate = dateTimeRangeModel.End
+                },
+                "Mysql");
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public Task<List<ExpenseModel>> GetSearchResults(string userId, string search)
