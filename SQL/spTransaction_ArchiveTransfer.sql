@@ -99,7 +99,7 @@ BEGIN
 			END IF;
 		END IF;
             
-		IF (rowCountTransactionCredit > 0 AND rowCountTransactionDEBIT > 0 AND 
+		IF (rowCountTransactionCredit > 0 AND rowCountTransactionDebit > 0 AND 
 			rowCountBankCredit > 0 AND rowCountBankDebit > 0) THEN
 			COMMIT;
 		ELSE
