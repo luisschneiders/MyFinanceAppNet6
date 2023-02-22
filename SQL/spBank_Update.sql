@@ -1,6 +1,6 @@
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spBank_Update`(
-    IN bankId int,
+	IN bankId int,
     IN bankAccount varchar(45),
     IN bankDescription varchar(45),
     IN bankCurrentBalance decimal(10,2),
@@ -17,6 +17,6 @@ BEGIN
 		`IsActive` = bankIsActive,
 		`UpdatedBy` = bankUpdatedBy,
 		`UpdatedAt` = bankUpdatedAt
-	WHERE `Id` = bankId;
+	WHERE (`Id` = bankId);
 END$$
 DELIMITER ;
