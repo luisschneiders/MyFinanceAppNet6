@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using MyFinanceAppLibrary.DataAccess.NoSql;
-using MyFinanceAppLibrary.DataAccess.Sql;
-using MyFinanceAppLibrary.Models;
 
 namespace MainApp.Services;
 

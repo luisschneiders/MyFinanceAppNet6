@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using MyFinanceAppLibrary.DataAccess.NoSql;
 
 namespace MainApp.Services
 {
