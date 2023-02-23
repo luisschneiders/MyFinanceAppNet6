@@ -155,9 +155,19 @@ namespace MainApp.Services
             return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
         }
 
-        public Task<List<ExpenseCategoryModel>> GetRecordsActive()
+        public async Task<List<ExpenseCategoryModel>> GetRecordsActive()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = await GetLoggedInUser();
+                List<ExpenseCategoryModel> results = await _expenseCategoryData.GetRecordsActive(user.Id);
+                return results;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An exception occurred: " + ex.Message);
+                throw;
+            }
         }
     }
 }
