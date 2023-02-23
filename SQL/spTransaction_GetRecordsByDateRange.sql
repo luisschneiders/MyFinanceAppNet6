@@ -10,6 +10,7 @@ BEGIN
         t.Link,
 		t.TDate,
 		b.Description AS BankDescription,
+        t.TCategoryType,
 		tc.Description AS TCategoryTypeDescription,
 		t.Action,
         t.Label,

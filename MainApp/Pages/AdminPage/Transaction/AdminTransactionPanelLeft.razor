@@ -126,14 +126,28 @@
                                                                     <td class="text-end">
                                                                         @record.Amount.ToString("C")
                                                                     </td>
-                                                                    <td class="text-center">
-                                                                        <button class="btn btn-link p-0 text-danger"
-                                                                                type="button"
-                                                                                title="Archive"
-                                                                                @onclick="() => ArchiveRecordAsync(record)">
-                                                                            <i class="bi bi-archive"></i>
-                                                                        </button>
-                                                                    </td>
+                                                                    @if (record.TCategoryType != 0)
+                                                                        {
+                                                                        <td class="text-center">
+                                                                            <button class="btn btn-link p-0 text-danger"
+                                                                                    type="button"
+                                                                                    title="Archive"
+                                                                                    @onclick="() => ArchiveRecordAsync(record)">
+                                                                                <i class="bi bi-archive"></i>
+                                                                            </button>
+                                                                        </td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td class="text-center">
+                                                                            <button class="btn btn-link p-0 text-info"
+                                                                                    type="button"
+                                                                                    title="Info"
+                                                                                    @onclick="() => InfoRecordAsync()">
+                                                                                <i class="bi bi-info-square-fill"></i>
+                                                                            </button>
+                                                                        </td>
+                                                                    }
                                                                 </tr>
                                                             }
                                                         }
@@ -154,4 +168,5 @@
 </CardView>
 <AdminTransactionOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
 <AdminTransactionModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
+<AdminTransactionModalInfo @ref="_setupModalInfo" />
 <Toast />

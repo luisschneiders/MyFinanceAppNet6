@@ -28,6 +28,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
      * Add Modal component reference
      */
     private AdminTransactionModal _setupModal { get; set; } = new();
+    private AdminTransactionModalInfo _setupModalInfo { get; set; } = new();
 
     private DateTimeRangeModel _dateTimeRangeModel { get; set; } = new();
 
@@ -100,6 +101,11 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         }
 
         await Task.CompletedTask;
+    }
+
+    private async Task InfoRecordAsync()
+    {
+        await _setupModalInfo.OpenModalAsync();
     }
 
     private async Task RefreshList()

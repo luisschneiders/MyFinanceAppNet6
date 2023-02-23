@@ -7,6 +7,7 @@ public class TransactionModelListDTO : BaseModel
     public ulong Link { get; }
     public DateTime TDate { get; }
     public string BankDescription { get; }
+    public ulong TCategoryType { get; }
     public string TCategoryTypeDescription { get; }
     public string Action { get; }
     public string Label { get; }
