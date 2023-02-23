@@ -42,7 +42,7 @@ public class ExpenseData : IExpenseData<ExpenseModel>
                 {
                     expenseEDate = model.EDate,
                     expenseBankId = model.BankId,
-                    expenseCategoryId = model.ExpenseCategoryId,
+                    expenseECategoryId = model.ECategoryId,
                     expenseComments = model.Comments,
                     expenseAmount = model.Amount,
                     expenseUpdatedBy = model.UpdatedBy,

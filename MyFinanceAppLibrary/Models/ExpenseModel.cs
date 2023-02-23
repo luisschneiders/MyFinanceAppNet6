@@ -14,7 +14,7 @@ public class ExpenseModel : BaseModel, IValidatableObject
     public ulong BankId { get; set; }
 
     [Range(1, int.MaxValue, ErrorMessage = "The Expense field is required.")]
-    public ulong ExpenseCategoryId { get; set; }
+    public ulong ECategoryId { get; set; }
 
     [Required]
     public string Comments { get; set; }
@@ -25,37 +25,20 @@ public class ExpenseModel : BaseModel, IValidatableObject
     public decimal Amount { get; set; }
 
     public ulong TransactionId { get; set; }
-#nullable enable
-
     // For validation only, not part of the schema - start
-    public ExpenseCategoryModel ECategoryTypeModel { get; set; } = new();
+    public ExpenseCategoryModel ExpenseCategoryModel { get; set; } = new();
     public BankModel BankModel { get; set; } = new();
     // For validation only, not part of the schema - end
+#nullable enable
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         List<ValidationResult> results = new();
 
-        //if (TCategoryTypeModel.ActionType == TransactionActionType.T.ToString() ||
-        //    TCategoryTypeModel.ActionType == TransactionActionType.D.ToString())
-        //{
-        //    if (FromBankModel.CurrentBalance < Amount)
-        //    {
-        //        results.Add(new ValidationResult("Not enough funds.", new[] { nameof(Amount) }));
-        //    }
-        //}
-
-        //if (TCategoryTypeModel.ActionType == TransactionActionType.T.ToString())
-        //{
-        //    if (ToBankModel.Id <= 0)
-        //    {
-        //        results.Add(new ValidationResult("The To Bank field is required.", new[] { nameof(ToBank) }));
-        //    }
-        //    if (FromBankModel.Id == ToBankModel.Id)
-        //    {
-        //        results.Add(new ValidationResult("From Bank and To Bank can not be the same.", new[] { nameof(ToBank) }));
-        //    }
-        //}
+        if (BankModel.CurrentBalance < Amount)
+        {
+            results.Add(new ValidationResult("Not enough funds.", new[] { nameof(Amount) }));
+        }
 
         return results;
     }
