@@ -88,11 +88,11 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task ArchiveRecordAsync(TransactionModelListDTO transactionModelListDTO)
+    private async Task ArchiveRecordAsync(TransactionModelListDTO model)
     {
         try
         {
-            await _setupModal.OpenModalAsync(transactionModelListDTO.Id.ToString());
+            await _setupModal.OpenModalAsync(model.Id.ToString());
         }
         catch (Exception ex)
         {
