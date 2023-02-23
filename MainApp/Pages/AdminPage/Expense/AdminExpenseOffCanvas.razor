@@ -49,14 +49,14 @@
                     <InputDate class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                         _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
                                         _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control")"
-                               id="TDate"
+                               id="EDate"
                                placeholder="Date"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
                                @bind-Value="_expenseModel.EDate"
                                Type="InputDateType.Date" />
-                    <label for="TDate">Date</label>
+                    <label for="EDate">Date</label>
                 </div>
                 <div class="form-floating mb-3">
                     @if (_isLoading)
@@ -66,7 +66,7 @@
                     else
                     {
                         <InputSelect class="form-select"
-                                     id="FromBank"
+                                     id="BankId"
                                      disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
@@ -78,7 +78,7 @@
                                 <option value="@bank.Id"> @($"{bank.Description} - {bank.CurrentBalance.ToString("C")}") </option>
                             }
                         </InputSelect>
-                        <label for="FromBank">From Bank</label>
+                        <label for="BankId">Bank</label>
                     }
                 </div>
                 <div class="form-floating mb-3">
@@ -95,7 +95,7 @@
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
                                      @oninput="OnValueChangedExpenseCategory"
                                      @bind-Value="_expenseModel.ECategoryId">
-                            <option value="0">-- Select Expense</option>
+                            <option value="0">-- Select Expense --</option>
                             @foreach (var (action, index) in _activeExpenseCategories.Select((value, index) => (value, index)))
                             {
                                 <option value="@action.Id"> @($"{action.Description}") </option>
