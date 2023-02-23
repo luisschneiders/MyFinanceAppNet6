@@ -3,7 +3,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spTransactionCategory_GetAllActive`
 	IN userId varchar(28)
 )
 BEGIN
-	SELECT 
+	SELECT
 		Id,
         Description,
         ActionType,
