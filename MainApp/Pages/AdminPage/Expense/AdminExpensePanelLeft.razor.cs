@@ -92,7 +92,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     {
         try
         {
-            //await _setupModal.OpenModalAsync(model.Id.ToString());
+            await _setupModal.OpenModalAsync(model.Id.ToString());
         }
         catch (Exception ex)
         {
