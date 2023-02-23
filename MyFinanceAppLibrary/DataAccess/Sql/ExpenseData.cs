@@ -18,6 +18,9 @@ public class ExpenseData : IExpenseData<ExpenseModel>
                 new
                 {
                     expenseId = model.Id,
+                    expenseBankId = model.BankId,
+                    expenseTransactionId = model.TransactionId,
+                    expenseAmount = model.Amount,
                     expenseIsActive = model.IsActive,
                     expenseIsArchived = model.IsArchived,
                     expenseUpdatedBy = model.UpdatedBy,
