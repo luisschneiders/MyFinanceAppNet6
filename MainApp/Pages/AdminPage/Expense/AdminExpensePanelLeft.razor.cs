@@ -1,17 +1,14 @@
 ﻿using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
-using MainApp.Pages.AdminPage.Timesheet;
+using MainApp.Pages.AdminPage.Transaction;
 using Microsoft.AspNetCore.Components;
 
-namespace MainApp.Pages.AdminPage.Transaction;
+namespace MainApp.Pages.AdminPage.Expense;
 
-public partial class AdminTransactionPanelLeft : ComponentBase
+public partial class AdminExpensePanelLeft : ComponentBase
 {
     [Inject]
-    private ITransactionService<TransactionModel> _transactionService { get; set; } = default!;
-
-    [Inject]
-    private IDateTimeService _dateTimeService { get; set; } = default!;
+    private IExpenseService<ExpenseModel> _expenseService { get; set; } = default!;
 
     [Inject]
     private ToastService _toastService { get; set; } = new();
@@ -19,24 +16,26 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     [Inject]
     private SpinnerService _spinnerService { get; set; } = new();
 
+    [Inject]
+    private IDateTimeService _dateTimeService { get; set; } = default!;
+
+    private DateTimeRangeModel _dateTimeRangeModel { get; set; } = new();
+
     /*
      * Add OffCanvas component reference
      */
-    private AdminTransactionOffCanvas _setupOffCanvas { get; set; } = new();
+    private AdminExpenseOffCanvas _setupOffCanvas { get; set; } = new();
 
     /*
      * Add Modal component reference
      */
-    private AdminTransactionModal _setupModal { get; set; } = new();
-    private AdminTransactionModalInfo _setupModalInfo { get; set; } = new();
+    private AdminExpenseModal _setupModal { get; set; } = new();
 
-    private DateTimeRangeModel _dateTimeRangeModel { get; set; } = new();
-
-    private List<TransactionModelByCategoryGroupDTO> _transactionsByGroup { get; set; } = new();
+    private List<ExpenseModelByCategoryGroupDTO> _expensesByGroup { get; set; } = new();
 
     private bool _isLoading { get; set; } = true;
 
-    public AdminTransactionPanelLeft()
+    public AdminExpensePanelLeft()
     {
     }
 
@@ -71,7 +70,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     {
         try
         {
-            _transactionsByGroup = await _transactionService.GetRecordsByGroupAndDateRange(_dateTimeRangeModel);
+            _expensesByGroup = await _expenseService.GetRecordsByGroupAndDateRange(_dateTimeRangeModel);
             _isLoading = false;
         }
         catch (Exception ex)
@@ -89,7 +88,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task ArchiveRecordAsync(TransactionModelListDTO model)
+    private async Task ArchiveRecordAsync(ExpenseModelListDTO model)
     {
         try
         {
@@ -101,11 +100,6 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         }
 
         await Task.CompletedTask;
-    }
-
-    private async Task InfoRecordAsync()
-    {
-        await _setupModalInfo.OpenModalAsync();
     }
 
     private async Task RefreshList()

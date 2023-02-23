@@ -21,7 +21,7 @@
                 <div class="d-none d-lg-block">
                     <button class="btn btn-md bg-primary-subtle text-primary-emphasis"
                             @onclick="() => AddRecordAsync()">
-                        <i class="bi bi-plus-lg pe-1"></i>New transaction
+                        <i class="bi bi-plus-lg pe-1"></i>New expense
                     </button>
                 </div>
                 <div class="d-block d-lg-none">
@@ -30,7 +30,7 @@
                         <li class="px-2 d-block d-lg-none">
                             <button class="dropdown-item"
                                     @onclick="() => AddRecordAsync()">
-                                <i class="bi bi-plus-lg pe-1"></i>New transaction
+                                <i class="bi bi-plus-lg pe-1"></i>New expense
                             </button>
                         </li>
                     </DropdownActions>
@@ -52,7 +52,7 @@
                     else
                     {
 
-                        @if (_transactionsByGroup.Count <= 0)
+                        @if (_expensesByGroup.Count <= 0)
                         {
                             <div class="text-center">
                                 Not record found!
@@ -60,8 +60,8 @@
                         }
                         else
                         {
-                            <Accordion Id="Transactions">
-                                @foreach (var (record, index) in _transactionsByGroup.Select((value, index) => (value, index)))
+                            <Accordion Id="Expenses">
+                                @foreach (var (record, index) in _expensesByGroup.Select((value, index) => (value, index)))
                                 {
                                     <AccordionItem>
                                         <AccordionHeader Id="@index.ToString()">
@@ -80,13 +80,10 @@
                                                             <th class="col-2">
                                                                 Date
                                                             </th>
-                                                            <th class="col-1 text-center">
-                                                                Action
-                                                            </th>
                                                             <th class="col-3">
-                                                                Bank
+                                                                Debit from
                                                             </th>
-                                                            <th class="col-4">
+                                                            <th class="col-5">
                                                                 Comments
                                                             </th>
                                                             <th class="col-2 text-end">
@@ -96,7 +93,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @if (_transactionsByGroup.Count <= 0)
+                                                        @if (_expensesByGroup.Count <= 0)
                                                         {
                                                             <tr class="bg-light-subtle">
                                                                 <td class="text-center" colspan="5">
@@ -108,14 +105,11 @@
                                                         }
                                                         else
                                                         {
-                                                            foreach (var record in _transactionsByGroup[index].Transactions)
+                                                            foreach (var record in _expensesByGroup[index].Expenses)
                                                             {
                                                                 <tr class="bg-light-subtle">
                                                                     <td>
-                                                                        @record.TDate.ToString("dd/MM/yy")
-                                                                    </td>
-                                                                    <td class="text-center">
-                                                                        @record.Label
+                                                                        @record.EDate.ToString("dd/MM/yy")
                                                                     </td>
                                                                     <td>
                                                                         @record.BankDescription
@@ -126,28 +120,14 @@
                                                                     <td class="text-end">
                                                                         @record.Amount.ToString("C")
                                                                     </td>
-                                                                    @if (record.TCategoryType != 0)
-                                                                        {
-                                                                        <td class="text-center">
-                                                                            <button class="btn btn-link p-0 text-danger"
-                                                                                    type="button"
-                                                                                    title="Archive"
-                                                                                    @onclick="() => ArchiveRecordAsync(record)">
-                                                                                <i class="bi bi-archive"></i>
-                                                                            </button>
-                                                                        </td>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <td class="text-center">
-                                                                            <button class="btn btn-link p-0 text-info"
-                                                                                    type="button"
-                                                                                    title="Info"
-                                                                                    @onclick="() => InfoRecordAsync()">
-                                                                                <i class="bi bi-info-square-fill"></i>
-                                                                            </button>
-                                                                        </td>
-                                                                    }
+                                                                    <td class="text-center">
+                                                                        <button class="btn btn-link p-0 text-danger"
+                                                                                type="button"
+                                                                                title="Archive"
+                                                                                @onclick="() => ArchiveRecordAsync(record)">
+                                                                            <i class="bi bi-archive"></i>
+                                                                        </button>
+                                                                    </td>
                                                                 </tr>
                                                             }
                                                         }
@@ -160,13 +140,11 @@
                             </Accordion>
                         }
                     }
-
                 </div>
             </div>
         </div>
     </CardMiddle>
 </CardView>
-<AdminTransactionOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
-<AdminTransactionModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
-<AdminTransactionModalInfo @ref="_setupModalInfo" />
+<AdminExpenseOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
+<AdminExpenseModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
 <Toast />

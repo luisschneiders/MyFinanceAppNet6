@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using MyFinanceAppLibrary.DataAccess.NoSql;
-using MyFinanceAppLibrary.DataAccess.Sql;
-using MyFinanceAppLibrary.Models;
 
 namespace MainApp.Services;
 
@@ -185,7 +182,7 @@ public class TransactionService : ITransactionService<TransactionModel>
             var resultsGroupBy = records.GroupBy(tc => tc.TCategoryTypeDescription);
             var results = resultsGroupBy.Select(tcGroup => new TransactionModelByCategoryGroupDTO()
             {
-                Description = tcGroup.Key,
+                Description = tcGroup.Key?.Length > 0 ? tcGroup.Key : "Expenses",
                 Total = tcGroup.Sum(a => a.Amount),
                 Transactions = tcGroup.ToList()
             }).ToList();

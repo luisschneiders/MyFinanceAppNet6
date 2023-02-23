@@ -9,25 +9,23 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spBank_Create`(
 	IN bankUpdatedAt datetime
 )
 BEGIN
-
-INSERT INTO `myfinancedb`.`Bank` (
-	`Account`,
-	`Description`,
-	`InitialBalance`,
-	`CurrentBalance`,
-	`UpdatedBy`,
-	`CreatedAt`,
-	`UpdatedAt`
-)
-VALUES (
-	bankAccount,
-	bankDescription,
-	bankInitialBalance,
-	bankCurrentBalance,
-	bankUpdatedBy,
-	bankCreatedAt,
-	bankUpdatedAt
-);
-
+	INSERT INTO `myfinancedb`.`Bank` (
+		`Account`,
+		`Description`,
+		`InitialBalance`,
+		`CurrentBalance`,
+		`UpdatedBy`,
+		`CreatedAt`,
+		`UpdatedAt`
+	)
+	VALUES (
+		bankAccount,
+		bankDescription,
+		bankInitialBalance,
+		bankCurrentBalance,
+		bankUpdatedBy,
+		bankCreatedAt,
+		bankUpdatedAt
+	);
 END$$
 DELIMITER ;

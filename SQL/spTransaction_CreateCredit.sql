@@ -21,6 +21,7 @@ BEGIN
 		INTO bankCurrentBalance
 		FROM Bank
 		WHERE Id = transactionFromBank
+		AND IsActive = TRUE
 		AND IsArchived = FALSE;
 		
 		UPDATE `myfinancedb`.`Bank`

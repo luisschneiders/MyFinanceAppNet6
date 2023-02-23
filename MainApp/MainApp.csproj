@@ -35,6 +35,7 @@
     <None Remove="Components\Shared\" />
     <None Remove="Pages\AdminPage\Transaction\" />
     <None Remove="Components\Accordion\" />
+    <None Remove="Pages\AdminPage\Expense\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Web" Version="1.25.10" />
@@ -54,5 +55,6 @@
     <Folder Include="Components\Shared\" />
     <Folder Include="Pages\AdminPage\Transaction\" />
     <Folder Include="Components\Accordion\" />
+    <Folder Include="Pages\AdminPage\Expense\" />
   </ItemGroup>
 </Project>
