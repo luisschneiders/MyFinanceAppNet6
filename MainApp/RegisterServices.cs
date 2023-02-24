@@ -54,6 +54,7 @@ public static class RegisterServices
         builder.Services.AddSingleton<ITimesheetData<TimesheetModel>, TimesheetData>();
         builder.Services.AddSingleton<ITransactionData<TransactionModel>, TransactionData>();
         builder.Services.AddSingleton<ITransactionCategoryData<TransactionCategoryModel>, TransactionCategoryData>();
+        builder.Services.AddSingleton<ITripData<TripModel>, TripData>();
         builder.Services.AddSingleton<IVehicleData<VehicleModel>, VehicleData>();
     }
 
@@ -71,6 +72,7 @@ public static class RegisterServices
         builder.Services.AddScoped<ITimesheetService<TimesheetModel>, TimesheetService>();
         builder.Services.AddScoped<ITransactionService<TransactionModel>, TransactionService>();
         builder.Services.AddScoped<ITransactionCategoryService<TransactionCategoryModel>, TransactionCategoryService>();
+        builder.Services.AddScoped<ITripService<TripModel>, TripService>();
         builder.Services.AddScoped<IVehicleService<VehicleModel>, VehicleService>();
     }
 }
