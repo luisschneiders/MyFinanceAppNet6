@@ -16,6 +16,8 @@ public class TripService : ITripService<TripModel>
 
     private UserModel _loggedInUser { get; set; } = new();
 
+    private List<TripModelListDTO> _recordsByDateRange { get; set; } = new();
+
     public TripService(
         ITripData<TripModel> tripData,
         IUserData userData,
@@ -68,9 +70,19 @@ public class TripService : ITripService<TripModel>
         throw new NotImplementedException();
     }
 
-    public Task<TripModel> GetRecordById(string modelId)
+    public async Task<TripModel> GetRecordById(string modelId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var user = await GetLoggedInUser();
+            TripModel result = await _tripData.GetRecordById(user.Id, modelId);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public Task<List<TripModel>> GetRecords()
@@ -88,14 +100,20 @@ public class TripService : ITripService<TripModel>
         try
         {
             var user = await GetLoggedInUser();
-            List<TripModelListDTO> results = await _tripData.GetRecordsByDateRange(user.Id, dateTimeRangeModel);
-            return results;
+            _recordsByDateRange = await _tripData.GetRecordsByDateRange(user.Id, dateTimeRangeModel);
+            return _recordsByDateRange;
         }
         catch (Exception ex)
         {
             Console.WriteLine("An exception occurred: " + ex.Message);
             throw;
         }
+    }
+
+    public async Task<decimal> GetSumByDateRange()
+    {
+        var sum = _recordsByDateRange.Sum(r => r.Distance);
+        return await Task.FromResult(sum);
     }
 
     public Task<List<TripModel>> GetSearchResults(string search)
