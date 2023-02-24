@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Components.Authorization;
 
 namespace MainApp.Services;
 
-public class ExpenseService : IExpenseService<ExpenseModel>
+public class TripService : ITripService<TripModel>
 {
     [Inject]
-    private IExpenseData<ExpenseModel> _expenseData { get; set; } = default!;
+    private ITripData<TripModel> _tripData { get; set; } = default!;
 
     [Inject]
     private AuthenticationStateProvider _authProvider { get; set; } = default!;
@@ -16,17 +16,19 @@ public class ExpenseService : IExpenseService<ExpenseModel>
 
     private UserModel _loggedInUser { get; set; } = new();
 
-    public ExpenseService(
-        IExpenseData<ExpenseModel> expenseData,
+    private List<TripModelListDTO> _recordsByDateRange { get; set; } = new();
+
+    public TripService(
+        ITripData<TripModel> tripData,
         IUserData userData,
         AuthenticationStateProvider authProvider)
     {
-        _expenseData = expenseData;
+        _tripData = tripData;
         _userData = userData;
         _authProvider = authProvider;
     }
 
-    public async Task ArchiveRecord(ExpenseModel model)
+    public async Task ArchiveRecord(TripModel model)
     {
         try
         {
@@ -37,7 +39,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
             model.UpdatedBy = user.Id;
             model.UpdatedAt = DateTime.Now;
 
-            await _expenseData.ArchiveRecord(model);
+            await _tripData.ArchiveRecord(model);
         }
         catch (Exception ex)
         {
@@ -46,7 +48,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         }
     }
 
-    public async Task CreateRecord(ExpenseModel model)
+    public async Task CreateRecord(TripModel model)
     {
         try
         {
@@ -54,7 +56,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
 
             model.UpdatedBy = user.Id;
 
-            await _expenseData.CreateRecord(model);
+            await _tripData.CreateRecord(model);
         }
         catch (Exception ex)
         {
@@ -68,12 +70,12 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         throw new NotImplementedException();
     }
 
-    public async Task<ExpenseModel> GetRecordById(string modelId)
+    public async Task<TripModel> GetRecordById(string modelId)
     {
         try
         {
             var user = await GetLoggedInUser();
-            ExpenseModel result = await _expenseData.GetRecordById(user.Id, modelId);
+            TripModel result = await _tripData.GetRecordById(user.Id, modelId);
             return result;
         }
         catch (Exception ex)
@@ -83,23 +85,23 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         }
     }
 
-    public Task<List<ExpenseModel>> GetRecords()
+    public Task<List<TripModel>> GetRecords()
     {
         throw new NotImplementedException();
     }
 
-    public Task<List<ExpenseModel>> GetRecordsActive()
+    public Task<List<TripModel>> GetRecordsActive()
     {
         throw new NotImplementedException();
     }
 
-    public async Task<List<ExpenseModelListDTO>> GetRecordsByDateRange(DateTimeRangeModel dateTimeRangeModel)
+    public async Task<List<TripModelListDTO>> GetRecordsByDateRange(DateTimeRangeModel dateTimeRangeModel)
     {
         try
         {
             var user = await GetLoggedInUser();
-            List<ExpenseModelListDTO> results = await _expenseData.GetRecordsByDateRange(user.Id, dateTimeRangeModel);
-            return results;
+            _recordsByDateRange = await _tripData.GetRecordsByDateRange(user.Id, dateTimeRangeModel);
+            return _recordsByDateRange;
         }
         catch (Exception ex)
         {
@@ -108,39 +110,23 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         }
     }
 
-    public async Task<List<ExpenseModelByCategoryGroupDTO>> GetRecordsByGroupAndDateRange(DateTimeRangeModel dateTimeRangeModel)
+    public async Task<decimal> GetSumByDateRange()
     {
-        try
-        {
-            var records = await GetRecordsByDateRange(dateTimeRangeModel);
-            var resultsGroupBy = records.GroupBy(tc => tc.ExpenseCategoryDescription);
-            var results = resultsGroupBy.Select(tcGroup => new ExpenseModelByCategoryGroupDTO()
-            {
-                Description = tcGroup.Key,
-                Total = tcGroup.Sum(a => a.Amount),
-                Expenses = tcGroup.ToList()
-            }).ToList();
-
-            return results;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("An exception occurred: " + ex.Message);
-            throw;
-        }
+        var sum = _recordsByDateRange.Sum(r => r.Distance);
+        return await Task.FromResult(sum);
     }
 
-    public Task<List<ExpenseModel>> GetSearchResults(string search)
+    public Task<List<TripModel>> GetSearchResults(string search)
     {
         throw new NotImplementedException();
     }
 
-    public Task UpdateRecord(ExpenseModel model)
+    public Task UpdateRecord(TripModel model)
     {
         throw new NotImplementedException();
     }
 
-    public Task UpdateRecordStatus(ExpenseModel model)
+    public Task UpdateRecordStatus(TripModel model)
     {
         throw new NotImplementedException();
     }

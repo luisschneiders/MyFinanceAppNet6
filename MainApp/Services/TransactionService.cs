@@ -9,12 +9,6 @@ public class TransactionService : ITransactionService<TransactionModel>
     private ITransactionData<TransactionModel> _transactionData { get; set; } = default!;
 
     [Inject]
-    private IBankData<BankModel> _bankData { get; set; } = default!;
-
-    [Inject]
-    private ITransactionCategoryData<TransactionCategoryModel> _transactionCategoryData { get; set; } = default!;
-
-    [Inject]
     private AuthenticationStateProvider _authProvider { get; set; } = default!;
 
     [Inject]
@@ -24,14 +18,10 @@ public class TransactionService : ITransactionService<TransactionModel>
 
     public TransactionService(
         ITransactionData<TransactionModel> transactionData,
-        IBankData<BankModel> bankData,
-        ITransactionCategoryData<TransactionCategoryModel> transactionCategoryData,
         IUserData userData,
         AuthenticationStateProvider authProvider)
     {
         _transactionData = transactionData;
-        _bankData = bankData;
-        _transactionCategoryData = transactionCategoryData;
         _userData = userData;
         _authProvider = authProvider;
     }

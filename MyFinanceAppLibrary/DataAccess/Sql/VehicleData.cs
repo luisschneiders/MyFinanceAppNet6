@@ -96,9 +96,22 @@ public class VehicleData : IVehicleData<VehicleModel>
         }
     }
 
-    public Task<List<VehicleModel>> GetRecordsActive(string userId)
+    public async Task<List<VehicleModel>> GetRecordsActive(string userId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var results = await _dataAccess.LoadData<VehicleModel, dynamic>(
+                "myfinancedb.spVehicle_GetAllActive",
+                new { userId = userId },
+                "Mysql");
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public async Task<List<VehicleModel>> GetSearchResults(string userId, string search)

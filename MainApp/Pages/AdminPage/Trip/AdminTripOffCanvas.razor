@@ -1,0 +1,130 @@
+﻿@using MainApp.Components.OffCanvas
+@using MainApp.Components.Dropdown
+@using MainApp.Components.Badge
+@using MainApp.Components.Toast
+
+<OffCanvas @ref="_offCanvasService.OffCanvas" PositionX="Position.End">
+    <EditForm Model="@_tripModel"
+              OnValidSubmit="@HandleValidSubmitAsync"
+              OnInvalidSubmit="@HandleInvalidSubmitAsync"
+              autocomplete="off">
+        <DataAnnotationsValidator />
+        <div class="row align-items-center">
+            <div class="col my-4">
+                <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing...")" />
+            </div>
+            @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+             _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
+            {
+                <div class="col my-4 d-flex justify-content-end">
+                    <DropdownActions>
+                        <li class="px-2">
+                            <button class="dropdown-item"
+                                    @onclick="ArchiveAsync">
+                                <i class="bi bi-archive pe-1"></i>Archive
+                            </button>
+                        </li>
+                    </DropdownActions>
+                </div>
+            }
+        </div>
+        @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View)
+        {
+            <div class="row">
+                <div class="col-sm-12">
+                    <button class="btn btn-primary w-100"
+                            type="button"
+                            @onclick="UpdateFormStateAsync">
+                        Edit
+                    </button>
+                </div>
+            </div>
+            <div class="py-3">
+                <hr />
+            </div>
+        }
+        <div class="row">
+            <div class="col-12">
+                <div class="form-floating mb-3">
+                    <InputDate class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control")"
+                               id="TDate"
+                               placeholder="Date"
+                               readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
+                               @bind-Value="_tripModel.TDate"
+                               Type="InputDateType.Date" />
+                    <label for="TDate">Date</label>
+                </div>
+                <div class="form-floating mb-3">
+                    @if (_isLoading)
+                    {
+                        <span>Loading...</span>
+                    }
+                    else
+                    {
+                        <InputSelect class="form-select"
+                                     id="VehicleId"
+                                     disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                               _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                               _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
+                                     @bind-Value="_tripModel.VehicleId">
+                            <option value="0">-- Select Vehicle --</option>
+                            @foreach (var (vehicle, index) in _activeVehicles.Select((value, index) => (value, index)))
+                                {
+                                <option value="@vehicle.Id">@($"{vehicle.Plate} - {vehicle.Description}") </option>
+                            }
+                        </InputSelect>
+                        <label for="VehicleId">Vehicle</label>
+                    }
+                </div>
+                <div class="form-floating mb-3">
+                    <InputNumber class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control")"
+                                 id="Distance"
+                                 min="0"
+                                 placeholder="Distance"
+                                 readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
+                                 @bind-Value="_tripModel.Distance" />
+                    <label for="Distance">Distance (KM)</label>
+                </div>
+            </div>
+        </div>
+        @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add ||
+              _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
+        {
+            <div class="py-2">
+                <hr />
+            </div>
+            @if (_displayErrorMessages)
+            {
+                <div class="row">
+                    <div class="col-12">
+                        <ValidationSummary />
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="col-6">
+                    <button class="btn btn-outline-secondary w-100"
+                            @onclick="() => CloseOffCanvasAsync()">
+                        Cancel
+                    </button>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-success w-100"
+                            disabled="@(_isProcessing ? true : false)"
+                            type="submit">
+                        @(_isProcessing ? "Saving..." : "Save")
+                    </button>
+                </div>
+            </div>
+        }
+    </EditForm>
+</OffCanvas>
+<Toast />

@@ -9,7 +9,7 @@
         </span>
     </Title>
     <Body>
-        <EditForm Model="@_transactionModel"
+        <EditForm Model="@_tripModel"
                   OnValidSubmit="@HandleValidSubmitAsync"
                   OnInvalidSubmit="@HandleInvalidSubmitAsync"
                   autocomplete="off"
@@ -17,8 +17,8 @@
             <div class="d-flex justify-content-center text-center">
                 <div>
                     <i class="bi bi-exclamation-diamond fs-2 text-danger"></i>
-                    <h2 class="fs-5 pb-3">Heads up!</h2>
-                    <p class="pb-3">All transactions linked to this record will be archived too.</p>
+                    <h3 class="fs-5 pb-3">Heads up!</h3>
+                    <p  class="pb-3">This action cannot be undone.</p>
                 </div>
             </div>
         </EditForm>

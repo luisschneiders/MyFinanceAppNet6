@@ -155,8 +155,18 @@ public class VehicleService : IVehicleService<VehicleModel>
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
     }
 
-    public Task<List<VehicleModel>> GetRecordsActive()
+    public async Task<List<VehicleModel>> GetRecordsActive()
     {
-        throw new NotImplementedException();
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<VehicleModel> results = await _vehicleData.GetRecordsActive(user.Id);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 }

@@ -1,0 +1,127 @@
+﻿@using MainApp.Components.Card
+@using MainApp.Components.Dropdown
+@using MainApp.Components.Toast
+@using MainApp.Components.Spinner
+@using MainApp.Components.Badge
+@using MainApp.Components.Accordion
+
+<CardView Styles="border-0">
+    <CardMiddle>
+        <div class="row justify-content-between pb-2">
+            <div class="col-10 col-lg-8 pb-2 d-flex">
+                <div>
+                    <DropdownDateRange IconColor="Theme.Info"
+                                       ButtonSize="Size.Md"
+                                       DateTimeRange="@_dateTimeRangeModel"
+                                       OnSubmitSuccess="RefreshListFromDropdownDateRange" />
+
+                </div>
+            </div>
+            <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
+                <div class="d-none d-lg-block">
+                    <button class="btn btn-md bg-primary-subtle text-primary-emphasis"
+                            @onclick="() => AddRecordAsync()">
+                        <i class="bi bi-plus-lg pe-1"></i>New trip
+                    </button>
+                </div>
+                <div class="d-block d-lg-none">
+                    <DropdownActions ButtonColor="Theme.Primary"
+                                     DropdownPosition="Position.End">
+                        <li class="px-2 d-block d-lg-none">
+                            <button class="dropdown-item"
+                                    @onclick="() => AddRecordAsync()">
+                                <i class="bi bi-plus-lg pe-1"></i>New trip
+                            </button>
+                        </li>
+                    </DropdownActions>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="app-page-responsive-height">
+                    <table class="table table-hover">
+                        <thead class="app-table-head-vertical-align-top">
+                            <tr>
+                                <th class="col-2 text-nowrap">
+                                    Date
+                                </th>
+                                <th class="col text-nowrap">
+                                    Vehicle
+                                </th>
+                                <th class="col-1 text-end text-nowrap">
+                                    Distance (KM)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (_isLoading)
+                            {
+                                <tr>
+                                    <td class="text-center" colspan="10">
+                                        <div>
+                                            <Spinner Size="Size.Sm" />
+                                            <span>
+                                                Loading ...
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @if (_trips.Count <= 0)
+                                {
+                                    <tr>
+                                        <td class="text-center" colspan="10">
+                                            <div>
+                                                Not record found!
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    foreach (var record in _trips)
+                                    {
+
+                                        <tr>
+                                            <td class="text-nowrap">
+                                                @record.TDate.ToString("dd/MM/yy")
+                                            </td>
+                                            <td class="text-nowrap">
+                                                @record.VehiclePlate - @record.VehicleDescription
+                                            </td>
+                                            <td class="text-end text-nowrap">
+                                                @record.Distance
+                                            </td>
+                                            <td class="text-center">
+                                                <button class="btn btn-link p-0 text-danger"
+                                                        type="button"
+                                                        title="Archive"
+                                                        @onclick="() => ArchiveRecordAsync(record)">
+                                                    <i class="bi bi-archive"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                        <tfoot class="bg-primary-subtle fw-semibold">
+                            <tr>
+                                <td class="text-nowrap" colspan="2">Total distance (KM)</td>
+                                <td class="text-nowrap text-end">@_sumByDateRange</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </CardMiddle>
+</CardView>
+<AdminTripOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
+<AdminTripModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
+<Toast />

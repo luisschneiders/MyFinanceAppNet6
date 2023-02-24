@@ -1,5 +1,4 @@
-﻿@page "/setup/bank"
-
+﻿@page "/admin/trips"
 @using MainApp.Components.Page
 @using MainApp.Components.Card
 @using MainApp.Components.Message
@@ -14,9 +13,12 @@
                 <PageTopView>
                     <PageTopWrapper>
                         <div class="d-flex align-items-baseline">
-                            <PageTopTitle Title="Setup Bank" />
+                            <i class="bi bi-pin-map text-info pe-1 fs-5" /><PageTopTitle Title="Trips" />
+                            <sup class="ps-1">
+                                <Badge BackgroundColor="@Theme.Info" Message="Available" />
+                            </sup>
                         </div>
-                        <Breadcrumb AppPageLink="@EndPoint.SetupBank" />
+                        <Breadcrumb AppPageLink="@EndPoint.AdminTrips" />
                     </PageTopWrapper>
                 </PageTopView>
 
@@ -24,10 +26,10 @@
                     <PageMiddleWrapper>
                         <div class="row">
                             <div class="col-12 col-lg-9">
-                                <SetupBankPanelLeft />
+                                <AdminTripPanelLeft />
                             </div>
                             <div class="col-12 col-lg-3 d-none d-lg-block">
-                                <SetupBankPanelRight />
+                                <AdminTripPanelRight />
                             </div>
                         </div>
                     </PageMiddleWrapper>
