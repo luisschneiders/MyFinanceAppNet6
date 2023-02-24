@@ -71,7 +71,6 @@ public partial class AdminTripPanelLeft : ComponentBase
     {
         try
         {
-            //_expensesByGroup = await _expenseService.GetRecordsByGroupAndDateRange(_dateTimeRangeModel);
             _trips = await _tripService.GetRecordsByDateRange(_dateTimeRangeModel);
             _sumByDateRange = await _tripService.GetSumByDateRange();
             _isLoading = false;
