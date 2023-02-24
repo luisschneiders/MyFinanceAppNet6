@@ -9,12 +9,6 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     private IExpenseData<ExpenseModel> _expenseData { get; set; } = default!;
 
     [Inject]
-    private IBankData<BankModel> _bankData { get; set; } = default!;
-
-    [Inject]
-    private IExpenseCategoryData<ExpenseCategoryModel> _expenseCategoryData { get; set; } = default!;
-
-    [Inject]
     private AuthenticationStateProvider _authProvider { get; set; } = default!;
 
     [Inject]
@@ -24,14 +18,10 @@ public class ExpenseService : IExpenseService<ExpenseModel>
 
     public ExpenseService(
         IExpenseData<ExpenseModel> expenseData,
-        IBankData<BankModel> bankData,
-        IExpenseCategoryData<ExpenseCategoryModel> expenseCategoryData,
         IUserData userData,
         AuthenticationStateProvider authProvider)
     {
         _expenseData = expenseData;
-        _bankData = bankData;
-        _expenseCategoryData = expenseCategoryData;
         _userData = userData;
         _authProvider = authProvider;
     }
