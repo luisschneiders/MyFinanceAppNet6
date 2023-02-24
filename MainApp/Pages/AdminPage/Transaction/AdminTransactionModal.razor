@@ -17,15 +17,15 @@
             <div class="d-flex justify-content-center text-center">
                 <div>
                     <i class="bi bi-exclamation-diamond fs-2 text-danger"></i>
-                    <h2 class="fs-5 pb-3">Are you sure you want to archive this record?</h2>
-                    <span>This action cannot be undone.</span>
+                    <h2 class="fs-5 pb-3">Heads up!</h2>
+                    <p class="pb-3">All transactions linked to this record will be archived too.</p>
                 </div>
             </div>
         </EditForm>
     </Body>
     <Footer>
         <div class="row w-100 justify-content-end">
-            <div class="col-sm-12 col-md-6 d-flex gap-2 g-0">
+            <div class="col-sm-12 col-md-8 d-flex gap-2 g-0">
                 <button type="button"
                         class="btn btn-outline-secondary w-100"
                         data-dismiss="modal"
@@ -36,7 +36,7 @@
                         disabled="@(_isProcessing ? true : false)"
                         type="submit"
                         form="ModalForm">
-                    @(_isProcessing ? "Archiving..." : "Archive")
+                    @(_isProcessing ? "Archiving..." : "Yes, archive")
                 </button>
             </div>
         </div>
