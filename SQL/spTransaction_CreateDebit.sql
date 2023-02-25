@@ -2,7 +2,7 @@ DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spTransaction_CreateDebit`(
 	IN transactionTDate datetime,
 	IN transactionFromBank int,
-	IN transactionTCategoryType int,
+	IN transactionTCategoryId int,
     IN transactionAction char (1),
     IN transactionLabel char (1),
 	IN transactionAmount decimal(10,2),
@@ -34,7 +34,7 @@ BEGIN
 		INSERT INTO `myfinancedb`.`Transaction` (
 			`TDate`,
 			`FromBank`,
-			`TCategoryType`,
+			`TCategoryId`,
 			`Action`,
 			`Label`,
 			`Amount`,
@@ -46,7 +46,7 @@ BEGIN
 		VALUES (
 			transactionTDate,
 			transactionFromBank,
-			transactionTCategoryType,
+			transactionTCategoryId,
 			transactionAction,
 			transactionLabel,
 			transactionAmount,

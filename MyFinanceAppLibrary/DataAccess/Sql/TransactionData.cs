@@ -98,7 +98,7 @@ public class TransactionData : ITransactionData<TransactionModel>
                 {
                     transactionTDate = model.TDate,
                     transactionFromBank = model.FromBank,
-                    transactionTCategoryType = model.TCategoryType,
+                    transactionTCategoryId = model.TCategoryId,
                     transactionAction = model.Action,
                     transactionLabel = model.Label,
                     transactionAmount = model.Amount,
@@ -126,7 +126,7 @@ public class TransactionData : ITransactionData<TransactionModel>
                 {
                     transactionTDate = model.TDate,
                     transactionFromBank = model.FromBank,
-                    transactionTCategoryType = model.TCategoryType,
+                    transactionTCategoryId = model.TCategoryId,
                     transactionAction = model.Action,
                     transactionLabel = model.Label,
                     transactionAmount = model.Amount,
@@ -155,7 +155,7 @@ public class TransactionData : ITransactionData<TransactionModel>
                     transactionTDate = model.TDate,
                     transactionFromBank = model.FromBank,
                     transactionToBank = model.ToBank, // For transfers only
-                    transactionTCategoryType = model.TCategoryType,
+                    transactionTCategoryId = model.TCategoryId,
                     transactionLabel = model.Label,
                     transactionAmount = model.Amount,
                     transactionComments = model.Comments,

@@ -105,7 +105,7 @@ public partial class AdminTransactionOffCanvas : ComponentBase
             _displayErrorMessages = false;
             _isProcessing = true;
 
-            switch (_transactionModel.TCategoryTypeModel.ActionType)
+            switch (_transactionModel.TransactionCategoryModel.ActionType)
             {
                 case "T":
                     await _transactionService.CreateRecordTransfer(_transactionModel);
@@ -184,7 +184,7 @@ public partial class AdminTransactionOffCanvas : ComponentBase
             {
                 var result = _activeTransactionCategories.Find(c => c.Id == categotyId);
                 _actionType = result!.ActionType;
-                _transactionModel.TCategoryTypeModel = result;
+                _transactionModel.TransactionCategoryModel = result;
 
                 if (_actionType == TransactionActionType.T.ToString())
                 {
@@ -197,7 +197,7 @@ public partial class AdminTransactionOffCanvas : ComponentBase
             }
             else
             {
-                _transactionModel.TCategoryTypeModel = new();
+                _transactionModel.TransactionCategoryModel = new();
             }
 
             StateHasChanged();

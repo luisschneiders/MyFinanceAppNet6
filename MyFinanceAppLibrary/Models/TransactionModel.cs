@@ -13,14 +13,14 @@ public class TransactionModel : BaseModel, IValidatableObject
     public DateTime TDate { get; set; }
 
     [Range(1, int.MaxValue, ErrorMessage = "The Action field is required.")]
-    public ulong TCategoryType { get; set; }
+    public ulong TCategoryId { get; set; }
 
     [Range(1, int.MaxValue, ErrorMessage = "The From Bank field is required.")]
     public ulong FromBank { get; set; }
 
     // For validation only, not part of the schema - start
     public ulong ToBank { get; set; }
-    public TransactionCategoryModel TCategoryTypeModel { get; set; } = new();
+    public TransactionCategoryModel TransactionCategoryModel { get; set; } = new();
     public BankModel FromBankModel { get; set; } = new();
     public BankModel ToBankModel { get; set; } = new();
     // For validation only, not part of the schema - end
@@ -42,8 +42,8 @@ public class TransactionModel : BaseModel, IValidatableObject
     {
         List<ValidationResult> results = new();
 
-        if (TCategoryTypeModel.ActionType == TransactionActionType.T.ToString() ||
-            TCategoryTypeModel.ActionType == TransactionActionType.D.ToString())
+        if (TransactionCategoryModel.ActionType == TransactionActionType.T.ToString() ||
+            TransactionCategoryModel.ActionType == TransactionActionType.D.ToString())
         {
             if (FromBankModel.CurrentBalance < Amount)
             {
@@ -51,7 +51,7 @@ public class TransactionModel : BaseModel, IValidatableObject
             }
         }
 
-        if (TCategoryTypeModel.ActionType == TransactionActionType.T.ToString())
+        if (TransactionCategoryModel.ActionType == TransactionActionType.T.ToString())
         {
             if (ToBankModel.Id <= 0)
             {

@@ -69,7 +69,7 @@ public class TransactionService : ITransactionService<TransactionModel>
             var user = await GetLoggedInUser();
 
             model.Action = TransactionActionType.C.ToString();
-            model.Label = model.TCategoryTypeModel.ActionType;
+            model.Label = model.TransactionCategoryModel.ActionType;
             model.UpdatedBy = user.Id;
 
             await _transactionData.CreateRecordCredit(model);
@@ -88,7 +88,7 @@ public class TransactionService : ITransactionService<TransactionModel>
             var user = await GetLoggedInUser();
 
             model.Action = TransactionActionType.D.ToString();
-            model.Label = model.TCategoryTypeModel.ActionType;
+            model.Label = model.TransactionCategoryModel.ActionType;
             model.UpdatedBy = user.Id;
 
             await _transactionData.CreateRecordDebit(model);
@@ -106,7 +106,7 @@ public class TransactionService : ITransactionService<TransactionModel>
         {
             var user = await GetLoggedInUser();
 
-            model.Label = model.TCategoryTypeModel.ActionType;
+            model.Label = model.TransactionCategoryModel.ActionType;
             model.Comments = $"Transfer from {model.FromBankModel.Description} to {model.ToBankModel.Description}";
             model.UpdatedBy = user.Id;
 
@@ -169,7 +169,7 @@ public class TransactionService : ITransactionService<TransactionModel>
         try
         {
             var records = await GetRecordsByDateRange(dateTimeRangeModel);
-            var resultsGroupBy = records.GroupBy(tc => tc.TCategoryTypeDescription);
+            var resultsGroupBy = records.GroupBy(tc => tc.TCategoryDescription);
             var results = resultsGroupBy.Select(tcGroup => new TransactionModelByCategoryGroupDTO()
             {
                 Description = tcGroup.Key?.Length > 0 ? tcGroup.Key : "Expenses",

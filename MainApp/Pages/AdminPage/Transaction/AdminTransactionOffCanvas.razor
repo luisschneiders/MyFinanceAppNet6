@@ -66,19 +66,19 @@
                     else
                     {
                         <InputSelect class="form-select"
-                                     id="TCategoryType"
+                                     id="TCategoryId"
                                      disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
                                      @oninput="OnValueChangedCategoryType"
-                                     @bind-Value="_transactionModel.TCategoryType">
+                                     @bind-Value="_transactionModel.TCategoryId">
                             <option value="0">-- Select Action --</option>
                             @foreach (var (action, index) in _activeTransactionCategories.Select((value, index) => (value, index)))
                             {
                                 <option value="@action.Id"> @($"{action.Description}") </option>
                             }
                         </InputSelect>
-                        <label for="TCategoryType">Action</label>
+                        <label for="TCategoryId">Action</label>
                     }
                 </div>
                 <div class="form-floating mb-3">
