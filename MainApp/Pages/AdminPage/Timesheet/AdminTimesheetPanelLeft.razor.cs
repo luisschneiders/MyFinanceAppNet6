@@ -3,10 +3,12 @@ using MainApp.Pages.AdminPage.Timesheet;
 using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
 using MyFinanceAppLibrary.Constants;
+using MainApp.StateServices;
+using MyFinanceAppLibrary.Models;
 
 namespace MainApp.Pages.AdminPage.Timesheet;
 
-public partial class AdminTimesheetPanelLeft : ComponentBase
+public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
 {
     [Inject]
     private ITimesheetService<TimesheetModel> _timesheetService { get; set; } = default!;
@@ -23,19 +25,31 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = new();
 
+    [Inject]
+    private TimesheetStateService _timesheetStateService { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback OnStateContainerSetValue { get; set; }
+
     /*
      * Add OffCanvas component reference
      */
     private AdminTimesheetOffCanvas _setupOffCanvas { get; set; } = new();
+
     private TimesheetModel _timesheetModel { get; set; } = new();
     private DateTimeRangeModel _dateTimeRangeModel { get; set; } = new();
 
     private List<TimesheetModelListDTO> _timesheets { get; set; } = new();
     private List<CompanyModel> _companies { get; set; } = new();
+    private TimesheetModelStateContainerDTO _timesheetModelStateContainerDTO { get; set; } = new();
 
     private PayStatus[] _payStatuses { get; set; } = default!;
 
     private bool _isLoading { get; set; } = true;
+
+    private decimal _sumTotalPaid { get; set; }
+    private decimal _sumTotalAwaiting { get; set; }
+    private double _sumTotalHours { get; set; }
 
     public AdminTimesheetPanelLeft()
     {
@@ -45,6 +59,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     protected async override Task OnInitializedAsync()
     {
         _dateTimeRangeModel = _dateTimeService.GetCurrentMonth();
+        _timesheetStateService.OnStateChange += StateHasChanged;
         await Task.CompletedTask;
     }
 
@@ -55,7 +70,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
             try
             {
                 _spinnerService.ShowSpinner();
-                await FetchDataAsync();
+                await RefreshList();
             }
             catch (Exception ex)
             {
@@ -74,7 +89,21 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         try
         {
             _companies = await _companyService.GetRecordsActive();
+
             _timesheets = await _timesheetService.GetRecordsByDateRange(_dateTimeRangeModel);
+            _sumTotalAwaiting = await _timesheetService.GetSumTotalAwaiting();
+            _sumTotalPaid = await _timesheetService.GetSumTotalPaid();
+            _sumTotalHours = await _timesheetService.GetSumTotalHours();
+
+            _timesheetModelStateContainerDTO.Timesheets = _timesheets;
+            _timesheetModelStateContainerDTO.TotalAwaiting = _sumTotalAwaiting;
+            _timesheetModelStateContainerDTO.TotalPaid = _sumTotalPaid;
+            _timesheetModelStateContainerDTO.TotalHours = _sumTotalHours;
+
+            _timesheetStateService.SetValue(_timesheetModelStateContainerDTO);
+
+            await OnStateContainerSetValue.InvokeAsync();
+
             _isLoading = false;
         }
         catch (Exception ex)
@@ -169,7 +198,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
 
     private async Task RefreshListFromDropdownDateRange()
     {
-        await FetchDataAsync();
+        await RefreshList();
         _toastService.ShowToast("Date range has changed!", Theme.Info);
         await Task.CompletedTask;
     }
@@ -193,5 +222,10 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         }
 
         return Theme.Light;
+    }
+
+    public void Dispose()
+    {
+        _timesheetStateService.OnStateChange -= StateHasChanged;
     }
 }

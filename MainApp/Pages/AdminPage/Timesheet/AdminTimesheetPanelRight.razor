@@ -1,63 +1,102 @@
 ﻿@using MainApp.Components.Card
 @using MainApp.Components.Badge
 @using MainApp.Components.Shared
+@using MainApp.Components.Spinner
 
-<CardView Styles="w-100 border-0">
-    <CardMiddle>
-        <SharedHeader Title="Calculator"
-                      Icon="bi-calculator"
-                      IconColor="Theme.Success" />
-
-        <EditForm Model="@_timesheetModel"
-                  autocomplete="off">
+<div class="d-flex flex-column gap-4">
+    <CardView Styles="w-100 border-0 bg-primary-subtle">
+        <CardMiddle>
+            <SharedHeader Title="Stats"
+                          Icon="bi-info-square"
+                          IconColor="Theme.Primary" />
             <div class="row">
-                <div class="col-12">
-                    <div class="form-floating mb-3">
-                        <InputNumber class="form-control form-control-sm"
-                                     id="HourRate"
-                                     placeholder="Hour Rate"
-                                     @bind-Value="_timesheetModel.HourRate" />
-                        <label for="HourRate">Hour Rate</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <InputDate class="form-control form-control-sm"
-                                   id="TimeIn"
-                                   placeholder="Clock in"
-                                   @bind-Value="_timesheetModel.TimeIn"
-                                   Type="InputDateType.DateTimeLocal" />
-                        <label for="TimeIn">Clock in</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <InputNumber class="form-control form-control-sm"
-                                     id="TimeBreak"
-                                     placeholder="Break (in minutes)"
-                                     min="0"
-                                     max="60"
-                                     @bind-Value="_timesheetModel.TimeBreak" />
-                        <label for="TimeBreak">Break (in minutes)</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <InputDate class="form-control form-control-sm"
-                                   id="TimeOut"
-                                   placeholder="Clock in"
-                                   @bind-Value="_timesheetModel.TimeOut"
-                                   Type="InputDateType.DateTimeLocal" />
-                        <label for="TimeOut">Clock out</label>
+                <div class="col-12 opacity-75">
+                    <div class="form-control form-control-sm text-primary-emphasis p-2 border-0">
+                        @if (_isLoading)
+                        {
+                            <div class="d-flex justify-content-center align-items-center">
+                                <Spinner Size="Size.Sm" />
+                                <span class="ps-2">
+                                    Loading ...
+                                </span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                Total paid: <span class="fw-semibold">@_timesheetModelStateContainerDTO?.TotalPaid.ToString("C")</span>
+                            </div>
+                            <div>
+                                Total awaiting: <span class="fw-semibold text-danger-emphasis">@_timesheetModelStateContainerDTO?.TotalAwaiting.ToString("C")</span>
+                            </div>
+                            <div>
+                                Hours worked: <span class="fw-semibold">@_timesheetModelStateContainerDTO?.TotalHours</span>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
-        </EditForm>
-        <div class="row">
-            <div class="col-12 opacity-75">
-                <div class="form-control form-control-sm bg-info-subtle p-3">
-                    <div>
-                        Hours worked: <span class="fw-semibold">@_timesheetModel.HoursWorked.ToString("h'h 'm'm '")</span>
+        </CardMiddle>
+    </CardView>
+
+    <CardView Styles="w-100 border-0 bg-success-subtle">
+        <CardMiddle>
+            <SharedHeader Title="Calculator"
+                          Icon="bi-calculator"
+                          IconColor="Theme.Success" />
+
+            <EditForm Model="@_timesheetModel"
+                      autocomplete="off">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-floating mb-1">
+                            <InputNumber class="form-control form-control-sm"
+                                         id="HourRate"
+                                         placeholder="Hour Rate"
+                                         @bind-Value="_timesheetModel.HourRate" />
+                            <label for="HourRate">Hour Rate</label>
+                        </div>
+                        <div class="form-floating mb-1">
+                            <InputDate class="form-control form-control-sm"
+                                       id="TimeIn"
+                                       placeholder="Clock in"
+                                       @bind-Value="_timesheetModel.TimeIn"
+                                       Type="InputDateType.DateTimeLocal" />
+                            <label for="TimeIn">Clock in</label>
+                        </div>
+                        <div class="form-floating mb-1">
+                            <InputNumber class="form-control form-control-sm"
+                                         id="TimeBreak"
+                                         placeholder="Break (in minutes)"
+                                         min="0"
+                                         max="60"
+                                         @bind-Value="_timesheetModel.TimeBreak" />
+                            <label for="TimeBreak">Break (in minutes)</label>
+                        </div>
+                        <div class="form-floating mb-2">
+                            <InputDate class="form-control form-control-sm"
+                                       id="TimeOut"
+                                       placeholder="Clock in"
+                                       @bind-Value="_timesheetModel.TimeOut"
+                                       Type="InputDateType.DateTimeLocal" />
+                            <label for="TimeOut">Clock out</label>
+                        </div>
                     </div>
-                    <div>
-                        Total amount: <span class="fw-semibold">@_timesheetModel.TotalAmount.ToString("C")</span>
+                </div>
+            </EditForm>
+            <div class="row">
+                <div class="col-12 opacity-75">
+                    <div class="form-control form-control-sm text-success-emphasis p-2 border-0">
+                        <div>
+                            Hours worked: <span class="fw-semibold">@_timesheetModel.HoursWorked.ToString("h'h 'm'm '")</span>
+                        </div>
+                        <div>
+                            Total amount: <span class="fw-semibold">@_timesheetModel.TotalAmount.ToString("C")</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </CardMiddle>
-</CardView>
+        </CardMiddle>
+    </CardView>
+
+</div>

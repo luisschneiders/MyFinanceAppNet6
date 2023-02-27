@@ -5,6 +5,7 @@
 @using MainApp.Components.Message
 @using MainApp.Components.Breadcrumb
 @using MainApp.Components.Badge
+@using MainApp.Components.Spinner
 
 <div class="container-lg">
     <AuthorizeView Policy="Admin">
@@ -24,10 +25,22 @@
                     <PageMiddleWrapper>
                         <div class="row">
                             <div class="col-12 col-lg-9">
-                                <AdminTimesheetPanelLeft />
+                                <AdminTimesheetPanelLeft OnStateContainerSetValue="DisplayPanelRight" />
                             </div>
                             <div class="col-12 col-lg-3 d-none d-lg-block">
-                                <AdminTimesheetPanelRight />
+                                @if (_isLoading)
+                                {
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <Spinner Size="Size.Sm" />
+                                        <span class="ps-2">
+                                            Loading ...
+                                        </span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <AdminTimesheetPanelRight />
+                                }
                             </div>
                         </div>
                     </PageMiddleWrapper>

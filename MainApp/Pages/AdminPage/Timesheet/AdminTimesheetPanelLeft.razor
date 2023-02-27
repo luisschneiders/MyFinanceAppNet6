@@ -148,7 +148,7 @@
                                                     </sup>
                                                 }
                                             </td>
-                                            <td class="text-nowrap">
+                                            <td class="text-nowrap text-end">
                                                 @record.TotalAmount.ToString("C")
                                             </td>
                                             <td class="text-nowrap">
@@ -185,6 +185,23 @@
                                 }
                             }
                         </tbody>
+                        <tfoot class="bg-primary-subtle text-primary-emphasis fw-semibold d-lg-none">
+                            <tr>
+                                <td class="text-nowrap" colspan="6">Total paid</td>
+                                <td class="text-nowrap text-end">@_sumTotalPaid.ToString("C")</td>
+                                <td colspan="3"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap" colspan="6">Total awaiting</td>
+                                <td class="text-nowrap text-end text-danger-emphasis">@_sumTotalAwaiting.ToString("C")</td>
+                                <td colspan="3"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap" colspan="6">Hours worked</td>
+                                <td class="text-nowrap text-end">@_sumTotalHours</td>
+                                <td colspan="3"></td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
