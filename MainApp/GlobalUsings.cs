@@ -7,6 +7,7 @@ global using MainApp.Helpers;
 global using MainApp.Settings.Enum;
 global using MainApp.Settings.Theme;
 global using MainApp.Services;
+global using MainApp.StateServices;
 global using DateTimeLibrary.Models;
 global using DateTimeLibrary.Services;
 global using ExtensionsLibrary;
