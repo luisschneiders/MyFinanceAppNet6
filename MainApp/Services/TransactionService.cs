@@ -149,12 +149,12 @@ public class TransactionService : ITransactionService<TransactionModel>
         throw new NotImplementedException();
     }
 
-    public async Task<List<TransactionModelListDTO>> GetRecordsByDateRange(DateTimeRangeModel dateTimeRangeModel)
+    public async Task<List<TransactionModelListDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange)
     {
         try
         {
             var user = await GetLoggedInUser();
-            List<TransactionModelListDTO> results = await _transactionData.GetRecordsByDateRange(user.Id, dateTimeRangeModel);
+            List<TransactionModelListDTO> results = await _transactionData.GetRecordsByDateRange(user.Id, dateTimeRange);
             return results;
         }
         catch (Exception ex)
@@ -164,11 +164,11 @@ public class TransactionService : ITransactionService<TransactionModel>
         }
     }
 
-    public async Task<List<TransactionModelByCategoryGroupDTO>> GetRecordsByGroupAndDateRange(DateTimeRangeModel dateTimeRangeModel)
+    public async Task<List<TransactionModelByCategoryGroupDTO>> GetRecordsByGroupAndDateRange(DateTimeRange dateTimeRange)
     {
         try
         {
-            var records = await GetRecordsByDateRange(dateTimeRangeModel);
+            var records = await GetRecordsByDateRange(dateTimeRange);
             var resultsGroupBy = records.GroupBy(tc => tc.TCategoryDescription);
             var results = resultsGroupBy.Select(tcGroup => new TransactionModelByCategoryGroupDTO()
             {

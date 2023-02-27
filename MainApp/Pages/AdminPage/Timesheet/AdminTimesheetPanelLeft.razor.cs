@@ -37,7 +37,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
     private AdminTimesheetOffCanvas _setupOffCanvas { get; set; } = new();
 
     private TimesheetModel _timesheetModel { get; set; } = new();
-    private DateTimeRangeModel _dateTimeRangeModel { get; set; } = new();
+    private DateTimeRange _dateTimeRange { get; set; } = new();
 
     private List<CompanyModel> _companies { get; set; } = new();
     private TimesheetModelStateContainerDTO _timesheetModelStateContainerDTO { get; set; } = new();
@@ -54,7 +54,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
 
     protected async override Task OnInitializedAsync()
     {
-        _dateTimeRangeModel = _dateTimeService.GetCurrentMonth();
+        _dateTimeRange = _dateTimeService.GetCurrentMonth();
         _timesheetStateService.OnStateChange += StateHasChanged;
         await Task.CompletedTask;
     }
@@ -86,7 +86,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
         {
             _companies = await _companyService.GetRecordsActive();
 
-            List<TimesheetModelListDTO>timesheets = await _timesheetService.GetRecordsByDateRange(_dateTimeRangeModel);
+            List<TimesheetModelListDTO>timesheets = await _timesheetService.GetRecordsByDateRange(_dateTimeRange);
             decimal totalAwaiting = await _timesheetService.GetSumTotalAwaiting();
             decimal totalPaid = await _timesheetService.GetSumTotalPaid();
             double totalHours = await _timesheetService.GetSumTotalHours();

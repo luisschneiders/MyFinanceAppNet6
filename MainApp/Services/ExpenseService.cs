@@ -93,12 +93,12 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         throw new NotImplementedException();
     }
 
-    public async Task<List<ExpenseModelListDTO>> GetRecordsByDateRange(DateTimeRangeModel dateTimeRangeModel)
+    public async Task<List<ExpenseModelListDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange)
     {
         try
         {
             var user = await GetLoggedInUser();
-            List<ExpenseModelListDTO> results = await _expenseData.GetRecordsByDateRange(user.Id, dateTimeRangeModel);
+            List<ExpenseModelListDTO> results = await _expenseData.GetRecordsByDateRange(user.Id, dateTimeRange);
             return results;
         }
         catch (Exception ex)
@@ -108,11 +108,11 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         }
     }
 
-    public async Task<List<ExpenseModelByCategoryGroupDTO>> GetRecordsByGroupAndDateRange(DateTimeRangeModel dateTimeRangeModel)
+    public async Task<List<ExpenseModelByCategoryGroupDTO>> GetRecordsByGroupAndDateRange(DateTimeRange dateTimeRange)
     {
         try
         {
-            var records = await GetRecordsByDateRange(dateTimeRangeModel);
+            var records = await GetRecordsByDateRange(dateTimeRange);
             var resultsGroupBy = records.GroupBy(tc => tc.ExpenseCategoryDescription);
             var results = resultsGroupBy.Select(tcGroup => new ExpenseModelByCategoryGroupDTO()
             {

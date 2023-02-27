@@ -94,7 +94,7 @@ public class ExpenseData : IExpenseData<ExpenseModel>
         throw new NotImplementedException();
     }
 
-    public async Task<List<ExpenseModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRangeModel dateTimeRangeModel)
+    public async Task<List<ExpenseModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange)
     {
         try
         {
@@ -103,8 +103,8 @@ public class ExpenseData : IExpenseData<ExpenseModel>
                 new
                 {
                     userId = userId,
-                    startDate = dateTimeRangeModel.Start,
-                    endDate = dateTimeRangeModel.End
+                    startDate = dateTimeRange.Start,
+                    endDate = dateTimeRange.End
                 },
                 "Mysql");
 

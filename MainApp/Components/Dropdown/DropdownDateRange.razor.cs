@@ -14,7 +14,7 @@ public partial class DropdownDateRange : ComponentBase
     public EventCallback OnSubmitSuccess { get; set; }
 
     [Parameter]
-    public DateTimeRangeModel DateTimeRange { get; set; }
+    public DateTimeRange DateTimeRange { get; set; }
 
     [Parameter]
     public bool IsDisplayLargeNone { get; set; } = false;
@@ -37,7 +37,7 @@ public partial class DropdownDateRange : ComponentBase
 
     public DropdownDateRange()
 	{
-        DateTimeRange = new DateTimeRangeModel
+        DateTimeRange = new DateTimeRange
         {
             Start = DateTime.Now,
             End = DateTime.Now

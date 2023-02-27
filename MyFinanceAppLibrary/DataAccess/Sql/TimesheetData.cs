@@ -108,7 +108,7 @@ public class TimesheetData : ITimesheetData<TimesheetModel>
         }
     }
 
-    public async Task<List<TimesheetModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRangeModel dateTimeRangeModel)
+    public async Task<List<TimesheetModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange)
     {
         try
         {
@@ -117,8 +117,8 @@ public class TimesheetData : ITimesheetData<TimesheetModel>
                 new
                 {
                     userId = userId,
-                    startDate = dateTimeRangeModel.Start,
-                    endDate = dateTimeRangeModel.End
+                    startDate = dateTimeRange.Start,
+                    endDate = dateTimeRange.End
                 },
                 "Mysql");
 

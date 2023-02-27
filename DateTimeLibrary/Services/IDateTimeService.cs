@@ -2,6 +2,6 @@
 
 public interface IDateTimeService
 {
-	DateTimeRangeModel GetCurrentMonth();
-	bool CheckDateRange(DateTimeRangeModel dateTimeRangeModel);
+	DateTimeRange GetCurrentMonth();
+	bool CheckDateRange(DateTimeRange dateTimeRange);
 }

@@ -102,12 +102,12 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         }
     }
 
-    public async Task<List<TimesheetModelListDTO>> GetRecordsByDateRange(DateTimeRangeModel dateTimeRangeModel)
+    public async Task<List<TimesheetModelListDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange)
     {
         try
         {
             var user = await GetLoggedInUser();
-            _resultListByDateRange = await _timesheetData.GetRecordsByDateRange(user.Id, dateTimeRangeModel);
+            _resultListByDateRange = await _timesheetData.GetRecordsByDateRange(user.Id, dateTimeRange);
             return _resultListByDateRange;
         }
         catch (Exception ex)

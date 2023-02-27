@@ -19,7 +19,7 @@ public partial class AdminTripPanelLeft : ComponentBase
     [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
-    private DateTimeRangeModel _dateTimeRangeModel { get; set; } = new();
+    private DateTimeRange _dateTimeRange { get; set; } = new();
 
     private List<TripModelListDTO> _trips { get; set; } = new();
     private decimal _sumByDateRange { get; set; }
@@ -42,7 +42,7 @@ public partial class AdminTripPanelLeft : ComponentBase
 
     protected async override Task OnInitializedAsync()
     {
-        _dateTimeRangeModel = _dateTimeService.GetCurrentMonth();
+        _dateTimeRange = _dateTimeService.GetCurrentMonth();
         await Task.CompletedTask;
     }
 
@@ -71,7 +71,7 @@ public partial class AdminTripPanelLeft : ComponentBase
     {
         try
         {
-            _trips = await _tripService.GetRecordsByDateRange(_dateTimeRangeModel);
+            _trips = await _tripService.GetRecordsByDateRange(_dateTimeRange);
             _sumByDateRange = await _tripService.GetSumByDateRange();
             _isLoading = false;
         }

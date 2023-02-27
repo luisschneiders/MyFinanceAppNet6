@@ -89,7 +89,7 @@ public class TripData : ITripData<TripModel>
         throw new NotImplementedException();
     }
 
-    public async Task<List<TripModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRangeModel dateTimeRangeModel)
+    public async Task<List<TripModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange)
     {
         try
         {
@@ -98,8 +98,8 @@ public class TripData : ITripData<TripModel>
                 new
                 {
                     userId = userId,
-                    startDate = dateTimeRangeModel.Start,
-                    endDate = dateTimeRangeModel.End
+                    startDate = dateTimeRange.Start,
+                    endDate = dateTimeRange.End
                 },
                 "Mysql");
 
