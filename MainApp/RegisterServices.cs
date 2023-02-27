@@ -56,9 +56,6 @@ public static class RegisterServices
         builder.Services.AddSingleton<ITransactionCategoryData<TransactionCategoryModel>, TransactionCategoryData>();
         builder.Services.AddSingleton<ITripData<TripModel>, TripData>();
         builder.Services.AddSingleton<IVehicleData<VehicleModel>, VehicleData>();
-
-        //State Container
-        builder.Services.AddSingleton<TimesheetStateService>();
     }
 
     public static void AddScopedServices(this WebApplicationBuilder builder)
@@ -77,5 +74,8 @@ public static class RegisterServices
         builder.Services.AddScoped<ITransactionCategoryService<TransactionCategoryModel>, TransactionCategoryService>();
         builder.Services.AddScoped<ITripService<TripModel>, TripService>();
         builder.Services.AddScoped<IVehicleService<VehicleModel>, VehicleService>();
+
+        //State Container
+        builder.Services.AddScoped<TimesheetStateService>();
     }
 }
