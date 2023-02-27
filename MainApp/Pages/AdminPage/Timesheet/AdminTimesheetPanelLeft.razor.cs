@@ -39,17 +39,13 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
     private TimesheetModel _timesheetModel { get; set; } = new();
     private DateTimeRangeModel _dateTimeRangeModel { get; set; } = new();
 
-    private List<TimesheetModelListDTO> _timesheets { get; set; } = new();
     private List<CompanyModel> _companies { get; set; } = new();
     private TimesheetModelStateContainerDTO _timesheetModelStateContainerDTO { get; set; } = new();
 
     private PayStatus[] _payStatuses { get; set; } = default!;
+    private CompanyModel _filterCompany { get; set; } = new();
 
     private bool _isLoading { get; set; } = true;
-
-    private decimal _sumTotalPaid { get; set; }
-    private decimal _sumTotalAwaiting { get; set; }
-    private double _sumTotalHours { get; set; }
 
     public AdminTimesheetPanelLeft()
     {
@@ -90,15 +86,15 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
         {
             _companies = await _companyService.GetRecordsActive();
 
-            _timesheets = await _timesheetService.GetRecordsByDateRange(_dateTimeRangeModel);
-            _sumTotalAwaiting = await _timesheetService.GetSumTotalAwaiting();
-            _sumTotalPaid = await _timesheetService.GetSumTotalPaid();
-            _sumTotalHours = await _timesheetService.GetSumTotalHours();
+            List<TimesheetModelListDTO>timesheets = await _timesheetService.GetRecordsByDateRange(_dateTimeRangeModel);
+            decimal totalAwaiting = await _timesheetService.GetSumTotalAwaiting();
+            decimal totalPaid = await _timesheetService.GetSumTotalPaid();
+            double totalHours = await _timesheetService.GetSumTotalHours();
 
-            _timesheetModelStateContainerDTO.Timesheets = _timesheets;
-            _timesheetModelStateContainerDTO.TotalAwaiting = _sumTotalAwaiting;
-            _timesheetModelStateContainerDTO.TotalPaid = _sumTotalPaid;
-            _timesheetModelStateContainerDTO.TotalHours = _sumTotalHours;
+            _timesheetModelStateContainerDTO.Timesheets = timesheets;
+            _timesheetModelStateContainerDTO.TotalAwaiting = totalAwaiting;
+            _timesheetModelStateContainerDTO.TotalPaid = totalPaid;
+            _timesheetModelStateContainerDTO.TotalHours = totalHours;
 
             _timesheetStateService.SetValue(_timesheetModelStateContainerDTO);
 
@@ -196,32 +192,18 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
         await Task.CompletedTask;
     }
 
-    private async Task RefreshListFromDropdownDateRange()
+    private async Task DropdownDateRangeRefreshList()
     {
         await RefreshList();
         _toastService.ShowToast("Date range has changed!", Theme.Info);
         await Task.CompletedTask;
     }
 
-    private async Task RefreshListFromCompanyFilter()
+    private async Task FilterCompanyRefreshList(ulong id)
     {
+        _filterCompany = _companies.First(i => i.Id == id);
+
         await Task.CompletedTask;
-    }
-
-    private string UpdatePayStatusTitle(int payStatus)
-    {
-        var payStatusTitle = _payStatuses[payStatus];
-        return payStatusTitle.ToString();
-    }
-
-    private Theme UpdatePayStatusButtonColor(int payStatus)
-    {
-        if (payStatus == (int)PayStatus.Paid)
-        {
-            return Theme.Success;
-        }
-
-        return Theme.Light;
     }
 
     public void Dispose()

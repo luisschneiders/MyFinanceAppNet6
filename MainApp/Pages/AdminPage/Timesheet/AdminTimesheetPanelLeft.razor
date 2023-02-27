@@ -12,11 +12,11 @@
                     <DropdownDateRange IconColor="Theme.Info"
                                        ButtonSize="Size.Md"
                                        DateTimeRange="@_dateTimeRangeModel"
-                                       OnSubmitSuccess="RefreshListFromDropdownDateRange" />
+                                       OnSubmitSuccess="DropdownDateRangeRefreshList" />
 
                 </div>
                 <div class="ps-2 d-none d-lg-flex">
-                    <DropdownActions Title="Filter by Company"
+                    <DropdownActions Title="@(_filterCompany?.Description?.Length > 0 ? _filterCompany?.Description.ToString().Truncate((int)Truncate.Company) : "Filter by Company")"
                                      ButtonSize="Size.Md"
                                      IconEnd="bi-chevron-down"
                                      IconStart="bi-building"
@@ -26,15 +26,12 @@
                         {
                             <li class="px-2">
                                 <button class="dropdown-item"
-                                        @onclick="() => RefreshListFromCompanyFilter()">
+                                        @onclick="() => FilterCompanyRefreshList(company.Id)">
                                     @($"{company.Description}")
                                 </button>
                             </li>
                         }
                     </DropdownActions>
-                    <sup>
-                        <Badge BackgroundColor="Theme.Warning" Message="Coming soon!"/>
-                    </sup>
                 </div>
             </div>
             <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
@@ -108,7 +105,7 @@
                             }
                             else
                             {
-                                @if (_timesheets.Count <= 0)
+                                @if (_timesheetModelStateContainerDTO.Timesheets.Count <= 0)
                                 {
                                     <tr>
                                         <td class="text-center" colspan="10">
@@ -120,7 +117,7 @@
                                 }
                                 else
                                 {
-                                    foreach (var record in _timesheets)
+                                    foreach (var record in _timesheetModelStateContainerDTO.Timesheets)
                                     {
 
                                         <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
@@ -152,10 +149,10 @@
                                                 @record.TotalAmount.ToString("C")
                                             </td>
                                             <td class="text-nowrap">
-                                                <DropdownActions Title="@UpdatePayStatusTitle(record.PayStatus)"
+                                                <DropdownActions Title="@(_payStatuses[record.PayStatus].ToString())"
                                                                  ButtonSize="Size.Sm"
                                                                  IconEnd="bi-chevron-down"
-                                                                 ButtonColor="@UpdatePayStatusButtonColor(record.PayStatus)">
+                                                                 ButtonColor="@(record.PayStatus == (int)PayStatus.Paid ? Theme.Success : Theme.Light )">
                                                     @foreach (var (status, index) in _payStatuses.Select((value, index) => (value, index)))
                                                     {
                                                         int statusValue = index;
@@ -188,17 +185,17 @@
                         <tfoot class="bg-primary-subtle text-primary-emphasis fw-semibold d-lg-none">
                             <tr>
                                 <td class="text-nowrap" colspan="6">Total paid</td>
-                                <td class="text-nowrap text-end">@_sumTotalPaid.ToString("C")</td>
+                                <td class="text-nowrap text-end">@_timesheetModelStateContainerDTO.TotalPaid.ToString("C")</td>
                                 <td colspan="3"></td>
                             </tr>
                             <tr>
                                 <td class="text-nowrap" colspan="6">Total awaiting</td>
-                                <td class="text-nowrap text-end text-danger-emphasis">@_sumTotalAwaiting.ToString("C")</td>
+                                <td class="text-nowrap text-end text-danger-emphasis">@_timesheetModelStateContainerDTO.TotalAwaiting.ToString("C")</td>
                                 <td colspan="3"></td>
                             </tr>
                             <tr>
                                 <td class="text-nowrap" colspan="6">Hours worked</td>
-                                <td class="text-nowrap text-end">@_sumTotalHours</td>
+                                <td class="text-nowrap text-end">@_timesheetModelStateContainerDTO.TotalHours</td>
                                 <td colspan="3"></td>
                             </tr>
                         </tfoot>
