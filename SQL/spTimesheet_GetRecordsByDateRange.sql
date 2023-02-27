@@ -7,6 +7,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spTimesheet_GetRecordsByDateRange`(
 BEGIN
 	SELECT
 		t.Id,
+        t.CompanyId,
 		c.Description,
 		t.TimeIn,
 		t.TimeBreak,
