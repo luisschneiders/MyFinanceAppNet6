@@ -2,9 +2,7 @@
 using MainApp.Pages.AdminPage.Timesheet;
 using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
-using MyFinanceAppLibrary.Constants;
 using MainApp.StateServices;
-using MyFinanceAppLibrary.Models;
 
 namespace MainApp.Pages.AdminPage.Timesheet;
 
@@ -86,7 +84,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
         {
             _companies = await _companyService.GetRecordsActive();
 
-            List<TimesheetModelListDTO>timesheets = await _timesheetService.GetRecordsByDateRange(_dateTimeRange);
+            List<TimesheetModelListDTO> timesheets = await _timesheetService.GetRecordsByFilter(_dateTimeRange, _filterCompany);
             decimal totalAwaiting = await _timesheetService.GetSumTotalAwaiting();
             decimal totalPaid = await _timesheetService.GetSumTotalPaid();
             double totalHours = await _timesheetService.GetSumTotalHours();
@@ -202,8 +200,33 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
     private async Task FilterCompanyRefreshList(ulong id)
     {
         _filterCompany = _companies.First(i => i.Id == id);
-
+        await RefreshList();
+        _toastService.ShowToast("Filter updated!", Theme.Info);
         await Task.CompletedTask;
+    }
+
+    private string UpdateFilterCompanyTitleState()
+    {
+        string? title = _filterCompany?.Description?.Length > 0 ?
+            _filterCompany?.Description.ToString().Truncate((int)Truncate.Company) : Label.FilterByCompany;
+
+        return title!;
+    }
+
+    private string UpdatePayStatusTitleState(int id)
+    {
+        var title = _payStatuses[id];
+        return title.ToString();
+    }
+
+    private Theme UpdatePayStatusButtonState(int id)
+    {
+        if (id == (int)PayStatus.Paid)
+        {
+            return Theme.Success;
+        }
+
+        return Theme.Light;
     }
 
     public void Dispose()

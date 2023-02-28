@@ -107,8 +107,30 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         try
         {
             var user = await GetLoggedInUser();
-            _resultListByDateRange = await _timesheetData.GetRecordsByDateRange(user.Id, dateTimeRange);
-            return _resultListByDateRange;
+            var results = await _timesheetData.GetRecordsByDateRange(user.Id, dateTimeRange);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<List<TimesheetModelListDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, CompanyModel companyModel)
+    {
+        try
+        {
+            var records = await GetRecordsByDateRange(dateTimeRange);
+
+            if (companyModel.Id > 0)
+            {
+                return _resultListByDateRange = records.Where(c => c.CompanyId == companyModel.Id).ToList();
+            }
+            else
+            {
+                return _resultListByDateRange = records;
+            }
         }
         catch (Exception ex)
         {

@@ -16,7 +16,7 @@
 
                 </div>
                 <div class="ps-2 d-none d-lg-flex">
-                    <DropdownActions Title="@(_filterCompany?.Description?.Length > 0 ? _filterCompany?.Description.ToString().Truncate((int)Truncate.Company) : "Filter by Company")"
+                    <DropdownActions Title="@UpdateFilterCompanyTitleState()"
                                      ButtonSize="Size.Md"
                                      IconEnd="bi-chevron-down"
                                      IconStart="bi-building"
@@ -149,10 +149,10 @@
                                                 @record.TotalAmount.ToString("C")
                                             </td>
                                             <td class="text-nowrap">
-                                                <DropdownActions Title="@(_payStatuses[record.PayStatus].ToString())"
+                                                <DropdownActions Title="@UpdatePayStatusTitleState(record.PayStatus)"
                                                                  ButtonSize="Size.Sm"
                                                                  IconEnd="bi-chevron-down"
-                                                                 ButtonColor="@(record.PayStatus == (int)PayStatus.Paid ? Theme.Success : Theme.Light )">
+                                                                 ButtonColor="@UpdatePayStatusButtonState(record.PayStatus)">
                                                     @foreach (var (status, index) in _payStatuses.Select((value, index) => (value, index)))
                                                     {
                                                         int statusValue = index;
