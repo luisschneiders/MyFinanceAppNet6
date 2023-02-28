@@ -4,14 +4,14 @@
 @using MainApp.Components.Spinner
 
 <div class="d-flex flex-column gap-4">
-    <CardView Styles="w-100 border-0 bg-primary-subtle">
+    <CardView Styles="w-100 border-0">
         <CardMiddle>
             <SharedHeader Title="Stats"
                           Icon="bi-info-square"
-                          IconColor="Theme.Primary" />
+                          IconColor="Theme.Info" />
             <div class="row">
                 <div class="col-12 opacity-75">
-                    <div class="form-control form-control-sm text-primary-emphasis p-2 border-0">
+                    <div class="form-control form-control-sm bg-info-subtle text-info-emphasis p-2 border-0">
                         @if (_isLoading)
                         {
                             <div class="d-flex justify-content-center align-items-center">
@@ -39,11 +39,12 @@
         </CardMiddle>
     </CardView>
 
-    <CardView Styles="w-100 border-0 bg-success-subtle">
+    <CardView Styles="w-100 border-0 bg-secondary">
         <CardMiddle>
             <SharedHeader Title="Calculator"
+                          TitleColor="Theme.Light"
                           Icon="bi-calculator"
-                          IconColor="Theme.Success" />
+                          IconColor="Theme.Warning" />
 
             <EditForm Model="@_timesheetModel"
                       autocomplete="off">
@@ -86,7 +87,7 @@
             </EditForm>
             <div class="row">
                 <div class="col-12 opacity-75">
-                    <div class="form-control form-control-sm text-success-emphasis p-2 border-0">
+                    <div class="form-control form-control-sm text-dark-emphasis p-2 border-0">
                         <div>
                             Hours worked: <span class="fw-semibold">@_timesheetModel.HoursWorked.ToString("h'h 'm'm '")</span>
                         </div>
