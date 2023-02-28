@@ -229,6 +229,13 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
         return Theme.Light;
     }
 
+    private async Task ResetFilter()
+    {
+        _filterCompany = new();
+        await RefreshList();
+        await Task.CompletedTask;
+    }
+
     public void Dispose()
     {
         _timesheetStateService.OnStateChange -= StateHasChanged;
