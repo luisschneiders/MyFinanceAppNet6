@@ -95,12 +95,12 @@ public class TripService : ITripService<TripModel>
         throw new NotImplementedException();
     }
 
-    public async Task<List<TripModelListDTO>> GetRecordsByDateRange(DateTimeRangeModel dateTimeRangeModel)
+    public async Task<List<TripModelListDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange)
     {
         try
         {
             var user = await GetLoggedInUser();
-            _recordsByDateRange = await _tripData.GetRecordsByDateRange(user.Id, dateTimeRangeModel);
+            _recordsByDateRange = await _tripData.GetRecordsByDateRange(user.Id, dateTimeRange);
             return _recordsByDateRange;
         }
         catch (Exception ex)

@@ -205,7 +205,7 @@ public class TransactionData : ITransactionData<TransactionModel>
         throw new NotImplementedException();
     }
 
-    public async Task<List<TransactionModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRangeModel dateTimeRangeModel)
+    public async Task<List<TransactionModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange)
     {
         try
         {
@@ -214,8 +214,8 @@ public class TransactionData : ITransactionData<TransactionModel>
                 new
                 {
                     userId = userId,
-                    startDate = dateTimeRangeModel.Start,
-                    endDate = dateTimeRangeModel.End
+                    startDate = dateTimeRange.Start,
+                    endDate = dateTimeRange.End
                 },
                 "Mysql");
 

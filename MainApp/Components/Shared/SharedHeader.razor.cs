@@ -8,6 +8,9 @@ public partial class SharedHeader : ComponentBase
     public string Title { get; set; } = string.Empty;
 
     [Parameter]
+    public Theme TitleColor { get; set; } = Theme.Secondary;
+
+    [Parameter]
     public string Icon { get; set; } = string.Empty;
 
     [Parameter]

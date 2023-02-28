@@ -2,6 +2,6 @@
 
 public interface IExpenseService<T> : IBaseService<T>
 {
-    Task<List<ExpenseModelListDTO>> GetRecordsByDateRange(DateTimeRangeModel dateTimeRangeModel);
-    Task<List<ExpenseModelByCategoryGroupDTO>> GetRecordsByGroupAndDateRange(DateTimeRangeModel dateTimeRangeModel);
+    Task<List<ExpenseModelListDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange);
+    Task<List<ExpenseModelByCategoryGroupDTO>> GetRecordsByGroupAndDateRange(DateTimeRange dateTimeRange);
 }

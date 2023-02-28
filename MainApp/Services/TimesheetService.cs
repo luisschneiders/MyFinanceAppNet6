@@ -16,6 +16,8 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
 
     private UserModel _loggedInUser { get; set; } = new();
 
+    private List<TimesheetModelListDTO> _resultListByDateRange { get; set; } = new();
+
     public TimesheetService(ITimesheetData<TimesheetModel> timesheetData, IUserData userData, AuthenticationStateProvider authProvider)
     {
         _timesheetData = timesheetData;
@@ -100,12 +102,12 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         }
     }
 
-    public async Task<List<TimesheetModelListDTO>> GetRecordsByDateRange(DateTimeRangeModel dateTimeRangeModel)
+    public async Task<List<TimesheetModelListDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange)
     {
         try
         {
             var user = await GetLoggedInUser();
-            List<TimesheetModelListDTO> results = await _timesheetData.GetRecordsByDateRange(user.Id, dateTimeRangeModel);
+            var results = await _timesheetData.GetRecordsByDateRange(user.Id, dateTimeRange);
             return results;
         }
         catch (Exception ex)
@@ -113,6 +115,48 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
             Console.WriteLine("An exception occurred: " + ex.Message);
             throw;
         }
+    }
+
+    public async Task<List<TimesheetModelListDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, CompanyModel companyModel)
+    {
+        try
+        {
+            var records = await GetRecordsByDateRange(dateTimeRange);
+
+            if (companyModel.Id > 0)
+            {
+                return _resultListByDateRange = records.Where(c => c.CompanyId == companyModel.Id).ToList();
+            }
+            else
+            {
+                return _resultListByDateRange = records;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<decimal> GetSumTotalAwaiting()
+    {
+        var totalRecords = _resultListByDateRange.Where(p => p.PayStatus == (int)PayStatus.Awaiting);
+        var totalSum = totalRecords.Sum(s => s.TotalAmount);
+        return await Task.FromResult(totalSum);
+    }
+
+    public async Task<decimal> GetSumTotalPaid()
+    {
+        var totalRecords = _resultListByDateRange.Where(p => p.PayStatus == (int)PayStatus.Paid);
+        var totalSum = totalRecords.Sum(s => s.TotalAmount);
+        return await Task.FromResult(totalSum);
+    }
+
+    public async Task<double> GetSumTotalHours()
+    {
+        var totalHours = _resultListByDateRange.Sum(s => s.HoursWorked.TotalHours);
+        return await Task.FromResult(totalHours);
     }
 
     public Task<List<TimesheetModel>> GetSearchResults(string search)

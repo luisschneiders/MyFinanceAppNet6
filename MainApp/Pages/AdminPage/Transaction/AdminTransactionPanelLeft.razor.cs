@@ -30,7 +30,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private AdminTransactionModal _setupModal { get; set; } = new();
     private AdminTransactionModalInfo _setupModalInfo { get; set; } = new();
 
-    private DateTimeRangeModel _dateTimeRangeModel { get; set; } = new();
+    private DateTimeRange _dateTimeRange { get; set; } = new();
 
     private List<TransactionModelByCategoryGroupDTO> _transactionsByGroup { get; set; } = new();
 
@@ -42,7 +42,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
 
     protected async override Task OnInitializedAsync()
     {
-        _dateTimeRangeModel = _dateTimeService.GetCurrentMonth();
+        _dateTimeRange = _dateTimeService.GetCurrentMonth();
         await Task.CompletedTask;
     }
 
@@ -71,7 +71,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     {
         try
         {
-            _transactionsByGroup = await _transactionService.GetRecordsByGroupAndDateRange(_dateTimeRangeModel);
+            _transactionsByGroup = await _transactionService.GetRecordsByGroupAndDateRange(_dateTimeRange);
             _isLoading = false;
         }
         catch (Exception ex)

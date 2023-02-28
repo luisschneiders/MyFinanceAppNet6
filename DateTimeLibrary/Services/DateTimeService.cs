@@ -6,22 +6,22 @@ public class DateTimeService : IDateTimeService
 	{
 	}
 
-    public DateTimeRangeModel GetCurrentMonth()
+    public DateTimeRange GetCurrentMonth()
     {
-        DateTimeRangeModel dateTimeRangeModel = new();
+        DateTimeRange dateTimeRange = new();
         DateTime now = DateTime.Now;
 
         var startDate = new DateTime(now.Year, now.Month, 1);
         var endDate = startDate.AddMonths(1).AddDays(-1);
 
-        dateTimeRangeModel.Start = startDate;
-        dateTimeRangeModel.End = endDate;
+        dateTimeRange.Start = startDate;
+        dateTimeRange.End = endDate;
 
-        return dateTimeRangeModel;
+        return dateTimeRange;
     }
 
-    public bool CheckDateRange(DateTimeRangeModel dateTimeRangeModel)
+    public bool CheckDateRange(DateTimeRange dateTimeRange)
     {
-        return dateTimeRangeModel.Start.Date <= dateTimeRangeModel.End.Date;
+        return dateTimeRange.Start.Date <= dateTimeRange.End.Date;
     }
 }

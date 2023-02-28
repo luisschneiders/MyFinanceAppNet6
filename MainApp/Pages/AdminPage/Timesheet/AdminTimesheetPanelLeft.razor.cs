@@ -2,11 +2,11 @@
 using MainApp.Pages.AdminPage.Timesheet;
 using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
-using MyFinanceAppLibrary.Constants;
+using MainApp.StateServices;
 
 namespace MainApp.Pages.AdminPage.Timesheet;
 
-public partial class AdminTimesheetPanelLeft : ComponentBase
+public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
 {
     [Inject]
     private ITimesheetService<TimesheetModel> _timesheetService { get; set; } = default!;
@@ -23,17 +23,25 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = new();
 
+    [Inject]
+    private TimesheetStateService _timesheetStateService { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback OnStateContainerSetValue { get; set; }
+
     /*
      * Add OffCanvas component reference
      */
     private AdminTimesheetOffCanvas _setupOffCanvas { get; set; } = new();
-    private TimesheetModel _timesheetModel { get; set; } = new();
-    private DateTimeRangeModel _dateTimeRangeModel { get; set; } = new();
 
-    private List<TimesheetModelListDTO> _timesheets { get; set; } = new();
+    private TimesheetModel _timesheetModel { get; set; } = new();
+    private DateTimeRange _dateTimeRange { get; set; } = new();
+
     private List<CompanyModel> _companies { get; set; } = new();
+    private TimesheetModelStateContainerDTO _timesheetModelStateContainerDTO { get; set; } = new();
 
     private PayStatus[] _payStatuses { get; set; } = default!;
+    private CompanyModel _filterCompany { get; set; } = new();
 
     private bool _isLoading { get; set; } = true;
 
@@ -44,7 +52,8 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
 
     protected async override Task OnInitializedAsync()
     {
-        _dateTimeRangeModel = _dateTimeService.GetCurrentMonth();
+        _dateTimeRange = _dateTimeService.GetCurrentMonth();
+        _timesheetStateService.OnStateChange += StateHasChanged;
         await Task.CompletedTask;
     }
 
@@ -55,7 +64,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
             try
             {
                 _spinnerService.ShowSpinner();
-                await FetchDataAsync();
+                await RefreshList();
             }
             catch (Exception ex)
             {
@@ -74,7 +83,21 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         try
         {
             _companies = await _companyService.GetRecordsActive();
-            _timesheets = await _timesheetService.GetRecordsByDateRange(_dateTimeRangeModel);
+
+            List<TimesheetModelListDTO> timesheets = await _timesheetService.GetRecordsByFilter(_dateTimeRange, _filterCompany);
+            decimal totalAwaiting = await _timesheetService.GetSumTotalAwaiting();
+            decimal totalPaid = await _timesheetService.GetSumTotalPaid();
+            double totalHours = await _timesheetService.GetSumTotalHours();
+
+            _timesheetModelStateContainerDTO.Timesheets = timesheets;
+            _timesheetModelStateContainerDTO.TotalAwaiting = totalAwaiting;
+            _timesheetModelStateContainerDTO.TotalPaid = totalPaid;
+            _timesheetModelStateContainerDTO.TotalHours = totalHours;
+
+            _timesheetStateService.SetValue(_timesheetModelStateContainerDTO);
+
+            await OnStateContainerSetValue.InvokeAsync();
+
             _isLoading = false;
         }
         catch (Exception ex)
@@ -167,31 +190,54 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task RefreshListFromDropdownDateRange()
+    private async Task DropdownDateRangeRefreshList()
     {
-        await FetchDataAsync();
+        await RefreshList();
         _toastService.ShowToast("Date range has changed!", Theme.Info);
         await Task.CompletedTask;
     }
 
-    private async Task RefreshListFromCompanyFilter()
+    private async Task FilterCompanyRefreshList(ulong id)
     {
+        _filterCompany = _companies.First(i => i.Id == id);
+        await RefreshList();
+        _toastService.ShowToast("Filter updated!", Theme.Info);
         await Task.CompletedTask;
     }
 
-    private string UpdatePayStatusTitle(int payStatus)
+    private string UpdateFilterCompanyTitleState()
     {
-        var payStatusTitle = _payStatuses[payStatus];
-        return payStatusTitle.ToString();
+        string? title = _filterCompany?.Description?.Length > 0 ?
+            _filterCompany?.Description.ToString().Truncate((int)Truncate.Company) : Label.FilterByCompany;
+
+        return title!;
     }
 
-    private Theme UpdatePayStatusButtonColor(int payStatus)
+    private string UpdatePayStatusTitleState(int id)
     {
-        if (payStatus == (int)PayStatus.Paid)
+        var title = _payStatuses[id];
+        return title.ToString();
+    }
+
+    private Theme UpdatePayStatusButtonState(int id)
+    {
+        if (id == (int)PayStatus.Paid)
         {
             return Theme.Success;
         }
 
         return Theme.Light;
+    }
+
+    private async Task ResetFilter()
+    {
+        _filterCompany = new();
+        await RefreshList();
+        await Task.CompletedTask;
+    }
+
+    public void Dispose()
+    {
+        _timesheetStateService.OnStateChange -= StateHasChanged;
     }
 }

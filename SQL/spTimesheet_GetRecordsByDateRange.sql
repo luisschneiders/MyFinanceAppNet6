@@ -7,6 +7,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spTimesheet_GetRecordsByDateRange`(
 BEGIN
 	SELECT
 		t.Id,
+        t.CompanyId,
 		c.Description,
 		t.TimeIn,
 		t.TimeBreak,
@@ -19,9 +20,11 @@ BEGIN
 		t.IsActive
 	FROM Timesheet t
 	JOIN Company c ON c.Id = t.CompanyId
-	WHERE t.UpdatedBy = userId
-		AND (t.TimeIn >= startDate AND t.TimeOut <= endDate)
-		AND t.IsArchived = FALSE
+	WHERE (
+		t.UpdatedBy = userId AND
+        t.IsArchived = FALSE AND
+        (date(t.TimeIn) BETWEEN startDate AND endDate)
+	)
 	ORDER BY t.TimeIn DESC;
 END$$
 DELIMITER ;

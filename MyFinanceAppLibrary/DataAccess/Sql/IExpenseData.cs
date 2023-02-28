@@ -2,5 +2,5 @@
 
 public interface IExpenseData<T> : IBaseData<T>
 {
-    Task<List<ExpenseModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRangeModel dateTimeRangeModel);
+    Task<List<ExpenseModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange);
 }

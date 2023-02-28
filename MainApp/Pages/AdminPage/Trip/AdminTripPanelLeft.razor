@@ -12,7 +12,7 @@
                 <div>
                     <DropdownDateRange IconColor="Theme.Info"
                                        ButtonSize="Size.Md"
-                                       DateTimeRange="@_dateTimeRangeModel"
+                                       DateTimeRange="@_dateTimeRange"
                                        OnSubmitSuccess="RefreshListFromDropdownDateRange" />
 
                 </div>
@@ -109,7 +109,7 @@
                                 }
                             }
                         </tbody>
-                        <tfoot class="bg-primary-subtle fw-semibold">
+                        <tfoot class="bg-primary-subtle text-primary-emphasis fw-semibold">
                             <tr>
                                 <td class="text-nowrap" colspan="2">Total distance (KM)</td>
                                 <td class="text-nowrap text-end">@_sumByDateRange</td>

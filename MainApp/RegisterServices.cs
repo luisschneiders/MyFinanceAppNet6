@@ -74,5 +74,8 @@ public static class RegisterServices
         builder.Services.AddScoped<ITransactionCategoryService<TransactionCategoryModel>, TransactionCategoryService>();
         builder.Services.AddScoped<ITripService<TripModel>, TripService>();
         builder.Services.AddScoped<IVehicleService<VehicleModel>, VehicleService>();
+
+        //State Container
+        builder.Services.AddScoped<TimesheetStateService>();
     }
 }

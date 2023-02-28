@@ -19,7 +19,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
-    private DateTimeRangeModel _dateTimeRangeModel { get; set; } = new();
+    private DateTimeRange _dateTimeRange { get; set; } = new();
 
     /*
      * Add OffCanvas component reference
@@ -41,7 +41,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
 
     protected async override Task OnInitializedAsync()
     {
-        _dateTimeRangeModel = _dateTimeService.GetCurrentMonth();
+        _dateTimeRange = _dateTimeService.GetCurrentMonth();
         await Task.CompletedTask;
     }
 
@@ -70,7 +70,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     {
         try
         {
-            _expensesByGroup = await _expenseService.GetRecordsByGroupAndDateRange(_dateTimeRangeModel);
+            _expensesByGroup = await _expenseService.GetRecordsByGroupAndDateRange(_dateTimeRange);
             _isLoading = false;
         }
         catch (Exception ex)
