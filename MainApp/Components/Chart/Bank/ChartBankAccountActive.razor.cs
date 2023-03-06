@@ -100,8 +100,8 @@ public partial class ChartBankAccountActive : ComponentBase
 
                 _chartConfigData.Datasets.Add(_chartConfigDataset);
 
-                _chartObjectReference = await _chartService.GetChartObjectReference();
-                await _chartService.UpdateChartData(_chartObjectReference, _chartConfigData);
+                //_chartObjectReference = await _chartService.GetChartObjectReference();
+                //await _chartService.UpdateChartData(_chartObjectReference, _chartConfigData);
             }
         }
         catch (Exception ex)
