@@ -21,14 +21,14 @@ public partial class ChartBankAccountActive : ComponentBase
     [Inject]
     private SpinnerService _spinnerService { get; set; } = new();
 
-    private List<string> _chartBackgroundColors { get; set; } = new();
-    private List<string> _chartBorderColors { get; set; } = new();
-    private List<string> _chartLabels { get; set; } = new();
-    private List<string> _chartData { get; set; } = new();
+    private ChartConfigData _chartConfigData { get; set; } = new();
+    private ChartConfigDataset _chartConfigDataset { get; set; } = new();
 
     private bool _isLoading { get; set; } = true;
 
     private List<BankModel> _banks { get; set; } = new();
+
+    private IJSObjectReference _chartObjectReference = default!;
 
     public ChartBankAccountActive()
     {
@@ -77,27 +77,31 @@ public partial class ChartBankAccountActive : ComponentBase
             {
                 foreach (var bank in _banks)
                 {
+                    _chartConfigData.Labels.Add(bank.Description);
+
                     if (bank.CurrentBalance >= 0 && bank.CurrentBalance <= 1000)
                     {
-                        _chartBackgroundColors.Add(BackgroundColor.Gray);
-                        _chartBorderColors.Add(BorderColor.Gray);
+                        _chartConfigDataset.BackgroundColor.Add(BackgroundColor.Gray);
+                        _chartConfigDataset.BorderColor.Add(BorderColor.Gray);
                     }
                     else if (bank.CurrentBalance >= 1000 && bank.CurrentBalance <= 20000)
                     {
-                        _chartBackgroundColors.Add(BackgroundColor.Green);
-                        _chartBorderColors.Add(BorderColor.Green);
+                        _chartConfigDataset.BackgroundColor.Add(BackgroundColor.Green);
+                        _chartConfigDataset.BorderColor.Add(BorderColor.Green);
                     }
                     else
                     {
-                        _chartBackgroundColors.Add(BackgroundColor.Blue);
-                        _chartBorderColors.Add(BorderColor.Blue);
+                        _chartConfigDataset.BackgroundColor.Add(BackgroundColor.Blue);
+                        _chartConfigDataset.BorderColor.Add(BorderColor.Blue);
                     }
-                    _chartLabels.Add(bank.Description);
-                    _chartData.Add(bank.CurrentBalance.ToString());
+
+                    _chartConfigDataset.Data.Add(bank.CurrentBalance.ToString());
                 }
 
-                var chartObjectReference = await _chartService.GetChartObjectReference();
-                await _chartService.UpdateChartData(chartObjectReference, _chartData);
+                _chartConfigData.Datasets.Add(_chartConfigDataset);
+
+                //_chartObjectReference = await _chartService.GetChartObjectReference();
+                //await _chartService.UpdateChartData(_chartObjectReference, _chartConfigData);
             }
         }
         catch (Exception ex)
@@ -110,7 +114,7 @@ public partial class ChartBankAccountActive : ComponentBase
 
     private async Task SetChartObjectReference(IJSObjectReference chartObjectReference)
     {
-        await _chartService.UpdateChartData(chartObjectReference, _chartData);
+        await _chartService.UpdateChartData(chartObjectReference, _chartConfigData);
         await Task.CompletedTask;
     }
 }

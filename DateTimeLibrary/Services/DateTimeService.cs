@@ -20,6 +20,20 @@ public class DateTimeService : IDateTimeService
         return dateTimeRange;
     }
 
+    public DateTimeRange GetCurrentYear()
+    {
+        DateTimeRange dateTimeRange = new();
+        DateTime now = DateTime.Now;
+
+        var startDate = new DateTime(now.Year, 1, 1);
+        var endDate = new DateTime(now.Year, 12, 31);
+
+        dateTimeRange.Start = startDate;
+        dateTimeRange.End = endDate;
+
+        return dateTimeRange;
+    }
+
     public bool CheckDateRange(DateTimeRange dateTimeRange)
     {
         return dateTimeRange.Start.Date <= dateTimeRange.End.Date;

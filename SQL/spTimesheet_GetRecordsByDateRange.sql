@@ -20,11 +20,9 @@ BEGIN
 		t.IsActive
 	FROM Timesheet t
 	JOIN Company c ON c.Id = t.CompanyId
-	WHERE (
-		t.UpdatedBy = userId AND
-        t.IsArchived = FALSE AND
-        (date(t.TimeIn) BETWEEN startDate AND endDate)
-	)
+	WHERE t.UpdatedBy = userId 
+		AND t.IsArchived = FALSE 
+        AND (date(t.TimeIn) BETWEEN startDate AND endDate)
 	ORDER BY t.TimeIn DESC;
 END$$
 DELIMITER ;

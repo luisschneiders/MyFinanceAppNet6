@@ -6,6 +6,7 @@
 @using MainApp.Components.Badge
 @using MainApp.Components.Message
 @using MainApp.Components.Chart.Bank
+@using MainApp.Components.Chart.Transaction
 @using MainApp.Components.Shared
 
 <div class="container-lg">
@@ -22,7 +23,27 @@
 
                 <PageMiddleView>
                     <PageMiddleWrapper>
-                        <div class="row g-3">
+                        <div class="row g-3 pb-3">
+                            <div class="col-12 col-md-8 d-flex flex-sm-column flex-md-row justify-content-center">
+                                <CardView Styles="w-100 border-0">
+                                    <CardMiddle>
+                                        <ChartTransactionIO />
+                                    </CardMiddle>
+                                </CardView>
+                            </div>
+                            <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
+                                <CardView Styles="w-100 border-0">
+                                    <CardMiddle>
+                                        <SharedHeader Title="Feeds"
+                                                      Icon="bi-rss"
+                                                      IconColor="Theme.Primary"
+                                                      BadgeBackgroundColor="@Theme.Warning"
+                                                      BadgeTitle="Coming soon!" />
+                                    </CardMiddle>
+                                </CardView>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
                                 <CardView Styles="w-100 border-0">
                                     <CardMiddle>
@@ -34,17 +55,6 @@
                                 <CardView Styles="w-100 border-0">
                                     <CardMiddle>
                                         <ChartBankBalanceSum />
-                                    </CardMiddle>
-                                </CardView>
-                            </div>
-                            <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
-                                <CardView Styles="w-100 border-0">
-                                    <CardMiddle>
-                                        <SharedHeader Title="Feeds"
-                                                      Icon="bi-rss"
-                                                      IconColor="Theme.Info"
-                                                      BadgeBackgroundColor="@Theme.Warning"
-                                                      BadgeTitle="Coming soon!" />
                                     </CardMiddle>
                                 </CardView>
                             </div>

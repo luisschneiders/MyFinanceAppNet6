@@ -35,7 +35,7 @@ public class ChartService : IChartService, IAsyncDisposable
         return await Task.FromResult(_chartObjectReference);
     }
 
-    public async Task UpdateChartData(IJSObjectReference chartObjectReference, List<string> chartData)
+    public async Task UpdateChartData(IJSObjectReference chartObjectReference, ChartConfigData chartData)
     {
         _chartObjectReference = chartObjectReference;
         if (chartObjectReference is not null)
@@ -48,8 +48,10 @@ public class ChartService : IChartService, IAsyncDisposable
     public async Task RemoveChartData(IJSObjectReference chartObjectReference)
     {
         _chartObjectReference = chartObjectReference;
-
-        await _chartModule.InvokeVoidAsync("removeChartData", chartObjectReference);
+        if (chartObjectReference is not null)
+        {
+            await _chartModule.InvokeVoidAsync("removeChartData", chartObjectReference);
+        }
         await Task.CompletedTask;
     }
 

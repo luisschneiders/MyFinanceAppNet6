@@ -21,11 +21,7 @@ else
 {
     <Chart Id="BankBalanceSum"
            Type="ChartType.Line"
-           Title="Balances"
-           Data="@(_chartData)"
-           BackgroundColor="@(_chartBackgroundColors)"
-           BorderColor="@(_chartBorderColors)"
-           Labels="@(_chartLabels)"
+           Data="@(_chartConfigData)"
            OnSubmitSuccess="SetChartObjectReference" />
 }
 <Toast />
