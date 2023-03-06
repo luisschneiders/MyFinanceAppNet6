@@ -172,6 +172,29 @@ public class TransactionData : ITransactionData<TransactionModel>
         }
     }
 
+    public async Task<List<TransactionIOGraphByDateDTO>> GetIOByDateRange(string userId, DateTimeRange dateTimeRange)
+    {
+        try
+        {
+            var results = await _dataAccess.LoadData<TransactionIOGraphByDateDTO, dynamic>(
+                "myfinancedb.spTransaction_GetIOByDateRange",
+                new
+                {
+                    userId = userId,
+                    startDate = dateTimeRange.Start,
+                    endDate = dateTimeRange.End
+                },
+                "Mysql");
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public Task<ulong> GetLastInsertedId()
     {
         throw new NotImplementedException();

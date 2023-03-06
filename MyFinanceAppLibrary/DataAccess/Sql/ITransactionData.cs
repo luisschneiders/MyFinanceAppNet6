@@ -8,5 +8,6 @@ public interface ITransactionData<T> : IBaseData<T>
     Task CreateRecordCredit(T model);
     Task CreateRecordDebit(T model);
     Task CreateRecordTransfer(T model);
+    Task<List<TransactionIOGraphByDateDTO>> GetIOByDateRange(string userId, DateTimeRange dateTimeRange);
     Task<List<TransactionModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange);
 }

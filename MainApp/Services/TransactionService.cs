@@ -119,6 +119,21 @@ public class TransactionService : ITransactionService<TransactionModel>
         }
     }
 
+    public async Task<List<TransactionIOGraphByDateDTO>> GetIOByDateRange(DateTimeRange dateTimeRange)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<TransactionIOGraphByDateDTO> results = await _transactionData.GetIOByDateRange(user.Id, dateTimeRange);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public Task<ulong> GetLastInsertedId()
     {
         throw new NotImplementedException();
