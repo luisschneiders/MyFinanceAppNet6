@@ -20,10 +20,8 @@ public partial class ChartBankBalanceSum : ComponentBase
     [Inject]
     private SpinnerService _spinnerService { get; set; } = new();
 
-    private List<string> _chartBackgroundColors { get; set; } = new();
-    private List<string> _chartBorderColors { get; set; } = new();
-    private List<string> _chartLabels { get; set; } = new();
-    private List<string> _chartData { get; set; } = new();
+    private ChartConfigData _chartConfigData { get; set; } = new();
+    private ChartConfigDataset _chartConfigDataset { get; set; } = new();
 
     private bool _isLoading { get; set; } = true;
 
@@ -76,20 +74,24 @@ public partial class ChartBankBalanceSum : ComponentBase
         {
             if (_bankModelBalanceSumDTO is not null)
             {
-                _chartLabels.Add(Graphic.BankBalanceInitialSum);
-                _chartLabels.Add(Graphic.BankBalanceCurrentSum);
+                _chartConfigData.Labels.Add(Graphic.BankBalanceInitialSum);
+                _chartConfigData.Labels.Add(Graphic.BankBalanceCurrentSum);
 
-                _chartBackgroundColors.Add(BackgroundColor.Gray);
-                _chartBackgroundColors.Add(BackgroundColor.Green);
+                _chartConfigDataset.Label = "Balances";
 
-                _chartBorderColors.Add(BorderColor.Gray);
-                _chartBorderColors.Add(BorderColor.Green);
+                _chartConfigDataset.BackgroundColor.Add(BackgroundColor.Gray);
+                _chartConfigDataset.BackgroundColor.Add(BackgroundColor.Green);
 
-                _chartData.Add(_bankModelBalanceSumDTO.BankTotalInitialBalance.ToString());
-                _chartData.Add(_bankModelBalanceSumDTO.BankTotalCurrentBalance.ToString());
+                _chartConfigDataset.BorderColor.Add(BorderColor.Gray);
+                _chartConfigDataset.BorderColor.Add(BorderColor.Green);
+
+                _chartConfigDataset.Data.Add(_bankModelBalanceSumDTO.BankTotalInitialBalance.ToString());
+                _chartConfigDataset.Data.Add(_bankModelBalanceSumDTO.BankTotalCurrentBalance.ToString());
+
+                _chartConfigData.Datasets.Add(_chartConfigDataset);
 
                 _chartObjectReference = await _chartService.GetChartObjectReference();
-                await _chartService.UpdateChartData(_chartObjectReference, _chartData);
+                await _chartService.UpdateChartData(_chartObjectReference, _chartConfigData);
             }
         }
         catch (Exception ex)
@@ -102,7 +104,7 @@ public partial class ChartBankBalanceSum : ComponentBase
 
     private async Task SetChartObjectReference(IJSObjectReference chartObjectReference)
     {
-        await _chartService.UpdateChartData(chartObjectReference, _chartData);
+        await _chartService.UpdateChartData(chartObjectReference, _chartConfigData);
         await Task.CompletedTask;
     }
 }
