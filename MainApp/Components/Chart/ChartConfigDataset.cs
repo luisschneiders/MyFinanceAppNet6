@@ -7,8 +7,4 @@ public class ChartConfigDataset
     public List<string> BackgroundColor { get; set; } = new();
     public List<string> BorderColor { get; set; } = new();
     public int BorderWidth { get; set; } = 1;
-
-    public ChartConfigDataset()
-	{
-	}
 }

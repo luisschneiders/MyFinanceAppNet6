@@ -14,28 +14,15 @@ public partial class Chart : ComponentBase
 	public string Id { get; set; } = string.Empty;
 
     [Parameter]
-    public string Title { get; set; } = string.Empty;
-
-    [Parameter]
 	public ChartType Type { get; set; } = ChartType.Bar;
 
     [Parameter]
-	public List<string> Data { get; set; } = new();
-
-    [Parameter]
-    public List<string> BackgroundColor { get; set; } = default!;
-
-    [Parameter]
-    public List<string> BorderColor { get; set; } = default!;
-
-    [Parameter]
-    public List<string> Labels { get; set; } = default!;
+	public ChartConfigData Data { get; set; } = new();
 
     [Parameter]
     public EventCallback<IJSObjectReference> OnSubmitSuccess { get; set; }
 
     private ChartConfig _chartConfig { get; set; } = new();
-    private ChartConfigDataset _chartConfigDataset { get; set; } = new();
 
     public Chart()
 	{
@@ -45,14 +32,8 @@ public partial class Chart : ComponentBase
     {
         if (firstRender)
         {
-            _chartConfigDataset.Label = Title;
-            _chartConfigDataset.Data = Data;
-            _chartConfigDataset.BackgroundColor = BackgroundColor;
-            _chartConfigDataset.BorderColor = BorderColor;
-
             _chartConfig.Type = Type.ToString().ToLower();
-            _chartConfig.Data.Labels = Labels;
-            _chartConfig.Data.Datasets.Add(_chartConfigDataset);
+            _chartConfig.Data = Data;
 
             await _chartService.InvokeChartModule();
             await _chartService.SetupChartModule(Id, _chartConfig);

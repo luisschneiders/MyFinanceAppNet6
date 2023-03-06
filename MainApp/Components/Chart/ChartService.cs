@@ -35,7 +35,7 @@ public class ChartService : IChartService, IAsyncDisposable
         return await Task.FromResult(_chartObjectReference);
     }
 
-    public async Task UpdateChartData(IJSObjectReference chartObjectReference, List<string> chartData)
+    public async Task UpdateChartData(IJSObjectReference chartObjectReference, ChartConfigData chartData)
     {
         _chartObjectReference = chartObjectReference;
         if (chartObjectReference is not null)
