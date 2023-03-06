@@ -1,0 +1,38 @@
+﻿@using MainApp.Components.Card
+@using MainApp.Components.Badge
+@using MainApp.Components.Spinner
+@using MainApp.Components.Toast
+@using MainApp.Components.Shared
+@using MainApp.Components.Dropdown
+
+<SharedHeader Title="Incomes & Outcomes"
+              Icon="bi-graph-up-arrow"
+              IconColor="Theme.Info" />
+
+@if (_isLoading)
+{
+    <div class="d-flex justify-content-center align-items-center">
+        <Spinner Size="Size.Sm" />
+        <span class="ps-1">
+            Loading ...
+        </span>
+    </div>
+}
+else
+{
+    <div class="row text-center py-3">
+
+        <div class="col-12">Select date range:</div>
+        <div class="col-12">
+            <DropdownDateRange IconColor="Theme.Info"
+                               DateTimeRange="@_dateTimeRange"
+                               OnSubmitSuccess="RefreshChartFromDropdownDateRange" />
+        </div>
+    </div>
+
+    <Chart Id="TransactionIO"
+           Type="ChartType.Bar"
+           Data="@(_chartConfigData)"
+           OnSubmitSuccess="SetChartObjectReference" />
+}
+<Toast />

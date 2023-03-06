@@ -37,6 +37,7 @@ public partial class Chart : ComponentBase
 
             await _chartService.InvokeChartModule();
             await _chartService.SetupChartModule(Id, _chartConfig);
+            await OnSubmitSuccess.InvokeAsync();
         }
 
         await Task.CompletedTask;

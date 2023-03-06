@@ -48,8 +48,10 @@ public class ChartService : IChartService, IAsyncDisposable
     public async Task RemoveChartData(IJSObjectReference chartObjectReference)
     {
         _chartObjectReference = chartObjectReference;
-
-        await _chartModule.InvokeVoidAsync("removeChartData", chartObjectReference);
+        if (chartObjectReference is not null)
+        {
+            await _chartModule.InvokeVoidAsync("removeChartData", chartObjectReference);
+        }
         await Task.CompletedTask;
     }
 
