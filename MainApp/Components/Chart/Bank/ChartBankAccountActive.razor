@@ -22,6 +22,6 @@ else
     <Chart Id="BankAccountActive"
            Type="ChartType.Doughnut"
            Data="@(_chartConfigData)"
-           OnSubmitSuccess="SetChartObjectReference" />
+           OnSubmitSuccess="data => SetChartObjectReference(data)" />
 }
 <Toast />

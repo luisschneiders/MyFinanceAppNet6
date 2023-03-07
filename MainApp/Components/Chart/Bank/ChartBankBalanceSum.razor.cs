@@ -89,9 +89,6 @@ public partial class ChartBankBalanceSum : ComponentBase
                 _chartConfigDataset.Data.Add(_bankModelBalanceSumDTO.BankTotalCurrentBalance.ToString());
 
                 _chartConfigData.Datasets.Add(_chartConfigDataset);
-
-                //_chartObjectReference = await _chartService.GetChartObjectReference();
-                //await _chartService.UpdateChartData(_chartObjectReference, _chartConfigData);
             }
         }
         catch (Exception ex)
@@ -104,7 +101,7 @@ public partial class ChartBankBalanceSum : ComponentBase
 
     private async Task SetChartObjectReference(IJSObjectReference chartObjectReference)
     {
-        await _chartService.UpdateChartData(chartObjectReference, _chartConfigData);
+        _chartObjectReference = chartObjectReference;
         await Task.CompletedTask;
     }
 }
