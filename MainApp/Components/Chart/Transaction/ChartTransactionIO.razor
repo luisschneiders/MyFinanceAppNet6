@@ -20,11 +20,12 @@
 }
 else
 {
-    <div class="row text-center py-3">
+    <div class="row text-center py-3 align-items-center">
 
-        <div class="col-12">Select date range:</div>
-        <div class="col-12">
-            <DropdownDateRange IconColor="Theme.Info"
+        <div class="col-auto">Select date range:</div>
+        <div class="col-auto">
+            <DropdownDateRange IconColor="Theme.Primary"
+                               ButtonColor="Theme.Primary"
                                DateTimeRange="@_dateTimeRange"
                                OnSubmitSuccess="RefreshChartFromDropdownDateRange" />
         </div>

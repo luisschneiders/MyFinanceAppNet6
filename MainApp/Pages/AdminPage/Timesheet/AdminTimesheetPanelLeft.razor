@@ -9,7 +9,8 @@
         <div class="row justify-content-between pb-2">
             <div class="col-10 col-lg-8 pb-2 d-flex">
                 <div>
-                    <DropdownDateRange IconColor="Theme.Info"
+                    <DropdownDateRange IconColor="Theme.Primary"
+                                       ButtonColor="Theme.Primary"
                                        ButtonSize="Size.Md"
                                        DateTimeRange="@_dateTimeRange"
                                        OnSubmitSuccess="DropdownDateRangeRefreshList" />
@@ -18,10 +19,11 @@
                 <div class="ps-2 d-none d-lg-flex">
                     <div class="btn-group bg-@(Theme.Light.ToString().ToLower())-subtle" role="group">
                         <DropdownActions Title="@UpdateFilterCompanyTitleState()"
+                                         ButtonColor="Theme.Primary"
                                          ButtonSize="Size.Md"
                                          IconEnd="bi-chevron-down"
                                          IconStart="bi-building"
-                                         IconStartColor="Theme.Info"
+                                         IconStartColor="Theme.Primary"
                                          DropdownPosition="Position.Start">
                             @foreach (var (company, index) in _companies.Select((value, index) => (value, index)))
                             {
@@ -57,7 +59,7 @@
                     <DropdownActions ButtonColor="Theme.Primary"
                                      DropdownPosition="Position.End">
                         <li class="px-2 d-block d-lg-none">
-                            <button class="dropdown-item"
+                            <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis"
                                     @onclick="() => AddRecordAsync()">
                                 <i class="bi bi-plus-lg pe-1"></i>New timesheet
                             </button>

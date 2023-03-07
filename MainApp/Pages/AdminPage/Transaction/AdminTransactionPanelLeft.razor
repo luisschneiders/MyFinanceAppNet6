@@ -10,7 +10,8 @@
         <div class="row justify-content-between pb-2">
             <div class="col-10 col-lg-8 pb-2 d-flex">
                 <div>
-                    <DropdownDateRange IconColor="Theme.Info"
+                    <DropdownDateRange IconColor="Theme.Primary"
+                                       ButtonColor="Theme.Primary"
                                        ButtonSize="Size.Md"
                                        DateTimeRange="@_dateTimeRange"
                                        OnSubmitSuccess="RefreshListFromDropdownDateRange" />
@@ -28,7 +29,7 @@
                     <DropdownActions ButtonColor="Theme.Primary"
                                      DropdownPosition="Position.End">
                         <li class="px-2 d-block d-lg-none">
-                            <button class="dropdown-item"
+                            <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis"
                                     @onclick="() => AddRecordAsync()">
                                 <i class="bi bi-plus-lg pe-1"></i>New transaction
                             </button>
