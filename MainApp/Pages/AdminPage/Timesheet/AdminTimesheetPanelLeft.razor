@@ -10,25 +10,27 @@
             <div class="col-10 col-lg-8 pb-2 d-flex">
                 <div>
                     <DropdownDateRange IconColor="Theme.Primary"
-                                       ButtonColor="Theme.Primary"
                                        ButtonSize="Size.Md"
+                                       ButtonColor="Theme.Info"
+                                       DropdownBackground="Theme.Info"
                                        DateTimeRange="@_dateTimeRange"
                                        OnSubmitSuccess="DropdownDateRangeRefreshList" />
 
                 </div>
                 <div class="ps-2 d-none d-lg-flex">
-                    <div class="btn-group bg-@(Theme.Primary.ToString().ToLower())-subtle" role="group">
+                    <div class="btn-group bg-@(Theme.Info.ToString().ToLower())-subtle" role="group">
                         <DropdownActions Title="@UpdateFilterCompanyTitleState()"
-                                         ButtonColor="Theme.Primary"
+                                         ButtonColor="Theme.Info"
                                          ButtonSize="Size.Md"
                                          IconEnd="bi-chevron-down"
                                          IconStart="bi-building"
                                          IconStartColor="Theme.Primary"
-                                         DropdownPosition="Position.Start">
+                                         DropdownPosition="Position.Start"
+                                         DropdownBackground="Theme.Info">
                             @foreach (var (company, index) in _companies.Select((value, index) => (value, index)))
                             {
                                 <li class="px-2">
-                                    <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis"
+                                    <button class="dropdown-item text-@(Theme.Info.ToString().ToLower())-emphasis"
                                             @onclick="() => FilterCompanyRefreshList(company.Id)">
                                         @($"{company.Description}")
                                     </button>
@@ -38,10 +40,10 @@
                         @if (_filterCompany?.Id > 0)
                         {
                             <div class="d-flex align-items-center">
-                                <div class="vr my-1 text-@(Theme.Primary.ToString().ToLower())-emphasis"></div>
+                                <div class="vr my-1 text-@(Theme.Info.ToString().ToLower())-emphasis"></div>
                                 <button class="btn"
                                         @onclick="ResetFilter">
-                                    <i class="bi bi-x-circle text-@(Theme.Primary.ToString().ToLower())-emphasis"></i>
+                                    <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
                                 </button>
                             </div>
                         }
@@ -50,7 +52,7 @@
             </div>
             <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
                 <div class="d-none d-lg-block">
-                    <button class="btn btn-md bg-primary-subtle text-primary-emphasis"
+                    <button class="btn btn-md bg-@(Theme.Primary.ToString().ToLower())-subtle text-@(Theme.Primary.ToString().ToLower())-emphasis"
                             @onclick="() => AddRecordAsync()">
                         <i class="bi bi-plus-lg pe-1"></i>New timesheet
                     </button>

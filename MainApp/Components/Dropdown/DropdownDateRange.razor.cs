@@ -31,6 +31,9 @@ public partial class DropdownDateRange : ComponentBase
     [Parameter]
     public Position DropdownPosition { get; set; } = Position.Start;
 
+    [Parameter]
+    public Theme DropdownBackground { get; set; } = Theme.Primary;
+
     private string _dateRangeLabel { get; set; } = "No date assigned!";
 
     private bool _isValidDateRange { get; set; } = true;
