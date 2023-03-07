@@ -33,6 +33,6 @@ else
     <Chart Id="TransactionIO"
            Type="ChartType.Bar"
            Data="@(_chartConfigData)"
-           OnSubmitSuccess="SetChartObjectReference" />
+           OnSubmitSuccess="data => SetChartObjectReference(data)" />
 }
 <Toast />

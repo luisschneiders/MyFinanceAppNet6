@@ -22,6 +22,6 @@ else
     <Chart Id="BankBalanceSum"
            Type="ChartType.Line"
            Data="@(_chartConfigData)"
-           OnSubmitSuccess="SetChartObjectReference" />
+           OnSubmitSuccess="data => SetChartObjectReference(data)" />
 }
 <Toast />

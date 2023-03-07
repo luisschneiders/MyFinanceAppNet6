@@ -99,9 +99,6 @@ public partial class ChartBankAccountActive : ComponentBase
                 }
 
                 _chartConfigData.Datasets.Add(_chartConfigDataset);
-
-                //_chartObjectReference = await _chartService.GetChartObjectReference();
-                //await _chartService.UpdateChartData(_chartObjectReference, _chartConfigData);
             }
         }
         catch (Exception ex)
@@ -114,7 +111,7 @@ public partial class ChartBankAccountActive : ComponentBase
 
     private async Task SetChartObjectReference(IJSObjectReference chartObjectReference)
     {
-        await _chartService.UpdateChartData(chartObjectReference, _chartConfigData);
+        _chartObjectReference = chartObjectReference;
         await Task.CompletedTask;
     }
 }

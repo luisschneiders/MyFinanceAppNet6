@@ -178,8 +178,6 @@ public partial class ChartTransactionIO : ComponentBase
 
                 _chartConfigData.Datasets.Add(_chartConfigDataset);
 
-                //_chartObjectReference = await _chartService.GetChartObjectReference();
-                //await _chartService.UpdateChartData(_chartObjectReference, _chartConfigData);
             }
         }
         catch (Exception ex)
@@ -192,7 +190,7 @@ public partial class ChartTransactionIO : ComponentBase
 
     private async Task SetChartObjectReference(IJSObjectReference chartObjectReference)
     {
-        await _chartService.UpdateChartData(chartObjectReference, _chartConfigData);
+        _chartObjectReference = chartObjectReference;
         await Task.CompletedTask;
     }
 
@@ -202,7 +200,8 @@ public partial class ChartTransactionIO : ComponentBase
         await SetChartDefaults();
         await FetchDataAsync();
         await SetDataAsync();
-        //await _chartService.UpdateChartData(_chartObjectReference, _chartConfigData);
+
+        await _chartService.UpdateChartData(_chartObjectReference, _chartConfigData);
 
         _toastService.ShowToast("Date range has changed!", Theme.Info);
 
@@ -211,7 +210,6 @@ public partial class ChartTransactionIO : ComponentBase
 
     private async Task ResetChartDefaults()
     {
-        //await _chartService.RemoveChartData(_chartObjectReference);
         _transactionIOGraphByDateDTO = new();
         _chartLabels = new();
         _transactionChartData = new();

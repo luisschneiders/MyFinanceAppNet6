@@ -6,10 +6,7 @@
 }
 
 export function updateChartData(chart, data) {
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data = data;
-    });
-
+    chart.data = data;
     chart.update();
 }
 
