@@ -17,7 +17,7 @@
 
                 </div>
                 <div class="ps-2 d-none d-lg-flex">
-                    <div class="btn-group bg-@(Theme.Light.ToString().ToLower())-subtle" role="group">
+                    <div class="btn-group bg-@(Theme.Primary.ToString().ToLower())-subtle" role="group">
                         <DropdownActions Title="@UpdateFilterCompanyTitleState()"
                                          ButtonColor="Theme.Primary"
                                          ButtonSize="Size.Md"
@@ -28,7 +28,7 @@
                             @foreach (var (company, index) in _companies.Select((value, index) => (value, index)))
                             {
                                 <li class="px-2">
-                                    <button class="dropdown-item"
+                                    <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis"
                                             @onclick="() => FilterCompanyRefreshList(company.Id)">
                                         @($"{company.Description}")
                                     </button>
@@ -38,10 +38,10 @@
                         @if (_filterCompany?.Id > 0)
                         {
                             <div class="d-flex align-items-center">
-                                <div class="vr my-1"></div>
+                                <div class="vr my-1 text-@(Theme.Primary.ToString().ToLower())-emphasis"></div>
                                 <button class="btn"
                                         @onclick="ResetFilter">
-                                    <i class="bi bi-x-circle text-@(Theme.Light.ToString().ToLower())-emphasis"></i>
+                                    <i class="bi bi-x-circle text-@(Theme.Primary.ToString().ToLower())-emphasis"></i>
                                 </button>
                             </div>
                         }
