@@ -37,7 +37,10 @@ public partial class Chart : ComponentBase
 
             await _chartService.InvokeChartModule();
             await _chartService.SetupChartModule(Id, _chartConfig);
-            await OnSubmitSuccess.InvokeAsync();
+
+            IJSObjectReference objectReference = await _chartService.GetChartObjectReference();
+
+            await OnSubmitSuccess.InvokeAsync(objectReference);
         }
 
         await Task.CompletedTask;
