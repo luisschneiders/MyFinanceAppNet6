@@ -1,4 +1,5 @@
-﻿using MainApp.Components.Spinner;
+﻿using MainApp.Components.Dropdown;
+using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
 using MainApp.Pages.AdminPage.Transaction;
 using Microsoft.AspNetCore.Components;
@@ -17,6 +18,9 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private SpinnerService _spinnerService { get; set; } = new();
 
     [Inject]
+    private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
+
+    [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
     private DateTimeRange _dateTimeRange { get; set; } = new();
@@ -32,7 +36,10 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private AdminExpenseModal _setupModal { get; set; } = new();
 
     private List<ExpenseModelByCategoryGroupDTO> _expensesByGroup { get; set; } = new();
+    private decimal _expensesTotal { get; set; } = 0;
 
+    private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
+    private bool _isDateTimeRangeChanged { get; set; } = false;
     private bool _isLoading { get; set; } = true;
 
     public AdminExpensePanelLeft()
@@ -42,6 +49,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     protected async override Task OnInitializedAsync()
     {
         _dateTimeRange = _dateTimeService.GetCurrentMonth();
+        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
         await Task.CompletedTask;
     }
 
@@ -71,6 +79,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
         try
         {
             _expensesByGroup = await _expenseService.GetRecordsByGroupAndDateRange(_dateTimeRange);
+            _expensesTotal = await _expenseService.GetRecordsByDateRangeSum();
             _isLoading = false;
         }
         catch (Exception ex)
@@ -110,8 +119,20 @@ public partial class AdminExpensePanelLeft : ComponentBase
 
     private async Task RefreshListFromDropdownDateRange()
     {
-        await FetchDataAsync();
+        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
+        _isDateTimeRangeChanged = true;
         _toastService.ShowToast("Date range has changed!", Theme.Info);
+        await RefreshList();
+        await Task.CompletedTask;
+    }
+
+    private async Task ResetDateTimeRange()
+    {
+        _dateTimeRange = _dateTimeService.GetCurrentMonth();
+        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
+        _isDateTimeRangeChanged = false;
+        _toastService.ShowToast("Date range has changed!", Theme.Info);
+        await RefreshList();
         await Task.CompletedTask;
     }
 }

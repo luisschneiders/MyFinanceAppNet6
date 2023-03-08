@@ -3,6 +3,7 @@ using MainApp.Pages.AdminPage.Timesheet;
 using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
 using MainApp.StateServices;
+using MainApp.Components.Dropdown;
 
 namespace MainApp.Pages.AdminPage.Timesheet;
 
@@ -26,6 +27,9 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
     [Inject]
     private TimesheetStateService _timesheetStateService { get; set; } = default!;
 
+    [Inject]
+    private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
+
     [Parameter]
     public EventCallback OnStateContainerSetValue { get; set; }
 
@@ -43,6 +47,8 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
     private PayStatus[] _payStatuses { get; set; } = default!;
     private CompanyModel _filterCompany { get; set; } = new();
 
+    private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
+    private bool _isDateTimeRangeChanged { get; set; } = false;
     private bool _isLoading { get; set; } = true;
 
     public AdminTimesheetPanelLeft()
@@ -53,6 +59,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
     protected async override Task OnInitializedAsync()
     {
         _dateTimeRange = _dateTimeService.GetCurrentMonth();
+        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
         _timesheetStateService.OnStateChange += StateHasChanged;
         await Task.CompletedTask;
     }
@@ -192,8 +199,10 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
 
     private async Task DropdownDateRangeRefreshList()
     {
-        await RefreshList();
+        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
         _toastService.ShowToast("Date range has changed!", Theme.Info);
+        _isDateTimeRangeChanged = true;
+        await RefreshList();
         await Task.CompletedTask;
     }
 
@@ -232,6 +241,16 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
     private async Task ResetFilter()
     {
         _filterCompany = new();
+        await RefreshList();
+        await Task.CompletedTask;
+    }
+
+    private async Task ResetDateTimeRange()
+    {
+        _dateTimeRange = _dateTimeService.GetCurrentMonth();
+        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
+        _isDateTimeRangeChanged = false;
+        _toastService.ShowToast("Date range has changed!", Theme.Info);
         await RefreshList();
         await Task.CompletedTask;
     }
