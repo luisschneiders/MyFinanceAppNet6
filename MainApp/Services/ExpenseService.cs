@@ -165,4 +165,19 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     {
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
     }
+
+    public async Task<List<ExpenseLast3MonthsGraphDTO>> GetRecordsLast3Months()
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<ExpenseLast3MonthsGraphDTO> results = await _expenseData.GetRecordsLast3Months(user.Id);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
 }
