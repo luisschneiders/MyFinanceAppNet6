@@ -15,6 +15,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     private IUserData _userData { get; set; } = default!;
 
     private UserModel _loggedInUser { get; set; } = new();
+    private decimal _expensesByDateRangeSum { get; set; } = 0;
 
     public ExpenseService(
         IExpenseData<ExpenseModel> expenseData,
@@ -108,6 +109,19 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         }
     }
 
+    public async Task<decimal> GetRecordsByDateRangeSum()
+    {
+        try
+        {
+            return await Task.FromResult(_expensesByDateRangeSum);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public async Task<List<ExpenseModelByCategoryGroupDTO>> GetRecordsByGroupAndDateRange(DateTimeRange dateTimeRange)
     {
         try
@@ -120,6 +134,8 @@ public class ExpenseService : IExpenseService<ExpenseModel>
                 Total = tcGroup.Sum(a => a.Amount),
                 Expenses = tcGroup.ToList()
             }).ToList();
+
+            _expensesByDateRangeSum = records.Sum(t => t.Amount);
 
             return results;
         }
