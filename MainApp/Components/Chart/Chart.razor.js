@@ -1,5 +1,15 @@
-﻿export function setupChart(chartId, config) {
+﻿export function setupChart(chartId, config, position) {
+    const options = {
+        plugins: {
+            legend: {
+                position: position
+            }
+        }
+    };
+
     const ctx = document.getElementById(chartId).getContext('2d');
+    config.options = options;
+
     const chart = new Chart(ctx, config);
 
     return chart;

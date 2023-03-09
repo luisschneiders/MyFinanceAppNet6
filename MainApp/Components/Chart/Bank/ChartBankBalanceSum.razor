@@ -19,9 +19,13 @@
 }
 else
 {
-    <Chart Id="BankBalanceSum"
-           Type="ChartType.Line"
-           Data="@(_chartConfigData)"
-           OnSubmitSuccess="data => SetChartObjectReference(data)" />
+    <div class="row justify-content-center align-items-center h-100">
+        <div class="col">
+            <Chart Id="BankBalanceSum"
+                   Type="ChartType.Line"
+                   Data="@(_chartConfigData)"
+                   OnSubmitSuccess="data => SetChartObjectReference(data)" />
+        </div>
+    </div>
 }
 <Toast />

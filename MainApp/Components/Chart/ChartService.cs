@@ -24,9 +24,9 @@ public class ChartService : IChartService, IAsyncDisposable
         return await Task.FromResult(_chartModule);
     }
 
-    public async Task<IJSObjectReference> SetupChartModule(string id, ChartConfig chartConfig)
+    public async Task<IJSObjectReference> SetupChartModule(string id, ChartConfig chartConfig, Position position)
     {
-        _chartObjectReference = await _chartModule.InvokeAsync<IJSObjectReference>("setupChart", id, chartConfig);
+        _chartObjectReference = await _chartModule.InvokeAsync<IJSObjectReference>("setupChart", id, chartConfig, position.ToString().ToLower());
         return await Task.FromResult(_chartObjectReference);
     }
 
