@@ -1,0 +1,31 @@
+﻿@using MainApp.Components.Card
+@using MainApp.Components.Badge
+@using MainApp.Components.Spinner
+@using MainApp.Components.Toast
+@using MainApp.Components.Shared
+
+<SharedHeader Title="Expenses last 5 years"
+              Icon="bi-clock-history"
+              IconColor="Theme.Info" />
+
+@if (_isLoading)
+{
+    <div class="d-flex justify-content-center align-items-center">
+        <Spinner Size="Size.Sm" />
+        <span class="ps-1">
+            Loading ...
+        </span>
+    </div>
+}
+else
+{
+    <div class="row justify-content-center align-items-center h-100">
+        <div class="col">
+            <Chart Id="ExpenseLast5Years"
+                   Type="ChartType.Bar"
+                   Data="@(_chartConfigData)"
+                   OnSubmitSuccess="data => SetChartObjectReference(data)" />
+        </div>
+    </div>
+}
+<Toast />
