@@ -38,6 +38,7 @@
     <None Remove="Pages\AdminPage\Expense\" />
     <None Remove="Pages\AdminPage\Trip\" />
     <None Remove="Components\Chart\Transaction\" />
+    <None Remove="Components\Chart\Expense\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Web" Version="1.25.10" />
@@ -60,5 +61,6 @@
     <Folder Include="Pages\AdminPage\Expense\" />
     <Folder Include="Pages\AdminPage\Trip\" />
     <Folder Include="Components\Chart\Transaction\" />
+    <Folder Include="Components\Chart\Expense\" />
   </ItemGroup>
 </Project>
