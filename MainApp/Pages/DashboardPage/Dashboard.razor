@@ -6,6 +6,7 @@
 @using MainApp.Components.Badge
 @using MainApp.Components.Message
 @using MainApp.Components.Chart.Bank
+@using MainApp.Components.Chart.Expense
 @using MainApp.Components.Chart.Transaction
 @using MainApp.Components.Shared
 
@@ -36,9 +37,12 @@
                                     <CardMiddle>
                                         <SharedHeader Title="Feeds"
                                                       Icon="bi-rss"
-                                                      IconColor="Theme.Primary"
-                                                      BadgeBackgroundColor="@Theme.Warning"
-                                                      BadgeTitle="Coming soon!" />
+                                                      IconColor="Theme.Primary"/>
+                                        <div class="d-flex justify-content-center align-items-center h-100">
+                                            <div class="p-4 rounded bg-@(Theme.Danger.ToString().ToLower())-subtle text-@(Theme.Danger.ToString().ToLower())-emphasis">
+                                                Coming soon 🎉
+                                            </div>
+                                        </div>
                                     </CardMiddle>
                                 </CardView>
                             </div>
@@ -55,6 +59,13 @@
                                 <CardView Styles="w-100 border-0">
                                     <CardMiddle>
                                         <ChartBankBalanceSum />
+                                    </CardMiddle>
+                                </CardView>
+                            </div>
+                            <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
+                                <CardView Styles="w-100 border-0">
+                                    <CardMiddle>
+                                        <ChartExpenseLast5Years />
                                     </CardMiddle>
                                 </CardView>
                             </div>

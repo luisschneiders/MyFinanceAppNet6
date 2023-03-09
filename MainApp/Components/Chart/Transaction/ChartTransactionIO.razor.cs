@@ -52,10 +52,6 @@ public partial class ChartTransactionIO : ComponentBase
     {
         _dateTimeRange = _dateTimeService.GetCurrentYear();
 
-        // DELETE ME
-        //_dateTimeRange.Start = new DateTime(2022, 1, 1);
-        //_dateTimeRange.End = new DateTime(2022, 12, 31);
-        // DELETE ME
         await SetChartDefaults();
 
         await Task.CompletedTask;

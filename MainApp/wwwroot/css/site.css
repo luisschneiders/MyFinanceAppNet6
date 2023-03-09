@@ -27,6 +27,10 @@ h1:focus {
     box-shadow: none;
 }
 
+.accordion .me-expenses-sum {
+    margin-right: 24px;
+}
+
 .app-outline-none {
     outline: none;
 }

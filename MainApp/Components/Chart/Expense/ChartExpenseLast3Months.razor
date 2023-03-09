@@ -4,8 +4,8 @@
 @using MainApp.Components.Toast
 @using MainApp.Components.Shared
 
-<SharedHeader Title="All Accounts"
-              Icon="bi-graph-up"
+<SharedHeader Title="Previous 3 months"
+              Icon="bi-clock-history"
               IconColor="Theme.Info" />
 
 @if (_isLoading)
@@ -19,13 +19,9 @@
 }
 else
 {
-    <div class="row justify-content-center align-items-center h-100">
-        <div class="col">
-            <Chart Id="BankBalanceSum"
-                   Type="ChartType.Line"
-                   Data="@(_chartConfigData)"
-                   OnSubmitSuccess="data => SetChartObjectReference(data)" />
-        </div>
-    </div>
+    <Chart Id="ExpenseLast3Months"
+           Type="ChartType.Bar"
+           Data="@(_chartConfigData)"
+           OnSubmitSuccess="data => SetChartObjectReference(data)" />
 }
 <Toast />

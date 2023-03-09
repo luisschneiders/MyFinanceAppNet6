@@ -117,6 +117,48 @@ public class ExpenseData : IExpenseData<ExpenseModel>
         }
     }
 
+    public async Task<List<ExpenseLast3MonthsGraphDTO>> GetRecordsLast3Months(string userId)
+    {
+        try
+        {
+            var results = await _dataAccess.LoadData<ExpenseLast3MonthsGraphDTO, dynamic>(
+                "myfinancedb.spExpense_GetRecordsSumLast3Months",
+                new
+                {
+                    userId = userId,
+                },
+                "Mysql");
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<List<ExpenseLast5YearsGraphDTO>> GetRecordsLast5Years(string userId)
+    {
+        try
+        {
+            var results = await _dataAccess.LoadData<ExpenseLast5YearsGraphDTO, dynamic>(
+                "myfinancedb.spExpense_GetRecordsSumLast5Years",
+                new
+                {
+                    userId = userId,
+                },
+                "Mysql");
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public Task<List<ExpenseModel>> GetSearchResults(string userId, string search)
     {
         throw new NotImplementedException();

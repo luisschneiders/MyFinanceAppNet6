@@ -8,6 +8,9 @@ namespace MainApp.Components.Dropdown;
 public partial class DropdownDateRange : ComponentBase
 {
     [Inject]
+    private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
+
+    [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
     [Parameter]
@@ -34,7 +37,8 @@ public partial class DropdownDateRange : ComponentBase
     [Parameter]
     public Theme DropdownBackground { get; set; } = Theme.Primary;
 
-    private string _dateRangeLabel { get; set; } = "No date assigned!";
+    [Parameter]
+    public string DropdownLabel { get; set; } = Label.NoDateAssigned;
 
     private bool _isValidDateRange { get; set; } = true;
 
@@ -49,24 +53,8 @@ public partial class DropdownDateRange : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        _dateRangeLabel = await UpdateDateRangeLabel();
+        DropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(DateTimeRange);
         await Task.CompletedTask;
-    }
-
-    private async Task<string> UpdateDateRangeLabel()
-    {
-        string dateRangeDescription = string.Empty;
-
-        if (DateTimeRange.Start.Date == DateTimeRange.End.Date)
-        {
-            dateRangeDescription = $"{DateTimeRange.Start.Date.ToString("dd/MM/yy")}";
-        }
-        else
-        {
-            dateRangeDescription = $"{DateTimeRange.Start.Date.ToString("dd/MM/yy")} - {DateTimeRange.End.Date.ToString("dd/MM/yy")}";
-        }
-
-        return await Task.FromResult(dateRangeDescription);
     }
 
     private async Task ChangeDateAsync()
@@ -80,8 +68,7 @@ public partial class DropdownDateRange : ComponentBase
         else
         {
             _isValidDateRange = true;
-            _dateRangeLabel = await UpdateDateRangeLabel();
-
+            DropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(DateTimeRange);
             await OnSubmitSuccess.InvokeAsync();
         }
 

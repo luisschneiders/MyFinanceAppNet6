@@ -9,19 +9,30 @@
     <CardMiddle>
         <div class="row justify-content-between pb-2">
             <div class="col-10 col-lg-8 pb-2 d-flex">
-                <div>
+                <div class="btn-group bg-@(Theme.Info.ToString().ToLower())-subtle" role="group">
+
                     <DropdownDateRange IconColor="Theme.Primary"
                                        ButtonSize="Size.Md"
                                        ButtonColor="Theme.Info"
                                        DropdownBackground="Theme.Info"
                                        DateTimeRange="@_dateTimeRange"
+                                       DropdownLabel="@_dropdownLabel"
                                        OnSubmitSuccess="RefreshListFromDropdownDateRange" />
-
+                    @if (_isDateTimeRangeChanged)
+                    {
+                        <div class="d-flex align-items-center">
+                            <div class="vr my-1 text-@(Theme.Info.ToString().ToLower())-emphasis"></div>
+                            <button class="btn"
+                                    @onclick="ResetDateTimeRange">
+                                <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
+                            </button>
+                        </div>
+                    }
                 </div>
             </div>
             <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
                 <div class="d-none d-lg-block">
-                    <button class="btn btn-md bg-primary-subtle text-primary-emphasis"
+                    <button class="btn btn-md bg-@(Theme.Primary.ToString().ToLower())-subtle text-@(Theme.Primary.ToString().ToLower())-emphasis"
                             @onclick="() => AddRecordAsync()">
                         <i class="bi bi-plus-lg pe-1"></i>New expense
                     </button>
@@ -62,6 +73,16 @@
                         }
                         else
                         {
+                            <div class="accordion d-flex justify-content-between p-3 fw-semibold
+                                        bg-@(Theme.Secondary.ToString().ToLower())-subtle
+                                        text-@(Theme.Primary.ToString().ToLower())-emphasis">
+                                <div class="text-uppercase d-flex">
+                                    Total<span class="d-none d-lg-block ps-1">for the period:</span>
+                                </div>
+                                <span class="pe-5 me-expenses-sum">
+                                    @_expensesTotal.ToString("C")
+                                </span>
+                            </div>
                             <Accordion Id="Expenses">
                                 @foreach (var (record, index) in _expensesByGroup.Select((value, index) => (value, index)))
                                 {

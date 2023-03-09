@@ -20,6 +20,9 @@ public partial class Chart : ComponentBase
 	public ChartConfigData Data { get; set; } = new();
 
     [Parameter]
+    public Position Position { get; set; } = Position.Top;
+
+    [Parameter]
     public EventCallback<IJSObjectReference> OnSubmitSuccess { get; set; }
 
     private ChartConfig _chartConfig { get; set; } = new();
@@ -36,7 +39,7 @@ public partial class Chart : ComponentBase
             _chartConfig.Data = Data;
 
             await _chartService.InvokeChartModule();
-            await _chartService.SetupChartModule(Id, _chartConfig);
+            await _chartService.SetupChartModule(Id, _chartConfig, Position);
 
             IJSObjectReference objectReference = await _chartService.GetChartObjectReference();
 
