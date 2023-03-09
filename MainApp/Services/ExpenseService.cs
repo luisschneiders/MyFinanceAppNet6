@@ -180,4 +180,19 @@ public class ExpenseService : IExpenseService<ExpenseModel>
             throw;
         }
     }
+
+    public async Task<List<ExpenseLast5YearsGraphDTO>> GetRecordsLast5Years()
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<ExpenseLast5YearsGraphDTO> results = await _expenseData.GetRecordsLast5Years(user.Id);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
 }
