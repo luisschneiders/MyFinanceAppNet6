@@ -1,6 +1,6 @@
 ﻿namespace MyFinanceAppLibrary.Models;
 
-public class TransactionModelListDTO : BaseModel
+public class TransactionListDTO : BaseModel
 {
 #nullable disable
     public ulong Id { get; }

@@ -1,6 +1,6 @@
 ﻿namespace MyFinanceAppLibrary.Models;
 
-public class TripModelListDTO : BaseModel
+public class TripListDTO : BaseModel
 {
 #nullable disable
     public ulong Id { get; }

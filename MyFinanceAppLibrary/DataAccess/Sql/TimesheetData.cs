@@ -108,11 +108,11 @@ public class TimesheetData : ITimesheetData<TimesheetModel>
         }
     }
 
-    public async Task<List<TimesheetModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange)
+    public async Task<List<TimesheetListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange)
     {
         try
         {
-            var results = await _dataAccess.LoadData<TimesheetModelListDTO, dynamic>(
+            var results = await _dataAccess.LoadData<TimesheetListDTO, dynamic>(
                 "myfinancedb.spTimesheet_GetRecordsByDateRange",
                 new
                 {

@@ -21,7 +21,7 @@ public partial class AdminTripPanelLeft : ComponentBase
 
     private DateTimeRange _dateTimeRange { get; set; } = new();
 
-    private List<TripModelListDTO> _trips { get; set; } = new();
+    private List<TripListDTO> _trips { get; set; } = new();
     private decimal _sumByDateRange { get; set; }
 
     /*
@@ -90,7 +90,7 @@ public partial class AdminTripPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task ArchiveRecordAsync(TripModelListDTO model)
+    private async Task ArchiveRecordAsync(TripListDTO model)
     {
         try
         {

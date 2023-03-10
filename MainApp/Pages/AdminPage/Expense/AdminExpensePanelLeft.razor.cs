@@ -35,7 +35,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
      */
     private AdminExpenseModal _setupModal { get; set; } = new();
 
-    private List<ExpenseModelByCategoryGroupDTO> _expensesByGroup { get; set; } = new();
+    private List<ExpenseByCategoryGroupDTO> _expensesByGroup { get; set; } = new();
     private decimal _expensesTotal { get; set; } = 0;
 
     private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
@@ -97,7 +97,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task ArchiveRecordAsync(ExpenseModelListDTO model)
+    private async Task ArchiveRecordAsync(ExpenseListDTO model)
     {
         try
         {

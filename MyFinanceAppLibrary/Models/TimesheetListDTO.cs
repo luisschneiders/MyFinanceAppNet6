@@ -2,7 +2,7 @@
 
 namespace MyFinanceAppLibrary.Models;
 
-public class TimesheetModelListDTO : BaseModel
+public class TimesheetListDTO : BaseModel
 {
 #nullable disable
     public ulong Id { get; }

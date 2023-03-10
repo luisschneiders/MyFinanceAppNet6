@@ -25,7 +25,7 @@ public partial class ChartBankBalanceSum : ComponentBase
 
     private bool _isLoading { get; set; } = true;
 
-    private BankModelBalanceSumDTO _bankModelBalanceSumDTO { get; set; } = new();
+    private BankBalanceSumDTO _bankBalanceSumDTO { get; set; } = new();
 
     private IJSObjectReference _chartObjectReference = default!;
 
@@ -56,7 +56,7 @@ public partial class ChartBankBalanceSum : ComponentBase
     {
         try
         {
-            _bankModelBalanceSumDTO = await _bankService.GetBankBalancesSum();
+            _bankBalanceSumDTO = await _bankService.GetBankBalancesSum();
             _isLoading = false;
             StateHasChanged();
         }
@@ -72,7 +72,7 @@ public partial class ChartBankBalanceSum : ComponentBase
     {
         try
         {
-            if (_bankModelBalanceSumDTO is not null)
+            if (_bankBalanceSumDTO is not null)
             {
                 _chartConfigData.Labels.Add(Graphic.BankBalanceInitialSum);
                 _chartConfigData.Labels.Add(Graphic.BankBalanceCurrentSum);
@@ -85,8 +85,8 @@ public partial class ChartBankBalanceSum : ComponentBase
                 _chartConfigDataset.BorderColor.Add(BorderColor.Gray);
                 _chartConfigDataset.BorderColor.Add(BorderColor.Green);
 
-                _chartConfigDataset.Data.Add(_bankModelBalanceSumDTO.BankTotalInitialBalance.ToString());
-                _chartConfigDataset.Data.Add(_bankModelBalanceSumDTO.BankTotalCurrentBalance.ToString());
+                _chartConfigDataset.Data.Add(_bankBalanceSumDTO.BankTotalInitialBalance.ToString());
+                _chartConfigDataset.Data.Add(_bankBalanceSumDTO.BankTotalCurrentBalance.ToString());
 
                 _chartConfigData.Datasets.Add(_chartConfigDataset);
             }
