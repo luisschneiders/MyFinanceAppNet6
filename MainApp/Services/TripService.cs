@@ -16,7 +16,7 @@ public class TripService : ITripService<TripModel>
 
     private UserModel _loggedInUser { get; set; } = new();
 
-    private List<TripModelListDTO> _recordsByDateRange { get; set; } = new();
+    private List<TripListDTO> _recordsByDateRange { get; set; } = new();
 
     public TripService(
         ITripData<TripModel> tripData,
@@ -95,7 +95,7 @@ public class TripService : ITripService<TripModel>
         throw new NotImplementedException();
     }
 
-    public async Task<List<TripModelListDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange)
+    public async Task<List<TripListDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange)
     {
         try
         {

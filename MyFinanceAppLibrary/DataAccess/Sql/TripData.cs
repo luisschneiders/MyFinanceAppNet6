@@ -89,11 +89,11 @@ public class TripData : ITripData<TripModel>
         throw new NotImplementedException();
     }
 
-    public async Task<List<TripModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange)
+    public async Task<List<TripListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange)
     {
         try
         {
-            var results = await _dataAccess.LoadData<TripModelListDTO, dynamic>(
+            var results = await _dataAccess.LoadData<TripListDTO, dynamic>(
                 "myfinancedb.spTrip_GetRecordsByDateRange",
                 new
                 {

@@ -151,12 +151,12 @@ public class BankService : IBankService<BankModel>
         }
     }
 
-    public async Task<BankModelBalanceSumDTO> GetBankBalancesSum()
+    public async Task<BankBalanceSumDTO> GetBankBalancesSum()
     {
         try
         {
             var user = await GetLoggedInUser();
-            BankModelBalanceSumDTO result = await _bankData.GetBankBalancesSum(user.Id);
+            BankBalanceSumDTO result = await _bankData.GetBankBalancesSum(user.Id);
             return result;
         }
         catch (Exception ex)

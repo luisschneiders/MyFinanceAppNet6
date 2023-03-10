@@ -32,7 +32,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
 
     private DateTimeRange _dateTimeRange { get; set; } = new();
 
-    private List<TransactionModelByCategoryGroupDTO> _transactionsByGroup { get; set; } = new();
+    private List<TransactionByCategoryGroupDTO> _transactionsByGroup { get; set; } = new();
 
     private bool _isLoading { get; set; } = true;
 
@@ -89,7 +89,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task ArchiveRecordAsync(TransactionModelListDTO model)
+    private async Task ArchiveRecordAsync(TransactionListDTO model)
     {
         try
         {

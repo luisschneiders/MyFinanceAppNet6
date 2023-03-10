@@ -2,6 +2,6 @@
 
 public interface ITripService<T> : IBaseService<T>
 {
-    Task<List<TripModelListDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange);
+    Task<List<TripListDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange);
     Task<decimal> GetSumByDateRange();
 }

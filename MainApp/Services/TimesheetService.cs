@@ -16,7 +16,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
 
     private UserModel _loggedInUser { get; set; } = new();
 
-    private List<TimesheetModelListDTO> _resultListByDateRange { get; set; } = new();
+    private List<TimesheetListDTO> _resultListByDateRange { get; set; } = new();
 
     public TimesheetService(ITimesheetData<TimesheetModel> timesheetData, IUserData userData, AuthenticationStateProvider authProvider)
     {
@@ -102,7 +102,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         }
     }
 
-    public async Task<List<TimesheetModelListDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange)
+    public async Task<List<TimesheetListDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange)
     {
         try
         {
@@ -117,7 +117,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         }
     }
 
-    public async Task<List<TimesheetModelListDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, CompanyModel companyModel)
+    public async Task<List<TimesheetListDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, CompanyModel companyModel)
     {
         try
         {

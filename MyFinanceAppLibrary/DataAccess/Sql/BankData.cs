@@ -56,11 +56,11 @@ public class BankData : IBankData<BankModel>
         }
     }
 
-    public async Task<BankModelBalanceSumDTO> GetBankBalancesSum(string userId)
+    public async Task<BankBalanceSumDTO> GetBankBalancesSum(string userId)
     {
         try
         {
-            var result = await _dataAccess.LoadData<BankModelBalanceSumDTO, dynamic>(
+            var result = await _dataAccess.LoadData<BankBalanceSumDTO, dynamic>(
                 "myfinancedb.spBank_GetBalancesSum",
                 new
                 {

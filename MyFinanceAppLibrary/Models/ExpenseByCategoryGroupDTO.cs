@@ -1,10 +1,10 @@
 ﻿namespace MyFinanceAppLibrary.Models;
 
-public class TransactionModelByCategoryGroupDTO
+public class ExpenseByCategoryGroupDTO
 {
 #nullable disable
     public string Description { get; set; }
     public decimal Total { get; set; }
-    public List<TransactionModelListDTO> Transactions { get; set; } = new();
+    public List<ExpenseListDTO> Expenses { get; set; } = new();
 #nullable enable
 }

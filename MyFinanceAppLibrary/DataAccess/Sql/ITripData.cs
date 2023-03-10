@@ -2,5 +2,5 @@
 
 public interface ITripData<T> : IBaseData<T>
 {
-    Task<List<TripModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange);
+    Task<List<TripListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange);
 }

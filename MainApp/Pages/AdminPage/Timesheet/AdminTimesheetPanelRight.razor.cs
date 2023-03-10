@@ -19,7 +19,7 @@ public partial class AdminTimesheetPanelRight : ComponentBase, IDisposable
     private ToastService _toastService { get; set; } = new();
 
     private TimesheetModel _timesheetModel { get; set; } = new();
-    private TimesheetModelStateContainerDTO _timesheetModelStateContainerDTO { get; set; } = new();
+    private TimesheetStateContainerDTO _timesheetStateContainerDTO { get; set; } = new();
 
     private bool _isLoading { get; set; } = true;
 
@@ -34,7 +34,7 @@ public partial class AdminTimesheetPanelRight : ComponentBase, IDisposable
 
         _timesheetStateService.OnStateChange += StateHasChanged;
 
-        _timesheetModelStateContainerDTO = _timesheetStateService.Value;
+        _timesheetStateContainerDTO = _timesheetStateService.Value;
 
         await Task.CompletedTask;
     }

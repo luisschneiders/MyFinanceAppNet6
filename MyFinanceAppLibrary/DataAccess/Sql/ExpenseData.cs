@@ -94,11 +94,11 @@ public class ExpenseData : IExpenseData<ExpenseModel>
         throw new NotImplementedException();
     }
 
-    public async Task<List<ExpenseModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange)
+    public async Task<List<ExpenseListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange)
     {
         try
         {
-            var results = await _dataAccess.LoadData<ExpenseModelListDTO, dynamic>(
+            var results = await _dataAccess.LoadData<ExpenseListDTO, dynamic>(
                 "myfinancedb.spExpense_GetRecordsByDateRange",
                 new
                 {

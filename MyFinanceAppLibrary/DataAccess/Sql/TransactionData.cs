@@ -228,11 +228,11 @@ public class TransactionData : ITransactionData<TransactionModel>
         throw new NotImplementedException();
     }
 
-    public async Task<List<TransactionModelListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange)
+    public async Task<List<TransactionListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange)
     {
         try
         {
-            var results = await _dataAccess.LoadData<TransactionModelListDTO, dynamic>(
+            var results = await _dataAccess.LoadData<TransactionListDTO, dynamic>(
                 "myfinancedb.spTransaction_GetRecordsByDateRange",
                 new
                 {

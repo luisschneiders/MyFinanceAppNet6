@@ -131,7 +131,7 @@
                             }
                             else
                             {
-                                @if (_timesheetModelStateContainerDTO.Timesheets.Count <= 0)
+                                @if (_timesheetStateContainerDTO.Timesheets.Count <= 0)
                                 {
                                     <tr>
                                         <td class="text-center" colspan="10">
@@ -143,7 +143,7 @@
                                 }
                                 else
                                 {
-                                    foreach (var record in _timesheetModelStateContainerDTO.Timesheets)
+                                    foreach (var record in _timesheetStateContainerDTO.Timesheets)
                                     {
 
                                         <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
@@ -212,17 +212,17 @@
                         <tfoot class="bg-primary-subtle text-primary-emphasis fw-semibold d-lg-none">
                             <tr>
                                 <td class="text-nowrap" colspan="6">Total paid</td>
-                                <td class="text-nowrap text-end">@_timesheetModelStateContainerDTO.TotalPaid.ToString("C")</td>
+                                <td class="text-nowrap text-end">@_timesheetStateContainerDTO.TotalPaid.ToString("C")</td>
                                 <td colspan="3"></td>
                             </tr>
                             <tr>
                                 <td class="text-nowrap" colspan="6">Total awaiting</td>
-                                <td class="text-nowrap text-end text-danger-emphasis">@_timesheetModelStateContainerDTO.TotalAwaiting.ToString("C")</td>
+                                <td class="text-nowrap text-end text-danger-emphasis">@_timesheetStateContainerDTO.TotalAwaiting.ToString("C")</td>
                                 <td colspan="3"></td>
                             </tr>
                             <tr>
                                 <td class="text-nowrap" colspan="6">Hours worked</td>
-                                <td class="text-nowrap text-end">@_timesheetModelStateContainerDTO.TotalHours</td>
+                                <td class="text-nowrap text-end">@_timesheetStateContainerDTO.TotalHours</td>
                                 <td colspan="3"></td>
                             </tr>
                         </tfoot>

@@ -1,6 +1,6 @@
 ﻿namespace MyFinanceAppLibrary.Models;
 
-public class BankModelBalanceSumDTO
+public class BankBalanceSumDTO
 {
     public decimal BankTotalInitialBalance { get; set; }
     public decimal BankTotalCurrentBalance { get; set; }

@@ -1,12 +1,12 @@
 ﻿namespace MainApp.StateServices;
 
-public class TimesheetStateService : IStateContainer<TimesheetModelStateContainerDTO>
+public class TimesheetStateService : IStateContainer<TimesheetStateContainerDTO>
 {
-    public TimesheetModelStateContainerDTO Value { get; set; } = default!;
+    public TimesheetStateContainerDTO Value { get; set; } = default!;
 
     public event Action? OnStateChange;
 
-    public void SetValue(TimesheetModelStateContainerDTO value)
+    public void SetValue(TimesheetStateContainerDTO value)
     {
         Value = value;
         NotifyStateChanged();
