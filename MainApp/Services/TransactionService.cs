@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using DateTimeLibrary.Models;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace MainApp.Services;
@@ -219,5 +220,20 @@ public class TransactionService : ITransactionService<TransactionModel>
     private async Task<UserModel> GetLoggedInUser()
     {
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
+    }
+
+    public async Task<List<TransactionIOLast3MonthsGraphDTO>> GetRecordsLast3Months()
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<TransactionIOLast3MonthsGraphDTO> results = await _transactionData.GetRecordsLast3Months(user.Id);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 }

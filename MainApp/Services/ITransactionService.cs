@@ -8,4 +8,5 @@ public interface ITransactionService<T> : IBaseService<T>
     Task<List<TransactionIOGraphByDateDTO>> GetIOByDateRange(DateTimeRange dateTimeRange);
     Task<List<TransactionListDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange);
     Task<List<TransactionByCategoryGroupDTO>> GetRecordsByGroupAndDateRange(DateTimeRange dateTimeRange);
+    Task<List<TransactionIOLast3MonthsGraphDTO>> GetRecordsLast3Months();
 }

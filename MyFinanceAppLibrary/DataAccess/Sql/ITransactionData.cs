@@ -10,4 +10,5 @@ public interface ITransactionData<T> : IBaseData<T>
     Task CreateRecordTransfer(T model);
     Task<List<TransactionIOGraphByDateDTO>> GetIOByDateRange(string userId, DateTimeRange dateTimeRange);
     Task<List<TransactionListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange);
+    Task<List<TransactionIOLast3MonthsGraphDTO>> GetRecordsLast3Months(string userId);
 }
