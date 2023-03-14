@@ -1,4 +1,6 @@
-﻿namespace MyFinanceAppLibrary.DataAccess.Sql;
+﻿using DateTimeLibrary.Models;
+
+namespace MyFinanceAppLibrary.DataAccess.Sql;
 
 public class TransactionData : ITransactionData<TransactionModel>
 {
@@ -239,6 +241,27 @@ public class TransactionData : ITransactionData<TransactionModel>
                     userId = userId,
                     startDate = dateTimeRange.Start,
                     endDate = dateTimeRange.End
+                },
+                "Mysql");
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<List<TransactionIOLast3MonthsGraphDTO>> GetRecordsLast3Months(string userId)
+    {
+        try
+        {
+            var results = await _dataAccess.LoadData<TransactionIOLast3MonthsGraphDTO, dynamic>(
+                "myfinancedb.spTransaction_GetIOLast3Months",
+                new
+                {
+                    userId = userId,
                 },
                 "Mysql");
 

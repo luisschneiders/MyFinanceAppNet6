@@ -1,16 +1,10 @@
 ﻿@using MainApp.Components.Card
 @using MainApp.Components.Badge
 @using MainApp.Components.Shared
+@using MainApp.Components.Chart.Transaction
 
 <CardView Styles="w-100 border-0">
     <CardMiddle>
-        <SharedHeader Title="Previous 3 months"
-                      Icon="bi-graph-up"
-                      IconColor="Theme.Info" />
-        <div class="d-flex justify-content-center align-items-center h-100">
-            <div class="p-4 rounded bg-@(Theme.Success.ToString().ToLower())-subtle text-@(Theme.Success.ToString().ToLower())-emphasis">
-                Coming soon &#x1F389
-            </div>
-        </div>
+        <ChartTransactionLast3Months />
     </CardMiddle>
 </CardView>
