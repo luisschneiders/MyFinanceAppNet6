@@ -110,8 +110,15 @@ public partial class ChartTransactionLast3Months : ComponentBase
             {
                 for (int index = 0; index <= 2; index++)
                 {
-                    _incomeChartData[index] = _incomes[index].TotalAmount;
-                    _outcomeChartData[index] = _outcomes[index].TotalAmount;
+                    if (_incomes.Count > 0)
+                    {
+                        _incomeChartData[index] = _incomes[index].TotalAmount;
+                    }
+
+                    if (_outcomes.Count > 0)
+                    {
+                        _outcomeChartData[index] = _outcomes[index].TotalAmount;
+                    }
 
                     _transactionChartData.Income.Add(_incomeChartData[index].ToString());
                     _transactionChartData.Outcome.Add(_outcomeChartData[index].ToString());
