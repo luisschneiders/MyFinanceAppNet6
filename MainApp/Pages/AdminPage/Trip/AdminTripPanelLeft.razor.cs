@@ -1,4 +1,5 @@
-﻿using MainApp.Components.Spinner;
+﻿using MainApp.Components.Dropdown;
+using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
 using MainApp.Pages.AdminPage.Expense;
 using Microsoft.AspNetCore.Components;
@@ -15,6 +16,9 @@ public partial class AdminTripPanelLeft : ComponentBase
 
     [Inject]
     private SpinnerService _spinnerService { get; set; } = new();
+
+    [Inject]
+    private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
 
     [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
@@ -34,6 +38,8 @@ public partial class AdminTripPanelLeft : ComponentBase
      */
     private AdminTripModal _setupModal { get; set; } = new();
 
+    private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
+    private bool _isDateTimeRangeChanged { get; set; } = false;
     private bool _isLoading { get; set; } = true;
 
     public AdminTripPanelLeft()
@@ -43,6 +49,7 @@ public partial class AdminTripPanelLeft : ComponentBase
     protected async override Task OnInitializedAsync()
     {
         _dateTimeRange = _dateTimeService.GetCurrentMonth();
+        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
         await Task.CompletedTask;
     }
 
@@ -112,8 +119,20 @@ public partial class AdminTripPanelLeft : ComponentBase
 
     private async Task RefreshListFromDropdownDateRange()
     {
-        await FetchDataAsync();
+        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
+        _isDateTimeRangeChanged = true;
         _toastService.ShowToast("Date range has changed!", Theme.Info);
+        await RefreshList();
+        await Task.CompletedTask;
+    }
+
+    private async Task ResetDateTimeRange()
+    {
+        _dateTimeRange = _dateTimeService.GetCurrentMonth();
+        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
+        _isDateTimeRangeChanged = false;
+        _toastService.ShowToast("Date range has changed!", Theme.Info);
+        await RefreshList();
         await Task.CompletedTask;
     }
 }

@@ -1,4 +1,5 @@
-﻿using MainApp.Components.Spinner;
+﻿using MainApp.Components.Dropdown;
+using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -22,6 +23,9 @@ public partial class ChartTransactionIO : ComponentBase
     private SpinnerService _spinnerService { get; set; } = new();
 
     [Inject]
+    private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
+
+    [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
     private DateTimeRange _dateTimeRange { get; set; } = new();
@@ -40,6 +44,8 @@ public partial class ChartTransactionIO : ComponentBase
     private ChartConfigData _chartConfigData { get; set; } = new();
     private ChartConfigDataset _chartConfigDataset { get; set; } = new();
 
+    private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
+    private bool _isDateTimeRangeChanged { get; set; } = false;
     private bool _isLoading { get; set; } = true;
 
     private IJSObjectReference _chartObjectReference = default!;
@@ -51,7 +57,7 @@ public partial class ChartTransactionIO : ComponentBase
     protected async override Task OnInitializedAsync()
     {
         _dateTimeRange = _dateTimeService.GetCurrentYear();
-
+        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
         await SetChartDefaults();
 
         await Task.CompletedTask;
@@ -192,15 +198,14 @@ public partial class ChartTransactionIO : ComponentBase
 
     private async Task RefreshChartFromDropdownDateRange()
     {
+        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
+        _isDateTimeRangeChanged = true;
+        _toastService.ShowToast("Date range has changed!", Theme.Info);
         await ResetChartDefaults();
         await SetChartDefaults();
         await FetchDataAsync();
         await SetDataAsync();
-
         await _chartService.UpdateChartData(_chartObjectReference, _chartConfigData);
-
-        _toastService.ShowToast("Date range has changed!", Theme.Info);
-
         await Task.CompletedTask;
     }
 
@@ -216,6 +221,15 @@ public partial class ChartTransactionIO : ComponentBase
         _chartConfigData = new();
         _chartConfigDataset = new();
 
+        await Task.CompletedTask;
+    }
+
+    private async Task ResetDateTimeRange()
+    {
+        _dateTimeRange = _dateTimeService.GetCurrentYear();
+        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
+        await RefreshChartFromDropdownDateRange();
+        _isDateTimeRangeChanged = false;
         await Task.CompletedTask;
     }
 }

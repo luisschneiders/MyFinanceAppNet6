@@ -21,14 +21,26 @@
 else
 {
     <div class="row text-center py-3 align-items-center">
-
         <div class="col-auto">Select date range:</div>
         <div class="col-auto">
-            <DropdownDateRange IconColor="Theme.Info"
-                               ButtonColor="Theme.Secondary"
-                               DropdownBackground="Theme.Secondary"
-                               DateTimeRange="@_dateTimeRange"
-                               OnSubmitSuccess="RefreshChartFromDropdownDateRange" />
+            <div class="btn-group bg-@(Theme.Secondary.ToString().ToLower())-subtle" role="group">
+                <DropdownDateRange IconColor="Theme.Info"
+                                   ButtonColor="Theme.Secondary"
+                                   DropdownBackground="Theme.Secondary"
+                                   DateTimeRange="@_dateTimeRange"
+                                   DropdownLabel="@_dropdownLabel"
+                                   OnSubmitSuccess="RefreshChartFromDropdownDateRange" />
+                @if (_isDateTimeRangeChanged)
+                {
+                    <div class="d-flex align-items-center">
+                        <div class="vr my-1 text-@(Theme.Secondary.ToString().ToLower())-emphasis"></div>
+                        <button class="btn"
+                                @onclick="ResetDateTimeRange">
+                            <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
+                        </button>
+                    </div>
+                }
+            </div>
         </div>
     </div>
 
