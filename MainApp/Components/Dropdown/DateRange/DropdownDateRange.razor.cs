@@ -3,7 +3,7 @@ using MainApp.Settings.Enum;
 using MainApp.Settings.Theme;
 using Microsoft.AspNetCore.Components;
 
-namespace MainApp.Components.Dropdown;
+namespace MainApp.Components.Dropdown.DateRange;
 
 public partial class DropdownDateRange : ComponentBase
 {

@@ -1,8 +1,8 @@
 ﻿@using MainApp.Components.Card
-@using MainApp.Components.Dropdown
+@using MainApp.Components.Dropdown.Actions
+@using MainApp.Components.Dropdown.DateRange
 @using MainApp.Components.Toast
 @using MainApp.Components.Spinner
-@using MainApp.Components.Badge
 @using MainApp.Components.Accordion
 
 <CardView Styles="border-0">
@@ -140,7 +140,7 @@
                                                                         @record.Amount.ToString("C")
                                                                     </td>
                                                                     @if (record.TCategoryId != 0)
-                                                                        {
+                                                                    {
                                                                         <td class="text-center">
                                                                             <button class="btn btn-link p-0 text-danger"
                                                                                     type="button"
