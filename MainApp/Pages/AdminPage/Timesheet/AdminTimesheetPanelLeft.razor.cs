@@ -59,7 +59,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
     protected async override Task OnInitializedAsync()
     {
         _dateTimeRange = _dateTimeService.GetCurrentMonth();
-        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
+        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
         _timesheetStateService.OnStateChange += StateHasChanged;
         await Task.CompletedTask;
     }
@@ -199,7 +199,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
 
     private async Task DropdownDateRangeRefreshList()
     {
-        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
+        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
         _toastService.ShowToast("Date range has changed!", Theme.Info);
         _isDateTimeRangeChanged = true;
         await RefreshList();
@@ -248,7 +248,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
     private async Task ResetDateTimeRange()
     {
         _dateTimeRange = _dateTimeService.GetCurrentMonth();
-        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
+        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
         _isDateTimeRangeChanged = false;
         _toastService.ShowToast("Date range has changed!", Theme.Info);
         await RefreshList();

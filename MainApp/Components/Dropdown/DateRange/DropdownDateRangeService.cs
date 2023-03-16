@@ -6,7 +6,7 @@ public class DropdownDateRangeService : IDropdownDateRangeService
     {
     }
 
-    public async Task<string> UpdateDropdownLabel(DateTimeRange dateTimeRange)
+    public async Task<string> UpdateLabel(DateTimeRange dateTimeRange)
     {
         string dateRangeDescription = string.Empty;
 

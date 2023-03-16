@@ -49,7 +49,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     protected async override Task OnInitializedAsync()
     {
         _dateTimeRange = _dateTimeService.GetCurrentMonth();
-        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
+        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
         await Task.CompletedTask;
     }
 
@@ -123,7 +123,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
 
     private async Task RefreshListFromDropdownDateRange()
     {
-        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
+        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
         _isDateTimeRangeChanged = true;
         _toastService.ShowToast("Date range has changed!", Theme.Info);
         await RefreshList();
@@ -133,7 +133,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private async Task ResetDateTimeRange()
     {
         _dateTimeRange = _dateTimeService.GetCurrentMonth();
-        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
+        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
         _isDateTimeRangeChanged = false;
         _toastService.ShowToast("Date range has changed!", Theme.Info);
         await RefreshList();
