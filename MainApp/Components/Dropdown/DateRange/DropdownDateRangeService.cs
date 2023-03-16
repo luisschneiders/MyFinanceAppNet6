@@ -1,4 +1,4 @@
-﻿namespace MainApp.Components.Dropdown;
+﻿namespace MainApp.Components.Dropdown.DateRange;
 
 public class DropdownDateRangeService : IDropdownDateRangeService
 {
@@ -8,16 +8,16 @@ public class DropdownDateRangeService : IDropdownDateRangeService
 
     public async Task<string> UpdateLabel(DateTimeRange dateTimeRange)
     {
-        string dateRangeDescription = string.Empty;
+        string label = string.Empty;
 
         if (dateTimeRange.Start.Date == dateTimeRange.End.Date)
         {
-            dateRangeDescription = $"{dateTimeRange.Start.Date.ToString("dd/MM/yy")}";
+            label = $"{dateTimeRange.Start.Date.ToString("dd/MM/yy")}";
         }
         else
         {
-            dateRangeDescription = $"{dateTimeRange.Start.Date.ToString("dd/MM/yy")} - {dateTimeRange.End.Date.ToString("dd/MM/yy")}";
+            label = $"{dateTimeRange.Start.Date.ToString("dd/MM/yy")} - {dateTimeRange.End.Date.ToString("dd/MM/yy")}";
         }
-        return await Task.FromResult(dateRangeDescription);
+        return await Task.FromResult(label);
     }
 }

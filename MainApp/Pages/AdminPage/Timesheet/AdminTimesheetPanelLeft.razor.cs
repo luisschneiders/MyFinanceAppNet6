@@ -3,7 +3,7 @@ using MainApp.Pages.AdminPage.Timesheet;
 using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
 using MainApp.StateServices;
-using MainApp.Components.Dropdown;
+using MainApp.Components.Dropdown.Filter;
 
 namespace MainApp.Pages.AdminPage.Timesheet;
 
@@ -30,6 +30,9 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
     [Inject]
     private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
 
+    [Inject]
+    private IDropdownFilterService _dropdownFilterService { get; set; } = default!;
+
     [Parameter]
     public EventCallback OnStateContainerSetValue { get; set; }
 
@@ -45,9 +48,13 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
     private TimesheetStateContainerDTO _timesheetStateContainerDTO { get; set; } = new();
 
     private PayStatus[] _payStatuses { get; set; } = default!;
+
+    private FilterModel _filterModel { get; set; } = new();
     private CompanyModel _filterCompany { get; set; } = new();
 
-    private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
+    private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
+    private string _dropdownFilterLabel { get; set; } = Label.NoFilterAssigned;
+
     private bool _isLoading { get; set; } = true;
 
     public AdminTimesheetPanelLeft()
@@ -58,7 +65,8 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
     protected async override Task OnInitializedAsync()
     {
         _dateTimeRange = _dateTimeService.GetCurrentMonth();
-        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
+        _dropdownDateRangeLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
+        _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(Label.FilterByCompany);
         _timesheetStateService.OnStateChange += StateHasChanged;
         await Task.CompletedTask;
     }
@@ -199,35 +207,36 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
     private async Task DropdownDateRangeRefresh(DateTimeRange dateTimeRange)
     {
         _dateTimeRange = dateTimeRange;
-        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
+        _dropdownDateRangeLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
         _toastService.ShowToast("Date range has changed!", Theme.Info);
+
         await RefreshList();
+
         await Task.CompletedTask;
     }
 
-    private async Task FilterCompanyRefreshList(ulong id)
+    private async Task DropdownFilterRefreshCompany(ulong id)
     {
         _filterCompany = _companies.First(i => i.Id == id);
-        await RefreshList();
+        string? companyName = _filterCompany.Description.Truncate((int)Truncate.Company);
+
+        _filterModel = await _dropdownFilterService.SetModel(_filterCompany.Id, _filterCompany.Description);
+
+        _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(companyName!);
         _toastService.ShowToast("Filter updated!", Theme.Info);
+
+        await RefreshList();
+
         await Task.CompletedTask;
     }
 
-    private string UpdateFilterCompanyTitleState()
-    {
-        string? title = _filterCompany?.Description?.Length > 0 ?
-            _filterCompany?.Description.ToString().Truncate((int)Truncate.Company) : Label.FilterByCompany;
-
-        return title!;
-    }
-
-    private string UpdatePayStatusTitleState(int id)
+    private string UpdatePayStatusTitle(int id)
     {
         var title = _payStatuses[id];
         return title.ToString();
     }
 
-    private Theme UpdatePayStatusButtonState(int id)
+    private Theme UpdatePayStatusButton(int id)
     {
         if (id == (int)PayStatus.Paid)
         {
@@ -237,9 +246,12 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
         return Theme.Light;
     }
 
-    private async Task ResetFilter()
+    private async Task DropdownFilterReset()
     {
         _filterCompany = new();
+        _filterModel = await _dropdownFilterService.ResetModel();
+        _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(Label.FilterByCompany);
+        _toastService.ShowToast("Filter removed!", Theme.Info);
         await RefreshList();
         await Task.CompletedTask;
     }

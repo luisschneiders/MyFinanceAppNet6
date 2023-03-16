@@ -1,6 +1,38 @@
-﻿<h3>Component1</h3>
-
-@code {
-
-}
-
+﻿<div class="btn-group bg-@(ButtonColor.ToString().ToLower())-subtle" role="group">
+    <div class="dropdown @(IsDisplayLargeNone ? "d-lg-none" : "")">
+        <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + ButtonColor.ToString().ToLower() + "-emphasis") text-nowrap"
+                title="More actions"
+                id="dropdownMenuOptions"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
+            <div>
+                @if (IconStart.Length > 0)
+                {
+                    <i class="bi @IconStart text-@IconStartColor.ToString().ToLower() pe-1"></i>
+                }
+                @if (DropdownLabel.Length > 0)
+                {
+                    <span class="pe-1">@DropdownLabel</span>
+                }
+                @if (IconEnd.Length > 0)
+                {
+                    <i class="bi @IconEnd"></i>
+                }
+            </div>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-@DropdownPosition.ToString().ToLower() border-0 bg-@DropdownBackground.ToString().ToLower()-subtle shadow-sm"
+            aria-labelledby="dropdownMenuOptions">
+            @ChildContent
+        </ul>
+    </div>
+    @if (Model?.Id > 0)
+    {
+        <div class="d-flex align-items-center">
+            <div class="vr my-1 text-@(Theme.Info.ToString().ToLower())-emphasis"></div>
+            <button class="btn"
+                    @onclick="ResetFilter">
+                <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
+            </button>
+        </div>
+    }
+</div>

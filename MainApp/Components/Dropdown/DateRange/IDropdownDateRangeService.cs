@@ -1,4 +1,4 @@
-﻿namespace MainApp.Components.Dropdown;
+﻿namespace MainApp.Components.Dropdown.DateRange;
 
 public interface IDropdownDateRangeService
 {
