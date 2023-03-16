@@ -1,4 +1,4 @@
-﻿namespace MainApp.Settings.Theme;
+﻿namespace MainApp.Settings.Enum;
 
 public enum Theme
 {
