@@ -4,7 +4,6 @@ using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MyFinanceAppLibrary.Models;
-using MySqlX.XDevAPI.Relational;
 
 namespace MainApp.Components.Chart.Transaction;
 
@@ -45,7 +44,6 @@ public partial class ChartTransactionIO : ComponentBase
     private ChartConfigDataset _chartConfigDataset { get; set; } = new();
 
     private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
-    private bool _isDateTimeRangeChanged { get; set; } = false;
     private bool _isLoading { get; set; } = true;
 
     private IJSObjectReference _chartObjectReference = default!;
@@ -57,7 +55,7 @@ public partial class ChartTransactionIO : ComponentBase
     protected async override Task OnInitializedAsync()
     {
         _dateTimeRange = _dateTimeService.GetCurrentYear();
-        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
+        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
         await SetChartDefaults();
 
         await Task.CompletedTask;
@@ -196,10 +194,10 @@ public partial class ChartTransactionIO : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task RefreshChartFromDropdownDateRange()
+    private async Task DropdownDateRangeRefresh(DateTimeRange dateTimeRange)
     {
-        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
-        _isDateTimeRangeChanged = true;
+        _dateTimeRange = dateTimeRange;
+        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
         _toastService.ShowToast("Date range has changed!", Theme.Info);
         await ResetChartDefaults();
         await SetChartDefaults();
@@ -221,15 +219,6 @@ public partial class ChartTransactionIO : ComponentBase
         _chartConfigData = new();
         _chartConfigDataset = new();
 
-        await Task.CompletedTask;
-    }
-
-    private async Task ResetDateTimeRange()
-    {
-        _dateTimeRange = _dateTimeService.GetCurrentYear();
-        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
-        await RefreshChartFromDropdownDateRange();
-        _isDateTimeRangeChanged = false;
         await Task.CompletedTask;
     }
 }

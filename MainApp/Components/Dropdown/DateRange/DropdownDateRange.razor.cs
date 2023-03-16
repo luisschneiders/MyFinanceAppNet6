@@ -1,6 +1,4 @@
-﻿using DateTimeLibrary;
-using MainApp.Settings.Enum;
-using MainApp.Settings.Theme;
+﻿using DateTimeLibrary.Enum;
 using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Components.Dropdown.DateRange;
@@ -14,7 +12,7 @@ public partial class DropdownDateRange : ComponentBase
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
     [Parameter]
-    public EventCallback OnSubmitSuccess { get; set; }
+    public EventCallback<DateTimeRange> OnSubmitSuccess { get; set; }
 
     [Parameter]
     public DateTimeRange DateTimeRange { get; set; }
@@ -40,7 +38,11 @@ public partial class DropdownDateRange : ComponentBase
     [Parameter]
     public string DropdownLabel { get; set; } = Label.NoDateAssigned;
 
+    [Parameter]
+    public PeriodRange PeriodRange { get; set; } = PeriodRange.Month;
+
     private bool _isValidDateRange { get; set; } = true;
+    private bool _isDateChanged { get; set; } = false;
 
     public DropdownDateRange()
 	{
@@ -53,7 +55,7 @@ public partial class DropdownDateRange : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        DropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(DateTimeRange);
+        DropdownLabel = await _dropdownDateRangeService.UpdateLabel(DateTimeRange);
         await Task.CompletedTask;
     }
 
@@ -68,10 +70,30 @@ public partial class DropdownDateRange : ComponentBase
         else
         {
             _isValidDateRange = true;
-            DropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(DateTimeRange);
-            await OnSubmitSuccess.InvokeAsync();
+            _isDateChanged = true;
+            DropdownLabel = await _dropdownDateRangeService.UpdateLabel(DateTimeRange);
+            await OnSubmitSuccess.InvokeAsync(DateTimeRange);
         }
 
+        await Task.CompletedTask;
+    }
+
+    private async Task ResetDateTimeRange()
+    {
+        _isDateChanged = false;
+        var dateTimeRange = new DateTimeRange();
+
+        switch (PeriodRange)
+        {
+            case PeriodRange.Month:
+                dateTimeRange = _dateTimeService.GetCurrentMonth();
+                break;
+            case PeriodRange.Year:
+                dateTimeRange = _dateTimeService.GetCurrentYear();
+                break;
+        }
+
+        await OnSubmitSuccess.InvokeAsync(dateTimeRange);
         await Task.CompletedTask;
     }
 }

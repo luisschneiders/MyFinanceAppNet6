@@ -9,25 +9,14 @@
     <CardMiddle>
         <div class="row justify-content-between pb-2">
             <div class="col-10 col-lg-8 pb-2 d-flex">
-                <div class="btn-group bg-@(Theme.Info.ToString().ToLower())-subtle" role="group">
-                    <DropdownDateRange IconColor="Theme.Primary"
-                                       ButtonSize="Size.Md"
-                                       ButtonColor="Theme.Info"
-                                       DropdownBackground="Theme.Info"
-                                       DateTimeRange="@_dateTimeRange"
-                                       DropdownLabel="@_dropdownLabel"
-                                       OnSubmitSuccess="DropdownDateRangeRefreshList" />
-                    @if (_isDateTimeRangeChanged)
-                    {
-                        <div class="d-flex align-items-center">
-                            <div class="vr my-1 text-@(Theme.Info.ToString().ToLower())-emphasis"></div>
-                            <button class="btn"
-                                    @onclick="ResetDateTimeRange">
-                                <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
-                            </button>
-                        </div>
-                    }
-                </div>
+                <DropdownDateRange IconColor="Theme.Primary"
+                                   ButtonSize="Size.Md"
+                                   ButtonColor="Theme.Info"
+                                   DropdownBackground="Theme.Info"
+                                   DateTimeRange="@_dateTimeRange"
+                                   DropdownLabel="@_dropdownLabel"
+                                   PeriodRange="PeriodRange.Month"
+                                   OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
                 <div class="ps-2 d-none d-lg-flex">
                     <div class="btn-group bg-@(Theme.Info.ToString().ToLower())-subtle" role="group">
                         <DropdownActions Title="@UpdateFilterCompanyTitleState()"
