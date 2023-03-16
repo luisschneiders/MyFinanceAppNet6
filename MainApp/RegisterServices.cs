@@ -5,7 +5,6 @@ using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
 using MainApp.Components.Chart;
 using MainApp.Components.OffCanvas;
-using MainApp.Components.Dropdown;
 
 namespace MainApp;
 
@@ -66,6 +65,7 @@ public static class RegisterServices
         builder.Services.AddScoped<IChartService, ChartService>();
         builder.Services.AddScoped<IDateTimeService, DateTimeService>();
         builder.Services.AddScoped<IDropdownDateRangeService, DropdownDateRangeService>();
+        builder.Services.AddScoped<IDropdownFilterService, DropdownFilterService>();
         builder.Services.AddScoped<IOffCanvasService, OffCanvasService>();
         builder.Services.AddScoped<IBankService<BankModel>, BankService>();
         builder.Services.AddScoped<ICompanyService<CompanyModel>, CompanyService>();

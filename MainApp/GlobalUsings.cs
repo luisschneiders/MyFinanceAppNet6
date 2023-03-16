@@ -3,6 +3,8 @@ global using MyFinanceAppLibrary.Models;
 global using MyFinanceAppLibrary.Constants;
 global using MyFinanceAppLibrary.DataAccess.NoSql;
 global using MyFinanceAppLibrary.DataAccess.Sql;
+global using MainApp.Components.Dropdown.DateRange;
+global using MainApp.Components.Dropdown.Filter;
 global using MainApp.Helpers;
 global using MainApp.Settings.Enum;
 global using MainApp.Services;
