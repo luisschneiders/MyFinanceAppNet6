@@ -1,23 +1,23 @@
 ﻿@using MainApp.Components.Card
-@using MainApp.Components.Dropdown
+@using MainApp.Components.Dropdown.Actions
+@using MainApp.Components.Dropdown.DateRange
 @using MainApp.Components.Toast
 @using MainApp.Components.Spinner
-@using MainApp.Components.Badge
 @using MainApp.Components.Accordion
 
 <CardView Styles="border-0">
     <CardMiddle>
         <div class="row justify-content-between pb-2">
             <div class="col-10 col-lg-8 pb-2 d-flex">
-                <div>
-                    <DropdownDateRange IconColor="Theme.Primary"
-                                       ButtonSize="Size.Md"
-                                       ButtonColor="Theme.Info"
-                                       DropdownBackground="Theme.Info"
-                                       DateTimeRange="@_dateTimeRange"
-                                       OnSubmitSuccess="RefreshListFromDropdownDateRange" />
+                <DropdownDateRange IconColor="Theme.Primary"
+                                   ButtonSize="Size.Md"
+                                   ButtonColor="Theme.Info"
+                                   DropdownBackground="Theme.Info"
+                                   DateTimeRange="@_dateTimeRange"
+                                   DropdownLabel="@_dropdownLabel"
+                                   PeriodRange="PeriodRange.Month"
+                                   OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
 
-                </div>
             </div>
             <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
                 <div class="d-none d-lg-block">
@@ -129,7 +129,7 @@
                                                                         @record.Amount.ToString("C")
                                                                     </td>
                                                                     @if (record.TCategoryId != 0)
-                                                                        {
+                                                                    {
                                                                         <td class="text-center">
                                                                             <button class="btn btn-link p-0 text-danger"
                                                                                     type="button"

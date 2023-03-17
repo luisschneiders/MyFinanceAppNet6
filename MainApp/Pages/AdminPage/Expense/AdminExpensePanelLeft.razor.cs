@@ -1,5 +1,4 @@
-﻿using MainApp.Components.Dropdown;
-using MainApp.Components.Spinner;
+﻿using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
 using MainApp.Pages.AdminPage.Transaction;
 using Microsoft.AspNetCore.Components;
@@ -39,7 +38,6 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private decimal _expensesTotal { get; set; } = 0;
 
     private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
-    private bool _isDateTimeRangeChanged { get; set; } = false;
     private bool _isLoading { get; set; } = true;
 
     public AdminExpensePanelLeft()
@@ -49,7 +47,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     protected async override Task OnInitializedAsync()
     {
         _dateTimeRange = _dateTimeService.GetCurrentMonth();
-        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
+        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
         await Task.CompletedTask;
     }
 
@@ -117,20 +115,10 @@ public partial class AdminExpensePanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task RefreshListFromDropdownDateRange()
+    private async Task DropdownDateRangeRefresh(DateTimeRange dateTimeRange)
     {
-        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
-        _isDateTimeRangeChanged = true;
-        _toastService.ShowToast("Date range has changed!", Theme.Info);
-        await RefreshList();
-        await Task.CompletedTask;
-    }
-
-    private async Task ResetDateTimeRange()
-    {
-        _dateTimeRange = _dateTimeService.GetCurrentMonth();
-        _dropdownLabel = await _dropdownDateRangeService.UpdateDropdownLabel(_dateTimeRange);
-        _isDateTimeRangeChanged = false;
+        _dateTimeRange = dateTimeRange;
+        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
         _toastService.ShowToast("Date range has changed!", Theme.Info);
         await RefreshList();
         await Task.CompletedTask;

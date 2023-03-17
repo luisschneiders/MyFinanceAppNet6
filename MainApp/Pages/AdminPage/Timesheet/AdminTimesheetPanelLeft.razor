@@ -1,63 +1,44 @@
-﻿@using MainApp.Components.Card
-@using MainApp.Components.Dropdown
-@using MainApp.Components.Toast
+﻿@using MainApp.Components.Badge
+@using MainApp.Components.Card
+@using MainApp.Components.Dropdown.Actions
+@using MainApp.Components.Dropdown.DateRange
+@using MainApp.Components.Dropdown.Filter
 @using MainApp.Components.Spinner
-@using MainApp.Components.Badge
+@using MainApp.Components.Toast
 
 <CardView Styles="border-0">
     <CardMiddle>
         <div class="row justify-content-between pb-2">
             <div class="col-10 col-lg-8 pb-2 d-flex">
-                <div class="btn-group bg-@(Theme.Info.ToString().ToLower())-subtle" role="group">
-                    <DropdownDateRange IconColor="Theme.Primary"
-                                       ButtonSize="Size.Md"
-                                       ButtonColor="Theme.Info"
-                                       DropdownBackground="Theme.Info"
-                                       DateTimeRange="@_dateTimeRange"
-                                       DropdownLabel="@_dropdownLabel"
-                                       OnSubmitSuccess="DropdownDateRangeRefreshList" />
-                    @if (_isDateTimeRangeChanged)
-                    {
-                        <div class="d-flex align-items-center">
-                            <div class="vr my-1 text-@(Theme.Info.ToString().ToLower())-emphasis"></div>
-                            <button class="btn"
-                                    @onclick="ResetDateTimeRange">
-                                <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
-                            </button>
-                        </div>
-                    }
-                </div>
+                <DropdownDateRange IconColor="Theme.Primary"
+                                   ButtonSize="Size.Md"
+                                   ButtonColor="Theme.Info"
+                                   DropdownBackground="Theme.Info"
+                                   DateTimeRange="@_dateTimeRange"
+                                   DropdownLabel="@_dropdownDateRangeLabel"
+                                   PeriodRange="PeriodRange.Month"
+                                   OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
                 <div class="ps-2 d-none d-lg-flex">
-                    <div class="btn-group bg-@(Theme.Info.ToString().ToLower())-subtle" role="group">
-                        <DropdownActions Title="@UpdateFilterCompanyTitleState()"
-                                         ButtonColor="Theme.Info"
-                                         ButtonSize="Size.Md"
-                                         IconEnd="bi-chevron-down"
-                                         IconStart="bi-building"
-                                         IconStartColor="Theme.Primary"
-                                         DropdownPosition="Position.Start"
-                                         DropdownBackground="Theme.Info">
-                            @foreach (var (company, index) in _companies.Select((value, index) => (value, index)))
-                            {
-                                <li class="px-2">
-                                    <button class="dropdown-item text-@(Theme.Info.ToString().ToLower())-emphasis"
-                                            @onclick="() => FilterCompanyRefreshList(company.Id)">
-                                        @($"{company.Description}")
-                                    </button>
-                                </li>
-                            }
-                        </DropdownActions>
-                        @if (_filterCompany?.Id > 0)
+                    <DropdownFilter ButtonSize="Size.Md"
+                                    ButtonColor="Theme.Info"
+                                    DropdownLabel="@_dropdownFilterLabel"
+                                    DropdownPosition="Position.Start"
+                                    DropdownBackground="Theme.Info"
+                                    IconEnd="bi-chevron-down"
+                                    IconStart="bi-building"
+                                    IconStartColor="Theme.Primary"
+                                    Model="@_filterModel"
+                                    OnSubmitSuccess="DropdownFilterReset">
+                        @foreach (var (company, index) in _companies.Select((value, index) => (value, index)))
                         {
-                            <div class="d-flex align-items-center">
-                                <div class="vr my-1 text-@(Theme.Info.ToString().ToLower())-emphasis"></div>
-                                <button class="btn"
-                                        @onclick="ResetFilter">
-                                    <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
+                            <li class="px-2">
+                                <button class="dropdown-item text-@(Theme.Info.ToString().ToLower())-emphasis"
+                                        @onclick="() => DropdownFilterRefreshCompany(company.Id)">
+                                    @($"{company.Description.Truncate((int)Truncate.Company)}")
                                 </button>
-                            </div>
+                            </li>
                         }
-                    </div>
+                    </DropdownFilter>
                 </div>
             </div>
             <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
@@ -167,7 +148,7 @@
                                                 @if (record.IsActive == false)
                                                 {
                                                     <sup class="text-uppercase">
-                                                        <Badge BackgroundColor="Theme.Info" Message="Inactive"/>
+                                                        <Badge BackgroundColor="Theme.Info" Message="Inactive" />
                                                     </sup>
                                                 }
                                             </td>
@@ -175,15 +156,15 @@
                                                 @record.TotalAmount.ToString("C")
                                             </td>
                                             <td class="text-nowrap">
-                                                <DropdownActions Title="@UpdatePayStatusTitleState(record.PayStatus)"
+                                                <DropdownActions Title="@UpdatePayStatusTitle(record.PayStatus)"
                                                                  ButtonSize="Size.Sm"
                                                                  IconEnd="bi-chevron-down"
                                                                  DropdownBackground="Theme.Light"
-                                                                 ButtonColor="@UpdatePayStatusButtonState(record.PayStatus)">
+                                                                 ButtonColor="@UpdatePayStatusButton(record.PayStatus)">
                                                     @foreach (var (status, index) in _payStatuses.Select((value, index) => (value, index)))
                                                     {
                                                         int statusValue = index;
-                                                        
+
                                                         <li class="px-2">
                                                             <button class="dropdown-item"
                                                                     @onclick="() => UpdatePayStatusAsync(record, statusValue)">

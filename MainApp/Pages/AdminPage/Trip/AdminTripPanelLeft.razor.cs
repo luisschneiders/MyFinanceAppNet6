@@ -17,6 +17,9 @@ public partial class AdminTripPanelLeft : ComponentBase
     private SpinnerService _spinnerService { get; set; } = new();
 
     [Inject]
+    private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
+
+    [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
     private DateTimeRange _dateTimeRange { get; set; } = new();
@@ -34,6 +37,7 @@ public partial class AdminTripPanelLeft : ComponentBase
      */
     private AdminTripModal _setupModal { get; set; } = new();
 
+    private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
     private bool _isLoading { get; set; } = true;
 
     public AdminTripPanelLeft()
@@ -43,6 +47,7 @@ public partial class AdminTripPanelLeft : ComponentBase
     protected async override Task OnInitializedAsync()
     {
         _dateTimeRange = _dateTimeService.GetCurrentMonth();
+        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
         await Task.CompletedTask;
     }
 
@@ -110,10 +115,12 @@ public partial class AdminTripPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task RefreshListFromDropdownDateRange()
+    private async Task DropdownDateRangeRefresh(DateTimeRange dateTimeRange)
     {
-        await FetchDataAsync();
+        _dateTimeRange = dateTimeRange;
+        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
         _toastService.ShowToast("Date range has changed!", Theme.Info);
+        await RefreshList();
         await Task.CompletedTask;
     }
 }

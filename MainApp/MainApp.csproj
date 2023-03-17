@@ -39,6 +39,9 @@
     <None Remove="Pages\AdminPage\Trip\" />
     <None Remove="Components\Chart\Transaction\" />
     <None Remove="Components\Chart\Expense\" />
+    <None Remove="Components\Dropdown\DateRange\" />
+    <None Remove="Components\Dropdown\Actions\" />
+    <None Remove="Components\Dropdown\Filter\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Web" Version="1.25.10" />
@@ -62,5 +65,8 @@
     <Folder Include="Pages\AdminPage\Trip\" />
     <Folder Include="Components\Chart\Transaction\" />
     <Folder Include="Components\Chart\Expense\" />
+    <Folder Include="Components\Dropdown\DateRange\" />
+    <Folder Include="Components\Dropdown\Actions\" />
+    <Folder Include="Components\Dropdown\Filter\" />
   </ItemGroup>
 </Project>

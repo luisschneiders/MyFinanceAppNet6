@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace MainApp.Components.Dropdown;
+namespace MainApp.Components.Dropdown.Actions;
 
 public partial class DropdownActions : ComponentBase
 {

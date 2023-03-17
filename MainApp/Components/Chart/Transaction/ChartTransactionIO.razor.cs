@@ -1,9 +1,9 @@
-﻿using MainApp.Components.Spinner;
+﻿using MainApp.Components.Dropdown;
+using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MyFinanceAppLibrary.Models;
-using MySqlX.XDevAPI.Relational;
 
 namespace MainApp.Components.Chart.Transaction;
 
@@ -20,6 +20,9 @@ public partial class ChartTransactionIO : ComponentBase
 
     [Inject]
     private SpinnerService _spinnerService { get; set; } = new();
+
+    [Inject]
+    private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
 
     [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
@@ -40,6 +43,7 @@ public partial class ChartTransactionIO : ComponentBase
     private ChartConfigData _chartConfigData { get; set; } = new();
     private ChartConfigDataset _chartConfigDataset { get; set; } = new();
 
+    private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
     private bool _isLoading { get; set; } = true;
 
     private IJSObjectReference _chartObjectReference = default!;
@@ -51,7 +55,7 @@ public partial class ChartTransactionIO : ComponentBase
     protected async override Task OnInitializedAsync()
     {
         _dateTimeRange = _dateTimeService.GetCurrentYear();
-
+        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
         await SetChartDefaults();
 
         await Task.CompletedTask;
@@ -190,17 +194,16 @@ public partial class ChartTransactionIO : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task RefreshChartFromDropdownDateRange()
+    private async Task DropdownDateRangeRefresh(DateTimeRange dateTimeRange)
     {
+        _dateTimeRange = dateTimeRange;
+        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
+        _toastService.ShowToast("Date range has changed!", Theme.Info);
         await ResetChartDefaults();
         await SetChartDefaults();
         await FetchDataAsync();
         await SetDataAsync();
-
         await _chartService.UpdateChartData(_chartObjectReference, _chartConfigData);
-
-        _toastService.ShowToast("Date range has changed!", Theme.Info);
-
         await Task.CompletedTask;
     }
 

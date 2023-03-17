@@ -1,9 +1,8 @@
 ﻿@using MainApp.Components.Card
-@using MainApp.Components.Badge
 @using MainApp.Components.Spinner
 @using MainApp.Components.Toast
 @using MainApp.Components.Shared
-@using MainApp.Components.Dropdown
+@using MainApp.Components.Dropdown.DateRange
 
 <SharedHeader Title="Incomes & Outcomes"
               Icon="bi-bar-chart-line"
@@ -21,14 +20,15 @@
 else
 {
     <div class="row text-center py-3 align-items-center">
-
         <div class="col-auto">Select date range:</div>
         <div class="col-auto">
             <DropdownDateRange IconColor="Theme.Info"
                                ButtonColor="Theme.Secondary"
                                DropdownBackground="Theme.Secondary"
                                DateTimeRange="@_dateTimeRange"
-                               OnSubmitSuccess="RefreshChartFromDropdownDateRange" />
+                               DropdownLabel="@_dropdownLabel"
+                               PeriodRange="PeriodRange.Year"
+                               OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
         </div>
     </div>
 
