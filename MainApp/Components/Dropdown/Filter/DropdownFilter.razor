@@ -20,7 +20,12 @@
                 }
             </div>
         </button>
-        <ul class="dropdown-menu dropdown-menu-@DropdownPosition.ToString().ToLower() border-0 bg-@DropdownBackground.ToString().ToLower()-subtle shadow-sm"
+        <ul class="dropdown-menu dropdown-menu-@DropdownPosition.ToString().ToLower()
+                    border-0
+                    bg-@DropdownBackground.ToString().ToLower()-subtle
+                    app-dropdown-filter
+                    overflow-y-scroll
+                    shadow-sm"
             aria-labelledby="dropdownMenuOptions">
             @ChildContent
         </ul>

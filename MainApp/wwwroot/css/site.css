@@ -198,6 +198,10 @@ h1:focus {
     color: var(--bs-danger);
 }
 
+.app-dropdown-filter {
+    max-height: 180px;
+}
+
 @media (max-width: 640.98px) {
     .app-dropdown-menu {
         border-color: transparent;
