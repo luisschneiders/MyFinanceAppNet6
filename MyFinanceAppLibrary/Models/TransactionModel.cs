@@ -33,7 +33,7 @@ public class TransactionModel : BaseModel, IValidatableObject
 
     [Required]
     [RegularExpression(@"^\d+(.\d{1,2})?$", ErrorMessage = "Invalid value")]
-    [Range(0.01, int.MaxValue, ErrorMessage = "The Amount must be greater than $0.00.")]
+    [Range(0.01, int.MaxValue, ErrorMessage = "The Amount must be greater than $0.00")]
     public decimal Amount { get; set; }
 
 #nullable enable
