@@ -1,7 +1,9 @@
-﻿@using MainApp.Components.Card
+﻿@using MainApp.Components.Badge.Color
+@using MainApp.Components.Card
 @using MainApp.Components.Dropdown.Actions
-@using MainApp.Components.Toast
 @using MainApp.Components.Spinner
+@using MainApp.Components.Toast
+
 <CardView Styles="border-0">
     <CardMiddle>
         <div class="row flex-row-reverse justify-content-between pb-2">
@@ -58,7 +60,8 @@
                                 {
                                     <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
                                         <td>
-                                            @record.Description
+                                            <BadgeColor RGBColor="@record.Color"
+                                                        Description="@record.Description" />
                                         </td>
                                         <td>
                                             <div class="form-check form-switch">
@@ -134,7 +137,8 @@
                                         {
                                             <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
                                                 <td>
-                                                    @record.Description
+                                                    <BadgeColor RGBColor="@record.Color"
+                                                                Description="@record.Description" />
                                                 </td>
                                                 <td>
                                                     <div class="form-check form-switch">

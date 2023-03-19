@@ -9,5 +9,7 @@ public class ExpenseCategoryModel : BaseModel
 
     [Required]
     public string Description { get; set; }
+
+    public string Color { get; set; }
 #nullable enable
 }

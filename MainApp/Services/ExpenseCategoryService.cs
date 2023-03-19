@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Drawing;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace MainApp.Services
@@ -82,6 +83,7 @@ namespace MainApp.Services
                 var user = await GetLoggedInUser();
 
                 model.UpdatedBy = user.Id;
+                model.Color = await SetRandomColor();
 
                 await _expenseCategoryData.CreateRecord(model);
             }
@@ -168,6 +170,14 @@ namespace MainApp.Services
                 Console.WriteLine("An exception occurred: " + ex.Message);
                 throw;
             }
+        }
+
+        private static async Task<string> SetRandomColor()
+        {
+            Random r = new();
+            Color randonColor = Color.FromArgb(r.Next(0, 256), r.Next(0, 256), r.Next(0, 256));
+
+            return await Task.FromResult($"{randonColor.R},{randonColor.G},{randonColor.B}");
         }
     }
 }

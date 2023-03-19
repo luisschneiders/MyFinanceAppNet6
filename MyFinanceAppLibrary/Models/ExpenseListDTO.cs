@@ -7,6 +7,7 @@ public class ExpenseListDTO : BaseModel
     public DateTime EDate { get; }
     public string BankDescription { get; }
     public string ExpenseCategoryDescription { get; }
+    public string ExpenseCategoryColor { get; }
     public string Comments { get; }
     public decimal Amount { get; }
 #nullable enable
