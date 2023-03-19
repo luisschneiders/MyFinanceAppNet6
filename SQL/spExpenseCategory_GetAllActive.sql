@@ -9,7 +9,8 @@ BEGIN
         IsActive
 	FROM ExpenseCategory
 	WHERE UpdatedBy = userId
-	AND IsArchived = FALSE
-    AND IsActive = TRUE;
+		AND IsArchived = FALSE
+		AND IsActive = TRUE
+    ORDER BY Description ASC;
 END$$
 DELIMITER ;
