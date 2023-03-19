@@ -7,6 +7,7 @@ BEGIN
 	SELECT
 		Id,
 		Description,
+        Color,
 		IsActive
 	FROM ExpenseCategory
 		WHERE UpdatedBy = userId
