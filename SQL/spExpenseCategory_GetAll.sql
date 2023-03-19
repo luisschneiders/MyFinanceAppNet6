@@ -5,9 +5,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spExpenseCategory_GetAll`(
 BEGIN
 	SELECT
 		Id,
-        Description,
-        Color,
-        IsActive
+		Description,
+		Color,
+		IsActive
 	FROM ExpenseCategory
 	WHERE UpdatedBy = userId
 		AND IsArchived = FALSE

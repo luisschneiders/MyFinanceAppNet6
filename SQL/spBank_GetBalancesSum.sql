@@ -8,6 +8,6 @@ BEGIN
 		SUM(CurrentBalance) BankTotalCurrentBalance
 	FROM Bank
 	WHERE UpdatedBy = userId
-	AND IsArchived = FALSE;
+		AND IsArchived = FALSE;
 END$$
 DELIMITER ;

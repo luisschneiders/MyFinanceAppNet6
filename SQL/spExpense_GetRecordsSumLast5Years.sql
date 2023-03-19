@@ -5,11 +5,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spExpense_GetRecordsSumLast5Years`(
 BEGIN
 	SELECT
 		SUM(Amount) as TotalAmount,
-        year(EDate) as YearNumber
+		year(EDate) as YearNumber
 	FROM Expense
-    WHERE
+	WHERE
 		EDate BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 5 YEAR), '%Y-%m-01')
-        AND LAST_DAY(DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 YEAR), '%Y-12-31'))
+		AND LAST_DAY(DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 YEAR), '%Y-12-31'))
 		AND UpdatedBy = userId
 		AND IsActive = TRUE
 		AND IsArchived = FALSE

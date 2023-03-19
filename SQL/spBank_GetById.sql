@@ -1,7 +1,7 @@
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spBank_GetById`(
 	IN userId varchar(28),
-    IN bankId int
+	IN bankId int
 )
 BEGIN
 	SELECT

@@ -1,7 +1,7 @@
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spTransactionCategory_GetSearchResults`(
 	IN userId varchar(28),
-    IN searchTransactionCategory varchar(45)
+	IN searchTransactionCategory varchar(45)
 )
 BEGIN
 	SELECT

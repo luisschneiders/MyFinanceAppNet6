@@ -1,7 +1,7 @@
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spVehicle_Create`(
 	IN vehicleDescription varchar(45),
-    IN vehiclePlate varchar(45),
+	IN vehiclePlate varchar(45),
 	IN vehicleUpdatedBy varchar(28),
 	IN vehicleCreatedAt datetime,
 	IN vehicleUpdatedAt datetime
@@ -9,14 +9,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spVehicle_Create`(
 BEGIN
 	INSERT INTO `myfinancedb`.`Vehicle` (
 		`Description`,
-        `Plate`,
+		`Plate`,
 		`UpdatedBy`,
 		`CreatedAt`,
 		`UpdatedAt`
 	)
 	VALUES (
 		vehicleDescription,
-        vehiclePlate,
+		vehiclePlate,
 		vehicleUpdatedBy,
 		vehicleCreatedAt,
 		vehicleUpdatedAt

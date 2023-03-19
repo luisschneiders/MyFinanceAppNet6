@@ -1,10 +1,10 @@
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spTrip_Archive`(
-    IN tripId int,
+	IN tripId int,
 	IN tripIsActive bool,
-    IN tripIsArchived bool,
-    IN tripUpdatedBy varchar(28),
-    IN tripUpdatedAt datetime
+	IN tripIsArchived bool,
+	IN tripUpdatedBy varchar(28),
+	IN tripUpdatedAt datetime
 )
 BEGIN
 	UPDATE `myfinancedb`.`Trip`

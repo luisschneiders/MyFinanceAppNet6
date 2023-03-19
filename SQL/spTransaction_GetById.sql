@@ -1,7 +1,7 @@
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spTransaction_GetById`(
 	IN userId varchar(28),
-    IN transactionId int
+	IN transactionId int
 )
 BEGIN
 	SELECT
@@ -10,10 +10,10 @@ BEGIN
 		Link,
 		Action,
 		Label,
-        Amount
+		Amount
 	FROM Transaction
 	WHERE UpdatedBy = userId
-	AND Id = transactionId
-	AND IsArchived = FALSE;
+		AND Id = transactionId
+		AND IsArchived = FALSE;
 END$$
 DELIMITER ;

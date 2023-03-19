@@ -10,7 +10,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spCompany_Create`(
 BEGIN
 	INSERT INTO `myfinancedb`.`Company` (
 		`Description`,
-        `Rate`,
+		`Rate`,
 		`CType`,
 		`UpdatedBy`,
 		`CreatedAt`,

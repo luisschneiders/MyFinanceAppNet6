@@ -5,11 +5,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spBank_GetAll`(
 BEGIN
 	SELECT
 		Id,
-        Description,
-        Account,
-        InitialBalance,
-        CurrentBalance,
-        IsActive
+		Description,
+		Account,
+		InitialBalance,
+		CurrentBalance,
+		IsActive
 	FROM Bank
 	WHERE UpdatedBy = userId
 		AND IsArchived = FALSE
