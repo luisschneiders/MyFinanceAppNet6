@@ -1,8 +1,8 @@
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spTrip_Create`(
 	IN tripTDate datetime,
-    IN tripVehicleId int,
-    IN tripDistance decimal(10,2),
+	IN tripVehicleId int,
+	IN tripDistance decimal(10,2),
 	IN tripUpdatedBy varchar(28),
 	IN tripCreatedAt datetime,
 	IN tripUpdatedAt datetime
@@ -10,16 +10,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spTrip_Create`(
 BEGIN
 	INSERT INTO `myfinancedb`.`Trip` (
 		`TDate`,
-        `VehicleId`,
-        `Distance`,
+		`VehicleId`,
+		`Distance`,
 		`UpdatedBy`,
 		`CreatedAt`,
 		`UpdatedAt`
 	)
 	VALUES (
 		tripTDate,
-        tripVehicleId,
-        tripDistance,
+		tripVehicleId,
+		tripDistance,
 		tripUpdatedBy,
 		tripCreatedAt,
 		tripUpdatedAt

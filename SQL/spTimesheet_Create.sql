@@ -5,10 +5,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spTimesheet_Create`(
 	IN timesheetTimeBreak int(2),
 	IN timesheetTimeOut datetime,
 	IN timesheetHoursWorked time,
-    IN timesheetHourRate decimal(10,2),
-    IN timesheetTotalAmount decimal(10,2),
-    IN timesheetComments varchar(45),
-    IN timesheetUpdatedBy varchar(28),
+	IN timesheetHourRate decimal(10,2),
+	IN timesheetTotalAmount decimal(10,2),
+	IN timesheetComments varchar(45),
+	IN timesheetUpdatedBy varchar(28),
 	IN timesheetCreatedAt datetime,
 	IN timesheetUpdatedAt datetime
 )
@@ -18,10 +18,10 @@ BEGIN
 		`TimeIn`,
 		`TimeBreak`,
 		`TimeOut`,
-        `HoursWorked`,
-        `HourRate`,
-        `TotalAmount`,
-        `Comments`,
+		`HoursWorked`,
+		`HourRate`,
+		`TotalAmount`,
+		`Comments`,
 		`UpdatedBy`,
 		`CreatedAt`,
 		`UpdatedAt`
@@ -34,10 +34,10 @@ BEGIN
 		timesheetHoursWorked,
 		timesheetHourRate,
 		timesheetTotalAmount,
-        timesheetComments,
-        timesheetUpdatedBy,
-        timesheetCreatedAt,
-        timesheetUpdatedAt
+		timesheetComments,
+		timesheetUpdatedBy,
+		timesheetCreatedAt,
+		timesheetUpdatedAt
 	);
 END$$
 DELIMITER ;

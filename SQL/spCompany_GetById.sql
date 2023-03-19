@@ -1,7 +1,7 @@
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spCompany_GetById`(
 	IN userId varchar(28),
-    IN companyId int
+	IN companyId int
 )
 BEGIN
 	SELECT

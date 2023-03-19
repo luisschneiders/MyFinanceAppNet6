@@ -5,9 +5,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spTransactionCategory_GetAllActive`
 BEGIN
 	SELECT
 		Id,
-        Description,
-        ActionType,
-        IsActive
+		Description,
+		ActionType,
+		IsActive
 	FROM TransactionCategory
 	WHERE UpdatedBy = userId
 		AND IsArchived = FALSE

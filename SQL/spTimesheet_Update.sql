@@ -1,10 +1,10 @@
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spTimesheet_Update`(
 	IN timesheetId int,
-    IN timesheetComments varchar(45),
-    IN timesheetIsActive bool,
-    IN timesheetUpdatedBy varchar(28),
-    IN timesheetUpdatedAt datetime
+	IN timesheetComments varchar(45),
+	IN timesheetIsActive bool,
+	IN timesheetUpdatedBy varchar(28),
+	IN timesheetUpdatedAt datetime
 )
 BEGIN
 	UPDATE `myfinancedb`.`Timesheet`

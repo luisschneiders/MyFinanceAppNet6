@@ -42,6 +42,7 @@
     <None Remove="Components\Dropdown\DateRange\" />
     <None Remove="Components\Dropdown\Actions\" />
     <None Remove="Components\Dropdown\Filter\" />
+    <None Remove="Components\Badge\Color\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Web" Version="1.25.10" />
@@ -68,5 +69,6 @@
     <Folder Include="Components\Dropdown\DateRange\" />
     <Folder Include="Components\Dropdown\Actions\" />
     <Folder Include="Components\Dropdown\Filter\" />
+    <Folder Include="Components\Badge\Color\" />
   </ItemGroup>
 </Project>

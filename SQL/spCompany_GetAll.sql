@@ -5,10 +5,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spCompany_GetAll`(
 BEGIN
 	SELECT
 		Id,
-        Description,
-        Rate,
-        CType,
-        IsActive
+		Description,
+		Rate,
+		CType,
+		IsActive
 	FROM Company
 	WHERE UpdatedBy = userId
 		AND IsArchived = FALSE

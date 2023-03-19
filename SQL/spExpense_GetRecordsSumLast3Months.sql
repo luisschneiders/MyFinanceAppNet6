@@ -5,10 +5,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spExpense_GetRecordsSumLast3Months`
 BEGIN
 	SELECT
 		SUM(Amount) as TotalAmount,
-        month(EDate) as MonthNumber,
-        year(EDate) as YearNumber
+		month(EDate) as MonthNumber,
+		year(EDate) as YearNumber
 	FROM Expense
-    WHERE 
+	WHERE 
 		EDate BETWEEN DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 3 MONTH), '%Y-%m-01') 
 		AND LAST_DAY(DATE_SUB(CURDATE(), INTERVAL 1 MONTH))
 		AND UpdatedBy = userId

@@ -1,21 +1,21 @@
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spExpense_Archive`(
 	IN expenseId int,
-    IN expenseBankId int,
-    IN expenseTransactionId int,
-    IN expenseAmount decimal(10,2),
+	IN expenseBankId int,
+	IN expenseTransactionId int,
+	IN expenseAmount decimal(10,2),
 	IN expenseIsActive bool,
-    IN expenseIsArchived bool,
-    IN expenseUpdatedBy varchar(28),
-    IN expenseUpdatedAt datetime
+	IN expenseIsArchived bool,
+	IN expenseUpdatedBy varchar(28),
+	IN expenseUpdatedAt datetime
 )
 BEGIN
 	DECLARE rowCountTransaction int default 0;
 	DECLARE rowCountBank int default 0;
-    DECLARE rowCountExpense int default 0;
-    DECLARE varCurrentBalance decimal(10,2) default 0;
+	DECLARE rowCountExpense int default 0;
+	DECLARE varCurrentBalance decimal(10,2) default 0;
     
-    START TRANSACTION;
+	START TRANSACTION;
     
 	SELECT
 		CurrentBalance
@@ -51,7 +51,7 @@ BEGIN
 	
 	IF (rowCountBank > 0 AND
 		rowCountTransaction > 0 AND
-        rowCountExpense > 0) THEN
+		rowCountExpense > 0) THEN
 		COMMIT;
 	ELSE
 		ROLLBACK;

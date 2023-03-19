@@ -40,6 +40,7 @@ public class ExpenseCategoryData : IExpenseCategoryData<ExpenseCategoryModel>
                 new
                 {
                     expenseCategoryDescription = model.Description,
+                    expenseCategoryColor = model.Color,
                     expenseCategoryUpdatedBy = model.UpdatedBy,
                     expenseCategoryCreatedAt = model.CreatedAt,
                     expenseCategoryUpdatedAt = model.UpdatedAt,
@@ -145,6 +146,7 @@ public class ExpenseCategoryData : IExpenseCategoryData<ExpenseCategoryModel>
                 {
                     expenseCategoryId = model.Id,
                     expenseCategoryDescription = model.Description,
+                    expenseCategoryColor = model.Color,
                     expenseCategoryIsActive = model.IsActive,
                     expenseCategoryUpdatedBy = model.UpdatedBy,
                     expenseCategoryUpdatedAt = model.UpdatedAt,

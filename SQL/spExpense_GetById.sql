@@ -1,17 +1,17 @@
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spExpense_GetById`(
 	IN userId varchar(28),
-    IN expenseId int
+	IN expenseId int
 )
 BEGIN
 	SELECT
 		Id,
-        BankId,
+		BankId,
 		TransactionId,
-        Amount
+		Amount
 	FROM Expense
 	WHERE UpdatedBy = userId
-	AND Id = expenseId
-	AND IsArchived = FALSE;
+		AND Id = expenseId
+		AND IsArchived = FALSE;
 END$$
 DELIMITER ;

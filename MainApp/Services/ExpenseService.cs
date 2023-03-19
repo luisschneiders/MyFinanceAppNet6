@@ -131,6 +131,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
             var results = resultsGroupBy.Select(tcGroup => new ExpenseByCategoryGroupDTO()
             {
                 Description = tcGroup.Key,
+                Color = tcGroup.Select(c => c.ExpenseCategoryColor).FirstOrDefault(),
                 Total = tcGroup.Sum(a => a.Amount),
                 Expenses = tcGroup.ToList()
             }).ToList();

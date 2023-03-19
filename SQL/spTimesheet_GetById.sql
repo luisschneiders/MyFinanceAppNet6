@@ -1,7 +1,7 @@
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spTimesheet_GetById`(
 	IN userId varchar(28),
-    IN timesheetId int
+	IN timesheetId int
 )
 BEGIN
 	SELECT
@@ -10,7 +10,7 @@ BEGIN
 		TimeIn,
 		TimeBreak,
 		TimeOut,
-        Comments,
+		Comments,
 		IsActive
 	FROM Timesheet
 	WHERE UpdatedBy = userId

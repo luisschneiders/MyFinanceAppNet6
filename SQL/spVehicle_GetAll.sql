@@ -5,9 +5,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spVehicle_GetAll`(
 BEGIN
 	SELECT
 		Id,
-        Description,
-        Plate,
-        IsActive
+		Description,
+		Plate,
+		IsActive
 	FROM Vehicle
 	WHERE UpdatedBy = userId
 		AND IsArchived = FALSE

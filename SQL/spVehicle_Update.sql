@@ -1,17 +1,17 @@
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spVehicle_Update`(
 	IN vehicleId int,
-    IN vehicleDescription varchar(45),
-    IN vehiclePlate varchar(45),
-    IN vehicleIsActive bool,
-    IN vehicleUpdatedBy varchar(28),
-    IN vehicleUpdatedAt datetime
+	IN vehicleDescription varchar(45),
+	IN vehiclePlate varchar(45),
+	IN vehicleIsActive bool,
+	IN vehicleUpdatedBy varchar(28),
+	IN vehicleUpdatedAt datetime
 )
 BEGIN
 	UPDATE `myfinancedb`.`Vehicle`
 	SET
 		`Description` = vehicleDescription,
-        `Plate` = vehiclePlate,
+		`Plate` = vehiclePlate,
 		`IsActive` = vehicleIsActive,
 		`UpdatedBy` = vehicleUpdatedBy,
 		`UpdatedAt` = vehicleUpdatedAt
