@@ -64,6 +64,7 @@ public static class RegisterServices
         builder.Services.AddScoped<ToastService>();
         builder.Services.AddScoped<IChartService, ChartService>();
         builder.Services.AddScoped<IChartBankService, ChartBankService>();
+        builder.Services.AddScoped<IChartExpenseService, ChartExpenseService>();
         builder.Services.AddScoped<IDateTimeService, DateTimeService>();
         builder.Services.AddScoped<IDropdownDateRangeService, DropdownDateRangeService>();
         builder.Services.AddScoped<IDropdownFilterService, DropdownFilterService>();

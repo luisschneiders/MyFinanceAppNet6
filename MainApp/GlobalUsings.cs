@@ -10,6 +10,7 @@ global using MyFinanceAppLibrary.DataAccess.Sql;
 global using MainApp.Components.Dropdown.DateRange;
 global using MainApp.Components.Dropdown.Filter;
 global using MainApp.Components.Chart.Bank;
+global using MainApp.Components.Chart.Expense;
 global using MainApp.Helpers;
 global using MainApp.Settings.Enum;
 global using MainApp.Services;
