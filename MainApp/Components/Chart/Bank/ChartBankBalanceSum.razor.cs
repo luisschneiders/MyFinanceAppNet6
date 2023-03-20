@@ -2,17 +2,13 @@
 using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using MyFinanceAppLibrary.Models;
 
 namespace MainApp.Components.Chart.Bank;
 
 public partial class ChartBankBalanceSum : ComponentBase
 {
     [Inject]
-    private IChartService _chartService { get; set; } = default!;
-
-    [Inject]
-    IBankService<BankModel> _bankService { get; set; } = default!;
+    private IChartBankService _chartBankService { get; set; } = default!;
 
     [Inject]
     private ToastService _toastService { get; set; } = new();
@@ -21,11 +17,8 @@ public partial class ChartBankBalanceSum : ComponentBase
     private SpinnerService _spinnerService { get; set; } = new();
 
     private ChartConfigData _chartConfigData { get; set; } = new();
-    private ChartConfigDataset _chartConfigDataset { get; set; } = new();
 
     private bool _isLoading { get; set; } = true;
-
-    private BankBalanceSumDTO _bankBalanceSumDTO { get; set; } = new();
 
     private IJSObjectReference _chartObjectReference = default!;
 
@@ -40,8 +33,7 @@ public partial class ChartBankBalanceSum : ComponentBase
             try
             {
                 _spinnerService.ShowSpinner();
-                await FetchDataAsync();
-                await SetDataAsync();
+                await SetChartConfigDataAsync();
             }
             catch (Exception ex)
             {
@@ -52,50 +44,11 @@ public partial class ChartBankBalanceSum : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task FetchDataAsync()
+    private async Task SetChartConfigDataAsync()
     {
-        try
-        {
-            _bankBalanceSumDTO = await _bankService.GetBankBalancesSum();
-            _isLoading = false;
-            StateHasChanged();
-        }
-        catch (Exception ex)
-        {
-            _toastService.ShowToast(ex.Message, Theme.Danger);
-        }
-
-        await Task.CompletedTask;
-    }
-
-    private async Task SetDataAsync()
-    {
-        try
-        {
-            if (_bankBalanceSumDTO is not null)
-            {
-                _chartConfigData.Labels.Add(Graphic.BankBalanceInitialSum);
-                _chartConfigData.Labels.Add(Graphic.BankBalanceCurrentSum);
-
-                _chartConfigDataset.Label = "Balances";
-
-                _chartConfigDataset.BackgroundColor.Add(BackgroundColor.Gray);
-                _chartConfigDataset.BackgroundColor.Add(BackgroundColor.Green);
-
-                _chartConfigDataset.BorderColor.Add(BorderColor.Gray);
-                _chartConfigDataset.BorderColor.Add(BorderColor.Green);
-
-                _chartConfigDataset.Data.Add(_bankBalanceSumDTO.BankTotalInitialBalance.ToString());
-                _chartConfigDataset.Data.Add(_bankBalanceSumDTO.BankTotalCurrentBalance.ToString());
-
-                _chartConfigData.Datasets.Add(_chartConfigDataset);
-            }
-        }
-        catch (Exception ex)
-        {
-            _toastService.ShowToast(ex.Message, Theme.Danger);
-        }
-
+        _isLoading = false;
+        _chartConfigData = await _chartBankService.ConfigDataBalanceSum();
+        StateHasChanged();
         await Task.CompletedTask;
     }
 
