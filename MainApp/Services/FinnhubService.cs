@@ -20,9 +20,7 @@ public class FinnhubService : IFinnhubService
 
             Response<List<FinnhubNewsModel>>? response = await client.GetFromJsonAsync<Response<List<FinnhubNewsModel>>>(EndPoint.V2FinnhubNewsAll);
 
-            response!.Success = true;
-
-            return await Task.FromResult(response);
+            return await Task.FromResult(response!);
 
         }
         catch (Exception ex)

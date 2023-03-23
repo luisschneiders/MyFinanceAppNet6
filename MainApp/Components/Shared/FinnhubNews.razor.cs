@@ -53,7 +53,7 @@ public partial class FinnhubNews : ComponentBase
 
             if (_newsList.Success is false)
             {
-                _toastService.ShowToast($"{_newsList.ErrorMessage}. Feeds are unavailable", Theme.Danger);
+                _toastService.ShowToast($"{_newsList.ErrorMessage}", Theme.Danger);
             }
 
             _isLoading = false;
