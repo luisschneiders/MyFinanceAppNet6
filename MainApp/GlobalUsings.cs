@@ -7,6 +7,7 @@ global using MyFinanceAppLibrary.Models;
 global using MyFinanceAppLibrary.Constants;
 global using MyFinanceAppLibrary.DataAccess.NoSql;
 global using MyFinanceAppLibrary.DataAccess.Sql;
+global using MyFinanceAppLibrary.Wrappers;
 global using MainApp.Components.Dropdown.DateRange;
 global using MainApp.Components.Dropdown.Filter;
 global using MainApp.Components.Chart.Bank;

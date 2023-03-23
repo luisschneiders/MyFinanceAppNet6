@@ -30,4 +30,6 @@ public static class EndPoint
     public const string Settings = "/settings";
     public const string SettingsAppearance = $"{Settings}/appearance";
 
+    public const string V2FinnhubNewsAll = "v2/Finnhub/GetAllNewsRecords";
+
 }
