@@ -14,10 +14,10 @@ public class FinnhubService : IFinnhubService
 
     public async Task<Response<List<FinnhubNewsModel>>> GetNewsAsync()
     {
-        var client = _webApiService.CreateEssentialsHttpClient();
-
         try
         {
+            var client = _webApiService.CreateEssentialsHttpClient();
+
             Response<List<FinnhubNewsModel>>? response = await client.GetFromJsonAsync<Response<List<FinnhubNewsModel>>>(EndPoint.V2FinnhubNewsAll);
 
             response!.Success = true;
@@ -30,6 +30,7 @@ public class FinnhubService : IFinnhubService
             return new Response<List<FinnhubNewsModel>>()
             {
                 Data = new List<FinnhubNewsModel>(),
+                Success = false,
                 ErrorMessage = ex.Message,
             };
         }

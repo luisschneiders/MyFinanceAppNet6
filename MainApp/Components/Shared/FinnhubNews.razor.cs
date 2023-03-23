@@ -50,6 +50,12 @@ public partial class FinnhubNews : ComponentBase
         try
         {
             _newsList = await _finnhubService.GetNewsAsync();
+
+            if (_newsList.Success is false)
+            {
+                _toastService.ShowToast($"{_newsList.ErrorMessage}. Feeds are unavailable", Theme.Danger);
+            }
+
             _isLoading = false;
         }
         catch (Exception ex)
