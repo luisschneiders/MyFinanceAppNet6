@@ -15,8 +15,10 @@
             Loading ...
         </span>
     </div>
-    }
-    else
+}
+else
+{
+    @if (_newsList.Success is true)
     {
         <ListGroup Styles="overflow-y-scroll app-feeds-news">
             @foreach (var record in _newsList.Data)
@@ -24,8 +26,20 @@
                 <ListGroupItemNews Image="@record.Image"
                                    Title="@record.Headline"
                                    Url="@record.Url"
-                                   Summary="@record.Summary"/>
+                                   Summary="@record.Summary" />
             }
         </ListGroup>
     }
+    else
+    {
+        <div class="d-flex justify-content-center align-items-center h-100">
+            <div class="text-@(Theme.Danger.ToString().ToLower())-emphasis text-center">
+                <i class="bi bi-wifi-off fs-2"></i>
+                <div>
+                    No feeds available!
+                </div>
+            </div>
+        </div>
+    }
+}
 <Toast />
