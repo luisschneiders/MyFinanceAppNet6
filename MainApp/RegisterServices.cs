@@ -5,6 +5,7 @@ using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
 using MainApp.Components.Chart;
 using MainApp.Components.OffCanvas;
+using MainApp.Service;
 
 namespace MainApp;
 
@@ -13,6 +14,11 @@ public static class RegisterServices
     public static void AddDefaultServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddRazorPages();
+
+        builder.Services.AddHttpClient<EssentialsAPIService>("essentials-api", opts =>
+        {
+            opts.BaseAddress = new Uri(builder.Configuration.GetValue<string>("EssentialsApiUrl"));
+        });
 
         builder.Services.AddServerSideBlazor().AddMicrosoftIdentityConsentHandler();
     }
@@ -74,11 +80,13 @@ public static class RegisterServices
         builder.Services.AddScoped<ICompanyService<CompanyModel>, CompanyService>();
         builder.Services.AddScoped<IExpenseService<ExpenseModel>, ExpenseService>();
         builder.Services.AddScoped<IExpenseCategoryService<ExpenseCategoryModel>, ExpenseCategoryService>();
+        builder.Services.AddScoped<IFinnhubService, FinnhubService>();
         builder.Services.AddScoped<ITimesheetService<TimesheetModel>, TimesheetService>();
         builder.Services.AddScoped<ITransactionService<TransactionModel>, TransactionService>();
         builder.Services.AddScoped<ITransactionCategoryService<TransactionCategoryModel>, TransactionCategoryService>();
         builder.Services.AddScoped<ITripService<TripModel>, TripService>();
         builder.Services.AddScoped<IVehicleService<VehicleModel>, VehicleService>();
+        builder.Services.AddScoped<IWebApiService, WebApiService>();
 
         //State Container
         builder.Services.AddScoped<TimesheetStateService>();

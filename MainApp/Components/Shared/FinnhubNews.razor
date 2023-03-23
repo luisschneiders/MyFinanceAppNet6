@@ -1,0 +1,45 @@
+﻿@using MainApp.Components.ListGroup
+@using MainApp.Components.Toast
+@using MainApp.Components.Shared
+@using MainApp.Components.Spinner
+
+<SharedHeader Title="Feeds"
+              Icon="bi-rss"
+              IconColor="Theme.Primary" />
+
+@if (_isLoading)
+{
+    <div class="d-flex justify-content-center align-items-center h-100">
+        <Spinner Size="Size.Sm" />
+        <span class="ps-1">
+            Loading ...
+        </span>
+    </div>
+}
+else
+{
+    @if (_newsList.Success is true)
+    {
+        <ListGroup Styles="overflow-y-scroll app-feeds-news">
+            @foreach (var record in _newsList.Data)
+            {
+                <ListGroupItemNews Image="@record.Image"
+                                   Title="@record.Headline"
+                                   Url="@record.Url"
+                                   Summary="@record.Summary" />
+            }
+        </ListGroup>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center align-items-center h-100">
+            <div class="text-center">
+                <i class="bi bi-wifi-off fs-2 text-@(Theme.Danger.ToString().ToLower())-emphasis"></i>
+                <div>
+                    No feeds available!
+                </div>
+            </div>
+        </div>
+    }
+}
+<Toast />

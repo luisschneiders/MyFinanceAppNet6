@@ -14,6 +14,7 @@
     <None Remove="Dapper" />
     <None Remove="MySql.Data" />
     <None Remove="Microsoft.AspNetCore.Components.DataAnnotations.Validation" />
+    <None Remove="Wrappers\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
@@ -25,6 +26,7 @@
   <ItemGroup>
     <Folder Include="DataAccess\NoSql\" />
     <Folder Include="DataAccess\Sql\" />
+    <Folder Include="Wrappers\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DateTimeLibrary\DateTimeLibrary.csproj" />
