@@ -236,7 +236,7 @@ h1:focus {
     }
 
     .app-main-shapes:before {
-        position: fixed;
+        position: absolute;
         width: 40px;
         height: 30px;
         content: "";
@@ -248,7 +248,7 @@ h1:focus {
     }
 
     .app-main-shapes:after {
-        position: fixed;
+        position: absolute;
         width: 40px;
         height: 20px;
         content: "";
