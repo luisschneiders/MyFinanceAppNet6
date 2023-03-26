@@ -20,7 +20,7 @@ public class MongoDbConnection : IDbConnection
         Client = new MongoClient(_config.GetConnectionString(_connectionId));
 
         // Connection to DB
-        DbName = _config["DatabaseName"];
+        DbName = _config["DatabaseName"]!;
         _db = Client.GetDatabase(DbName);
 
         // Connection to collections

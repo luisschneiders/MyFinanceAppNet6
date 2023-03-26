@@ -23,7 +23,7 @@ public class MysqlDataAccess : IDataAccess
     {
         try
         {
-            string connectionString = _config.GetConnectionString(connectionStringName);
+            string connectionString = _config.GetConnectionString(connectionStringName)!;
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -63,7 +63,7 @@ public class MysqlDataAccess : IDataAccess
     {
         try
         {
-            string connectionString = _config.GetConnectionString(connectionStringName);
+            string connectionString = _config.GetConnectionString(connectionStringName)!;
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
