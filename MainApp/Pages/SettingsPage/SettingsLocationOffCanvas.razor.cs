@@ -12,10 +12,10 @@ public partial class SettingsLocationOffCanvas : ComponentBase
     private IGoogleService _googleService { get; set; } = default!;
 
     [Inject]
-    private IOffCanvasService _offCanvasService { get; set; } = default!;
-
-    [Inject]
     private ToastService _toastService { get; set; } = new();
+
+    private OffCanvas _offCanvas { get; set; } = new();
+    private string _offCanvasTarget { get; set; } = string.Empty;
 
     private LocationModel _locationModel { get; set; } = new();
     private UserLocationModel _userLocationModel { get; set; } = new();
@@ -33,13 +33,14 @@ public partial class SettingsLocationOffCanvas : ComponentBase
     public async Task OpenAsync()
     {
         await ResetDefaults();
-        await _offCanvasService.AddRecordAsync();
+        _offCanvasTarget = Guid.NewGuid().ToString();
+        await Task.FromResult(_offCanvas.Open(_offCanvasTarget));
         await Task.CompletedTask;
     }
 
     private async Task CloseOffCanvasAsync()
     {
-        await _offCanvasService.CloseAsync();
+        await Task.FromResult(_offCanvas.Close(_offCanvasTarget));
         await Task.CompletedTask;
     }
 
