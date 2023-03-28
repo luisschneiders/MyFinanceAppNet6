@@ -1,13 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace MyFinanceAppLibrary.Models;
 
-namespace MyFinanceAppLibrary.Models;
-
-public class LocationModel : BaseModel
+public class LocationModel
 {
 #nullable disable
-    public ulong Id { get; set; }
-
-    [Required]
     public string Address { get; set; }
 
     public decimal Latitude { get; set; }
