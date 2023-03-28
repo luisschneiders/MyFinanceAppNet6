@@ -57,6 +57,7 @@ public static class RegisterServices
         builder.Services.AddSingleton<ICompanyData<CompanyModel>, CompanyData>();
         builder.Services.AddSingleton<IExpenseData<ExpenseModel>, ExpenseData>();
         builder.Services.AddSingleton<IExpenseCategoryData<ExpenseCategoryModel>, ExpenseCategoryData>();
+        builder.Services.AddSingleton<ILocationData<UserLocationModel>, LocationData>();
         builder.Services.AddSingleton<ITimesheetData<TimesheetModel>, TimesheetData>();
         builder.Services.AddSingleton<ITransactionData<TransactionModel>, TransactionData>();
         builder.Services.AddSingleton<ITransactionCategoryData<TransactionCategoryModel>, TransactionCategoryData>();
@@ -81,6 +82,8 @@ public static class RegisterServices
         builder.Services.AddScoped<IExpenseService<ExpenseModel>, ExpenseService>();
         builder.Services.AddScoped<IExpenseCategoryService<ExpenseCategoryModel>, ExpenseCategoryService>();
         builder.Services.AddScoped<IFinnhubService, FinnhubService>();
+        builder.Services.AddScoped<IGoogleService, GoogleService>();
+        builder.Services.AddScoped<ILocationService<UserLocationModel>, LocationService>();
         builder.Services.AddScoped<ITimesheetService<TimesheetModel>, TimesheetService>();
         builder.Services.AddScoped<ITransactionService<TransactionModel>, TransactionService>();
         builder.Services.AddScoped<ITransactionCategoryService<TransactionCategoryModel>, TransactionCategoryService>();

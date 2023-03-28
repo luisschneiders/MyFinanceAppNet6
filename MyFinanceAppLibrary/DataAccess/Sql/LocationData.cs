@@ -1,0 +1,35 @@
+﻿namespace MyFinanceAppLibrary.DataAccess.Sql;
+
+public class LocationData : ILocationData<UserLocationModel>
+{
+    private readonly IDataAccess _dataAccess;
+
+    public LocationData(IDataAccess dataAccess)
+    {
+        _dataAccess = dataAccess;
+    }
+
+    public async Task SaveRecord(UserLocationModel model)
+    {
+        try
+        {
+            await _dataAccess.SaveData<dynamic>(
+                "myfinancedb.spLocation_Save",
+                new
+                {
+                    locationAddress = model.Location.Address,
+                    locationLatitude = model.Location.Latitude,
+                    locationLongitude = model.Location.Longitude,
+                    locationUpdatedBy = model.UpdatedBy,
+                    locationCreatedAt = model.CreatedAt,
+                    locationUpdatedAt = model.UpdatedAt,
+                },
+                "Mysql");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+}
