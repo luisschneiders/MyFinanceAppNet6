@@ -2,36 +2,87 @@
 @using MainApp.Components.OffCanvas
 @using MainApp.Components.Toast
 
-<OffCanvas @ref="_offCanvas" PositionX="Position.End" Title="Location">
+<OffCanvas @ref="_offCanvasService.OffCanvas" PositionX="Position.End" Title="Location">
     <div class="row align-items-center">
         <div class="col my-4">
             <Badge BackgroundColor="@Theme.Info" Message="Setup..." />
         </div>
     </div>
     <div class="row justify-content-between pb-3">
-        <div class="col-10">
+        <div class="col-12">
             <div class="form-floating">
                 <input type="text"
                        id="Address"
-                       class="form-control"
+                       class="form-control @(_formIsInvalid ? "invalid" : "")"
                        placeholder="Address"
                        @bind-value="_locationModel.Address" />
                 <label for="Address">Address</label>
             </div>
         </div>
-        <div class="col-2 d-flex justify-content-end">
-            <button class="btn btn-primary"
+    </div>
+    <div class="row justify-content-between pb-3">
+        <div class="col-12">
+            <button class="btn btn-primary w-100"
                     disabled="@(_isProcessing ? true : false)"
                     title="Verify address"
                     @onclick="VerifyAddress">
-                <i class="bi bi-check2"></i>
+                @if (_isVerifying)
+                {
+                    <span>
+                        Verifying with Google...
+                    </span>
+                }
+                else
+                {
+                    <span>
+                        Verify address
+                    </span>
+                }
             </button>
         </div>
     </div>
 
+    @if (_locationlist.Count > 0)
+    {
+        <strong>Select one from the list:</strong>
+        <ul class="list-group list-group-flush">
+            @foreach (var (item, index) in _locationlist.Select((value, index) => (value, index)))
+            {
+                <li class="list-group-item">
+                    <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="@index" id="@index" @onclick="() => SelectAddress(item)">
+                    <label class="form-check-label stretched-link" for="@index">
+                        <small>
+                            @item.Address
+                        </small>
+                    </label>
+                </li>
+            }
+        </ul>
+    }
+
     <div class="pb-2">
         <hr />
     </div>
+    @if (_formIsInvalid)
+    {
+        <div class="row">
+            <div class="col-12">
+                <ul class="validation-errors">
+                    <li class="validation-message">The Address field is required.</li>
+                </ul>
+            </div>
+        </div>
+    }
+    @if (_userLocationIsInvalid)
+    {
+        <div class="row">
+            <div class="col-12">
+                <ul class="validation-errors">
+                    <li class="validation-message">Please select address from the list.</li>
+                </ul>
+            </div>
+        </div>
+    }
     <div class="row justify-content-end">
         <div class="col-6">
             <button class="btn btn-light w-100"
@@ -41,10 +92,17 @@
         </div>
         <div class="col-6">
             <button class="btn btn-success w-100"
-                    disabled="@(_isVerified ? false : true)"
+                    disabled="@(_userLocationModel.Location.Latitude == 0 && _userLocationModel.Location.Longitude == 0 ? true : false)"
                     @onclick="SaveAddress">
-                @(_isVerified ? "Saving..." : "Save")
+                @(_isProcessing ? "Saving..." : "Save")
             </button>
+        </div>
+    </div>
+    <div class="position-absolute bottom-0">
+        <div class="py-2">
+            <small>
+                Results provided by: <NavLink href="https://mapsplatform.google.com/" target="_blank"><i class="bi bi-pin-map-fill"></i> Google Maps Platform</NavLink>
+            </small>
         </div>
     </div>
 </OffCanvas>
