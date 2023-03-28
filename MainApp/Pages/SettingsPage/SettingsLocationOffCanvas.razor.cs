@@ -12,6 +12,9 @@ public partial class SettingsLocationOffCanvas : ComponentBase
     private IGoogleService _googleService { get; set; } = default!;
 
     [Inject]
+    private ILocationService<UserLocationModel> _locationService { get; set; } = default!;
+
+    [Inject]
     private ToastService _toastService { get; set; } = new();
 
     private OffCanvas _offCanvas { get; set; } = new();
@@ -114,7 +117,13 @@ public partial class SettingsLocationOffCanvas : ComponentBase
                 return;
             }
 
-            _toastService.ShowToast("Location added!", Theme.Info);
+            await _locationService.SaveRecord(_userLocationModel);
+
+            _toastService.ShowToast("Location saved!", Theme.Success);
+
+            await Task.Delay((int)Delay.DataSuccess);
+            await ResetDefaults();
+            await CloseOffCanvasAsync();
         }
         catch (Exception ex)
         {
