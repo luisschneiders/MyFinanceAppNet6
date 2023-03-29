@@ -9,6 +9,24 @@ public class LocationData : ILocationData<UserLocationModel>
         _dataAccess = dataAccess;
     }
 
+    public async Task<LocationModel> GetRecordById(string userId)
+    {
+        try
+        {
+            var result = await _dataAccess.LoadData<LocationModel, dynamic>(
+                "myfinancedb.spLocation_GetById",
+                new { userId = userId },
+                "Mysql");
+
+            return result.FirstOrDefault()!;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public async Task SaveRecord(UserLocationModel model)
     {
         try

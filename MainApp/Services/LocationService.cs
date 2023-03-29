@@ -41,6 +41,21 @@ public class LocationService : ILocationService<UserLocationModel>
         }
     }
 
+    public async Task<LocationModel> GetRecordById()
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            LocationModel result = await _locationData.GetRecordById(user.Id);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     private async Task<UserModel> GetLoggedInUser()
     {
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
