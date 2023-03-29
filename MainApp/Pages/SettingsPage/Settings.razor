@@ -25,22 +25,7 @@
                                     <CardMiddle>
                                         <div class="d-grid gap-3">
                                             <SettingsAppearance OnClickSuccess="OpenAppearanceOffCanvas" />
-                                            <button class="btn p-0 border-0" disabled="disabled">
-                                                <CardView Styles="border-0">
-                                                    <CardMiddle>
-                                                        <div class="d-flex w-100 align-items-center">
-                                                            <i class="bi bi-pin-map-fill pe-3"></i>
-                                                            <div class="w-100 text-start">
-                                                                <h2 class="mb-1 h5">Location</h2>
-                                                                <small class="text-secondary">Set your location for personalized content for weather, news and more.</small>
-                                                            </div>
-                                                            <div>
-                                                                <i class="bi bi-chevron-right"></i>
-                                                            </div>
-                                                        </div>
-                                                    </CardMiddle>
-                                                </CardView>
-                                            </button>
+                                            <SettingsLocation OnClickSuccess="OpenLocationOffCanvas" />
                                         </div>
                                     </CardMiddle>
                                 </CardView>
@@ -66,7 +51,8 @@
                 <PageBottomView />
 
             </PageWrapper>
-            <SettingsAppearanceOffCanvas @ref="_settingsAppearanceOffCanvas"/>
+            <SettingsAppearanceOffCanvas @ref="_settingsAppearanceOffCanvas" />
+            <SettingsLocationOffCanvas @ref="_settingsLocationOffCanvas" />
         </Authorized>
         <NotAuthorized>
             <NotAuthorizedMessage />
