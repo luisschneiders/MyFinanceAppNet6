@@ -21,6 +21,7 @@ public partial class SettingsLocationOffCanvas : ComponentBase
     private string _offCanvasTarget { get; set; } = string.Empty;
 
     private LocationModel _locationModel { get; set; } = new();
+    private LocationModel _currentLocation { get; set; } = new();
     private UserLocationModel _userLocationModel { get; set; } = new();
     private List<LocationModel> _locationlist { get; set; } = new();
 
@@ -35,8 +36,10 @@ public partial class SettingsLocationOffCanvas : ComponentBase
 
     public async Task OpenAsync()
     {
-        await ResetDefaults();
         _offCanvasTarget = Guid.NewGuid().ToString();
+
+        await ResetDefaults();
+        await FetchDataAsync();
         await Task.FromResult(_offCanvas.Open(_offCanvasTarget));
         await Task.CompletedTask;
     }
@@ -50,11 +53,26 @@ public partial class SettingsLocationOffCanvas : ComponentBase
     private async Task ResetDefaults()
     {
         _locationModel = new();
+        _currentLocation = new();
         _userLocationModel = new();
         _locationlist = new();
         _formIsInvalid = false;
         _userLocationIsInvalid = false;
         _isProcessing = false;
+
+        await Task.CompletedTask;
+    }
+
+    private async Task FetchDataAsync()
+    {
+        try
+        {
+            _currentLocation = await _locationService.GetRecordById();
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
 
         await Task.CompletedTask;
     }

@@ -8,6 +8,21 @@
             <Badge BackgroundColor="@Theme.Info" Message="Setup..." />
         </div>
     </div>
+    @if (_currentLocation?.Address is not null)
+    {
+        <div class="row">
+            <div class="col-12">
+                <small class="text-secondary"><i class="bi bi-geo-alt-fill pe-1"></i>Current location:</small>
+            </div>
+        </div>
+        <div class="row pb-4">
+            <div class="col-12">
+                <small class="text-info">
+                    @_currentLocation.Address
+                </small>
+            </div>
+        </div>
+    }
     <div class="row justify-content-between pb-3">
         <div class="col-12">
             <div class="form-floating">
