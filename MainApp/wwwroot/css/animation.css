@@ -1,0 +1,120 @@
+﻿@media (min-width: 641px) {
+    .mountain, .mountain-two, .mountain-three, .mountain-four {
+        right: 3rem;
+        bottom: 0;
+        position: absolute;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-bottom: 30px solid #224478;
+        z-index: 1;
+    }
+
+    .mountain-two {
+        right: 4rem;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-bottom: 30px solid #d7e3f4;
+        z-index: 0;
+    }
+
+    .mountain-three {
+        right: 5rem;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-bottom: 40px solid #afc6e9;
+        z-index: 0;
+    }
+
+    .mountain-four {
+        right: 6rem;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-bottom: 20px solid #3771c8;
+        z-index: 0;
+    }
+
+    .cloud, .cloud:before, .cloud:after {
+        position: absolute;
+        width: 45px;
+        height: 20px;
+        background: #d7e3f4;
+        -webkit-border-radius: 80px / 40px;
+        border-radius: 80px / 40px;
+    }
+
+    .cloud {
+        bottom: 10px;
+        -webkit-animation: cloud 50s infinite linear;
+        animation: cloud 50s infinite linear;
+    }
+
+        .cloud:before {
+            content: '';
+            left: 25px;
+        }
+
+        .cloud:after {
+            content: '';
+            left: 8px;
+            top: -10px;
+        }
+
+    .sun {
+        position: absolute;
+        bottom: 10px;
+        right: 6.5rem;
+        margin: auto;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #f1d68d;
+        opacity: 0.9;
+        box-shadow: 0px 0px 40px 15px #f1d68d;
+        z-index: -1;
+    }
+
+    .ray_box {
+        position: absolute;
+        margin: auto;
+        top: 0px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 30px;
+        -webkit-animation: ray_anim 120s linear infinite;
+        animation: ray_anim 120s linear infinite;
+    }
+}
+
+@-webkit-keyframes cloud {
+    0% {
+        right: 0;
+    }
+
+    100% {
+        right: 100%;
+    }
+}
+
+@keyframes cloud {
+
+    0% {
+        right: 0;
+    }
+
+    100% {
+        right: 100%;
+    }
+}
+
+@-webkit-keyframes ray_anim {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
