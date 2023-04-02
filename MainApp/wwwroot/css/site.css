@@ -198,11 +198,11 @@ h1:focus {
     background-color: #f8f8f8;
 }
 
-[data-bs-theme=dark] .main, [data-bs-theme=dark] .app-navbar {
+[data-bs-theme=dark] .main {
     background-color: #252a2e;
 }
 
-[data-bs-theme=light] .main, [data-bs-theme=light] .app-navbar {
+[data-bs-theme=light] .main {
     background-color: #f8f8f8;
 }
 
@@ -211,7 +211,8 @@ h1:focus {
 }
 
 [data-bs-theme=light] .app-footer {
-    background-color: #d0e2ff;
+    background: #d0e2ff;
+    background: linear-gradient(180deg, #d0e2ff 0%, rgba(243,248,255,1) 100%);
 }
 
 
