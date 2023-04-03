@@ -84,6 +84,7 @@ public static class RegisterServices
         builder.Services.AddScoped<IFinnhubService, FinnhubService>();
         builder.Services.AddScoped<IGoogleService, GoogleService>();
         builder.Services.AddScoped<ILocationService<UserLocationModel>, LocationService>();
+        builder.Services.AddScoped<IRapidApiService, RapidApiService>();
         builder.Services.AddScoped<ITimesheetService<TimesheetModel>, TimesheetService>();
         builder.Services.AddScoped<ITransactionService<TransactionModel>, TransactionService>();
         builder.Services.AddScoped<ITransactionCategoryService<TransactionCategoryModel>, TransactionCategoryService>();
