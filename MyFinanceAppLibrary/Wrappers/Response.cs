@@ -15,7 +15,7 @@ public class Response<T>
 
     public Response(T data)
     {
-        Success = true;
+        Success = false;
         ErrorMessage = string.Empty;
         ErrorCode = string.Empty;
         Data = data;
