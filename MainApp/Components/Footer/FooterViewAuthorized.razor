@@ -1,4 +1,6 @@
-﻿<div class="container-lg">
+﻿@using MainApp.Components.Shared
+
+<div class="container-lg">
     <div class="row d-flex">
         <div class="col-6 text-primary-emphasis">
             <span>&copy; @_currentYear.Year</span>
@@ -6,24 +8,8 @@
                 - @Label.AppTitle
             </span>
         </div>
-
-        @*TODO: This will be a component*@
         <div class="col-6 justify-content-end">
-            <div class="mountain"></div>
-            <div class="mountain-two"></div>
-            <div class="mountain-three"></div>
-            <div class="mountain-four"></div>
-            <div class="cloud-moving"></div>
-            <div class="cloud">
-                <span class="rain-drops-1"></span>
-                <span class="rain-drops-2"></span>
-                <span class="rain-drops-3"></span>
-                <span class="rain-drops-4"></span>
-            </div>
-            <div class="sun">
-                <div class="ray_box"></div>
-            </div>
-            <div class="moon"></div>
+            <WeatherCondition />
         </div>
     </div>
 </div>

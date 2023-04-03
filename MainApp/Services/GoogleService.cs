@@ -4,7 +4,7 @@ namespace MainApp.Services;
 
 public class GoogleService : IGoogleService
 {
-    private IWebApiService _webApiService;
+    private readonly IWebApiService _webApiService;
 
     public GoogleService(IWebApiService webApiService)
     {
