@@ -1,0 +1,58 @@
+﻿@using MainApp.Components.Toast
+
+<div class="mountain"></div>
+<div class="mountain-two"></div>
+<div class="mountain-three"></div>
+<div class="mountain-four"></div>
+
+@if (_isWeatherAvailable)
+{
+    @switch (_weatherModel?.Condition.Code)
+    {
+        case (int)WeatherConditionType.Cloudy:
+            <div class="cloud-moving"></div>;
+            break;
+        case (int)WeatherConditionType.PartlyCloudy:
+            <div class="cloud-moving"></div>;
+            <div class="sun">
+                <div class="ray_box"></div>
+            </div>
+            break;
+        case (int)WeatherConditionType.Clear:
+            @if (_isNight)
+            {
+                <div class="moon"></div>
+            }
+            else
+            {
+                <div class="sun">
+                    <div class="ray_box"></div>
+                </div>
+            }
+            break;
+        case (int)WeatherConditionType.Rainy:
+        case (int)WeatherConditionType.LightRain:
+        case (int)WeatherConditionType.ModerateRain:
+        case (int)WeatherConditionType.ModerateOrHeavyRain:
+            <div class="cloud">
+                <span class="rain-drops-1"></span>
+                <span class="rain-drops-2"></span>
+                <span class="rain-drops-3"></span>
+                <span class="rain-drops-4"></span>
+            </div>
+            break;
+
+    }
+    @*<div class="cloud-moving"></div>;*@
+    @*<div class="cloud">
+            <span class="rain-drops-1"></span>
+            <span class="rain-drops-2"></span>
+            <span class="rain-drops-3"></span>
+            <span class="rain-drops-4"></span>
+        </div>*@
+    @*<div class="sun">
+            <div class="ray_box"></div>
+        </div>*@
+    @*<div class="moon"></div>*@
+}
+<Toast />
