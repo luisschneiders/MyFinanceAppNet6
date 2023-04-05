@@ -5,7 +5,7 @@
         position: absolute;
         border-left: 15px solid transparent;
         border-right: 15px solid transparent;
-        border-bottom: 30px solid #224478;
+        border-bottom: 50px solid #224478;
         z-index: 1;
     }
 
@@ -21,15 +21,15 @@
         right: 5rem;
         border-left: 15px solid transparent;
         border-right: 15px solid transparent;
-        border-bottom: 40px solid #afc6e9;
+        border-bottom: 35px solid #afc6e9;
         z-index: 0;
     }
 
     .mountain-four {
         right: 6rem;
-        border-left: 15px solid transparent;
-        border-right: 15px solid transparent;
-        border-bottom: 20px solid #3771c8;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-bottom: 25px solid #3771c8;
         z-index: 0;
     }
 
@@ -60,8 +60,21 @@
     }
 
     .cloud {
+        z-index: 2;
         bottom: 10px;
-        right: 9rem;
+        right: 4rem;
+    }
+
+    .fog {
+        position: absolute;
+        width: 100px;
+        height: 15px;
+        background: #f8f8f8c9;
+        -webkit-border-radius: 80px / 40px;
+        border-radius: 80px / 40px;
+        z-index: 2;
+        bottom: 5px;
+        right: 3rem;
     }
 
     .rain-drops-1, .rain-drops-2, .rain-drops-3, .rain-drops-4 {

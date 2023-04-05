@@ -8,13 +8,23 @@
     @switch (_weatherModel?.Condition.Code)
     {
         case (int)WeatherConditionType.Cloudy:
-            <div class="cloud-moving"></div>;
+        case (int)WeatherConditionType.Overcast:
+            <div class="cloud-moving"></div>
+            <div class="cloud"></div>
             break;
         case (int)WeatherConditionType.PartlyCloudy:
-            <div class="cloud-moving"></div>;
-            <div class="sun">
-                <div class="ray_box"></div>
-            </div>
+            <div class="cloud-moving"></div>
+            <div class="cloud"></div>
+            @if (_isNight)
+            {
+                <div class="moon"></div>
+            }
+            else
+            {
+                <div class="sun">
+                    <div class="ray_box"></div>
+                </div>
+            }
             break;
         case (int)WeatherConditionType.Clear:
             @if (_isNight)
@@ -28,10 +38,25 @@
                 </div>
             }
             break;
-        case (int)WeatherConditionType.Rainy:
+        case (int)WeatherConditionType.Mist:
+        case (int)WeatherConditionType.Fog:
+            <div class="fog" title="Mist / Fog"></div>
+            @if (_isNight)
+            {
+                <div class="moon"></div>
+            }
+            else
+            {
+                <div class="sun">
+                    <div class="ray_box"></div>
+                </div>
+            }
+            break;
         case (int)WeatherConditionType.LightRain:
         case (int)WeatherConditionType.ModerateRain:
+        case (int)WeatherConditionType.ModerateRainAtTimes:
         case (int)WeatherConditionType.ModerateOrHeavyRain:
+        case (int)WeatherConditionType.PatchyLightRain:
             <div class="cloud">
                 <span class="rain-drops-1"></span>
                 <span class="rain-drops-2"></span>
@@ -39,6 +64,5 @@
                 <span class="rain-drops-4"></span>
             </div>
             break;
-
     }
 }
