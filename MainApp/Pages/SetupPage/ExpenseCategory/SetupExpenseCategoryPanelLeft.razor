@@ -2,7 +2,6 @@
 @using MainApp.Components.Card
 @using MainApp.Components.Dropdown.Actions
 @using MainApp.Components.Spinner
-@using MainApp.Components.Toast
 
 <CardView Styles="border-0">
     <CardMiddle>
@@ -191,4 +190,3 @@
     </CardMiddle>
 </CardView>
 <SetupExpenseCategoryOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" DataModel="_expenseCategoryModel" />
-<Toast />

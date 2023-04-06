@@ -1,7 +1,15 @@
-﻿<div class="container-lg">
-    <div class="row">
-        <div class="col-12">
-            <span class="text-secondary">&copy; @_currentYear.Year - @Label.AppTitle</span>
+﻿@using MainApp.Components.Shared
+
+<div class="container-lg">
+    <div class="row d-flex">
+        <div class="col-6 text-primary-emphasis">
+            <span>&copy; @_currentYear.Year</span>
+            <span class="d-none d-sm-inline">
+                - @Label.AppTitle
+            </span>
+        </div>
+        <div class="col-6 justify-content-end">
+            <WeatherCondition />
         </div>
     </div>
 </div>

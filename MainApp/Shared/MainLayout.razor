@@ -1,4 +1,6 @@
 ﻿@using MainApp.Components.Footer
+@using MainApp.Components.Toast
+
 @inherits LayoutComponentBase
 
 <PageTitle>@Label.AppTitle</PageTitle>
@@ -10,7 +12,7 @@
     @Body
 </div>
 
-<footer class="py-3">
+<footer class="py-3 app-footer">
     <AuthorizeView>
         <Authorized>
             <FooterViewAuthorized />
@@ -20,3 +22,4 @@
         </NotAuthorized>
     </AuthorizeView>
 </footer>
+<Toast />

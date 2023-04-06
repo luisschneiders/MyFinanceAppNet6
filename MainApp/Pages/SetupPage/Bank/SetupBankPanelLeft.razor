@@ -1,6 +1,5 @@
 ﻿@using MainApp.Components.Card
 @using MainApp.Components.Dropdown.Actions
-@using MainApp.Components.Toast
 @using MainApp.Components.Spinner
 
 <CardView Styles="border-0">
@@ -215,4 +214,3 @@
     </CardMiddle>
 </CardView>
 <SetupBankOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" DataModel="_bankModel" />
-<Toast />

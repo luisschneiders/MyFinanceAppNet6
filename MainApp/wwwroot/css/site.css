@@ -59,14 +59,6 @@ h1:focus {
     z-index: 10;
 }
 
-[data-bs-theme=dark] .app-page-responsive-height th {
-    background-color: #252a2e;
-}
-
-[data-bs-theme=light] .app-page-responsive-height th {
-    background-color: #f8f8f8;
-}
-
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;
@@ -186,14 +178,6 @@ h1:focus {
     padding-top: 58px;
 }
 
-[data-bs-theme=dark] .main, [data-bs-theme=dark] .app-navbar {
-    background-color: #252a2e;
-}
-
-[data-bs-theme=light] .main, [data-bs-theme=light] .app-navbar {
-    background-color: #f8f8f8;
-}
-
 .validation-message {
     color: var(--bs-danger);
 }
@@ -206,9 +190,49 @@ h1:focus {
     max-height: 450px;
 }
 
+[data-bs-theme=dark] .app-page-responsive-height th {
+    background-color: #252a2e;
+}
+
+[data-bs-theme=light] .app-page-responsive-height th {
+    background-color: #f8f8f8;
+}
+
+[data-bs-theme=dark] .main {
+    background-color: #252a2e;
+}
+
+[data-bs-theme=light] .main {
+    background-color: #f8f8f8;
+}
+
+[data-bs-theme=dark] .app-footer {
+    background-color: #212529;
+}
+
+[data-bs-theme=light] .app-footer {
+    background: #d0e2ff;
+    background: linear-gradient(180deg, #d0e2ff 0%, rgba(243,248,255,1) 100%);
+}
+
+
 @media (max-width: 640.98px) {
     .app-dropdown-menu {
         border-color: transparent;
+    }
+}
+
+@media (min-width: 641px) {
+    .app-footer {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1030;
+    }
+
+    .app-footer-gap {
+        padding-bottom: 56px;
     }
 }
 

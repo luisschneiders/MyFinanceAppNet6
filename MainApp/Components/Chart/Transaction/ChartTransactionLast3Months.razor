@@ -1,5 +1,4 @@
 ﻿@using MainApp.Components.Spinner
-@using MainApp.Components.Toast
 @using MainApp.Components.Shared
 
 <SharedHeader Title="Previous 3 months"
@@ -22,4 +21,3 @@ else
            Data="@(_chartConfigData)"
            OnSubmitSuccess="data => SetChartObjectReference(data)" />
 }
-<Toast />

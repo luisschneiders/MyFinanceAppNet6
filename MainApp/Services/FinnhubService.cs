@@ -5,7 +5,7 @@ namespace MainApp.Service;
 
 public class FinnhubService : IFinnhubService
 {
-    private IWebApiService _webApiService;
+    private readonly IWebApiService _webApiService;
 
     public FinnhubService(IWebApiService webApiService)
     {
