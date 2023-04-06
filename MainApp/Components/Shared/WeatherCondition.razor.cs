@@ -76,8 +76,6 @@ public partial class WeatherCondition : ComponentBase
     {
         DateTime dateTime = DateTime.Parse(localTime);
 
-        Console.WriteLine("LFS - is night? " + (dateTime.Hour >= 18 || dateTime.Hour < 6));
-
         return await Task.FromResult(dateTime.Hour >= 18 || dateTime.Hour < 6);
     }
 }
