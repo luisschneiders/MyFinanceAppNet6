@@ -94,7 +94,7 @@ public class TransactionData : ITransactionData<TransactionModel>
     {
         try
         {
-            await _dataAccess.LoadData<TransactionModel, dynamic>(
+            await _dataAccess.SaveData<dynamic>(
                 "myfinancedb.spTransaction_CreateCredit",
                 new
                 {
@@ -122,7 +122,7 @@ public class TransactionData : ITransactionData<TransactionModel>
     {
         try
         {
-            await _dataAccess.LoadData<TransactionModel, dynamic>(
+            await _dataAccess.SaveData<dynamic>(
                 "myfinancedb.spTransaction_CreateDebit",
                 new
                 {
@@ -150,7 +150,7 @@ public class TransactionData : ITransactionData<TransactionModel>
     {
         try
         {
-            await _dataAccess.LoadData<TransactionModel, dynamic>(
+            await _dataAccess.SaveData<dynamic>(
                 "myfinancedb.spTransaction_CreateTransfer",
                 new
                 {

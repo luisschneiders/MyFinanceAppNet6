@@ -35,7 +35,7 @@ public class BankData : IBankData<BankModel>
     {
         try
         {
-            await _dataAccess.LoadData<BankModel, dynamic>(
+            await _dataAccess.SaveData<dynamic>(
                 "myfinancedb.spBank_Create",
                 new
                 {

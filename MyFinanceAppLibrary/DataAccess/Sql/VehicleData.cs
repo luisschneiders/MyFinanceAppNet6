@@ -35,7 +35,7 @@ public class VehicleData : IVehicleData<VehicleModel>
     {
         try
         {
-            await _dataAccess.LoadData<VehicleModel, dynamic>(
+            await _dataAccess.SaveData<dynamic>(
                 "myfinancedb.spVehicle_Create",
                 new
                 {

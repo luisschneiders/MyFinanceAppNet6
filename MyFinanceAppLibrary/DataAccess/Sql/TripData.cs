@@ -36,7 +36,7 @@ public class TripData : ITripData<TripModel>
     {
         try
         {
-            await _dataAccess.LoadData<TripModel, dynamic>(
+            await _dataAccess.SaveData<dynamic>(
                 "myfinancedb.spTrip_Create",
                 new
                 {

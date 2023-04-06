@@ -39,7 +39,7 @@ public class ExpenseData : IExpenseData<ExpenseModel>
     {
         try
         {
-            await _dataAccess.LoadData<ExpenseModel, dynamic>(
+            await _dataAccess.SaveData<dynamic>(
                 "myfinancedb.spExpense_Create",
                 new
                 {
