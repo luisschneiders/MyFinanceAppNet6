@@ -80,7 +80,7 @@
     .rain-drops-1, .rain-drops-2, .rain-drops-3, .rain-drops-4 {
         position: absolute;
         bottom: 0;
-        border-bottom: 1px solid #3771c8;
+        border-bottom: 1px solid var(--bs-info);
         transform: rotate(90deg);
     }
     .rain-drops-1 {
