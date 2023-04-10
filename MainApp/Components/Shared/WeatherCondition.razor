@@ -52,6 +52,25 @@
                 </div>
             }
             break;
+        case (int)WeatherConditionType.PatchyRainPossible:
+            @if (_isNight)
+            {
+                <div class="moon"></div>
+            }
+            else
+            {
+                <div class="sun">
+                    <div class="ray_box"></div>
+                </div>
+            }
+            <div class="cloud-moving"></div>
+            <div class="cloud">
+                <span class="rain-drops-1"></span>
+                <span class="rain-drops-2"></span>
+                <span class="rain-drops-3"></span>
+                <span class="rain-drops-4"></span>
+            </div>
+            break;
         case (int)WeatherConditionType.LightRain:
         case (int)WeatherConditionType.ModerateRain:
         case (int)WeatherConditionType.ModerateRainAtTimes:
