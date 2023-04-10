@@ -35,7 +35,7 @@ public class ExpenseCategoryData : IExpenseCategoryData<ExpenseCategoryModel>
     {
         try
         {
-            await _dataAccess.LoadData<ExpenseCategoryModel, dynamic>(
+            await _dataAccess.SaveData<dynamic>(
                 "myfinancedb.spExpenseCategory_Create",
                 new
                 {

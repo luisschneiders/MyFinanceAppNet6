@@ -35,7 +35,7 @@ public class CompanyData : ICompanyData<CompanyModel>
     {
         try
         {
-            await _dataAccess.LoadData<CompanyModel, dynamic>(
+            await _dataAccess.SaveData<dynamic>(
                 "myfinancedb.spCompany_Create",
                 new
                 {

@@ -35,7 +35,7 @@ public class TransactionCategoryData : ITransactionCategoryData<TransactionCateg
     {
         try
         {
-            await _dataAccess.LoadData<TransactionCategoryModel, dynamic>(
+            await _dataAccess.SaveData<dynamic>(
                 "myfinancedb.spTransactionCategory_Create",
                 new
                 {

@@ -35,7 +35,7 @@ public class TimesheetData : ITimesheetData<TimesheetModel>
     {
         try
         {
-            await _dataAccess.LoadData<TimesheetModel, dynamic>(
+            await _dataAccess.SaveData<dynamic>(
                 "myfinancedb.spTimesheet_Create",
                 new
                 {
