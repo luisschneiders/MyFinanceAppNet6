@@ -38,4 +38,9 @@ public class DateTimeService : IDateTimeService
     {
         return dateTimeRange.Start.Date <= dateTimeRange.End.Date;
     }
+
+    public DateTimeOffset GetCurrentTime()
+    {
+        return DateTimeOffset.Now;        
+    }
 }
