@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddDefaultServices();
 builder.AddCachingServices();
 builder.AddMicrosoftServices();
+builder.AddHostedServices();
 builder.AddSingletonServices();
 builder.AddScopedServices();
 

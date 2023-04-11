@@ -5,7 +5,6 @@ using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
 using MainApp.Components.Chart;
 using MainApp.Components.OffCanvas;
-using MainApp.Service;
 
 namespace MainApp;
 
@@ -47,6 +46,8 @@ public static class RegisterServices
 
     public static void AddSingletonServices(this WebApplicationBuilder builder)
     {
+        builder.Services.AddSingleton<IServiceScopeFactory<IDateTimeService>, ServiceScopeFactory<IDateTimeService>>();
+
         //MongoDB
         builder.Services.AddSingleton<IDbConnection, MongoDbConnection>();
         builder.Services.AddSingleton<IUserData, MongoUserData>();
@@ -94,5 +95,10 @@ public static class RegisterServices
 
         //State Container
         builder.Services.AddScoped<TimesheetStateService>();
+    }
+
+    public static void AddHostedServices(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddHostedService<BackgroundWeatherService>();
     }
 }
