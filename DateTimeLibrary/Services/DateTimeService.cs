@@ -43,4 +43,11 @@ public class DateTimeService : IDateTimeService
     {
         return DateTimeOffset.Now;        
     }
+
+    public bool CheckIsNight(string localTime)
+    {
+        DateTime dateTime = DateTime.Parse(localTime);
+
+        return (dateTime.Hour >= 18 || dateTime.Hour < 6);
+    }
 }
