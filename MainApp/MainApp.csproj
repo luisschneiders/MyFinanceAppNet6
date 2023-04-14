@@ -43,6 +43,8 @@
     <None Remove="Components\Dropdown\Actions\" />
     <None Remove="Components\Dropdown\Filter\" />
     <None Remove="Components\Badge\Color\" />
+    <None Remove="BackgroundServices\" />
+    <None Remove="Factories\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Web" Version="2.6.1" />
@@ -70,5 +72,7 @@
     <Folder Include="Components\Dropdown\Actions\" />
     <Folder Include="Components\Dropdown\Filter\" />
     <Folder Include="Components\Badge\Color\" />
+    <Folder Include="BackgroundServices\" />
+    <Folder Include="Factories\" />
   </ItemGroup>
 </Project>

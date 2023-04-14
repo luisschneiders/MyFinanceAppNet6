@@ -12,6 +12,9 @@ public partial class WeatherCondition : ComponentBase
     private IRapidApiService _rapidApiService { get; set; } = default!;
 
     [Inject]
+    private IDateTimeService _dateTimeService { get; set; } = default!;
+
+    [Inject]
     private ToastService _toastService { get; set; } = new();
 
     private WeatherModel _weatherModel { get; set; } = default!;
@@ -23,15 +26,18 @@ public partial class WeatherCondition : ComponentBase
     {
     }
 
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        try
+        if (firstRender)
         {
-            await FetchDataAsync();
-        }
-        catch (Exception ex)
-        {
-            _toastService.ShowToast(ex.Message, Theme.Danger);
+            try
+            {
+                await FetchDataAsync();
+            }
+            catch (Exception ex)
+            {
+                _toastService.ShowToast(ex.Message, Theme.Danger);
+            }
         }
 
         await Task.CompletedTask;
@@ -49,12 +55,13 @@ public partial class WeatherCondition : ComponentBase
 
                 if (response.Success)
                 {
-                    StateHasChanged();
+
                     _isWeatherAvailable = true;
                     _weatherModel = response.Data;
 
-                    var isNight = await IsNight(_weatherModel.LocalTime);
-                    _isNight = isNight;
+                    _isNight = _dateTimeService.CheckIsNight(_weatherModel.LocalTime);
+
+                    StateHasChanged();
                 }
                 else
                 {
@@ -70,12 +77,5 @@ public partial class WeatherCondition : ComponentBase
         }
 
         await Task.CompletedTask;
-    }
-
-    private static async Task<bool> IsNight(string localTime)
-    {
-        DateTime dateTime = DateTime.Parse(localTime);
-
-        return await Task.FromResult(dateTime.Hour >= 18 || dateTime.Hour < 6);
     }
 }

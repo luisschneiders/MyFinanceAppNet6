@@ -1,7 +1,4 @@
-﻿using MainApp.Services;
-using Microsoft.AspNetCore.WebUtilities;
-
-namespace MainApp.Service;
+﻿namespace MainApp.Services;
 
 public class FinnhubService : IFinnhubService
 {

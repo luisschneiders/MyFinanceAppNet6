@@ -4,5 +4,7 @@ public interface IDateTimeService
 {
 	DateTimeRange GetCurrentMonth();
 	DateTimeRange GetCurrentYear();
-	bool CheckDateRange(DateTimeRange dateTimeRange);
+	DateTimeOffset GetCurrentTime();
+	bool CheckIsNight(string localTime);
+    bool CheckDateRange(DateTimeRange dateTimeRange);
 }
