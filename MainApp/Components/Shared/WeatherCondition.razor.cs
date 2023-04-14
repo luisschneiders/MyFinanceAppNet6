@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Components.Shared;
 
-public partial class WeatherCondition : ComponentBase
+public partial class WeatherCondition : ComponentBase, IDisposable
 {
     [Inject]
     private ILocationService<UserLocationModel> _locationService { get; set; } = default!;
@@ -21,6 +21,8 @@ public partial class WeatherCondition : ComponentBase
 
     private bool _isWeatherAvailable { get; set; } = false;
     private bool _isNight { get; set; } = false;
+
+    private PeriodicTimer _periodicTimer { get; set; } = new(TimeSpan.FromMilliseconds(500));
 
     public WeatherCondition()
     {
@@ -45,37 +47,46 @@ public partial class WeatherCondition : ComponentBase
 
     private async Task FetchDataAsync()
     {
-        try
+        while (await _periodicTimer.WaitForNextTickAsync())
         {
-            LocationModel locationModel = await _locationService.GetRecordById();
-
-            if (locationModel is not null)
+            try
             {
-                Response<WeatherModel> response = await _rapidApiService.GetWeatherCondition(locationModel);
+                LocationModel locationModel = await _locationService.GetRecordById();
 
-                if (response.Success)
+                if (locationModel is not null)
                 {
+                    Response<WeatherModel> response = await _rapidApiService.GetWeatherCondition(locationModel);
 
-                    _isWeatherAvailable = true;
-                    _weatherModel = response.Data;
+                    if (response.Success)
+                    {
 
-                    _isNight = _dateTimeService.CheckIsNight(_weatherModel.LocalTime);
+                        _isWeatherAvailable = true;
+                        _weatherModel = response.Data;
 
-                    StateHasChanged();
-                }
-                else
-                {
-                    _weatherModel = new();
-                    _toastService.ShowToast(response.ErrorMessage, Theme.Danger);
-                    _isWeatherAvailable = false;
+                        _isNight = _dateTimeService.CheckIsNight(_weatherModel.LocalTime);
+
+                        await InvokeAsync(StateHasChanged);
+                        _periodicTimer = new(TimeSpan.FromMinutes(RefreshTime.Minutes15));
+                    }
+                    else
+                    {
+                        _weatherModel = new();
+                        _toastService.ShowToast(response.ErrorMessage, Theme.Danger);
+                        _isWeatherAvailable = false;
+                    }
                 }
             }
-        }
-        catch (Exception ex)
-        {
-            _toastService.ShowToast(ex.Message, Theme.Danger);
-        }
+            catch (Exception ex)
+            {
+                _toastService.ShowToast(ex.Message, Theme.Danger);
+            }
 
-        await Task.CompletedTask;
+            await Task.CompletedTask;
+        }
+    }
+
+    public void Dispose()
+    {
+        _periodicTimer?.Dispose();
     }
 }
