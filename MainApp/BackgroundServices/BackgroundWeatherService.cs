@@ -18,17 +18,13 @@ public class BackgroundWeatherService : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("Starting {jobName}", nameof(BackgroundWeatherService));
-
         while (!stoppingToken.IsCancellationRequested)
         {
             try
             {
-                var dateTimeService = _serviceScopeFactory.Get();
-                var currentTime = dateTimeService.GetCurrentTime();
-
-                _logger.LogInformation("Current time is {time}", currentTime.ToString());
-
+                //var dateTimeService = _serviceScopeFactory.Get();
+                //var currentTime = dateTimeService.GetCurrentTime();
+                // TODO: Get weather condition every hour
             }
             catch (Exception ex)
             {
@@ -37,7 +33,5 @@ public class BackgroundWeatherService : BackgroundService
 
             await Task.Delay(5000, stoppingToken);
         }
-
-        _logger.LogInformation("Stopping {jobName}", nameof(BackgroundWeatherService));
     }
 }
