@@ -152,11 +152,6 @@ namespace MainApp.Services
             }
         }
 
-        private async Task<UserModel> GetLoggedInUser()
-        {
-            return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
-        }
-
         public async Task<List<ExpenseCategoryModel>> GetRecordsActive()
         {
             try
@@ -170,6 +165,11 @@ namespace MainApp.Services
                 Console.WriteLine("An exception occurred: " + ex.Message);
                 throw;
             }
+        }
+
+        private async Task<UserModel> GetLoggedInUser()
+        {
+            return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
         }
 
         private static async Task<string> SetRandomColor()

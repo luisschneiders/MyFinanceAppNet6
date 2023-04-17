@@ -66,7 +66,7 @@ public partial class WeatherCondition : ComponentBase, IDisposable
                         _isNight = _dateTimeService.CheckIsNight(_weatherModel.LocalTime);
 
                         await InvokeAsync(StateHasChanged);
-                        _periodicTimer = new(TimeSpan.FromMinutes(RefreshTime.Minutes15));
+                        _periodicTimer = new(TimeSpan.FromMinutes(RefreshTime.Minutes05));
                     }
                     else
                     {
