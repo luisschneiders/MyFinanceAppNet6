@@ -8,7 +8,10 @@ namespace MainApp.Pages.SetupPage.ExpenseCategory;
 public partial class SetupExpenseCategoryPanelLeft : ComponentBase
 {
     [Inject]
-    IExpenseCategoryService<ExpenseCategoryModel> _expenseCategoryService { get; set; } = default!;
+    private IExpenseCategoryService<ExpenseCategoryModel> _expenseCategoryService { get; set; } = default!;
+
+    [Inject]
+    private IExpenseService<ExpenseModel> _expenseService { get; set; } = default!;
 
     [Inject]
     private ToastService _toastService { get; set; } = new();
@@ -23,6 +26,7 @@ public partial class SetupExpenseCategoryPanelLeft : ComponentBase
     private ExpenseCategoryModel _expenseCategoryModel { get; set; } = new();
 
     private List<ExpenseCategoryModel> _expenseCategories { get; set; } = new();
+    private List<ExpenseAmountHistoryDTO> _expenseAmountHistory { get; set; } = new();
     private List<ExpenseCategoryModel> _searchResults { get; set; } = new();
     private string _searchTerm { get; set; } = string.Empty;
     private bool _isSearching { get; set; } = false;
@@ -91,6 +95,7 @@ public partial class SetupExpenseCategoryPanelLeft : ComponentBase
         try
         {
             _expenseCategories = await _expenseCategoryService.GetRecords();
+            _expenseAmountHistory = await _expenseService.GetAmountHistory();
             _isLoading = false;
         }
         catch (Exception ex)

@@ -61,6 +61,27 @@ public class ExpenseData : IExpenseData<ExpenseModel>
         }
     }
 
+    public async Task<List<ExpenseAmountHistoryDTO>> GetAmountHistoryDTO(string userId)
+    {
+        try
+        {
+            var results = await _dataAccess.LoadData<ExpenseAmountHistoryDTO, dynamic>(
+                "myfinancedb.spExpense_GetAmountHistory",
+                new
+                {
+                    userId = userId,
+                },
+                "Mysql");
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public Task<ulong> GetLastInsertedId()
     {
         throw new NotImplementedException();

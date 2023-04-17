@@ -162,11 +162,6 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         throw new NotImplementedException();
     }
 
-    private async Task<UserModel> GetLoggedInUser()
-    {
-        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
-    }
-
     public async Task<List<ExpenseLast3MonthsGraphDTO>> GetRecordsLast3Months()
     {
         try
@@ -195,5 +190,25 @@ public class ExpenseService : IExpenseService<ExpenseModel>
             Console.WriteLine("An exception occurred: " + ex.Message);
             throw;
         }
+    }
+
+    public async Task<List<ExpenseAmountHistoryDTO>> GetAmountHistory()
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<ExpenseAmountHistoryDTO> results = await _expenseData.GetAmountHistoryDTO(user.Id);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    private async Task<UserModel> GetLoggedInUser()
+    {
+        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
     }
 }
