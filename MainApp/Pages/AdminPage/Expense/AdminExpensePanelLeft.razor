@@ -94,9 +94,11 @@
                                                     <tr>
                                                         @foreach (var day in week)
                                                         {
-                                                            <td class="@((DateTime.Now.Day.ToString() == day && DateTime.Now.Month == _dateMonthYear.Start.Month) ? $"bg-{Theme.Info.ToString().ToLower()}-subtle text-{Theme.Info.ToString().ToLower()}-emphasis fw-semibold" : "") text-end">
+                                                            <td class=" text-end">
                                                                 <sup>
-                                                                    @day
+                                                                    <span class="@((DateTime.Now.Day.ToString() == day && DateTime.Now.Month == _dateMonthYear.Start.Month) ? $"rounded-circle p-1 bg-{Theme.Info.ToString().ToLower()}-subtle text-{Theme.Info.ToString().ToLower()}-emphasis fw-semibold" : "")">
+                                                                        @day
+                                                                    </span>
                                                                 </sup>
                                                             </td>
                                                         }
