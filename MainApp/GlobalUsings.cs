@@ -9,6 +9,8 @@ global using MyFinanceAppLibrary.DataAccess.NoSql;
 global using MyFinanceAppLibrary.DataAccess.Sql;
 global using MyFinanceAppLibrary.Wrappers;
 global using MainApp.BackgroundServices;
+global using MainApp.Components.CalendarView;
+global using MainApp.Components.Dropdown.Date;
 global using MainApp.Components.Dropdown.DateRange;
 global using MainApp.Components.Dropdown.Filter;
 global using MainApp.Components.Chart.Bank;
