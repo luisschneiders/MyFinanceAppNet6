@@ -94,7 +94,7 @@
                                                     <tr>
                                                         @foreach (var day in week)
                                                         {
-                                                            <td class="@((DateTime.Now.Day.ToString() == day && DateTime.Now.Month == _dateMonthYear.Start.Month) ? "table-active" : "") text-end">
+                                                            <td class="@((DateTime.Now.Day.ToString() == day && DateTime.Now.Month == _dateMonthYear.Start.Month) ? $"bg-{Theme.Info.ToString().ToLower()}-subtle text-{Theme.Info.ToString().ToLower()}-emphasis fw-semibold" : "") text-end">
                                                                 <sup>
                                                                     @day
                                                                 </sup>
