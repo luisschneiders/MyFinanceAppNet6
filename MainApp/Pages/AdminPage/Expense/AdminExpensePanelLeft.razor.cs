@@ -99,7 +99,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
             if (_viewType == ViewType.Calendar)
             {
                 _expensesByMonthYear = await _expenseService.GetRecordsByDateRange(_dateMonthYear);
-                await BuildCalendar();
+                _weeks = await _calendarViewService.Build(_dateMonthYear);
             }
             else if (_viewType == ViewType.List)
             {
@@ -122,13 +122,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     {
         _viewType = viewType;
         await FetchDataAsync();
-        StateHasChanged();
-    }
-
-    private async Task BuildCalendar()
-    {
-        _weeks = await _calendarViewService.Build(_dateMonthYear);
-        await Task.CompletedTask;
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task AddRecordAsync()
