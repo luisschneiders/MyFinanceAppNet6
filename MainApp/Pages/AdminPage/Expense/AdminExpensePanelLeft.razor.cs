@@ -52,7 +52,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
 
     private ViewType _viewType { get; set; } = ViewType.Calendar;
 
-    private string[][] _weeks { get; set; } = default!;
+    private int[][] _weeks { get; set; } = default!;
 
     public AdminExpensePanelLeft()
     {
@@ -76,7 +76,6 @@ public partial class AdminExpensePanelLeft : ComponentBase
             try
             {
                 _spinnerService.ShowSpinner();
-                //await BuildCalendar();
                 await FetchDataAsync();
             }
             catch (Exception ex)

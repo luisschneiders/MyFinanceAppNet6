@@ -2,5 +2,5 @@
 
 public interface ICalendarViewService
 {
-    Task<string[][]> Build(DateTimeRange dateTimeRange);
+    Task<int[][]> Build(DateTimeRange dateTimeRange);
 }

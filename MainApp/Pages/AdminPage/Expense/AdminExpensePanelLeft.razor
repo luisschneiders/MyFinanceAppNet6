@@ -94,12 +94,31 @@
                                                     <tr>
                                                         @foreach (var day in week)
                                                         {
-                                                            <td class=" text-end">
-                                                                <sup>
-                                                                    <span class="@((DateTime.Now.Day.ToString() == day && DateTime.Now.Month == _dateMonthYear.Start.Month) ? $"rounded-circle p-1 bg-{Theme.Info.ToString().ToLower()}-subtle text-{Theme.Info.ToString().ToLower()}-emphasis fw-semibold" : "")">
-                                                                        @day
-                                                                    </span>
-                                                                </sup>
+                                                            <td class="@(day == 0 ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "")">
+                                                                <div class="text-end">
+                                                                    <sup class="@((DateTime.Now.Day == day && DateTime.Now.Month == _dateMonthYear.Start.Month) ? $"rounded-circle p-1 bg-{Theme.Info.ToString().ToLower()}-subtle text-{Theme.Info.ToString().ToLower()}-emphasis" : "") fw-bold">
+                                                                        @(day == 0 ? "" : day)
+                                                                    </sup>
+                                                                </div>
+                                                                @if (day != 0)
+                                                                    {
+                                                                    @foreach (var (item, index) in _weeks.Select((value, index) => (value, index)))
+                                                                        {
+                                                                            if (index < 2)
+                                                                            {
+                                                                        <small class="d-block app-text-calendar text-secondary-emphasis">
+                                                                            $12.0@(index)
+                                                                        </small>
+                                                                            }
+                                                                            else if (index == 2)
+                                                                            {
+                                                                            <div class="app-text-calendar text-primary">
+                                                                                Show more...
+                                                                            </div>
+                                                                            }
+                                                                        }
+
+                                                                    }
                                                             </td>
                                                         }
                                                     </tr>

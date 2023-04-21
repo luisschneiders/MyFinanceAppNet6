@@ -6,7 +6,7 @@ public class CalendarViewService : ICalendarViewService
     {
     }
 
-    public Task<string[][]> Build(DateTimeRange dateTimeRange)
+    public Task<int[][]> Build(DateTimeRange dateTimeRange)
     {
         try
         {
@@ -17,28 +17,28 @@ public class CalendarViewService : ICalendarViewService
 
             int weeksInMonth = (int)Math.Ceiling((firstDayOfWeek + daysInMonth) / 7.0);
 
-            string[][] weeks = new string[weeksInMonth][];
+            int[][] weeks = new int[weeksInMonth][];
 
             int dayNumber = 1;
 
             for (int i = 0; i < weeks.Length; i++)
             {
-                weeks[i] = new string[7];
+                weeks[i] = new int[7];
 
                 for (int j = 0; j < weeks[i].Length; j++)
                 {
                     if (i == 0 && j < firstDayOfWeek)
                     {
-                        weeks[i][j] = "";
+                        weeks[i][j] = 0;
                     }
                     else if (dayNumber <= daysInMonth)
                     {
-                        weeks[i][j] = dayNumber.ToString();
+                        weeks[i][j] = dayNumber;
                         dayNumber++;
                     }
                     else
                     {
-                        weeks[i][j] = "";
+                        weeks[i][j] = 0;
                     }
                 }
             }
