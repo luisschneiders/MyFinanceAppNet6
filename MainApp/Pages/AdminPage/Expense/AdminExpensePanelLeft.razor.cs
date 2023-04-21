@@ -29,7 +29,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private ICalendarViewService _calendarViewService { get; set; } = default!;
 
     private DateTimeRange _dateRange { get; set; } = new();
-    private DateTimeRange _dateMonthYear { get; set; } = new();
+    private DateTimeRange _dateCalendar { get; set; } = new();
 
 
     /*
@@ -48,7 +48,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private decimal _expensesTotal { get; set; } = 0;
 
     private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
-    private string _dropdownDateMonthYearLabel { get; set; } = Label.NoDateAssigned;
+    private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
 
     private bool _isLoading { get; set; } = true;
 
@@ -65,8 +65,8 @@ public partial class AdminExpensePanelLeft : ComponentBase
         _dateRange = _dateTimeService.GetCurrentMonth();
         _dropdownDateRangeLabel = await _dropdownDateRangeService.UpdateLabel(_dateRange);
 
-        _dateMonthYear = _dateTimeService.GetCurrentMonth();
-        _dropdownDateMonthYearLabel = await _dropdownDateMonthYearService.UpdateLabel(_dateMonthYear);
+        _dateCalendar = _dateTimeService.GetCurrentMonth();
+        _dropdownDateCalendarLabel = await _dropdownDateMonthYearService.UpdateLabel(_dateCalendar);
 
         await Task.CompletedTask;
     }
@@ -98,8 +98,8 @@ public partial class AdminExpensePanelLeft : ComponentBase
         {
             if (_viewType == ViewType.Calendar)
             {
-                _expensesByMonthYear = await _expenseService.GetRecordsByDateRange(_dateMonthYear);
-                _weeks = await _calendarViewService.Build(_dateMonthYear);
+                _expensesByMonthYear = await _expenseService.GetRecordsByDateRange(_dateCalendar);
+                _weeks = await _calendarViewService.Build(_dateCalendar);
             }
             else if (_viewType == ViewType.List)
             {
@@ -162,8 +162,8 @@ public partial class AdminExpensePanelLeft : ComponentBase
 
     private async Task DropdownDateMonthYearRefresh(DateTimeRange dateTimeRange)
     {
-        _dateMonthYear = dateTimeRange;
-        _dropdownDateMonthYearLabel = await _dropdownDateMonthYearService.UpdateLabel(dateTimeRange);
+        _dateCalendar = dateTimeRange;
+        _dropdownDateCalendarLabel = await _dropdownDateMonthYearService.UpdateLabel(dateTimeRange);
         _toastService.ShowToast("Date range has changed!", Theme.Info);
         await RefreshList();
         await Task.CompletedTask;

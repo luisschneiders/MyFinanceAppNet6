@@ -27,8 +27,8 @@
                                            ButtonSize="Size.Md"
                                            ButtonColor="Theme.Info"
                                            DropdownBackground="Theme.Info"
-                                           DateTimeRange="@_dateMonthYear"
-                                           DropdownLabel="@_dropdownDateMonthYearLabel"
+                                           DateTimeRange="@_dateCalendar"
+                                           DropdownLabel="@_dropdownDateCalendarLabel"
                                            OnSubmitSuccess="data => DropdownDateMonthYearRefresh(data)" />
                 }
                 else
@@ -96,7 +96,7 @@
                                                         {
                                                             <td class="@(day == 0 ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "")">
                                                                 <div class="text-end">
-                                                                    <sup class="@((DateTime.Now.Day == day && DateTime.Now.Month == _dateMonthYear.Start.Month) ? $"rounded-circle p-1 bg-{Theme.Info.ToString().ToLower()}-subtle text-{Theme.Info.ToString().ToLower()}-emphasis" : "") fw-bold">
+                                                                    <sup class="@((DateTime.Now.Day == day && DateTime.Now.Month == _dateCalendar.Start.Month) ? $"rounded-circle p-1 bg-{Theme.Info.ToString().ToLower()}-subtle text-{Theme.Info.ToString().ToLower()}-emphasis" : "") fw-bold">
                                                                         @(day == 0 ? "" : day)
                                                                     </sup>
                                                                 </div>
