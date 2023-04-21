@@ -43,6 +43,8 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private AdminExpenseModal _setupModal { get; set; } = new();
 
     private List<ExpenseByCategoryGroupDTO> _expensesByGroup { get; set; } = new();
+    private List<ExpenseListDTO> _expensesByMonthYear { get; set; } = new();
+
     private decimal _expensesTotal { get; set; } = 0;
 
     private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
@@ -96,11 +98,14 @@ public partial class AdminExpensePanelLeft : ComponentBase
         {
             if (_viewType == ViewType.Calendar)
             {
+                _expensesByMonthYear = await _expenseService.GetRecordsByDateRange(_dateMonthYear);
                 await BuildCalendar();
             }
-
-            _expensesByGroup = await _expenseService.GetRecordsByGroupAndDateRange(_dateRange);
-            _expensesTotal = await _expenseService.GetRecordsByDateRangeSum();
+            else if (_viewType == ViewType.List)
+            {
+                _expensesByGroup = await _expenseService.GetRecordsByGroupAndDateRange(_dateRange);
+                _expensesTotal = await _expenseService.GetRecordsByDateRangeSum();
+            }
 
             _isLoading = false;
         }
@@ -113,9 +118,11 @@ public partial class AdminExpensePanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private void UpdateUIVIew(ViewType viewType)
+    private async void UpdateUIVIew(ViewType viewType)
     {
         _viewType = viewType;
+        await FetchDataAsync();
+        StateHasChanged();
     }
 
     private async Task BuildCalendar()
@@ -144,13 +151,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task RefreshDateRangeList()
-    {
-        await FetchDataAsync();
-        await Task.CompletedTask;
-    }
-
-    private async Task RefreshCalendarList()
+    private async Task RefreshList()
     {
         await FetchDataAsync();
         await Task.CompletedTask;
@@ -161,7 +162,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
         _dateRange = dateTimeRange;
         _dropdownDateRangeLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
         _toastService.ShowToast("Date range has changed!", Theme.Info);
-        await RefreshDateRangeList();
+        await RefreshList();
         await Task.CompletedTask;
     }
 
@@ -170,8 +171,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
         _dateMonthYear = dateTimeRange;
         _dropdownDateMonthYearLabel = await _dropdownDateMonthYearService.UpdateLabel(dateTimeRange);
         _toastService.ShowToast("Date range has changed!", Theme.Info);
-        await RefreshCalendarList();
-        await RefreshCalendarList();
+        await RefreshList();
         await Task.CompletedTask;
     }
 

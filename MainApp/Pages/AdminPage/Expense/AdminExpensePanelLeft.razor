@@ -101,24 +101,18 @@
                                                                     </sup>
                                                                 </div>
                                                                 @if (day != 0)
+                                                                {
+                                                                    @foreach(var (item, index) in _expensesByMonthYear.Select((value, index) => (value, index)))
                                                                     {
-                                                                    @foreach (var (item, index) in _weeks.Select((value, index) => (value, index)))
+                                                                        if (item.EDate.Day == day)
                                                                         {
-                                                                            if (index < 2)
-                                                                            {
-                                                                        <small class="d-block app-text-calendar text-secondary-emphasis">
-                                                                            $12.0@(index)
-                                                                        </small>
-                                                                            }
-                                                                            else if (index == 2)
-                                                                            {
-                                                                            <div class="app-text-calendar text-primary">
-                                                                                Show more...
-                                                                            </div>
-                                                                            }
+                                                                            <small class="d-block app-text-calendar text-secondary-emphasis" title="@item.ExpenseCategoryDescription">
+                                                                                <BadgeColor RGBColor="@item.ExpenseCategoryColor"
+                                                                                            Description="@item.Amount.ToString("C")" />
+                                                                            </small>
                                                                         }
-
                                                                     }
+                                                                }
                                                             </td>
                                                         }
                                                     </tr>
@@ -233,5 +227,5 @@
         </div>
     </CardMiddle>
 </CardView>
-<AdminExpenseOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshDateRangeList" />
-<AdminExpenseModal @ref="_setupModal" OnSubmitSuccess="RefreshDateRangeList" />
+<AdminExpenseOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
+<AdminExpenseModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
