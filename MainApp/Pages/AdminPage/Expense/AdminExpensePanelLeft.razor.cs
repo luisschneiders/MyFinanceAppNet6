@@ -28,33 +28,25 @@ public partial class AdminExpensePanelLeft : ComponentBase
     [Inject]
     private ICalendarViewService _calendarViewService { get; set; } = default!;
 
-    private DateTimeRange _dateRange { get; set; } = new();
-    private DateTimeRange _dateCalendar { get; set; } = new();
-
-
-    /*
-     * Add OffCanvas component reference
-     */
+    // Add OffCanvas component reference
     private AdminExpenseOffCanvas _setupOffCanvas { get; set; } = new();
 
-    /*
-     * Add Modal component reference
-     */
+    // Add Modal component reference
     private AdminExpenseModal _setupModal { get; set; } = new();
+
+    private DateTimeRange _dateRange { get; set; } = new();
+    private DateTimeRange _dateCalendar { get; set; } = new();
 
     private List<ExpenseByCategoryGroupDTO> _expensesByGroup { get; set; } = new();
     private List<ExpenseListDTO> _expensesByMonthYear { get; set; } = new();
 
-    private decimal _expensesTotal { get; set; } = 0;
+    private ViewType _viewType { get; set; } = ViewType.Calendar;
 
     private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
     private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
-
-    private bool _isLoading { get; set; } = true;
-
-    private ViewType _viewType { get; set; } = ViewType.Calendar;
-
     private int[][] _weeks { get; set; } = default!;
+    private decimal _expensesTotal { get; set; } = 0;
+    private bool _isLoading { get; set; } = true;
 
     public AdminExpensePanelLeft()
     {
@@ -86,7 +78,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
                 _toastService.ShowToast(ex.Message, Theme.Danger);
             }
 
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
         }
 
         await Task.CompletedTask;
