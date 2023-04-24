@@ -38,7 +38,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private DateTimeRange _dateCalendar { get; set; } = new();
 
     private List<ExpenseByCategoryGroupDTO> _expensesByGroup { get; set; } = new();
-    private List<ExpenseListDTO> _expensesByMonthYear { get; set; } = new();
+    private List<ExpenseCalendarDTO> _expensesCalendarView { get; set; } = new();
 
     private ViewType _viewType { get; set; } = ViewType.Calendar;
 
@@ -90,7 +90,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
         {
             if (_viewType == ViewType.Calendar)
             {
-                _expensesByMonthYear = await _expenseService.GetRecordsByDateRange(_dateCalendar);
+                _expensesCalendarView = await _expenseService.GetRecordsCalendarView(_dateCalendar);
                 _weeks = await _calendarViewService.Build(_dateCalendar);
             }
             else if (_viewType == ViewType.List)

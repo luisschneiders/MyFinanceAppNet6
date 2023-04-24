@@ -102,7 +102,7 @@
                                                                 </div>
                                                                 @if (day != 0)
                                                                 {
-                                                                    @foreach(var (item, index) in _expensesByMonthYear.Select((value, index) => (value, index)))
+                                                                    @foreach(var (item, index) in _expensesCalendarView.Select((value, index) => (value, index)))
                                                                     {
                                                                         if (item.EDate.Day == day)
                                                                         {

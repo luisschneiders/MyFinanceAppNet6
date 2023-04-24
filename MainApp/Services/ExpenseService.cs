@@ -127,8 +127,8 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         try
         {
             var records = await GetRecordsByDateRange(dateTimeRange);
-            var resultsGroupBy = records.GroupBy(tc => tc.ExpenseCategoryDescription);
-            var results = resultsGroupBy.Select(tcGroup => new ExpenseByCategoryGroupDTO()
+            var resultsByGroup = records.GroupBy(tc => tc.ExpenseCategoryDescription);
+            var results = resultsByGroup.Select(tcGroup => new ExpenseByCategoryGroupDTO()
             {
                 Description = tcGroup.Key,
                 Color = tcGroup.Select(c => c.ExpenseCategoryColor).FirstOrDefault(),
@@ -137,6 +137,45 @@ public class ExpenseService : IExpenseService<ExpenseModel>
             }).ToList();
 
             _expensesByDateRangeSum = records.Sum(t => t.Amount);
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<List<ExpenseCalendarDTO>> GetRecordsCalendarView(DateTimeRange dateTimeRange)
+    {
+        try
+        {
+            var records = await GetRecordsByDateRange(dateTimeRange);
+            var resultsByGroupDay = records.GroupBy(d => d.EDate);
+
+            List<ExpenseCalendarDTO> results = new();
+
+            foreach (var record in records)
+            {
+                ExpenseCalendarDTO expenseCalendarDTO = new();
+
+                var result = results.Find(e => e.ExpenseCategoryDescription == record.ExpenseCategoryDescription &&
+                                               e.EDate.Date == record.EDate.Date);
+
+                if (result is not null)
+                {
+                    result.Amount += record.Amount;
+                }
+                else
+                {
+                    expenseCalendarDTO.EDate = record.EDate;
+                    expenseCalendarDTO.ExpenseCategoryColor = record.ExpenseCategoryColor;
+                    expenseCalendarDTO.ExpenseCategoryDescription = record.ExpenseCategoryDescription;
+                    expenseCalendarDTO.Amount = record.Amount;
+                    results.Add(expenseCalendarDTO);
+                }
+            }
 
             return results;
         }
