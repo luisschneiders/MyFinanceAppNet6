@@ -1,6 +1,8 @@
 ﻿@using MainApp.Components.Badge.Color
 @using MainApp.Components.Card
+@using MainApp.Components.CalendarView
 @using MainApp.Components.Dropdown.Actions
+@using MainApp.Components.Dropdown.Date
 @using MainApp.Components.Dropdown.DateRange
 @using MainApp.Components.Spinner
 @using MainApp.Components.Accordion
@@ -8,15 +10,39 @@
 <CardView Styles="border-0">
     <CardMiddle>
         <div class="row justify-content-between pb-2">
-            <div class="col-10 col-lg-8 pb-2 d-flex">
-                <DropdownDateRange IconColor="Theme.Primary"
-                                   ButtonSize="Size.Md"
-                                   ButtonColor="Theme.Info"
-                                   DropdownBackground="Theme.Info"
-                                   DateTimeRange="@_dateTimeRange"
-                                   DropdownLabel="@_dropdownLabel"
-                                   PeriodRange="PeriodRange.Month"
-                                   OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
+            <div class="col-10 col-lg-8 pb-2 d-flex gap-3">
+                <div class="btn-group bg-@(Theme.Warning.ToString().ToLower())-subtle"
+                     role="group"
+                     aria-label="Radio toggle button group"
+                     title="Change view">
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value="@_viewType" @onclick="() => UpdateUIVIew(ViewType.Calendar)" checked="@(_viewType == @ViewType.Calendar ? true : false)">
+                    <label class="btn text-@(Theme.Warning.ToString().ToLower() )-emphasis" for="btnradio1"><i class="bi bi-calendar3 pe-1"></i></label>
+
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value="@_viewType" @onclick="() => UpdateUIVIew(ViewType.List)" checked="@(_viewType == @ViewType.List ? true : false)">
+                    <label class="btn text-@(Theme.Warning.ToString().ToLower() )-emphasis" for="btnradio2"><i class="bi bi-list-ul pe-1"></i></label>
+                </div>
+                @if (_viewType == ViewType.Calendar)
+                {
+                    <DropdownDateMonthYear IconColor="Theme.Info"
+                                           ButtonSize="Size.Md"
+                                           ButtonColor="Theme.Info"
+                                           DropdownBackground="Theme.Info"
+                                           DateTimeRange="@_dateCalendar"
+                                           DropdownLabel="@_dropdownDateCalendarLabel"
+                                           OnSubmitSuccess="data => DropdownDateMonthYearRefresh(data)" />
+                }
+                else
+                {
+                    <DropdownDateRange IconColor="Theme.Info"
+                                       ButtonSize="Size.Md"
+                                       ButtonColor="Theme.Info"
+                                       DropdownBackground="Theme.Info"
+                                       DateTimeRange="@_dateRange"
+                                       DropdownLabel="@_dropdownDateRangeLabel"
+                                       PeriodRange="PeriodRange.Month"
+                                       OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
+                }
+
             </div>
             <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
                 <div class="d-none d-lg-block">
@@ -41,6 +67,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="app-page-responsive-height">
+
                     @if (_isLoading)
                     {
                         <div class="d-flex justify-content-center align-items-center">
@@ -52,102 +79,149 @@
                     }
                     else
                     {
-
-                        @if (_expensesByGroup.Count <= 0)
+                        @if (_viewType == ViewType.Calendar)
                         {
-                            <div class="text-center">
-                                Not record found!
-                            </div>
+                            <CalendarWrapper>
+                                    <CalendarHeaderView>
+                                        <CalendarHeaderWrapper />
+                                    </CalendarHeaderView>
+                                    <CalendarBodyView>
+                                        <CalendarBodyWrapper>
+                                            @if (_weeks is not null)
+                                            {
+                                                @foreach (var week in _weeks)
+                                                {
+                                                    <tr>
+                                                        @foreach (var day in week)
+                                                        {
+                                                            <td class="@(day == 0 ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "")">
+                                                                <div class="text-end">
+                                                                    <sup class="@((DateTime.Now.Day == day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
+                                                                                  $"rounded-circle p-1 bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
+                                                                                  "") fw-bold">
+                                                                        @(day == 0 ? "" : day)
+                                                                    </sup>
+                                                                </div>
+                                                                @if (day != 0)
+                                                                {
+                                                                    @foreach(var (item, index) in _expensesCalendarView.Select((value, index) => (value, index)))
+                                                                    {
+                                                                        if (item.EDate.Day == day)
+                                                                        {
+                                                                            <small class="d-block app-text-calendar text-secondary-emphasis" title="@item.ExpenseCategoryDescription">
+                                                                                <BadgeColor RGBColor="@item.ExpenseCategoryColor"
+                                                                                            Description="@item.Amount.ToString("C")" />
+                                                                            </small>
+                                                                        }
+                                                                    }
+                                                                }
+                                                            </td>
+                                                        }
+                                                    </tr>
+                                                }
+                                            }
+                                        </CalendarBodyWrapper>
+                                    </CalendarBodyView>
+                            </CalendarWrapper>
                         }
                         else
                         {
-                            <div class="accordion d-flex justify-content-between p-3 fw-semibold
-                                        bg-@(Theme.Secondary.ToString().ToLower())-subtle
-                                        text-@(Theme.Primary.ToString().ToLower())-emphasis">
-                                <div class="text-uppercase d-flex">
-                                    Total<span class="d-none d-lg-block ps-1">for the period</span>
+                            @if (_expensesByGroup.Count <= 0)
+                            {
+                                <div class="text-center">
+                                    Not record found!
                                 </div>
-                                <span class="pe-5 me-expenses-sum">
-                                    @_expensesTotal.ToString("C")
-                                </span>
-                            </div>
-                            <Accordion Id="Expenses">
-                                @foreach (var (record, index) in _expensesByGroup.Select((value, index) => (value, index)))
-                                {
-                                    <AccordionItem>
-                                        <AccordionHeader Id="@index.ToString()">
-                                            <BadgeColor RGBColor="@record.Color"
-                                                        Description="@record.Description" />
-                                            <div>
-                                                @record.Total.ToString("C")
-                                            </div>
-                                        </AccordionHeader>
-                                        <AccordionBody Id="@index.ToString()">
-                                            <div class="table-responsive">
-                                                <table class="table table-hover">
-                                                    <thead class="app-table-head-vertical-align-top">
-                                                        <tr>
-                                                            <th class="col-2">
-                                                                Date
-                                                            </th>
-                                                            <th class="col-3">
-                                                                Debit from
-                                                            </th>
-                                                            <th class="col-5">
-                                                                Comments
-                                                            </th>
-                                                            <th class="col-2 text-end">
-                                                                Amount
-                                                            </th>
-                                                            <th></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @if (_expensesByGroup.Count <= 0)
-                                                        {
-                                                            <tr class="bg-light-subtle">
-                                                                <td class="text-center" colspan="5">
-                                                                    <div>
-                                                                        Not record found!
-                                                                    </div>
-                                                                </td>
+                            }
+                            else
+                            {
+                                <div class="accordion d-flex justify-content-between p-3 fw-semibold
+                                            bg-@(Theme.Secondary.ToString().ToLower())-subtle
+                                            text-@(Theme.Primary.ToString().ToLower())-emphasis">
+                                    <div class="text-uppercase d-flex">
+                                        Total<span class="d-none d-lg-block ps-1">for the period</span>
+                                    </div>
+                                    <span class="pe-5 me-expenses-sum">
+                                        @_expensesTotal.ToString("C")
+                                    </span>
+                                </div>
+                                <Accordion Id="Expenses">
+                                    @foreach (var (record, index) in _expensesByGroup.Select((value, index) => (value, index)))
+                                    {
+                                        <AccordionItem>
+                                            <AccordionHeader Id="@index.ToString()">
+                                                <BadgeColor RGBColor="@record.Color"
+                                                            Description="@record.Description" />
+                                                <div>
+                                                    @record.Total.ToString("C")
+                                                </div>
+                                            </AccordionHeader>
+                                            <AccordionBody Id="@index.ToString()">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover">
+                                                        <thead class="app-table-head-vertical-align-top">
+                                                            <tr>
+                                                                <th class="col-2">
+                                                                    Date
+                                                                </th>
+                                                                <th class="col-3">
+                                                                    Debit from
+                                                                </th>
+                                                                <th class="col-5">
+                                                                    Comments
+                                                                </th>
+                                                                <th class="col-2 text-end">
+                                                                    Amount
+                                                                </th>
+                                                                <th></th>
                                                             </tr>
-                                                        }
-                                                        else
-                                                        {
-                                                            foreach (var record in _expensesByGroup[index].Expenses)
+                                                        </thead>
+                                                        <tbody>
+                                                            @if (_expensesByGroup.Count <= 0)
                                                             {
                                                                 <tr class="bg-light-subtle">
-                                                                    <td>
-                                                                        @record.EDate.ToString("dd/MM/yy")
-                                                                    </td>
-                                                                    <td>
-                                                                        @record.BankDescription
-                                                                    </td>
-                                                                    <td>
-                                                                        @record.Comments
-                                                                    </td>
-                                                                    <td class="text-end">
-                                                                        @record.Amount.ToString("C")
-                                                                    </td>
-                                                                    <td class="text-center">
-                                                                        <button class="btn btn-link p-0 text-danger"
-                                                                                type="button"
-                                                                                title="Archive"
-                                                                                @onclick="() => ArchiveRecordAsync(record)">
-                                                                            <i class="bi bi-archive"></i>
-                                                                        </button>
+                                                                    <td class="text-center" colspan="5">
+                                                                        <div>
+                                                                            Not record found!
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                             }
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </AccordionBody>
-                                    </AccordionItem>
-                                }
-                            </Accordion>
+                                                            else
+                                                            {
+                                                                foreach (var record in _expensesByGroup[index].Expenses)
+                                                                {
+                                                                    <tr class="bg-light-subtle">
+                                                                        <td>
+                                                                            @record.EDate.ToString("dd/MM/yy")
+                                                                        </td>
+                                                                        <td>
+                                                                            @record.BankDescription
+                                                                        </td>
+                                                                        <td>
+                                                                            @record.Comments
+                                                                        </td>
+                                                                        <td class="text-end">
+                                                                            @record.Amount.ToString("C")
+                                                                        </td>
+                                                                        <td class="text-center">
+                                                                            <button class="btn btn-link p-0 text-danger"
+                                                                                    type="button"
+                                                                                    title="Archive"
+                                                                                    @onclick="() => ArchiveRecordAsync(record)">
+                                                                                <i class="bi bi-archive"></i>
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </AccordionBody>
+                                        </AccordionItem>
+                                    }
+                                </Accordion>
+                            }
                         }
                     }
                 </div>

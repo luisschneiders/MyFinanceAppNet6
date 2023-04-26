@@ -20,24 +20,32 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
 
     [Inject]
+    private IDropdownDateMonthYearService _dropdownDateMonthYearService { get; set; } = default!;
+
+    [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
-    private DateTimeRange _dateTimeRange { get; set; } = new();
+    [Inject]
+    private ICalendarViewService _calendarViewService { get; set; } = default!;
 
-    /*
-     * Add OffCanvas component reference
-     */
+    // Add OffCanvas component reference
     private AdminExpenseOffCanvas _setupOffCanvas { get; set; } = new();
 
-    /*
-     * Add Modal component reference
-     */
+    // Add Modal component reference
     private AdminExpenseModal _setupModal { get; set; } = new();
 
-    private List<ExpenseByCategoryGroupDTO> _expensesByGroup { get; set; } = new();
-    private decimal _expensesTotal { get; set; } = 0;
+    private DateTimeRange _dateRange { get; set; } = new();
+    private DateTimeRange _dateCalendar { get; set; } = new();
 
-    private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
+    private List<ExpenseByCategoryGroupDTO> _expensesByGroup { get; set; } = new();
+    private List<ExpenseCalendarDTO> _expensesCalendarView { get; set; } = new();
+
+    private ViewType _viewType { get; set; } = ViewType.Calendar;
+
+    private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
+    private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
+    private int[][] _weeks { get; set; } = default!;
+    private decimal _expensesTotal { get; set; } = 0;
     private bool _isLoading { get; set; } = true;
 
     public AdminExpensePanelLeft()
@@ -46,8 +54,12 @@ public partial class AdminExpensePanelLeft : ComponentBase
 
     protected async override Task OnInitializedAsync()
     {
-        _dateTimeRange = _dateTimeService.GetCurrentMonth();
-        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
+        _dateRange = _dateTimeService.GetCurrentMonth();
+        _dropdownDateRangeLabel = await _dropdownDateRangeService.UpdateLabel(_dateRange);
+
+        _dateCalendar = _dateTimeService.GetCurrentMonth();
+        _dropdownDateCalendarLabel = await _dropdownDateMonthYearService.UpdateLabel(_dateCalendar);
+
         await Task.CompletedTask;
     }
 
@@ -66,7 +78,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
                 _toastService.ShowToast(ex.Message, Theme.Danger);
             }
 
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
         }
 
         await Task.CompletedTask;
@@ -76,8 +88,17 @@ public partial class AdminExpensePanelLeft : ComponentBase
     {
         try
         {
-            _expensesByGroup = await _expenseService.GetRecordsByGroupAndDateRange(_dateTimeRange);
-            _expensesTotal = await _expenseService.GetRecordsByDateRangeSum();
+            if (_viewType == ViewType.Calendar)
+            {
+                _expensesCalendarView = await _expenseService.GetRecordsCalendarView(_dateCalendar);
+                _weeks = await _calendarViewService.Build(_dateCalendar);
+            }
+            else if (_viewType == ViewType.List)
+            {
+                _expensesByGroup = await _expenseService.GetRecordsByGroupAndDateRange(_dateRange);
+                _expensesTotal = await _expenseService.GetRecordsByDateRangeSum();
+            }
+
             _isLoading = false;
         }
         catch (Exception ex)
@@ -87,6 +108,13 @@ public partial class AdminExpensePanelLeft : ComponentBase
         }
 
         await Task.CompletedTask;
+    }
+
+    private async void UpdateUIVIew(ViewType viewType)
+    {
+        _viewType = viewType;
+        await FetchDataAsync();
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task AddRecordAsync()
@@ -117,10 +145,20 @@ public partial class AdminExpensePanelLeft : ComponentBase
 
     private async Task DropdownDateRangeRefresh(DateTimeRange dateTimeRange)
     {
-        _dateTimeRange = dateTimeRange;
-        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
+        _dateRange = dateTimeRange;
+        _dropdownDateRangeLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
         _toastService.ShowToast("Date range has changed!", Theme.Info);
         await RefreshList();
         await Task.CompletedTask;
     }
+
+    private async Task DropdownDateMonthYearRefresh(DateTimeRange dateTimeRange)
+    {
+        _dateCalendar = dateTimeRange;
+        _dropdownDateCalendarLabel = await _dropdownDateMonthYearService.UpdateLabel(dateTimeRange);
+        _toastService.ShowToast("Date range has changed!", Theme.Info);
+        await RefreshList();
+        await Task.CompletedTask;
+    }
+
 }

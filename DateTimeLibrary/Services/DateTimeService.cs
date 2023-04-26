@@ -34,6 +34,12 @@ public class DateTimeService : IDateTimeService
         return dateTimeRange;
     }
 
+    public DateTime GetLastDayOfMonth(DateTimeRange dateTimeRange)
+    {
+        DateTime lastDay = dateTimeRange.Start.AddMonths(1).AddDays(-1);
+        return lastDay;
+    }
+
     public bool CheckDateRange(DateTimeRange dateTimeRange)
     {
         return dateTimeRange.Start.Date <= dateTimeRange.End.Date;

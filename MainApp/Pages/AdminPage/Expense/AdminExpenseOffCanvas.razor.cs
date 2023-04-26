@@ -68,7 +68,7 @@ public partial class AdminExpenseOffCanvas : ComponentBase
     public async Task AddRecordOffCanvasAsync()
     {
         _expenseModel = new();
-        _expenseModel.EDate = DateTime.Now;
+        _expenseModel.EDate = DateTime.Today;
 
         await _offCanvasService.AddRecordAsync();
         await Task.CompletedTask;

@@ -1,0 +1,11 @@
+﻿@using System.Globalization;
+
+<thead>
+    <tr class="text-center">
+        @foreach (var dayOfWeek in Enumerable.Range(0, 7).Select(i => (DayOfWeek)i))
+        {
+            <th class="col-1">@CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedDayName(dayOfWeek)</th>
+        }
+    </tr>
+</thead>
+
