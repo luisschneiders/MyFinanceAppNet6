@@ -96,7 +96,9 @@
                                                         {
                                                             <td class="@(day == 0 ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "")">
                                                                 <div class="text-end">
-                                                                    <sup class="@((DateTime.Now.Day == day && DateTime.Now.Month == _dateCalendar.Start.Month) ? $"rounded-circle p-1 bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" : "") fw-bold">
+                                                                    <sup class="@((DateTime.Now.Day == day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
+                                                                                  $"rounded-circle p-1 bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
+                                                                                  "") fw-bold">
                                                                         @(day == 0 ? "" : day)
                                                                     </sup>
                                                                 </div>
