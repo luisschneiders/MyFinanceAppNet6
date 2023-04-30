@@ -42,11 +42,20 @@ h1:focus {
     text-shadow: 1px 1px 2px #000;
 }
 
-.app-text-calendar {
+.app-calendar-text {
     font-size: 0.6rem;
 }
 
-.app-table-calendar >:not(caption) > * > * {
+.app-calendar-day {
+    font-size: 0.65rem;
+}
+
+.app-calendar-current-day {
+    width: 22px;
+    height: 22px;
+}
+
+.app-table-calendar > :not(caption) > * > * {
     padding: 0.25rem 0.25rem;
 }
 

@@ -95,12 +95,12 @@
                                                         @foreach (var day in week)
                                                         {
                                                             <td class="@(day == 0 ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "")">
-                                                                <div class="text-end">
-                                                                    <sup class="@((DateTime.Now.Day == day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
-                                                                                  $"rounded-circle p-1 bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
+                                                                <div class="d-flex justify-content-end">
+                                                                    <div class="app-calendar-day text-center p-1 @((DateTime.Now.Day == day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
+                                                                                  $"app-calendar-current-day rounded-circle bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
                                                                                   "") fw-bold">
                                                                         @(day == 0 ? "" : day)
-                                                                    </sup>
+                                                                    </div>
                                                                 </div>
                                                                 @if (day != 0)
                                                                 {
@@ -108,7 +108,7 @@
                                                                     {
                                                                         if (item.EDate.Day == day)
                                                                         {
-                                                                            <small class="d-block app-text-calendar text-secondary-emphasis" title="@item.ExpenseCategoryDescription">
+                                                                            <small class="d-block app-calendar-text text-secondary-emphasis" title="@item.ExpenseCategoryDescription">
                                                                                 <BadgeColor RGBColor="@item.ExpenseCategoryColor"
                                                                                             Description="@item.Amount.ToString("C")" />
                                                                             </small>
