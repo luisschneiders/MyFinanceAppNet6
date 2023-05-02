@@ -1,6 +1,6 @@
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spLocation_Save`(
-	IN locationAddress varchar(255),
+	IN locationAddress varchar(300),
     IN locationLatitude decimal(8,6),
     IN locationLongitude decimal(9,6),
 	IN locationUpdatedBy varchar(28),
