@@ -91,7 +91,7 @@ public partial class SettingsLocationOffCanvas : ComponentBase
 
             _isVerifying = true;
 
-            Response<List<LocationModel>> response = await _googleService.GetGeocodingAddressAsync(_locationModel.Address);
+            Response<List<LocationModel>> response = await _googleService.GetGeocodeAddressAsync(_locationModel.Address);
 
             if (response.Success)
             {

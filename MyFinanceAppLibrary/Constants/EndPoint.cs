@@ -31,7 +31,7 @@ public static class EndPoint
     public const string SettingsAppearance = $"{Settings}/appearance";
 
     public const string V2FinnhubNewsAll = "v2/Finnhub/GetAllNewsRecords";
-    public const string V2GoogleGeocoding = "v2/Google/GetGeocoding";
+    public const string V2GoogleGeocode = "v2/Google/GetGeocode";
     public const string V2RapidApiWeatherCondition = "v2/RapidApi/GetWeatherCondition";
 
 }

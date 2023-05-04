@@ -11,7 +11,7 @@ public class GoogleService : IGoogleService
         _webApiService = webApiService;
     }
 
-    public async Task<Response<List<LocationModel>>> GetGeocodingAddressAsync(string address)
+    public async Task<Response<List<LocationModel>>> GetGeocodeAddressAsync(string address)
     {
         try
         {
@@ -22,7 +22,7 @@ public class GoogleService : IGoogleService
                 ["Address"] = address
             };
 
-            var uri = QueryHelpers.AddQueryString(EndPoint.V2GoogleGeocoding, query!);
+            var uri = QueryHelpers.AddQueryString(EndPoint.V2GoogleGeocode, query!);
 
             Response<List<LocationModel>>? response = await client.GetFromJsonAsync<Response<List<LocationModel>>>(uri);
 

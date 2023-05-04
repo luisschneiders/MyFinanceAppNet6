@@ -2,5 +2,5 @@
 
 public interface IGoogleService
 {
-    Task<Response<List<LocationModel>>> GetGeocodingAddressAsync(string address);
+    Task<Response<List<LocationModel>>> GetGeocodeAddressAsync(string address);
 }
