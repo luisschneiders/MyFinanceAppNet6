@@ -22,17 +22,25 @@ public partial class AdminExpenseOffCanvas : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = default!;
 
+    [Inject]
+    private IGoogleService _googleService { get; set; } = default!;
+
     [Parameter]
     public EventCallback OnSubmitSuccess { get; set; }
 
     private ExpenseModel _expenseModel { get; set; } = new();
+    private LocationModel _locationModel { get; set; } = new();
     private List<BankModel> _activeBanks { get; set; } = new();
     private List<ExpenseCategoryModel> _activeExpenseCategories { get; set; } = new();
+    private List<LocationModel> _locationlist { get; set; } = new();
 
     private bool _shouldRender { get; set; } = true;
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
     private bool _isLoading { get; set; } = true;
+    private bool _formIsInvalid { get; set; } = false;
+    private bool _userLocationIsInvalid { get; set; } = false;
+    private bool _isVerifying { get; set; } = false;
 
     public AdminExpenseOffCanvas()
     {
@@ -193,10 +201,66 @@ public partial class AdminExpenseOffCanvas : ComponentBase
 
     private async Task CloseOffCanvasAsync()
     {
-        _expenseModel = new();
-        _activeBanks = new();
+        await ResetDefaults();
 
         await _offCanvasService.CloseAsync();
+        await Task.CompletedTask;
+    }
+
+    private async Task ResetDefaults()
+    {
+        _expenseModel = new();
+        _activeBanks = new();
+        _locationModel = new();
+        _locationlist = new();
+        _formIsInvalid = false;
+        _userLocationIsInvalid = false;
+        _isProcessing = false;
+
+        await Task.CompletedTask;
+    }
+
+    private async Task VerifyAddress()
+    {
+        try
+        {
+            _formIsInvalid = false;
+
+            if (string.IsNullOrWhiteSpace(_locationModel.Address))
+            {
+                _formIsInvalid = true;
+                return;
+            }
+
+            _isVerifying = true;
+
+            Response<List<LocationModel>> response = await _googleService.GetGeocodeAddressAsync(_locationModel.Address);
+
+            if (response.Success)
+            {
+                _locationlist = response.Data;
+            }
+            else
+            {
+                _locationlist = new();
+                _toastService.ShowToast(response.ErrorMessage, Theme.Danger);
+            }
+
+            _isVerifying = false;
+
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;
+    }
+
+    private async Task SelectAddress(LocationModel location)
+    {
+        _expenseModel.Location = location;
+        Console.WriteLine("LFS - location id: " + location.Id);
         await Task.CompletedTask;
     }
 }
