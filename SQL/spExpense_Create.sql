@@ -100,6 +100,7 @@ BEGIN
         SET lastInsertedExpenseId = LAST_INSERT_ID();
         
 		INSERT INTO `myfinancedb`.`LocationExpense` (
+			`Date`,
 			`ExpenseId`,
 			`LocationId`,
 			`Address`,
@@ -110,6 +111,7 @@ BEGIN
 			`UpdatedAt`
 		)
 		VALUES (
+			expenseEDate,
 			lastInsertedExpenseId,
 			expenseLocationId,
 			expenseLocationAddress,
