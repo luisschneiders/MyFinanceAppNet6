@@ -17,7 +17,6 @@ BEGIN
 	DECLARE rowCountBankDebit int default 0;
     DECLARE rowCountTransactionDebit int default 0;
 	DECLARE rowCountExpense int default 0;
-    DECLARE rowCountLocationExpense int default 0;
 	DECLARE bankCurrentBalance decimal(10,2) default 0;
     DECLARE transactionTCategoryId int default 0;
     DECLARE transactionAction char(1);
@@ -99,34 +98,34 @@ BEGIN
         SET rowCountExpense = ROW_COUNT();
         SET lastInsertedExpenseId = LAST_INSERT_ID();
         
-		INSERT INTO `myfinancedb`.`LocationExpense` (
-			`Date`,
-			`ExpenseId`,
-			`LocationId`,
-			`Address`,
-			`Latitude`,
-			`Longitude`,
-			`UpdatedBy`,
-			`CreatedAt`,
-			`UpdatedAt`
-		)
-		VALUES (
-			expenseEDate,
-			lastInsertedExpenseId,
-			expenseLocationId,
-			expenseLocationAddress,
-			expenseLocationLatitude,
-			expenseLocationLongitude,
-			expenseUpdatedBy,
-			expenseCreatedAt,
-			expenseUpdatedAt
-		);
-        SET rowCountLocationExpense = ROW_COUNT();
-        
+        IF (expenseLocationId is not null OR expenseLocationId != '') THEN
+			INSERT INTO `myfinancedb`.`LocationExpense` (
+				`Date`,
+				`ExpenseId`,
+				`LocationId`,
+				`Address`,
+				`Latitude`,
+				`Longitude`,
+				`UpdatedBy`,
+				`CreatedAt`,
+				`UpdatedAt`
+			)
+			VALUES (
+				expenseEDate,
+				lastInsertedExpenseId,
+				expenseLocationId,
+				expenseLocationAddress,
+				expenseLocationLatitude,
+				expenseLocationLongitude,
+				expenseUpdatedBy,
+				expenseCreatedAt,
+				expenseUpdatedAt
+			);
+        END IF;
+
 		IF (rowCountBankDebit > 0 AND
 			rowCountTransactionDebit > 0 AND 
-			rowCountExpense > 0 AND
-            rowCountLocationExpense > 0) THEN
+			rowCountExpense > 0) THEN
 			COMMIT;
 		ELSE
 			ROLLBACK;
