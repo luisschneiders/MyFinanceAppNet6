@@ -50,7 +50,8 @@ public class GoogleService : IGoogleService
                 ["Location"] = model.Location,
                 ["Marker"] = model.Marker,
                 ["Scale"] = model.Scale,
-                ["Size"] = model.Size,
+                ["Width"] = model.Width.ToString(),
+                ["Height"] = model.Height.ToString(),
             };
 
             var uri = QueryHelpers.AddQueryString(EndPoint.V2GoogleMapStatic, query!);
@@ -58,7 +59,6 @@ public class GoogleService : IGoogleService
             Response<byte[]>? response = await client.GetFromJsonAsync<Response<byte[]>>(uri);
 
             string imgBase64Data = Convert.ToBase64String(response!.Data);
-
             string imgDataURL = string.Format("data:image/png;base64,{0}", imgBase64Data);
 
             Response<string> image = new();
