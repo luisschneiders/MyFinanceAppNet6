@@ -100,7 +100,7 @@ BEGIN
         
         IF (expenseLocationId is not null OR expenseLocationId != '') THEN
 			INSERT INTO `myfinancedb`.`LocationExpense` (
-				`Date`,
+				`LDate`,
 				`ExpenseId`,
 				`LocationId`,
 				`Address`,
