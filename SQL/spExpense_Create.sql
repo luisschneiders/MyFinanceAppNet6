@@ -99,18 +99,7 @@ BEGIN
         SET lastInsertedExpenseId = LAST_INSERT_ID();
         
         IF (expenseLocationId is not null OR expenseLocationId != '') THEN
-			INSERT INTO `myfinancedb`.`LocationExpense` (
-				`LDate`,
-				`ExpenseId`,
-				`LocationId`,
-				`Address`,
-				`Latitude`,
-				`Longitude`,
-				`UpdatedBy`,
-				`CreatedAt`,
-				`UpdatedAt`
-			)
-			VALUES (
+			CALL spLocationExpense_Create(
 				expenseEDate,
 				lastInsertedExpenseId,
 				expenseLocationId,
@@ -120,7 +109,7 @@ BEGIN
 				expenseUpdatedBy,
 				expenseCreatedAt,
 				expenseUpdatedAt
-			);
+            );
         END IF;
 
 		IF (rowCountBankDebit > 0 AND
