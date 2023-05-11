@@ -2,6 +2,6 @@
 
 public interface IGoogleService
 {
-    Task<Response<List<LocationModel>>> GetGeocodeAddressAsync(string address);
-    Task<Response<string>> GetMapStaticImageAsync(GoogleMapStaticModel model);
+    Task<Response<List<LocationModel>>> GetGeocodeAddress(string address);
+    Task<Response<string>> GetMapStaticImage(GoogleMapStaticModel model);
 }

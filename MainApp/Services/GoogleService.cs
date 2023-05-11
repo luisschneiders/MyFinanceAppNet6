@@ -11,7 +11,7 @@ public class GoogleService : IGoogleService
         _webApiService = webApiService;
     }
 
-    public async Task<Response<List<LocationModel>>> GetGeocodeAddressAsync(string address)
+    public async Task<Response<List<LocationModel>>> GetGeocodeAddress(string address)
     {
         try
         {
@@ -39,7 +39,7 @@ public class GoogleService : IGoogleService
         }
     }
 
-    public async Task<Response<string>> GetMapStaticImageAsync(GoogleMapStaticModel model)
+    public async Task<Response<string>> GetMapStaticImage(GoogleMapStaticModel model)
     {
         try
         {

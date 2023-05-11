@@ -234,7 +234,7 @@ public partial class AdminExpenseOffCanvas : ComponentBase
 
             _isVerifying = true;
 
-            Response<List<LocationModel>> response = await _googleService.GetGeocodeAddressAsync(_locationModel.Address);
+            Response<List<LocationModel>> response = await _googleService.GetGeocodeAddress(_locationModel.Address);
 
             if (response.Success)
             {
@@ -260,7 +260,6 @@ public partial class AdminExpenseOffCanvas : ComponentBase
     private async Task SelectAddress(LocationModel location)
     {
         _expenseModel.Location = location;
-        Console.WriteLine("LFS - location id: " + location.Id);
         await Task.CompletedTask;
     }
 }
