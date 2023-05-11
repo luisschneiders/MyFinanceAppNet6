@@ -25,6 +25,10 @@ public class ExpenseModel : BaseModel, IValidatableObject
     public decimal Amount { get; set; }
 
     public ulong TransactionId { get; set; }
+
+    // Location will be used only for the LocationExpense table on Mysql
+    public LocationModel Location { get; set; } = new();
+
     // For validation only, not part of the schema - start
     public ExpenseCategoryModel ExpenseCategoryModel { get; set; } = new();
     public BankModel BankModel { get; set; } = new();

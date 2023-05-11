@@ -75,4 +75,7 @@
     <Folder Include="BackgroundServices\" />
     <Folder Include="Factories\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\images\map-static-expenses.png" />
+  </ItemGroup>
 </Project>

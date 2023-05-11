@@ -2,6 +2,8 @@
 @using MainApp.Components.Badge
 @using MainApp.Components.Shared
 @using MainApp.Components.Chart.Expense
+@using MainApp.Components.Dropdown.DateRange
+@using MainApp.Components.Spinner
 
 <CardView Styles="w-100 border-0 mb-4">
     <CardMiddle>
@@ -10,20 +12,47 @@
 </CardView>
 <CardView Styles="w-100 border-0">
     <CardMiddle>
-        <SharedHeader Title="Current month"
+        <SharedHeader Title="Purchase location"
                       Icon="bi-map"
-                      IconColor="Theme.Info"
-                      BadgeBackgroundColor="Theme.Success"
-                      BadgeTitle="Demo" />
-        <img src="@_staticMapImage" class="img-fluid rounded" />
-        @*<div class="">
-            <iframe class="w-100 rounded"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12599.527008240531!2d144.73387036438893!3d-37.86305715140879!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad689a90ad3e1e3%3A0x5045675218d00f0!2sWilliams%20Landing%20VIC%203027!5e0!3m2!1sen!2sau!4v1683087006515!5m2!1sen!2sau"
-                    style="border:0;"
-                    allowfullscreen=""
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
-        </div>*@
+                      IconColor="Theme.Info" />
+
+        <div class="row pb-3">
+            <div class="col-12">
+                <DropdownDateRange IconColor="Theme.Info"
+                                   ButtonColor="Theme.Secondary"
+                                   DropdownBackground="Theme.Secondary"
+                                   DateTimeRange="@_dateTimeRange"
+                                   DropdownLabel="@_dropdownLabel"
+                                   PeriodRange="PeriodRange.Month"
+                                   OnSubmitSuccess="data => DropdownDateRangeRefresh(data)"/>
+            </div>
+        </div>
+
+
+        @if (_isLoading)
+        {
+            <div class="text-center">
+                <Spinner Size="Size.Sm" />
+                <span>
+                    Loading ...
+                </span>
+            </div>
+        }
+        else
+        {
+            @if (_imageURL.Length >= 0)
+            {
+                <img src="@_imageURL" class="img-fluid rounded" />
+            }
+            else
+            {
+                <div class="text-center p-4">
+                    <i class="bi bi-image fs-2 text-@(Theme.Danger.ToString().ToLower())-emphasis"></i>
+                    <div>
+                        No image available!
+                    </div>
+                </div>
+            }
+        }
     </CardMiddle>
 </CardView>

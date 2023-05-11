@@ -11,7 +11,7 @@ public class GoogleService : IGoogleService
         _webApiService = webApiService;
     }
 
-    public async Task<Response<List<LocationModel>>> GetGeocodingAddressAsync(string address)
+    public async Task<Response<List<LocationModel>>> GetGeocodeAddress(string address)
     {
         try
         {
@@ -22,7 +22,7 @@ public class GoogleService : IGoogleService
                 ["Address"] = address
             };
 
-            var uri = QueryHelpers.AddQueryString(EndPoint.V2GoogleGeocoding, query!);
+            var uri = QueryHelpers.AddQueryString(EndPoint.V2GoogleGeocode, query!);
 
             Response<List<LocationModel>>? response = await client.GetFromJsonAsync<Response<List<LocationModel>>>(uri);
 
@@ -33,6 +33,45 @@ public class GoogleService : IGoogleService
             return new Response<List<LocationModel>>()
             {
                 Data = new List<LocationModel>(),
+                Success = false,
+                ErrorMessage = ex.Message,
+            };
+        }
+    }
+
+    public async Task<Response<string>> GetMapStaticImage(GoogleMapStaticModel model)
+    {
+        try
+        {
+            var client = _webApiService.CreateEssentialsHttpClient();
+
+            var query = new Dictionary<string, string>()
+            {
+                ["Location"] = model.Location,
+                ["Marker"] = model.Marker,
+                ["Scale"] = model.Scale,
+                ["Width"] = model.Width.ToString(),
+                ["Height"] = model.Height.ToString(),
+            };
+
+            var uri = QueryHelpers.AddQueryString(EndPoint.V2GoogleMapStatic, query!);
+
+            Response<byte[]>? response = await client.GetFromJsonAsync<Response<byte[]>>(uri);
+
+            string imgBase64Data = Convert.ToBase64String(response!.Data);
+            string imgDataURL = string.Format("data:image/png;base64,{0}", imgBase64Data);
+
+            Response<string> image = new();
+            image.Data = imgDataURL;
+            image.Success = true;
+
+            return await Task.FromResult(image);
+        }
+        catch (Exception ex)
+        {
+            return new Response<string>()
+            {
+                Data = string.Empty,
                 Success = false,
                 ErrorMessage = ex.Message,
             };

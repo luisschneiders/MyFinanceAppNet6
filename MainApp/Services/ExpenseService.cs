@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Text;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace MainApp.Services;
@@ -7,6 +8,10 @@ public class ExpenseService : IExpenseService<ExpenseModel>
 {
     [Inject]
     private IExpenseData<ExpenseModel> _expenseData { get; set; } = default!;
+
+
+    [Inject]
+    private ILocationExpenseService<LocationExpenseModel> _locationExpenseService { get; set; } = default!;
 
     [Inject]
     private AuthenticationStateProvider _authProvider { get; set; } = default!;
@@ -19,10 +24,12 @@ public class ExpenseService : IExpenseService<ExpenseModel>
 
     public ExpenseService(
         IExpenseData<ExpenseModel> expenseData,
+        ILocationExpenseService<LocationExpenseModel> locationExpenseService,
         IUserData userData,
         AuthenticationStateProvider authProvider)
     {
         _expenseData = expenseData;
+        _locationExpenseService = locationExpenseService;
         _userData = userData;
         _authProvider = authProvider;
     }
@@ -246,8 +253,44 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         }
     }
 
+    public async Task<GoogleMapStaticModel> GetLocationExpense(DateTimeRange dateTimeRange, MapMarkerColor mapMarkerColor, MapSize mapSizeWidth, MapSize mapSizeHeight)
+    {
+        try
+        {
+            List<LocationExpenseDTO> results = await _locationExpenseService.GetRecordsByDateRange(dateTimeRange);
+
+            string location = await BuildLocation(results);
+
+            GoogleMapStaticModel model = new();
+            model.Location = location;
+            model.Marker = $"color:{mapMarkerColor.ToString().ToLower()}";
+            model.Scale = "2";
+            model.Width = (int)mapSizeWidth;
+            model.Height = (int)mapSizeHeight;
+
+            return model;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     private async Task<UserModel> GetLoggedInUser()
     {
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
+    }
+
+    private static Task<string> BuildLocation(List<LocationExpenseDTO> locations)
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach (var location in locations)
+        {
+            sb.Append($"{location.Latitude},");
+            sb.Append($"{location.Longitude}|");
+        }
+
+        return Task.FromResult(sb.ToString());
     }
 }

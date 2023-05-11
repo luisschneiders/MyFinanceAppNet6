@@ -9,10 +9,13 @@
     {
         case (int)WeatherConditionType.Cloudy:
         case (int)WeatherConditionType.Overcast:
+        case (int)WeatherConditionType.HeavySnow:
             <div class="cloud-moving"></div>
             <div class="cloud"></div>
             break;
         case (int)WeatherConditionType.PartlyCloudy:
+        case (int)WeatherConditionType.PatchyLightSnow:
+        case (int)WeatherConditionType.ModerateOrHeavySnowShowers:
             <div class="cloud-moving"></div>
             <div class="cloud"></div>
             @if (_isNight)
@@ -40,6 +43,7 @@
             break;
         case (int)WeatherConditionType.Mist:
         case (int)WeatherConditionType.Fog:
+        case (int)WeatherConditionType.FreezingFog:
             <div class="fog" title="Mist / Fog"></div>
             @if (_isNight)
             {
