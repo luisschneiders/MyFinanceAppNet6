@@ -1,0 +1,49 @@
+﻿@using MainApp.Components.Shared
+@using MainApp.Components.Dropdown.DateRange
+@using MainApp.Components.Spinner
+
+<SharedHeader Title="Purchase location"
+                Icon="bi-map"
+                IconColor="Theme.Info" />
+
+<div class="row pb-3">
+    <div class="col-12">
+        <DropdownDateRange IconColor="Theme.Info"
+                            ButtonColor="Theme.Secondary"
+                            DropdownBackground="Theme.Secondary"
+                            DateTimeRange="@_dateTimeRange"
+                            DropdownLabel="@_dropdownLabel"
+                            PeriodRange="@PeriodRange"
+                            OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 d-flex justify-content-center">
+        @if (_isLoading)
+        {
+            <div class="text-center">
+                <Spinner Size="Size.Sm" />
+                <span>
+                    Loading ...
+                </span>
+            </div>
+        }
+        else
+        {
+            @if (_imageURL.Length >= 0)
+            {
+                <img src="@_imageURL" class="img-fluid rounded" />
+            }
+            else
+            {
+                <div class="text-center p-4">
+                    <i class="bi bi-image fs-2 text-@(Theme.Danger.ToString().ToLower())-emphasis"></i>
+                    <div>
+                        No image available!
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
