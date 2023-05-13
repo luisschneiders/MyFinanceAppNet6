@@ -19,6 +19,9 @@ public partial class MapLocationExpense : ComponentBase
     public PeriodRange PeriodRange { get; set; } = PeriodRange.Month;
 
     [Parameter]
+    public MapScale Scale { get; set; } = MapScale.Desktop;
+
+    [Parameter]
     public DateTimeRange DateRange { get; set; } = new();
 
     [Inject]
@@ -77,7 +80,7 @@ public partial class MapLocationExpense : ComponentBase
     {
         try
         {
-            GoogleMapStaticModel model = await _expenseService.GetLocationExpense(_dateTimeRange, Color, Width, Height);
+            GoogleMapStaticModel model = await _expenseService.GetLocationExpense(_dateTimeRange, Color, Width, Height, Scale);
             Response<string> staticImage = await _googleService.GetMapStaticImage(model);
 
             _imageURL = staticImage.Data;

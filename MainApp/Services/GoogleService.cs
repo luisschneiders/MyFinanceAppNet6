@@ -49,7 +49,7 @@ public class GoogleService : IGoogleService
             {
                 ["Location"] = model.Location,
                 ["Marker"] = model.Marker,
-                ["Scale"] = model.Scale,
+                ["Scale"] = model.Scale.ToString(),
                 ["Width"] = model.Width.ToString(),
                 ["Height"] = model.Height.ToString(),
             };

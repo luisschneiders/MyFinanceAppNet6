@@ -7,6 +7,6 @@ public class GoogleMapStaticModel
     public string Location { get; set; }
     public int Width { get; set; }
     public int Height { get; set; }
-    public string Scale { get; set; }
+    public int Scale { get; set; } = 2;
 #nullable enable
 }
