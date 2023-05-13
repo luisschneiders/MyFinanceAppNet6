@@ -269,9 +269,9 @@ public class ExpenseService : IExpenseService<ExpenseModel>
             GoogleMapStaticModel model = new();
             model.Location = location;
             model.Marker = $"color:{mapMarkerColor.ToString().ToLower()}";
-            model.Scale = (int)scale;
-            model.Width = (int)mapSizeWidth;
-            model.Height = (int)mapSizeHeight;
+            model.Scale = scale;
+            model.Width = mapSizeWidth;
+            model.Height = mapSizeHeight;
 
             return model;
         }
