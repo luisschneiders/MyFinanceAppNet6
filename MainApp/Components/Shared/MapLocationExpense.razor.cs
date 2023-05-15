@@ -16,6 +16,9 @@ public partial class MapLocationExpense : ComponentBase
     public MapSize Height { get; set; } = MapSize.Height250;
 
     [Parameter]
+    public Position Position { get; set; } = Position.Start;
+
+    [Parameter]
     public PeriodRange PeriodRange { get; set; } = PeriodRange.Month;
 
     [Parameter]
