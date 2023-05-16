@@ -253,7 +253,12 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         }
     }
 
-    public async Task<GoogleMapStaticModel> GetLocationExpense(DateTimeRange dateTimeRange, MapMarkerColor mapMarkerColor, MapSize mapSizeWidth, MapSize mapSizeHeight)
+    public async Task<GoogleMapStaticModel> GetLocationExpense(
+        DateTimeRange dateTimeRange,
+        MapMarkerColor mapMarkerColor,
+        MapSize mapSizeWidth,
+        MapSize mapSizeHeight,
+        MapScale scale)
     {
         try
         {
@@ -264,9 +269,9 @@ public class ExpenseService : IExpenseService<ExpenseModel>
             GoogleMapStaticModel model = new();
             model.Location = location;
             model.Marker = $"color:{mapMarkerColor.ToString().ToLower()}";
-            model.Scale = "2";
-            model.Width = (int)mapSizeWidth;
-            model.Height = (int)mapSizeHeight;
+            model.Scale = scale;
+            model.Width = mapSizeWidth;
+            model.Height = mapSizeHeight;
 
             return model;
         }

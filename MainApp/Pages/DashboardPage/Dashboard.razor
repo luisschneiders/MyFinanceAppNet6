@@ -20,7 +20,6 @@
                         <div class="d-flex align-items-baseline">
                             <i class="bi bi-columns-gap text-info pe-1 fs-5" /><PageTopTitle Title="Dashboard" />
                         </div>
-                        <Breadcrumb AppPageLink="@EndPoint.Dashboard" />
                     </PageTopWrapper>
                 </PageTopView>
 
@@ -38,6 +37,20 @@
                                 <CardView Styles="w-100 border-0">
                                     <CardMiddle>
                                         <FinnhubNews />
+                                    </CardMiddle>
+                                </CardView>
+                            </div>
+                        </div>
+                        <div class="row g-3 pb-3">
+                            <div class="col-12 d-flex flex-sm-column flex-md-row justify-content-center">
+                                <CardView Styles="w-100 border-0">
+                                    <CardMiddle>
+                                        <MapLocationExpense Color="MapMarkerColor.Red"
+                                                            Width="MapSize.Width800"
+                                                            Height="MapSize.Height250"
+                                                            Scale="MapScale.Desktop"
+                                                            PeriodRange="PeriodRange.Year"
+                                                            DateRange="_dateTimeRange" />
                                     </CardMiddle>
                                 </CardView>
                             </div>

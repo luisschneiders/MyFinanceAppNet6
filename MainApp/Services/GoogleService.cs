@@ -43,15 +43,18 @@ public class GoogleService : IGoogleService
     {
         try
         {
-            var client = _webApiService.CreateEssentialsHttpClient();
+            var scale = (int)model.Scale;
+            var width = (int)model.Width;
+            var height = (int)model.Height;
 
+            var client = _webApiService.CreateEssentialsHttpClient();
             var query = new Dictionary<string, string>()
             {
                 ["Location"] = model.Location,
                 ["Marker"] = model.Marker,
-                ["Scale"] = model.Scale,
-                ["Width"] = model.Width.ToString(),
-                ["Height"] = model.Height.ToString(),
+                ["Scale"] = scale.ToString(),
+                ["Width"] = width.ToString(),
+                ["Height"] = height.ToString(),
             };
 
             var uri = QueryHelpers.AddQueryString(EndPoint.V2GoogleMapStatic, query!);
