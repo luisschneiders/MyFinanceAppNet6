@@ -267,7 +267,7 @@ h1:focus {
         height: calc(100vh - 58px);
     }
     .app-page-responsive-height {
-        height: calc(100vh - (3rem + 260px));
+        height: calc(100vh - (3rem + 256px));
     }
 }
 
