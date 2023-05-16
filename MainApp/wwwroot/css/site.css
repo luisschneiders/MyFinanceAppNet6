@@ -38,8 +38,12 @@ h1:focus {
     background: rgb(0,0,0);
     background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 50%, rgba(255,255,255,1) 50%, rgba(255,255,255,1) 100%);
 }
-.app-text-shadow {
+.app-text-shadow-dark {
     text-shadow: 1px 1px 2px #000;
+}
+
+.app-text-shadow-light {
+    text-shadow: 1px 1px 2px #fff;
 }
 
 .app-calendar-text {

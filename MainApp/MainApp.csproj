@@ -74,8 +74,10 @@
     <Folder Include="Components\Badge\Color\" />
     <Folder Include="BackgroundServices\" />
     <Folder Include="Factories\" />
+    <Folder Include="wwwroot\img\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\images\map-static-expenses.png" />
+    <Content Remove="wwwroot\img\" />
   </ItemGroup>
 </Project>
