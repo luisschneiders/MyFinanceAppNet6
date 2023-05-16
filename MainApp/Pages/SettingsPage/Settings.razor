@@ -11,8 +11,9 @@
 
                 <PageTopView>
                     <PageTopWrapper>
-                        <PageTopTitle Title="Settings" />
-                        <Breadcrumb AppPageLink="@EndPoint.Settings" />
+                        <div class="d-flex align-items-baseline">
+                            <i class="bi bi-sliders text-info pe-1 fs-5" /><PageTopTitle Title="Settings" />
+                        </div>
                     </PageTopWrapper>
                 </PageTopView>
 
@@ -20,7 +21,6 @@
                     <PageMiddleWrapper>
                         <div class="row">
                             <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
-
                                 <CardView Styles="border-0 w-100">
                                     <CardMiddle>
                                         <div class="d-grid gap-3">
@@ -30,19 +30,12 @@
                                     </CardMiddle>
                                 </CardView>
                             </div>
-                            <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
-                                <CardView Styles="border-0 w-100">
-                                    <CardMiddle Styles="d-flex align-items-center justify-content-center">
-                                        <div>New feature coming soon!</div>
-                                    </CardMiddle>
-                                </CardView>
-                            </div>
-                            <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
-                                <CardView Styles="border-0 w-100">
-                                    <CardMiddle Styles="d-flex align-items-center justify-content-center">
-                                        <div class="text-center">New feature coming soon!</div>
-                                    </CardMiddle>
-                                </CardView>
+                            <div class="col-sm-12 col-md-8">
+                                <div class="text-center">
+                                    <img src="https://burst.shopifycdn.com/photos/working-at-night.jpg?width=925&exif=1&iptc=1"
+                                         class="img-fluid rounded-start-4 rounded-end-pill"
+                                         alt="settings">
+                                </div>
                             </div>
                         </div>
                     </PageMiddleWrapper>
