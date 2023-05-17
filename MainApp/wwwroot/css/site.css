@@ -50,6 +50,35 @@ h1:focus {
     font-size: 0.6rem;
 }
 
+.app-text-background-danger {
+    background-image: linear-gradient( 0, var(--bs-danger-bg-subtle) 50%, transparent 50% );
+}
+
+.app-text-background-dark {
+    background-image: linear-gradient( 0, var(--bs-dark-bg-subtle) 50%, transparent 50% );
+}
+
+.app-text-background-info {
+    background-image: linear-gradient( 0, var(--bs-info-bg-subtle) 50%, transparent 50% );
+}
+
+.app-text-background-light {
+    background-image: linear-gradient( 0, var(--bs-light-bg-subtle) 50%, transparent 50% );
+}
+
+.app-text-background-primary {
+    background-image: linear-gradient( 0, var(--bs-primary-bg-subtle) 50%, transparent 50% );
+}
+
+.app-text-background-success {
+    background-image: linear-gradient( 0, var(--bs-success-bg-subtle) 50%, transparent 50% );
+}
+
+.app-text-background-warning {
+    background-image: linear-gradient( 0, var(--bs-warning-bg-subtle) 50%, transparent 50% );
+}
+
+
 .app-calendar-day {
     font-size: 0.65rem;
 }
@@ -268,7 +297,7 @@ h1:focus {
 
     .hero-section-left, .hero-section-right {
         width: 50%;
-        height: calc(100vh - 58px);
+        height: calc(100vh - 118px);
     }
     .app-page-responsive-height {
         height: calc(100vh - (3rem + 256px));
