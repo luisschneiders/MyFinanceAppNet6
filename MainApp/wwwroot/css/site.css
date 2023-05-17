@@ -261,8 +261,8 @@ h1:focus {
 }
 
 [data-bs-theme=light] .app-footer {
-    background: #d0e2ff;
-    background: linear-gradient(180deg, #d0e2ff 0%, rgba(243,248,255,1) 100%);
+    background: #dde0e6;
+    background: linear-gradient(180deg, #dde0e6 0%, rgba(243,248,255,1) 100%);
 }
 
 
