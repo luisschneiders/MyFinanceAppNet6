@@ -1,21 +1,21 @@
 ﻿@using MainApp.Components.Card
 
-<div class="btn p-0 border-0"
-        @onclick="SetSettingsLocation">
-    <CardView Styles="border-0">
-        <CardMiddle>
+<CardView Styles="border-0">
+    <CardMiddle Styles="p-0">
+        <div class="btn btn-light w-100"
+                @onclick="SetSettingsLocation">
             <div class="d-flex w-100 align-items-center">
                 <i class="bi bi-pin-map-fill text-info pe-3"></i>
                 <div class="w-100 text-start">
-                    <h2 class="mb-1 h5">Location</h2>
+                    <h2 class="mb-1 h5 text-dark">Location</h2>
                     <div class="text-secondary pb-2">
-                        <small>Set your location for personalized content for weather, news and more.</small>
+                        <small>Set your location for personalized content.</small>
                     </div>
                 </div>
                 <div class="text-secondary">
                     <i class="bi bi-chevron-right"></i>
                 </div>
             </div>
-        </CardMiddle>
-    </CardView>
-</div>
+        </div>
+    </CardMiddle>
+</CardView>
