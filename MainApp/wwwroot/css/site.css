@@ -78,7 +78,6 @@ h1:focus {
     background-image: linear-gradient( 0, var(--bs-warning-bg-subtle) 50%, transparent 50% );
 }
 
-
 .app-calendar-day {
     font-size: 0.65rem;
 }
@@ -128,6 +127,14 @@ h1:focus {
 
 .app-page-background-warning {
     background-image: linear-gradient( 0, var(--bs-warning-bg-subtle) 50%, transparent 50% );
+}
+
+.app-page-background-pink {
+    background-image: linear-gradient( 0, var(--bs-pink) 50%, transparent 50% );
+}
+
+.app-page-background-orange {
+    background-image: linear-gradient( 0, var(--bs-orange) 50%, transparent 50% );
 }
 
 .app-page-responsive-height thead tr th {
