@@ -10,72 +10,84 @@
 @using MainApp.Components.Chart.Transaction
 @using MainApp.Components.Shared
 
-<div class="container-lg">
+<div class="container-fluid px-0">
     <AuthorizeView>
         <Authorized>
             <PageWrapper>
 
                 <PageTopView>
-                    <PageTopWrapper>
-                        <div class="d-flex align-items-baseline">
-                            <i class="bi bi-columns-gap text-info pe-1 fs-5" /><PageTopTitle Title="Dashboard" />
-                        </div>
-                    </PageTopWrapper>
+                    <div class="container-lg">
+                        <PageTopWrapper>
+                            <div class="d-flex align-items-baseline">
+                                <i class="bi bi-columns-gap text-info pe-1 fs-5" /><PageTopTitle Title="Dashboard" />
+                            </div>
+                        </PageTopWrapper>
+                    </div>
                 </PageTopView>
 
                 <PageMiddleView>
                     <PageMiddleWrapper>
-                        <div class="row g-3 pb-3">
-                            <div class="col-12 col-md-8 d-flex flex-sm-column flex-md-row justify-content-center">
-                                <CardView Styles="w-100 border-0">
-                                    <CardMiddle>
-                                        <ChartTransactionIO />
-                                    </CardMiddle>
-                                </CardView>
-                            </div>
-                            <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
-                                <CardView Styles="w-100 border-0">
-                                    <CardMiddle>
-                                        <FinnhubNews />
-                                    </CardMiddle>
-                                </CardView>
-                            </div>
-                        </div>
-                        <div class="row g-3 pb-3">
-                            <div class="col-12 d-flex flex-sm-column flex-md-row justify-content-center">
-                                <CardView Styles="w-100 border-0">
-                                    <CardMiddle>
-                                        <MapLocationExpense Color="MapMarkerColor.Red"
-                                                            Width="MapSize.Width800"
-                                                            Height="MapSize.Height250"
-                                                            Scale="MapScale.Desktop"
-                                                            PeriodRange="PeriodRange.Year"
-                                                            DateRange="_dateTimeRange" />
-                                    </CardMiddle>
-                                </CardView>
+                        <div class="app-page-background-dark mb-5 pb-5">
+                            <div class="container-lg">
+                                <div class="row g-3">
+                                    <div class="col-12 col-md-8 d-flex flex-sm-column flex-md-row justify-content-center">
+                                        <CardView Styles="w-100 border-0 shadow">
+                                            <CardMiddle>
+                                                <ChartTransactionIO />
+                                            </CardMiddle>
+                                        </CardView>
+                                    </div>
+                                    <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
+                                        <CardView Styles="w-100 border-0 shadow">
+                                            <CardMiddle>
+                                                <FinnhubNews />
+                                            </CardMiddle>
+                                        </CardView>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="row g-3 app-footer-gap">
-                            <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
-                                <CardView Styles="w-100 border-0">
-                                    <CardMiddle>
-                                        <ChartBankAccountActive />
-                                    </CardMiddle>
-                                </CardView>
+                        <div class="container-lg pb-5">
+                            <div class="row g-3">
+                                <div class="col-12 d-flex flex-sm-column flex-md-row justify-content-center">
+                                    <CardView Styles="w-100 border-0 shadow">
+                                        <CardMiddle>
+                                            <MapLocationExpense Color="MapMarkerColor.Red"
+                                                                Width="MapSize.Width800"
+                                                                Height="MapSize.Height250"
+                                                                Scale="MapScale.Desktop"
+                                                                PeriodRange="PeriodRange.Year"
+                                                                DateRange="_dateTimeRange" />
+                                        </CardMiddle>
+                                    </CardView>
+                                </div>
                             </div>
-                            <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
-                                <CardView Styles="w-100 border-0">
-                                    <CardMiddle>
-                                        <ChartBankBalanceSum />
-                                    </CardMiddle>
-                                </CardView>
-                            </div>
-                            <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
-                                <CardView Styles="w-100 border-0">
-                                    <CardMiddle>
-                                        <ChartExpenseLast5Years />
-                                    </CardMiddle>
-                                </CardView>
+                        </div>
+                        <div class="app-page-background-danger">
+                            <div class="container-lg">
+                                <div class="row g-3 app-footer-gap">
+                                    <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
+                                        <CardView Styles="w-100 border-0 shadow">
+                                            <CardMiddle>
+                                                <ChartBankAccountActive />
+                                            </CardMiddle>
+                                        </CardView>
+                                    </div>
+                                    <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
+                                        <CardView Styles="w-100 border-0 shadow">
+                                            <CardMiddle>
+                                                <ChartBankBalanceSum />
+                                            </CardMiddle>
+                                        </CardView>
+                                    </div>
+                                    <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
+                                        <CardView Styles="w-100 border-0 shadow">
+                                            <CardMiddle>
+                                                <ChartExpenseLast5Years />
+                                            </CardMiddle>
+                                        </CardView>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </PageMiddleWrapper>
