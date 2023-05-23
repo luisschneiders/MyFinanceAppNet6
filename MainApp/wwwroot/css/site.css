@@ -23,6 +23,10 @@ h1:focus {
     outline: none;
 }
 
+table td {
+    vertical-align: middle;
+}
+
 .accordion-button:focus {
     box-shadow: none;
 }

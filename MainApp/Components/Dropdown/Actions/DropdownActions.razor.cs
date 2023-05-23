@@ -26,6 +26,9 @@ public partial class DropdownActions : ComponentBase
     public Theme ButtonColor { get; set; } = Theme.Light;
 
     [Parameter]
+    public string ButtonCssClass { get; set; } = string.Empty;
+
+    [Parameter]
     public string Title { get; set; } = string.Empty;
 
     [Parameter]
@@ -33,6 +36,9 @@ public partial class DropdownActions : ComponentBase
 
     [Parameter]
     public Theme DropdownBackground { get; set; } = Theme.Primary;
+
+    [Parameter]
+    public string ButtonInnerStyles { get; set; } = string.Empty;
 
     public DropdownActions()
     {

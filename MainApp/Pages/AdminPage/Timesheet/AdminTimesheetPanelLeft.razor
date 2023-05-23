@@ -159,7 +159,9 @@
                                                                  ButtonSize="Size.Sm"
                                                                  IconEnd="bi-chevron-down"
                                                                  DropdownBackground="Theme.Light"
-                                                                 ButtonColor="@UpdatePayStatusButton(record.PayStatus)">
+                                                                 ButtonColor="@UpdatePayStatusButton(record.PayStatus)"
+                                                                 ButtonCssClass="w-100"
+                                                                 ButtonInnerStyles="d-flex justify-content-between">
                                                     @foreach (var (status, index) in _payStatuses.Select((value, index) => (value, index)))
                                                     {
                                                         int statusValue = index;
