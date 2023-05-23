@@ -23,7 +23,7 @@ h1:focus {
     outline: none;
 }
 
-table td {
+.table {
     vertical-align: middle;
 }
 
@@ -95,9 +95,6 @@ table td {
     padding: 0.25rem 0.25rem;
 }
 
-.app-table-head-vertical-align-top {
-    vertical-align: top !important;
-}
 /*
 * The component Virtualize won't work if we don't set a fix height for tables
 */
