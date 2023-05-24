@@ -13,7 +13,11 @@ public class CalendarViewService : ICalendarViewService
             var firstDayOfMonth = dateTimeRange.Start;
             var lastDayOfMonth = dateTimeRange.End;
             var daysInMonth = lastDayOfMonth.Day;
-            var firstDayOfWeek = (int)firstDayOfMonth.DayOfWeek;
+
+
+            //TODO: set user preference for start of the week in the settings page
+            //var firstDayOfWeek = (int)firstDayOfMonth.DayOfWeek - (int)DayOfWeek.Sunday; // Sundays
+            var firstDayOfWeek = (int)firstDayOfMonth.DayOfWeek - (int)DayOfWeek.Monday; // Mondays
 
             int weeksInMonth = (int)Math.Ceiling((firstDayOfWeek + daysInMonth) / 7.0);
 
