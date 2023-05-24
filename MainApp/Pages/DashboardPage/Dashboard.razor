@@ -27,9 +27,9 @@
 
                 <PageMiddleView>
                     <PageMiddleWrapper>
-                        <div class="app-page-background-info mb-5 pb-5">
+                        <div class="app-page-background-purple mb-5 pb-5">
                             <div class="container-lg">
-                                <div class="row g-3">
+                                <div class="row g-5">
                                     <div class="col-12 col-md-8 d-flex flex-sm-column flex-md-row justify-content-center">
                                         <CardView Styles="w-100 border-0 shadow">
                                             <CardMiddle>
@@ -48,8 +48,63 @@
                             </div>
                         </div>
                         <div class="container-lg pb-5">
-                            <div class="row g-3">
-                                <div class="col-12 d-flex flex-sm-column flex-md-row justify-content-center">
+                            <div class="row g-5">
+                                <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
+                                    <CardView Styles="w-100 border-0 bg-light">
+                                        <CardMiddle>
+                                            <h2 class="fs-5">
+                                                <span class="app-text-background-info px-2">Quick links</span>
+                                            </h2>
+                                            <div class="d-grid gap-3">
+                                                <NavLink class="btn btn-light" href="@EndPoint.AdminExpenses">
+                                                    <div class="d-flex w-100 align-items-center">
+                                                        <i class="bi bi-cart4 text-info pe-3"></i>
+                                                        <div class="w-100 text-start">
+                                                            <h3 class="mb-1 h5 text-dark">Expenses</h3>
+                                                        </div>
+                                                        <div class="text-secondary">
+                                                            <i class="bi bi-chevron-right"></i>
+                                                        </div>
+                                                    </div>
+                                                </NavLink>
+                                                <NavLink class="btn btn-light" href="@EndPoint.AdminTransactions">
+                                                    <div class="d-flex w-100 align-items-center">
+                                                        <i class="bi bi-currency-exchange text-info pe-3"></i>
+                                                        <div class="w-100 text-start">
+                                                            <h3 class="mb-1 h5 text-dark">Transactions</h3>
+                                                        </div>
+                                                        <div class="text-secondary">
+                                                            <i class="bi bi-chevron-right"></i>
+                                                        </div>
+                                                    </div>
+                                                </NavLink>
+                                                <NavLink class="btn btn-light" href="@EndPoint.AdminTimesheet">
+                                                    <div class="d-flex w-100 align-items-center">
+                                                        <i class="bi bi-clock-history text-info pe-3"></i>
+                                                        <div class="w-100 text-start">
+                                                            <h3 class="mb-1 h5 text-dark">Timesheet</h3>
+                                                        </div>
+                                                        <div class="text-secondary">
+                                                            <i class="bi bi-chevron-right"></i>
+                                                        </div>
+                                                    </div>
+                                                </NavLink>
+                                                <NavLink class="btn btn-light" href="@EndPoint.AdminTrips">
+                                                    <div class="d-flex w-100 align-items-center">
+                                                        <i class="bi bi-pin-map text-info pe-3"></i>
+                                                        <div class="w-100 text-start">
+                                                            <h3 class="mb-1 h5 text-dark">Trips</h3>
+                                                        </div>
+                                                        <div class="text-secondary">
+                                                            <i class="bi bi-chevron-right"></i>
+                                                        </div>
+                                                    </div>
+                                                </NavLink>
+                                            </div>
+                                        </CardMiddle>
+                                    </CardView>
+                                </div>
+                                <div class="col-sm-12 col-md-8 d-flex flex-sm-column flex-md-row justify-content-center">
                                     <CardView Styles="w-100 border-0 shadow">
                                         <CardMiddle>
                                             <MapLocationExpense Color="MapMarkerColor.Red"
@@ -65,7 +120,7 @@
                         </div>
                         <div class="app-page-background-secondary">
                             <div class="container-lg">
-                                <div class="row g-3 app-footer-gap">
+                                <div class="row g-5 app-footer-gap">
                                     <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
                                         <CardView Styles="w-100 border-0 shadow">
                                             <CardMiddle>
