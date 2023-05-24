@@ -15,7 +15,7 @@ public partial class AdminExpensePanelRight : ComponentBase
 
     protected async override Task OnInitializedAsync()
     {
-        _dateTimeRange = _dateTimeService.GetCurrentMonth();
+        _dateTimeRange = _dateTimeService.GetCurrentWeek();
         await Task.CompletedTask;
     }
 }
