@@ -2,7 +2,8 @@
 
 public interface IDateTimeService
 {
-	DateTimeRange GetCurrentMonth();
+    DateTimeRange GetCurrentWeek();
+    DateTimeRange GetCurrentMonth();
 	DateTimeRange GetCurrentYear();
     DateTimeOffset GetCurrentTime();
     DateTime GetLastDayOfMonth(DateTimeRange dateTimeRange);

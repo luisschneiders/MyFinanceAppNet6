@@ -6,6 +6,19 @@ public class DateTimeService : IDateTimeService
 	{
 	}
 
+    public DateTimeRange GetCurrentWeek()
+    {
+        DateTimeRange dateTimeRange = new();
+
+        var firstDayOfWeek = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday);
+        var lastDayOfWeek = firstDayOfWeek.AddDays(6);
+
+        dateTimeRange.Start = firstDayOfWeek;
+        dateTimeRange.End = lastDayOfWeek;
+
+        return dateTimeRange;
+    }
+
     public DateTimeRange GetCurrentMonth()
     {
         DateTimeRange dateTimeRange = new();

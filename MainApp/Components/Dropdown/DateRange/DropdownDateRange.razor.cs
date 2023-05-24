@@ -91,6 +91,9 @@ public partial class DropdownDateRange : ComponentBase
             case PeriodRange.Year:
                 dateTimeRange = _dateTimeService.GetCurrentYear();
                 break;
+            case PeriodRange.Week:
+                dateTimeRange = _dateTimeService.GetCurrentWeek();
+                break;
         }
 
         await OnSubmitSuccess.InvokeAsync(dateTimeRange);

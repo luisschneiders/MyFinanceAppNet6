@@ -3,5 +3,6 @@
 public enum PeriodRange
 {
     Month,
-    Year
+    Year,
+    Week,
 }
