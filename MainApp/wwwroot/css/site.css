@@ -309,7 +309,6 @@ h1:focus {
     background: linear-gradient(180deg, #dde0e6 0%, rgba(243,248,255,1) 100%);
 }
 
-
 @media (max-width: 640.98px) {
     .app-dropdown-menu {
         border-color: transparent;
