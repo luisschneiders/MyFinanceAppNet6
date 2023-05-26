@@ -33,9 +33,6 @@ public partial class DropdownDateRange : ComponentBase
     public Position DropdownPosition { get; set; } = Position.Start;
 
     [Parameter]
-    public Theme DropdownBackground { get; set; } = Theme.Primary;
-
-    [Parameter]
     public string DropdownLabel { get; set; } = Label.NoDateAssigned;
 
     [Parameter]

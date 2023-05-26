@@ -35,9 +35,6 @@ public partial class DropdownActions : ComponentBase
     public Position DropdownPosition { get; set; } = Position.Start;
 
     [Parameter]
-    public Theme DropdownBackground { get; set; } = Theme.Primary;
-
-    [Parameter]
     public string ButtonInnerStyles { get; set; } = string.Empty;
 
     public DropdownActions()

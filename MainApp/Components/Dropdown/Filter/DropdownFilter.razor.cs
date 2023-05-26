@@ -35,9 +35,6 @@ public partial class DropdownFilter : ComponentBase
     public Position DropdownPosition { get; set; } = Position.Start;
 
     [Parameter]
-    public Theme DropdownBackground { get; set; } = Theme.Primary;
-
-    [Parameter]
     public FilterModel Model { get; set; } = default!;
 
     public DropdownFilter()
