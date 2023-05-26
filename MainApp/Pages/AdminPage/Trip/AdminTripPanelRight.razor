@@ -1,16 +1,11 @@
 ﻿@using MainApp.Components.Card
-@using MainApp.Components.Badge
-@using MainApp.Components.Shared
 
-<CardView Styles="w-100 border-0">
+<CardView Styles="w-100 border-0 h-100 bg-transparent d-flex flex-row align-items-center text-end">
     <CardMiddle>
-        <SharedHeader Title="Chart"
-                      Icon="bi-graph-up"
-                      IconColor="Theme.Info" />
-        <div class="d-flex justify-content-center align-items-center h-100">
-            <div class="p-4 rounded bg-@(Theme.Info.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis">
-                Coming soon! &#x1F389
-            </div>
-        </div>
+        <h3 class="fs-2 pb-4">
+            <span class="text-success-emphasis app-text-background-success px-2">Safety and respect on the roads</span>
+        </h3>
+        <p class="lead">Let us all join hands in promoting safety, adhering to laws, and fostering respect on the roads. </p>
+        <p class="lead">Together, we can make a significant difference and create a positive driving experience for ourselves and those around us.</p>
     </CardMiddle>
 </CardView>
