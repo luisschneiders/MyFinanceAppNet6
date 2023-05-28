@@ -103,8 +103,8 @@ h1:focus {
 }
 
 .app-calendar-current-day {
-    width: 22px;
-    height: 22px;
+    width: 23px;
+    height: 23px;
 }
 
 .app-table-calendar > :not(caption) > * > * {
