@@ -1,12 +1,20 @@
-﻿namespace MainApp.Components.CalendarView;
+﻿using Microsoft.AspNetCore.Components;
+
+namespace MainApp.Components.CalendarView;
 
 public class CalendarViewService : ICalendarViewService
 {
-    public CalendarViewService()
+    private ILocalStorageService _localStorageService { get; set; }
+
+    private IDateTimeService _dateTimeService { get; set; } = default!;
+
+    public CalendarViewService(ILocalStorageService localStorageService, IDateTimeService dateTimeService)
     {
+        _localStorageService = localStorageService;
+        _dateTimeService = dateTimeService;
     }
 
-    public Task<int[][]> Build(DateTimeRange dateTimeRange)
+    public async Task<int[][]> Build(DateTimeRange dateTimeRange)
     {
         try
         {
@@ -14,10 +22,10 @@ public class CalendarViewService : ICalendarViewService
             var lastDayOfMonth = dateTimeRange.End;
             var daysInMonth = lastDayOfMonth.Day;
 
+            string appStartOfWeek = await _localStorageService.GetAsync<string>(LocalStorage.AppStartOfWeek);
+            DayOfWeek dayOfWeek = _dateTimeService.MapDayOfWeekStringToEnum(appStartOfWeek!);
 
-            //TODO: set user preference for start of the week in the settings page
-            //var firstDayOfWeek = (int)firstDayOfMonth.DayOfWeek - (int)DayOfWeek.Sunday; // Sundays
-            var firstDayOfWeek = (int)firstDayOfMonth.DayOfWeek - (int)DayOfWeek.Monday; // Mondays
+            var firstDayOfWeek = (int)firstDayOfMonth.DayOfWeek - (int)dayOfWeek;
 
             int weeksInMonth = (int)Math.Ceiling((firstDayOfWeek + daysInMonth) / 7.0);
 
@@ -47,7 +55,7 @@ public class CalendarViewService : ICalendarViewService
                 }
             }
 
-            return Task.FromResult(weeks);
+            return await Task.FromResult(weeks);
         }
         catch (Exception ex)
         {

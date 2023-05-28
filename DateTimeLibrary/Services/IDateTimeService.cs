@@ -9,4 +9,5 @@ public interface IDateTimeService
     DateTime GetLastDayOfMonth(DateTimeRange dateTimeRange);
     bool CheckIsNight(string localTime);
     bool CheckDateRange(DateTimeRange dateTimeRange);
+    DayOfWeek MapDayOfWeekStringToEnum(string weekday);
 }

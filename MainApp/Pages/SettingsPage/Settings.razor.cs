@@ -9,6 +9,7 @@ public partial class Settings : ComponentBase
      */
     SettingsAppearanceOffCanvas _settingsAppearanceOffCanvas { get; set; } = new();
     SettingsLocationOffCanvas _settingsLocationOffCanvas { get; set; } = new();
+    SettingsDateTimeOffCanvas _settingsDateTimeOffCanvas { get; set; } = new();
 
     public Settings()
     {
@@ -23,6 +24,12 @@ public partial class Settings : ComponentBase
     private async Task OpenLocationOffCanvas()
     {
         await Task.FromResult(_settingsLocationOffCanvas.OpenAsync());
+        await Task.CompletedTask;
+    }
+
+    private async Task OpenDateTimeOffCanvas()
+    {
+        await Task.FromResult(_settingsDateTimeOffCanvas.OpenAsync());
         await Task.CompletedTask;
     }
 }

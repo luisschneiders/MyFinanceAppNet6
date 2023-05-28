@@ -1,0 +1,63 @@
+﻿@using MainApp.Components.Badge
+@using MainApp.Components.OffCanvas
+@using MainApp.Components.Dropdown.Actions
+
+@inject IJSRuntime JS
+
+<OffCanvas @ref="_offCanvas" PositionX="Position.End" Title="Date & Time">
+    <div class="row align-items-center">
+        <div class="col my-4">
+            <Badge BackgroundColor="@Theme.Info" Message="Setup..." />
+        </div>
+    </div>
+    <fieldset>
+        <legend><i class="bi bi-calendar3 text-info fs-5 pe-2"></i>Calendar view</legend>
+        <div class="row align-items-center">
+            <div class="col-auto pe-0">
+                <small>
+                    Your current start of the week is
+                </small>
+            </div>
+            <div class="col-auto">
+                <DropdownActions Title="@_localStorageStartOfWeek"
+                                 ButtonSize="Size.Sm"
+                                 ButtonColor="Theme.Info"
+                                 IconEnd="bi-chevron-down"
+                                 ButtonInnerStyles="d-flex justify-content-between">
+                    @foreach (var (weekDay, index) in _dayNames.Select((value, index) => (value, index)))
+                    {
+                        <li class="px-2">
+                            @*Disable Weekday name that are not Sunday or Monday*@
+                            <button class="dropdown-item"
+                                    disabled="@(index > 1)"
+                                    @onclick="() => UpdateWeekDayAsync(weekDay)">
+                                @($"{weekDay}")
+                            </button>
+                        </li>
+                    }
+                </DropdownActions>
+            </div>
+        </div>
+        @if (_startOfWeekIsInvalid)
+        {
+            <div class="row">
+                <div class="col-12">
+                    <ul class="validation-errors">
+                        <li class="validation-message">Start of the week field is required.</li>
+                    </ul>
+                </div>
+            </div>
+        }
+    </fieldset>
+    <div class="py-2">
+        <hr />
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <button class="btn btn-outline-secondary w-100"
+                    @onclick="() => CloseOffCanvasAsync()">
+                Close
+            </button>
+        </div>
+    </div>
+</OffCanvas>
