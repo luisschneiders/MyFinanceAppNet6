@@ -23,9 +23,9 @@ public class CalendarViewService : ICalendarViewService
             var daysInMonth = lastDayOfMonth.Day;
 
             string appStartOfWeek = await _localStorageService.GetAsync<string>(LocalStorage.AppStartOfWeek);
-            DayOfWeek dayOfWeek = _dateTimeService.MapDayOfWeekStringToEnum(appStartOfWeek!);
+            DayOfWeek selectedDayOfWeek = _dateTimeService.MapDayOfWeekStringToEnum(appStartOfWeek!);
 
-            var firstDayOfWeek = (int)firstDayOfMonth.DayOfWeek - (int)dayOfWeek;
+            var firstDayOfWeek = (int)firstDayOfMonth.DayOfWeek - (int)selectedDayOfWeek;
 
             int weeksInMonth = (int)Math.Ceiling((firstDayOfWeek + daysInMonth) / 7.0);
 

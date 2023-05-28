@@ -21,11 +21,11 @@ public partial class CalendarHeaderWrapper : ComponentBase
     protected async override Task OnInitializedAsync()
     {
         string localStorage = await _localStorageService.GetAsync<string>(LocalStorage.AppStartOfWeek);
-        DayOfWeek firstDayOfWeek = _dateTimeService.MapDayOfWeekStringToEnum(localStorage!);
+        DayOfWeek selectedDayOfWeek = _dateTimeService.MapDayOfWeekStringToEnum(localStorage!);
 
         for (int i = 0; i < _abbreviatedDays.Length; i++)
         {
-            int dayIndex = (i + (int)firstDayOfWeek) % 7;
+            int dayIndex = (i + (int)selectedDayOfWeek) % 7;
             _weekDays.Add(_abbreviatedDays[dayIndex]);
         }
 
