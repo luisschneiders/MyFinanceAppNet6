@@ -7,13 +7,17 @@
         <AuthorizeView>
             <Authorized>
                 <a class="navbar-brand d-flex align-items-center" href="@EndPoint.Dashboard">
-                    <img src="@Images.Logo" alt="logo" width="28" height="28" class="rounded">
+                    <div class="rotate-135">
+                        <img src="@Images.Logo" alt="logo" width="28" height="28" class="rounded zoom">
+                    </div>
                     <span class="px-1 navbar-brand-title">@Label.AppTitle</span>
                 </a>
             </Authorized>
             <NotAuthorized>
                 <a class="navbar-brand d-flex align-items-center" href="@EndPoint.Home">
-                    <img src="@Images.Logo" alt="logo" width="28" height="28" class="rounded">
+                    <div class="rotate-135">
+                        <img src="@Images.Logo" alt="logo" width="28" height="28" class="rounded zoom">
+                    </div>
                     <span class="px-1 navbar-brand-title">@Label.AppTitle</span>
                 </a>
             </NotAuthorized>

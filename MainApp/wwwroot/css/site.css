@@ -27,6 +27,22 @@ h1:focus {
     vertical-align: middle;
 }
 
+.rotate-135 {
+    -ms-transform: rotate(135deg); /* IE 9 */
+    -webkit-transform: rotate(135deg); /* Safari 3-8 */
+    transform: rotate(135deg);
+}
+
+.zoom {
+    transition: transform 0.2s;
+}
+
+.zoom:hover {
+    -ms-transform: scale(1.1); /* IE 9 */
+    -webkit-transform: scale(1.1); /* Safari 3-8 */
+    transform: scale(1.1);
+}
+
 .accordion-button:focus {
     box-shadow: none;
 }
@@ -87,8 +103,8 @@ h1:focus {
 }
 
 .app-calendar-current-day {
-    width: 22px;
-    height: 22px;
+    width: 23px;
+    height: 23px;
 }
 
 .app-table-calendar > :not(caption) > * > * {
@@ -308,7 +324,6 @@ h1:focus {
     background: #dde0e6;
     background: linear-gradient(180deg, #dde0e6 0%, rgba(243,248,255,1) 100%);
 }
-
 
 @media (max-width: 640.98px) {
     .app-dropdown-menu {

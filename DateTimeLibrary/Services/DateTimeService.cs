@@ -69,4 +69,22 @@ public class DateTimeService : IDateTimeService
 
         return (dateTime.Hour >= 18 || dateTime.Hour < 6);
     }
+
+    public DayOfWeek MapDayOfWeekStringToEnum(string weekday)
+    {
+        var dict = new Dictionary<string, DayOfWeek>
+        {
+            { "Sunday", DayOfWeek.Sunday },
+            { "Monday", DayOfWeek.Monday },
+            { "Tuesday", DayOfWeek.Tuesday },
+            { "Wednesday", DayOfWeek.Wednesday },
+            { "Thursday", DayOfWeek.Thursday },
+            { "Friday", DayOfWeek.Friday },
+            { "Saturday", DayOfWeek.Saturday },
+        };
+
+        var firstDayOfWeek = dict[weekday];
+
+        return firstDayOfWeek;
+    }
 }

@@ -8,14 +8,15 @@
 (() => {
     'use strict'
 
-    const storedTheme = localStorage.getItem('app-theme')
+    const key = "AppTheme";
+    const storedTheme = localStorage.getItem(key)
 
     const getPreferredTheme = () => {
         if (storedTheme) {
             return storedTheme
         }
 
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        return window.matchMedia('(prefers-color-scheme: light)').matches ? 'dark' : 'light'
     }
 
     const setTheme = function (theme) {
@@ -35,7 +36,7 @@
     })
 
     window.updateColorMode = (theme) => {
-        localStorage.setItem('app-theme', theme);
+        localStorage.setItem(key, theme);
         setTheme(theme);
     };
 

@@ -1,5 +1,5 @@
 ﻿<div class="dropdown @(IsDisplayLargeNone ? "d-lg-none" : "")">
-    <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + ButtonColor.ToString().ToLower() + "-emphasis") text-nowrap @(ButtonCssClass)"
+    <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + ButtonColor.ToString().ToLower() + "-emphasis") @(ButtonCssClass) text-nowrap"
             title="More actions"
             id="dropdownMenuOptions"
             data-bs-toggle="dropdown"
@@ -19,7 +19,7 @@
             }
         </div>
     </button>
-    <ul class="dropdown-menu dropdown-menu-@DropdownPosition.ToString().ToLower() border-0 bg-@DropdownBackground.ToString().ToLower()-subtle shadow-sm"
+    <ul class="dropdown-menu dropdown-menu-@DropdownPosition.ToString().ToLower() border-0 bg-@ButtonColor.ToString().ToLower()-subtle shadow-sm"
         aria-labelledby="dropdownMenuOptions">
         @ChildContent
     </ul>

@@ -87,6 +87,7 @@ public static class RegisterServices
         builder.Services.AddScoped<IExpenseCategoryService<ExpenseCategoryModel>, ExpenseCategoryService>();
         builder.Services.AddScoped<IFinnhubService, FinnhubService>();
         builder.Services.AddScoped<IGoogleService, GoogleService>();
+        builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
         builder.Services.AddScoped<ILocationService<UserLocationModel>, LocationService>();
         builder.Services.AddScoped<ILocationExpenseService<LocationExpenseModel>, LocationExpenseService>();
         builder.Services.AddScoped<IRapidApiService, RapidApiService>();
