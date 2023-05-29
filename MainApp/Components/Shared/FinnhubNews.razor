@@ -28,7 +28,7 @@ else
                                    Summary="@record.Summary" />
             }
         </ListGroup>
-        <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-end align-items-center">
             <small class="p-2">
                 News provided by: <NavLink href="https://finnhub.io" class="text-decoration-underline" target="_blank">https://finnhub.io</NavLink>
             </small>
@@ -36,12 +36,23 @@ else
     }
     else
     {
-        <div class="d-flex justify-content-center align-items-center h-100">
-            <div class="text-center">
-                <i class="bi bi-wifi-off fs-2 text-@(Theme.Danger.ToString().ToLower())-emphasis"></i>
-                <div>
-                    No feeds available!
+        <div class="d-flex flex-column justify-content-center align-items-center h-100">
+            <div class="pb-5">
+                <div class="d-flex flex-column text-center">
+                    <i class="bi bi-wifi-off fs-2 text-@(Theme.Danger.ToString().ToLower())-emphasis"></i>
+                    <small>
+                        No feeds available!
+                    </small>
                 </div>
+            </div>
+            <div>
+                <small>
+                    <button class="btn bg-info-subtle text-info-emphasis border-info-subtle"
+                            title="Refresh"
+                            @onclick="RefreshNewsAsync">
+                        Refresh
+                    </button>
+                </small>
             </div>
         </div>
     }

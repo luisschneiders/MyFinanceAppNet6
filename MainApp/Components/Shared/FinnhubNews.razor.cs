@@ -66,4 +66,15 @@ public partial class FinnhubNews : ComponentBase
 
         await Task.CompletedTask;
     }
+
+    private async Task RefreshNewsAsync()
+    {
+        _isLoading = true;
+        _newsList = new();
+
+        await InvokeAsync(StateHasChanged);
+        await FetchDataAsync();
+        await Task.CompletedTask;
+    }
+
 }
