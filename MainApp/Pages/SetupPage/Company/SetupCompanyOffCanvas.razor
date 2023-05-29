@@ -27,21 +27,6 @@
                 </div>
             }
         </div>
-        @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View)
-        {
-            <div class="row">
-                <div class="col-sm-12">
-                    <button class="btn btn-primary w-100"
-                            type="button"
-                            @onclick="UpdateFormStateAsync">
-                        Edit
-                    </button>
-                </div>
-            </div>
-            <div class="py-3">
-                <hr />
-            </div>
-        }
         <div class="row">
             <div class="col-12">
                 <div class="form-floating mb-3">
@@ -97,12 +82,11 @@
                 </div>
             </div>
         }
-        @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add ||
-             _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
+        <div class="py-2">
+            <hr />
+        </div>
+        @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add || _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
         {
-            <div class="py-2">
-                <hr />
-            </div>
             @if (_displayErrorMessages)
             {
                 <div class="row">
@@ -111,13 +95,16 @@
                     </div>
                 </div>
             }
-            <div class="row">
-                <div class="col-6">
-                    <button class="btn btn-outline-secondary w-100"
-                            @onclick="() => CloseOffCanvasAsync()">
-                        Cancel
-                    </button>
-                </div>
+        }
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-outline-secondary w-100"
+                        @onclick="() => CloseOffCanvasAsync()">
+                    Cancel
+                </button>
+            </div>
+            @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add || _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
+            {
                 <div class="col-6">
                     <button class="btn btn-success w-100"
                             disabled="@(_isProcessing ? true : false)"
@@ -125,7 +112,17 @@
                         @(_isProcessing ? "Saving..." : "Save")
                     </button>
                 </div>
-            </div>
-        }
+            }
+            else if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View)
+            {
+                <div class="col-6">
+                    <button class="btn btn-primary w-100"
+                            type="button"
+                            @onclick="UpdateFormStateAsync">
+                        Edit
+                    </button>
+                </div>
+            }
+        </div>
     </EditForm>
 </OffCanvas>
