@@ -29,6 +29,10 @@ public partial class ChartTransactionIO : ComponentBase
     [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
+    [Parameter]
+
+    public ChartType ChartType { get; set; } = ChartType.bar;
+
     private DateTimeRange _dateTimeRange { get; set; } = new();
 
     private ChartConfigData _chartConfigData { get; set; } = new();

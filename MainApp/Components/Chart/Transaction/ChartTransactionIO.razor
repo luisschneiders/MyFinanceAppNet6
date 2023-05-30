@@ -30,7 +30,7 @@ else
     </div>
 
     <Chart Id="TransactionIO"
-           Type="ChartType.bar"
+           Type="@ChartType"
            Data="@(_chartConfigData)"
            OnSubmitSuccess="data => SetChartObjectReference(data)" />
 }
