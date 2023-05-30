@@ -14,7 +14,7 @@ public partial class Chart : ComponentBase
 	public string Id { get; set; } = string.Empty;
 
     [Parameter]
-	public ChartType Type { get; set; } = ChartType.Bar;
+	public ChartType Type { get; set; } = ChartType.bar;
 
     [Parameter]
 	public ChartConfigData Data { get; set; } = new();
@@ -35,7 +35,7 @@ public partial class Chart : ComponentBase
     {
         if (firstRender)
         {
-            _chartConfig.Type = Type.ToString().ToLower();
+            _chartConfig.Type = Type.ToString();
             _chartConfig.Data = Data;
 
             await _chartService.InvokeChartModule();

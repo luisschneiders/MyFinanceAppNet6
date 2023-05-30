@@ -21,7 +21,7 @@ else
     <div class="row justify-content-center align-items-center h-100">
         <div class="col">
             <Chart Id="BankAccountActive"
-                   Type="ChartType.Pie"
+                   Type="ChartType.polarArea"
                    Data="@(_chartConfigData)"
                    Position="Position.Left"
                    OnSubmitSuccess="data => SetChartObjectReference(data)" />
