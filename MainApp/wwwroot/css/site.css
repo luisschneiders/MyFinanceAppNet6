@@ -119,6 +119,10 @@ h1:focus {
     overflow-y: auto;
 }
 
+.app-page-background-blue {
+    background-image: linear-gradient( 0, #224478 50%, transparent 50% );
+}
+
 .app-page-background-danger {
     background-image: linear-gradient( 0, var(--bs-danger-bg-subtle) 50%, transparent 50% );
 }
