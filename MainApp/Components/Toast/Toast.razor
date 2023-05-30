@@ -1,7 +1,7 @@
 ﻿<div class="position-fixed bottom-0 start-0 p-4"
      style="z-index: 1066">
     <div id="@_toastId"
-         class="toast @(_isVisible ? "show": "hide") bg-@_backgroundColor text-white border-0 fade shadow-sm"
+         class="toast @(_isVisible ? "show": "hide") bg-@_backgroundColor-subtle text-@_backgroundColor-emphasis border-0 fade shadow-sm"
          role="alert"
          aria-live="assertive"
          aria-atomic="true">
@@ -10,7 +10,7 @@
                 @_message
             </div>
             <button type="button"
-                    class="btn-close btn-close-white me-2 m-auto"
+                    class="btn-close me-2 m-auto"
                     aria-label="Close"
                     @onclick="() => HideToast()"
             ></button>
