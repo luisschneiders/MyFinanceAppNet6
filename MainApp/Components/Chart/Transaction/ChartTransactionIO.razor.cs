@@ -31,13 +31,14 @@ public partial class ChartTransactionIO : ComponentBase
 
     [Parameter]
 
-    public ChartType ChartType { get; set; } = ChartType.bar;
+    public ChartType ChartType { get; set; } = ChartType.bar; // Or ChartType.line
 
     private DateTimeRange _dateTimeRange { get; set; } = new();
 
     private ChartConfigData _chartConfigData { get; set; } = new();
 
     private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
+    private string _chartIcon { get; set; } = string.Empty;
     private bool _isLoading { get; set; } = true;
 
     private IJSObjectReference _chartObjectReference = default!;
@@ -60,6 +61,14 @@ public partial class ChartTransactionIO : ComponentBase
             try
             {
                 _spinnerService.ShowSpinner();
+                if (ChartType == ChartType.bar)
+                {
+                    _chartIcon = "bi-bar-chart-line";
+                }
+                else
+                {
+                    _chartIcon = "bi bi-graph-up";
+                }
                 await SetChartConfigDataAsync();
             }
             catch (Exception ex)
