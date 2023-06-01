@@ -3,6 +3,7 @@
 @using MainApp.Components.Page
 @using MainApp.Components.Card
 @using MainApp.Components.Chart.Bank
+@using MainApp.Components.Chart.Expense
 @using MainApp.Components.Chart.Transaction
 @using MainApp.Components.Message
 @using MainApp.Components.Shared
@@ -37,7 +38,7 @@
                                                             <div class="w-100 text-start ps-3 pe-2">
                                                                 <h3 class="mb-1 h5">Expenses</h3>
                                                                 <div class="text-secondary pb-2">
-                                                                    <small class="text-wrap">Control and visualize your expenses using calendar or list views. <br/>See map locations based on your purchases.</small>
+                                                                    <small class="text-wrap">Control and visualize your expenses using calendar or list views. <br />See map locations based on your purchases.</small>
                                                                 </div>
                                                             </div>
                                                             <div class="text-secondary">
@@ -65,7 +66,7 @@
                                                             <div class="w-100 text-start ps-3 pe-2">
                                                                 <h3 class="mb-1 h5">Timesheet</h3>
                                                                 <div class="text-secondary pb-2">
-                                                                    <small class="text-wrap">Keep records of your timesheets across the companies you work. <br/>Use the calculator tool for rates estimate.</small>
+                                                                    <small class="text-wrap">Keep records of your timesheets across the companies you work. <br />Use the calculator tool for rates estimate.</small>
                                                                 </div>
                                                             </div>
                                                             <div class="text-secondary">
@@ -119,6 +120,26 @@
                                     <CardView Styles="w-100 border-0 shadow">
                                         <CardMiddle>
                                             <ChartBankAccountActive />
+                                        </CardMiddle>
+                                    </CardView>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-lg app-footer-gap">
+                            <div class="row gy-5">
+                                <div class="col-sm-12 col-md-6 d-flex flex-sm-column flex-md-row justify-content-center">
+                                    <CardView Styles="w-100 border-0 shadow">
+                                        <CardMiddle>
+                                            <h3 class="fs-5">Expenses</h3>
+                                            <ChartExpenseLast3Months />
+                                        </CardMiddle>
+                                    </CardView>
+                                </div>
+                                <div class="col-sm-12 col-md-6 d-flex flex-sm-column flex-md-row justify-content-center">
+                                    <CardView Styles="w-100 border-0 shadow">
+                                        <CardMiddle>
+                                            <h3 class="fs-5">Transactions</h3>
+                                            <ChartTransactionLast3Months />
                                         </CardMiddle>
                                     </CardView>
                                 </div>
