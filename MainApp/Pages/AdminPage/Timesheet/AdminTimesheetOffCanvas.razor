@@ -10,7 +10,7 @@
         <DataAnnotationsValidator />
         <div class="row align-items-center">
             <div class="col my-4">
-                <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing...")" />
+                <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing timesheet...")" />
             </div>
             @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                    _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
@@ -31,7 +31,7 @@
         {
             <div class="row">
                 <div class="col-sm-12">
-                    <button class="btn btn-primary w-100"
+                    <button class="btn btn-primary w-100 rounded-4"
                             type="button"
                             @onclick="UpdateFormStateAsync">
                         Edit
@@ -42,16 +42,16 @@
                 <hr />
             </div>
         }
-        <div class="row">
+        <div class="row pb-4">
             <div class="col-12">
-                <div class="form-floating mb-3">
+                <div class="form-floating pb-2">
                     @if (_isLoading)
                     {
                         <span>Loading...</span>
                     }
                     else
                     {
-                        <InputSelect class="form-select"
+                        <InputSelect class="form-select rounded-4"
                                      id="CompanyId"
                                      disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
@@ -67,10 +67,10 @@
                         <label for="CompanyId">Company</label>
                     }
                 </div>
-                <div class="form-floating mb-3">
+                <div class="form-floating pb-2">
                     <InputDate class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                         _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control")"
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control rounded-4")"
                                id="TimeIn"
                                placeholder="Clock in"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
@@ -80,10 +80,10 @@
                                Type="InputDateType.DateTimeLocal" />
                     <label for="TimeIn">Clock in</label>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="form-floating pb-2">
                     <InputNumber class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control")"
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control rounded-4")"
                                  id="TimeBreak"
                                  placeholder="Break (in minutes)"
                                  min="0"
@@ -94,10 +94,10 @@
                                  @bind-Value="_timesheetModel.TimeBreak" />
                     <label for="TimeBreak">Break (in minutes)</label>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="form-floating pb-2">
                     <InputDate class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                         _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control")"
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control rounded-4")"
                                id="TimeOut"
                                placeholder="Clock out"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
@@ -107,9 +107,9 @@
                                Type="InputDateType.DateTimeLocal" />
                     <label for="TimeOut">Clock out</label>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="form-floating pb-4">
                     <InputText class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? "form-control-plaintext" : "form-control")"
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? "form-control-plaintext" : "form-control rounded-4")"
                                id="Comments"
                                placeholder="Comments"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
@@ -120,7 +120,7 @@
                 @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add)
                 {
                     <div class="form-check form-switch form-check-reverse d-flex justify-content-start">
-                        <label class="form-check-label" for="IsDifferentRate">Public holiday or different rate?</label>
+                        <label class="form-check-label pe-2" for="IsDifferentRate">Public holiday or different rate?</label>
                         <InputCheckbox class="form-check-input"
                                        type="checkbox"
                                        role="switch"
@@ -130,7 +130,7 @@
                     if (_isDifferentRate)
                     {
                         <div class="form-floating mb-3">
-                            <InputNumber class="form-control"
+                            <InputNumber class="form-control rounded-4"
                                          id="HourRate"
                                          min="0"
                                          placeholder="Hour Rate"
@@ -139,29 +139,23 @@
                         </div>
                     }
                 }
+
+                @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
+                {
+                    <div class="form-check form-switch form-check-reverse d-flex justify-content-start">
+                        <label class="form-check-label pe-2" for="IsActive">Active?</label>
+                        <InputCheckbox class="form-check-input"
+                                        type="checkbox"
+                                        role="switch"
+                                        id="IsActive"
+                                        @bind-Value="_timesheetModel.IsActive" />
+                    </div>
+                }
             </div>
         </div>
-        @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
-        {
-            <div class="row">
-                <div class="col-12 d-flex align-items-start">
-                    <div class="form-check form-switch form-check-reverse">
-                        <label class="form-check-label" for="IsActive">Active?</label>
-                        <InputCheckbox class="form-check-input"
-                                       type="checkbox"
-                                       role="switch"
-                                       id="IsActive"
-                                       @bind-Value="_timesheetModel.IsActive" />
-                    </div>
-                </div>
-            </div>
-        }
         @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add ||
                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
         {
-            <div class="py-2">
-                <hr />
-            </div>
             @if (_displayErrorMessages)
             {
                 <div class="row">
@@ -172,13 +166,13 @@
             }
             <div class="row">
                 <div class="col-6">
-                    <button class="btn btn-outline-secondary w-100"
+                    <button class="btn btn-outline-secondary w-100 rounded-4"
                             @onclick="() => CloseOffCanvasAsync()">
                         Cancel
                     </button>
                 </div>
                 <div class="col-6">
-                    <button class="btn btn-success w-100"
+                    <button class="btn btn-primary w-100 rounded-4"
                             disabled="@(_isProcessing ? true : false)"
                             type="submit">
                         @(_isProcessing ? "Saving..." : "Save")

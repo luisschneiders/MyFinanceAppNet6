@@ -10,7 +10,7 @@
         <DataAnnotationsValidator />
         <div class="row align-items-center">
             <div class="col my-4">
-                <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing...")" />
+                <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing trip...")" />
             </div>
             @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
              _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
@@ -31,7 +31,7 @@
         {
             <div class="row">
                 <div class="col-sm-12">
-                    <button class="btn btn-primary w-100"
+                    <button class="btn btn-primary w-100 rounded-4"
                             type="button"
                             @onclick="UpdateFormStateAsync">
                         Edit
@@ -42,12 +42,12 @@
                 <hr />
             </div>
         }
-        <div class="row">
+        <div class="row pb-4">
             <div class="col-12">
-                <div class="form-floating mb-3">
+                <div class="form-floating pb-2">
                     <InputDate class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                         _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control")"
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control rounded-4")"
                                id="TDate"
                                placeholder="Date"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
@@ -57,14 +57,14 @@
                                Type="InputDateType.Date" />
                     <label for="TDate">Date</label>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="form-floating pb-2">
                     @if (_isLoading)
                     {
                         <span>Loading...</span>
                     }
                     else
                     {
-                        <InputSelect class="form-select"
+                        <InputSelect class="form-select rounded-4"
                                      id="VehicleId"
                                      disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
@@ -79,10 +79,10 @@
                         <label for="VehicleId">Vehicle</label>
                     }
                 </div>
-                <div class="form-floating mb-3">
+                <div class="form-floating">
                     <InputNumber class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control")"
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control rounded-4")"
                                  id="Distance"
                                  min="0"
                                  placeholder="Distance"
@@ -97,9 +97,6 @@
         @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add ||
               _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
         {
-            <div class="py-2">
-                <hr />
-            </div>
             @if (_displayErrorMessages)
             {
                 <div class="row">
@@ -110,13 +107,13 @@
             }
             <div class="row">
                 <div class="col-6">
-                    <button class="btn btn-outline-secondary w-100"
+                    <button class="btn btn-outline-secondary w-100 rounded-4"
                             @onclick="() => CloseOffCanvasAsync()">
                         Cancel
                     </button>
                 </div>
                 <div class="col-6">
-                    <button class="btn btn-success w-100"
+                    <button class="btn btn-primary w-100 rounded-4"
                             disabled="@(_isProcessing ? true : false)"
                             type="submit">
                         @(_isProcessing ? "Saving..." : "Save")

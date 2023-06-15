@@ -1,6 +1,6 @@
-﻿<div class="btn-group bg-@(ButtonColor.ToString().ToLower())-subtle" role="group">
+﻿<div class="btn-group bg-@(ButtonColor.ToString().ToLower())-subtle rounded-4" role="group">
     <div class="dropdown @(IsDisplayLargeNone ? "d-lg-none" : "")">
-        <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + ButtonColor.ToString().ToLower() + "-emphasis") text-nowrap"
+        <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + ButtonColor.ToString().ToLower() + "-emphasis") text-nowrap rounded-4"
                 title="Filter by..."
                 id="dropdownMenuOptions"
                 data-bs-toggle="dropdown"
@@ -33,7 +33,7 @@
     @if (Model?.Id > 0)
     {
         <div class="d-flex align-items-center">
-            <div class="vr my-1 text-@(Theme.Info.ToString().ToLower())-emphasis"></div>
+            <div class="vr my-1 text-@(ButtonColor.ToString().ToLower())-emphasis"></div>
             <button class="btn"
                     @onclick="ResetFilter">
                 <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
