@@ -26,7 +26,7 @@ public partial class DropdownFilter : ComponentBase
     public string IconEnd { get; set; } = "bi-chevron-down";
 
     [Parameter]
-    public Theme ButtonColor { get; set; } = Theme.Light;
+    public Theme ButtonColor { get; set; } = Theme.Info;
 
     [Parameter]
     public string DropdownLabel { get; set; } = Label.NoFilterAssigned;

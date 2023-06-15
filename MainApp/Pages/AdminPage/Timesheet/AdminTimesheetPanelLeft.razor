@@ -10,7 +10,6 @@
         <div class="row justify-content-between pb-2">
             <div class="col-10 col-lg-8 pb-2 d-flex">
                 <DropdownDateRange ButtonSize="Size.Md"
-                                   ButtonColor="Theme.Light"
                                    DateTimeRange="@_dateTimeRange"
                                    DropdownLabel="@_dropdownDateRangeLabel"
                                    IconColor="Theme.Info"
@@ -18,7 +17,6 @@
                                    OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
                 <div class="ps-2 d-none d-lg-flex">
                     <DropdownFilter ButtonSize="Size.Md"
-                                    ButtonColor="Theme.Light"
                                     DropdownLabel="@_dropdownFilterLabel"
                                     DropdownPosition="Position.Start"
                                     IconStartColor="Theme.Info"
@@ -29,7 +27,7 @@
                         @foreach (var (company, index) in _companies.Select((value, index) => (value, index)))
                         {
                             <li class="px-2">
-                                <button class="dropdown-item"
+                                <button class="dropdown-item rounded"
                                         @onclick="() => DropdownFilterRefreshCompany(company.Id)">
                                     @($"{company.Description.Truncate((int)Truncate.Company)}")
                                 </button>
