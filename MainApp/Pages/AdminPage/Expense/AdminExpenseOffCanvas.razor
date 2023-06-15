@@ -5,55 +5,24 @@
 <OffCanvas @ref="_offCanvasService.OffCanvas" PositionX="Position.End">
     <div class="row align-items-center">
         <div class="col my-4">
-            <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing...")" />
+            <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing expense...")" />
         </div>
-        @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
-        {
-            <div class="col my-4 d-flex justify-content-end">
-                <DropdownActions>
-                    <li class="px-2">
-                        <button class="dropdown-item"
-                                @onclick="ArchiveAsync">
-                            <i class="bi bi-archive pe-1"></i>Archive
-                        </button>
-                    </li>
-                </DropdownActions>
-            </div>
-        }
     </div>
-    @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View)
-    {
-        <div class="row">
-            <div class="col-sm-12">
-                <button class="btn btn-primary w-100"
-                        type="button"
-                        @onclick="UpdateFormStateAsync">
-                    Edit
-                </button>
-            </div>
-        </div>
-        <div class="py-3">
-            <hr />
-        </div>
-    }
-    <div class="row justify-content-between pb-3">
+    <div class="row justify-content-between pb-2">
         <div class="col-12">
             <div class="form-floating">
                 <input type="text"
                        id="Address"
-                       class="@(_formIsInvalid ? "invalid" : "") @((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control")"
+                       class="@(_formIsInvalid ? "invalid" : "") form-control rounded-4"
                        placeholder="Address"
                        @bind-value="_locationModel.Address" />
                 <label for="Address">Address</label>
             </div>
         </div>
     </div>
-    <div class="row justify-content-between pb-3">
+    <div class="row justify-content-between pb-4">
         <div class="col-12">
-            <button class="btn btn-primary w-100"
+            <button class="btn btn-outline-primary w-100 rounded-4"
                     disabled="@(_isProcessing ? true : false)"
                     title="Verify address"
                     @onclick="VerifyAddress">
@@ -76,7 +45,7 @@
     @if (_locationlist.Count > 0)
     {
         <strong>Select one from the list:</strong>
-        <ul class="list-group">
+        <ul class="list-group rounded-4">
             @foreach (var (item, index) in _locationlist.Select((value, index) => (value, index)))
             {
                 <li class="list-group-item bg-@(Theme.Light.ToString().ToLower())-subtle">
@@ -96,33 +65,25 @@
               OnInvalidSubmit="@HandleInvalidSubmitAsync"
               autocomplete="off">
         <DataAnnotationsValidator />
-        <div class="row">
+        <div class="row pb-4">
             <div class="col-12">
-                <div class="form-floating mb-3">
-                    <InputDate class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control")"
+                <div class="form-floating pb-2">
+                    <InputDate class="form-control rounded-4"
                                id="EDate"
                                placeholder="Date"
-                               readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
                                @bind-Value="_expenseModel.EDate"
                                Type="InputDateType.Date" />
                     <label for="EDate">Date</label>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="form-floating pb-2">
                     @if (_isLoading)
                     {
                         <span>Loading...</span>
                     }
                     else
                     {
-                        <InputSelect class="form-select"
+                        <InputSelect class="form-select rounded-4"
                                      id="BankId"
-                                     disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                               _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                               _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
                                      @oninput="OnValueChangedBank"
                                      @bind-Value="_expenseModel.BankId">
                             <option value="0">-- Select Bank --</option>
@@ -134,18 +95,15 @@
                         <label for="BankId">Bank</label>
                     }
                 </div>
-                <div class="form-floating mb-3">
+                <div class="form-floating pb-2">
                     @if (_isLoading)
                     {
                         <span>Loading...</span>
                     }
                     else
                     {
-                        <InputSelect class="form-select"
+                        <InputSelect class="form-select rounded-4"
                                      id="ECategoryId"
-                                     disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                               _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                               _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
                                      @oninput="OnValueChangedExpenseCategory"
                                      @bind-Value="_expenseModel.ECategoryId">
                             <option value="0">-- Select Expense --</option>
@@ -157,75 +115,57 @@
                         <label for="ECategoryId">Expense</label>
                     }
                 </div>
-                <div class="form-floating mb-3">
-                    <InputText class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control")"
+                <div class="form-floating pb-2">
+                    <InputText class="form-control rounded-4"
                                id="Comments"
                                placeholder="Comments"
-                               readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
                                @bind-Value="_expenseModel.Comments" />
                     <label for="Comments">Comments</label>
                 </div>
-                <div class="form-floating mb-3">
-                    <InputNumber class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control")"
+                <div class="form-floating">
+                    <InputNumber class="form-control rounded-4"
                                  id="Amount"
                                  min="0"
                                  placeholder="Amount"
-                                 readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
                                  @bind-Value="_expenseModel.Amount" />
                     <label for="Amount">Amount</label>
                 </div>
             </div>
         </div>
-
-        @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add ||
-          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
+        @if (_displayErrorMessages)
         {
-            <div class="py-2">
-                <hr />
-            </div>
-            @if (_displayErrorMessages)
-            {
-                <div class="row">
-                    <div class="col-12">
-                        <ValidationSummary />
-                    </div>
-                </div>
-            }
-
-            @if (_formIsInvalid)
-            {
-                <div class="row">
-                    <div class="col-12">
-                        <ul class="validation-errors">
-                            <li class="validation-message">The Address field is required.</li>
-                        </ul>
-                    </div>
-                </div>
-            }
-
             <div class="row">
-                <div class="col-6">
-                    <button class="btn btn-outline-secondary w-100"
-                            @onclick="() => CloseOffCanvasAsync()">
-                        Cancel
-                    </button>
-                </div>
-                <div class="col-6">
-                    <button class="btn btn-success w-100"
-                            disabled="@(_isProcessing ? true : false)"
-                            type="submit">
-                        @(_isProcessing ? "Saving..." : "Save")
-                    </button>
+                <div class="col-12">
+                    <ValidationSummary />
                 </div>
             </div>
         }
+
+        @if (_formIsInvalid)
+        {
+            <div class="row">
+                <div class="col-12">
+                    <ul class="validation-errors">
+                        <li class="validation-message">The Address field is required.</li>
+                    </ul>
+                </div>
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-outline-secondary w-100 rounded-4"
+                        @onclick="() => CloseOffCanvasAsync()">
+                    Cancel
+                </button>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-primary w-100 rounded-4"
+                        disabled="@(_isProcessing ? true : false)"
+                        type="submit">
+                    @(_isProcessing ? "Saving..." : "Save")
+                </button>
+            </div>
+        </div>
     </EditForm>
 </OffCanvas>

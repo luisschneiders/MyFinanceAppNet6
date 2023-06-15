@@ -1,6 +1,6 @@
-﻿<div class="btn-group bg-@(ButtonColor.ToString().ToLower())-subtle" role="group">
+﻿<div class="btn-group bg-@(ButtonColor.ToString().ToLower())-subtle rounded-4" role="group">
     <div class="dropdown">
-        <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + ButtonColor.ToString().ToLower() + "-emphasis") text-nowrap"
+        <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + ButtonColor.ToString().ToLower() + "-emphasis") text-nowrap rounded-4"
                 title="Change date range"
                 id="dropdownDateRange"
                 data-bs-toggle="dropdown"
@@ -12,7 +12,6 @@
         </button>
         <ul class="dropdown-menu dropdown-menu-@DropdownPosition.ToString().ToLower() border-0 bg-@ButtonColor.ToString().ToLower()-subtle shadow-sm ps-2"
             aria-labelledby="dropdownDateRange">
-
             <li class="d-flex pe-2 gap-2">
                 <input class="form-control form-control-sm"
                        id="Start"
@@ -20,7 +19,7 @@
                        placeholder="Month / Year"
                        @bind-value="DateTimeRange.Start" />
                 <button type="submit"
-                        class="btn btn-primary btn-sm"
+                        class="btn btn-primary btn-sm rounded-4"
                         title="Confirm"
                         @onclick="ChangeDateAsync">
                     <i class="bi bi-check-lg"></i>

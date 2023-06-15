@@ -156,12 +156,6 @@ public partial class AdminTransactionOffCanvas : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task UpdateFormStateAsync()
-    {
-        await _offCanvasService.UpdateFormStateAsync();
-        await Task.CompletedTask;
-    }
-
     private async Task CloseOffCanvasAsync()
     {
         _transactionModel = new();

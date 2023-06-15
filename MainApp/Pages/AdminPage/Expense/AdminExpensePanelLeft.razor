@@ -11,15 +11,15 @@
     <CardMiddle>
         <div class="row justify-content-between pb-2">
             <div class="col-10 col-lg-8 pb-2 d-flex gap-3">
-                <div class="btn-group bg-@(Theme.Warning.ToString().ToLower())-subtle"
+                <div class="btn-group bg-@(Theme.Warning.ToString().ToLower())-subtle rounded-4"
                      role="group"
                      aria-label="Radio toggle button group"
                      title="Change view">
                     <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value="@_viewType" @onclick="() => UpdateUIVIew(ViewType.Calendar)" checked="@(_viewType == @ViewType.Calendar ? true : false)">
-                    <label class="btn text-@(Theme.Warning.ToString().ToLower() )-emphasis" for="btnradio1"><i class="bi bi-calendar3 pe-1"></i></label>
+                    <label class="btn text-@(Theme.Warning.ToString().ToLower() )-emphasis rounded-start-4" for="btnradio1"><i class="bi bi-calendar3 pe-1"></i></label>
 
                     <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value="@_viewType" @onclick="() => UpdateUIVIew(ViewType.List)" checked="@(_viewType == @ViewType.List ? true : false)">
-                    <label class="btn text-@(Theme.Warning.ToString().ToLower() )-emphasis" for="btnradio2"><i class="bi bi-list-ul pe-1"></i></label>
+                    <label class="btn text-@(Theme.Warning.ToString().ToLower() )-emphasis rounded-end-4" for="btnradio2"><i class="bi bi-list-ul pe-1"></i></label>
                 </div>
                 @if (_viewType == ViewType.Calendar)
                 {
@@ -44,7 +44,7 @@
             </div>
             <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
                 <div class="d-none d-lg-block">
-                    <button class="btn btn-md bg-@(Theme.Primary.ToString().ToLower())-subtle text-@(Theme.Primary.ToString().ToLower())-emphasis"
+                    <button class="btn btn-md bg-@(Theme.Primary.ToString().ToLower())-subtle text-@(Theme.Primary.ToString().ToLower())-emphasis rounded-4"
                             @onclick="() => AddRecordAsync()">
                         <i class="bi bi-plus-lg pe-1"></i>New expense
                     </button>

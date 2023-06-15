@@ -193,12 +193,6 @@ public partial class AdminExpenseOffCanvas : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task UpdateFormStateAsync()
-    {
-        await _offCanvasService.UpdateFormStateAsync();
-        await Task.CompletedTask;
-    }
-
     private async Task CloseOffCanvasAsync()
     {
         await ResetDefaults();
