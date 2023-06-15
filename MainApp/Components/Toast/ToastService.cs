@@ -36,7 +36,7 @@ public class ToastService : IToastService, IDisposable
     {
         if (Countdown == null)
         {
-            Countdown = new System.Timers.Timer(2500);
+            Countdown = new System.Timers.Timer((int)Delay.Toast);
             Countdown.Elapsed += HideToast;
             Countdown.AutoReset = false;
         }

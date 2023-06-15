@@ -9,4 +9,5 @@ public enum Delay
     DataError = 1500,
     OffCanvasOpen = 100,
     OffCanvasClose = 250,
+    Toast = 5000
 }
