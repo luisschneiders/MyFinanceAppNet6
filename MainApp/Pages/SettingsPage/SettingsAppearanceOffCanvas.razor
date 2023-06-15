@@ -12,7 +12,7 @@
     <div class="row pb-5">
         <div class="col-6">
             <button type="button"
-                    class="btn btn-dark w-100 text-info border-0 py-5 rounded-0"
+                    class="btn btn-dark w-100 text-info border-0 py-5 rounded-5"
                     data-bs-theme-value="dark"
                     @onclick="() => ChangeColorModeAsync(ColorMode.Dark)">
                 <i class="bi bi-moon-stars-fill pe-1"></i>
@@ -21,7 +21,7 @@
         </div>
         <div class="col-6">
             <button type="button"
-                    class="btn btn-light w-100 text-warning border-0 py-5 rounded-0"
+                    class="btn btn-light w-100 text-warning border-0 py-5 rounded-5"
                     data-bs-theme-value="light"
                     @onclick="() => ChangeColorModeAsync(ColorMode.Light)">
                 <i class="bi bi-sun-fill pe-1"></i>
@@ -29,14 +29,9 @@
             </button>
         </div>
     </div>
-
-
-    <div class="pb-2">
-        <hr />
-    </div>
     <div class="row justify-content-start">
         <div class="col-6">
-            <button class="btn btn-outline-secondary w-100"
+            <button class="btn btn-outline-secondary w-100 rounded-4"
                     @onclick="() => CloseOffCanvasAsync()">
                 Close
             </button>

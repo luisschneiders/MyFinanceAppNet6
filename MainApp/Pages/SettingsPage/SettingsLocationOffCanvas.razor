@@ -14,7 +14,7 @@
                 <small class="text-secondary"><i class="bi bi-geo-alt-fill pe-1"></i>Current location:</small>
             </div>
         </div>
-        <div class="row pb-4">
+        <div class="row pb-2">
             <div class="col-12">
                 <small class="text-info">
                     @_currentLocation.Address
@@ -22,21 +22,21 @@
             </div>
         </div>
     }
-    <div class="row justify-content-between pb-3">
+    <div class="row justify-content-between pb-2">
         <div class="col-12">
             <div class="form-floating">
                 <input type="text"
                        id="Address"
-                       class="form-control @(_formIsInvalid ? "invalid" : "")"
+                       class="form-control rounded-4 @(_formIsInvalid ? "invalid" : "")"
                        placeholder="Address"
                        @bind-value="_locationModel.Address" />
                 <label for="Address">Address</label>
             </div>
         </div>
     </div>
-    <div class="row justify-content-between pb-3">
+    <div class="row justify-content-between pb-4">
         <div class="col-12">
-            <button class="btn btn-primary w-100"
+            <button class="btn btn-outline-primary w-100 rounded-4"
                     disabled="@(_isProcessing ? true : false)"
                     title="Verify address"
                     @onclick="VerifyAddress">
@@ -59,7 +59,7 @@
     @if (_locationlist.Count > 0)
     {
         <strong>Select one from the list:</strong>
-        <ul class="list-group list-group-flush">
+        <ul class="list-group list-group-flush rounded-4 pb-4">
             @foreach (var (item, index) in _locationlist.Select((value, index) => (value, index)))
             {
                 <li class="list-group-item">
@@ -73,10 +73,6 @@
             }
         </ul>
     }
-
-    <div class="pb-2">
-        <hr />
-    </div>
     @if (_formIsInvalid)
     {
         <div class="row">
@@ -99,13 +95,13 @@
     }
     <div class="row justify-content-end">
         <div class="col-6">
-            <button class="btn btn-outline-secondary w-100"
+            <button class="btn btn-outline-secondary w-100 rounded-4"
                     @onclick="() => CloseOffCanvasAsync()">
                 Close
             </button>
         </div>
         <div class="col-6">
-            <button class="btn btn-success w-100"
+            <button class="btn btn-primary w-100 rounded-4"
                     disabled="@(_userLocationModel.Location.Latitude == 0 && _userLocationModel.Location.Longitude == 0 ? true : false)"
                     @onclick="SaveAddress">
                 @(_isProcessing ? "Saving..." : "Save")

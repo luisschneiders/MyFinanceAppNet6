@@ -10,7 +10,7 @@
             <Badge BackgroundColor="@Theme.Info" Message="Setup..." />
         </div>
     </div>
-    <fieldset>
+    <fieldset class="pb-4">
         <legend><i class="bi bi-calendar3 text-info fs-5 pe-2"></i>Calendar view</legend>
         <div class="row align-items-center">
             <div class="col-auto pe-0">
@@ -23,12 +23,13 @@
                                  ButtonSize="Size.Sm"
                                  ButtonColor="Theme.Info"
                                  IconEnd="bi-chevron-down"
+                                 ButtonCssClass="rounded-4"
                                  ButtonInnerStyles="d-flex justify-content-between">
                     @foreach (var (weekDay, index) in _dayNames.Select((value, index) => (value, index)))
                     {
                         <li class="px-2">
                             @*Only enable Sunday and Monday*@
-                            <button class="dropdown-item"
+                            <button class="dropdown-item rounded"
                                     disabled="@(index > 1)"
                                     @onclick="() => UpdateWeekDayAsync(weekDay)">
                                 @($"{weekDay}")
@@ -49,12 +50,9 @@
             </div>
         }
     </fieldset>
-    <div class="py-2">
-        <hr />
-    </div>
     <div class="row">
         <div class="col-6">
-            <button class="btn btn-outline-secondary w-100"
+            <button class="btn btn-outline-secondary w-100 rounded-4"
                     @onclick="() => CloseOffCanvasAsync()">
                 Close
             </button>
