@@ -9,7 +9,7 @@
                 <DropdownActions ButtonColor="Theme.Primary"
                                  DropdownPosition="Position.End">
                     <li class="px-2">
-                        <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis"
+                        <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
                                 @onclick="() => AddRecordAsync()">
                             <i class="bi bi-plus-lg pe-1"></i>New Vehicle
                         </button>
@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="col-8 col-md-8">
                         <input type="text"
-                               class="form-control"
+                               class="form-control rounded-4"
                                placeholder="Search here..."
                                aria-label="search"
                                @bind-value="_searchTerm"
@@ -28,10 +28,15 @@
 
                     </div>
                     <div class="col-2">
-                        <button class="btn btn-primary"
+                        <button class="btn btn-outline-primary rounded-5"
                                 @onclick="() => SearchAsync()"
                                 disabled="@(_searchButtonEnabled ? false : true)">
-                            <i class="bi bi-search"></i>
+                            <span class="d-md-none">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <span class="d-none d-md-block">
+                                Search
+                            </span>
                         </button>
                     </div>
                 </div>
