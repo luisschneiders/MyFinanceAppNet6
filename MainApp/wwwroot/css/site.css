@@ -338,7 +338,19 @@ h1:focus {
     }
 }
 
+@media (max-width: 991.98px) {
+    .app-navbar {
+        background-color: var(--bs-light-bg-subtle);
+    }
+}
+
 @media (min-width: 992px) {
+    .app-navbar {
+        background-color: #6c757d0f;
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+    }
+
     .content {
         width: calc(100% - 1.5rem);
     }
