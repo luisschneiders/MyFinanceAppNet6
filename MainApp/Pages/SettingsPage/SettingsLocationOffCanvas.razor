@@ -2,87 +2,85 @@
 @using MainApp.Components.OffCanvas
 
 <OffCanvas @ref="_offCanvas" PositionX="Position.End" Title="Location">
-    <div class="row align-items-center">
-        <div class="col my-4">
-            <Badge BackgroundColor="@Theme.Info" Message="Setup..." />
-        </div>
-    </div>
     @if (_currentLocation?.Address is not null)
     {
-        <div class="row">
+        <div class="row py-5">
             <div class="col-12">
-                <small class="text-secondary"><i class="bi bi-geo-alt-fill pe-1"></i>Current location:</small>
-            </div>
-        </div>
-        <div class="row pb-2">
-            <div class="col-12">
-                <small class="text-info">
+                <span class="text-secondary">
+                    Current location: 
+                </span>
+                <span class="text-info-emphasis">
                     @_currentLocation.Address
-                </small>
+                </span>
             </div>
         </div>
     }
-    <div class="row justify-content-between pb-2">
-        <div class="col-12">
-            <div class="form-floating">
-                <input type="text"
-                       id="Address"
-                       class="form-control rounded-4 @(_formIsInvalid ? "invalid" : "")"
-                       placeholder="Address"
-                       @bind-value="_locationModel.Address" />
-                <label for="Address">Address</label>
-            </div>
-        </div>
-    </div>
-    <div class="row justify-content-between pb-4">
-        <div class="col-12">
-            <button class="btn btn-outline-primary w-100 rounded-4"
-                    disabled="@(_isProcessing ? true : false)"
-                    title="Verify address"
-                    @onclick="VerifyAddress">
-                @if (_isVerifying)
-                {
-                    <span>
-                        Verifying with Google...
-                    </span>
-                }
-                else
-                {
-                    <span>
-                        <i class="bi bi-check2-circle pe-1"></i>Verify address
-                    </span>
-                }
-            </button>
-        </div>
-    </div>
-
-    @if (_locationlist.Count > 0)
-    {
-        <strong>Select one from the list:</strong>
-        <ul class="list-group list-group-flush rounded-4 pb-4">
-            @foreach (var (item, index) in _locationlist.Select((value, index) => (value, index)))
-            {
-                <li class="list-group-item">
-                    <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="@index" id="@index" @onclick="() => SelectAddress(item)">
-                    <label class="form-check-label stretched-link" for="@index">
-                        <small>
-                            @item.Address
-                        </small>
-                    </label>
-                </li>
-            }
-        </ul>
-    }
-    @if (_formIsInvalid)
-    {
+    <div class="py-5">
         <div class="row">
             <div class="col-12">
-                <ul class="validation-errors">
-                    <li class="validation-message">The Address field is required.</li>
-                </ul>
+                <div class="form-floating pb-2">
+                    <input type="text"
+                           id="Address"
+                           class="form-control rounded-4 @(_formIsInvalid ? "invalid" : "")"
+                           placeholder="Address"
+                           @bind-value="_locationModel.Address" />
+                    <label for="Address">Address</label>
+                </div>
             </div>
         </div>
-    }
+        @if (_formIsInvalid)
+        {
+            <div class="row">
+                <div class="col-12">
+                    <ul class="validation-errors">
+                        <li class="validation-message">The Address field is required.</li>
+                    </ul>
+                </div>
+            </div>
+        }
+        <div class="row pb-4">
+            <div class="col-12">
+                <button class="btn btn-outline-primary w-100 rounded-4"
+                        disabled="@(_isProcessing ? true : false)"
+                        title="Verify address"
+                        @onclick="VerifyAddress">
+                    @if (_isVerifying)
+                    {
+                        <span>
+                            Verifying with Google...
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            <i class="bi bi-check2-circle pe-1"></i>Verify address
+                        </span>
+                    }
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                @if (_locationlist.Count > 0)
+                {
+                    <span class="text-secondary fw-semibold">Select one from the list:</span>
+                    <ul class="list-group rounded-4">
+                        @foreach (var (item, index) in _locationlist.Select((value, index) => (value, index)))
+                        {
+                            <li class="list-group-item bg-light-subtle">
+                                <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="@index" id="@index" @onclick="() => SelectAddress(item)">
+                                <label class="form-check-label stretched-link" for="@index">
+                                    <small>
+                                        @item.Address
+                                    </small>
+                                </label>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+    </div>
     @if (_userLocationIsInvalid)
     {
         <div class="row">
@@ -93,7 +91,7 @@
             </div>
         </div>
     }
-    <div class="row justify-content-end">
+    <div class="row py-5 justify-content-end">
         <div class="col-6">
             <button class="btn btn-outline-secondary w-100 rounded-4"
                     @onclick="() => CloseOffCanvasAsync()">

@@ -16,10 +16,10 @@
                      aria-label="Radio toggle button group"
                      title="Change view">
                     <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value="@_viewType" @onclick="() => UpdateUIVIew(ViewType.Calendar)">
-                    <label class="btn btn-@(Theme.Light.ToString().ToLower() ) border-0 rounded-start-4 @(_viewType == @ViewType.Calendar ? "active" : "")" for="btnradio1"><i class="bi bi-calendar3"></i></label>
+                    <label class="btn btn-@(Theme.Light.ToString().ToLower() ) text-@(Theme.Success.ToString().ToLower() )-emphasis border-0 rounded-start-4 @(_viewType == @ViewType.Calendar ? "active" : "")" for="btnradio1"><i class="bi bi-calendar3"></i></label>
 
                     <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value="@_viewType" @onclick="() => UpdateUIVIew(ViewType.List)">
-                    <label class="btn btn-@(Theme.Light.ToString().ToLower() ) border-0 rounded-end-4 @(_viewType == @ViewType.List ? "active" : "")" for="btnradio2"><i class="bi bi-list-ul"></i></label>
+                    <label class="btn btn-@(Theme.Light.ToString().ToLower() ) text-@(Theme.Success.ToString().ToLower() )-emphasis border-0 rounded-end-4 @(_viewType == @ViewType.List ? "active" : "")" for="btnradio2"><i class="bi bi-list-ul"></i></label>
                 </div>
                 @if (_viewType == ViewType.Calendar)
                 {
@@ -42,7 +42,7 @@
             </div>
             <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
                 <div class="d-none d-lg-block">
-                    <button class="btn btn-md bg-@(Theme.Primary.ToString().ToLower())-subtle text-@(Theme.Primary.ToString().ToLower())-emphasis rounded-4"
+                    <button class="btn btn-md bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis rounded-4"
                             @onclick="() => AddRecordAsync()">
                         <i class="bi bi-plus-lg pe-1"></i>New expense
                     </button>

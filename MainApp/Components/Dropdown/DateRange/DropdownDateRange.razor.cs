@@ -24,7 +24,7 @@ public partial class DropdownDateRange : ComponentBase
     public Theme IconColor { get; set; } = Theme.Success;
 
     [Parameter]
-    public Theme ButtonColor { get; set; } = Theme.Info;
+    public Theme ButtonColor { get; set; } = Theme.Light;
 
     [Parameter]
     public Size ButtonSize { get; set; } = Size.Md;
