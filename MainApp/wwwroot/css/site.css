@@ -19,6 +19,11 @@ input[disabled] {
     border: none;
 }
 
+/* Remove margin when hovering */
+.btn-group > :not(.btn-check:first-child) + .btn {
+    margin-left: 0;
+}
+
 h1:focus {
     outline: none;
 }
