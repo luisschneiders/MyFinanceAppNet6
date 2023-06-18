@@ -2,96 +2,99 @@
 @using MainApp.Components.OffCanvas
 
 <OffCanvas @ref="_offCanvas" PositionX="Position.End" Title="Location">
-    @if (_currentLocation?.Address is not null)
-    {
-        <div class="row py-5">
-            <div class="col-12">
-                <span class="text-secondary">
-                    Current location: 
-                </span>
-                <span class="text-info-emphasis">
-                    @_currentLocation.Address
-                </span>
+    <fieldset class="py-5">
+        <legend><i class="bi bi-pin-map-fill text-info-emphasis fs-5 pe-2"></i>Set your location</legend>
+        @if (_currentLocation?.Address is not null)
+        {
+            <div class="row py-2">
+                <div class="col-12">
+                    <span class="text-secondary">
+                        Current location: 
+                    </span>
+                    <span class="text-info-emphasis">
+                        @_currentLocation.Address
+                    </span>
+                </div>
             </div>
-        </div>
-    }
-    <div class="py-5">
-        <div class="row">
-            <div class="col-12">
-                <div class="form-floating pb-2">
-                    <input type="text"
-                           id="Address"
-                           class="form-control rounded-4 @(_formIsInvalid ? "invalid" : "")"
-                           placeholder="Address"
-                           @bind-value="_locationModel.Address" />
-                    <label for="Address">Address</label>
+        }
+        <div class="py-2">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-floating pb-2">
+                        <input type="text"
+                               id="Address"
+                               class="form-control rounded-4 @(_formIsInvalid ? "invalid" : "")"
+                               placeholder="Address"
+                               @bind-value="_locationModel.Address" />
+                        <label for="Address">Address</label>
+                    </div>
+                </div>
+            </div>
+            @if (_formIsInvalid)
+            {
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="validation-errors">
+                            <li class="validation-message">The Address field is required.</li>
+                        </ul>
+                    </div>
+                </div>
+            }
+            <div class="row pb-4">
+                <div class="col-12">
+                    <button class="btn btn-outline-primary w-100 rounded-4"
+                            disabled="@(_isProcessing ? true : false)"
+                            title="Verify address"
+                            @onclick="VerifyAddress">
+                        @if (_isVerifying)
+                        {
+                            <span>
+                                Verifying with Google...
+                            </span>
+                        }
+                        else
+                        {
+                            <span>
+                                <i class="bi bi-check2-circle pe-1"></i>Verify address
+                            </span>
+                        }
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    @if (_locationlist.Count > 0)
+                    {
+                        <span class="text-secondary fw-semibold">Select one from the list:</span>
+                        <ul class="list-group rounded-4">
+                            @foreach (var (item, index) in _locationlist.Select((value, index) => (value, index)))
+                            {
+                                <li class="list-group-item bg-light-subtle">
+                                    <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="@index" id="@index" @onclick="() => SelectAddress(item)">
+                                    <label class="form-check-label stretched-link" for="@index">
+                                        <small>
+                                            @item.Address
+                                        </small>
+                                    </label>
+                                </li>
+                            }
+                        </ul>
+                    }
                 </div>
             </div>
         </div>
-        @if (_formIsInvalid)
+        @if (_userLocationIsInvalid)
         {
             <div class="row">
                 <div class="col-12">
                     <ul class="validation-errors">
-                        <li class="validation-message">The Address field is required.</li>
+                        <li class="validation-message">Please select address from the list.</li>
                     </ul>
                 </div>
             </div>
         }
-        <div class="row pb-4">
-            <div class="col-12">
-                <button class="btn btn-outline-primary w-100 rounded-4"
-                        disabled="@(_isProcessing ? true : false)"
-                        title="Verify address"
-                        @onclick="VerifyAddress">
-                    @if (_isVerifying)
-                    {
-                        <span>
-                            Verifying with Google...
-                        </span>
-                    }
-                    else
-                    {
-                        <span>
-                            <i class="bi bi-check2-circle pe-1"></i>Verify address
-                        </span>
-                    }
-                </button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                @if (_locationlist.Count > 0)
-                {
-                    <span class="text-secondary fw-semibold">Select one from the list:</span>
-                    <ul class="list-group rounded-4">
-                        @foreach (var (item, index) in _locationlist.Select((value, index) => (value, index)))
-                        {
-                            <li class="list-group-item bg-light-subtle">
-                                <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="@index" id="@index" @onclick="() => SelectAddress(item)">
-                                <label class="form-check-label stretched-link" for="@index">
-                                    <small>
-                                        @item.Address
-                                    </small>
-                                </label>
-                            </li>
-                        }
-                    </ul>
-                }
-            </div>
-        </div>
-    </div>
-    @if (_userLocationIsInvalid)
-    {
-        <div class="row">
-            <div class="col-12">
-                <ul class="validation-errors">
-                    <li class="validation-message">Please select address from the list.</li>
-                </ul>
-            </div>
-        </div>
-    }
-    <div class="row py-5 justify-content-end">
+    </fieldset>
+    <div class="row">
         <div class="col-6">
             <button class="btn btn-outline-secondary w-100 rounded-4"
                     @onclick="() => CloseOffCanvasAsync()">
@@ -109,7 +112,7 @@
     <div class="position-absolute bottom-0">
         <div class="py-2">
             <small class="text-secondary">
-                Results provided by: <NavLink class="text-decoration-underline" href="https://mapsplatform.google.com/" target="_blank"><i class="bi bi-pin-map-fill"></i> Google Maps Platform</NavLink>
+                Results provided by: <NavLink class="text-decoration-underline" href="https://mapsplatform.google.com/" target="_blank">Google Maps Platform</NavLink>
             </small>
         </div>
     </div>
