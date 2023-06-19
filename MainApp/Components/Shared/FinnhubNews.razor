@@ -28,10 +28,15 @@ else
                                    Summary="@record.Summary" />
             }
         </ListGroup>
-        <div class="d-flex justify-content-end align-items-center">
+        <div class="d-flex justify-content-between align-items-center">
             <small class="p-2">
-                News provided by: <NavLink href="https://finnhub.io" class="text-decoration-underline" target="_blank">https://finnhub.io</NavLink>
+                Source: <NavLink href="https://finnhub.io" class="text-decoration-underline" target="_blank">https://finnhub.io</NavLink>
             </small>
+            <button class="btn btn-link btn-sm"
+                    title="Refresh"
+                    @onclick="RefreshNewsAsync">
+                <i class="bi bi-arrow-clockwise"></i>
+            </button>
         </div>
     }
     else
