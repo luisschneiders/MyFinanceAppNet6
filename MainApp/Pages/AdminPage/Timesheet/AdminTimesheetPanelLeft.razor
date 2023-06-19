@@ -44,10 +44,9 @@
                     </button>
                 </div>
                 <div class="d-block d-lg-none">
-                    <DropdownActions ButtonColor="Theme.Primary"
-                                     DropdownPosition="Position.End">
+                    <DropdownActions DropdownPosition="Position.End">
                         <li class="px-2 d-block d-lg-none">
-                            <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
+                            <button class="dropdown-item text-@(Theme.Info.ToString().ToLower())-emphasis rounded"
                                     @onclick="() => AddRecordAsync()">
                                 <i class="bi bi-plus-lg pe-1"></i>New timesheet
                             </button>
@@ -186,7 +185,7 @@
                                 }
                             }
                         </tbody>
-                        <tfoot class="bg-primary-subtle text-primary-emphasis fw-semibold d-lg-none">
+                        <tfoot class="bg-secondary-subtle fw-semibold d-lg-none">
                             <tr>
                                 <td class="text-nowrap" colspan="6">Total paid</td>
                                 <td class="text-nowrap text-end">@_timesheetStateContainerDTO.TotalPaid.ToString("C")</td>
