@@ -20,13 +20,13 @@ public partial class DropdownFilter : ComponentBase
     public string IconStart { get; set; } = string.Empty;
 
     [Parameter]
+    public Theme ButtonColor { get; set; } = Theme.Light;
+
+    [Parameter]
     public Theme IconStartColor { get; set; } = Theme.Light;
 
     [Parameter]
     public string IconEnd { get; set; } = "bi-chevron-down";
-
-    [Parameter]
-    public Theme ButtonColor { get; set; } = Theme.Light;
 
     [Parameter]
     public string DropdownLabel { get; set; } = Label.NoFilterAssigned;

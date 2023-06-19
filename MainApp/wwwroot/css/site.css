@@ -19,6 +19,11 @@ input[disabled] {
     border: none;
 }
 
+/* Remove margin when hovering */
+.btn-group > :not(.btn-check:first-child) + .btn {
+    margin-left: 0;
+}
+
 h1:focus {
     outline: none;
 }
@@ -123,10 +128,6 @@ h1:focus {
     background-image: linear-gradient( 0, var(--bs-danger-bg-subtle) 50%, transparent 50% );
 }
 
-.app-page-background-danger-custom {
-    background-image: linear-gradient( 0, #872121 50%, transparent 50% );
-}
-
 .app-page-background-dark {
     background-image: linear-gradient( 0, var(--bs-dark-bg-subtle) 50%, transparent 50% );
 }
@@ -139,24 +140,8 @@ h1:focus {
     background-image: linear-gradient( 0, var(--bs-light-bg-subtle) 50%, transparent 50% );
 }
 
-.app-page-background-orange {
-    background-image: linear-gradient( 0, var(--bs-orange) 50%, transparent 50% );
-}
-
-.app-page-background-pink {
-    background-image: linear-gradient( 0, var(--bs-pink) 50%, transparent 50% );
-}
-
 .app-page-background-primary {
     background-image: linear-gradient( 0, var(--bs-primary-bg-subtle) 50%, transparent 50% );
-}
-
-.app-page-background-primary-custom {
-    background-image: linear-gradient( 0, #224478 50%, transparent 50% );
-}
-
-.app-page-background-purple {
-    background-image: linear-gradient( 0, var(--bs-purple) 50%, transparent 50% );
 }
 
 .app-page-background-secondary {
@@ -165,10 +150,6 @@ h1:focus {
 
 .app-page-background-success {
     background-image: linear-gradient( 0, var(--bs-success-bg-subtle) 50%, transparent 50% );
-}
-
-.app-page-background-success-custom {
-    background-image: linear-gradient( 0, #16502D 50%, transparent 50% );
 }
 
 .app-page-background-warning {
@@ -357,7 +338,19 @@ h1:focus {
     }
 }
 
+@media (max-width: 991.98px) {
+    .app-navbar {
+        background-color: var(--bs-light-bg-subtle);
+    }
+}
+
 @media (min-width: 992px) {
+    .app-navbar {
+        background-color: #fdfdfd88;
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+    }
+
     .content {
         width: calc(100% - 1.5rem);
     }

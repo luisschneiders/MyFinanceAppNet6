@@ -44,7 +44,7 @@
 
     @if (_locationlist.Count > 0)
     {
-        <strong>Select one from the list:</strong>
+        <span class="text-secondary fw-semibold">Select one from the list:</span>
         <ul class="list-group rounded-4">
             @foreach (var (item, index) in _locationlist.Select((value, index) => (value, index)))
             {

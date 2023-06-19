@@ -26,12 +26,12 @@
         <div class="row w-100 justify-content-end">
             <div class="col-sm-12 col-md-8 d-flex gap-2 g-0">
                 <button type="button"
-                        class="btn btn-outline-secondary w-100"
+                        class="btn btn-outline-secondary w-100 rounded-4"
                         data-dismiss="modal"
                         @onclick="() => CloseModalAsync()">
                     Cancel
                 </button>
-                <button class="btn btn-danger w-100"
+                <button class="btn btn-danger w-100 rounded-4"
                         disabled="@(_isProcessing ? true : false)"
                         type="submit"
                         form="ModalForm">

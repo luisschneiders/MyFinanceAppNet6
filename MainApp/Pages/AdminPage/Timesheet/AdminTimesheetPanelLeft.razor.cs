@@ -96,7 +96,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
     {
         try
         {
-            _companies = await _companyService.GetRecordsActive();
+            _companies = await _companyService.GetRecords();
 
             List<TimesheetListDTO> timesheets = await _timesheetService.GetRecordsByFilter(_dateTimeRange, _filterCompany);
             decimal totalAwaiting = await _timesheetService.GetSumTotalAwaiting();

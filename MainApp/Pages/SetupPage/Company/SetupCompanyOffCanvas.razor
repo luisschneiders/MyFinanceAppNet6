@@ -10,7 +10,7 @@
         <ObjectGraphDataAnnotationsValidator />
         <div class="row align-items-center">
             <div class="col my-4">
-                <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing...")" />
+                <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing company...")" />
             </div>
             @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                  _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
@@ -18,7 +18,7 @@
                 <div class="col my-4 d-flex justify-content-end">
                     <DropdownActions>
                         <li class="px-2">
-                            <button class="dropdown-item"
+                            <button class="dropdown-item rounded text-@(Theme.Danger.ToString().ToLower())-emphasis"
                                     @onclick="ArchiveAsync">
                                 <i class="bi bi-archive pe-1"></i>Archive
                             </button>
@@ -27,11 +27,11 @@
                 </div>
             }
         </div>
-        <div class="row">
+        <div class="row pb-4">
             <div class="col-12">
-                <div class="form-floating mb-3">
+                <div class="form-floating pb-2">
                     <InputText class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? "form-control-plaintext" : "form-control")"
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? "form-control-plaintext" : "form-control rounded-4")"
                                id="CompanyDescription"
                                placeholder="Description"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
@@ -39,9 +39,9 @@
                                @bind-Value="_companyModel.Description" />
                     <label for="CompanyDescription">Description</label>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="form-floating pb-2">
                     <InputNumber class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? "form-control-plaintext" : "form-control")"
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? "form-control-plaintext" : "form-control rounded-4")"
                                  id="CompanyRate"
                                  min="0.00"
                                  placeholder="Rates"
@@ -50,8 +50,8 @@
                                  @bind-Value="_companyModel.Rate" />
                     <label for="CompanyRate">Rates</label>
                 </div>
-                <div class="form-floating mb-3">
-                    <InputSelect class="form-select"
+                <div class="form-floating pb-2">
+                    <InputSelect class="form-select rounded-4"
                                  id="CompanyCType"
                                  disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                              _offCanvasService.GetOffCanvasViewType()== OffCanvasViewType.Archive) ? true: false)"
@@ -69,7 +69,7 @@
         </div>
         @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
         {
-            <div class="row">
+            <div class="row pb-4">
                 <div class="col-12 d-flex align-items-start">
                     <div class="form-check form-switch form-check-reverse">
                         <label class="form-check-label" for="IsActive">Active?</label>
@@ -82,9 +82,6 @@
                 </div>
             </div>
         }
-        <div class="py-2">
-            <hr />
-        </div>
         @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add || _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
         {
             @if (_displayErrorMessages)
@@ -98,7 +95,7 @@
         }
         <div class="row">
             <div class="col-6">
-                <button class="btn btn-outline-secondary w-100"
+                <button class="btn btn-outline-secondary w-100 rounded-4"
                         @onclick="() => CloseOffCanvasAsync()">
                     Cancel
                 </button>
@@ -106,7 +103,7 @@
             @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add || _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
             {
                 <div class="col-6">
-                    <button class="btn btn-success w-100"
+                    <button class="btn btn-primary w-100 rounded-4"
                             disabled="@(_isProcessing ? true : false)"
                             type="submit">
                         @(_isProcessing ? "Saving..." : "Save")
@@ -116,7 +113,7 @@
             else if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View)
             {
                 <div class="col-6">
-                    <button class="btn btn-primary w-100"
+                    <button class="btn btn-outline-primary w-100 rounded-4"
                             type="button"
                             @onclick="UpdateFormStateAsync">
                         Edit
