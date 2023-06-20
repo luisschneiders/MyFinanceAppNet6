@@ -32,10 +32,10 @@ else
             <small class="p-2">
                 Source: <NavLink href="https://finnhub.io" class="text-decoration-underline" target="_blank">https://finnhub.io</NavLink>
             </small>
-            <button class="btn btn-link btn-sm"
+            <button class="btn bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Light.ToString().ToLower())-emphasis btn-sm rounded-4  d-none d-lg-block"
                     title="Refresh"
                     @onclick="RefreshNewsAsync">
-                <i class="bi bi-arrow-clockwise"></i>
+                <i class="bi bi-arrow-clockwise pe-1"></i>Refresh
             </button>
         </div>
     }
