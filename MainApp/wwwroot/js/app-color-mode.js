@@ -9,34 +9,39 @@
     'use strict'
 
     const key = "AppTheme";
-    const storedTheme = localStorage.getItem(key)
+
+    const storedTheme = localStorage.getItem(key);
 
     const getPreferredTheme = () => {
         if (storedTheme) {
-            return storedTheme
+            let theme = JSON.parse(storedTheme);
+            return theme;
         }
 
-        return window.matchMedia('(prefers-color-scheme: light)').matches ? 'dark' : 'light'
-    }
+        var mode = window.matchMedia('(prefers-color-scheme: light)').matches ? 'dark' : 'light';
+
+        return mode;
+    };
 
     const setTheme = function (theme) {
         if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             document.documentElement.setAttribute('data-bs-theme', 'dark')
+            localStorage.setItem(key, JSON.stringify(theme));
         } else {
             document.documentElement.setAttribute('data-bs-theme', theme)
+            localStorage.setItem(key, JSON.stringify(theme));
         }
-    }
+    };
 
-    setTheme(getPreferredTheme())
+    setTheme(getPreferredTheme());
 
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-        if (storedTheme !== 'light' || storedTheme !== 'dark') {
+        if (storedTheme !== "light" || storedTheme !== "dark") {
             setTheme(getPreferredTheme())
         }
-    })
+    });
 
     window.updateColorMode = (theme) => {
-        localStorage.setItem(key, theme);
         setTheme(theme);
     };
 

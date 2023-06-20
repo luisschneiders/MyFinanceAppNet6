@@ -1,29 +1,38 @@
-﻿@using MainApp.Components.OffCanvas
-@using MainApp.Components.Badge
+﻿@using MainApp.Components.Badge
+@using MainApp.Components.Dropdown.Actions
+@using MainApp.Components.OffCanvas
 
 @inject IJSRuntime JS
 
 <OffCanvas @ref="_offCanvas" PositionX="Position.End" Title="Appearance">
     <fieldset class="py-5">
-        <legend><i class="bi bi-moon-stars-fill text-info-emphasis fs-5 pe-2"></i>Choose dark or light mode</legend>
-        <div class="row">
-            <div class="col-6">
-                <button type="button"
-                        class="btn btn-dark w-100 text-info border-0 py-5 rounded-5"
-                        data-bs-theme-value="dark"
-                        @onclick="() => ChangeColorModeAsync(ColorMode.Dark)">
-                    <i class="bi bi-moon-stars-fill pe-1"></i>
-                    Dark
-                </button>
+        <legend><i class="bi bi-moon-stars-fill text-info-emphasis fs-5 pe-2"></i>App display view</legend>
+        <div class="row align-items-center">
+            <div class="col-auto pe-0">
+                <small>
+                    Your current mode is
+                </small>
             </div>
-            <div class="col-6">
-                <button type="button"
-                        class="btn btn-light w-100 text-warning border-0 py-5 rounded-5"
-                        data-bs-theme-value="light"
-                        @onclick="() => ChangeColorModeAsync(ColorMode.Light)">
-                    <i class="bi bi-sun-fill pe-1"></i>
-                    Light
-                </button>
+            <div class="col-auto">
+                <DropdownActions Title="@_localStorageTheme"
+                                 ButtonSize="Size.Sm"
+                                 ButtonColor="Theme.Info"
+                                 IconEnd="bi-chevron-down"
+                                 ButtonCssClass="rounded-4"
+                                 ButtonInnerStyles="d-flex justify-content-between">
+                    <li class="px-2">
+                        <button class="dropdown-item rounded"
+                                @onclick="() => UpdateThemeAsync(ColorMode.Dark)">
+                            dark
+                        </button>
+                    </li>
+                    <li class="px-2">
+                        <button class="dropdown-item rounded"
+                                @onclick="() => UpdateThemeAsync(ColorMode.Light)">
+                            light
+                        </button>
+                    </li>
+                </DropdownActions>
             </div>
         </div>
     </fieldset>
