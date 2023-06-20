@@ -28,15 +28,17 @@ else
                                    Summary="@record.Summary" />
             }
         </ListGroup>
-        <div class="d-flex justify-content-between align-items-center">
-            <small class="p-2">
+        <div class="d-flex justify-content-between align-items-center pt-2">
+            <small>
                 Source: <NavLink href="https://finnhub.io" class="text-decoration-underline" target="_blank">https://finnhub.io</NavLink>
             </small>
-            <button class="btn bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Light.ToString().ToLower())-emphasis btn-sm rounded-4  d-none d-lg-block"
-                    title="Refresh"
-                    @onclick="RefreshNewsAsync">
-                <i class="bi bi-arrow-clockwise pe-1"></i>Refresh
-            </button>
+            <small>
+                <button class="btn bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Light.ToString().ToLower())-emphasis btn-sm rounded-4  d-none d-lg-block"
+                        title="Refresh"
+                        @onclick="RefreshNewsAsync">
+                    <i class="bi bi-arrow-clockwise pe-1"></i>Refresh
+                </button>
+            </small>
         </div>
     }
     else
