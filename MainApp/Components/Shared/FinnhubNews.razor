@@ -32,13 +32,11 @@ else
             <small>
                 Source: <NavLink href="https://finnhub.io" class="text-decoration-underline" target="_blank">https://finnhub.io</NavLink>
             </small>
-            <small>
-                <button class="btn bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Light.ToString().ToLower())-emphasis btn-sm rounded-4  d-none d-lg-block"
-                        title="Refresh"
-                        @onclick="RefreshNewsAsync">
-                    <i class="bi bi-arrow-clockwise pe-1"></i>Refresh
-                </button>
-            </small>
+            <button class="btn btn-sm bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis rounded-4 d-none d-lg-block"
+                    title="Refresh"
+                    @onclick="RefreshNewsAsync">
+                <i class="bi bi-arrow-clockwise pe-1"></i>Refresh
+            </button>
         </div>
     }
     else
@@ -53,10 +51,10 @@ else
                 </div>
             </div>
             <div class="py-4">
-                <button class="btn bg-info-subtle btn-sm text-info-emphasis border-info-subtle"
+                <button class="btn btn-sm bg-@(Theme.Light.ToString().ToLower())-subtle  text-@(Theme.Info.ToString().ToLower())-emphasis rounded-4"
                         title="Refresh"
                         @onclick="RefreshNewsAsync">
-                    Refresh
+                    <i class="bi bi-arrow-clockwise pe-1"></i>Refresh
                 </button>
             </div>
         </div>
