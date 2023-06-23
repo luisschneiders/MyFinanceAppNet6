@@ -10,13 +10,11 @@
         case (int)WeatherConditionType.Cloudy:
         case (int)WeatherConditionType.Overcast:
         case (int)WeatherConditionType.HeavySnow:
-            <div class="cloud-moving"></div>
             <div class="cloud"></div>
             break;
         case (int)WeatherConditionType.PartlyCloudy:
         case (int)WeatherConditionType.PatchyLightSnow:
         case (int)WeatherConditionType.ModerateOrHeavySnowShowers:
-            <div class="cloud-moving"></div>
             <div class="cloud"></div>
             @if (_isNight)
             {
@@ -67,7 +65,6 @@
                     <div class="ray_box"></div>
                 </div>
             }
-            <div class="cloud-moving"></div>
             <div class="cloud">
                 <span class="rain-drops-1"></span>
                 <span class="rain-drops-2"></span>
@@ -81,12 +78,6 @@
         case (int)WeatherConditionType.ModerateRainAtTimes:
         case (int)WeatherConditionType.ModerateOrHeavyRain:
         case (int)WeatherConditionType.PatchyLightRain:
-            <div class="cloud-moving">
-                <span class="rain-drops-1"></span>
-                <span class="rain-drops-2"></span>
-                <span class="rain-drops-3"></span>
-                <span class="rain-drops-4"></span>
-            </div>
             <div class="cloud">
                 <span class="rain-drops-1"></span>
                 <span class="rain-drops-2"></span>
