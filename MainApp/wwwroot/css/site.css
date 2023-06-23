@@ -350,6 +350,14 @@ h1:focus {
         -webkit-backdrop-filter: blur(6px);
     }
 
+    [data-bs-theme=light] .app-navbar {
+        background-color: #fcfcfd88;
+    }
+
+    [data-bs-theme=dark] .app-navbar {
+        background-color: #343a4088;
+    }
+
     .content {
         width: calc(100% - 1.5rem);
     }
