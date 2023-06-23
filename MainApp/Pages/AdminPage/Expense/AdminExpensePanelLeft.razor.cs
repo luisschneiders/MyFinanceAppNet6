@@ -28,6 +28,9 @@ public partial class AdminExpensePanelLeft : ComponentBase
     [Inject]
     private ICalendarViewService _calendarViewService { get; set; } = default!;
 
+    [Inject]
+    private ILocalStorageService _localStorageService { get; set; } = default!;
+
     // Add OffCanvas component reference
     private AdminExpenseOffCanvas _setupOffCanvas { get; set; } = new();
 
@@ -40,7 +43,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private List<ExpenseByCategoryGroupDTO> _expensesByGroup { get; set; } = new();
     private List<ExpenseCalendarDTO> _expensesCalendarView { get; set; } = new();
 
-    private ViewType _viewType { get; set; } = ViewType.Calendar;
+    private string _viewType { get; set; } = ViewType.Calendar.ToString();
 
     private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
     private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
@@ -70,6 +73,13 @@ public partial class AdminExpensePanelLeft : ComponentBase
             try
             {
                 _spinnerService.ShowSpinner();
+                string expenseView = await GetLocalStorageExpenseViewAsync();
+
+                if (string.IsNullOrEmpty(expenseView) == false)
+                {
+                    _viewType = expenseView;
+                }
+
                 await FetchDataAsync();
             }
             catch (Exception ex)
@@ -84,16 +94,23 @@ public partial class AdminExpensePanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
+    private async Task<string> GetLocalStorageExpenseViewAsync()
+    {
+        string? localStorage = await _localStorageService.GetAsync<string>(LocalStorage.AppExpenseView);
+
+        return await Task.FromResult(localStorage!);
+    }
+
     private async Task FetchDataAsync()
     {
         try
         {
-            if (_viewType == ViewType.Calendar)
+            if (_viewType == ViewType.Calendar.ToString())
             {
                 _expensesCalendarView = await _expenseService.GetRecordsCalendarView(_dateCalendar);
                 _weeks = await _calendarViewService.Build(_dateCalendar);
             }
-            else if (_viewType == ViewType.List)
+            else if (_viewType == ViewType.List.ToString())
             {
                 _expensesByGroup = await _expenseService.GetRecordsByGroupAndDateRange(_dateRange);
                 _expensesTotal = await _expenseService.GetRecordsByDateRangeSum();
@@ -112,7 +129,9 @@ public partial class AdminExpensePanelLeft : ComponentBase
 
     private async void UpdateUIVIew(ViewType viewType)
     {
-        _viewType = viewType;
+        _viewType = viewType.ToString();
+
+        await _localStorageService.SetAsync<string>(LocalStorage.AppExpenseView, _viewType);
         await FetchDataAsync();
         await InvokeAsync(StateHasChanged);
     }
