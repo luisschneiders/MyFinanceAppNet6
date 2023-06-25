@@ -25,8 +25,9 @@
                                     <CardMiddle>
                                         <div class="d-grid gap-3">
                                             <SettingsAppearance OnClickSuccess="OpenAppearanceOffCanvas" />
-                                            <SettingsLocation OnClickSuccess="OpenLocationOffCanvas" />
                                             <SettingsDateTime OnClickSuccess="OpenDateTimeOffCanvas" />
+                                            <SettingsInterface OnClickSuccess="OpenInterfaceOffCanvas" />
+                                            <SettingsLocation OnClickSuccess="OpenLocationOffCanvas" />
                                         </div>
                                     </CardMiddle>
                                 </CardView>
@@ -46,8 +47,9 @@
 
             </PageWrapper>
             <SettingsAppearanceOffCanvas @ref="_settingsAppearanceOffCanvas" />
-            <SettingsLocationOffCanvas @ref="_settingsLocationOffCanvas" />
             <SettingsDateTimeOffCanvas @ref="_settingsDateTimeOffCanvas" />
+            <SettingsInterfaceOffCanvas @ref="_settingsInterfaceOffCanvas" />
+            <SettingsLocationOffCanvas @ref="_settingsLocationOffCanvas" />
         </Authorized>
         <NotAuthorized>
             <NotAuthorizedMessage />
