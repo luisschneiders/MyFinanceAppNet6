@@ -10,6 +10,7 @@ public partial class SettingsAppearanceOffCanvas : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = new();
 
+    //TODO: replace ILocalStorageService with IAppSettingsService
     [Inject]
     private ILocalStorageService _localStorageService { get; set; } = default!;
 

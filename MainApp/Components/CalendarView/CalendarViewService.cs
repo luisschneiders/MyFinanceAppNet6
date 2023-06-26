@@ -4,7 +4,8 @@ namespace MainApp.Components.CalendarView;
 
 public class CalendarViewService : ICalendarViewService
 {
-    private ILocalStorageService _localStorageService { get; set; }
+    //TODO: replace ILocalStorageService with IAppSettingsService
+    private ILocalStorageService _localStorageService { get; set; } = default!;
 
     private IDateTimeService _dateTimeService { get; set; } = default!;
 

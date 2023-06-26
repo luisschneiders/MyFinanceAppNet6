@@ -28,6 +28,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     [Inject]
     private ICalendarViewService _calendarViewService { get; set; } = default!;
 
+    //TODO: replace ILocalStorageService with IAppSettingsService
     [Inject]
     private ILocalStorageService _localStorageService { get; set; } = default!;
 

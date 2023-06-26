@@ -6,7 +6,8 @@ namespace MainApp.Services;
 
 public class AppSettingsService : IAppSettingsService
 {
-	[Inject]
+    //TODO: replace ILocalStorageService with IAppSettingsService
+    [Inject]
     private ILocalStorageService _localStorageService { get; set; } = default!;
 
     public AppSettingsService(ILocalStorageService localStorageService)

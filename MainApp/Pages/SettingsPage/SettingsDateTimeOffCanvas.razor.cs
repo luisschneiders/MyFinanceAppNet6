@@ -11,6 +11,7 @@ public partial class SettingsDateTimeOffCanvas : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = new();
 
+    //TODO: replace ILocalStorageService with IAppSettingsService
     [Inject]
     private ILocalStorageService _localStorageService { get; set; } = default!;
 

@@ -5,6 +5,7 @@ namespace MainApp.Components.CalendarView;
 
 public partial class CalendarHeaderWrapper : ComponentBase
 {
+    //TODO: replace ILocalStorageService with IAppSettingsService
     [Inject]
     private ILocalStorageService _localStorageService { get; set; } = default!;
 
