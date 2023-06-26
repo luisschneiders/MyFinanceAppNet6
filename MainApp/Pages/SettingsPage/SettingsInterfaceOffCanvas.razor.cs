@@ -15,7 +15,7 @@ public partial class SettingsInterfaceOffCanvas : ComponentBase
     private OffCanvas _offCanvas { get; set; } = new();
     private string _offCanvasTarget { get; set; } = string.Empty;
 
-    private string _radius { get; set; } = Radius.Round5;
+    private string _radius { get; set; } = Radius.Default;
 
     public SettingsInterfaceOffCanvas()
 	{
