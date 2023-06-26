@@ -6,7 +6,6 @@ namespace MainApp.Services;
 
 public class AppSettingsService : IAppSettingsService
 {
-    //TODO: replace ILocalStorageService with IAppSettingsService
     [Inject]
     private ILocalStorageService _localStorageService { get; set; } = default!;
 
@@ -66,23 +65,79 @@ public class AppSettingsService : IAppSettingsService
     {
         try
         {
+            string shape = await BuildShape(Radius.Round5);
+            return await Task.FromResult(shape);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<string> GetCardShape()
+    {
+        try
+        {
+            string shape = await BuildShape(Radius.Round4);
+            return await Task.FromResult(shape);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<string> GetMenuShape()
+    {
+        try
+        {
+            string shape = await BuildShape(Radius.Round5);
+            return await Task.FromResult(shape);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<string> GetModalShape()
+    {
+        try
+        {
+            string shape = await BuildShape(Radius.Round4);
+            return await Task.FromResult(shape);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    private async Task<string> BuildShape(string radius)
+    {
+        try
+        {
             string shape = await GetShapes();
-            string radius = string.Empty;
+            string componentRadius = string.Empty;
 
             switch (shape)
             {
                 case "Default":
-                    radius = Radius.Default;
+                    componentRadius = Radius.Default;
                     break;
                 case "Square":
-                    radius = Radius.Square;
+                    componentRadius = Radius.Square;
                     break;
                 case "Round":
-                    radius = Radius.Round5;
+                    componentRadius = radius;
                     break;
             }
 
-            return await Task.FromResult(radius);
+            return await Task.FromResult(componentRadius);
 
         }
         catch (Exception ex)
