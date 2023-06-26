@@ -1,0 +1,39 @@
+﻿@using MainApp.Components.Badge
+@using MainApp.Components.Dropdown.Actions
+@using MainApp.Components.OffCanvas
+
+<OffCanvas @ref="_offCanvas" PositionX="Position.End" Title="Interface">
+    <fieldset class="py-5">
+        <legend><i class="bi bi-ui-checks-grid text-info-emphasis fs-5 pe-2"></i>Shapes</legend>
+        <div class="row">
+            <div class="col-auto pb-2">
+                <small class="text-secondary">
+                    Buttons, components and forms
+                </small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 d-flex justify-content-between">
+                <input type="radio" class="btn-check" name="options-outlined" id="Square" autocomplete="off" checked="@(_radius == Radius.Square ? true : false)"
+                       @onclick="() => SetRadiusAsync(Radius.Square)">
+                <label class="btn btn-outline-primary rounded-0" for="Square">Square</label>
+
+                <input type="radio" class="btn-check" name="options-outlined" id="Default" autocomplete="off" checked="@(_radius == Radius.Default ? true : false)"
+                       @onclick="() => SetRadiusAsync(Radius.Default)">
+                <label class="btn btn-outline-primary rounded" for="Default">Default</label>
+
+                <input type="radio" class="btn-check" name="options-outlined" id="Round" autocomplete="off" checked="@(_radius == Radius.Round5 ? true : false)"
+                       @onclick="() => SetRadiusAsync(Radius.Round5)">
+                <label class="btn btn-outline-primary rounded-5" for="Round">Round</label>
+            </div>
+        </div>
+    </fieldset>
+    <div class="row">
+        <div class="col-6">
+            <button class="btn btn-outline-secondary w-100 @("rounded"+_radius)"
+                    @onclick="() => CloseOffCanvasAsync()">
+                Close
+            </button>
+        </div>
+    </div>
+</OffCanvas>
