@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MyFinanceAppLibrary.Constants;
 
 namespace MainApp.Pages.SettingsPage;
 
 public partial class Settings : ComponentBase
 {
+    [Inject]
+    private IAppSettingsService _appSettingsService { get; set; } = default!;
+
     /*
      * Add component reference
      */
@@ -12,8 +16,21 @@ public partial class Settings : ComponentBase
     SettingsDateTimeOffCanvas _settingsDateTimeOffCanvas { get; set; } = new();
     SettingsInterfaceOffCanvas _settingsInterfaceOffCanvas { get; set; } = new();
 
+    private string _radius { get; set; } = Radius.Default;
+
     public Settings()
     {
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _radius = await _appSettingsService.GetCardShape();
+            await InvokeAsync(StateHasChanged);
+        }
+
+        await Task.CompletedTask;
     }
 
     private async Task OpenAppearanceOffCanvas()

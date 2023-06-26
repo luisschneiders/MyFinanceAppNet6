@@ -89,6 +89,20 @@ public class AppSettingsService : IAppSettingsService
         }
     }
 
+    public async Task<string> GetFormShape()
+    {
+        try
+        {
+            string shape = await BuildShape(Radius.Round4);
+            return await Task.FromResult(shape);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public async Task<string> GetMenuShape()
     {
         try

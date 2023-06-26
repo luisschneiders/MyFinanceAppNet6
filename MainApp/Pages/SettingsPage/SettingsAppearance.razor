@@ -2,9 +2,8 @@
 
 <CardView Styles="border-0">
     <CardMiddle Styles="p-0">
-        <div class="btn bg-light-subtle w-100 rounded-4"
-                @onclick="SetSettingsAppearance">
-            <div class="d-flex w-100 align-items-center">
+        <div @onclick="SetSettingsAppearance">
+            <div class="btn bg-light-subtle d-flex w-100 align-items-center @("rounded"+Radius)">
                 <i class="bi bi-moon-stars-fill text-info-emphasis fs-5"></i>
                 <div class="w-100 text-start ps-3 pe-2">
                     <h2 class="mb-1 h5">Appearance</h2>

@@ -6,6 +6,9 @@ public partial class Modal : ComponentBase
 {
     // TODO: Add service for the modal
 
+    [Inject]
+    private IAppSettingsService _appSettingsService { get; set; } = default!;
+
     [Parameter]
     public RenderFragment? Title { get; set; }
 
@@ -23,11 +26,23 @@ public partial class Modal : ComponentBase
 
     private ModalDisplay _modalStyleDisplay { get; set; } = ModalDisplay.none;
     private string _modalClass { get; set; } = string.Empty;
+    private string _radius { get; set; } = Radius.Default;
     private bool _showBackdrop { get; set; } = false;
     private Guid _modalId { get; set; } = Guid.Empty;
 
     public Modal()
     {
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _radius = await _appSettingsService.GetModalShape();
+            await InvokeAsync(StateHasChanged);
+        }
+
+        await Task.CompletedTask;
     }
 
     public async Task Open(Guid target)

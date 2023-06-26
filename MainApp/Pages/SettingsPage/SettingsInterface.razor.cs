@@ -7,6 +7,9 @@ public partial class SettingsInterface : ComponentBase
     [Parameter]
     public EventCallback OnClickSuccess { get; set; }
 
+    [Parameter]
+    public string Radius { get; set; } = string.Empty;
+
     public SettingsInterface()
 	{
 	}

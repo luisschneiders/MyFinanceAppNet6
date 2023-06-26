@@ -6,6 +6,7 @@ public interface IAppSettingsService
     public Task<string> GetShapes();
     public Task<string> GetButtonShape();
     public Task<string> GetCardShape();
+    public Task<string> GetFormShape();
     public Task<string> GetMenuShape();
     public Task<string> GetModalShape();
 }
