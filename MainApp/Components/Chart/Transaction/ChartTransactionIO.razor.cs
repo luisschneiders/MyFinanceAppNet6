@@ -69,6 +69,16 @@ public partial class ChartTransactionIO : ComponentBase
                 {
                     _chartIcon = "bi bi-graph-up";
                 }
+            }
+            catch (Exception ex)
+            {
+                _toastService.ShowToast(ex.Message, Theme.Danger);
+            }
+        }
+        else
+        {
+            try
+            {
                 await SetChartConfigDataAsync();
             }
             catch (Exception ex)
@@ -84,7 +94,7 @@ public partial class ChartTransactionIO : ComponentBase
     {
         _isLoading = false;
         _chartConfigData = await _chartTransactionService.ConfigDataIO(_dateTimeRange);
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
         await Task.CompletedTask;
     }
 
