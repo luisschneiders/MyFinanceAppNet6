@@ -10,6 +10,9 @@ public partial class SettingsAppearanceOffCanvas : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = new();
 
+    [Inject]
+    private IAppSettingsService _appSettingsService { get; set; } = default!;
+
     //TODO: replace ILocalStorageService with IAppSettingsService
     [Inject]
     private ILocalStorageService _localStorageService { get; set; } = default!;
@@ -18,6 +21,7 @@ public partial class SettingsAppearanceOffCanvas : ComponentBase
     private string _offCanvasTarget { get; set; } = string.Empty;
 
     private string _localStorageTheme { get; set; } = string.Empty;
+    private string _buttonRadius { get; set; } = Radius.Default;
 
     public SettingsAppearanceOffCanvas()
     {
@@ -28,6 +32,7 @@ public partial class SettingsAppearanceOffCanvas : ComponentBase
         if (firstRender)
         {
             _localStorageTheme = await GetLocalStorageThemeAsync();
+            _buttonRadius = await _appSettingsService.GetButtonShape();
         }
 
         await Task.CompletedTask;

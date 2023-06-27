@@ -1,6 +1,6 @@
-﻿<div class="btn-group bg-@(ButtonColor.ToString().ToLower())-subtle rounded-4" role="group">
+﻿<div class="btn-group bg-@(ButtonColor.ToString().ToLower())-subtle @("rounded"+_buttonRadius)" role="group">
     <div class="dropdown @(IsDisplayLargeNone ? "d-lg-none" : "") ">
-        <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + ButtonColor.ToString().ToLower() + "-emphasis") text-nowrap rounded-4"
+        <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + ButtonColor.ToString().ToLower() + "-emphasis") text-nowrap @("rounded"+_buttonRadius)"
                 title="Change date range"
                 id="dropdownDateRange"
                 data-bs-toggle="dropdown"
@@ -14,19 +14,19 @@
             aria-labelledby="dropdownDateRange">
 
             <li class="d-flex pe-2 gap-2">
-                <input class="form-control form-control-sm"
+                <input class="form-control form-control-sm @("rounded"+_buttonRadius)"
                        id="Start"
                        type="date"
                        placeholder="Start date"
                        @bind-value="DateTimeRange.Start" />
 
-                <input class="form-control form-control-sm"
+                <input class="form-control form-control-sm @("rounded"+_buttonRadius)"
                        id="End"
                        type="date"
                        placeholder="End date"
                        @bind-value="DateTimeRange.End" />
                 <button type="submit"
-                        class="btn btn-primary btn-sm rounded-4"
+                        class="btn btn-primary btn-sm @("rounded"+_buttonRadius)"
                         title="Confirm"
                         @onclick="ChangeDateAsync">
                     <i class="bi bi-check-lg"></i>
