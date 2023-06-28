@@ -4,8 +4,8 @@ namespace MainApp.Components.Dropdown.Filter;
 
 public partial class DropdownFilter : ComponentBase
 {
-    [Inject]
-    private IAppSettingsService _appSettingsService { get; set; } = default!;
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -40,21 +40,8 @@ public partial class DropdownFilter : ComponentBase
     [Parameter]
     public FilterModel Model { get; set; } = default!;
 
-    private string _buttonRadius { get; set; } = Radius.Default;
-
     public DropdownFilter()
     {
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            _buttonRadius = await _appSettingsService.GetButtonShape();
-            await InvokeAsync(StateHasChanged);
-        }
-
-        await Task.CompletedTask;
     }
 
     private async Task ResetFilter()

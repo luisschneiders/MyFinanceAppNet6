@@ -18,7 +18,7 @@
                 <div class="col my-4 d-flex justify-content-end">
                     <DropdownActions>
                         <li class="px-2">
-                            <button class="dropdown-item"
+                            <button class="dropdown-item rounded text-@(Theme.Danger.ToString().ToLower())-emphasis"
                                     @onclick="ArchiveAsync">
                                 <i class="bi bi-archive pe-1"></i>Archive
                             </button>
@@ -31,7 +31,7 @@
         {
             <div class="row">
                 <div class="col-sm-12">
-                    <button class="btn btn-primary w-100 rounded-4"
+                    <button class="btn btn-primary w-100 @("rounded"+_appSettings.Button)"
                             type="button"
                             @onclick="UpdateFormStateAsync">
                         Edit
@@ -45,10 +45,10 @@
         <div class="row pb-4">
             <div class="col-12">
                 <div class="form-floating pb-2">
-                    <InputDate class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                    <InputDate id="TDate"
+                               @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                         _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control rounded-4")"
-                               id="TDate"
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? _inputFormControlAttributesPlainText : _inputFormControlAttributes)"
                                placeholder="Date"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
@@ -64,8 +64,8 @@
                     }
                     else
                     {
-                        <InputSelect class="form-select rounded-4"
-                                     id="VehicleId"
+                        <InputSelect id="VehicleId"
+                                     @attributes="_inputFormSelectAttributes"
                                      disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
@@ -80,10 +80,10 @@
                     }
                 </div>
                 <div class="form-floating">
-                    <InputNumber class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                    <InputNumber id="Distance"
+                                 @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control rounded-4")"
-                                 id="Distance"
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? _inputFormControlAttributesPlainText : _inputFormControlAttributes)"
                                  min="0"
                                  placeholder="Distance"
                                  readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
@@ -107,13 +107,13 @@
             }
             <div class="row">
                 <div class="col-6">
-                    <button class="btn btn-outline-secondary w-100 rounded-4"
+                    <button class="btn btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
                             @onclick="() => CloseOffCanvasAsync()">
                         Cancel
                     </button>
                 </div>
                 <div class="col-6">
-                    <button class="btn btn-primary w-100 rounded-4"
+                    <button class="btn btn-primary w-100 @("rounded"+_appSettings.Button)"
                             disabled="@(_isProcessing ? true : false)"
                             type="submit">
                         @(_isProcessing ? "Saving..." : "Save")

@@ -25,6 +25,9 @@ public partial class AdminExpenseOffCanvas : ComponentBase
     [Inject]
     private IGoogleService _googleService { get; set; } = default!;
 
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
+
     [Parameter]
     public EventCallback OnSubmitSuccess { get; set; }
 
@@ -33,6 +36,9 @@ public partial class AdminExpenseOffCanvas : ComponentBase
     private List<BankModel> _activeBanks { get; set; } = new();
     private List<ExpenseCategoryModel> _activeExpenseCategories { get; set; } = new();
     private List<LocationModel> _locationlist { get; set; } = new();
+
+    private Dictionary<string, object> _inputFormControlAttributes = default!;
+    private Dictionary<string, object> _inputFormSelectAttributes = default!;
 
     private bool _shouldRender { get; set; } = true;
     private bool _displayErrorMessages { get; set; } = false;
@@ -53,6 +59,19 @@ public partial class AdminExpenseOffCanvas : ComponentBase
             try
             {
                 await FetchDataAsync();
+
+                _inputFormControlAttributes = new()
+                {
+                    {
+                        "class", $"form-control rounded{_appSettings.Form}"
+                    }
+                };
+                _inputFormSelectAttributes = new()
+                {
+                    {
+                        "class", $"form-select rounded{_appSettings.Form}"
+                    }
+                };
             }
             catch (Exception ex)
             {

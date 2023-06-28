@@ -12,6 +12,10 @@ public partial class SettingsInterfaceOffCanvas : ComponentBase
     [Inject]
     private IAppSettingsService _appSettingsService { get; set; } = default!;
 
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
+
+
     private OffCanvas _offCanvas { get; set; } = new();
     private string _offCanvasTarget { get; set; } = string.Empty;
 
@@ -20,16 +24,6 @@ public partial class SettingsInterfaceOffCanvas : ComponentBase
     public SettingsInterfaceOffCanvas()
 	{
 	}
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            _radius = await _appSettingsService.GetButtonShape();
-        }
-
-        await Task.CompletedTask;
-    }
 
     public async Task OpenAsync()
     {

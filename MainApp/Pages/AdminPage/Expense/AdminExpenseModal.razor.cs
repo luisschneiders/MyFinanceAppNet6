@@ -13,6 +13,9 @@ public partial class AdminExpenseModal : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = default!;
 
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
+
     [Parameter]
     public EventCallback OnSubmitSuccess { get; set; }
 

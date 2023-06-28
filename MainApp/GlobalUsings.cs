@@ -19,5 +19,6 @@ global using MainApp.Components.Chart.Transaction;
 global using MainApp.Factories;
 global using MainApp.Helpers;
 global using MainApp.Settings.Enum;
+global using MainApp.Settings.Shared;
 global using MainApp.Services;
 global using MainApp.StateServices;

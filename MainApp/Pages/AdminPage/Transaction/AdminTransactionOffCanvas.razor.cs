@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using MainApp.Components.OffCanvas;
+﻿using MainApp.Components.OffCanvas;
 using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -26,12 +24,19 @@ public partial class AdminTransactionOffCanvas : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = default!;
 
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
+
     [Parameter]
     public EventCallback OnSubmitSuccess { get; set; }
 
     private TransactionModel _transactionModel { get; set; } = new();
     private List<BankModel> _activeBanks { get; set; } = new();
     private List<TransactionCategoryModel> _activeTransactionCategories { get; set; } = new();
+
+    private Dictionary<string, object> _inputFormControlAttributes = default!;
+    private Dictionary<string, object> _inputFormControlAttributesDisabled = default!;
+    private Dictionary<string, object> _inputFormSelectAttributes = default!;
 
     private bool _shouldRender { get; set; } = true;
     private bool _displayErrorMessages { get; set; } = false;
@@ -51,6 +56,25 @@ public partial class AdminTransactionOffCanvas : ComponentBase
             try
             {
                 await FetchDataAsync();
+
+                _inputFormControlAttributes = new()
+                {
+                    {
+                        "class", $"form-control rounded{_appSettings.Form}"
+                    }
+                };
+                _inputFormSelectAttributes = new()
+                {
+                    {
+                        "class", $"form-select rounded{_appSettings.Form}"
+                    }
+                };
+                _inputFormControlAttributesDisabled = new()
+                {
+                    {
+                        "class", $"form-control rounded{_appSettings.Form} bg-secondary-subtle"
+                    }
+                };
             }
             catch (Exception ex)
             {

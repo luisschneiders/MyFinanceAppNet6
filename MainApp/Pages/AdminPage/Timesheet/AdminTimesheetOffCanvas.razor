@@ -18,7 +18,7 @@
                 <div class="col my-4 d-flex justify-content-end">
                     <DropdownActions>
                         <li class="px-2">
-                            <button class="dropdown-item rounded"
+                            <button class="dropdown-item rounded text-@(Theme.Danger.ToString().ToLower())-emphasis"
                                     @onclick="ArchiveAsync">
                                 <i class="bi bi-archive pe-1"></i>Archive
                             </button>
@@ -31,7 +31,7 @@
         {
             <div class="row">
                 <div class="col-sm-12">
-                    <button class="btn btn-primary w-100 rounded-4"
+                    <button class="btn btn-primary w-100 @("rounded"+_appSettings.Button)"
                             type="button"
                             @onclick="UpdateFormStateAsync">
                         Edit
@@ -51,8 +51,8 @@
                     }
                     else
                     {
-                        <InputSelect class="form-select rounded-4"
-                                     id="CompanyId"
+                        <InputSelect id="CompanyId"
+                                     @attributes="_inputFormSelectAttributes"
                                      disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit ) ? true: false)"
@@ -68,10 +68,10 @@
                     }
                 </div>
                 <div class="form-floating pb-2">
-                    <InputDate class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control rounded-4")"
-                               id="TimeIn"
+                    <InputDate id="TimeIn"
+                               @attributes="((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? _inputFormControlAttributesPlainText : _inputFormControlAttributes)"
                                placeholder="Clock in"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
@@ -81,10 +81,10 @@
                     <label for="TimeIn">Clock in</label>
                 </div>
                 <div class="form-floating pb-2">
-                    <InputNumber class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control rounded-4")"
-                                 id="TimeBreak"
+                    <InputNumber id="TimeBreak"
+                                 @attributes="((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                              _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                              _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? _inputFormControlAttributesPlainText : _inputFormControlAttributes)"
                                  placeholder="Break (in minutes)"
                                  min="0"
                                  max="60"
@@ -95,10 +95,10 @@
                     <label for="TimeBreak">Break (in minutes)</label>
                 </div>
                 <div class="form-floating pb-2">
-                    <InputDate class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? "form-control-plaintext" : "form-control rounded-4")"
-                               id="TimeOut"
+                    <InputDate id="TimeOut"
+                               @attributes="((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? _inputFormControlAttributesPlainText : _inputFormControlAttributes)"
                                placeholder="Clock out"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
@@ -108,9 +108,9 @@
                     <label for="TimeOut">Clock out</label>
                 </div>
                 <div class="form-floating pb-4">
-                    <InputText class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? "form-control-plaintext" : "form-control rounded-4")"
-                               id="Comments"
+                    <InputText id="Comments"
+                               @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlAttributesPlainText : _inputFormControlAttributes)"
                                placeholder="Comments"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
@@ -130,8 +130,8 @@
                     if (_isDifferentRate)
                     {
                         <div class="form-floating mb-3">
-                            <InputNumber class="form-control rounded-4"
-                                         id="HourRate"
+                            <InputNumber id="HourRate"
+                                         @attributes="_inputFormControlAttributes"
                                          min="0"
                                          placeholder="Hour Rate"
                                          @bind-Value="_timesheetModel.HourRate" />
@@ -166,13 +166,13 @@
             }
             <div class="row">
                 <div class="col-6">
-                    <button class="btn btn-outline-secondary w-100 rounded-4"
+                    <button class="btn btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
                             @onclick="() => CloseOffCanvasAsync()">
                         Cancel
                     </button>
                 </div>
                 <div class="col-6">
-                    <button class="btn btn-primary w-100 rounded-4"
+                    <button class="btn btn-primary w-100 @("rounded"+_appSettings.Button)"
                             disabled="@(_isProcessing ? true : false)"
                             type="submit">
                         @(_isProcessing ? "Saving..." : "Save")

@@ -51,6 +51,7 @@ public partial class ChartTransactionIO : ComponentBase
     {
         _dateTimeRange = _dateTimeService.GetCurrentYear();
         _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
+
         await Task.CompletedTask;
     }
 
@@ -69,16 +70,6 @@ public partial class ChartTransactionIO : ComponentBase
                 {
                     _chartIcon = "bi bi-graph-up";
                 }
-            }
-            catch (Exception ex)
-            {
-                _toastService.ShowToast(ex.Message, Theme.Danger);
-            }
-        }
-        else
-        {
-            try
-            {
                 await SetChartConfigDataAsync();
             }
             catch (Exception ex)
@@ -92,9 +83,11 @@ public partial class ChartTransactionIO : ComponentBase
 
     private async Task SetChartConfigDataAsync()
     {
-        _isLoading = false;
         _chartConfigData = await _chartTransactionService.ConfigDataIO(_dateTimeRange);
+        _isLoading = false;
+
         await InvokeAsync(StateHasChanged);
+
         await Task.CompletedTask;
     }
 

@@ -22,6 +22,9 @@ public partial class AdminTripPanelLeft : ComponentBase
     [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
+
     private DateTimeRange _dateTimeRange { get; set; } = new();
 
     private List<TripListDTO> _trips { get; set; } = new();

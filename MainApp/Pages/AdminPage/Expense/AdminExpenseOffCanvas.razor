@@ -13,7 +13,7 @@
             <div class="form-floating">
                 <input type="text"
                        id="Address"
-                       class="@(_formIsInvalid ? "invalid" : "") form-control rounded-4"
+                       class="@(_formIsInvalid ? "invalid" : "") form-control @("rounded"+_appSettings.Form)"
                        placeholder="Address"
                        @bind-value="_locationModel.Address" />
                 <label for="Address">Address</label>
@@ -21,8 +21,8 @@
         </div>
     </div>
     <div class="row justify-content-between pb-4">
-        <div class="col-12">
-            <button class="btn btn-outline-primary w-100 rounded-4"
+        <div class="col-12 d-flex justify-content-end">
+            <button class="btn btn-outline-primary @("rounded"+_appSettings.Button)"
                     disabled="@(_isProcessing ? true : false)"
                     title="Verify address"
                     @onclick="VerifyAddress">
@@ -45,7 +45,7 @@
     @if (_locationlist.Count > 0)
     {
         <span class="text-secondary fw-semibold">Select one from the list:</span>
-        <ul class="list-group rounded-4">
+        <ul class="list-group @("rounded"+_appSettings.Form)">
             @foreach (var (item, index) in _locationlist.Select((value, index) => (value, index)))
             {
                 <li class="list-group-item bg-@(Theme.Light.ToString().ToLower())-subtle">
@@ -68,8 +68,8 @@
         <div class="row pb-4">
             <div class="col-12">
                 <div class="form-floating pb-2">
-                    <InputDate class="form-control rounded-4"
-                               id="EDate"
+                    <InputDate id="EDate"
+                               @attributes="_inputFormControlAttributes"
                                placeholder="Date"
                                @bind-Value="_expenseModel.EDate"
                                Type="InputDateType.Date" />
@@ -82,8 +82,8 @@
                     }
                     else
                     {
-                        <InputSelect class="form-select rounded-4"
-                                     id="BankId"
+                        <InputSelect id="BankId"
+                                     @attributes="_inputFormSelectAttributes"
                                      @oninput="OnValueChangedBank"
                                      @bind-Value="_expenseModel.BankId">
                             <option value="0">-- Select Bank --</option>
@@ -102,8 +102,8 @@
                     }
                     else
                     {
-                        <InputSelect class="form-select rounded-4"
-                                     id="ECategoryId"
+                        <InputSelect id="ECategoryId"
+                                     @attributes="_inputFormSelectAttributes"
                                      @oninput="OnValueChangedExpenseCategory"
                                      @bind-Value="_expenseModel.ECategoryId">
                             <option value="0">-- Select Expense --</option>
@@ -116,15 +116,15 @@
                     }
                 </div>
                 <div class="form-floating pb-2">
-                    <InputText class="form-control rounded-4"
-                               id="Comments"
+                    <InputText id="Comments"
+                               @attributes="_inputFormControlAttributes"
                                placeholder="Comments"
                                @bind-Value="_expenseModel.Comments" />
                     <label for="Comments">Comments</label>
                 </div>
                 <div class="form-floating">
-                    <InputNumber class="form-control rounded-4"
-                                 id="Amount"
+                    <InputNumber id="Amount"
+                                 @attributes="_inputFormControlAttributes"
                                  min="0"
                                  placeholder="Amount"
                                  @bind-Value="_expenseModel.Amount" />
@@ -154,13 +154,13 @@
 
         <div class="row">
             <div class="col-6">
-                <button class="btn btn-outline-secondary w-100 rounded-4"
+                <button class="btn btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
                         @onclick="() => CloseOffCanvasAsync()">
                     Cancel
                 </button>
             </div>
             <div class="col-6">
-                <button class="btn btn-primary w-100 rounded-4"
+                <button class="btn btn-primary w-100 @("rounded"+_appSettings.Button)"
                         disabled="@(_isProcessing ? true : false)"
                         type="submit">
                     @(_isProcessing ? "Saving..." : "Save")

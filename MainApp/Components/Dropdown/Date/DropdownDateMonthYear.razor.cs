@@ -5,13 +5,13 @@ namespace MainApp.Components.Dropdown.Date;
 public partial class DropdownDateMonthYear : ComponentBase
 {
     [Inject]
-    private IAppSettingsService _appSettingsService { get; set; } = default!;
-
-    [Inject]
     private IDropdownDateMonthYearService _dropdownDateMonthYearService { get; set; } = default!;
 
     [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
+
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
 
     [Parameter]
     public EventCallback<DateTimeRange> OnSubmitSuccess { get; set; }
@@ -34,8 +34,6 @@ public partial class DropdownDateMonthYear : ComponentBase
     [Parameter]
     public string DropdownLabel { get; set; } = Label.NoDateAssigned;
 
-    private string _buttonRadius { get; set; } = Radius.Default;
-
     public DropdownDateMonthYear()
     {
         var now = DateTime.Now;
@@ -52,17 +50,6 @@ public partial class DropdownDateMonthYear : ComponentBase
     protected override async Task OnInitializedAsync()
     {
         DropdownLabel = await _dropdownDateMonthYearService.UpdateLabel(DateTimeRange);
-        await Task.CompletedTask;
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            _buttonRadius = await _appSettingsService.GetButtonShape();
-            await InvokeAsync(StateHasChanged);
-        }
-
         await Task.CompletedTask;
     }
 

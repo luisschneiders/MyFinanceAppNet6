@@ -20,6 +20,9 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = default!;
 
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
+
     [Parameter]
     public EventCallback OnSubmitSuccess { get; set; }
 
@@ -30,6 +33,10 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
 
     private TimesheetModel _timesheetModel { get; set; } = new();
     private List<CompanyModel> _activeCompanies { get; set; } = new();
+
+    private Dictionary<string, object> _inputFormControlAttributes = default!;
+    private Dictionary<string, object> _inputFormSelectAttributes = default!;
+    private Dictionary<string, object> _inputFormControlAttributesPlainText = default!;
 
     public AdminTimesheetOffCanvas()
     {
@@ -42,6 +49,25 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
             try
             {
                 await FetchDataAsync();
+
+                _inputFormControlAttributes = new()
+                {
+                    {
+                        "class", $"form-control rounded{_appSettings.Form}"
+                    }
+                };
+                _inputFormSelectAttributes = new()
+                {
+                    {
+                        "class", $"form-select rounded{_appSettings.Form}"
+                    }
+                };
+                _inputFormControlAttributesPlainText = new()
+                {
+                    {
+                        "class", $"form-control-plaintext"
+                    }
+                };
             }
             catch (Exception ex)
             {

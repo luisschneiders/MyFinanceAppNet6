@@ -61,7 +61,27 @@ public class AppSettingsService : IAppSettingsService
         }
     }
 
-    public async Task<string> GetButtonShape()
+    public async Task<AppSettings> GetInterface()
+    {
+        try
+        {
+            AppSettings appSettings = new();
+            appSettings.Button = await GetButtonShape();
+            appSettings.Card = await GetCardShape();
+            appSettings.Form = await GetFormShape();
+            appSettings.Menu = await GetMenuShape();
+            appSettings.Modal = await GetModalShape();
+
+            return await Task.FromResult(appSettings);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    private async Task<string> GetButtonShape()
     {
         try
         {
@@ -75,7 +95,7 @@ public class AppSettingsService : IAppSettingsService
         }
     }
 
-    public async Task<string> GetCardShape()
+    private async Task<string> GetCardShape()
     {
         try
         {
@@ -89,7 +109,7 @@ public class AppSettingsService : IAppSettingsService
         }
     }
 
-    public async Task<string> GetFormShape()
+    private async Task<string> GetFormShape()
     {
         try
         {
@@ -103,7 +123,7 @@ public class AppSettingsService : IAppSettingsService
         }
     }
 
-    public async Task<string> GetMenuShape()
+    private async Task<string> GetMenuShape()
     {
         try
         {
@@ -117,7 +137,7 @@ public class AppSettingsService : IAppSettingsService
         }
     }
 
-    public async Task<string> GetModalShape()
+    private async Task<string> GetModalShape()
     {
         try
         {

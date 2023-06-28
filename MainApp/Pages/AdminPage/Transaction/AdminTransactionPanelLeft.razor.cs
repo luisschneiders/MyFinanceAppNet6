@@ -22,6 +22,10 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     [Inject]
     private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
 
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
+
+
     /*
      * Add OffCanvas component reference
      */

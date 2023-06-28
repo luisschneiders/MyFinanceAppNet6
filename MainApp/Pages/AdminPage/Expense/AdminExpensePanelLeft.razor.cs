@@ -8,9 +8,6 @@ namespace MainApp.Pages.AdminPage.Expense;
 public partial class AdminExpensePanelLeft : ComponentBase
 {
     [Inject]
-    private IAppSettingsService _appSettingsService { get; set; } = default!;
-
-    [Inject]
     private IExpenseService<ExpenseModel> _expenseService { get; set; } = default!;
 
     [Inject]
@@ -35,6 +32,9 @@ public partial class AdminExpensePanelLeft : ComponentBase
     [Inject]
     private ILocalStorageService _localStorageService { get; set; } = default!;
 
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
+
     // Add OffCanvas component reference
     private AdminExpenseOffCanvas _setupOffCanvas { get; set; } = new();
 
@@ -48,12 +48,13 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private List<ExpenseCalendarDTO> _expensesCalendarView { get; set; } = new();
 
     private string _viewType { get; set; } = ViewType.Calendar.ToString();
-
     private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
     private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
-    private string _buttonRadius { get; set; } = Radius.Default;
+
     private int[][] _weeks { get; set; } = default!;
+
     private decimal _expensesTotal { get; set; } = 0;
+
     private bool _isLoading { get; set; } = true;
 
     public AdminExpensePanelLeft()
@@ -77,7 +78,6 @@ public partial class AdminExpensePanelLeft : ComponentBase
         {
             try
             {
-                _buttonRadius = await _appSettingsService.GetButtonShape();
                 _spinnerService.ShowSpinner();
                 string expenseView = await GetLocalStorageExpenseViewAsync();
 
@@ -87,7 +87,6 @@ public partial class AdminExpensePanelLeft : ComponentBase
                 }
 
                 await FetchDataAsync();
-                await InvokeAsync(StateHasChanged);
             }
             catch (Exception ex)
             {
