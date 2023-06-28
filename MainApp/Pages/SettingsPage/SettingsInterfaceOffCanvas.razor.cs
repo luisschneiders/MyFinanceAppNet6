@@ -15,7 +15,6 @@ public partial class SettingsInterfaceOffCanvas : ComponentBase
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
 
-
     private OffCanvas _offCanvas { get; set; } = new();
     private string _offCanvasTarget { get; set; } = string.Empty;
 

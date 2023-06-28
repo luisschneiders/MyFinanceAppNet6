@@ -18,7 +18,7 @@
                                  ButtonSize="Size.Sm"
                                  ButtonColor="Theme.Info"
                                  IconEnd="bi-chevron-down"
-                                 ButtonCssClass="rounded-4"
+                                 ButtonCssClass="@("rounded"+_appSettings.Button)"
                                  ButtonInnerStyles="d-flex justify-content-between">
                     @foreach (var (weekDay, index) in _dayNames.Select((value, index) => (value, index)))
                     {
@@ -47,7 +47,7 @@
     </fieldset>
     <div class="row">
         <div class="col-6">
-            <button class="btn btn-outline-secondary w-100 rounded-4"
+            <button class="btn btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
                     @onclick="() => CloseOffCanvasAsync()">
                 Close
             </button>

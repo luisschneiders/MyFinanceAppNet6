@@ -15,6 +15,9 @@ public partial class SettingsDateTimeOffCanvas : ComponentBase
     [Inject]
     private ILocalStorageService _localStorageService { get; set; } = default!;
 
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
+
     private OffCanvas _offCanvas { get; set; } = new();
     private string _offCanvasTarget { get; set; } = string.Empty;
 

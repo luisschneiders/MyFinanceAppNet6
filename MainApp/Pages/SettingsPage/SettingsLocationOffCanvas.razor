@@ -23,7 +23,7 @@
                     <div class="form-floating pb-2">
                         <input type="text"
                                id="Address"
-                               class="form-control rounded-4 @(_formIsInvalid ? "invalid" : "")"
+                               class="form-control @("rounded"+_appSettings.Form) @(_formIsInvalid ? "invalid" : "")"
                                placeholder="Address"
                                @bind-value="_locationModel.Address" />
                         <label for="Address">Address</label>
@@ -42,7 +42,7 @@
             }
             <div class="row pb-4">
                 <div class="col-12 d-flex justify-content-end">
-                    <button class="btn btn-outline-primary rounded-4"
+                    <button class="btn btn-outline-primary @("rounded"+_appSettings.Button)"
                             disabled="@(_isProcessing ? true : false)"
                             title="Verify address"
                             @onclick="VerifyAddress">
@@ -66,7 +66,7 @@
                     @if (_locationlist.Count > 0)
                     {
                         <span class="text-secondary fw-semibold">Select one from the list:</span>
-                        <ul class="list-group rounded-4">
+                        <ul class="list-group @("rounded"+_appSettings.Form)">
                             @foreach (var (item, index) in _locationlist.Select((value, index) => (value, index)))
                             {
                                 <li class="list-group-item bg-light-subtle">
@@ -96,13 +96,13 @@
     </fieldset>
     <div class="row">
         <div class="col-6">
-            <button class="btn btn-outline-secondary w-100 rounded-4"
+            <button class="btn btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
                     @onclick="() => CloseOffCanvasAsync()">
                 Close
             </button>
         </div>
         <div class="col-6">
-            <button class="btn btn-primary w-100 rounded-4"
+            <button class="btn btn-primary w-100 @("rounded"+_appSettings.Button)"
                     disabled="@(_userLocationModel.Location.Latitude == 0 && _userLocationModel.Location.Longitude == 0 ? true : false)"
                     @onclick="SaveAddress">
                 @(_isProcessing ? "Saving..." : "Save")
