@@ -30,8 +30,8 @@
         <div class="row pb-4">
             <div class="col-12">
                 <div class="form-floating pb-2">
-                    <InputText class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? "form-control-plaintext" : "form-control rounded-4")"
+                    <InputText @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlPlainTextAttributes : _inputFormControlAttributes)"
                                id="VehicleDescription"
                                placeholder="Description"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
@@ -40,8 +40,8 @@
                     <label for="VehicleDescription">Description</label>
                 </div>
                 <div class="form-floating pb-2">
-                    <InputText class="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? "form-control-plaintext" : "form-control rounded-4")"
+                    <InputText @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlPlainTextAttributes : _inputFormControlAttributes)"
                                id="VehiclePlate"
                                placeholder="Plate"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
@@ -79,7 +79,7 @@
         }
         <div class="row">
             <div class="col-6">
-                <button class="btn btn-outline-secondary w-100 rounded-4"
+                <button class="btn btn-outline-secondary w-100 @("rounded"+AppSettings.Button)"
                         @onclick="() => CloseOffCanvasAsync()">
                     Cancel
                 </button>
@@ -87,7 +87,7 @@
             @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add || _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
             {
                 <div class="col-6">
-                    <button class="btn btn-primary w-100 rounded-4"
+                    <button class="btn btn-primary w-100 @("rounded"+AppSettings.Button)"
                             disabled="@(_isProcessing ? true : false)"
                             type="submit">
                         @(_isProcessing ? "Saving..." : "Save")
@@ -97,7 +97,7 @@
             else if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View)
             {
                 <div class="col-6">
-                    <button class="btn btn-outline-primary w-100 rounded-4"
+                    <button class="btn btn-outline-primary w-100 @("rounded"+AppSettings.Button)"
                             type="button"
                             @onclick="UpdateFormStateAsync">
                         Edit
