@@ -35,7 +35,7 @@ public partial class AdminTransactionOffCanvas : ComponentBase
     private List<TransactionCategoryModel> _activeTransactionCategories { get; set; } = new();
 
     private Dictionary<string, object> _inputFormControlAttributes = default!;
-    private Dictionary<string, object> _inputFormControlAttributesDisabled = default!;
+    private Dictionary<string, object> _inputFormControlDisabledAttributes = default!;
     private Dictionary<string, object> _inputFormSelectAttributes = default!;
 
     private bool _shouldRender { get; set; } = true;
@@ -69,7 +69,7 @@ public partial class AdminTransactionOffCanvas : ComponentBase
                         "class", $"form-select rounded{_appSettings.Form}"
                     }
                 };
-                _inputFormControlAttributesDisabled = new()
+                _inputFormControlDisabledAttributes = new()
                 {
                     {
                         "class", $"form-control rounded{_appSettings.Form} bg-secondary-subtle"

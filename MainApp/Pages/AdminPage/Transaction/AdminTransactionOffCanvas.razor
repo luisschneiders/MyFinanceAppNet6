@@ -88,7 +88,7 @@
                 }
                 <div class="form-floating pb-2">
                     <InputText id="Comments"
-                               @attributes="(_actionType == TransactionActionType.T.ToString() ? _inputFormControlAttributesDisabled : _inputFormControlAttributes)"
+                               @attributes="(_actionType == TransactionActionType.T.ToString() ? _inputFormControlDisabledAttributes : _inputFormControlAttributes)"
                                placeholder="Comments"
                                readonly="@((_actionType == TransactionActionType.T.ToString()) ? true: false)"
                                @bind-Value="_transactionModel.Comments" />
