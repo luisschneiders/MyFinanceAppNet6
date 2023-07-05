@@ -10,6 +10,9 @@ public partial class DropdownDateMonthYear : ComponentBase
     [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
+
     [Parameter]
     public EventCallback<DateTimeRange> OnSubmitSuccess { get; set; }
 

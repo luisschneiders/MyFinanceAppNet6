@@ -33,6 +33,9 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
     [Inject]
     private IDropdownFilterService _dropdownFilterService { get; set; } = default!;
 
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
+
     [Parameter]
     public EventCallback OnStateContainerSetValue { get; set; }
 
@@ -86,7 +89,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
                 _toastService.ShowToast(ex.Message, Theme.Danger);
             }
 
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
         }
 
         await Task.CompletedTask;

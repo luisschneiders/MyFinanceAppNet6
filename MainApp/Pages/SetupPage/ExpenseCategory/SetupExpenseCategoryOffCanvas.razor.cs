@@ -22,13 +22,47 @@ public partial class SetupExpenseCategoryOffCanvas : ComponentBase
     [Parameter]
     public ExpenseCategoryModel DataModel { get; set; } = default!;
 
+    [Parameter]
+    public AppSettings AppSettings { get; set; } = default!;
+
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
+
+    private Dictionary<string, object> _inputFormControlAttributes = default!;
+    private Dictionary<string, object> _inputFormControlPlainTextAttributes = default!;
 
     private ExpenseCategoryModel _expenseCategoryModel { get; set; } = new();
 
     public SetupExpenseCategoryOffCanvas()
     {
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                _inputFormControlAttributes = new()
+                {
+                    {
+                        "class", $"form-control rounded{AppSettings.Form}"
+                    }
+                };
+                _inputFormControlPlainTextAttributes = new()
+                {
+                    {
+                        "class", $"form-control-plaintext"
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                _toastService.ShowToast(ex.Message, Theme.Danger);
+            }
+        }
+
+        await Task.CompletedTask;
     }
 
     public async Task AddRecordOffCanvasAsync()

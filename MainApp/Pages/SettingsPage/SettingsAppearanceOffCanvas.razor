@@ -9,7 +9,7 @@
         <legend><i class="bi bi-moon-stars-fill text-info-emphasis fs-5 pe-2"></i>App mode view</legend>
         <div class="row align-items-center">
             <div class="col-auto pe-0">
-                <small>
+                <small class="text-secondary">
                     Your current mode view is
                 </small>
             </div>
@@ -18,7 +18,7 @@
                                  ButtonSize="Size.Sm"
                                  ButtonColor="Theme.Info"
                                  IconEnd="bi-chevron-down"
-                                 ButtonCssClass="rounded-4"
+                                 ButtonCssClass="@("rounded"+_appSettings.Button)"
                                  ButtonInnerStyles="d-flex justify-content-between">
                     <li class="px-2">
                         <button class="dropdown-item rounded"
@@ -38,7 +38,7 @@
     </fieldset>
     <div class="row">
         <div class="col-6">
-            <button class="btn btn-outline-secondary w-100 rounded-4"
+            <button class="btn btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
                     @onclick="() => CloseOffCanvasAsync()">
                 Close
             </button>

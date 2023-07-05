@@ -346,9 +346,16 @@ h1:focus {
 
 @media (min-width: 992px) {
     .app-navbar {
-        background-color: #fdfdfd88;
         backdrop-filter: blur(6px);
         -webkit-backdrop-filter: blur(6px);
+    }
+
+    [data-bs-theme=light] .app-navbar {
+        background-color: #fcfcfd88;
+    }
+
+    [data-bs-theme=dark] .app-navbar {
+        background-color: #343a4088;
     }
 
     .content {

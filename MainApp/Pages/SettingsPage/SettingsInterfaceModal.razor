@@ -1,0 +1,28 @@
+﻿@using MainApp.Components.Modal
+
+<Modal @ref="_modal"
+       Size="Size.Sm"
+       IsCloseButtonVisible="false">
+    <Title>
+        <span class="text-secondary">
+            Reload the app
+        </span>
+    </Title>
+    <Body>
+        <div class="d-flex justify-content-center text-center">
+            <p class="p-3">Please reload the app to view the latest changes. Thank you!</p>
+        </div>
+    </Body>
+    <Footer>
+        <div class="row w-100 justify-content-end">
+            <div class="col-sm-6 d-flex gap-2 g-0">
+                <button type="button"
+                        class="btn btn-primary w-100 @("rounded"+_appSettings.Button)"
+                        data-dismiss="modal"
+                        @onclick="() => ReloadAppAsync()">
+                    Reload
+                </button>
+            </div>
+        </div>
+    </Footer>
+</Modal>

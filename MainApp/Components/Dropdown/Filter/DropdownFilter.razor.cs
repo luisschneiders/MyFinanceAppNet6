@@ -4,6 +4,9 @@ namespace MainApp.Components.Dropdown.Filter;
 
 public partial class DropdownFilter : ComponentBase
 {
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 

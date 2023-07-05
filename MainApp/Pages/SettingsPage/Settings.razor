@@ -24,9 +24,10 @@
                                 <CardView Styles="border-0 w-100">
                                     <CardMiddle>
                                         <div class="d-grid gap-3">
-                                            <SettingsAppearance OnClickSuccess="OpenAppearanceOffCanvas" />
-                                            <SettingsLocation OnClickSuccess="OpenLocationOffCanvas" />
-                                            <SettingsDateTime OnClickSuccess="OpenDateTimeOffCanvas" />
+                                            <SettingsAppearance Radius="@_appSettings.Card" OnClickSuccess="OpenAppearanceOffCanvas" />
+                                            <SettingsDateTime Radius="@_appSettings.Card" OnClickSuccess="OpenDateTimeOffCanvas" />
+                                            <SettingsInterface Radius="@_appSettings.Card" OnClickSuccess="OpenInterfaceOffCanvas" />
+                                            <SettingsLocation Radius="@_appSettings.Card" OnClickSuccess="OpenLocationOffCanvas" />
                                         </div>
                                     </CardMiddle>
                                 </CardView>
@@ -46,8 +47,9 @@
 
             </PageWrapper>
             <SettingsAppearanceOffCanvas @ref="_settingsAppearanceOffCanvas" />
-            <SettingsLocationOffCanvas @ref="_settingsLocationOffCanvas" />
             <SettingsDateTimeOffCanvas @ref="_settingsDateTimeOffCanvas" />
+            <SettingsInterfaceOffCanvas @ref="_settingsInterfaceOffCanvas" />
+            <SettingsLocationOffCanvas @ref="_settingsLocationOffCanvas" />
         </Authorized>
         <NotAuthorized>
             <NotAuthorizedMessage />

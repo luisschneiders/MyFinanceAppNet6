@@ -17,6 +17,9 @@ public partial class SetupTransactionCategoryOffCanvas : ComponentBase
     private ToastService _toastService { get; set; } = default!;
 
     [Parameter]
+    public AppSettings AppSettings { get; set; } = default!;
+
+    [Parameter]
     public EventCallback OnSubmitSuccess { get; set; }
 
     [Parameter]
@@ -24,6 +27,10 @@ public partial class SetupTransactionCategoryOffCanvas : ComponentBase
 
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
+
+    private Dictionary<string, object> _inputFormControlAttributes = default!;
+    private Dictionary<string, object> _inputFormControlPlainTextAttributes = default!;
+    private Dictionary<string, object> _inputFormSelectAttributes = default!;
 
     private TransactionCategoryModel _transactionCategoryModel { get; set; } = new();
 
@@ -55,6 +62,42 @@ public partial class SetupTransactionCategoryOffCanvas : ComponentBase
             Name = "Transfer"
         };
         _actionTypes.Add(actionTypeModel);
+
+        await Task.CompletedTask;
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                _inputFormControlAttributes = new()
+                {
+                    {
+                        "class", $"form-control rounded{AppSettings.Form}"
+                    }
+                };
+
+                _inputFormControlPlainTextAttributes = new()
+                {
+                    {
+                        "class", $"form-control-plaintext"
+                    }
+                };
+
+                _inputFormSelectAttributes = new()
+                {
+                    {
+                        "class", $"form-select rounded{AppSettings.Form}"
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                _toastService.ShowToast(ex.Message, Theme.Danger);
+            }
+        }
 
         await Task.CompletedTask;
     }

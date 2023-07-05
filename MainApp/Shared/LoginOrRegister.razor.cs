@@ -1,11 +1,13 @@
-﻿using System;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Shared;
 
 public partial class LoginOrRegister : ComponentBase
 {
-	public LoginOrRegister()
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
+
+    public LoginOrRegister()
 	{
 	}
 }

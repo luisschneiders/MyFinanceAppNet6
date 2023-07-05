@@ -4,6 +4,9 @@ namespace MainApp.Components.Card;
 
 public partial class CardView : ComponentBase
 {
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 

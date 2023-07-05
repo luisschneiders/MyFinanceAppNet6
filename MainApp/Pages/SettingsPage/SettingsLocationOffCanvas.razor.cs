@@ -17,6 +17,9 @@ public partial class SettingsLocationOffCanvas : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = new();
 
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
+
     private OffCanvas _offCanvas { get; set; } = new();
     private string _offCanvasTarget { get; set; } = string.Empty;
 

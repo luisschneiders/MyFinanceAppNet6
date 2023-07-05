@@ -45,6 +45,7 @@
     <None Remove="Components\Badge\Color\" />
     <None Remove="BackgroundServices\" />
     <None Remove="Factories\" />
+    <None Remove="Settings\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Web" Version="2.12.4" />
@@ -75,6 +76,7 @@
     <Folder Include="BackgroundServices\" />
     <Folder Include="Factories\" />
     <Folder Include="wwwroot\img\" />
+    <Folder Include="Settings\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\images\map-static-expenses.png" />

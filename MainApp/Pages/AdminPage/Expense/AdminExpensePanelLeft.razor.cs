@@ -28,8 +28,12 @@ public partial class AdminExpensePanelLeft : ComponentBase
     [Inject]
     private ICalendarViewService _calendarViewService { get; set; } = default!;
 
+    //TODO: replace ILocalStorageService with IAppSettingsService
     [Inject]
     private ILocalStorageService _localStorageService { get; set; } = default!;
+
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
 
     // Add OffCanvas component reference
     private AdminExpenseOffCanvas _setupOffCanvas { get; set; } = new();
@@ -44,11 +48,13 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private List<ExpenseCalendarDTO> _expensesCalendarView { get; set; } = new();
 
     private string _viewType { get; set; } = ViewType.Calendar.ToString();
-
     private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
     private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
+
     private int[][] _weeks { get; set; } = default!;
+
     private decimal _expensesTotal { get; set; } = 0;
+
     private bool _isLoading { get; set; } = true;
 
     public AdminExpensePanelLeft()

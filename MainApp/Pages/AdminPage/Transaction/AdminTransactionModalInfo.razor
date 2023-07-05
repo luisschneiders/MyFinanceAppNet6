@@ -20,7 +20,7 @@
         <div class="row w-100 justify-content-end">
             <div class="col-sm-6 d-flex gap-2 g-0">
                 <button type="button"
-                        class="btn btn-outline-secondary w-100 rounded-4"
+                        class="btn btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
                         data-dismiss="modal"
                         @onclick="() => CloseModalAsync()">
                     Close

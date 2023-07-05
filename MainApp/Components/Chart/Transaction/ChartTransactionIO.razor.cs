@@ -51,6 +51,7 @@ public partial class ChartTransactionIO : ComponentBase
     {
         _dateTimeRange = _dateTimeService.GetCurrentYear();
         _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
+
         await Task.CompletedTask;
     }
 
@@ -82,9 +83,11 @@ public partial class ChartTransactionIO : ComponentBase
 
     private async Task SetChartConfigDataAsync()
     {
-        _isLoading = false;
         _chartConfigData = await _chartTransactionService.ConfigDataIO(_dateTimeRange);
-        StateHasChanged();
+        _isLoading = false;
+
+        await InvokeAsync(StateHasChanged);
+
         await Task.CompletedTask;
     }
 

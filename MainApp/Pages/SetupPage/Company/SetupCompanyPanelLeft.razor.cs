@@ -18,6 +18,9 @@ public partial class SetupCompanyPanelLeft : ComponentBase
     [Inject]
     private SpinnerService _spinnerService { get; set; } = new();
 
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
+
     /*
      * Add OffCanvas component reference
      */

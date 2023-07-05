@@ -6,10 +6,10 @@
 
 <OffCanvas @ref="_offCanvas" PositionX="Position.End" Title="Date & Time">
     <fieldset class="py-5">
-        <legend><i class="bi bi-calendar3 text-info-emphasis fs-5 pe-2"></i>Calendar view</legend>
+        <legend><i class="bi bi-calendar2-heart text-info-emphasis fs-5 pe-2"></i>Calendar view</legend>
         <div class="row align-items-center">
             <div class="col-auto pe-0">
-                <small>
+                <small class="text-secondary">
                     Your current start of the week is
                 </small>
             </div>
@@ -18,7 +18,7 @@
                                  ButtonSize="Size.Sm"
                                  ButtonColor="Theme.Info"
                                  IconEnd="bi-chevron-down"
-                                 ButtonCssClass="rounded-4"
+                                 ButtonCssClass="@("rounded"+_appSettings.Button)"
                                  ButtonInnerStyles="d-flex justify-content-between">
                     @foreach (var (weekDay, index) in _dayNames.Select((value, index) => (value, index)))
                     {
@@ -47,7 +47,7 @@
     </fieldset>
     <div class="row">
         <div class="col-6">
-            <button class="btn btn-outline-secondary w-100 rounded-4"
+            <button class="btn btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
                     @onclick="() => CloseOffCanvasAsync()">
                 Close
             </button>

@@ -19,6 +19,9 @@ public partial class AdminTripOffCanvas : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = default!;
 
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
+
     [Parameter]
     public EventCallback OnSubmitSuccess { get; set; }
 
@@ -29,6 +32,10 @@ public partial class AdminTripOffCanvas : ComponentBase
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
     private bool _isLoading { get; set; } = true;
+
+    private Dictionary<string, object> _inputFormControlAttributes = default!;
+    private Dictionary<string, object> _inputFormSelectAttributes = default!;
+    private Dictionary<string, object> _inputFormControlAttributesPlainText = default!;
 
     public AdminTripOffCanvas()
     {
@@ -41,6 +48,25 @@ public partial class AdminTripOffCanvas : ComponentBase
             try
             {
                 await FetchDataAsync();
+
+                _inputFormControlAttributes = new()
+                {
+                    {
+                        "class", $"form-control rounded{_appSettings.Form}"
+                    }
+                };
+                _inputFormSelectAttributes = new()
+                {
+                    {
+                        "class", $"form-select rounded{_appSettings.Form}"
+                    }
+                };
+                _inputFormControlAttributesPlainText = new()
+                {
+                    {
+                        "class", $"form-control-plaintext"
+                    }
+                };
             }
             catch (Exception ex)
             {

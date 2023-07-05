@@ -4,6 +4,9 @@ namespace MainApp.Pages.AdminPage;
 
 public partial class Admin : ComponentBase
 {
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
+
     [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
 

@@ -16,8 +16,8 @@
         <div class="row pb-4">
             <div class="col-12">
                 <div class="form-floating pb-2">
-                    <InputDate class="form-control rounded-4"
-                               id="TDate"
+                    <InputDate id="TDate"
+                               @attributes="_inputFormControlAttributes"
                                placeholder="Date"
                                @bind-Value="_transactionModel.TDate"
                                Type="InputDateType.Date" />
@@ -30,8 +30,8 @@
                     }
                     else
                     {
-                        <InputSelect class="form-select rounded-4"
-                                     id="TCategoryId"
+                        <InputSelect id="TCategoryId"
+                                     @attributes="_inputFormSelectAttributes"
                                      @oninput="OnValueChangedCategoryType"
                                      @bind-Value="_transactionModel.TCategoryId">
                             <option value="0">-- Select Action --</option>
@@ -50,8 +50,8 @@
                     }
                     else
                     {
-                        <InputSelect class="form-select rounded-4"
-                                     id="FromBank"
+                        <InputSelect id="FromBank"
+                                     @attributes="_inputFormSelectAttributes"
                                      @oninput="OnValueChangedFromBank"
                                      @bind-Value="_transactionModel.FromBank">
                             <option value="0">-- Select Bank --</option>
@@ -72,8 +72,8 @@
                         }
                         else
                         {
-                            <InputSelect class="form-select rounded-4"
-                                         id="ToBank"
+                            <InputSelect id="ToBank"
+                                         @attributes="_inputFormSelectAttributes"
                                          @oninput="OnValueChangedToBank"
                                          @bind-Value="_transactionModel.ToBank">
                                 <option value="0">-- Select Bank --</option>
@@ -87,16 +87,16 @@
                     </div>
                 }
                 <div class="form-floating pb-2">
-                    <InputText class="@((_actionType == TransactionActionType.T.ToString()) ? "form-control rounded-4 bg-secondary-subtle" : "form-control rounded-4")"
-                                id="Comments"
-                                placeholder="Comments"
-                                readonly="@((_actionType == TransactionActionType.T.ToString()) ? true: false)"
-                                @bind-Value="_transactionModel.Comments" />
+                    <InputText id="Comments"
+                               @attributes="(_actionType == TransactionActionType.T.ToString() ? _inputFormControlDisabledAttributes : _inputFormControlAttributes)"
+                               placeholder="Comments"
+                               readonly="@((_actionType == TransactionActionType.T.ToString()) ? true: false)"
+                               @bind-Value="_transactionModel.Comments" />
                     <label for="Comments">Comments</label>
                 </div>
                 <div class="form-floating">
-                    <InputNumber class="form-control rounded-4"
-                                 id="Amount"
+                    <InputNumber id="Amount"
+                                 @attributes="_inputFormControlAttributes"
                                  min="0"
                                  placeholder="Amount"
                                  @bind-Value="_transactionModel.Amount" />
@@ -114,13 +114,13 @@
         }
         <div class="row">
             <div class="col-6">
-                <button class="btn btn-outline-secondary w-100 rounded-4"
+                <button class="btn btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
                         @onclick="() => CloseOffCanvasAsync()">
                     Cancel
                 </button>
             </div>
             <div class="col-6">
-                <button class="btn btn-primary w-100 rounded-4"
+                <button class="btn btn-primary w-100 @("rounded"+_appSettings.Button)"
                         disabled="@(_isProcessing ? true : false)"
                         type="submit">
                     @(_isProcessing ? "Saving..." : "Save")

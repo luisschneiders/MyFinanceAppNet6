@@ -10,6 +10,9 @@ public partial class AdminTransactionModalInfo : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = default!;
 
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
+
     private Modal _modal { get; set; } = new();
     private Guid _modalTarget { get; set; }
 

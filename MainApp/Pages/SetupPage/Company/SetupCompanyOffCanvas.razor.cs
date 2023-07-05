@@ -22,8 +22,15 @@ public partial class SetupCompanyOffCanvas : ComponentBase
     [Parameter]
     public CompanyModel DataModel { get; set; } = default!;
 
+    [Parameter]
+    public AppSettings AppSettings { get; set; } = default!;
+
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
+
+    private Dictionary<string, object> _inputFormControlAttributes = default!;
+    private Dictionary<string, object> _inputFormControlPlainTextAttributes = default!;
+    private Dictionary<string, object> _inputFormSelectAttributes = default!;
 
     private CompanyModel _companyModel { get; set; } = new();
 
@@ -32,6 +39,40 @@ public partial class SetupCompanyOffCanvas : ComponentBase
     public SetupCompanyOffCanvas()
     {
         _companyTypes = (CompanyType[])Enum.GetValues(typeof(CompanyType));
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                _inputFormControlAttributes = new()
+                {
+                    {
+                        "class", $"form-control rounded{AppSettings.Form}"
+                    }
+                };
+                _inputFormControlPlainTextAttributes = new()
+                {
+                    {
+                        "class", $"form-control-plaintext"
+                    }
+                };
+                _inputFormSelectAttributes = new()
+                {
+                    {
+                        "class", $"form-select rounded{AppSettings.Form}"
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                _toastService.ShowToast(ex.Message, Theme.Danger);
+            }
+        }
+
+        await Task.CompletedTask;
     }
 
     public async Task AddRecordOffCanvasAsync()

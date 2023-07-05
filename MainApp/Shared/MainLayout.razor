@@ -6,12 +6,15 @@
 <PageTitle>@Label.AppTitle</PageTitle>
 
 <header>
-    <NavView />
+    <CascadingValue Value="@AppSettings" Name="AppSettings">
+        <NavView />
+    </CascadingValue>
 </header>
 <div class="main app-main-shapes">
-    @Body
+    <CascadingValue Value="@AppSettings" Name="AppSettings">
+        @Body
+    </CascadingValue>
 </div>
-
 <footer class="py-3 app-footer">
     <AuthorizeView>
         <Authorized>

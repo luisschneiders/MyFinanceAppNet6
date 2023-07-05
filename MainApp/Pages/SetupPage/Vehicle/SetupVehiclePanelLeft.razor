@@ -19,7 +19,7 @@
                 <div class="row">
                     <div class="col-8 col-md-8">
                         <input type="text"
-                               class="form-control rounded-4"
+                               class="form-control @("rounded"+_appSettings.Button)"
                                placeholder="Search here..."
                                aria-label="search"
                                @bind-value="_searchTerm"
@@ -27,7 +27,7 @@
 
                     </div>
                     <div class="col-2">
-                        <button class="btn btn-outline-primary rounded-5"
+                        <button class="btn btn-outline-primary @("rounded"+_appSettings.Button)"
                                 @onclick="() => SearchAsync()"
                                 disabled="@(_searchButtonEnabled ? false : true)">
                             <span class="d-md-none">
@@ -199,4 +199,7 @@
         </div>
     </CardMiddle>
 </CardView>
-<SetupVehicleOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" DataModel="_vehicleModel" />
+@if (_isLoading is false)
+{
+    <SetupVehicleOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" DataModel="_vehicleModel" AppSettings="_appSettings" />
+}

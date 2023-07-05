@@ -16,6 +16,9 @@ public partial class FinnhubNews : ComponentBase
     [Inject]
     private SpinnerService _spinnerService { get; set; } = new();
 
+    [CascadingParameter(Name = "AppSettings")]
+    protected AppSettings _appSettings { get; set; } = new();
+
     Response<List<FinnhubNewsModel>> _newsList { get; set; } = default!;
 
     private bool _isLoading { get; set; } = true;

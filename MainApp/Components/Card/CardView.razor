@@ -6,7 +6,7 @@
 }
 else
 {
-    <div class="card @Styles rounded-4">
+    <div class="card @Styles @("rounded"+_appSettings.Card)">
         @ChildContent
     </div>
 }
