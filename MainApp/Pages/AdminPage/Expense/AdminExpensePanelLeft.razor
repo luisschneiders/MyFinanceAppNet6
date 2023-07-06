@@ -27,10 +27,10 @@
                          aria-label="Radio toggle button group"
                          title="Change view">
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value="@_viewType" @onclick="() => UpdateUIVIew(ViewType.Calendar)">
-                        <label class="btn btn-@(Theme.Light.ToString().ToLower() ) @("text-" + Theme.Info.ToString().ToLower() + "-emphasis") border-0 @("rounded-start"+_appSettings.Button) @(_viewType == @ViewType.Calendar.ToString() ? "active" : "")" for="btnradio1"><i class="bi bi-calendar3"></i></label>
+                        <label class="btn btn-@(Theme.Light.ToString().ToLower() ) border-0 @("rounded-start"+_appSettings.Button) @(_viewType == @ViewType.Calendar.ToString() ? "active" : "")" for="btnradio1"><i class="bi bi-calendar3"></i></label>
 
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value="@_viewType" @onclick="() => UpdateUIVIew(ViewType.List)">
-                        <label class="btn btn-@(Theme.Light.ToString().ToLower() ) @("text-" + Theme.Info.ToString().ToLower() + "-emphasis") border-0 @("rounded-end"+_appSettings.Button) @(_viewType == @ViewType.List.ToString() ? "active" : "")" for="btnradio2"><i class="bi bi-list-ul"></i></label>
+                        <label class="btn btn-@(Theme.Light.ToString().ToLower() ) border-0 @("rounded-end"+_appSettings.Button) @(_viewType == @ViewType.List.ToString() ? "active" : "")" for="btnradio2"><i class="bi bi-list-ul"></i></label>
                     </div>
                     @if (_viewType == ViewType.Calendar.ToString())
                     {
