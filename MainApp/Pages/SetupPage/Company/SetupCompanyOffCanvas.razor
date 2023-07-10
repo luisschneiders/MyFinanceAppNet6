@@ -33,11 +33,21 @@
                     <InputText @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                         _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlPlainTextAttributes : _inputFormControlAttributes)"
                                id="CompanyDescription"
-                               placeholder="Description"
+                               placeholder="Company name"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                @bind-Value="_companyModel.Description" />
-                    <label for="CompanyDescription">Description</label>
+                    <label for="CompanyDescription">Company name</label>
+                </div>
+                <div class="form-floating pb-2">
+                    <InputText @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlPlainTextAttributes : _inputFormControlAttributes)"
+                               id="CompanyPosition"
+                               placeholder="Position"
+                               readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
+                               @bind-Value="_companyModel.Position" />
+                    <label for="CompanyPosition">Position</label>
                 </div>
                 <div class="form-floating pb-2">
                     <InputNumber @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
@@ -63,7 +73,7 @@
                             <option value="@companyTypeValue"> @($"{cType}") </option>
                         }
                     </InputSelect>
-                    <label for="CompanyCType">Company Type</label>
+                    <label for="CompanyCType">Company type</label>
                 </div>
             </div>
         </div>

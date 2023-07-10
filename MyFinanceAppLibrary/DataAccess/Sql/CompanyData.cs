@@ -40,6 +40,7 @@ public class CompanyData : ICompanyData<CompanyModel>
                 new
                 {
                     companyDescription = model.Description,
+                    companyPosition = model.Position,
                     companyRate = model.Rate,
                     companyCType = model.CType,
                     companyUpdatedBy = model.UpdatedBy,
@@ -147,6 +148,7 @@ public class CompanyData : ICompanyData<CompanyModel>
                 {
                     companyId = model.Id,
                     companyDescription = model.Description,
+                    companyPosition = model.Position,
                     companyRate = model.Rate,
                     companyCType = model.CType,
                     companyIsActive = model.IsActive,
