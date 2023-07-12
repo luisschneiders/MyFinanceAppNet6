@@ -47,10 +47,13 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th class="col-6">
-                                    Description
+                                <th class="col-3">
+                                    Company name
                                 </th>
-                                <th class="col-2 text-end">
+                                <th class="col-4">
+                                    Position
+                                </th>
+                                <th class="col-1 text-end">
                                     Rate
                                 </th>
                                 <th class="col-2">
@@ -71,11 +74,14 @@
                                         <td>
                                             @record.Description
                                         </td>
+                                        <td>
+                                            @record.Position
+                                        </td>
                                         <td class="text-end">
                                             @record.Rate.ToString("C")
                                         </td>
                                         <td class="">
-                                            @record.CType
+                                            @_companyTypes[record.CType - 1] (@record.CType)
                                         </td>
                                         <td>
                                             <div class="form-check form-switch">
@@ -155,11 +161,14 @@
                                                 <td>
                                                     @record.Description
                                                 </td>
+                                                <td>
+                                                    @record.Position
+                                                </td>
                                                 <td class="text-end">
                                                     @record.Rate.ToString("C")
                                                 </td>
                                                 <td class="">
-                                                    @record.CType
+                                                    @_companyTypes[record.CType - 1] (@record.CType)
                                                 </td>
                                                 <td>
                                                     <div class="form-check form-switch">

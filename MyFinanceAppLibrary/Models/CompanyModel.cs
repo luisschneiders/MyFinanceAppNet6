@@ -12,6 +12,8 @@ public class CompanyModel : BaseModel
     [Required]
     public string Description { get; set; }
 
+    public string Position { get; set; }
+
     [Required]
     [RegularExpression(@"^\d+(.\d{1,2})?$", ErrorMessage = "Invalid value")]
     public decimal Rate { get; set; }

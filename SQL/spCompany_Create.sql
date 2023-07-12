@@ -1,6 +1,7 @@
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spCompany_Create`(
 	IN companyDescription varchar(45),
+    IN companyPosition varchar(45),
 	IN companyRate decimal(10,2),
 	IN companyCType int,
 	IN companyUpdatedBy varchar(28),
@@ -10,7 +11,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spCompany_Create`(
 BEGIN
 	INSERT INTO `myfinancedb`.`Company` (
 		`Description`,
-		`Rate`,
+        `Position`,
+        `Rate`,
 		`CType`,
 		`UpdatedBy`,
 		`CreatedAt`,
@@ -18,6 +20,7 @@ BEGIN
 	)
 	VALUES (
 		companyDescription,
+        companyPosition,
 		companyRate,
 		companyCType,
 		companyUpdatedBy,

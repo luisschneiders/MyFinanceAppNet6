@@ -33,9 +33,11 @@ public partial class SetupCompanyPanelLeft : ComponentBase
     private bool _isSearching { get; set; } = false;
     private bool _isLoading { get; set; } = true;
     private bool _searchButtonEnabled { get; set; } = false;
+    private CompanyType[] _companyTypes { get; set; } = default!;
 
     public SetupCompanyPanelLeft()
     {
+        _companyTypes = (CompanyType[])Enum.GetValues(typeof(CompanyType));
     }
 
     protected async override Task OnInitializedAsync()
