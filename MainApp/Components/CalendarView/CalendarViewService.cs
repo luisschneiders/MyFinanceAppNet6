@@ -19,16 +19,15 @@ public class CalendarViewService : ICalendarViewService
     {
         try
         {
-            var firstDayOfMonth = dateTimeRange.Start;
-            var lastDayOfMonth = dateTimeRange.End;
-            var daysInMonth = lastDayOfMonth.Day;
+            DateTime firstDayOfMonth = dateTimeRange.Start;
+            DateTime lastDayOfMonth = dateTimeRange.End;
+            int daysInMonth = lastDayOfMonth.Day;
+            int weeksInMonth = 6; // maximum number of weeks in any given month
 
             string appStartOfWeek = await _localStorageService.GetAsync<string>(LocalStorage.AppStartOfWeek);
             DayOfWeek selectedDayOfWeek = _dateTimeService.MapDayOfWeekStringToEnum(appStartOfWeek!);
 
-            var firstDayOfWeek = (int)firstDayOfMonth.DayOfWeek - (int)selectedDayOfWeek;
-
-            int weeksInMonth = (int)Math.Ceiling((firstDayOfWeek + daysInMonth) / 7.0);
+            int firstDayOfWeek = (int)firstDayOfMonth.DayOfWeek;
 
             int[][] weeks = new int[weeksInMonth][];
 
@@ -40,18 +39,48 @@ public class CalendarViewService : ICalendarViewService
 
                 for (int j = 0; j < weeks[i].Length; j++)
                 {
-                    if (i == 0 && j < firstDayOfWeek)
+                    // Week starting on Monday
+                    if (selectedDayOfWeek == DayOfWeek.Monday)
                     {
-                        weeks[i][j] = 0;
+                        if (firstDayOfWeek == 0)
+                        {
+                            if (i == 0 && j < 6)
+                            {
+                                weeks[i][j] = 0;
+                            }
+                            else if (dayNumber <= daysInMonth)
+                            {
+                                weeks[i][j] = dayNumber;
+                                dayNumber++;
+                            }
+                        }
+                        else
+                        {
+                            if (i == 0 && j < (firstDayOfWeek - 1))
+                            {
+                                weeks[i][j] = 0;
+                            }
+                            else if (dayNumber <= daysInMonth)
+                            {
+                                weeks[i][j] = dayNumber;
+                                dayNumber++;
+                            }
+                        }
                     }
-                    else if (dayNumber <= daysInMonth)
+
+                    // // Week starting on Sunday
+                    if (selectedDayOfWeek == DayOfWeek.Sunday)
                     {
-                        weeks[i][j] = dayNumber;
-                        dayNumber++;
-                    }
-                    else
-                    {
-                        weeks[i][j] = 0;
+                        if (i == 0 && j < firstDayOfWeek)
+                        {
+                            weeks[i][j] = 0;
+                        }
+                        else if (dayNumber <= daysInMonth)
+                        {
+                            weeks[i][j] = dayNumber;
+                            dayNumber++;
+                        }
+
                     }
                 }
             }
