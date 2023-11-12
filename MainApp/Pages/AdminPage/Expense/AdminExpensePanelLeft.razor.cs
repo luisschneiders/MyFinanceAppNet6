@@ -27,6 +27,10 @@ public partial class AdminExpensePanelLeft : ComponentBase
 
     [Inject]
     private ICalendarViewService _calendarViewService { get; set; } = default!;
+    [Inject]
+    private IDropdownFilterService _dropdownFilterService { get; set; } = default!;
+    [Inject]
+    private IExpenseCategoryService<ExpenseCategoryModel> _expenseCategoryService { get; set; } = default!;
 
     //TODO: replace ILocalStorageService with IAppSettingsService
     [Inject]
@@ -46,10 +50,13 @@ public partial class AdminExpensePanelLeft : ComponentBase
 
     private List<ExpenseByCategoryGroupDTO> _expensesByGroup { get; set; } = new();
     private List<ExpenseCalendarDTO> _expensesCalendarView { get; set; } = new();
-
+    private List<ExpenseCategoryModel> _expenseCategories { get; set; } = new();
+    private FilterModel _filterModel { get; set; } = new();
+    private ExpenseCategoryModel _filterExpenseCategory { get; set; } = new();
     private string _viewType { get; set; } = ViewType.Calendar.ToString();
     private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
     private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
+    private string _dropdownFilterLabel { get; set; } = Label.NoFilterAssigned;
 
     private int[][] _weeks { get; set; } = default!;
 
@@ -64,7 +71,9 @@ public partial class AdminExpensePanelLeft : ComponentBase
     protected async override Task OnInitializedAsync()
     {
         _dateRange = _dateTimeService.GetCurrentMonth();
+
         _dropdownDateRangeLabel = await _dropdownDateRangeService.UpdateLabel(_dateRange);
+        _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(Label.FilterByExpenseCategory);
 
         _dateCalendar = _dateTimeService.GetCurrentMonth();
         _dropdownDateCalendarLabel = await _dropdownDateMonthYearService.UpdateLabel(_dateCalendar);
@@ -118,6 +127,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
             }
             else if (_viewType == ViewType.List.ToString())
             {
+                _expenseCategories = await _expenseCategoryService.GetRecords();
                 _expensesByGroup = await _expenseService.GetRecordsByGroupAndDateRange(_dateRange);
                 _expensesTotal = await _expenseService.GetRecordsByDateRangeSum();
             }
@@ -185,5 +195,28 @@ public partial class AdminExpensePanelLeft : ComponentBase
         await RefreshList();
         await Task.CompletedTask;
     }
+    private async Task DropdownFilterReset()
+    {
+        _filterExpenseCategory = new();
+        _filterModel = await _dropdownFilterService.ResetModel();
+        _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(Label.FilterByExpenseCategory);
+        _toastService.ShowToast("Filter removed!", Theme.Info);
+        await RefreshList();
+        await Task.CompletedTask;
+    }
 
+    private async Task DropdownFilterRefreshExpenseCategory(ulong id)
+    {
+        _filterExpenseCategory = _expenseCategories.First(i => i.Id == id);
+        string? expenseName = _filterExpenseCategory.Description.Truncate((int)Truncate.ExpenseCategory);
+
+        _filterModel = await _dropdownFilterService.SetModel(_filterExpenseCategory.Id, _filterExpenseCategory.Description);
+
+        _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(expenseName!);
+        _toastService.ShowToast("Filter updated!", Theme.Info);
+
+        await RefreshList();
+
+        await Task.CompletedTask;
+    }
 }

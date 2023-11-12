@@ -4,13 +4,14 @@
 @using MainApp.Components.Dropdown.Actions
 @using MainApp.Components.Dropdown.Date
 @using MainApp.Components.Dropdown.DateRange
+@using MainApp.Components.Dropdown.Filter
 @using MainApp.Components.Spinner
 @using MainApp.Components.Accordion
 
 <CardView Styles="border-0">
     <CardMiddle>
         <div class="row justify-content-between pb-2">
-            <div class="col-10 col-lg-8 pb-2 d-flex gap-3">
+            <div class="col-10 col-lg-8 pb-2 d-flex">
                 @if (_isLoading)
                 {
                     <div class="d-flex justify-content-center align-items-center">
@@ -22,7 +23,7 @@
                 }
                 else
                 {
-                    <div class="btn-group align-items-center @("rounded"+_appSettings.Button)"
+                    <div class="ps-2 btn-group align-items-center @("rounded"+_appSettings.Button)"
                          role="group"
                          aria-label="Radio toggle button group"
                          title="Change view">
@@ -34,20 +35,45 @@
                     </div>
                     @if (_viewType == ViewType.Calendar.ToString())
                     {
-                        <DropdownDateMonthYear IconColor="Theme.Info"
-                                               ButtonSize="Size.Md"
-                                               DateTimeRange="@_dateCalendar"
-                                               DropdownLabel="@_dropdownDateCalendarLabel"
-                                               OnSubmitSuccess="data => DropdownDateMonthYearRefresh(data)" />
+                        <div class="ps-2">
+                            <DropdownDateMonthYear IconColor="Theme.Info"
+                                                ButtonSize="Size.Md"
+                                                DateTimeRange="@_dateCalendar"
+                                                DropdownLabel="@_dropdownDateCalendarLabel"
+                                                OnSubmitSuccess="data => DropdownDateMonthYearRefresh(data)" />
+                        </div>
                     }
                     else
                     {
-                        <DropdownDateRange IconColor="Theme.Info"
-                                           ButtonSize="Size.Md"
-                                           DateTimeRange="@_dateRange"
-                                           DropdownLabel="@_dropdownDateRangeLabel"
-                                           PeriodRange="PeriodRange.Month"
-                                           OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
+                        <div class="ps-2">
+                            <DropdownDateRange IconColor="Theme.Info"
+                                            ButtonSize="Size.Md"
+                                            DateTimeRange="@_dateRange"
+                                            DropdownLabel="@_dropdownDateRangeLabel"
+                                            PeriodRange="PeriodRange.Month"
+                                            OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
+                        </div>
+                        <div class="ps-2 d-none d-lg-flex">
+                            <DropdownFilter ButtonSize="Size.Md"
+                                            DropdownLabel="@_dropdownFilterLabel"
+                                            DropdownPosition="Position.Start"
+                                            IconStartColor="Theme.Info"
+                                            IconEnd="bi-chevron-down"
+                                            IconStart="bi-cart4"
+                                            Model="@_filterModel"
+                                            OnSubmitSuccess="DropdownFilterReset">
+                                @foreach (var (expenseCategory, index) in _expenseCategories.Select((value, index) => (value, index)))
+                                {
+                                    <li class="px-2">
+                                        <button class="dropdown-item rounded"
+                                                title="@expenseCategory.Description"
+                                                @onclick="() => DropdownFilterRefreshExpenseCategory(expenseCategory.Id)">
+                                            @($"{expenseCategory.Description.Truncate((int)Truncate.ExpenseCategory)}")
+                                        </button>
+                                    </li>
+                                }
+                            </DropdownFilter>
+                        </div>
                     }
 
                 }
