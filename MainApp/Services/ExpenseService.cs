@@ -116,6 +116,37 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         }
     }
 
+    public async Task<List<ExpenseByCategoryGroupDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, ExpenseCategoryModel expenseCategoryModel)
+    {
+        try
+        {
+            var records = await GetRecordsByDateRange(dateTimeRange);
+            if (expenseCategoryModel.Id > 0)
+            {
+                List<ExpenseListDTO> recordsFiltered = records.Where(e => e.ECategoryId == expenseCategoryModel.Id).ToList();
+
+                var results = SetRecordsByGroup(recordsFiltered);
+
+                _expensesByDateRangeSum = recordsFiltered.Sum(t => t.Amount);
+
+                return results;
+            }
+            else
+            {
+                var results = SetRecordsByGroup(records);
+
+                _expensesByDateRangeSum = records.Sum(t => t.Amount);
+
+                return results;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public async Task<decimal> GetRecordsByDateRangeSum()
     {
         try
@@ -134,14 +165,8 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         try
         {
             var records = await GetRecordsByDateRange(dateTimeRange);
-            var resultsByGroup = records.GroupBy(tc => tc.ExpenseCategoryDescription);
-            var results = resultsByGroup.Select(tcGroup => new ExpenseByCategoryGroupDTO()
-            {
-                Description = tcGroup.Key,
-                Color = tcGroup.Select(c => c.ExpenseCategoryColor).FirstOrDefault(),
-                Total = tcGroup.Sum(a => a.Amount),
-                Expenses = tcGroup.ToList()
-            }).ToList();
+
+            var results = SetRecordsByGroup(records);
 
             _expensesByDateRangeSum = records.Sum(t => t.Amount);
 
@@ -281,7 +306,19 @@ public class ExpenseService : IExpenseService<ExpenseModel>
             throw;
         }
     }
+    private static List<ExpenseByCategoryGroupDTO> SetRecordsByGroup(List<ExpenseListDTO> records)
+    {
+        var resultsByGroup = records.GroupBy(tc => tc.ExpenseCategoryDescription);
+        var results = resultsByGroup.Select(tcGroup => new ExpenseByCategoryGroupDTO()
+        {
+            Description = tcGroup.Key,
+            Color = tcGroup.Select(c => c.ExpenseCategoryColor).FirstOrDefault(),
+            Total = tcGroup.Sum(a => a.Amount),
+            Expenses = tcGroup.ToList()
+        }).ToList();
 
+        return results;
+    }
     private async Task<UserModel> GetLoggedInUser()
     {
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
