@@ -6,6 +6,7 @@ public class ExpenseListDTO : BaseModel
     public ulong Id { get; }
     public DateTime EDate { get; }
     public string BankDescription { get; }
+    public ulong ECategoryId { get; set; }
     public string ExpenseCategoryDescription { get; }
     public string ExpenseCategoryColor { get; }
     public string Comments { get; }
