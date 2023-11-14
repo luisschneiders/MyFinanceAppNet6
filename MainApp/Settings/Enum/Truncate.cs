@@ -7,5 +7,5 @@ public enum Truncate
     Company = 15,
     ShortMonthName = 3,
     ExpenseCategory = 15,
-    TransactionCategory = 15
+    TransactionCategory = 20
 }
