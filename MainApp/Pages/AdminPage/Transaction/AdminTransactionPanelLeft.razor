@@ -1,6 +1,7 @@
 ﻿@using MainApp.Components.Card
 @using MainApp.Components.Dropdown.Actions
 @using MainApp.Components.Dropdown.DateRange
+@using MainApp.Components.Dropdown.Filter
 @using MainApp.Components.Spinner
 @using MainApp.Components.Accordion
 
@@ -14,7 +15,27 @@
                                    DropdownLabel="@_dropdownLabel"
                                    PeriodRange="PeriodRange.Month"
                                    OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
-
+                <div class="ps-2">
+                    <DropdownFilter ButtonSize="Size.Md"
+                                    DropdownLabel="@_dropdownFilterLabel"
+                                    DropdownPosition="Position.Start"
+                                    IconStartColor="Theme.Info"
+                                    IconEnd="bi-chevron-down"
+                                    IconStart="bi-currency-exchange"
+                                    Model="@_filterModel"
+                                    OnSubmitSuccess="DropdownFilterReset">
+                        @foreach (var (transactionCategory, index) in _transactionCategories.Select((value, index) => (value, index)))
+                        {
+                            <li class="px-2">
+                                <button class="dropdown-item rounded"
+                                        title="@transactionCategory.Description"
+                                        @onclick="() => DropdownFilterRefreshExpenseCategory(transactionCategory.Id)">
+                                    @($"{transactionCategory.Description.Truncate((int)Truncate.TransactionCategory)}")
+                                </button>
+                            </li>
+                        }
+                    </DropdownFilter>
+                </div>
             </div>
             <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
                 <div class="d-none d-lg-block">

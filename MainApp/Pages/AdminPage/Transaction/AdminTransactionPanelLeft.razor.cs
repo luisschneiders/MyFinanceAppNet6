@@ -21,10 +21,14 @@ public partial class AdminTransactionPanelLeft : ComponentBase
 
     [Inject]
     private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
+    [Inject]
+    private IDropdownFilterService _dropdownFilterService { get; set; } = default!;
+    [Inject]
+    private ITransactionCategoryService<TransactionCategoryModel> _transactionCategoryService { get; set; } = default!;
+
 
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
-
 
     /*
      * Add OffCanvas component reference
@@ -40,8 +44,11 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private DateTimeRange _dateTimeRange { get; set; } = new();
 
     private List<TransactionByCategoryGroupDTO> _transactionsByGroup { get; set; } = new();
-
+    private List<TransactionCategoryModel> _transactionCategories { get; set; } = new();
+    private TransactionCategoryModel _filterTransactionCategory { get; set; } = new();
+    private FilterModel _filterModel { get; set; } = new();
     private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
+    private string _dropdownFilterLabel { get; set; } = Label.NoFilterAssigned;
     private bool _isLoading { get; set; } = true;
 
     public AdminTransactionPanelLeft()
@@ -51,6 +58,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     protected async override Task OnInitializedAsync()
     {
         _dateTimeRange = _dateTimeService.GetCurrentMonth();
+        _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(Label.FilterByTransactionCategory);
         _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
         await Task.CompletedTask;
     }
@@ -80,6 +88,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     {
         try
         {
+            _transactionCategories = await _transactionCategoryService.GetRecords();
             _transactionsByGroup = await _transactionService.GetRecordsByGroupAndDateRange(_dateTimeRange);
             _isLoading = false;
         }
@@ -129,6 +138,31 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
         _toastService.ShowToast("Date range has changed!", Theme.Info);
         await RefreshList();
+        await Task.CompletedTask;
+    }
+
+    private async Task DropdownFilterReset()
+    {
+        _filterTransactionCategory = new();
+        _filterModel = await _dropdownFilterService.ResetModel();
+        _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(Label.FilterByTransactionCategory);
+        _toastService.ShowToast("Filter removed!", Theme.Info);
+        await RefreshList();
+        await Task.CompletedTask;
+    }
+
+    private async Task DropdownFilterRefreshExpenseCategory(ulong id)
+    {
+        _filterTransactionCategory = _transactionCategories.First(i => i.Id == id);
+        string? expenseName = _filterTransactionCategory.Description.Truncate((int)Truncate.TransactionCategory);
+
+        _filterModel = await _dropdownFilterService.SetModel(_filterTransactionCategory.Id, _filterTransactionCategory.Description);
+
+        _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(expenseName!);
+        _toastService.ShowToast("Filter updated!", Theme.Info);
+
+        await RefreshList();
+
         await Task.CompletedTask;
     }
 }
