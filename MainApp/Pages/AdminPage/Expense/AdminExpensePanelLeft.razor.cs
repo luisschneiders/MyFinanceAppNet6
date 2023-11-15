@@ -27,8 +27,10 @@ public partial class AdminExpensePanelLeft : ComponentBase
 
     [Inject]
     private ICalendarViewService _calendarViewService { get; set; } = default!;
+
     [Inject]
     private IDropdownFilterService _dropdownFilterService { get; set; } = default!;
+
     [Inject]
     private IExpenseCategoryService<ExpenseCategoryModel> _expenseCategoryService { get; set; } = default!;
 
