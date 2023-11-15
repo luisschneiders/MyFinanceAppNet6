@@ -89,7 +89,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         try
         {
             _transactionCategories = await _transactionCategoryService.GetRecords();
-            _transactionsByGroup = await _transactionService.GetRecordsByGroupAndDateRange(_dateTimeRange);
+            _transactionsByGroup = await _transactionService.GetRecordsByFilter(_dateTimeRange, _filterTransactionCategory);
             _isLoading = false;
         }
         catch (Exception ex)

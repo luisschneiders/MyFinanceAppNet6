@@ -185,13 +185,7 @@ public class TransactionService : ITransactionService<TransactionModel>
         try
         {
             var records = await GetRecordsByDateRange(dateTimeRange);
-            var resultsGroupBy = records.GroupBy(tc => tc.TCategoryDescription);
-            var results = resultsGroupBy.Select(tcGroup => new TransactionByCategoryGroupDTO()
-            {
-                Description = tcGroup.Key?.Length > 0 ? tcGroup.Key : "Expenses",
-                Total = tcGroup.Sum(a => a.Amount),
-                Transactions = tcGroup.ToList()
-            }).ToList();
+            var results = SetRecordsByGroup(records);
 
             return results;
         }
@@ -235,5 +229,43 @@ public class TransactionService : ITransactionService<TransactionModel>
             Console.WriteLine("An exception occurred: " + ex.Message);
             throw;
         }
+    }
+
+    public async Task<List<TransactionByCategoryGroupDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, TransactionCategoryModel transactionCategoryModel)
+    {
+        try
+        {
+            var records = await GetRecordsByDateRange(dateTimeRange);
+            if (transactionCategoryModel.Id > 0)
+            {
+                List<TransactionListDTO> recordsFiltered = records.Where(t => t.TCategoryId == transactionCategoryModel.Id).ToList();
+
+                var results = SetRecordsByGroup(recordsFiltered);
+                return results;
+            }
+            else
+            {
+                var results = SetRecordsByGroup(records);
+                return results;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    private static List<TransactionByCategoryGroupDTO> SetRecordsByGroup(List<TransactionListDTO> records)
+    {
+        var resultsByGroup = records.GroupBy(tc => tc.TCategoryDescription);
+        var results = resultsByGroup.Select(tcGroup => new TransactionByCategoryGroupDTO()
+        {
+            Description = tcGroup.Key?.Length > 0 ? tcGroup.Key : "Expenses",
+            Total = tcGroup.Sum(a => a.Amount),
+            Transactions = tcGroup.ToList()
+        }).ToList();
+
+        return results;
     }
 }
