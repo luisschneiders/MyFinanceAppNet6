@@ -268,4 +268,4 @@
 </CardView>
 <AdminExpenseOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
 <AdminExpenseModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
-<AdminExpenseFilterModal @ref="_setupFilterModal" OnSubmitFilterSuccess="id => RefreshFilterList(id)" />
+<AdminExpenseFilterModal @ref="_setupFilterModal" OnSubmitFilterSuccess="filterExpense => RefreshFilterList(filterExpense)" />

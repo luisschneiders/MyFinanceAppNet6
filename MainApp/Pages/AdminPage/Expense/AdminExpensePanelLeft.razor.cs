@@ -56,7 +56,8 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private List<ExpenseCalendarDTO> _expensesCalendarView { get; set; } = new();
     private List<ExpenseCategoryModel> _expenseCategories { get; set; } = new();
     private FilterModel _filterModel { get; set; } = new();
-    private ExpenseCategoryModel _filterExpenseCategory { get; set; } = new();
+    // private ExpenseCategoryModel _filterExpenseCategory { get; set; } = new();
+    private FilterExpenseDTO _filterExpenseDTO { get; set; } = new();
     private string _viewType { get; set; } = ViewType.Calendar.ToString();
     private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
     private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
@@ -132,7 +133,8 @@ public partial class AdminExpensePanelLeft : ComponentBase
             else if (_viewType == ViewType.List.ToString())
             {
                 _expenseCategories = await _expenseCategoryService.GetRecords();
-                _expensesByGroup = await _expenseService.GetRecordsByFilter(_dateRange, _filterExpenseCategory);
+                // _expensesByGroup = await _expenseService.GetRecordsByFilter(_dateRange, _filterExpenseCategory);
+                _expensesByGroup = await _expenseService.GetRecordsByFilter(_dateRange, _filterExpenseDTO);
                 _expensesTotal = await _expenseService.GetRecordsByDateRangeSum();
             }
 
@@ -195,16 +197,18 @@ public partial class AdminExpensePanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task RefreshFilterList(ulong id)
+    private async Task RefreshFilterList(FilterExpenseDTO filterExpenseDTO)
     {
-        if (id == 0) // Reset filter with value equal to zero
-        {
-            _filterExpenseCategory = new();
-        }
-        else
-        {
-            _filterExpenseCategory = _expenseCategories.First(i => i.Id == id);
-        }
+        // if (filterExpenseDTO.ECategoryId == 0) // Reset filter with value equal to zero
+        // {
+        //     _filterExpenseCategory = new();
+        // }
+        // else
+        // {
+        //     _filterExpenseCategory = _expenseCategories.First(i => i.Id == filterExpenseDTO.ECategoryId);
+        // }
+
+        _filterExpenseDTO = filterExpenseDTO;
 
         await FetchDataAsync();
         await Task.CompletedTask;
@@ -227,28 +231,28 @@ public partial class AdminExpensePanelLeft : ComponentBase
         await RefreshList();
         await Task.CompletedTask;
     }
-    private async Task DropdownFilterReset()
-    {
-        _filterExpenseCategory = new();
-        _filterModel = await _dropdownFilterService.ResetModel();
-        _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(Label.FilterByExpenseCategory);
-        _toastService.ShowToast("Filter removed!", Theme.Info);
-        await RefreshList();
-        await Task.CompletedTask;
-    }
+    // private async Task DropdownFilterReset()
+    // {
+    //     _filterExpenseCategory = new();
+    //     _filterModel = await _dropdownFilterService.ResetModel();
+    //     _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(Label.FilterByExpenseCategory);
+    //     _toastService.ShowToast("Filter removed!", Theme.Info);
+    //     await RefreshList();
+    //     await Task.CompletedTask;
+    // }
 
-    private async Task DropdownFilterRefreshExpenseCategory(ulong id)
-    {
-        _filterExpenseCategory = _expenseCategories.First(i => i.Id == id);
-        string? expenseName = _filterExpenseCategory.Description.Truncate((int)Truncate.ExpenseCategory);
+    // private async Task DropdownFilterRefreshExpenseCategory(ulong id)
+    // {
+    //     _filterExpenseCategory = _expenseCategories.First(i => i.Id == id);
+    //     string? expenseName = _filterExpenseCategory.Description.Truncate((int)Truncate.ExpenseCategory);
 
-        _filterModel = await _dropdownFilterService.SetModel(_filterExpenseCategory.Id, _filterExpenseCategory.Description);
+    //     _filterModel = await _dropdownFilterService.SetModel(_filterExpenseCategory.Id, _filterExpenseCategory.Description);
 
-        _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(expenseName!);
-        _toastService.ShowToast("Filter updated!", Theme.Info);
+    //     _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(expenseName!);
+    //     _toastService.ShowToast("Filter updated!", Theme.Info);
 
-        await RefreshList();
+    //     await RefreshList();
 
-        await Task.CompletedTask;
-    }
+    //     await Task.CompletedTask;
+    // }
 }

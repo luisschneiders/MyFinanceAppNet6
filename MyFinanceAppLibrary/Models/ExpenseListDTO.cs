@@ -5,6 +5,7 @@ public class ExpenseListDTO : BaseModel
 #nullable disable
     public ulong Id { get; }
     public DateTime EDate { get; }
+    public ulong BankId { get; }
     public string BankDescription { get; }
     public ulong ECategoryId { get; set; }
     public string ExpenseCategoryDescription { get; }

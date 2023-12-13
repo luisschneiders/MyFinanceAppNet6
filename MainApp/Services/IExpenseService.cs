@@ -3,7 +3,8 @@
 public interface IExpenseService<T> : IBaseService<T>
 {
     Task<List<ExpenseListDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange);
-    Task<List<ExpenseByCategoryGroupDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, ExpenseCategoryModel expenseCategoryModel);
+    // Task<List<ExpenseByCategoryGroupDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, ExpenseCategoryModel expenseCategoryModel);
+    Task<List<ExpenseByCategoryGroupDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, FilterExpenseDTO filterExpenseDTO);
     Task<decimal> GetRecordsByDateRangeSum();
     Task<List<ExpenseByCategoryGroupDTO>> GetRecordsByGroupAndDateRange(DateTimeRange dateTimeRange);
     Task<List<ExpenseCalendarDTO>> GetRecordsCalendarView(DateTimeRange dateTimeRange);

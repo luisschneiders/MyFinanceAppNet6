@@ -116,14 +116,45 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         }
     }
 
-    public async Task<List<ExpenseByCategoryGroupDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, ExpenseCategoryModel expenseCategoryModel)
+    // public async Task<List<ExpenseByCategoryGroupDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, ExpenseCategoryModel expenseCategoryModel)
+    // {
+    //     try
+    //     {
+    //         var records = await GetRecordsByDateRange(dateTimeRange);
+    //         if (expenseCategoryModel.Id > 0)
+    //         {
+    //             List<ExpenseListDTO> recordsFiltered = records.Where(e => e.ECategoryId == expenseCategoryModel.Id).ToList();
+
+    //             var results = SetRecordsByGroup(recordsFiltered);
+
+    //             _expensesByDateRangeSum = recordsFiltered.Sum(t => t.Amount);
+
+    //             return results;
+    //         }
+    //         else
+    //         {
+    //             var results = SetRecordsByGroup(records);
+
+    //             _expensesByDateRangeSum = records.Sum(t => t.Amount);
+
+    //             return results;
+    //         }
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         Console.WriteLine("An exception occurred: " + ex.Message);
+    //         throw;
+    //     }
+    // }
+    public async Task<List<ExpenseByCategoryGroupDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, FilterExpenseDTO filterExpenseDTO)
     {
         try
         {
             var records = await GetRecordsByDateRange(dateTimeRange);
-            if (expenseCategoryModel.Id > 0)
+            Console.WriteLine($"LFS - filterExpenseDTO.ECategoryId: {filterExpenseDTO.ECategoryId}");
+            if (filterExpenseDTO.ECategoryId > 0)
             {
-                List<ExpenseListDTO> recordsFiltered = records.Where(e => e.ECategoryId == expenseCategoryModel.Id).ToList();
+                List<ExpenseListDTO> recordsFiltered = records.Where(e => e.ECategoryId == filterExpenseDTO.ECategoryId).ToList();
 
                 var results = SetRecordsByGroup(recordsFiltered);
 

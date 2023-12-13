@@ -8,6 +8,7 @@ BEGIN
 	SELECT
 		e.Id,
 		e.EDate,
+        e.BankId,
         e.ECategoryId,
 		b.Description AS BankDescription,
 		ec.Description AS ExpenseCategoryDescription,
