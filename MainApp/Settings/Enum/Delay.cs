@@ -7,7 +7,7 @@ public enum Delay
     DataSuccess = 1000,
     DataLoading = 500,
     DataError = 1500,
-    OffCanvasOpen = 100,
-    OffCanvasClose = 250,
+    OffCanvasOpen = ModalOpen,
+    OffCanvasClose = ModalClose,
     Toast = 5000
 }

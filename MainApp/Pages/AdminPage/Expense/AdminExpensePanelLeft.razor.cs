@@ -47,6 +47,8 @@ public partial class AdminExpensePanelLeft : ComponentBase
     // Add Modal component reference
     private AdminExpenseModal _setupModal { get; set; } = new();
 
+    private AdminExpenseFilterModal _setupFilterModal { get; set; } = new();
+
     private DateTimeRange _dateRange { get; set; } = new();
     private DateTimeRange _dateCalendar { get; set; } = new();
 
@@ -160,6 +162,19 @@ public partial class AdminExpensePanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
+    private async Task MoreFiltersAsync()
+    {
+        try
+        {
+            await _setupFilterModal.OpenModalAsync();
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+        await Task.CompletedTask;
+    }
+
     private async Task ArchiveRecordAsync(ExpenseListDTO model)
     {
         try
@@ -176,6 +191,21 @@ public partial class AdminExpensePanelLeft : ComponentBase
 
     private async Task RefreshList()
     {
+        await FetchDataAsync();
+        await Task.CompletedTask;
+    }
+
+    private async Task RefreshFilterList(ulong id)
+    {
+        if (id == 0) // Reset filter with value equal to zero
+        {
+            _filterExpenseCategory = new();
+        }
+        else
+        {
+            _filterExpenseCategory = _expenseCategories.First(i => i.Id == id);
+        }
+
         await FetchDataAsync();
         await Task.CompletedTask;
     }

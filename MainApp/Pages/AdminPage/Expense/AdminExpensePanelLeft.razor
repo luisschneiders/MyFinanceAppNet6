@@ -54,7 +54,11 @@
                                             OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
                         </div>
                         <div class="ps-2 d-none d-lg-flex">
-                            <DropdownFilter ButtonSize="Size.Md"
+                            <button class="btn btn-md bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                                    @onclick="() => MoreFiltersAsync()">
+                                <i class="bi bi-sliders2 pe-1"></i>Filters
+                            </button>
+                            @* <DropdownFilter ButtonSize="Size.Md"
                                             DropdownLabel="@_dropdownFilterLabel"
                                             DropdownPosition="Position.Start"
                                             IconStartColor="Theme.Info"
@@ -72,7 +76,7 @@
                                         </button>
                                     </li>
                                 }
-                            </DropdownFilter>
+                            </DropdownFilter> *@
                         </div>
                     }
 
@@ -264,3 +268,4 @@
 </CardView>
 <AdminExpenseOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
 <AdminExpenseModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
+<AdminExpenseFilterModal @ref="_setupFilterModal" OnSubmitFilterSuccess="id => RefreshFilterList(id)" />
