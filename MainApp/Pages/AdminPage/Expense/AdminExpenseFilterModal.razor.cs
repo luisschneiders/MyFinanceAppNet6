@@ -112,6 +112,7 @@ public partial class AdminExpenseFilterModal : ComponentBase
         _filterExpenseCategoryModel = await _dropdownFilterService.ResetModel();
         _dropdownFilterLabelExpense = await _dropdownFilterService.UpdateLabel(Label.FilterByExpenseCategory);
         _toastService.ShowToast("Filter for expense removed!", Theme.Info);
+
         await OnSubmitFilterSuccess.InvokeAsync(_filterExpenseDTO);
         await Task.CompletedTask;
     }

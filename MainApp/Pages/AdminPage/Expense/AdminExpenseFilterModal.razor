@@ -49,7 +49,7 @@
                                 <button class="dropdown-item rounded"
                                         title="@bank.Description"
                                         @onclick="() => DropdownFilterRefreshBank(bank.Id)">
-                                    @($"{bank.Description.Truncate((int)Truncate.Bank)}")
+                                    @($"{bank.Description}")
                                 </button>
                             </li>
                         }

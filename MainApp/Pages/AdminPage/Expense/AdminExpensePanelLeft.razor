@@ -58,25 +58,6 @@
                                     @onclick="() => MoreFiltersAsync()">
                                 <i class="bi bi-sliders2 pe-1"></i>Filters
                             </button>
-                            @* <DropdownFilter ButtonSize="Size.Md"
-                                            DropdownLabel="@_dropdownFilterLabel"
-                                            DropdownPosition="Position.Start"
-                                            IconStartColor="Theme.Info"
-                                            IconEnd="bi-chevron-down"
-                                            IconStart="bi-cart4"
-                                            Model="@_filterModel"
-                                            OnSubmitSuccess="DropdownFilterReset">
-                                @foreach (var (expenseCategory, index) in _expenseCategories.Select((value, index) => (value, index)))
-                                {
-                                    <li class="px-2">
-                                        <button class="dropdown-item rounded"
-                                                title="@expenseCategory.Description"
-                                                @onclick="() => DropdownFilterRefreshExpenseCategory(expenseCategory.Id)">
-                                            @($"{expenseCategory.Description.Truncate((int)Truncate.ExpenseCategory)}")
-                                        </button>
-                                    </li>
-                                }
-                            </DropdownFilter> *@
                         </div>
                     }
 
