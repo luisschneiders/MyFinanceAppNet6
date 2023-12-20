@@ -32,6 +32,9 @@ public partial class AdminExpensePanelLeft : ComponentBase
     [Inject]
     private ILocalStorageService _localStorageService { get; set; } = default!;
 
+    [Parameter]
+    public Theme ButtonColor { get; set; } = Theme.Light;
+
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
 
@@ -58,6 +61,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private decimal _expensesTotal { get; set; } = 0;
 
     private bool _isLoading { get; set; } = true;
+    private bool _isFilterApplied { get; set; } = false;
 
     public AdminExpensePanelLeft()
     {
@@ -186,6 +190,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
 
     private async Task RefreshFilterList(FilterExpenseDTO filterExpenseDTO)
     {
+        _isFilterApplied = true;
         _filterExpenseDTO = filterExpenseDTO;
 
         await FetchDataAsync();
@@ -209,6 +214,15 @@ public partial class AdminExpensePanelLeft : ComponentBase
         _toastService.ShowToast("Date range has changed!", Theme.Info);
 
         await RefreshList();
+        await Task.CompletedTask;
+    }
+
+    private async Task ResetAllFilters()
+    {
+        _isFilterApplied = false;
+        _filterExpenseDTO = new();
+
+        await FetchDataAsync();
         await Task.CompletedTask;
     }
 }
