@@ -56,7 +56,7 @@
                         <div class="ps-2 d-none d-lg-flex">
                             <div class="btn-group bg-@(ButtonColor.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
                                 <button class="btn btn-md bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
-                                        @onclick="() => MoreFiltersAsync()">
+                                        @onclick="() => ApplyFiltersAsync()">
                                     <i class="bi bi-sliders2 pe-1"></i>Filters
                                 </button>
                                     @if (_isFilterApplied)
@@ -64,7 +64,7 @@
                                         <div class="d-flex align-items-center">
                                             <div class="vr my-1 text-@(ButtonColor.ToString().ToLower())-emphasis"></div>
                                             <button class="btn"
-                                                    @onclick="ResetAllFilters">
+                                                    @onclick="AllFiltersReset">
                                                 <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
                                             </button>
                                         </div>
@@ -262,4 +262,4 @@
 </CardView>
 <AdminExpenseOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
 <AdminExpenseModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
-<AdminExpenseFilterModal @ref="_setupFilterModal" OnSubmitFilterSuccess="filterExpense => RefreshFilterList(filterExpense)" />
+<AdminExpenseFilterModal @ref="_setupFilterModal" OnSubmitFilterSuccess="filterExpense => FilterListRefresh(filterExpense)" />

@@ -19,13 +19,13 @@
                                     IconEnd="bi-chevron-down"
                                     IconStart="bi-cart4"
                                     Model="@_filterExpenseCategoryModel"
-                                    OnSubmitSuccess="ResetDropdownFilterExpenseCategory">
+                                    OnSubmitSuccess="DropdownFilterExpenseCategoryReset">
                         @foreach (var (expenseCategory, index) in _expenseCategories.Select((value, index) => (value, index)))
                         {
                             <li class="px-2">
                                 <button class="dropdown-item rounded"
                                         title="@expenseCategory.Description"
-                                        @onclick="() => RefreshDropdownFilterExpenseCategory(expenseCategory.Id)">
+                                        @onclick="() => DropdownFilterExpenseCategoryRefresh(expenseCategory.Id)">
                                     @($"{expenseCategory.Description.Truncate((int)Truncate.ExpenseCategory)}")
                                 </button>
                             </li>
@@ -42,13 +42,13 @@
                                     IconEnd="bi-chevron-down"
                                     IconStart="bi-bank"
                                     Model="@_filterBankModel"
-                                    OnSubmitSuccess="ResetDropdownFilterBank">
+                                    OnSubmitSuccess="DropdownFilterBankReset">
                         @foreach (var (bank, index) in _banks.Select((value, index) => (value, index)))
                         {
                             <li class="px-2">
                                 <button class="dropdown-item rounded"
                                         title="@bank.Description"
-                                        @onclick="() => RefreshDropdownFilterBank(bank.Id)">
+                                        @onclick="() => DropdownFilterBankRefresh(bank.Id)">
                                     @($"{bank.Description}")
                                 </button>
                             </li>

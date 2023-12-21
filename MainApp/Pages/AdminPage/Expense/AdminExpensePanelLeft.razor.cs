@@ -155,7 +155,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task MoreFiltersAsync()
+    private async Task ApplyFiltersAsync()
     {
         try
         {
@@ -188,7 +188,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task RefreshFilterList(FilterExpenseDTO filterExpenseDTO)
+    private async Task FilterListRefresh(FilterExpenseDTO filterExpenseDTO)
     {
         _isFilterApplied = true;
         _filterExpenseDTO = filterExpenseDTO;
@@ -217,7 +217,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task ResetAllFilters()
+    private async Task AllFiltersReset()
     {
         _isFilterApplied = false;
         _filterExpenseDTO = new();

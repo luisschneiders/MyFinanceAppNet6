@@ -105,7 +105,7 @@ public partial class AdminExpenseFilterModal : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task ResetDropdownFilterExpenseCategory()
+    private async Task DropdownFilterExpenseCategoryReset()
     {
         _filterExpenseCategory = new();
         _filterExpenseDTO.ECategoryId = 0;
@@ -117,7 +117,7 @@ public partial class AdminExpenseFilterModal : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task ResetDropdownFilterBank()
+    private async Task DropdownFilterBankReset()
     {
         _filterBank = new();
         _filterExpenseDTO.BankId = 0;
@@ -129,7 +129,7 @@ public partial class AdminExpenseFilterModal : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task RefreshDropdownFilterExpenseCategory(ulong id)
+    private async Task DropdownFilterExpenseCategoryRefresh(ulong id)
     {
         _filterExpenseDTO.ECategoryId = id;
         _filterExpenseCategory = _expenseCategories.First(i => i.Id == id);
@@ -144,7 +144,7 @@ public partial class AdminExpenseFilterModal : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task RefreshDropdownFilterBank(ulong id)
+    private async Task DropdownFilterBankRefresh(ulong id)
     {
         _filterExpenseDTO.BankId = id;
         _filterBank = _banks.First(i => i.Id == id);
