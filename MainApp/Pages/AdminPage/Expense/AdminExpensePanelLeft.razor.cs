@@ -1,6 +1,5 @@
 ﻿using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
-using MainApp.Pages.AdminPage.Transaction;
 using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Pages.AdminPage.Expense;
@@ -61,7 +60,6 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private decimal _expensesTotal { get; set; } = 0;
 
     private bool _isLoading { get; set; } = true;
-    private bool _isFilterApplied { get; set; } = false;
 
     public AdminExpensePanelLeft()
     {
@@ -159,12 +157,13 @@ public partial class AdminExpensePanelLeft : ComponentBase
     {
         try
         {
-            await _setupFilterModal.OpenModalAsync();
+            await _setupFilterModal.OpenModalAsync(IsFilterApplied());
         }
         catch (Exception ex)
         {
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
+
         await Task.CompletedTask;
     }
 
@@ -188,16 +187,15 @@ public partial class AdminExpensePanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task FilterListRefresh(FilterExpenseDTO filterExpenseDTO)
+    private async Task RefreshFilterList(FilterExpenseDTO filterExpenseDTO)
     {
-        _isFilterApplied = true;
         _filterExpenseDTO = filterExpenseDTO;
 
         await FetchDataAsync();
         await Task.CompletedTask;
     }
 
-    private async Task DropdownDateRangeRefresh(DateTimeRange dateTimeRange)
+    private async Task RefreshDropdownDateRange(DateTimeRange dateTimeRange)
     {
         _dateRange = dateTimeRange;
         _dropdownDateRangeLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
@@ -207,7 +205,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task DropdownDateMonthYearRefresh(DateTimeRange dateTimeRange)
+    private async Task RefreshDropdownDateMonthYear(DateTimeRange dateTimeRange)
     {
         _dateCalendar = dateTimeRange;
         _dropdownDateCalendarLabel = await _dropdownDateMonthYearService.UpdateLabel(dateTimeRange);
@@ -217,12 +215,22 @@ public partial class AdminExpensePanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task AllFiltersReset()
+    private async Task ResetAllFilters()
     {
-        _isFilterApplied = false;
         _filterExpenseDTO = new();
 
         await FetchDataAsync();
         await Task.CompletedTask;
+    }
+
+    private bool IsFilterApplied()
+    {
+        if (_filterExpenseDTO.BankId != 0 || _filterExpenseDTO.ECategoryId != 0)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

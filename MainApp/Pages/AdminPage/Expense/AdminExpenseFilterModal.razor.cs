@@ -45,6 +45,7 @@ public partial class AdminExpenseFilterModal : ComponentBase
     {
         _dropdownFilterLabelExpense = await _dropdownFilterService.UpdateLabel(Label.FilterByExpenseCategory);
         _dropdownFilterLabelBank = await _dropdownFilterService.UpdateLabel(Label.FilterByBank);
+
         await Task.CompletedTask;
     }
 
@@ -67,12 +68,16 @@ public partial class AdminExpenseFilterModal : ComponentBase
         await Task.CompletedTask;
     }
 
-
-    public async Task OpenModalAsync()
+    public async Task OpenModalAsync(bool isFilterApplied)
     {
         try
         {
             _modalTarget = Guid.NewGuid();
+
+            if (isFilterApplied is false)
+            {
+                await ResetAllFilters();
+            }
 
             await Task.FromResult(_modal.Open(_modalTarget));
         }
@@ -105,31 +110,55 @@ public partial class AdminExpenseFilterModal : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task DropdownFilterExpenseCategoryReset()
+    private async Task ResetDropdownFilterExpenseCategory()
     {
-        _filterExpenseCategory = new();
-        _filterExpenseDTO.ECategoryId = 0;
-        _filterExpenseCategoryModel = await _dropdownFilterService.ResetModel();
-        _dropdownFilterLabelExpense = await _dropdownFilterService.UpdateLabel(Label.FilterByExpenseCategory);
+        await RemoveDropdownFilterExpenseCategory();
+        
         _toastService.ShowToast("Filter for expense removed!", Theme.Info);
 
         await OnSubmitFilterSuccess.InvokeAsync(_filterExpenseDTO);
         await Task.CompletedTask;
     }
 
-    private async Task DropdownFilterBankReset()
+    private async Task ResetDropdownFilterBank()
     {
-        _filterBank = new();
-        _filterExpenseDTO.BankId = 0;
-        _filterBankModel = await _dropdownFilterService.ResetModel();
-        _dropdownFilterLabelBank = await _dropdownFilterService.UpdateLabel(Label.FilterByBank);
+        await RemoveDropdownFilterBank();
+        
         _toastService.ShowToast("Filter for bank removed!", Theme.Info);
 
         await OnSubmitFilterSuccess.InvokeAsync(_filterExpenseDTO);
         await Task.CompletedTask;
     }
 
-    private async Task DropdownFilterExpenseCategoryRefresh(ulong id)
+
+    private async Task ResetAllFilters()
+    {
+        await RemoveDropdownFilterBank();
+        await RemoveDropdownFilterExpenseCategory();
+        await Task.CompletedTask;
+    }
+
+    private async Task RemoveDropdownFilterBank()
+    {
+        _filterBank = new();
+        _filterExpenseDTO.BankId = 0;
+        _filterBankModel = await _dropdownFilterService.ResetModel();
+        _dropdownFilterLabelBank = await _dropdownFilterService.UpdateLabel(Label.FilterByBank);
+
+        await Task.CompletedTask;
+    }
+
+    private async Task RemoveDropdownFilterExpenseCategory()
+    {
+        _filterExpenseCategory = new();
+        _filterExpenseDTO.ECategoryId = 0;
+        _filterExpenseCategoryModel = await _dropdownFilterService.ResetModel();
+        _dropdownFilterLabelExpense = await _dropdownFilterService.UpdateLabel(Label.FilterByExpenseCategory);
+
+        await Task.CompletedTask;
+    }
+
+    private async Task RefreshDropdownFilterExpenseCategory(ulong id)
     {
         _filterExpenseDTO.ECategoryId = id;
         _filterExpenseCategory = _expenseCategories.First(i => i.Id == id);
@@ -144,7 +173,7 @@ public partial class AdminExpenseFilterModal : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task DropdownFilterBankRefresh(ulong id)
+    private async Task RefreshDropdownFilterBank(ulong id)
     {
         _filterExpenseDTO.BankId = id;
         _filterBank = _banks.First(i => i.Id == id);
