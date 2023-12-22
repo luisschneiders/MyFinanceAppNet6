@@ -9,7 +9,7 @@
         <div class="row justify-content-between pb-2">
             <div class="col-10 col-lg-8 pb-2 d-flex">
                 <DropdownDateRange IconColor="Theme.Info"
-                                   ButtonSize="Size.Md"
+                                   ButtonSize="Size.Sm"
                                    DateTimeRange="@_dateTimeRange"
                                    DropdownLabel="@_dropdownLabel"
                                    PeriodRange="PeriodRange.Month"
@@ -17,13 +17,14 @@
             </div>
             <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
                 <div class="d-none d-lg-block">
-                    <button class="btn btn-md bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
                             @onclick="() => AddRecordAsync()">
                         <i class="bi bi-plus-lg pe-1"></i>New trip
                     </button>
                 </div>
                 <div class="d-block d-lg-none">
-                    <DropdownActions DropdownPosition="Position.End">
+                    <DropdownActions DropdownPosition="Position.End"
+                                     ButtonSize="Size.Sm">
                         <li class="px-2 d-block d-lg-none">
                             <button class="dropdown-item text-@(Theme.Info.ToString().ToLower())-emphasis rounded"
                                     @onclick="() => AddRecordAsync()">
