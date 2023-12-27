@@ -1,7 +1,7 @@
-﻿<div class="modal fade @_modalClass"
+﻿<div class="modal fade @_modalStatus"
          tabindex="-1"
          role="dialog"
-         style="display: @_modalStyleDisplay;
+         style="display: @_modalDisplay;
                 backdrop-filter: blur(6px);
                 -webkit-backdrop-filter: blur(6px);"
          id="@_modalId">
@@ -23,7 +23,7 @@
                     </button>
                 }
             </div>
-            <div class="modal-body">
+            <div class="modal-body @ModalBodyStyle">
                 @Body
             </div>
             <div class="modal-footer">
@@ -34,5 +34,5 @@
 </div>
 @if (_showBackdrop)
 {
-    <div class="modal-backdrop fade @_modalClass" style="display: @_modalStyleDisplay.ToString().ToLower();"></div>
+    <div class="modal-backdrop fade @_modalStatus" style="display: @_modalDisplay.ToString().ToLower();"></div>
 }
