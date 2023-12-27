@@ -22,10 +22,13 @@ public partial class Modal : ComponentBase
     public Size Size { get; set; } = Size.Md;
 
     [Parameter]
+    public string ModalBodyStyle { get; set; } = string.Empty;
+
+    [Parameter]
     public bool IsCloseButtonVisible { get; set; } = true;
 
-    private ModalDisplay _modalStyleDisplay { get; set; } = ModalDisplay.none;
-    private string _modalClass { get; set; } = string.Empty;
+    private ModalDisplay _modalDisplay { get; set; } = ModalDisplay.none;
+    private string _modalStatus { get; set; } = string.Empty;
     private bool _showBackdrop { get; set; } = false;
     private Guid _modalId { get; set; } = Guid.Empty;
 
@@ -36,9 +39,9 @@ public partial class Modal : ComponentBase
     public async Task Open(Guid target)
     {
         _modalId = target;
-        _modalStyleDisplay = ModalDisplay.block;
+        _modalDisplay = ModalDisplay.block;
         await Task.Delay((int)Delay.ModalOpen);
-        _modalClass = "show";
+        _modalStatus = "show";
         _showBackdrop = true;
 
         StateHasChanged();
@@ -48,9 +51,9 @@ public partial class Modal : ComponentBase
     public async Task Close(Guid target)
     {
         _modalId = target;
-        _modalClass = string.Empty;
+        _modalStatus = string.Empty;
         await Task.Delay((int)Delay.ModalClose);
-        _modalStyleDisplay = ModalDisplay.none;
+        _modalDisplay = ModalDisplay.none;
         _showBackdrop = false;
 
         StateHasChanged();

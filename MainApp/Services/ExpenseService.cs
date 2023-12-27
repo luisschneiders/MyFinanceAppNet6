@@ -116,14 +116,29 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         }
     }
 
-    public async Task<List<ExpenseByCategoryGroupDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, ExpenseCategoryModel expenseCategoryModel)
+    public async Task<List<ExpenseByCategoryGroupDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, FilterExpenseDTO filterExpenseDTO)
     {
         try
         {
             var records = await GetRecordsByDateRange(dateTimeRange);
-            if (expenseCategoryModel.Id > 0)
+
+            if (filterExpenseDTO.BankId > 0 || filterExpenseDTO.ECategoryId > 0)
             {
-                List<ExpenseListDTO> recordsFiltered = records.Where(e => e.ECategoryId == expenseCategoryModel.Id).ToList();
+                List<ExpenseListDTO> recordsFiltered = new();
+
+                if (filterExpenseDTO.BankId > 0 && filterExpenseDTO.ECategoryId == 0) // Filter by Bank only
+                {
+                    recordsFiltered = records.Where(e => e.BankId == filterExpenseDTO.BankId).ToList();
+                }
+                else if (filterExpenseDTO.BankId == 0 && filterExpenseDTO.ECategoryId > 0) // Filter by Expense only
+                {
+                    recordsFiltered = records.Where(e => e.ECategoryId == filterExpenseDTO.ECategoryId).ToList();
+                }
+                else // Filter by Bank and Expense
+                {
+                    recordsFiltered = records.Where(e => e.BankId == filterExpenseDTO.BankId && 
+                                                         e.ECategoryId == filterExpenseDTO.ECategoryId).ToList();
+                }
 
                 var results = SetRecordsByGroup(recordsFiltered);
 
@@ -291,12 +306,14 @@ public class ExpenseService : IExpenseService<ExpenseModel>
 
             string location = await BuildLocation(results);
 
-            GoogleMapStaticModel model = new();
-            model.Location = location;
-            model.Marker = $"color:{mapMarkerColor.ToString().ToLower()}";
-            model.Scale = scale;
-            model.Width = mapSizeWidth;
-            model.Height = mapSizeHeight;
+            GoogleMapStaticModel model = new()
+            {
+                Location = location,
+                Marker = $"color:{mapMarkerColor.ToString().ToLower()}",
+                Scale = scale,
+                Width = mapSizeWidth,
+                Height = mapSizeHeight
+            };
 
             return model;
         }

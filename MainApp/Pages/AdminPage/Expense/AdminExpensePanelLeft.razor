@@ -1,4 +1,5 @@
-﻿@using MainApp.Components.Badge.Color
+﻿@using MainApp.Components.Badge
+@using MainApp.Components.Badge.Color
 @using MainApp.Components.Card
 @using MainApp.Components.CalendarView
 @using MainApp.Components.Dropdown.Actions
@@ -11,7 +12,7 @@
 <CardView Styles="border-0">
     <CardMiddle>
         <div class="row justify-content-between pb-2">
-            <div class="col-10 col-lg-8 pb-2 d-flex">
+            <div class="col-10 col-lg-9 pb-2 d-flex">
                 @if (_isLoading)
                 {
                     <div class="d-flex justify-content-center align-items-center">
@@ -28,66 +29,72 @@
                          aria-label="Radio toggle button group"
                          title="Change view">
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value="@_viewType" @onclick="() => UpdateUIVIew(ViewType.Calendar)">
-                        <label class="btn btn-@(Theme.Light.ToString().ToLower() ) border-0 @("rounded-start"+_appSettings.Button) @(_viewType == @ViewType.Calendar.ToString() ? "active" : "")" for="btnradio1"><i class="bi bi-calendar3"></i></label>
+                        <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Light.ToString().ToLower() ) border-0 @("rounded-start"+_appSettings.Button) @(_viewType == @ViewType.Calendar.ToString() ? "active" : "")" for="btnradio1"><i class="bi bi-calendar3"></i></label>
 
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value="@_viewType" @onclick="() => UpdateUIVIew(ViewType.List)">
-                        <label class="btn btn-@(Theme.Light.ToString().ToLower() ) border-0 @("rounded-end"+_appSettings.Button) @(_viewType == @ViewType.List.ToString() ? "active" : "")" for="btnradio2"><i class="bi bi-list-ul"></i></label>
+                        <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Light.ToString().ToLower() ) border-0 @("rounded-end"+_appSettings.Button) @(_viewType == @ViewType.List.ToString() ? "active" : "")" for="btnradio2"><i class="bi bi-list-ul"></i></label>
                     </div>
                     @if (_viewType == ViewType.Calendar.ToString())
                     {
                         <div class="ps-2">
                             <DropdownDateMonthYear IconColor="Theme.Info"
-                                                ButtonSize="Size.Md"
+                                                ButtonSize="Size.Sm"
                                                 DateTimeRange="@_dateCalendar"
                                                 DropdownLabel="@_dropdownDateCalendarLabel"
-                                                OnSubmitSuccess="data => DropdownDateMonthYearRefresh(data)" />
+                                                OnSubmitSuccess="data => RefreshDropdownDateMonthYear(data)" />
                         </div>
                     }
                     else
                     {
                         <div class="ps-2">
                             <DropdownDateRange IconColor="Theme.Info"
-                                            ButtonSize="Size.Md"
+                                            ButtonSize="Size.Sm"
                                             DateTimeRange="@_dateRange"
                                             DropdownLabel="@_dropdownDateRangeLabel"
                                             PeriodRange="PeriodRange.Month"
-                                            OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
+                                            OnSubmitSuccess="data => RefreshDropdownDateRange(data)" />
                         </div>
                         <div class="ps-2 d-none d-lg-flex">
-                            <DropdownFilter ButtonSize="Size.Md"
-                                            DropdownLabel="@_dropdownFilterLabel"
-                                            DropdownPosition="Position.Start"
-                                            IconStartColor="Theme.Info"
-                                            IconEnd="bi-chevron-down"
-                                            IconStart="bi-cart4"
-                                            Model="@_filterModel"
-                                            OnSubmitSuccess="DropdownFilterReset">
-                                @foreach (var (expenseCategory, index) in _expenseCategories.Select((value, index) => (value, index)))
-                                {
-                                    <li class="px-2">
-                                        <button class="dropdown-item rounded"
-                                                title="@expenseCategory.Description"
-                                                @onclick="() => DropdownFilterRefreshExpenseCategory(expenseCategory.Id)">
-                                            @($"{expenseCategory.Description.Truncate((int)Truncate.ExpenseCategory)}")
-                                        </button>
-                                    </li>
-                                }
-                            </DropdownFilter>
+                            <div class="btn-group bg-@(ButtonColor.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
+                                <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                                        @onclick="() => ApplyFiltersAsync()">
+                                    <i class="bi bi-sliders2 pe-1"></i>Filters
+                                    @if(IsFilterApplied())
+                                    {
+                                        <sup class="ps-1">
+                                            <Badge BackgroundColor="@Theme.Info" Message="Applied" />
+                                        </sup>
+                                    }
+                                </button>
+                                    @if (IsFilterApplied())
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="vr my-1 text-@(ButtonColor.ToString().ToLower())-emphasis"></div>
+                                            <button class="btn btn-@(Size.Sm.ToString().ToLower())"
+                                                    title="Remove"
+                                                    @onclick="ResetAllFilters">
+                                                <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
+                                            </button>
+                                        </div>
+                                    }
+                            </div>
                         </div>
+
                     }
 
                 }
 
             </div>
-            <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
+            <div class="col-2 col-lg-3 d-flex justify-content-end pb-2">
                 <div class="d-none d-lg-block">
-                    <button class="btn btn-md bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
                             @onclick="() => AddRecordAsync()">
                         <i class="bi bi-plus-lg pe-1"></i>New expense
                     </button>
                 </div>
                 <div class="d-block d-lg-none">
-                    <DropdownActions DropdownPosition="Position.End">
+                    <DropdownActions DropdownPosition="Position.End"
+                                     ButtonSize="Size.Sm">
                         <li class="px-2 d-block d-lg-none">
                             <button class="dropdown-item text-@(Theme.Info.ToString().ToLower())-emphasis rounded"
                                     @onclick="() => AddRecordAsync()">
@@ -264,3 +271,4 @@
 </CardView>
 <AdminExpenseOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
 <AdminExpenseModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
+<AdminExpenseFilterModal @ref="_setupFilterModal" OnSubmitFilterSuccess="filterExpense => RefreshFilterList(filterExpense)" />

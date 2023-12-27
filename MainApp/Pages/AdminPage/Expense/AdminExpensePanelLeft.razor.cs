@@ -1,6 +1,5 @@
 ﻿using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
-using MainApp.Pages.AdminPage.Transaction;
 using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Pages.AdminPage.Expense;
@@ -28,15 +27,12 @@ public partial class AdminExpensePanelLeft : ComponentBase
     [Inject]
     private ICalendarViewService _calendarViewService { get; set; } = default!;
 
-    [Inject]
-    private IDropdownFilterService _dropdownFilterService { get; set; } = default!;
-
-    [Inject]
-    private IExpenseCategoryService<ExpenseCategoryModel> _expenseCategoryService { get; set; } = default!;
-
     //TODO: replace ILocalStorageService with IAppSettingsService
     [Inject]
     private ILocalStorageService _localStorageService { get; set; } = default!;
+
+    [Parameter]
+    public Theme ButtonColor { get; set; } = Theme.Light;
 
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
@@ -47,18 +43,17 @@ public partial class AdminExpensePanelLeft : ComponentBase
     // Add Modal component reference
     private AdminExpenseModal _setupModal { get; set; } = new();
 
+    private AdminExpenseFilterModal _setupFilterModal { get; set; } = new();
+
     private DateTimeRange _dateRange { get; set; } = new();
     private DateTimeRange _dateCalendar { get; set; } = new();
 
     private List<ExpenseByCategoryGroupDTO> _expensesByGroup { get; set; } = new();
     private List<ExpenseCalendarDTO> _expensesCalendarView { get; set; } = new();
-    private List<ExpenseCategoryModel> _expenseCategories { get; set; } = new();
-    private FilterModel _filterModel { get; set; } = new();
-    private ExpenseCategoryModel _filterExpenseCategory { get; set; } = new();
+    private FilterExpenseDTO _filterExpenseDTO { get; set; } = new();
     private string _viewType { get; set; } = ViewType.Calendar.ToString();
     private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
     private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
-    private string _dropdownFilterLabel { get; set; } = Label.NoFilterAssigned;
 
     private int[][] _weeks { get; set; } = default!;
 
@@ -75,7 +70,6 @@ public partial class AdminExpensePanelLeft : ComponentBase
         _dateRange = _dateTimeService.GetCurrentMonth();
 
         _dropdownDateRangeLabel = await _dropdownDateRangeService.UpdateLabel(_dateRange);
-        _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(Label.FilterByExpenseCategory);
 
         _dateCalendar = _dateTimeService.GetCurrentMonth();
         _dropdownDateCalendarLabel = await _dropdownDateMonthYearService.UpdateLabel(_dateCalendar);
@@ -129,8 +123,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
             }
             else if (_viewType == ViewType.List.ToString())
             {
-                _expenseCategories = await _expenseCategoryService.GetRecords();
-                _expensesByGroup = await _expenseService.GetRecordsByFilter(_dateRange, _filterExpenseCategory);
+                _expensesByGroup = await _expenseService.GetRecordsByFilter(_dateRange, _filterExpenseDTO);
                 _expensesTotal = await _expenseService.GetRecordsByDateRangeSum();
             }
 
@@ -160,6 +153,20 @@ public partial class AdminExpensePanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
+    private async Task ApplyFiltersAsync()
+    {
+        try
+        {
+            await _setupFilterModal.OpenModalAsync(IsFilterApplied());
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;
+    }
+
     private async Task ArchiveRecordAsync(ExpenseListDTO model)
     {
         try
@@ -180,45 +187,50 @@ public partial class AdminExpensePanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task DropdownDateRangeRefresh(DateTimeRange dateTimeRange)
+    private async Task RefreshFilterList(FilterExpenseDTO filterExpenseDTO)
+    {
+        _filterExpenseDTO = filterExpenseDTO;
+
+        await FetchDataAsync();
+        await Task.CompletedTask;
+    }
+
+    private async Task RefreshDropdownDateRange(DateTimeRange dateTimeRange)
     {
         _dateRange = dateTimeRange;
         _dropdownDateRangeLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
         _toastService.ShowToast("Date range has changed!", Theme.Info);
+
         await RefreshList();
         await Task.CompletedTask;
     }
 
-    private async Task DropdownDateMonthYearRefresh(DateTimeRange dateTimeRange)
+    private async Task RefreshDropdownDateMonthYear(DateTimeRange dateTimeRange)
     {
         _dateCalendar = dateTimeRange;
         _dropdownDateCalendarLabel = await _dropdownDateMonthYearService.UpdateLabel(dateTimeRange);
         _toastService.ShowToast("Date range has changed!", Theme.Info);
-        await RefreshList();
-        await Task.CompletedTask;
-    }
-    private async Task DropdownFilterReset()
-    {
-        _filterExpenseCategory = new();
-        _filterModel = await _dropdownFilterService.ResetModel();
-        _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(Label.FilterByExpenseCategory);
-        _toastService.ShowToast("Filter removed!", Theme.Info);
+
         await RefreshList();
         await Task.CompletedTask;
     }
 
-    private async Task DropdownFilterRefreshExpenseCategory(ulong id)
+    private async Task ResetAllFilters()
     {
-        _filterExpenseCategory = _expenseCategories.First(i => i.Id == id);
-        string? expenseName = _filterExpenseCategory.Description.Truncate((int)Truncate.ExpenseCategory);
+        _filterExpenseDTO = new();
 
-        _filterModel = await _dropdownFilterService.SetModel(_filterExpenseCategory.Id, _filterExpenseCategory.Description);
-
-        _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(expenseName!);
-        _toastService.ShowToast("Filter updated!", Theme.Info);
-
-        await RefreshList();
-
+        await FetchDataAsync();
         await Task.CompletedTask;
+    }
+
+    private bool IsFilterApplied()
+    {
+        if (_filterExpenseDTO.BankId != 0 || _filterExpenseDTO.ECategoryId != 0)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
