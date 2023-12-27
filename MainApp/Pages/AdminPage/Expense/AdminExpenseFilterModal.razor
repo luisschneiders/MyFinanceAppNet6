@@ -2,14 +2,15 @@
 @using MainApp.Components.Dropdown.Filter
 
 <Modal @ref="_modal"
-       Size="Size.Lg">
+       Size="Size.Lg"
+       ModalBodyStyle="vh-100">
     <Title>
         <span class="text-secondary">
             Apply filters
         </span>
     </Title>
     <Body>
-        <div class="row vh-100"> 
+        <div class="row"> 
             <div class="col-auto">
                 <div class="ps-2">
                     <DropdownFilter ButtonSize="Size.Md"
@@ -59,10 +60,10 @@
         </div> 
     </Body>
     <Footer>
-        <div class="row w-100 justify-content-end">
-            <div class="col-sm-4 d-flex gap-2 g-0">
+        <div class="row">
+            <div class="col-auto">
                 <button type="button"
-                        class="btn btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
+                        class="btn btn-outline-secondary @("rounded"+_appSettings.Button)"
                         data-dismiss="modal"
                         @onclick="() => CloseModalAsync()">
                     Close
