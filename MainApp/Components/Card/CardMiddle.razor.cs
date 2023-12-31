@@ -2,7 +2,7 @@
 
 namespace MainApp.Components.Card;
 
-public partial class CardMiddle
+public partial class CardMiddle : ComponentBase
 {
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
