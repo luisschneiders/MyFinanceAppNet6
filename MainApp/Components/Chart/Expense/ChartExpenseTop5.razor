@@ -1,0 +1,36 @@
+﻿@using MainApp.Components.Dropdown.DateRange
+@using MainApp.Components.Shared
+@using MainApp.Components.Spinner
+
+<SharedHeader Title="Top 5 Expenses"
+              Icon="@_chartIcon"
+              IconColor="Theme.Info" />
+
+@if (_isLoading)
+{
+    <div class="d-flex justify-content-center align-items-center">
+        <Spinner Size="Size.Sm" />
+        <span class="ps-1">
+            Loading ...
+        </span>
+    </div>
+}
+else
+{
+    <div class="row text-center align-items-center">
+        <div class="col-auto">
+            <DropdownDateRange IconColor="Theme.Info"
+                               ButtonSize="Size.Sm"
+                               DateTimeRange="@_dateTimeRange"
+                               DropdownLabel="@_dropdownLabel"
+                               PeriodRange="PeriodRange.Month"
+                               DropdownPosition="Position.Start"
+                               OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
+        </div>
+    </div>
+    <Chart Id="ExpenseTop5"
+           Type="@ChartType"
+           Data="@(_chartConfigData)"
+           Option="@(_chartConfigOption)"
+           OnSubmitSuccess="data => SetChartObjectReference(data)" />
+}
