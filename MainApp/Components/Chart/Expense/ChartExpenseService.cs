@@ -43,6 +43,22 @@ public class ChartExpenseService : IChartExpenseService
         }
     }
 
+    public async Task<ChartConfigData> ConfigDataTop5(DateTimeRange dateTimeRange)
+    {
+        try
+        {
+            List<ExpenseTop5DTO> expenseTop5 = await _expenseService.GetRecordsTop5ByDateRange(dateTimeRange);
+            ChartConfigData chartConfigData = await SetChartConfigDataTop5(expenseTop5);
+
+            return chartConfigData;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     private static async Task<ChartConfigData> SetChartLast3MonthsAsync(List<ExpenseLast3MonthsGraphDTO> expenseLast3Months)
     {
         try
@@ -159,5 +175,39 @@ public class ChartExpenseService : IChartExpenseService
         borderColors.Add(BorderColor.Yellow);
 
         return await Task.FromResult(borderColors);
+    }
+
+    private static async Task<ChartConfigData> SetChartConfigDataTop5(List<ExpenseTop5DTO> expenses)
+    {
+        try
+        {
+            ChartConfigData chartConfigData = new();
+            ChartConfigDataset chartConfigDataset = new();
+
+            if (expenses.Count > 0)
+            {
+                foreach (var (item, index) in expenses.Select((value, index) => (value,index)))
+                {
+                    chartConfigDataset.Label = "Expenses";
+                    chartConfigDataset.BackgroundColor.Add($"rgba({item.ECategoryColor},0.2)");
+                    chartConfigDataset.BorderColor.Add($"rgb({item.ECategoryColor})");
+                    chartConfigDataset.Data.Add(item.TotalAmount.ToString());
+                    chartConfigData.Labels.Add(item.ECategoryDescription.Truncate((int)Truncate.ExpenseCategory)!);
+                }
+
+                chartConfigData.Datasets.Add(chartConfigDataset);
+                
+                return chartConfigData;
+            }
+            else
+            {
+                return await Task.FromResult(chartConfigData);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 }
