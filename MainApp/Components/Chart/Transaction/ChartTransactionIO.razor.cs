@@ -14,9 +14,6 @@ public partial class ChartTransactionIO : ComponentBase
     private IChartTransactionService _chartTransactionService { get; set; } = default!;
 
     [Inject]
-    private ITransactionService<TransactionModel> _transactionService { get; set; } = default!;
-
-    [Inject]
     private ToastService _toastService { get; set; } = new();
 
     [Inject]
