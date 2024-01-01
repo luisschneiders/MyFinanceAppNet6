@@ -26,7 +26,6 @@ public partial class ChartTransactionIO : ComponentBase
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
     [Parameter]
-
     public ChartType ChartType { get; set; } = ChartType.bar; // Or ChartType.line
 
     private DateTimeRange _dateTimeRange { get; set; } = new();
@@ -58,6 +57,7 @@ public partial class ChartTransactionIO : ComponentBase
             try
             {
                 _spinnerService.ShowSpinner();
+
                 if (ChartType == ChartType.bar)
                 {
                     _chartIcon = "bi-bar-chart-line";
@@ -66,6 +66,7 @@ public partial class ChartTransactionIO : ComponentBase
                 {
                     _chartIcon = "bi bi-graph-up";
                 }
+
                 await SetChartConfigDataAsync();
             }
             catch (Exception ex)
