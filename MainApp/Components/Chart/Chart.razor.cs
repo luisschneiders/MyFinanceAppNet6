@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using MainApp.Components.Chart;
-using MainApp.Settings.Enum;
 
 namespace MainApp.Components.Chart;
 
@@ -18,6 +16,9 @@ public partial class Chart : ComponentBase
 
     [Parameter]
 	public ChartConfigData Data { get; set; } = new();
+
+    [Parameter]
+    public ChartConfigOption Option { get; set; } = new();
 
     [Parameter]
     public Position Position { get; set; } = Position.Top;
@@ -37,6 +38,7 @@ public partial class Chart : ComponentBase
         {
             _chartConfig.Type = Type.ToString();
             _chartConfig.Data = Data;
+            _chartConfig.Option = Option;
 
             await _chartService.InvokeChartModule();
             await _chartService.SetupChartModule(Id, _chartConfig, Position);
