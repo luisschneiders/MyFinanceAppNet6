@@ -3,19 +3,8 @@
 @using MainApp.Components.Shared
 @using MainApp.Components.Chart.Transaction
 
-<CardView Styles="w-100 border-0 mb-4">
+<CardView Styles="w-100 border-0">
     <CardMiddle>
         <ChartTransactionLast3Months />
     </CardMiddle>
 </CardView>
-<CardView Styles="w-100 border-0">
-     <CardMiddle>
-         <MapLocationExpense Color="MapMarkerColor.Orange"
-                             Width="MapSize.Width400"
-                             Height="MapSize.Height250"
-                             Scale="MapScale.Desktop"
-                             PeriodRange="PeriodRange.Month"
-                             Position="Position.End"
-                             DateRange="_dateTimeRange" />
-     </CardMiddle>
- </CardView>
