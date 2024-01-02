@@ -30,7 +30,7 @@ else
     </div>
     <Chart Id="ExpenseTop5"
            Type="@ChartType"
+           Option="@ChartConfigOption"
            Data="@(_chartConfigData)"
-           Option="@(_chartConfigOption)"
            OnSubmitSuccess="data => SetChartObjectReference(data)" />
 }

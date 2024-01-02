@@ -25,12 +25,13 @@ public partial class ChartExpenseTop5 : ComponentBase
     [Parameter]
     public ChartType ChartType { get; set; } = ChartType.bar; // Or ChartType.line
 
+    [Parameter]
+    public ChartConfigOption ChartConfigOption { get; set; } = new();
+
     [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
     private ChartConfigData _chartConfigData { get; set; } = new();
-
-    private ChartConfigOption _chartConfigOption { get; set; } = new();
 
     private DateTimeRange _dateTimeRange { get; set; } = new();
 
@@ -48,8 +49,6 @@ public partial class ChartExpenseTop5 : ComponentBase
     {
         _dateTimeRange = _dateTimeService.GetCurrentMonth();
         _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
-
-        _chartConfigOption.IndexAxis = "y";
         
         await Task.CompletedTask;
     }
