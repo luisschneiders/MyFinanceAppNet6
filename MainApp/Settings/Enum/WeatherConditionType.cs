@@ -18,6 +18,7 @@ public enum WeatherConditionType
     ModerateRain = 1189,
     PatchyLightSnow = 1210,
     HeavySnow = 1225,
+    LightRainShower = 1240,
     ModerateOrHeavySnowShowers = 1258,
     ModerateOrHeavyRain = 1276,
 }
