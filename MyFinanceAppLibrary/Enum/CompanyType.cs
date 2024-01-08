@@ -1,4 +1,4 @@
-﻿namespace MyFinanceAppLibrary.Constants;
+﻿namespace MyFinanceAppLibrary.Enum;
 
 public enum CompanyType
 {

@@ -323,6 +323,21 @@ public class ExpenseService : IExpenseService<ExpenseModel>
             throw;
         }
     }
+
+    public async Task<List<ExpenseTop5DTO>> GetRecordsTop5ByDateRange(DateTimeRange dateTimeRange)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<ExpenseTop5DTO> results = await _expenseData.GetTop5ExpensesByDateRange(user.Id, dateTimeRange);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
     private static List<ExpenseByCategoryGroupDTO> SetRecordsByGroup(List<ExpenseListDTO> records)
     {
         var resultsByGroup = records.GroupBy(tc => tc.ExpenseCategoryDescription);

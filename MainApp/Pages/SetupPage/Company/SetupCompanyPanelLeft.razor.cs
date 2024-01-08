@@ -1,9 +1,7 @@
 ﻿using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
-using MainApp.Pages.SetupPage.Company;
 using Microsoft.AspNetCore.Components;
 using MongoDB.Driver;
-using MyFinanceAppLibrary.Models;
 
 namespace MainApp.Pages.SetupPage.Company;
 

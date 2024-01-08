@@ -7,17 +7,11 @@
 
 <CardView Styles="w-100 border-0 mb-4">
     <CardMiddle>
-        <ChartExpenseLast3Months />
+        <ChartExpenseTop5 ChartType="ChartType.bar" ChartConfigOption="_chartConfigOption" />
     </CardMiddle>
 </CardView>
 <CardView Styles="w-100 border-0">
     <CardMiddle>
-        <MapLocationExpense Color="MapMarkerColor.Orange"
-                            Width="MapSize.Width400"
-                            Height="MapSize.Height250"
-                            Scale="MapScale.Desktop"
-                            PeriodRange="PeriodRange.Month"
-                            Position="Position.End"
-                            DateRange="_dateTimeRange" />
+        <ChartExpenseLast3Months />
     </CardMiddle>
 </CardView>

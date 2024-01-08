@@ -4,7 +4,8 @@
             legend: {
                 position: position
             }
-        }
+        },
+        indexAxis: config.option.indexAxis,
     };
 
     const ctx = document.getElementById(chartId).getContext('2d');

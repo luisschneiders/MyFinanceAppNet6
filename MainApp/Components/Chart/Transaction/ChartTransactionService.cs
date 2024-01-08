@@ -82,7 +82,7 @@ public class ChartTransactionService : IChartTransactionService
                 chartConfigData.Labels = chartLabels;
 
                 //Incomes data
-                chartConfigDataset.Label = "Incomes";
+                chartConfigDataset.Label = "Income";
                 chartConfigDataset.BackgroundColor.Add(BackgroundColor.Blue);
                 chartConfigDataset.BorderColor.Add(BorderColor.Blue);
                 chartConfigDataset.Data = transactionChartData.Income;
@@ -92,7 +92,7 @@ public class ChartTransactionService : IChartTransactionService
                 //Outcomes data
                 chartConfigDataset = new();
 
-                chartConfigDataset.Label = "Outcomes";
+                chartConfigDataset.Label = "Outcome";
                 chartConfigDataset.BackgroundColor.Add(BackgroundColor.Red);
                 chartConfigDataset.BorderColor.Add(BorderColor.Red);
                 chartConfigDataset.Data = transactionChartData.Outcome;
@@ -176,7 +176,7 @@ public class ChartTransactionService : IChartTransactionService
                 chartConfigData.Labels = chartLabels;
 
                 //Incomes data
-                chartConfigDataset.Label = "Incomes";
+                chartConfigDataset.Label = "Income";
                 chartConfigDataset.BackgroundColor.Add(BackgroundColor.Blue);
                 chartConfigDataset.BorderColor.Add(BorderColor.Blue);
                 chartConfigDataset.Data = transactionChartData.Income;
@@ -186,7 +186,7 @@ public class ChartTransactionService : IChartTransactionService
                 //Outcomes data
                 chartConfigDataset = new();
 
-                chartConfigDataset.Label = "Outcomes";
+                chartConfigDataset.Label = "Outcome";
                 chartConfigDataset.BackgroundColor.Add(BackgroundColor.Red);
                 chartConfigDataset.BorderColor.Add(BorderColor.Red);
                 chartConfigDataset.Data = transactionChartData.Outcome;

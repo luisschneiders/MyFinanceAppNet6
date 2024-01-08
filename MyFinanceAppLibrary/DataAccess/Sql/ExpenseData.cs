@@ -184,6 +184,29 @@ public class ExpenseData : IExpenseData<ExpenseModel>
         }
     }
 
+    public async Task<List<ExpenseTop5DTO>> GetTop5ExpensesByDateRange(string userId, DateTimeRange dateTimeRange)
+    {
+        try
+        {
+            var results = await _dataAccess.LoadData<ExpenseTop5DTO, dynamic>(
+                "myfinancedb.spExpense_GetRecordsSumTop5ByDateRange",
+                new
+                {
+                    userId = userId,
+                    startDate = dateTimeRange.Start,
+                    endDate = dateTimeRange.End
+                },
+                "Mysql");
+            
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public Task<List<ExpenseModel>> GetSearchResults(string userId, string search)
     {
         throw new NotImplementedException();

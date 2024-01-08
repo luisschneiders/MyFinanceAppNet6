@@ -1,5 +1,4 @@
-﻿using MainApp.Components.Dropdown;
-using MainApp.Components.Spinner;
+﻿using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -15,9 +14,6 @@ public partial class ChartTransactionIO : ComponentBase
     private IChartTransactionService _chartTransactionService { get; set; } = default!;
 
     [Inject]
-    private ITransactionService<TransactionModel> _transactionService { get; set; } = default!;
-
-    [Inject]
     private ToastService _toastService { get; set; } = new();
 
     [Inject]
@@ -30,7 +26,6 @@ public partial class ChartTransactionIO : ComponentBase
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
     [Parameter]
-
     public ChartType ChartType { get; set; } = ChartType.bar; // Or ChartType.line
 
     private DateTimeRange _dateTimeRange { get; set; } = new();
@@ -62,6 +57,7 @@ public partial class ChartTransactionIO : ComponentBase
             try
             {
                 _spinnerService.ShowSpinner();
+
                 if (ChartType == ChartType.bar)
                 {
                     _chartIcon = "bi-bar-chart-line";
@@ -70,6 +66,7 @@ public partial class ChartTransactionIO : ComponentBase
                 {
                     _chartIcon = "bi bi-graph-up";
                 }
+
                 await SetChartConfigDataAsync();
             }
             catch (Exception ex)

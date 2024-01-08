@@ -7,4 +7,4 @@ public partial class AdminTransactionPanelRight : ComponentBase
     public AdminTransactionPanelRight()
     {
     }
-}
+ }

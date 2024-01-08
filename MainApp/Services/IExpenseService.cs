@@ -11,4 +11,5 @@ public interface IExpenseService<T> : IBaseService<T>
     Task<List<ExpenseLast5YearsGraphDTO>> GetRecordsLast5Years();
     Task<List<ExpenseAmountHistoryDTO>> GetAmountHistory();
     Task<GoogleMapStaticModel> GetLocationExpense(DateTimeRange dateTimeRange, MapMarkerColor mapMarkerColor, MapSize mapSizeWidth, MapSize mapSizeHeight, MapScale scale);
+    Task<List<ExpenseTop5DTO>> GetRecordsTop5ByDateRange(DateTimeRange dateTimeRange);
 }
