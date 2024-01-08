@@ -1,4 +1,4 @@
-﻿namespace MainApp.Settings.Enum;
+﻿namespace MyFinanceAppLibrary.Enum;
 
 public enum ColorMode
 {
