@@ -41,11 +41,14 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th class="col-2 text-nowrap">
+                                <th class="col-1 text-nowrap">
                                     Date
                                 </th>
-                                <th class="col-3 text-nowrap">
+                                <th class="col-2 text-nowrap">
                                     Vehicle
+                                </th>
+                                <th class="col text-nowrap">
+                                    Category
                                 </th>
                                 <th class="col text-end text-nowrap">
                                     Start Odometer
@@ -100,6 +103,9 @@
                                             <td class="text-nowrap">
                                                 @record.VehiclePlate - @record.VehicleDescription
                                             </td>
+                                            <td class="text-nowrap">
+                                                @_enumHelper.GetDescription(record.Category)
+                                            </td>
                                             <td class="text-end text-nowrap">
                                                 @(record.StartOdometer <= 0 ? "--" : record.StartOdometer)
                                             </td>
@@ -144,7 +150,7 @@
                         </tbody>
                         <tfoot class="bg-@(Theme.Secondary.ToString().ToLower())-subtle fw-semibold">
                             <tr>
-                                <td class="text-nowrap" colspan="3">Total distance (KM)</td>
+                                <td class="text-nowrap" colspan="4">Total distance (KM)</td>
                                 <td class="text-nowrap text-end" colspan="2">@_sumByDateRange</td>
                                 <td colspan="2"></td>
                             </tr>

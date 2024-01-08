@@ -21,6 +21,9 @@ public partial class AdminTripPanelLeft : ComponentBase
     [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
+    [Inject]
+    private IEnumHelper _enumHelper { get; set; } = default!;
+
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
 
