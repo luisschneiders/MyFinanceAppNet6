@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Components.Authorization;
-using MyFinanceAppLibrary.DataAccess;
+﻿using Microsoft.AspNetCore.Components.Authorization;
 
 namespace MainApp.Helpers;
 

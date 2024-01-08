@@ -65,6 +65,9 @@ public static class RegisterServices
         builder.Services.AddSingleton<ITransactionCategoryData<TransactionCategoryModel>, TransactionCategoryData>();
         builder.Services.AddSingleton<ITripData<TripModel>, TripData>();
         builder.Services.AddSingleton<IVehicleData<VehicleModel>, VehicleData>();
+
+        //Helpers
+        builder.Services.AddSingleton<IEnumHelper, EnumHelper>();
     }
 
     public static void AddScopedServices(this WebApplicationBuilder builder)
