@@ -1,6 +1,5 @@
 ﻿using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
-using MainApp.Pages.AdminPage.Expense;
 using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Pages.AdminPage.Trip;
@@ -28,6 +27,9 @@ public partial class AdminTripPanelLeft : ComponentBase
     private DateTimeRange _dateTimeRange { get; set; } = new();
 
     private List<TripListDTO> _trips { get; set; } = new();
+
+    private PayStatus[] _payStatuses { get; set; } = default!;
+
     private decimal _sumByDateRange { get; set; }
 
     /*
@@ -45,6 +47,7 @@ public partial class AdminTripPanelLeft : ComponentBase
 
     public AdminTripPanelLeft()
     {
+        _payStatuses = (PayStatus[])Enum.GetValues(typeof(PayStatus));
     }
 
     protected async override Task OnInitializedAsync()
@@ -112,6 +115,27 @@ public partial class AdminTripPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
+    private async Task UpdatePayStatusAsync(TripListDTO tripListDTO, int payStatus)
+    {
+        try
+        {
+            TripModel tripModel = new()
+            {
+                Id = tripListDTO.Id,
+                PayStatus = payStatus
+            };
+
+            await _tripService.UpdateRecordPayStatus(tripModel);
+            await RefreshList();
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;
+    }
+
     private async Task RefreshList()
     {
         await FetchDataAsync();
@@ -125,5 +149,21 @@ public partial class AdminTripPanelLeft : ComponentBase
         _toastService.ShowToast("Date range has changed!", Theme.Info);
         await RefreshList();
         await Task.CompletedTask;
+    }
+
+    private string UpdatePayStatusTitle(int id)
+    {
+        var title = _payStatuses[id];
+        return title.ToString();
+    }
+
+    private Theme UpdatePayStatusButton(int id)
+    {
+        if (id == (int)PayStatus.Paid)
+        {
+            return Theme.Success;
+        }
+
+        return Theme.Light;
     }
 }
