@@ -25,5 +25,7 @@ public class TripModel : BaseModel
 
     [Required]
     public int PayStatus { get; set; } = 0;
+
+    public TripCategory TCategoryId { get; set; }
 #nullable enable
 }

@@ -46,6 +46,7 @@ public class TripData : ITripData<TripModel>
                     tripEndOdometer = model.EndOdometer,
                     tripDistance = model.Distance,
                     tripPayStatus = model.PayStatus,
+                    tripCategory = model.TCategoryId,
                     tripUpdatedBy = model.UpdatedBy,
                     tripCreatedAt = model.CreatedAt,
                     tripUpdatedAt = model.UpdatedAt,

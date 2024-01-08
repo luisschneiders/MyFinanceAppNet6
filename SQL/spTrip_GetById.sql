@@ -11,6 +11,7 @@ BEGIN
         EndOdometer,
 		Distance,
         PayStatus,
+        TCategoryId,
         IsActive
 	FROM Trip
 	WHERE UpdatedBy = userId

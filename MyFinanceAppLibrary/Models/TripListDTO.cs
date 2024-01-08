@@ -9,6 +9,7 @@ public class TripListDTO : BaseModel
     public decimal StartOdometer { get; }
     public decimal EndOdometer { get; }
     public int PayStatus { get; set; }
+    public TripCategory TCategoryId { get; }
     public string VehicleDescription { get; }
     public string VehiclePlate { get; }
 #nullable enable

@@ -14,6 +14,7 @@ BEGIN
         t.EndOdometer,
 		t.Distance,
         t.PayStatus,
+        t.TCategoryId,
 		t.IsActive
 	FROM Trip t
 	JOIN Vehicle v ON v.Id = t.VehicleId

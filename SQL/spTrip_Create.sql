@@ -6,6 +6,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spTrip_Create`(
     IN tripEndOdometer decimal(10,2),
     IN tripDistance decimal(10,2),
     IN tripPayStatus int,
+    IN tripTCategoryId int,
 	IN tripUpdatedBy varchar(28),
 	IN tripCreatedAt datetime,
 	IN tripUpdatedAt datetime
@@ -18,6 +19,7 @@ BEGIN
         `EndOdometer`,
         `Distance`,
         `PayStatus`,
+        `TCategoryId`,
 		`UpdatedBy`,
 		`CreatedAt`,
 		`UpdatedAt`
@@ -29,6 +31,7 @@ BEGIN
         tripEndOdometer,
         tripDistance,
         tripPayStatus,
+        tripTCategoryId,
 		tripUpdatedBy,
 		tripCreatedAt,
 		tripUpdatedAt
