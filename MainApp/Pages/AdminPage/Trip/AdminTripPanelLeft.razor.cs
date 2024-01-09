@@ -32,6 +32,7 @@ public partial class AdminTripPanelLeft : ComponentBase
     private List<TripListDTO> _trips { get; set; } = new();
 
     private PayStatus[] _payStatuses { get; set; } = default!;
+    private TripCategory[] _tripCategories { get; set; } = default!;
 
     private decimal _sumByDateRange { get; set; }
 
@@ -51,6 +52,7 @@ public partial class AdminTripPanelLeft : ComponentBase
     public AdminTripPanelLeft()
     {
         _payStatuses = (PayStatus[])Enum.GetValues(typeof(PayStatus));
+        _tripCategories = (TripCategory[])Enum.GetValues(typeof(TripCategory));
     }
 
     protected async override Task OnInitializedAsync()
@@ -138,6 +140,26 @@ public partial class AdminTripPanelLeft : ComponentBase
 
         await Task.CompletedTask;
     }
+    private async Task UpdateTripCategoryAsync(TripListDTO tripListDTO, ulong tripCategory)
+    {
+        try
+        {
+            TripModel tripModel = new()
+            {
+                Id = tripListDTO.Id,
+                TCategoryId = tripCategory
+            };
+
+            await _tripService.UpdateRecordTripCategory(tripModel);
+            await RefreshList();
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;
+    }
 
     private async Task RefreshList()
     {
@@ -159,12 +181,27 @@ public partial class AdminTripPanelLeft : ComponentBase
         var title = _payStatuses[id];
         return title.ToString();
     }
+    private string UpdateTripCategoryTitle(ulong id)
+    {
+        var title = _enumHelper.GetDescription(_tripCategories[id]);
+        return title;
+    }
 
     private Theme UpdatePayStatusButton(int id)
     {
         if (id == (int)PayStatus.Paid)
         {
             return Theme.Success;
+        }
+
+        return Theme.Light;
+    }
+
+    private Theme UpdateTripCategoryButton(ulong id)
+    {
+        if (id == (int)TripCategory.NotSpecified)
+        {
+            return Theme.Warning;
         }
 
         return Theme.Light;

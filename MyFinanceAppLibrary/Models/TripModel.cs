@@ -15,6 +15,10 @@ public class TripModel : BaseModel
     public ulong VehicleId { get; set; }
 
     [Required]
+    [Range(0, int.MaxValue, ErrorMessage = "The Category field is required.")]
+    public ulong TCategoryId { get; set; }
+
+    [Required]
     [RegularExpression(@"^\d+(.\d{1,2})?$", ErrorMessage = "Invalid value")]
     [Range(0.01, int.MaxValue, ErrorMessage = "The Distance must be greater than 0.00.")]
     public decimal Distance { get; set; }
@@ -26,6 +30,5 @@ public class TripModel : BaseModel
     [Required]
     public int PayStatus { get; set; } = 0;
 
-    public TripCategory TCategoryId { get; set; }
 #nullable enable
 }

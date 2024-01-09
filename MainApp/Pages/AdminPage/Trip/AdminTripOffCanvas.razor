@@ -79,7 +79,27 @@
                         <label for="VehicleId">Vehicle</label>
                     }
                 </div>
-
+                <div class="form-floating pb-2">
+                    @if (_isLoading)
+                    {
+                        <span>Loading...</span>
+                    }
+                    else
+                    {
+                        <InputSelect id="TCategoryId"
+                                     @attributes="_inputFormSelectAttributes"
+                                     disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                               _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                               _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
+                                     @bind-Value="_tripModel.TCategoryId">
+                            @foreach (var (category, index) in _tripCategoryDTOs.Select((value, index) => (value, index)))
+                                {
+                                <option value="@category.Id">@($"{category.Description}")</option>
+                            }
+                        </InputSelect>
+                        <label for="TCategoryId">Category</label>
+                    }
+                </div>
                 <div class="form-floating pb-2">
                     <InputNumber id="StartOdometer"
                                  @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
@@ -90,7 +110,8 @@
                                  readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
-                                 @bind-Value="_tripModel.StartOdometer" />
+                                 @bind-Value="_tripModel.StartOdometer"
+                                 @oninput="OnValueChangedStartOdometer" />
                     <label for="StartOdometer">Start Odometer</label>
                 </div>
                 <div class="form-floating pb-2">
@@ -103,7 +124,8 @@
                                  readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
-                                 @bind-Value="_tripModel.EndOdometer" />
+                                 @bind-Value="_tripModel.EndOdometer"
+                                 @oninput="OnValueChangedEndOdometer" />
                     <label for="EndOdometer">End Odometer</label>
                 </div>
                 <div class="form-floating">

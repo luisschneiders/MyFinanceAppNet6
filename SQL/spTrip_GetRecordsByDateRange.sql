@@ -21,6 +21,6 @@ BEGIN
 	WHERE t.UpdatedBy = userId
 		AND (date(t.TDate) >= startDate AND date(t.TDate) <= endDate)
 		AND t.IsArchived = FALSE
-	ORDER BY t.TDate DESC;
+	ORDER BY t.TDate DESC, t.EndOdometer DESC;
 END$$
 DELIMITER ;

@@ -47,19 +47,19 @@
                                 <th class="col-2 text-nowrap">
                                     Vehicle
                                 </th>
-                                <th class="col text-nowrap">
+                                <th class="col-1 text-nowrap">
                                     Category
                                 </th>
-                                <th class="col text-end text-nowrap">
+                                <th class="col-1 text-end text-nowrap">
                                     Start Odometer
                                 </th>
-                                <th class="col text-end text-nowrap">
+                                <th class="col-1 text-end text-nowrap">
                                     End Odometer
                                 </th>
                                 <th class="col-1 text-end text-nowrap">
                                     Distance (KM)
                                 </th>
-                                <th class="col text-nowrap" colspan="2">
+                                <th class="col-1 text-nowrap" colspan="2">
                                     Pay Status
                                 </th>
                                 @* <th></th> *@
@@ -104,7 +104,24 @@
                                                 @record.VehiclePlate - @record.VehicleDescription
                                             </td>
                                             <td class="text-nowrap">
-                                                @_enumHelper.GetDescription(record.TCategoryId)
+                                                <DropdownActions Title="@UpdateTripCategoryTitle((ulong)record.TCategoryId)"
+                                                                 ButtonSize="Size.Sm"
+                                                                 IconEnd="bi-chevron-down"
+                                                                 ButtonColor="@UpdateTripCategoryButton((ulong)record.TCategoryId)"
+                                                                 ButtonCssClass="w-100"
+                                                                 ButtonInnerStyles="d-flex justify-content-between">
+                                                    @foreach (var (status, index) in _tripCategories.Select((value, index) => (value, index)))
+                                                    {
+                                                        int statusValue = index;
+
+                                                        <li class="px-2">
+                                                            <button class="dropdown-item"
+                                                                    @onclick="() => UpdateTripCategoryAsync(record, (ulong)statusValue)">
+                                                                @($"{_enumHelper.GetDescription(status)}")
+                                                            </button>
+                                                        </li>
+                                                    }
+                                                </DropdownActions>
                                             </td>
                                             <td class="text-end text-nowrap">
                                                 @(record.StartOdometer <= 0 ? "--" : record.StartOdometer)

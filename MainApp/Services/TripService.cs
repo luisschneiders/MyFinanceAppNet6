@@ -148,6 +148,25 @@ public class TripService : ITripService<TripModel>
             throw;
         }
     }
+
+    public async Task UpdateRecordTripCategory(TripModel model)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+
+            model.UpdatedBy = user.Id;
+            model.UpdatedAt = DateTime.Now;
+
+            await _tripData.UpdateRecordTripCategory(model);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     private async Task<UserModel> GetLoggedInUser()
     {
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);

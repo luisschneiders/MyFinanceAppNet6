@@ -46,7 +46,7 @@ public class TripData : ITripData<TripModel>
                     tripEndOdometer = model.EndOdometer,
                     tripDistance = model.Distance,
                     tripPayStatus = model.PayStatus,
-                    tripCategory = model.TCategoryId,
+                    tripTCategoryId = model.TCategoryId,
                     tripUpdatedBy = model.UpdatedBy,
                     tripCreatedAt = model.CreatedAt,
                     tripUpdatedAt = model.UpdatedAt,
@@ -136,6 +136,28 @@ public class TripData : ITripData<TripModel>
                 {
                     tripId = model.Id,
                     tripPayStatus = model.PayStatus,
+                    tripUpdatedBy = model.UpdatedBy,
+                    tripUpdatedAt = model.UpdatedAt,
+                },
+                "Mysql");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task UpdateRecordTripCategory(TripModel model)
+    {
+        try
+        {
+            await _dataAccess.SaveData<dynamic>(
+                "myfinancedb.spTrip_UpdateCategory",
+                new
+                {
+                    tripId = model.Id,
+                    tripTCategoryId = model.TCategoryId,
                     tripUpdatedBy = model.UpdatedBy,
                     tripUpdatedAt = model.UpdatedAt,
                 },

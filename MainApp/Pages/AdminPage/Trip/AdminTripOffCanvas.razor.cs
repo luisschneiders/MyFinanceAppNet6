@@ -1,7 +1,6 @@
 ﻿using MainApp.Components.OffCanvas;
 using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
-using MyFinanceAppLibrary.Models;
 
 namespace MainApp.Pages.AdminPage.Trip;
 
@@ -19,6 +18,9 @@ public partial class AdminTripOffCanvas : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = default!;
 
+    [Inject]
+    private IEnumHelper _enumHelper { get; set; } = default!;
+
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
 
@@ -27,7 +29,9 @@ public partial class AdminTripOffCanvas : ComponentBase
 
     private TripModel _tripModel { get; set; } = new();
     private List<VehicleModel> _activeVehicles { get; set; } = new();
-
+    private TripCategory[] _tripCategories { get; set; } = default!;
+    private List<TripCategoryDTO> _tripCategoryDTOs { get; set; } = new();
+    private TripCategoryDTO _tripCategory { get; set; } = new();
     private bool _shouldRender { get; set; } = true;
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
@@ -39,6 +43,7 @@ public partial class AdminTripOffCanvas : ComponentBase
 
     public AdminTripOffCanvas()
     {
+        _tripCategories = (TripCategory[])Enum.GetValues(typeof(TripCategory));
     }
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
@@ -47,6 +52,15 @@ public partial class AdminTripOffCanvas : ComponentBase
         {
             try
             {
+                foreach (var (item, index) in _tripCategories.Select((value, index) => (value, index)))
+                {
+                    _tripCategory = new() {
+                        Id = index,
+                        Description = _enumHelper.GetDescription(item),
+                    };
+                    _tripCategoryDTOs.Add(_tripCategory);
+                }
+
                 await FetchDataAsync();
 
                 _inputFormControlAttributes = new()
@@ -89,8 +103,10 @@ public partial class AdminTripOffCanvas : ComponentBase
 
     public async Task AddRecordOffCanvasAsync()
     {
-        _tripModel = new();
-        _tripModel.TDate = DateTime.Now;
+        _tripModel = new()
+        {
+            TDate = DateTime.Now
+        };
 
         await _offCanvasService.AddRecordAsync();
         await Task.CompletedTask;
@@ -173,5 +189,32 @@ public partial class AdminTripOffCanvas : ComponentBase
 
         await _offCanvasService.CloseAsync();
         await Task.CompletedTask;
+    }
+
+    private async void OnValueChangedStartOdometer(ChangeEventArgs args)
+    {
+        if (decimal.TryParse(args.Value!.ToString(), out decimal result))
+        {
+            _tripModel.StartOdometer = result;
+            CalculateDifference();
+        }
+
+        await Task.CompletedTask;
+    }
+
+    private async void OnValueChangedEndOdometer(ChangeEventArgs args)
+    {
+        if (decimal.TryParse(args.Value!.ToString(), out decimal result))
+        {
+            _tripModel.EndOdometer = result;
+            CalculateDifference();
+        }
+
+        await Task.CompletedTask;
+    }
+
+    private void CalculateDifference()
+    {
+        _tripModel.Distance = _tripModel.EndOdometer - _tripModel.StartOdometer;
     }
 }
