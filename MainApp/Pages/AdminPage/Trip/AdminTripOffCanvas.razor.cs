@@ -55,7 +55,7 @@ public partial class AdminTripOffCanvas : ComponentBase
                 foreach (var (item, index) in _tripCategories.Select((value, index) => (value, index)))
                 {
                     _tripCategory = new() {
-                        Id = index,
+                        Id = (ulong)index,
                         Description = _enumHelper.GetDescription(item),
                     };
                     _tripCategoryDTOs.Add(_tripCategory);

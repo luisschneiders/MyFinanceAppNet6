@@ -15,7 +15,7 @@ public class TripModel : BaseModel
     public ulong VehicleId { get; set; }
 
     [Required]
-    [Range(0, int.MaxValue, ErrorMessage = "The Category field is required.")]
+    [Range(1, int.MaxValue, ErrorMessage = "The Category field is required.")]
     public ulong TCategoryId { get; set; }
 
     [Required]

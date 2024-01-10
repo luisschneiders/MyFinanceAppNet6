@@ -3,7 +3,7 @@
 public class TripCategoryDTO
 {
     #nullable disable
-    public int Id { get; set; }
+    public ulong Id { get; set; }
     public string Description { get; set; }
     #nullable enable
 }

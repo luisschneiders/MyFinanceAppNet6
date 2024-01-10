@@ -6,11 +6,11 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false">
             <div>
-                @if (IconStart.Length > 0)
+                @if (IconStart is not null && IconStart.Length > 0)
                 {
                     <i class="bi @IconStart text-@IconStartColor.ToString().ToLower()-emphasis pe-1"></i>
                 }
-                @if (DropdownLabel.Length > 0)
+                @if (DropdownLabel is not null && DropdownLabel.Length > 0)
                 {
                     <span class="pe-1">@DropdownLabel</span>
                 }

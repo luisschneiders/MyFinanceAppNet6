@@ -1,4 +1,6 @@
-﻿@using MainApp.Components.Card
+﻿@using MainApp.Components.Badge
+@using MainApp.Components.Badge.Color
+@using MainApp.Components.Card
 @using MainApp.Components.Dropdown.Actions
 @using MainApp.Components.Dropdown.DateRange
 @using MainApp.Components.Spinner
@@ -8,12 +10,40 @@
     <CardMiddle>
         <div class="row justify-content-between pb-2">
             <div class="col-10 col-lg-8 pb-2 d-flex">
-                <DropdownDateRange IconColor="Theme.Info"
-                                   ButtonSize="Size.Sm"
-                                   DateTimeRange="@_dateTimeRange"
-                                   DropdownLabel="@_dropdownLabel"
-                                   PeriodRange="PeriodRange.Month"
-                                   OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
+                <div>
+                    <DropdownDateRange IconColor="Theme.Info"
+                                    ButtonSize="Size.Sm"
+                                    DateTimeRange="@_dateTimeRange"
+                                    DropdownLabel="@_dropdownLabel"
+                                    PeriodRange="PeriodRange.Month"
+                                    OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
+
+                </div>
+                <div class="ps-2 d-none d-lg-flex">
+                    <div class="btn-group bg-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
+                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                                @onclick="() => ApplyFiltersAsync()">
+                            <i class="bi bi-sliders2 pe-1"></i>Filters
+                            @if(IsFilterApplied())
+                            {
+                                <sup class="ps-1">
+                                    <Badge BackgroundColor="@Theme.Info" Message="Applied" />
+                                </sup>
+                            }
+                        </button>
+                            @if (IsFilterApplied())
+                            {
+                                <div class="d-flex align-items-center">
+                                    <div class="vr my-1 text-@(Theme.Light.ToString().ToLower())-emphasis"></div>
+                                    <button class="btn btn-@(Size.Sm.ToString().ToLower())"
+                                            title="Remove"
+                                            @onclick="ResetAllFilters">
+                                        <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
+                                    </button>
+                                </div>
+                            }
+                    </div>
+                </div>
             </div>
             <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
                 <div class="d-none d-lg-block">
@@ -104,19 +134,17 @@
                                                 @record.VehiclePlate - @record.VehicleDescription
                                             </td>
                                             <td class="text-nowrap">
-                                                <DropdownActions Title="@UpdateTripCategoryTitle((ulong)record.TCategoryId)"
+                                                <DropdownActions Title="@UpdateTripCategoryTitle(record.TCategoryId)"
                                                                  ButtonSize="Size.Sm"
                                                                  IconEnd="bi-chevron-down"
-                                                                 ButtonColor="@UpdateTripCategoryButton((ulong)record.TCategoryId)"
+                                                                 ButtonColor="@UpdateTripCategoryButton(record.TCategoryId)"
                                                                  ButtonCssClass="w-100"
                                                                  ButtonInnerStyles="d-flex justify-content-between">
                                                     @foreach (var (status, index) in _tripCategories.Select((value, index) => (value, index)))
                                                     {
-                                                        int statusValue = index;
-
                                                         <li class="px-2">
                                                             <button class="dropdown-item"
-                                                                    @onclick="() => UpdateTripCategoryAsync(record, (ulong)statusValue)">
+                                                                    @onclick="() => UpdateTripCategoryAsync(record, (ulong)index)">
                                                                 @($"{_enumHelper.GetDescription(status)}")
                                                             </button>
                                                         </li>
@@ -180,3 +208,4 @@
 </CardView>
 <AdminTripOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
 <AdminTripModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
+<AdminTripFilterModal @ref="_setupFilterModal" OnSubmitFilterSuccess="filterTrip => RefreshFilterList(filterTrip)" />

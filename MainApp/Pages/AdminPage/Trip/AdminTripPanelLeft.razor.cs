@@ -31,6 +31,10 @@ public partial class AdminTripPanelLeft : ComponentBase
 
     private List<TripListDTO> _trips { get; set; } = new();
 
+    private AdminTripFilterModal _setupFilterModal { get; set; } = new();
+
+    private FilterTripDTO _filterTripDTO { get; set; } = new();
+
     private PayStatus[] _payStatuses { get; set; } = default!;
     private TripCategory[] _tripCategories { get; set; } = default!;
 
@@ -100,6 +104,20 @@ public partial class AdminTripPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
+    private async Task FetchFilterDataAsync()
+    {
+        try
+        {
+            _trips = await _tripService.GetRecordsByFilter(_dateTimeRange, _filterTripDTO);
+            _sumByDateRange = await _tripService.GetSumByDateRange();
+        }
+        catch (Exception ex)
+        {
+            _isLoading = false;
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+    }
+
     private async Task AddRecordAsync()
     {
         await _setupOffCanvas.AddRecordOffCanvasAsync();
@@ -167,6 +185,14 @@ public partial class AdminTripPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
+    private async Task RefreshFilterList(FilterTripDTO filterTripDTO)
+    {
+        _filterTripDTO = filterTripDTO;
+
+        await FetchFilterDataAsync();
+        await Task.CompletedTask;
+    }
+
     private async Task DropdownDateRangeRefresh(DateTimeRange dateTimeRange)
     {
         _dateTimeRange = dateTimeRange;
@@ -181,9 +207,18 @@ public partial class AdminTripPanelLeft : ComponentBase
         var title = _payStatuses[id];
         return title.ToString();
     }
+
     private string UpdateTripCategoryTitle(ulong id)
     {
-        var title = _enumHelper.GetDescription(_tripCategories[id]);
+        string? title;
+        if (id == (int)TripCategory.NotSpecified)
+        {
+            title = Label.NotSpecified;
+        }
+        else
+        {
+            title = _enumHelper.GetDescription(_tripCategories[id]);
+        }
         return title;
     }
 
@@ -205,5 +240,38 @@ public partial class AdminTripPanelLeft : ComponentBase
         }
 
         return Theme.Light;
+    }
+
+    private async Task ApplyFiltersAsync()
+    {
+        try
+        {
+            await _setupFilterModal.OpenModalAsync(IsFilterApplied());
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;
+    }
+
+    private async Task ResetAllFilters()
+    {
+        _filterTripDTO = new();
+
+        await FetchDataAsync();
+        await Task.CompletedTask;
+    }
+
+    private bool IsFilterApplied()
+    {
+        if (_filterTripDTO.VehicleId != 0 || _filterTripDTO.TCategoryId != 0)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

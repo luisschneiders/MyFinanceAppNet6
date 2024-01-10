@@ -8,6 +8,7 @@ BEGIN
 	SELECT
 		t.Id,
         t.TDate,
+        t.VehicleId,
 		v.Description  AS VehicleDescription,
 		v.Plate AS VehiclePlate,
         t.StartOdometer,

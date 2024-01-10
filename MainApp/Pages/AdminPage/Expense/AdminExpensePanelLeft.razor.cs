@@ -31,9 +31,6 @@ public partial class AdminExpensePanelLeft : ComponentBase
     [Inject]
     private ILocalStorageService _localStorageService { get; set; } = default!;
 
-    [Parameter]
-    public Theme ButtonColor { get; set; } = Theme.Light;
-
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
 
@@ -43,6 +40,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     // Add Modal component reference
     private AdminExpenseModal _setupModal { get; set; } = new();
 
+    // Add Modal component reference
     private AdminExpenseFilterModal _setupFilterModal { get; set; } = new();
 
     private DateTimeRange _dateRange { get; set; } = new();

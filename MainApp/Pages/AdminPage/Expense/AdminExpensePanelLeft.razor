@@ -24,7 +24,7 @@
                 }
                 else
                 {
-                    <div class="ps-2 btn-group align-items-center @("rounded"+_appSettings.Button)"
+                    <div class="btn-group align-items-center @("rounded"+_appSettings.Button)"
                          role="group"
                          aria-label="Radio toggle button group"
                          title="Change view">
@@ -55,7 +55,7 @@
                                             OnSubmitSuccess="data => RefreshDropdownDateRange(data)" />
                         </div>
                         <div class="ps-2 d-none d-lg-flex">
-                            <div class="btn-group bg-@(ButtonColor.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
+                            <div class="btn-group bg-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
                                 <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
                                         @onclick="() => ApplyFiltersAsync()">
                                     <i class="bi bi-sliders2 pe-1"></i>Filters
@@ -69,7 +69,7 @@
                                     @if (IsFilterApplied())
                                     {
                                         <div class="d-flex align-items-center">
-                                            <div class="vr my-1 text-@(ButtonColor.ToString().ToLower())-emphasis"></div>
+                                            <div class="vr my-1 text-@(Theme.Light.ToString().ToLower())-emphasis"></div>
                                             <button class="btn btn-@(Size.Sm.ToString().ToLower())"
                                                     title="Remove"
                                                     @onclick="ResetAllFilters">
@@ -79,7 +79,6 @@
                                     }
                             </div>
                         </div>
-
                     }
 
                 }

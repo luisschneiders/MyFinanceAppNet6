@@ -92,9 +92,13 @@
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
                                      @bind-Value="_tripModel.TCategoryId">
+                            <option value="0">-- Select Category --</option>
                             @foreach (var (category, index) in _tripCategoryDTOs.Select((value, index) => (value, index)))
+                            {
+                                if (index > 0)
                                 {
-                                <option value="@category.Id">@($"{category.Description}")</option>
+                                    <option value="@category.Id">@($"{category.Description}")</option>
+                                }
                             }
                         </InputSelect>
                         <label for="TCategoryId">Category</label>

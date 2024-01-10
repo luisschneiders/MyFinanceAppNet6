@@ -17,6 +17,7 @@ public class TripService : ITripService<TripModel>
     private UserModel _loggedInUser { get; set; } = new();
 
     private List<TripListDTO> _recordsByDateRange { get; set; } = new();
+    private decimal _tripDistanceByDateRangeSum { get; set; } = 0;
 
     public TripService(
         ITripData<TripModel> tripData,
@@ -100,8 +101,51 @@ public class TripService : ITripService<TripModel>
         try
         {
             var user = await GetLoggedInUser();
+
             _recordsByDateRange = await _tripData.GetRecordsByDateRange(user.Id, dateTimeRange);
+            _tripDistanceByDateRangeSum = _recordsByDateRange.Sum(t => t.Distance);
+
             return _recordsByDateRange;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<List<TripListDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, FilterTripDTO filterTripDTO)
+    {
+        try
+        {
+            if (filterTripDTO.VehicleId > 0 || filterTripDTO.TCategoryId > 0)
+            {
+                List<TripListDTO> recordsFiltered = new();
+
+                if (filterTripDTO.VehicleId > 0 && filterTripDTO.TCategoryId == 0) // Filter by Vehicle only
+                {
+                    recordsFiltered = _recordsByDateRange.Where(t => t.VehicleId == filterTripDTO.VehicleId).ToList();
+                }
+                else if (filterTripDTO.VehicleId == 0 && filterTripDTO.TCategoryId > 0) // Filter by Trip only
+                {
+                    recordsFiltered = _recordsByDateRange.Where(t => t.TCategoryId == filterTripDTO.TCategoryId).ToList();
+                }
+                else // Filter by Vehicle and Trip Category
+                {
+                    recordsFiltered = _recordsByDateRange.Where(t => t.VehicleId == filterTripDTO.VehicleId && 
+                                                         t.TCategoryId == filterTripDTO.TCategoryId).ToList();
+                }
+
+                _tripDistanceByDateRangeSum = recordsFiltered.Sum(t => t.Distance);
+
+                return await Task.FromResult(recordsFiltered);
+            }
+            else
+            {
+                _tripDistanceByDateRangeSum = _recordsByDateRange.Sum(t => t.Distance);
+
+                return await Task.FromResult(_recordsByDateRange);
+            }
         }
         catch (Exception ex)
         {
@@ -112,8 +156,15 @@ public class TripService : ITripService<TripModel>
 
     public async Task<decimal> GetSumByDateRange()
     {
-        var sum = _recordsByDateRange.Sum(r => r.Distance);
-        return await Task.FromResult(sum);
+        try
+        {
+            return await Task.FromResult(_tripDistanceByDateRangeSum);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public Task<List<TripModel>> GetSearchResults(string search)
