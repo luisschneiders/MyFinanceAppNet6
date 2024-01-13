@@ -12,5 +12,5 @@ public class TransactionCategoryModel : BaseModel
 
     [Required]
     public string ActionType { get; set; }
-#nullable enable    
+#nullable enable
 }

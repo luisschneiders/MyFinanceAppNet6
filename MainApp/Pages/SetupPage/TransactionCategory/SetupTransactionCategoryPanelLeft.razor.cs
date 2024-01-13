@@ -16,6 +16,9 @@ public partial class SetupTransactionCategoryPanelLeft : ComponentBase
     [Inject]
     private SpinnerService _spinnerService { get; set; } = new();
 
+    [Inject]
+    private IEnumHelper _enumHelper { get; set; } = default!;
+
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
 
