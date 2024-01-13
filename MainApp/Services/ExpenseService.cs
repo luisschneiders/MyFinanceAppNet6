@@ -9,7 +9,6 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     [Inject]
     private IExpenseData<ExpenseModel> _expenseData { get; set; } = default!;
 
-
     [Inject]
     private ILocationExpenseService<LocationExpenseModel> _locationExpenseService { get; set; } = default!;
 

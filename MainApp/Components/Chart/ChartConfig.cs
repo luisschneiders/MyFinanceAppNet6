@@ -1,6 +1,4 @@
-﻿using MainApp.Settings.Enum;
-
-namespace MainApp.Components.Chart;
+﻿namespace MainApp.Components.Chart;
 
 public class ChartConfig
 {

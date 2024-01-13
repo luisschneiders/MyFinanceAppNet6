@@ -79,6 +79,59 @@
                         <label for="VehicleId">Vehicle</label>
                     }
                 </div>
+                <div class="form-floating pb-2">
+                    @if (_isLoading)
+                    {
+                        <span>Loading...</span>
+                    }
+                    else
+                    {
+                        <InputSelect id="TCategoryId"
+                                     @attributes="_inputFormSelectAttributes"
+                                     disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                               _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                               _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
+                                     @bind-Value="_tripModel.TCategoryId">
+                            <option value="0">-- Select Category --</option>
+                            @foreach (var (category, index) in _tripCategoryDTOs.Select((value, index) => (value, index)))
+                            {
+                                if (index > 0)
+                                {
+                                    <option value="@category.Id">@($"{category.Description}")</option>
+                                }
+                            }
+                        </InputSelect>
+                        <label for="TCategoryId">Category</label>
+                    }
+                </div>
+                <div class="form-floating pb-2">
+                    <InputNumber id="StartOdometer"
+                                 @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? _inputFormControlAttributesPlainText : _inputFormControlAttributes)"
+                                 min="0"
+                                 placeholder="Start Odometer"
+                                 readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
+                                 @bind-Value="_tripModel.StartOdometer"
+                                 @oninput="OnValueChangedStartOdometer" />
+                    <label for="StartOdometer">Start Odometer</label>
+                </div>
+                <div class="form-floating pb-2">
+                    <InputNumber id="EndOdometer"
+                                 @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? _inputFormControlAttributesPlainText : _inputFormControlAttributes)"
+                                 min="0"
+                                 placeholder="End Odometer"
+                                 readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
+                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
+                                 @bind-Value="_tripModel.EndOdometer"
+                                 @oninput="OnValueChangedEndOdometer" />
+                    <label for="EndOdometer">End Odometer</label>
+                </div>
                 <div class="form-floating">
                     <InputNumber id="Distance"
                                  @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||

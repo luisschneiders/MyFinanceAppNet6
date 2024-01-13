@@ -102,7 +102,7 @@ public partial class AdminExpenseFilterModal : ComponentBase
         }
 
         await Task.CompletedTask;
-}
+    }
 
     private async Task CloseModalAsync()
     {

@@ -7,7 +7,11 @@ BEGIN
 	SELECT
 		Id,
         TDate,
+        StartOdometer,
+        EndOdometer,
 		Distance,
+        PayStatus,
+        TCategoryId,
         IsActive
 	FROM Trip
 	WHERE UpdatedBy = userId

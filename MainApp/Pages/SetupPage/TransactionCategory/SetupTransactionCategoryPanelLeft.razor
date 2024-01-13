@@ -84,7 +84,7 @@
                                             }
                                         </td>
                                         <td class="text-center">
-                                            @record.ActionType
+                                            @(_enumHelper.GetDescription((TransactionActionType)Enum.Parse(typeof(TransactionActionType), record.ActionType)))
                                         </td>
                                         <td>
                                             <div class="form-check form-switch">
@@ -178,7 +178,7 @@
                                                     }
                                                 </td>
                                                 <td class="text-center">
-                                                    @record.ActionType
+                                                    @(_enumHelper.GetDescription((TransactionActionType)Enum.Parse(typeof(TransactionActionType), record.ActionType)))
                                                 </td>
                                                 <td>
                                                     <div class="form-check form-switch">

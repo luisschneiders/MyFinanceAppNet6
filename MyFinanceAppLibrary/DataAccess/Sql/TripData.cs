@@ -42,7 +42,11 @@ public class TripData : ITripData<TripModel>
                 {
                     tripTDate = model.TDate,
                     tripVehicleId = model.VehicleId,
+                    tripStartOdometer = model.StartOdometer,
+                    tripEndOdometer = model.EndOdometer,
                     tripDistance = model.Distance,
+                    tripPayStatus = model.PayStatus,
+                    tripTCategoryId = model.TCategoryId,
                     tripUpdatedBy = model.UpdatedBy,
                     tripCreatedAt = model.CreatedAt,
                     tripUpdatedAt = model.UpdatedAt,
@@ -120,6 +124,50 @@ public class TripData : ITripData<TripModel>
     public Task UpdateRecord(TripModel model)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task UpdateRecordPayStatus(TripModel model)
+    {
+        try
+        {
+            await _dataAccess.SaveData<dynamic>(
+                "myfinancedb.spTrip_UpdatePayStatus",
+                new
+                {
+                    tripId = model.Id,
+                    tripPayStatus = model.PayStatus,
+                    tripUpdatedBy = model.UpdatedBy,
+                    tripUpdatedAt = model.UpdatedAt,
+                },
+                "Mysql");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task UpdateRecordTripCategory(TripModel model)
+    {
+        try
+        {
+            await _dataAccess.SaveData<dynamic>(
+                "myfinancedb.spTrip_UpdateCategory",
+                new
+                {
+                    tripId = model.Id,
+                    tripTCategoryId = model.TCategoryId,
+                    tripUpdatedBy = model.UpdatedBy,
+                    tripUpdatedAt = model.UpdatedAt,
+                },
+                "Mysql");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public Task UpdateRecordStatus(TripModel model)
