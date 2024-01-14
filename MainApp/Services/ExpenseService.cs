@@ -19,6 +19,9 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     private IUserData _userData { get; set; } = default!;
 
     private UserModel _loggedInUser { get; set; } = new();
+
+    private List<ExpenseListDTO> _recordsByDateRange { get; set; } = new();
+
     private decimal _expensesByDateRangeSum { get; set; } = 0;
 
     public ExpenseService(
@@ -105,8 +108,10 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         try
         {
             var user = await GetLoggedInUser();
-            List<ExpenseListDTO> results = await _expenseData.GetRecordsByDateRange(user.Id, dateTimeRange);
-            return results;
+
+            _recordsByDateRange = await _expenseData.GetRecordsByDateRange(user.Id, dateTimeRange);
+
+            return _recordsByDateRange;
         }
         catch (Exception ex)
         {
@@ -119,23 +124,21 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     {
         try
         {
-            var records = await GetRecordsByDateRange(dateTimeRange);
-
             if (filterExpenseDTO.BankId > 0 || filterExpenseDTO.ECategoryId > 0)
             {
                 List<ExpenseListDTO> recordsFiltered = new();
 
                 if (filterExpenseDTO.BankId > 0 && filterExpenseDTO.ECategoryId == 0) // Filter by Bank only
                 {
-                    recordsFiltered = records.Where(e => e.BankId == filterExpenseDTO.BankId).ToList();
+                    recordsFiltered = _recordsByDateRange.Where(e => e.BankId == filterExpenseDTO.BankId).ToList();
                 }
                 else if (filterExpenseDTO.BankId == 0 && filterExpenseDTO.ECategoryId > 0) // Filter by Expense only
                 {
-                    recordsFiltered = records.Where(e => e.ECategoryId == filterExpenseDTO.ECategoryId).ToList();
+                    recordsFiltered = _recordsByDateRange.Where(e => e.ECategoryId == filterExpenseDTO.ECategoryId).ToList();
                 }
                 else // Filter by Bank and Expense
                 {
-                    recordsFiltered = records.Where(e => e.BankId == filterExpenseDTO.BankId && 
+                    recordsFiltered = _recordsByDateRange.Where(e => e.BankId == filterExpenseDTO.BankId && 
                                                          e.ECategoryId == filterExpenseDTO.ECategoryId).ToList();
                 }
 
@@ -143,15 +146,15 @@ public class ExpenseService : IExpenseService<ExpenseModel>
 
                 _expensesByDateRangeSum = recordsFiltered.Sum(t => t.Amount);
 
-                return results;
+                return await Task.FromResult(results);
             }
             else
             {
-                var results = SetRecordsByGroup(records);
+                var results = SetRecordsByGroup(_recordsByDateRange);
 
-                _expensesByDateRangeSum = records.Sum(t => t.Amount);
+                _expensesByDateRangeSum = _recordsByDateRange.Sum(t => t.Amount);
 
-                return results;
+                return await Task.FromResult(results);
             }
         }
         catch (Exception ex)

@@ -198,6 +198,7 @@ public partial class AdminTripPanelLeft : ComponentBase
         _dateTimeRange = dateTimeRange;
         _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
         _toastService.ShowToast("Date range has changed!", Theme.Info);
+
         await RefreshList();
         await Task.CompletedTask;
     }
@@ -260,7 +261,7 @@ public partial class AdminTripPanelLeft : ComponentBase
     {
         _filterTripDTO = new();
 
-        await FetchDataAsync();
+        await FetchFilterDataAsync();
         await Task.CompletedTask;
     }
 
