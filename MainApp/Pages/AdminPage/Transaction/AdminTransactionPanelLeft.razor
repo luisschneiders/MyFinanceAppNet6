@@ -1,4 +1,5 @@
-﻿@using MainApp.Components.Card
+﻿@using MainApp.Components.Badge.Color
+@using MainApp.Components.Card
 @using MainApp.Components.Dropdown.Actions
 @using MainApp.Components.Dropdown.DateRange
 @using MainApp.Components.Dropdown.Filter
@@ -135,7 +136,21 @@
                                                                         @record.TDate.ToString("dd/MM/yy")
                                                                     </td>
                                                                     <td class="text-center">
-                                                                        @record.Label
+                                                                        @switch (record.Label)
+                                                                        {
+                                                                            case "C":
+                                                                                <BadgeColor RGBColor="@TransactionTypeColor.Credit"
+                                                                                            Description="@(_enumHelper.GetDescription((TransactionActionType)Enum.Parse(typeof(TransactionActionType), record.Label)))" />
+                                                                                break;
+                                                                            case "D":
+                                                                                <BadgeColor RGBColor="@TransactionTypeColor.Debit"
+                                                                                            Description="@(_enumHelper.GetDescription((TransactionActionType)Enum.Parse(typeof(TransactionActionType), record.Label)))" />
+                                                                                break;
+                                                                            case "T":
+                                                                                <BadgeColor RGBColor="@TransactionTypeColor.Transfer"
+                                                                                            Description="@(_enumHelper.GetDescription((TransactionActionType)Enum.Parse(typeof(TransactionActionType), record.Label)))" />
+                                                                                break;
+                                                                        }
                                                                     </td>
                                                                     <td>
                                                                         @record.BankDescription

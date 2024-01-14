@@ -21,11 +21,15 @@ public partial class AdminTransactionPanelLeft : ComponentBase
 
     [Inject]
     private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
+
     [Inject]
     private IDropdownFilterService _dropdownFilterService { get; set; } = default!;
+
     [Inject]
     private ITransactionCategoryService<TransactionCategoryModel> _transactionCategoryService { get; set; } = default!;
 
+    [Inject]
+    private IEnumHelper _enumHelper { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
