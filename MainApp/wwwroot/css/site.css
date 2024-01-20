@@ -278,7 +278,8 @@ h1:focus {
 }
 
 .main {
-    padding-top: 58px;
+    padding-top: 62px;
+    /* padding-top: 58px; */
 }
 
 .validation-message {
