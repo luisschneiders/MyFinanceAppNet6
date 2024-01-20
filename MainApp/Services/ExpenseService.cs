@@ -342,13 +342,13 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     }
     private static List<ExpenseByCategoryGroupDTO> SetRecordsByGroup(List<ExpenseListDTO> records)
     {
-        var resultsByGroup = records.GroupBy(tc => tc.ExpenseCategoryDescription);
-        var results = resultsByGroup.Select(tcGroup => new ExpenseByCategoryGroupDTO()
+        var resultsByGroup = records.GroupBy(ec => ec.ExpenseCategoryDescription);
+        var results = resultsByGroup.Select(ecGroup => new ExpenseByCategoryGroupDTO()
         {
-            Description = tcGroup.Key,
-            Color = tcGroup.Select(c => c.ExpenseCategoryColor).FirstOrDefault(),
-            Total = tcGroup.Sum(a => a.Amount),
-            Expenses = tcGroup.ToList()
+            Description = ecGroup.Key,
+            Color = ecGroup.Select(c => c.ExpenseCategoryColor).FirstOrDefault(),
+            Total = ecGroup.Sum(a => a.Amount),
+            Expenses = ecGroup.ToList()
         }).ToList();
 
         return results;

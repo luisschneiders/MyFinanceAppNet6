@@ -28,16 +28,11 @@ public partial class AdminTripPanelLeft : ComponentBase
     protected AppSettings _appSettings { get; set; } = new();
 
     private DateTimeRange _dateTimeRange { get; set; } = new();
-
-    private List<TripListDTO> _trips { get; set; } = new();
-
+    private List<TripByVehicleGroupDTO> _tripsByGroup { get; set; } = new();
     private AdminTripFilterModal _setupFilterModal { get; set; } = new();
-
     private FilterTripDTO _filterTripDTO { get; set; } = new();
-
     private PayStatus[] _payStatuses { get; set; } = default!;
     private TripCategory[] _tripCategories { get; set; } = default!;
-
     private decimal _sumByDateRange { get; set; }
 
     /*
@@ -91,7 +86,7 @@ public partial class AdminTripPanelLeft : ComponentBase
     {
         try
         {
-            _trips = await _tripService.GetRecordsByDateRange(_dateTimeRange);
+            _tripsByGroup = await _tripService.GetRecordsByGroupAndDateRange(_dateTimeRange);
             _sumByDateRange = await _tripService.GetSumByDateRange();
             _isLoading = false;
         }
@@ -108,7 +103,7 @@ public partial class AdminTripPanelLeft : ComponentBase
     {
         try
         {
-            _trips = await _tripService.GetRecordsByFilter(_dateTimeRange, _filterTripDTO);
+            _tripsByGroup = await _tripService.GetRecordsByFilter(_dateTimeRange, _filterTripDTO);
             _sumByDateRange = await _tripService.GetSumByDateRange();
         }
         catch (Exception ex)

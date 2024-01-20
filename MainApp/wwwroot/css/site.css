@@ -56,6 +56,10 @@ h1:focus {
     margin-right: 24px;
 }
 
+.accordion .me-trips-sum {
+    margin-right: 22px;
+}
+
 .app-outline-none {
     outline: none;
 }
