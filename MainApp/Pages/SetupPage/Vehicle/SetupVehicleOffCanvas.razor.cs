@@ -33,8 +33,11 @@ public partial class SetupVehicleOffCanvas : ComponentBase
 
     private VehicleModel _vehicleModel { get; set; } = new();
 
+    private DateTime _currentYear { get; }
+
     public SetupVehicleOffCanvas()
     {
+        _currentYear = DateTime.Now;
     }
 
     protected async override Task OnAfterRenderAsync(bool firstRender)

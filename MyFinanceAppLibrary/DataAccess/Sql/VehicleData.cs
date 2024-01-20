@@ -41,6 +41,8 @@ public class VehicleData : IVehicleData<VehicleModel>
                 {
                     vehicleDescription = model.Description,
                     vehiclePlate = model.Plate,
+                    vehicleYear = model.Year,
+                    vehicleCarmaker = model.Carmaker,
                     vehicleUpdatedBy = model.UpdatedBy,
                     vehicleCreatedAt = model.CreatedAt,
                     vehicleUpdatedAt = model.UpdatedAt,
@@ -147,6 +149,8 @@ public class VehicleData : IVehicleData<VehicleModel>
                     vehicleId = model.Id,
                     vehicleDescription = model.Description,
                     vehiclePlate = model.Plate,
+                    vehicleYear = model.Year,
+                    vehicleCarmaker = model.Carmaker,
                     vehicleIsActive = model.IsActive,
                     vehicleUpdatedBy = model.UpdatedBy,
                     vehicleUpdatedAt = model.UpdatedAt,

@@ -10,6 +10,7 @@ BEGIN
         t.TDate,
         t.VehicleId,
 		v.Description  AS VehicleDescription,
+        v.Year AS VehicleYear,
 		v.Plate AS VehiclePlate,
         t.StartOdometer,
         t.EndOdometer,

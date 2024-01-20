@@ -92,7 +92,6 @@
                                 <th class="col-1 text-nowrap" colspan="2">
                                     Pay Status
                                 </th>
-                                @* <th></th> *@
                             </tr>
                         </thead>
                         <tbody>
@@ -131,7 +130,7 @@
                                                 @record.TDate.ToString("dd/MM/yy")
                                             </td>
                                             <td class="text-nowrap">
-                                                @record.VehiclePlate - @record.VehicleDescription
+                                                @record.VehicleDescription - @record.VehiclePlate (@record.VehicleYear)
                                             </td>
                                             <td class="text-nowrap">
                                                 <DropdownActions Title="@UpdateTripCategoryTitle(record.TCategoryId)"
