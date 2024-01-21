@@ -7,18 +7,14 @@
         <AuthorizeView>
             <Authorized>
                 <a class="navbar-brand d-flex align-items-center" href="@EndPoint.Dashboard">
-                    <div>
-                        <img src="@Images.Logo" alt="logo" width="28" height="28" class="rounded zoom">
-                    </div>
-                    <span class="px-1 navbar-brand-title">@Label.AppTitle</span>
+                    <img src="@Images.Logo" alt="logo" width="28" height="28" class="rounded zoom">
+                    <span class="px-1 navbar-brand-title text-info-emphasis">@Label.AppTitle</span>
                 </a>
             </Authorized>
             <NotAuthorized>
                 <a class="navbar-brand d-flex align-items-center" href="@EndPoint.Home">
-                    <div>
-                        <img src="@Images.Logo" alt="logo" width="28" height="28" class="rounded zoom">
-                    </div>
-                    <span class="px-1 navbar-brand-title">@Label.AppTitle</span>
+                    <img src="@Images.Logo" alt="logo" width="28" height="28" class="rounded zoom">
+                    <span class="px-1 navbar-brand-title text-info-emphasis">@Label.AppTitle</span>
                 </a>
             </NotAuthorized>
         </AuthorizeView>
