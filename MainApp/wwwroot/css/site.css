@@ -32,12 +32,6 @@ h1:focus {
     vertical-align: middle;
 }
 
-.rotate-135 {
-    -ms-transform: rotate(135deg); /* IE 9 */
-    -webkit-transform: rotate(135deg); /* Safari 3-8 */
-    transform: rotate(135deg);
-}
-
 .zoom {
     transition: transform 0.2s;
 }
