@@ -16,11 +16,15 @@ public partial class ChartBankAccountActive : ComponentBase
     [Inject]
     private SpinnerService _spinnerService { get; set; } = new();
 
+    [Parameter]
+    public ChartType ChartType { get; set; } = ChartType.polarArea;
+
     private ChartConfigData _chartConfigData { get; set; } = new();
 
     private bool _isLoading { get; set; } = true;
 
     private IJSObjectReference _chartObjectReference = default!;
+    private string _chartIcon { get; set; } = string.Empty;
 
     public ChartBankAccountActive()
     {
@@ -33,6 +37,20 @@ public partial class ChartBankAccountActive : ComponentBase
             try
             {
                 _spinnerService.ShowSpinner();
+
+                if (ChartType == ChartType.bar)
+                {
+                    _chartIcon = "bi-bar-chart-line";
+                }
+                else if (ChartType == ChartType.line)
+                {
+                    _chartIcon = "bi bi-graph-up";
+                }
+                else
+                {
+                    _chartIcon = "bi bi-pie-chart";
+                }
+
                 await SetChartConfigDataAsync();
             }
             catch (Exception ex)
@@ -46,9 +64,11 @@ public partial class ChartBankAccountActive : ComponentBase
 
     private async Task SetChartConfigDataAsync()
     {
-        _isLoading = false;
         _chartConfigData = await _chartBankService.ConfigDataAccountActive();
-        StateHasChanged();
+        _isLoading = false;
+
+        await InvokeAsync(StateHasChanged);
+
         await Task.CompletedTask;
     }
 
