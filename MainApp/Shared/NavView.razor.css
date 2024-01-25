@@ -8,10 +8,6 @@
     box-shadow: 0 0 0 0.05rem;
 }
 
-.navbar-brand-title {
-    display: none;
-}
-
 @media (min-width: 992px) {
     .navbar-toggler, .nav-item-logout {
         display: none;
@@ -19,7 +15,5 @@
 }
 
 @media (min-width: 1200px) {
-    .navbar-brand-title {
-        display: block;
-    }
+
 }
