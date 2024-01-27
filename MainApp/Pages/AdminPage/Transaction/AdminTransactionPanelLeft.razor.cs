@@ -1,6 +1,5 @@
 ﻿using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
-using MainApp.Pages.AdminPage.Timesheet;
 using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Pages.AdminPage.Transaction;
@@ -23,12 +22,6 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
 
     [Inject]
-    private IDropdownFilterService _dropdownFilterService { get; set; } = default!;
-
-    [Inject]
-    private ITransactionCategoryService<TransactionCategoryModel> _transactionCategoryService { get; set; } = default!;
-
-    [Inject]
     private IEnumHelper _enumHelper { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
@@ -43,16 +36,19 @@ public partial class AdminTransactionPanelLeft : ComponentBase
      * Add Modal component reference
      */
     private AdminTransactionModal _setupModal { get; set; } = new();
+
+    /*
+     * Add Filter Modal component reference
+     */
+    private AdminTransactionFilterModal _setupFilterModal { get; set; } = new();
+    
     private AdminTransactionModalInfo _setupModalInfo { get; set; } = new();
 
     private DateTimeRange _dateTimeRange { get; set; } = new();
 
     private List<TransactionByCategoryGroupDTO> _transactionsByGroup { get; set; } = new();
-    private List<TransactionCategoryModel> _transactionCategories { get; set; } = new();
-    private TransactionCategoryModel _filterTransactionCategory { get; set; } = new();
-    private FilterModel _filterModel { get; set; } = new();
+    private FilterTransactionDTO _filterTransactionDTO { get; set; } = new();
     private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
-    private string _dropdownFilterLabel { get; set; } = Label.NoFilterAssigned;
     private bool _isLoading { get; set; } = true;
 
     public AdminTransactionPanelLeft()
@@ -62,7 +58,6 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     protected async override Task OnInitializedAsync()
     {
         _dateTimeRange = _dateTimeService.GetCurrentMonth();
-        _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(Label.FilterByTransactionCategory);
         _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
         await Task.CompletedTask;
     }
@@ -82,7 +77,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
                 _toastService.ShowToast(ex.Message, Theme.Danger);
             }
 
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
         }
 
         await Task.CompletedTask;
@@ -92,8 +87,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     {
         try
         {
-            _transactionCategories = await _transactionCategoryService.GetRecords();
-            _transactionsByGroup = await _transactionService.GetRecordsByFilter(_dateTimeRange, _filterTransactionCategory);
+            _transactionsByGroup = await _transactionService.GetRecordsByGroupAndDateRange(_dateTimeRange);
             _isLoading = false;
         }
         catch (Exception ex)
@@ -103,6 +97,18 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         }
 
         await Task.CompletedTask;
+    }
+
+    private async Task FetchFilterDataAsync()
+    {
+        try
+        {
+            _transactionsByGroup = await _transactionService.GetRecordsByFilter(_dateTimeRange, _filterTransactionDTO);
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
     }
 
     private async Task AddRecordAsync()
@@ -136,6 +142,15 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
+    private async Task RefreshFilterList(FilterTransactionDTO filterTransactionDTO)
+    {
+        _filterTransactionDTO = filterTransactionDTO;
+
+        await FetchFilterDataAsync();
+        await Task.CompletedTask;
+    }
+
+
     private async Task DropdownDateRangeRefresh(DateTimeRange dateTimeRange)
     {
         _dateTimeRange = dateTimeRange;
@@ -145,27 +160,35 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task DropdownFilterReset()
+    private async Task ResetAllFilters()
     {
-        _filterTransactionCategory = new();
-        _filterModel = await _dropdownFilterService.ResetModel();
-        _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(Label.FilterByTransactionCategory);
-        _toastService.ShowToast("Filter removed!", Theme.Info);
-        await RefreshList();
+        _filterTransactionDTO = new();
+
+        await FetchFilterDataAsync();
         await Task.CompletedTask;
     }
 
-    private async Task DropdownFilterRefreshExpenseCategory(ulong id)
+    private bool IsFilterApplied()
     {
-        _filterTransactionCategory = _transactionCategories.First(i => i.Id == id);
-        string? expenseName = _filterTransactionCategory.Description.Truncate((int)Truncate.TransactionCategory);
+        if (_filterTransactionDTO.FromBank != 0 || _filterTransactionDTO.TCategoryId != 0)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
-        _filterModel = await _dropdownFilterService.SetModel(_filterTransactionCategory.Id, _filterTransactionCategory.Description);
-
-        _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(expenseName!);
-        _toastService.ShowToast("Filter updated!", Theme.Info);
-
-        await RefreshList();
+    private async Task ApplyFiltersAsync()
+    {
+        try
+        {
+            await _setupFilterModal.OpenModalAsync(IsFilterApplied());
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
 
         await Task.CompletedTask;
     }

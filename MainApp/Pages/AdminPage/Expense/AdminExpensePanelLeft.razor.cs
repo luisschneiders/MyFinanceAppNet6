@@ -40,7 +40,9 @@ public partial class AdminExpensePanelLeft : ComponentBase
     // Add Modal component reference
     private AdminExpenseModal _setupModal { get; set; } = new();
 
-    // Add Modal component reference
+    /*
+     * Add Filter Modal component reference
+     */
     private AdminExpenseFilterModal _setupFilterModal { get; set; } = new();
 
     private DateTimeRange _dateRange { get; set; } = new();

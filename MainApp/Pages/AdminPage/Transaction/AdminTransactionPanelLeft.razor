@@ -1,4 +1,5 @@
-﻿@using MainApp.Components.Badge.Color
+﻿@using MainApp.Components.Badge
+@using MainApp.Components.Badge.Color
 @using MainApp.Components.Card
 @using MainApp.Components.Dropdown.Actions
 @using MainApp.Components.Dropdown.DateRange
@@ -17,25 +18,29 @@
                                    PeriodRange="PeriodRange.Month"
                                    OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
                 <div class="ps-2 d-none d-lg-flex">
-                    <DropdownFilter ButtonSize="Size.Sm"
-                                    DropdownLabel="@_dropdownFilterLabel"
-                                    DropdownPosition="Position.Start"
-                                    IconStartColor="Theme.Info"
-                                    IconEnd="bi-chevron-down"
-                                    IconStart="bi-currency-exchange"
-                                    Model="@_filterModel"
-                                    OnSubmitSuccess="DropdownFilterReset">
-                        @foreach (var (transactionCategory, index) in _transactionCategories.Select((value, index) => (value, index)))
-                        {
-                            <li class="px-2">
-                                <button class="dropdown-item rounded"
-                                        title="@transactionCategory.Description"
-                                        @onclick="() => DropdownFilterRefreshExpenseCategory(transactionCategory.Id)">
-                                    @($"{transactionCategory.Description.Truncate((int)Truncate.TransactionCategory)}")
-                                </button>
-                            </li>
-                        }
-                    </DropdownFilter>
+                    <div class="btn-group bg-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
+                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                                @onclick="() => ApplyFiltersAsync()">
+                            <i class="bi bi-sliders2 pe-1"></i>Filters
+                            @if(IsFilterApplied())
+                            {
+                                <sup class="ps-1">
+                                    <Badge BackgroundColor="@Theme.Info" Message="Applied" />
+                                </sup>
+                            }
+                        </button>
+                            @if (IsFilterApplied())
+                            {
+                                <div class="d-flex align-items-center">
+                                    <div class="vr my-1 text-@(Theme.Light.ToString().ToLower())-emphasis"></div>
+                                    <button class="btn btn-@(Size.Sm.ToString().ToLower())"
+                                            title="Remove"
+                                            @onclick="ResetAllFilters">
+                                        <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
+                                    </button>
+                                </div>
+                            }
+                    </div>
                 </div>
             </div>
             <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
@@ -204,3 +209,4 @@
 <AdminTransactionOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
 <AdminTransactionModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
 <AdminTransactionModalInfo @ref="_setupModalInfo" />
+<AdminTransactionFilterModal @ref="_setupFilterModal" OnSubmitFilterSuccess="filterTransaction => RefreshFilterList(filterTransaction)" />

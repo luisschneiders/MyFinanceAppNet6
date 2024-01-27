@@ -1,0 +1,74 @@
+﻿@using MainApp.Components.Modal
+@using MainApp.Components.Dropdown.Filter
+
+<Modal @ref="_modal"
+       Size="Size.Lg"
+       ModalBodyStyle="vh-100">
+    <Title>
+        <span class="text-secondary">
+            Apply filters
+        </span>
+    </Title>
+    <Body>
+        <div class="row"> 
+            <div class="col-auto">
+                <div class="ps-2">
+                    <DropdownFilter ButtonSize="Size.Md"
+                                    DropdownLabel="@_dropdownFilterLabelTransaction"
+                                    DropdownPosition="Position.Start"
+                                    IconStartColor="Theme.Info"
+                                    IconEnd="bi-chevron-down"
+                                    IconStart="bi-cart4"
+                                    Model="@_filterTransactionCategoryModel"
+                                    OnSubmitSuccess="ResetDropdownFilterTransactionCategory">
+                        @foreach (var (category, index) in _transactionCategories.Select((value, index) => (value, index)))
+                        {
+                            <li class="px-2">
+                                <button class="dropdown-item rounded"
+                                        title="@category.Description"
+                                        @onclick="() => RefreshDropdownFilterTransactionCategory(category.Id)">
+                                    @($"{category.Description.Truncate((int)Truncate.TransactionCategory)}")
+                                </button>
+                            </li>
+                        }
+                    </DropdownFilter>
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="ps-2">
+                    <DropdownFilter ButtonSize="Size.Md"
+                                    DropdownLabel="@_dropdownFilterLabelBank"
+                                    DropdownPosition="Position.Start"
+                                    IconStartColor="Theme.Info"
+                                    IconEnd="bi-chevron-down"
+                                    IconStart="bi-bank"
+                                    Model="@_filterBankModel"
+                                    OnSubmitSuccess="ResetDropdownFilterBank">
+                        @foreach (var (bank, index) in _banks.Select((value, index) => (value, index)))
+                        {
+                            <li class="px-2">
+                                <button class="dropdown-item rounded"
+                                        title="@bank.Description"
+                                        @onclick="() => RefreshDropdownFilterBank(bank.Id)">
+                                    @($"{bank.Description}")
+                                </button>
+                            </li>
+                        }
+                    </DropdownFilter>
+                </div>
+            </div>
+        </div> 
+    </Body>
+    <Footer>
+        <div class="row">
+            <div class="col-auto">
+                <button type="button"
+                        class="btn btn-outline-secondary @("rounded"+_appSettings.Button)"
+                        data-dismiss="modal"
+                        @onclick="() => CloseModalAsync()">
+                    Close
+                </button>
+            </div>
+        </div>
+    </Footer>
+</Modal>

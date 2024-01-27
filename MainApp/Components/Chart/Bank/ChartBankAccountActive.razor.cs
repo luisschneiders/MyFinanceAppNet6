@@ -38,6 +38,7 @@ public partial class ChartBankAccountActive : ComponentBase
             {
                 _spinnerService.ShowSpinner();
 
+// TODO: Create a service/helper for dinamic icons based on ChartType
                 if (ChartType == ChartType.bar)
                 {
                     _chartIcon = "bi-bar-chart-line";
