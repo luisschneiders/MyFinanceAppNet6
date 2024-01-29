@@ -2,9 +2,9 @@
 using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 
-namespace MainApp.Pages.AdminPage.Transaction;
+namespace MainApp.Pages.AdminPage.Expense;
 
-public partial class AdminTransactionChartModal : ComponentBase
+public partial class AdminExpenseChartModal : ComponentBase
 {
     [Inject]
     private ToastService _toastService { get; set; } = default!;
@@ -15,7 +15,7 @@ public partial class AdminTransactionChartModal : ComponentBase
     private Modal _modal { get; set; } = new();
     private Guid _modalTarget { get; set; }
 
-    public AdminTransactionChartModal()
+    public AdminExpenseChartModal()
     {
     }
 
