@@ -8,7 +8,7 @@
             Title="Random numbers"
             Icon="bi bi-shuffle"
             IconColor="Theme.Info" />
-        <p class="text-center fw-light py-3 fs-5">
+        <p class="text-center text-wrap py-3">
             Generate random numbers from a giving range set of numbers.
         </p>
         <div class="row">
@@ -18,7 +18,7 @@
                         <div class="form-floating">
                             <input type="number" 
                                 id="StartRange"
-                                class="form-control form-control-@(Size.Lg.ToString().ToLower()) @("rounded"+_appSettings.Button)"
+                                class="form-control @("rounded"+_appSettings.Button)"
                                 min="1"
                                 placeholder="Min"
                                 @bind-value="_randonNumberMin" />
@@ -30,7 +30,7 @@
                         <div class="form-floating">
                             <input type="number"
                                 id="EndRange"
-                                class="form-control form-control-@(Size.Lg.ToString().ToLower()) @("rounded"+_appSettings.Button)"
+                                class="form-control @("rounded"+_appSettings.Button)"
                                 min="1"
                                 placeholder="Max"
                                 @bind-value="_randonNumberMax" />
@@ -38,9 +38,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="row d-flex align-items-center pb-5">
-                    <div class="col-12">
-                        <button class="btn btn-@(Size.Lg.ToString().ToLower()) bg-primary-subtle text-primary-emphasis w-100 @("rounded"+_appSettings.Button)"
+                <div class="row pb-5">
+                    <div class="col-12 d-flex justify-content-end">
+                        <button class="btn btn-primary w-50 @("rounded"+_appSettings.Button)"
                                 type="button"
                                 disabled="@(_isProcessing ? true : false)"
                                 @onclick="GenerateAsync">
@@ -56,7 +56,7 @@
             <div class="col-sm-12 col-lg-5">
                 <div class="row d-flex align-items-center pb-3">
                     <div class="col-12">
-                        <p class="fw-light pb-3 fs-5">Results:</p>
+                        <p class="pb-3">Results:</p>
                         @foreach (var (item, index) in _randomNumbers.Select((value, index) => (value, index)))
                         {
                             <span class="btn btn-@(Size.Md.ToString().ToLower()) bg-success-subtle text-success-emphasis me-1 mb-2 @("rounded"+_appSettings.Button)">
@@ -65,6 +65,17 @@
                                     <Badge BackgroundColor="Theme.Warning" Message="@((index + 1).ToString())" />
                                 </sup>
                             </span>
+                        }
+                        @if(_randomNumbers.Count > 0)
+                        {
+                            <hr />
+                            <div class="d-flex justify-content-end py-2">
+                                <button class="btn btn-danger w-50 @("rounded"+_appSettings.Button)"
+                                    type="button"
+                                    @onclick="ClearAsync">
+                                    Clear
+                                </button>
+                            </div>
                         }
                     </div>
                 </div>

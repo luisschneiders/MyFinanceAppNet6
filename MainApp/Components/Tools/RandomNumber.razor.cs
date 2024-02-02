@@ -22,13 +22,19 @@ public partial class RandomNumber : ComponentBase
 
         Random random = new Random();
 
-        await Task.Delay(500);
+        await Task.Delay(150);
 
         int randomNumberResult = random.Next(_randonNumberMin, _randonNumberMax + 1);
         _randomNumbers.Add(randomNumberResult);
 
         _isProcessing = false;
 
+        await Task.CompletedTask;
+    }
+
+    private async Task ClearAsync()
+    {
+        _randomNumbers = new();
         await Task.CompletedTask;
     }
 }
