@@ -18,7 +18,6 @@ public partial class AdminTimesheetPanelRight : ComponentBase, IDisposable
     [Inject]
     private ToastService _toastService { get; set; } = new();
 
-    private TimesheetModel _timesheetModel { get; set; } = new();
     private TimesheetStateContainerDTO _timesheetStateContainerDTO { get; set; } = new();
 
     private bool _isLoading { get; set; } = true;
@@ -29,9 +28,6 @@ public partial class AdminTimesheetPanelRight : ComponentBase, IDisposable
 
     protected override async Task OnInitializedAsync()
     {
-        _timesheetModel.TimeIn = DateTime.Now;
-        _timesheetModel.TimeOut = DateTime.Now;
-
         _timesheetStateService.OnStateChange += StateHasChanged;
 
         _timesheetStateContainerDTO = _timesheetStateService.Value;
