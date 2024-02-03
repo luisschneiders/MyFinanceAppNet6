@@ -114,6 +114,11 @@ h1:focus {
     padding: 0.25rem 0.25rem;
 }
 
+.app-bg-coming-soon {
+    background: rgb(227,242,253);
+    background: radial-gradient(circle, rgba(227,242,253,1) 0%, rgba(255,255,255,1) 47%);
+}
+
 /*
 * The component Virtualize won't work if we don't set a fix height for tables
 */
