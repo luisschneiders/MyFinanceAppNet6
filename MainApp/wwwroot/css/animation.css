@@ -1,4 +1,36 @@
-﻿@media (min-width: 641px) {
+﻿.app-bg-coming-soon {
+    background: rgb(190,208,244);
+    background: radial-gradient(circle, rgba(190,208,244,1) 0%, rgba(255,255,255,1) 80%);
+    background-size: 400% 400%;
+
+    -webkit-animation: AnimationComingSoon 30s ease infinite;
+    -moz-animation: AnimationComingSoon 30s ease infinite;
+    -o-animation: AnimationComingSoon 30s ease infinite;
+    animation: AnimationComingSoon 30s ease infinite;
+}
+
+@-webkit-keyframes AnimationComingSoon {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes AnimationComingSoon {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-o-keyframes AnimationComingSoon {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes AnimationComingSoon {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+@media (min-width: 641px) {
     .mountain, .mountain-two, .mountain-three, .mountain-four {
         right: 3rem;
         bottom: 0;

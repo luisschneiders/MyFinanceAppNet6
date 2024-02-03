@@ -8,7 +8,7 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-@Size.ToString().ToLower()"
             data-backdrop="static"
             role="document">
-        <div class="modal-content @("rounded"+_appSettings.Modal)">
+        <div class="modal-content @("rounded"+_appSettings.Modal) @ModalContentStyle">
             <div class="modal-header">
                 <h5 class="modal-title">
                     @Title

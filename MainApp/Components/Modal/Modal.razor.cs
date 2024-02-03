@@ -22,6 +22,9 @@ public partial class Modal : ComponentBase
     public Size Size { get; set; } = Size.Md;
 
     [Parameter]
+    public string ModalContentStyle { get; set; } = string.Empty;
+
+    [Parameter]
     public string ModalBodyStyle { get; set; } = string.Empty;
 
     [Parameter]
