@@ -1,30 +1,30 @@
-﻿.app-bg-coming-soon {
+﻿[data-bs-theme=light] .app-bg-animation {
     background: rgb(190,208,244);
-    background: radial-gradient(circle, rgba(190,208,244,1) 0%, rgba(215,183,188) 80%);
+    background: radial-gradient(circle, rgb(229, 245, 255) 0%, rgb(255, 230, 234) 50%);
     background-size: 400% 400%;
 
-    -webkit-animation: AnimationComingSoon 30s ease infinite;
-    -moz-animation: AnimationComingSoon 30s ease infinite;
-    -o-animation: AnimationComingSoon 30s ease infinite;
-    animation: AnimationComingSoon 30s ease infinite;
+    -webkit-animation: AnimationBackground 30s ease infinite;
+    -moz-animation: AnimationBackground 30s ease infinite;
+    -o-animation: AnimationBackground 30s ease infinite;
+    animation: AnimationBackground 30s ease infinite;
 }
 
-@-webkit-keyframes AnimationComingSoon {
+@-webkit-keyframes AnimationBackground {
     0%{background-position:0% 50%}
     50%{background-position:100% 50%}
     100%{background-position:0% 50%}
 }
-@-moz-keyframes AnimationComingSoon {
+@-moz-keyframes AnimationBackground {
     0%{background-position:0% 50%}
     50%{background-position:100% 50%}
     100%{background-position:0% 50%}
 }
-@-o-keyframes AnimationComingSoon {
+@-o-keyframes AnimationBackground {
     0%{background-position:0% 50%}
     50%{background-position:100% 50%}
     100%{background-position:0% 50%}
 }
-@keyframes AnimationComingSoon {
+@keyframes AnimationBackground {
     0%{background-position:0% 50%}
     50%{background-position:100% 50%}
     100%{background-position:0% 50%}
