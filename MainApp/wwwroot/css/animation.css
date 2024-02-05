@@ -1,6 +1,6 @@
 ﻿[data-bs-theme=light] .app-bg-animation {
-    background: rgb(190,208,244);
-    background: radial-gradient(circle, rgb(229, 245, 255) 0%, rgb(255, 230, 234) 50%);
+    background: rgb(236, 248, 255);
+    background: radial-gradient(circle, rgb(236, 248, 255) 10%, rgb(255, 243, 245) 70%);
     background-size: 400% 400%;
 
     -webkit-animation: AnimationBackground 30s ease infinite;
