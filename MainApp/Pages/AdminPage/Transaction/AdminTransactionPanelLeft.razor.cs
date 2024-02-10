@@ -38,11 +38,6 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private AdminTransactionModal _setupModal { get; set; } = new();
 
     /*
-     * Add Chart Modal component reference
-     */
-    private AdminTransactionChartModal _setupChartModal { get; set; } = new();
-
-    /*
      * Add Filter Modal component reference
      */
     private AdminTransactionFilterModal _setupFilterModal { get; set; } = new();
@@ -162,19 +157,6 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
         _toastService.ShowToast("Date range has changed!", Theme.Info);
         await RefreshList();
-        await Task.CompletedTask;
-    }
-
-    private async Task ViewChartsAsync()
-    {
-        try
-        {
-            await _setupChartModal.OpenModalAsync();
-        }
-        catch (Exception ex)
-        {
-            _toastService.ShowToast(ex.Message, Theme.Danger);
-        }
         await Task.CompletedTask;
     }
 

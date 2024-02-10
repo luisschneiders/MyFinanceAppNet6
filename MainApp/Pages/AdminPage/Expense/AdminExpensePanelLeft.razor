@@ -79,16 +79,7 @@
                                     }
                             </div>
                         </div>
-                        <div class="ps-2 d-none d-lg-flex">
-                            <div class="btn-group bg-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
-                                <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
-                                        @onclick="ViewChartsAsync">
-                                    <i class="bi bi-bar-chart-line pe-1"></i>View Charts
-                                </button>
-                            </div>
-                        </div>
                     }
-
                 }
 
             </div>
@@ -278,4 +269,3 @@
 <AdminExpenseOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
 <AdminExpenseModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
 <AdminExpenseFilterModal @ref="_setupFilterModal" OnSubmitFilterSuccess="filterExpense => RefreshFilterList(filterExpense)" />
-<AdminExpenseChartModal @ref="_setupChartModal" />

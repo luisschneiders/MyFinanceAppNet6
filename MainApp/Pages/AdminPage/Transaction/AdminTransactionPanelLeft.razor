@@ -42,14 +42,6 @@
                             }
                     </div>
                 </div>
-                <div class="ps-2 d-none d-lg-flex">
-                    <div class="btn-group bg-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
-                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
-                                @onclick="ViewChartsAsync">
-                            <i class="bi bi-bar-chart-line pe-1"></i>View Charts
-                        </button>
-                    </div>
-                </div>
             </div>
             <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
                 <div class="d-none d-lg-block">
@@ -218,4 +210,3 @@
 <AdminTransactionModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
 <AdminTransactionModalInfo @ref="_setupModalInfo" />
 <AdminTransactionFilterModal @ref="_setupFilterModal" OnSubmitFilterSuccess="filterTransaction => RefreshFilterList(filterTransaction)" />
-<AdminTransactionChartModal @ref="_setupChartModal" />

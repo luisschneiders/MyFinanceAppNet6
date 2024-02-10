@@ -1,15 +1,15 @@
 ﻿[data-bs-theme=light] .app-bg-animation {
     background: rgb(236, 248, 255);
     background: linear-gradient(-45deg, rgb(217, 241, 255) 50%, rgb(255, 243, 245) 50%);
-    background-size: 400% 400%;
 
-    -webkit-animation: AnimationBackground 10s ease infinite;
+    /* background-size: 400% 400%; */
+    /* -webkit-animation: AnimationBackground 10s ease infinite;
     -moz-animation: AnimationBackground 10s ease infinite;
     -o-animation: AnimationBackground 10s ease infinite;
-    animation: AnimationBackground 10s ease infinite;
+    animation: AnimationBackground 10s ease infinite; */
 }
 
-@-webkit-keyframes AnimationBackground {
+/* @-webkit-keyframes AnimationBackground {
     0%{background-position:50% 50%}
     25%{background-position:45% 50%}
     50%{background-position:50% 50%}
@@ -36,7 +36,7 @@
     50%{background-position:50% 50%}
     75%{background-position:55% 50%}
     100%{background-position:50% 50%}
-}
+} */
 
 @media (min-width: 641px) {
     .mountain, .mountain-two, .mountain-three, .mountain-four {

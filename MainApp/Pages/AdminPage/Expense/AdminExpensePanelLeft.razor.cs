@@ -45,11 +45,6 @@ public partial class AdminExpensePanelLeft : ComponentBase
      */
     private AdminExpenseFilterModal _setupFilterModal { get; set; } = new();
 
-    /*
-     * Add Chart Modal component reference
-     */
-    private AdminExpenseChartModal _setupChartModal { get; set; } = new();
-
     private DateTimeRange _dateRange { get; set; } = new();
     private DateTimeRange _dateCalendar { get; set; } = new();
 
@@ -230,19 +225,6 @@ public partial class AdminExpensePanelLeft : ComponentBase
         _toastService.ShowToast("Date range has changed!", Theme.Info);
 
         await RefreshList();
-        await Task.CompletedTask;
-    }
-
-    private async Task ViewChartsAsync()
-    {
-        try
-        {
-            await _setupChartModal.OpenModalAsync();
-        }
-        catch (Exception ex)
-        {
-            _toastService.ShowToast(ex.Message, Theme.Danger);
-        }
         await Task.CompletedTask;
     }
 
