@@ -19,12 +19,12 @@
 </CardView>
 <CardView Styles="w-100 border-0 mb-4">
     <CardMiddle>
-        <ChartExpenseTop5 ChartType="ChartType.bar" ChartConfigOption="_chartConfigOption" />
+        <ChartExpenseLast3Months />
     </CardMiddle>
 </CardView>
 <CardView Styles="w-100 border-0">
     <CardMiddle>
-        <ChartExpenseLast3Months />
+        <ChartExpenseTop5 ChartType="ChartType.bar" ChartConfigOption="_chartConfigOption" />
     </CardMiddle>
 </CardView>
 <AdminExpenseChartModal @ref="_setupChartModal" />
