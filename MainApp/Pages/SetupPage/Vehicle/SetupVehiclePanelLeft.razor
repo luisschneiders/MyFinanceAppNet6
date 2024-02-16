@@ -48,8 +48,14 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th class="col-7">
+                                <th class="col-3">
                                     Description
+                                </th>
+                                <th class="col-3">
+                                    Carmaker
+                                </th>
+                                <th class="col-1">
+                                    Year
                                 </th>
                                 <th class="col-3">
                                     Plate
@@ -67,6 +73,12 @@
                                     <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
                                         <td>
                                             @record.Description
+                                        </td>
+                                        <td>
+                                            @record.Carmaker
+                                        </td>
+                                        <td>
+                                            @record.Year
                                         </td>
                                         <td>
                                             @record.Plate
@@ -146,6 +158,12 @@
                                             <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
                                                 <td>
                                                     @record.Description
+                                                </td>
+                                                <td>
+                                                    @record.Carmaker
+                                                </td>
+                                                <td>
+                                                    @record.Year
                                                 </td>
                                                 <td>
                                                     @record.Plate

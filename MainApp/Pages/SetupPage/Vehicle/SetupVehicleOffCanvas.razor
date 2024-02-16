@@ -40,6 +40,28 @@
                     <label for="VehicleDescription">Description</label>
                 </div>
                 <div class="form-floating pb-2">
+                    <InputNumber @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlPlainTextAttributes : _inputFormControlAttributes)"
+                               id="VehicleYear"
+                               placeholder="Year"
+                               min="1900"
+                               max="@_currentYear.Year"
+                               readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
+                               @bind-Value="_vehicleModel.Year" />
+                    <label for="VehicleYear">Year</label>
+                </div>
+                <div class="form-floating pb-2">
+                    <InputText @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlPlainTextAttributes : _inputFormControlAttributes)"
+                               id="VehicleCarmaker"
+                               placeholder="Carmaker"
+                               readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
+                               @bind-Value="_vehicleModel.Carmaker" />
+                    <label for="VehicleCarmaker">Carmaker</label>
+                </div>
+                <div class="form-floating pb-2">
                     <InputText @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                         _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlPlainTextAttributes : _inputFormControlAttributes)"
                                id="VehiclePlate"

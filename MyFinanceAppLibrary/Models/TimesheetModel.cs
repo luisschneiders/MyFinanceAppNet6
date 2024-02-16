@@ -26,6 +26,7 @@ public class TimesheetModel : BaseModel, IValidatableObject
     [RegularExpression(@"^\d+(.\d{1,2})?$", ErrorMessage = "Invalid value")]
     public decimal HourRate { get; set; }
 
+    [MaxLength(45, ErrorMessage = "Max length is 45 characteres.")]
     public string Comments { get; set; }
 #nullable enable
 

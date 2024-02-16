@@ -10,6 +10,9 @@ public partial class AccordionHeader : ComponentBase
     [Parameter]
     public string Id { get; set; } = string.Empty;
 
+    [Parameter]
+    public bool IsAlwaysOpen { get; set; } = false;
+
     public AccordionHeader()
     {
     }

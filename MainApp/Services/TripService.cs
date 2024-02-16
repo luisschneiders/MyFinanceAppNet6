@@ -114,7 +114,7 @@ public class TripService : ITripService<TripModel>
         }
     }
 
-    public async Task<List<TripListDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, FilterTripDTO filterTripDTO)
+    public async Task<List<TripByVehicleGroupDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, FilterTripDTO filterTripDTO)
     {
         try
         {
@@ -136,15 +136,19 @@ public class TripService : ITripService<TripModel>
                                                          t.TCategoryId == filterTripDTO.TCategoryId).ToList();
                 }
 
+                var results = SetRecordsByGroup(recordsFiltered);
+
                 _tripDistanceByDateRangeSum = recordsFiltered.Sum(t => t.Distance);
 
-                return await Task.FromResult(recordsFiltered);
+                return await Task.FromResult(results);
             }
             else
             {
+                var results = SetRecordsByGroup(_recordsByDateRange);
+
                 _tripDistanceByDateRangeSum = _recordsByDateRange.Sum(t => t.Distance);
 
-                return await Task.FromResult(_recordsByDateRange);
+                return await Task.FromResult(results);
             }
         }
         catch (Exception ex)
@@ -218,8 +222,39 @@ public class TripService : ITripService<TripModel>
         }
     }
 
+    public async Task<List<TripByVehicleGroupDTO>> GetRecordsByGroupAndDateRange(DateTimeRange dateTimeRange)
+    {
+        try
+        {
+            var records = await GetRecordsByDateRange(dateTimeRange);
+            var results = SetRecordsByGroup(records);
+            _tripDistanceByDateRangeSum = records.Sum(t => t.Distance);
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     private async Task<UserModel> GetLoggedInUser()
     {
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
     }
+
+    private static List<TripByVehicleGroupDTO> SetRecordsByGroup(List<TripListDTO> records)
+    {
+        var resultsByGroup = records.GroupBy(t => $"{t.VehicleDescription} - {t.VehiclePlate} ({t.VehicleYear})");
+        var results = resultsByGroup.Select(tGroup => new TripByVehicleGroupDTO()
+        {
+            Description = tGroup.Key,
+            Total = tGroup.Sum(a => a.Distance),
+            Trips = tGroup.ToList()
+        }).ToList();
+
+        return results;
+    }
+
 }

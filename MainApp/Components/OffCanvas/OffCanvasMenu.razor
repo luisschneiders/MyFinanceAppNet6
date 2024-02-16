@@ -36,17 +36,6 @@
                             </NavLink>
                         </li>
                         <li class="px-2">
-                            <NavLink class="dropdown-item rounded" href="@EndPoint.SetupExpense">
-                                Expense
-                            </NavLink>
-                        </li>
-                        <li class="px-2">
-                            <NavLink class="dropdown-item rounded" href="@EndPoint.SetupTransaction">
-                                Transaction
-                            </NavLink>
-                        </li>
-                        <li class="px-2">
-                            <hr />
                             <NavLink class="dropdown-item rounded" href="@EndPoint.SetupCompany">
                                 Company
                             </NavLink>
@@ -54,6 +43,17 @@
                         <li class="px-2">
                             <NavLink class="dropdown-item rounded" href="@EndPoint.SetupVehicle">
                                 Vehicle
+                            </NavLink>
+                        </li>
+                        <li class="px-2">
+                            <hr />
+                            <NavLink class="dropdown-item rounded" href="@EndPoint.SetupExpense">
+                                Expense
+                            </NavLink>
+                        </li>
+                        <li class="px-2">
+                            <NavLink class="dropdown-item rounded" href="@EndPoint.SetupTransaction">
+                                Transaction
                             </NavLink>
                         </li>
                     </ul>
@@ -85,6 +85,15 @@
                             </NavLink>
                         </li>
                     </ul>
+                </li>
+                <li class="nav-item col-12 col-lg-auto">
+                    <div class="vr d-none d-lg-flex h-100 mx-lg-0"></div>
+                    <hr class="d-lg-none m-0 p-0">
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="@EndPoint.Tools">
+                        Tools
+                    </NavLink>
                 </li>
             </AuthorizeView>
             @*Only user with role "Admin" have access - end*@

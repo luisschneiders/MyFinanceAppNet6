@@ -1,10 +1,29 @@
 ﻿@using MainApp.Components.Card
 @using MainApp.Components.Badge
 @using MainApp.Components.Shared
+@using MainApp.Components.Chart.Bank
 @using MainApp.Components.Chart.Transaction
 
-<CardView Styles="w-100 border-0">
+<CardView Styles="w-100 border-0 mb-4">
+    <CardMiddle>
+        <div class="d-none d-lg-flex">
+            <div class="btn-group w-100 bg-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
+                <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                        @onclick="ViewChartsAsync">
+                    <i class="bi bi-bar-chart-line pe-1"></i>View Charts
+                </button>
+            </div>
+        </div>
+    </CardMiddle>
+</CardView>
+<CardView Styles="w-100 border-0 mb-4">
     <CardMiddle>
         <ChartTransactionLast3Months />
     </CardMiddle>
 </CardView>
+<CardView Styles="w-100 border-0">
+    <CardMiddle>
+        <ChartBankAccountActive ChartType="ChartType.line" />
+    </CardMiddle>
+</CardView>
+<AdminTransactionChartModal @ref="_setupChartModal" />

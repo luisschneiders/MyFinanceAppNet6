@@ -1,11 +1,51 @@
-﻿@media (min-width: 641px) {
+﻿[data-bs-theme=light] .app-bg-animation {
+    background: rgb(236, 248, 255);
+    background: linear-gradient(-45deg, rgb(217, 241, 255) 50%, rgb(255, 243, 245) 50%);
+
+    /* background-size: 400% 400%; */
+    /* -webkit-animation: AnimationBackground 10s ease infinite;
+    -moz-animation: AnimationBackground 10s ease infinite;
+    -o-animation: AnimationBackground 10s ease infinite;
+    animation: AnimationBackground 10s ease infinite; */
+}
+
+/* @-webkit-keyframes AnimationBackground {
+    0%{background-position:50% 50%}
+    25%{background-position:45% 50%}
+    50%{background-position:50% 50%}
+    75%{background-position:55% 50%}
+    100%{background-position:50% 50%}
+}
+@-moz-keyframes AnimationBackground {
+    0%{background-position:50% 50%}
+    25%{background-position:45% 50%}
+    50%{background-position:50% 50%}
+    75%{background-position:55% 50%}
+    100%{background-position:50% 50%}
+}
+@-o-keyframes AnimationBackground {
+    0%{background-position:50% 50%}
+    25%{background-position:45% 50%}
+    50%{background-position:50% 50%}
+    75%{background-position:55% 50%}
+    100%{background-position:50% 50%}
+}
+@keyframes AnimationBackground {
+    0%{background-position:50% 50%}
+    25%{background-position:45% 50%}
+    50%{background-position:50% 50%}
+    75%{background-position:55% 50%}
+    100%{background-position:50% 50%}
+} */
+
+@media (min-width: 641px) {
     .mountain, .mountain-two, .mountain-three, .mountain-four {
         right: 3rem;
         bottom: 0;
         position: absolute;
         border-left: 15px solid transparent;
         border-right: 15px solid transparent;
-        border-bottom: 50px solid #224478;
+        border-bottom: 50px solid #3d8e70;
         z-index: 1;
     }
 
@@ -13,7 +53,7 @@
         right: 4rem;
         border-left: 15px solid transparent;
         border-right: 15px solid transparent;
-        border-bottom: 30px solid #d7e3f4;
+        border-bottom: 30px solid #C5EADB;
         z-index: 0;
     }
 
@@ -21,7 +61,7 @@
         right: 5rem;
         border-left: 10px solid transparent;
         border-right: 10px solid transparent;
-        border-bottom: 35px solid #afc6e9;
+        border-bottom: 35px solid #70c1a3;
         z-index: 0;
     }
 
@@ -29,7 +69,7 @@
         right: 6rem;
         border-left: 8px solid transparent;
         border-right: 8px solid transparent;
-        border-bottom: 25px solid #3771c8;
+        border-bottom: 25px solid #93d1ba;
         z-index: 0;
     }
 

@@ -1,13 +1,15 @@
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spVehicle_GetSearchResults`(
 	IN userId varchar(28),
-	IN searchVehicle varchar(45)
+    IN searchVehicle varchar(45)
 )
 BEGIN
 	SELECT
 		Id,
 		Description,
-		Plate,
+        Year,
+        Carmaker,
+        Plate,
 		IsActive
 	FROM Vehicle
 	WHERE (UpdatedBy = userId

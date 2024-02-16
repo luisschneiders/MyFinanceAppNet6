@@ -40,7 +40,9 @@ public partial class AdminExpensePanelLeft : ComponentBase
     // Add Modal component reference
     private AdminExpenseModal _setupModal { get; set; } = new();
 
-    // Add Modal component reference
+    /*
+     * Add Filter Modal component reference
+     */
     private AdminExpenseFilterModal _setupFilterModal { get; set; } = new();
 
     private DateTimeRange _dateRange { get; set; } = new();
@@ -121,7 +123,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
             }
             else if (_viewType == ViewType.List.ToString())
             {
-                _expensesByGroup = await _expenseService.GetRecordsByFilter(_dateRange, _filterExpenseDTO);
+                _expensesByGroup = await _expenseService.GetRecordsByGroupAndDateRange(_dateRange);
                 _expensesTotal = await _expenseService.GetRecordsByDateRangeSum();
             }
 
@@ -134,6 +136,19 @@ public partial class AdminExpensePanelLeft : ComponentBase
         }
 
         await Task.CompletedTask;
+    }
+
+    private async Task FetchFilterDataAsync()
+    {
+        try
+        {
+            _expensesByGroup = await _expenseService.GetRecordsByFilter(_dateRange, _filterExpenseDTO);
+            _expensesTotal = await _expenseService.GetRecordsByDateRangeSum();
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
     }
 
     private async void UpdateUIVIew(ViewType viewType)
@@ -189,7 +204,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     {
         _filterExpenseDTO = filterExpenseDTO;
 
-        await FetchDataAsync();
+        await FetchFilterDataAsync();
         await Task.CompletedTask;
     }
 
@@ -217,7 +232,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     {
         _filterExpenseDTO = new();
 
-        await FetchDataAsync();
+        await FetchFilterDataAsync();
         await Task.CompletedTask;
     }
 

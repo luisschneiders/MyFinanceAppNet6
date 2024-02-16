@@ -1,0 +1,50 @@
+﻿@page "/tools"
+
+@using MainApp.Components.Page
+@using MainApp.Components.Badge
+@using MainApp.Components.Breadcrumb
+@using MainApp.Components.Card
+@using MainApp.Components.Message
+@using MainApp.Components.Shared
+@using MainApp.Components.Tools
+
+<div class="container-fluid px-0">
+    <AuthorizeView Policy="Admin">
+        <Authorized>
+            <PageWrapper>
+
+                <PageTopView>
+                    <div class="container-lg">
+                        <PageTopWrapper>
+                            <div class="d-flex align-items-baseline">
+                                <i class="bi bi-boxes text-info-emphasis pe-1 fs-5" /><PageTopTitle Title="Tools" />
+                            </div>
+                        </PageTopWrapper>
+                    </div>
+                </PageTopView>
+
+                <PageMiddleView>
+                    <PageMiddleWrapper>
+                        <div class="container-lg pb-5">
+                            <div class="row gy-5">
+                                <div class="col-sm-12 col-lg-9">
+                                    <RandomNumber />
+                                </div>
+                                <div class="col-sm-12 col-lg-3">
+                                    <TimesheetCalculator />
+                                </div>
+                            </div>
+
+                        </div>
+                    </PageMiddleWrapper>
+                </PageMiddleView>
+
+                <PageBottomView />
+
+            </PageWrapper>
+        </Authorized>
+        <NotAuthorized>
+            <NotAuthorizedMessage />
+        </NotAuthorized>
+    </AuthorizeView>
+</div>

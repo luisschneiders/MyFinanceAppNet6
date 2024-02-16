@@ -32,12 +32,6 @@ h1:focus {
     vertical-align: middle;
 }
 
-.rotate-135 {
-    -ms-transform: rotate(135deg); /* IE 9 */
-    -webkit-transform: rotate(135deg); /* Safari 3-8 */
-    transform: rotate(135deg);
-}
-
 .zoom {
     transition: transform 0.2s;
 }
@@ -54,6 +48,10 @@ h1:focus {
 
 .accordion .me-expenses-sum {
     margin-right: 24px;
+}
+
+.accordion .me-trips-sum {
+    margin-right: 22px;
 }
 
 .app-outline-none {
@@ -278,7 +276,8 @@ h1:focus {
 }
 
 .main {
-    padding-top: 58px;
+    padding-top: 62px;
+    /* padding-top: 58px; */
 }
 
 .validation-message {
@@ -385,7 +384,7 @@ h1:focus {
         width: 40px;
         height: 30px;
         content: "";
-        top: 82px;
+        top: 86px;
         left: 0;
         background-color: rgba(153, 102, 255, 0.2);
         border-bottom-right-radius: var(--bs-border-radius-pill) !important;

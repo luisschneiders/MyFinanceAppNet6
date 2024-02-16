@@ -12,5 +12,11 @@ public class VehicleModel : BaseModel
 
     [Required]
     public string Plate { get; set; }
+
+    [Required]
+    public int Year { get; set; }
+
+    [Required]
+    public string Carmaker { get; set; }
 #nullable enable
 }

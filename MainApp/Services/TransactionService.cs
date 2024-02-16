@@ -17,6 +17,8 @@ public class TransactionService : ITransactionService<TransactionModel>
 
     private UserModel _loggedInUser { get; set; } = new();
 
+    private List<TransactionListDTO> _recordsByDateRange { get; set; } = new();
+
     public TransactionService(
         ITransactionData<TransactionModel> transactionData,
         IUserData userData,
@@ -170,8 +172,10 @@ public class TransactionService : ITransactionService<TransactionModel>
         try
         {
             var user = await GetLoggedInUser();
-            List<TransactionListDTO> results = await _transactionData.GetRecordsByDateRange(user.Id, dateTimeRange);
-            return results;
+
+            _recordsByDateRange = await _transactionData.GetRecordsByDateRange(user.Id, dateTimeRange);
+
+            return _recordsByDateRange;
         }
         catch (Exception ex)
         {
@@ -185,6 +189,7 @@ public class TransactionService : ITransactionService<TransactionModel>
         try
         {
             var records = await GetRecordsByDateRange(dateTimeRange);
+            
             var results = SetRecordsByGroup(records);
 
             return results;
@@ -231,22 +236,37 @@ public class TransactionService : ITransactionService<TransactionModel>
         }
     }
 
-    public async Task<List<TransactionByCategoryGroupDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, TransactionCategoryModel transactionCategoryModel)
+    public async Task<List<TransactionByCategoryGroupDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, FilterTransactionDTO filterTransactionDTO)
     {
         try
         {
-            var records = await GetRecordsByDateRange(dateTimeRange);
-            if (transactionCategoryModel.Id > 0)
+            if (filterTransactionDTO.FromBank > 0 || filterTransactionDTO.TCategoryId > 0)
             {
-                List<TransactionListDTO> recordsFiltered = records.Where(t => t.TCategoryId == transactionCategoryModel.Id).ToList();
+                List<TransactionListDTO> recordsFiltered = new();
+
+                if (filterTransactionDTO.FromBank > 0 && filterTransactionDTO.TCategoryId == 0) // Filter by Bank only
+                {
+                    recordsFiltered = _recordsByDateRange.Where(t => t.FromBank == filterTransactionDTO.FromBank).ToList();
+                }
+                else if (filterTransactionDTO.FromBank == 0 && filterTransactionDTO.TCategoryId > 0) // Filter by Transaction only
+                {
+                    recordsFiltered = _recordsByDateRange.Where(t => t.TCategoryId == filterTransactionDTO.TCategoryId).ToList();
+                }
+                else // Filter by Bank and Expense
+                {
+                    recordsFiltered = _recordsByDateRange.Where(t => t.FromBank == filterTransactionDTO.FromBank && 
+                                                         t.TCategoryId == filterTransactionDTO.TCategoryId).ToList();
+                }
 
                 var results = SetRecordsByGroup(recordsFiltered);
-                return results;
+
+                return await Task.FromResult(results);
             }
             else
             {
-                var results = SetRecordsByGroup(records);
-                return results;
+                var results = SetRecordsByGroup(_recordsByDateRange);
+
+                return await Task.FromResult(results);
             }
         }
         catch (Exception ex)

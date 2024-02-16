@@ -29,7 +29,7 @@ public static class EndPoint
 
     public const string Settings = "/settings";
     public const string SettingsAppearance = $"{Settings}/appearance";
-
+    public const string Tools = $"/tools";
     public const string V2FinnhubNewsAll = "v2/Finnhub/GetAllNewsRecords";
     public const string V2GoogleGeocode = "v2/Google/GetGeocode";
     public const string V2GoogleMapStatic = "v2/Google/GetMapStatic";

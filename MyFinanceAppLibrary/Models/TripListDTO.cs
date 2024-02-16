@@ -12,6 +12,7 @@ public class TripListDTO : BaseModel
     public int PayStatus { get; set; }
     public ulong TCategoryId { get; }
     public string VehicleDescription { get; }
+    public string VehicleYear { get; }
     public string VehiclePlate { get; }
 #nullable enable
 }

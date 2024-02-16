@@ -4,7 +4,7 @@
 @using MainApp.Components.Shared
 
 <SharedHeader Title="Active Accounts"
-              Icon="bi-pie-chart"
+              Icon="@_chartIcon"
               IconColor="Theme.Info" />
 
 @if (_isLoading)
@@ -21,7 +21,7 @@ else
     <div class="row justify-content-center align-items-center h-100">
         <div class="col">
             <Chart Id="BankAccountActive"
-                   Type="ChartType.polarArea"
+                   Type="@ChartType"
                    Data="@(_chartConfigData)"
                    Position="Position.Left"
                    OnSubmitSuccess="data => SetChartObjectReference(data)" />

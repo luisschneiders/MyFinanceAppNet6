@@ -70,15 +70,15 @@
                                             @switch (record.ActionType)
                                             {
                                                 case "C":
-                                                    <BadgeColor RGBColor="25,135,84"
+                                                    <BadgeColor RGBColor="@TransactionTypeColor.Credit"
                                                                 Description="@record.Description" />
                                                     break;
                                                 case "D":
-                                                    <BadgeColor RGBColor="220,53,69"
+                                                    <BadgeColor RGBColor="@TransactionTypeColor.Debit"
                                                                 Description="@record.Description" />
                                                     break;
                                                 case "T":
-                                                    <BadgeColor RGBColor="13,202,240"
+                                                    <BadgeColor RGBColor="@TransactionTypeColor.Transfer"
                                                                 Description="@record.Description" />
                                                     break;
                                             }
@@ -164,15 +164,15 @@
                                                     @switch (record.ActionType)
                                                     {
                                                         case "C":
-                                                            <BadgeColor RGBColor="25,135,84"
+                                                            <BadgeColor RGBColor="@TransactionTypeColor.Credit"
                                                                         Description="@record.Description" />
                                                             break;
                                                         case "D":
-                                                            <BadgeColor RGBColor="220,53,69"
+                                                            <BadgeColor RGBColor="@TransactionTypeColor.Debit"
                                                                         Description="@record.Description" />
                                                             break;
                                                         case "T":
-                                                            <BadgeColor RGBColor="13,202,240"
+                                                            <BadgeColor RGBColor="@TransactionTypeColor.Transfer"
                                                                         Description="@record.Description" />
                                                             break;
                                                     }

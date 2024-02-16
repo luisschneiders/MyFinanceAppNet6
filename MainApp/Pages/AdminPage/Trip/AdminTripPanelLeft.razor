@@ -68,139 +68,158 @@
         <div class="row">
             <div class="col-12">
                 <div class="app-page-responsive-height">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th class="col-1 text-nowrap">
-                                    Date
-                                </th>
-                                <th class="col-2 text-nowrap">
-                                    Vehicle
-                                </th>
-                                <th class="col-1 text-nowrap">
-                                    Category
-                                </th>
-                                <th class="col-1 text-end text-nowrap">
-                                    Start Odometer
-                                </th>
-                                <th class="col-1 text-end text-nowrap">
-                                    End Odometer
-                                </th>
-                                <th class="col-1 text-end text-nowrap">
-                                    Distance (KM)
-                                </th>
-                                <th class="col-1 text-nowrap" colspan="2">
-                                    Pay Status
-                                </th>
-                                @* <th></th> *@
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (_isLoading)
-                            {
-                                <tr>
-                                    <td class="text-center" colspan="10">
-                                        <div>
-                                            <Spinner Size="Size.Sm" />
-                                            <span>
-                                                Loading ...
-                                            </span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                            else
-                            {
-                                @if (_trips.Count <= 0)
+                    @if (_isLoading)
+                    {
+                        <div class="d-flex justify-content-center align-items-center">
+                            <Spinner Size="Size.Sm" />
+                            <span class="ps-2">
+                                Loading ...
+                            </span>
+                        </div>
+                    }
+                    else
+                    {
+                        @if (_tripsByGroup.Count <= 0)
+                        {
+                            <div class="text-center">
+                                Not record found!
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="accordion d-flex justify-content-between p-3 fw-semibold
+                                        bg-@(Theme.Secondary.ToString().ToLower())-subtle">
+                                <div class="text-uppercase d-flex">
+                                    Total<span class="d-none d-lg-block ps-1">distance for the period</span>
+                                </div>
+                                <span class="pe-5 me-trips-sum">
+                                    @_sumByDateRange Km
+                                </span>
+                            </div>
+                            <Accordion Id="Trips">
+                                @foreach (var (record, index) in _tripsByGroup.Select((value, index) => (value, index)))
                                 {
-                                    <tr>
-                                        <td class="text-center" colspan="10">
+                                    <AccordionItem>
+                                        <AccordionHeader Id="@index.ToString()" IsAlwaysOpen=true>
                                             <div>
-                                                Not record found!
+                                                @record.Description
                                             </div>
-                                        </td>
-                                    </tr>
-                                }
-                                else
-                                {
-                                    foreach (var record in _trips)
-                                    {
+                                            <div>
+                                                @record.Total Km
+                                            </div>
+                                        </AccordionHeader>
+                                        <AccordionBody Id="@index.ToString()" IsAlwaysOpen=true>
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="col-1 text-nowrap">
+                                                                Date
+                                                            </th>
+                                                            <th class="col-1 text-nowrap">
+                                                                Category
+                                                            </th>
+                                                            <th class="col-1 text-end text-nowrap">
+                                                                Start Odometer
+                                                            </th>
+                                                            <th class="col-1 text-end text-nowrap">
+                                                                End Odometer
+                                                            </th>
+                                                            <th class="col-1 text-end text-nowrap">
+                                                                Distance (Km)
+                                                            </th>
+                                                            <th class="col-1 text-nowrap" colspan="2">
+                                                                Pay Status
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (_tripsByGroup.Count <= 0)
+                                                        {
+                                                            <tr class="bg-light-subtle">
+                                                                <td class="text-center" colspan="7">
+                                                                    <div>
+                                                                        Not record found!
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                        else
+                                                        {
+                                                            foreach (var record in _tripsByGroup[index].Trips)
+                                                            {
+                                                                <tr class="bg-light-subtle">
+                                                                    <td class="text-nowrap">
+                                                                        @record.TDate.ToString("dd/MM/yy")
+                                                                    </td>
+                                                                    <td class="text-nowrap">
+                                                                        <DropdownActions Title="@UpdateTripCategoryTitle(record.TCategoryId)"
+                                                                                        ButtonSize="Size.Sm"
+                                                                                        IconEnd="bi-chevron-down"
+                                                                                        ButtonColor="@UpdateTripCategoryButton(record.TCategoryId)"
+                                                                                        ButtonCssClass="w-100"
+                                                                                        ButtonInnerStyles="d-flex justify-content-between">
+                                                                            @foreach (var (status, index) in _tripCategories.Select((value, index) => (value, index)))
+                                                                            {
+                                                                                <li class="px-2">
+                                                                                    <button class="dropdown-item"
+                                                                                            @onclick="() => UpdateTripCategoryAsync(record, (ulong)index)">
+                                                                                        @($"{_enumHelper.GetDescription(status)}")
+                                                                                    </button>
+                                                                                </li>
+                                                                            }
+                                                                        </DropdownActions>
+                                                                    </td>
+                                                                    <td class="text-end text-nowrap">
+                                                                        @(record.StartOdometer <= 0 ? "--" : record.StartOdometer)
+                                                                    </td>
+                                                                    <td class="text-end text-nowrap">
+                                                                        @(record.EndOdometer <= 0 ? "--" : record.EndOdometer)
+                                                                    </td>
+                                                                    <td class="text-end text-nowrap">
+                                                                        @record.Distance
+                                                                    </td>
+                                                                    <td class="text-nowrap">
+                                                                        <DropdownActions Title="@UpdatePayStatusTitle(record.PayStatus)"
+                                                                                        ButtonSize="Size.Sm"
+                                                                                        IconEnd="bi-chevron-down"
+                                                                                        ButtonColor="@UpdatePayStatusButton(record.PayStatus)"
+                                                                                        ButtonCssClass="w-100"
+                                                                                        ButtonInnerStyles="d-flex justify-content-between">
+                                                                            @foreach (var (status, index) in _payStatuses.Select((value, index) => (value, index)))
+                                                                            {
+                                                                                int statusValue = index;
 
-                                        <tr>
-                                            <td class="text-nowrap">
-                                                @record.TDate.ToString("dd/MM/yy")
-                                            </td>
-                                            <td class="text-nowrap">
-                                                @record.VehiclePlate - @record.VehicleDescription
-                                            </td>
-                                            <td class="text-nowrap">
-                                                <DropdownActions Title="@UpdateTripCategoryTitle(record.TCategoryId)"
-                                                                 ButtonSize="Size.Sm"
-                                                                 IconEnd="bi-chevron-down"
-                                                                 ButtonColor="@UpdateTripCategoryButton(record.TCategoryId)"
-                                                                 ButtonCssClass="w-100"
-                                                                 ButtonInnerStyles="d-flex justify-content-between">
-                                                    @foreach (var (status, index) in _tripCategories.Select((value, index) => (value, index)))
-                                                    {
-                                                        <li class="px-2">
-                                                            <button class="dropdown-item"
-                                                                    @onclick="() => UpdateTripCategoryAsync(record, (ulong)index)">
-                                                                @($"{_enumHelper.GetDescription(status)}")
-                                                            </button>
-                                                        </li>
-                                                    }
-                                                </DropdownActions>
-                                            </td>
-                                            <td class="text-end text-nowrap">
-                                                @(record.StartOdometer <= 0 ? "--" : record.StartOdometer)
-                                            </td>
-                                            <td class="text-end text-nowrap">
-                                                @(record.EndOdometer <= 0 ? "--" : record.EndOdometer)
-                                            </td>
-                                            <td class="text-end text-nowrap">
-                                                @record.Distance
-                                            </td>
-                                            <td class="text-nowrap">
-                                                <DropdownActions Title="@UpdatePayStatusTitle(record.PayStatus)"
-                                                                 ButtonSize="Size.Sm"
-                                                                 IconEnd="bi-chevron-down"
-                                                                 ButtonColor="@UpdatePayStatusButton(record.PayStatus)"
-                                                                 ButtonCssClass="w-100"
-                                                                 ButtonInnerStyles="d-flex justify-content-between">
-                                                    @foreach (var (status, index) in _payStatuses.Select((value, index) => (value, index)))
-                                                    {
-                                                        int statusValue = index;
+                                                                                <li class="px-2">
+                                                                                    <button class="dropdown-item"
+                                                                                            @onclick="() => UpdatePayStatusAsync(record, statusValue)">
+                                                                                        @($"{status}")
+                                                                                    </button>
+                                                                                </li>
+                                                                            }
+                                                                        </DropdownActions>
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        <button class="btn btn-link p-0 text-danger"
+                                                                                type="button"
+                                                                                title="Archive"
+                                                                                @onclick="() => ArchiveRecordAsync(record)">
+                                                                            <i class="bi bi-archive"></i>
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
 
-                                                        <li class="px-2">
-                                                            <button class="dropdown-item"
-                                                                    @onclick="() => UpdatePayStatusAsync(record, statusValue)">
-                                                                @($"{status}")
-                                                            </button>
-                                                        </li>
-                                                    }
-                                                </DropdownActions>
-                                            </td>
-                                            <td class="text-center">
-                                                <button class="btn btn-link p-0 text-danger"
-                                                        type="button"
-                                                        title="Archive"
-                                                        @onclick="() => ArchiveRecordAsync(record)">
-                                                    <i class="bi bi-archive"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    }
+                                            </div>
+                                        </AccordionBody>
+                                    </AccordionItem>
                                 }
-                            }
-                        </tbody>
-                        <tfoot class="bg-@(Theme.Secondary.ToString().ToLower())-subtle fw-semibold">
-                            <tr>
-                                <td class="text-nowrap" colspan="4">Total distance (KM)</td>
-                                <td class="text-nowrap text-end" colspan="2">@_sumByDateRange</td>
-                                <td colspan="2"></td>
-                            </tr>
-                        </tfoot>
-                    </table>
+                            </Accordion>
+                        }
+                    }
                 </div>
             </div>
         </div>

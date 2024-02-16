@@ -73,7 +73,7 @@
                             <option value="0">-- Select Vehicle --</option>
                             @foreach (var (vehicle, index) in _activeVehicles.Select((value, index) => (value, index)))
                                 {
-                                <option value="@vehicle.Id">@($"{vehicle.Plate} - {vehicle.Description}") </option>
+                                <option value="@vehicle.Id">@($"{vehicle.Description} - {vehicle.Plate} ({vehicle.Year})") </option>
                             }
                         </InputSelect>
                         <label for="VehicleId">Vehicle</label>
