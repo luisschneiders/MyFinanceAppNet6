@@ -1,6 +1,6 @@
 ﻿namespace MyFinanceAppLibrary.Models;
 
-public class TransactionIOGraphByDateDTO
+public class TransactionIOGraphByMonthDTO
 {
 #nullable disable
     public int MonthNumber { get; }
