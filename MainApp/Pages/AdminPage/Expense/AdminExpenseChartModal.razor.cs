@@ -1,4 +1,5 @@
-﻿using MainApp.Components.Modal;
+﻿using MainApp.Components.Chart;
+using MainApp.Components.Modal;
 using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 
@@ -12,11 +13,14 @@ public partial class AdminExpenseChartModal : ComponentBase
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
 
+    private ChartConfigOption _chartConfigOption { get; set; } = new();
+
     private Modal _modal { get; set; } = new();
     private Guid _modalTarget { get; set; }
 
     public AdminExpenseChartModal()
     {
+        _chartConfigOption.IndexAxis = "y";
     }
 
     public async Task OpenModalAsync()

@@ -24,12 +24,12 @@ else
                                ButtonSize="Size.Sm"
                                DateTimeRange="@_dateTimeRange"
                                DropdownLabel="@_dropdownLabel"
-                               PeriodRange="PeriodRange.Year"
+                               PeriodRange="PeriodRange.Month"
                                OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
         </div>
     </div>
 
-    <Chart Id="TransactionIO"
+    <Chart Id="TransactionIOByDay"
            Type="@ChartType"
            Data="@(_chartConfigData)"
            OnSubmitSuccess="data => SetChartObjectReference(data)" />

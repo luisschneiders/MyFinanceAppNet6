@@ -122,12 +122,27 @@ public class TransactionService : ITransactionService<TransactionModel>
         }
     }
 
-    public async Task<List<TransactionIOGraphByDateDTO>> GetIOByDateRange(DateTimeRange dateTimeRange)
+    public async Task<List<TransactionIOGraphByMonthDTO>> GetIOByDateRangeGroupByMonth(DateTimeRange dateTimeRange)
     {
         try
         {
             var user = await GetLoggedInUser();
-            List<TransactionIOGraphByDateDTO> results = await _transactionData.GetIOByDateRange(user.Id, dateTimeRange);
+            List<TransactionIOGraphByMonthDTO> results = await _transactionData.GetIOByDateRangeGroupByMonth(user.Id, dateTimeRange);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<List<TransactionIOGraphByDayDTO>> GetIOByDateRangeGroupByDay(DateTimeRange dateTimeRange)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<TransactionIOGraphByDayDTO> results = await _transactionData.GetIOByDateRangeGroupByDay(user.Id, dateTimeRange);
             return results;
         }
         catch (Exception ex)
