@@ -5,7 +5,7 @@
 
 <Modal @ref="_modal"
        Size="Size.Fullscreen"
-       ModalContentStyle="bg-danger-subtle">
+       ModalContentStyle="bg-light-subtle">
     <Title>
         <span class="text-secondary">
             Charts
@@ -14,7 +14,7 @@
     <Body>
         <div class="row">
             <div class="col-sm-12 col-lg-6">
-                <CardView Styles="w-100 border-0 mb-4">
+                <CardView Styles="w-100 border-0 mb-4 shadow">
                     <CardMiddle>
                         <ChartExpenseTop5 ChartType="ChartType.bar" ChartConfigOption="_chartConfigOption" />
                     </CardMiddle>

@@ -6,7 +6,7 @@
 
 <Modal @ref="_modal"
        Size="Size.Fullscreen"
-       ModalContentStyle="bg-danger-subtle">
+       ModalContentStyle="bg-light-subtle">
     <Title>
         <span class="text-secondary">
             Charts
@@ -15,7 +15,7 @@
     <Body>
         <div class="row">
             <div class="col-sm-12 col-lg-6">
-                <CardView Styles="w-100 border-0 mb-4">
+                <CardView Styles="w-100 border-0 mb-4 shadow">
                     <CardMiddle>
                         <h3 class="fs-5">Daily</h3>
                         <ChartTransactionIOByDay ChartType="ChartType.line" />
@@ -23,15 +23,15 @@
                 </CardView>
             </div>
             <div class="col-sm-12 col-lg-6">
-                <CardView Styles="w-100 border-0 mb-4">
+                <CardView Styles="w-100 border-0 mb-4 shadow">
                     <CardMiddle>
                         <h3 class="fs-5">Monthly</h3>
-                        <ChartTransactionIOByMonth ChartType="ChartType.line" />
+                        <ChartTransactionIOByMonth ChartType="ChartType.bar" />
                     </CardMiddle>
                 </CardView>
             </div>
             <div class="col-sm-12 col-lg-6">
-                <CardView Styles="w-100 border-0 mb-4">
+                <CardView Styles="w-100 border-0 mb-4 shadow">
                     <CardMiddle>
                         <h3 class="fs-5">Active</h3>
                         <ChartBankAccountActive ChartType="ChartType.line" />
