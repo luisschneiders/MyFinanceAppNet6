@@ -1,0 +1,37 @@
+﻿@using MainApp.Components.Card
+@using MainApp.Components.Spinner
+@using MainApp.Components.Shared
+@using MainApp.Components.Dropdown.DateRange
+
+<SharedHeader Title="In & Out"
+              Icon="@_chartIcon"
+              IconColor="Theme.Info" />
+
+@if (_isLoading)
+{
+    <div class="d-flex justify-content-center align-items-center">
+        <Spinner Size="Size.Sm" />
+        <span class="ps-1">
+            Loading ...
+        </span>
+    </div>
+}
+else
+{
+    <div class="row text-center align-items-center">
+        <div class="col-auto">
+            <DropdownDateRange IconColor="Theme.Info"
+                               ButtonSize="Size.Sm"
+                               DateTimeRange="@_dateTimeRange"
+                               DropdownLabel="@_dropdownLabel"
+                               PeriodRange="PeriodRange.Year"
+                               OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
+        </div>
+    </div>
+
+    <Chart Id="TransactionIOByMonth"
+           Type="@ChartType"
+           Data="@(_chartConfigData)"
+           OnSubmitSuccess="data => SetChartObjectReference(data)" />
+}
+

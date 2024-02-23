@@ -1,67 +1,43 @@
-﻿@using MainApp.Components.Modal
+﻿@using MainApp.Components.Card
+@using MainApp.Components.Modal
 @using MainApp.Components.Dropdown.Filter
+@using MainApp.Components.Chart.Transaction
+@using MainApp.Components.Chart.Bank
 
 <Modal @ref="_modal"
        Size="Size.Fullscreen"
-       ModalContentStyle="app-bg-animation">
+       ModalContentStyle="bg-light-subtle">
     <Title>
         <span class="text-secondary">
             Charts
         </span>
     </Title>
     <Body>
-        @* <div class="row"> 
-            <div class="col-auto">
-                <div class="ps-2">
-                    <DropdownFilter ButtonSize="Size.Md"
-                                    DropdownLabel="@_dropdownFilterLabelTransaction"
-                                    DropdownPosition="Position.Start"
-                                    IconStartColor="Theme.Info"
-                                    IconEnd="bi-chevron-down"
-                                    IconStart="bi-cart4"
-                                    Model="@_filterTransactionCategoryModel"
-                                    OnSubmitSuccess="ResetDropdownFilterTransactionCategory">
-                        @foreach (var (category, index) in _transactionCategories.Select((value, index) => (value, index)))
-                        {
-                            <li class="px-2">
-                                <button class="dropdown-item rounded"
-                                        title="@category.Description"
-                                        @onclick="() => RefreshDropdownFilterTransactionCategory(category.Id)">
-                                    @($"{category.Description.Truncate((int)Truncate.TransactionCategory)}")
-                                </button>
-                            </li>
-                        }
-                    </DropdownFilter>
-                </div>
+        <div class="row">
+            <div class="col-sm-12 col-lg-6">
+                <CardView Styles="w-100 border-0 mb-4 shadow">
+                    <CardMiddle>
+                        <h3 class="fs-5">Daily</h3>
+                        <ChartTransactionIOByDay ChartType="ChartType.line" />
+                    </CardMiddle>
+                </CardView>
             </div>
-            <div class="col-auto">
-                <div class="ps-2">
-                    <DropdownFilter ButtonSize="Size.Md"
-                                    DropdownLabel="@_dropdownFilterLabelBank"
-                                    DropdownPosition="Position.Start"
-                                    IconStartColor="Theme.Info"
-                                    IconEnd="bi-chevron-down"
-                                    IconStart="bi-bank"
-                                    Model="@_filterBankModel"
-                                    OnSubmitSuccess="ResetDropdownFilterBank">
-                        @foreach (var (bank, index) in _banks.Select((value, index) => (value, index)))
-                        {
-                            <li class="px-2">
-                                <button class="dropdown-item rounded"
-                                        title="@bank.Description"
-                                        @onclick="() => RefreshDropdownFilterBank(bank.Id)">
-                                    @($"{bank.Description}")
-                                </button>
-                            </li>
-                        }
-                    </DropdownFilter>
-                </div>
+            <div class="col-sm-12 col-lg-6">
+                <CardView Styles="w-100 border-0 mb-4 shadow">
+                    <CardMiddle>
+                        <h3 class="fs-5">Monthly</h3>
+                        <ChartTransactionIOByMonth ChartType="ChartType.bar" />
+                    </CardMiddle>
+                </CardView>
             </div>
-        </div> *@
-        <div class="d-flex h-100 justify-content-center align-items-center">
-            <h3 class="fw-light">
-                Coming soon!
-            </h3>
+            <div class="col-sm-12 col-lg-6">
+                <CardView Styles="w-100 border-0 mb-4 shadow">
+                    <CardMiddle>
+                        <h3 class="fs-5">Active</h3>
+                        <ChartBankAccountActive ChartType="ChartType.line" />
+                    </CardMiddle>
+                </CardView>
+            </div>
         </div>
     </Body>
     <Footer>

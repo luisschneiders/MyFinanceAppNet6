@@ -5,7 +5,7 @@ using Microsoft.JSInterop;
 
 namespace MainApp.Components.Chart.Transaction;
 
-public partial class ChartTransactionIO : ComponentBase
+public partial class ChartTransactionIOByDay : ComponentBase
 {
     [Inject]
     private IChartService _chartService { get; set; } = default!;
@@ -38,13 +38,13 @@ public partial class ChartTransactionIO : ComponentBase
 
     private IJSObjectReference _chartObjectReference = default!;
 
-    public ChartTransactionIO()
+    public ChartTransactionIOByDay()
     {
     }
 
     protected async override Task OnInitializedAsync()
     {
-        _dateTimeRange = _dateTimeService.GetCurrentYear();
+        _dateTimeRange = _dateTimeService.GetCurrentMonth();
         _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
 
         await Task.CompletedTask;
@@ -80,7 +80,7 @@ public partial class ChartTransactionIO : ComponentBase
 
     private async Task SetChartConfigDataAsync()
     {
-        _chartConfigData = await _chartTransactionService.ConfigDataIO(_dateTimeRange);
+        _chartConfigData = await _chartTransactionService.ConfigDataIOByDay(_dateTimeRange);
         _isLoading = false;
 
         await InvokeAsync(StateHasChanged);

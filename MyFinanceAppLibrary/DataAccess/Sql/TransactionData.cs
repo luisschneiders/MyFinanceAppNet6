@@ -174,12 +174,35 @@ public class TransactionData : ITransactionData<TransactionModel>
         }
     }
 
-    public async Task<List<TransactionIOGraphByDateDTO>> GetIOByDateRange(string userId, DateTimeRange dateTimeRange)
+    public async Task<List<TransactionIOGraphByMonthDTO>> GetIOByDateRangeGroupByMonth(string userId, DateTimeRange dateTimeRange)
     {
         try
         {
-            var results = await _dataAccess.LoadData<TransactionIOGraphByDateDTO, dynamic>(
-                "myfinancedb.spTransaction_GetIOByDateRange",
+            var results = await _dataAccess.LoadData<TransactionIOGraphByMonthDTO, dynamic>(
+                "myfinancedb.spTransaction_GetIOByDateRangeGroupByMonthAndLabel",
+                new
+                {
+                    userId = userId,
+                    startDate = dateTimeRange.Start,
+                    endDate = dateTimeRange.End
+                },
+                "Mysql");
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<List<TransactionIOGraphByDayDTO>> GetIOByDateRangeGroupByDay(string userId, DateTimeRange dateTimeRange)
+    {
+        try
+        {
+            var results = await _dataAccess.LoadData<TransactionIOGraphByDayDTO, dynamic>(
+                "myfinancedb.spTransaction_GetIOByDateRangeGroupByDayAndLabel",
                 new
                 {
                     userId = userId,

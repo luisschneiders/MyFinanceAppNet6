@@ -2,6 +2,7 @@
 
 public interface IChartTransactionService
 {
-    Task<ChartConfigData> ConfigDataIO(DateTimeRange dateTimeRange);
+    Task<ChartConfigData> ConfigDataIOByMonth(DateTimeRange dateTimeRange);
+    Task<ChartConfigData> ConfigDataIOByDay(DateTimeRange dateTimeRange);
     Task<ChartConfigData> ConfigDataLast3Months();
 }

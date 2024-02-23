@@ -1,7 +1,6 @@
 ﻿@using MainApp.Components.Card
 @using MainApp.Components.Badge
 @using MainApp.Components.Shared
-@using MainApp.Components.Chart.Bank
 @using MainApp.Components.Chart.Transaction
 
 <CardView Styles="w-100 border-0 mb-4">
@@ -19,11 +18,6 @@
 <CardView Styles="w-100 border-0 mb-4">
     <CardMiddle>
         <ChartTransactionLast3Months />
-    </CardMiddle>
-</CardView>
-<CardView Styles="w-100 border-0">
-    <CardMiddle>
-        <ChartBankAccountActive ChartType="ChartType.line" />
     </CardMiddle>
 </CardView>
 <AdminTransactionChartModal @ref="_setupChartModal" />
