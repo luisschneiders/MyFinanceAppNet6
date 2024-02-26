@@ -198,18 +198,18 @@
                         </tbody>
                         <tfoot class="bg-secondary-subtle fw-semibold d-lg-none">
                             <tr>
-                                <td class="text-nowrap" colspan="6">Total paid</td>
+                                <td class="text-nowrap" colspan="7">Total paid</td>
                                 <td class="text-nowrap text-end">@_timesheetStateContainerDTO.TotalPaid.ToString("C")</td>
                                 <td colspan="3"></td>
                             </tr>
                             <tr>
-                                <td class="text-nowrap" colspan="6">Total awaiting</td>
+                                <td class="text-nowrap" colspan="7">Total awaiting</td>
                                 <td class="text-nowrap text-end text-danger-emphasis">@_timesheetStateContainerDTO.TotalAwaiting.ToString("C")</td>
                                 <td colspan="3"></td>
                             </tr>
                             <tr>
-                                <td class="text-nowrap" colspan="6">Work Hours</td>
-                                <td class="text-nowrap text-end">@_timesheetStateContainerDTO.TotalHours</td>
+                                <td class="text-nowrap" colspan="7">Total work hours</td>
+                                <td class="text-nowrap text-end">@_timesheetStateContainerDTO.TotalHours.ToString("F2")</td>
                                 <td colspan="3"></td>
                             </tr>
                         </tfoot>
