@@ -48,11 +48,14 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th class="col-3">
+                                <th class="col-2">
                                     Company name
                                 </th>
-                                <th class="col-4">
+                                <th class="col-3">
                                     Position
+                                </th>
+                                <th class="col-2 text-end">
+                                    Standard Hours
                                 </th>
                                 <th class="col-1 text-end">
                                     Rate
@@ -77,6 +80,9 @@
                                         </td>
                                         <td>
                                             @record.Position
+                                        </td>
+                                        <td class="text-end">
+                                            @(TimeSpan.FromHours(record.StandardHours).ToString("h'h '"))
                                         </td>
                                         <td class="text-end">
                                             @record.Rate.ToString("C")
@@ -164,6 +170,9 @@
                                                 </td>
                                                 <td>
                                                     @record.Position
+                                                </td>
+                                                <td class="text-end">
+                                                    @(TimeSpan.FromHours(record.StandardHours).ToString("h'h '"))
                                                 </td>
                                                 <td class="text-end">
                                                     @record.Rate.ToString("C")

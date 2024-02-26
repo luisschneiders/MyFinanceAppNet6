@@ -41,6 +41,7 @@ public class CompanyData : ICompanyData<CompanyModel>
                 {
                     companyDescription = model.Description,
                     companyPosition = model.Position,
+                    companyStandardHours = model.StandardHours,
                     companyRate = model.Rate,
                     companyCType = model.CType,
                     companyUpdatedBy = model.UpdatedBy,
@@ -149,6 +150,7 @@ public class CompanyData : ICompanyData<CompanyModel>
                     companyId = model.Id,
                     companyDescription = model.Description,
                     companyPosition = model.Position,
+                    companyStandardHours = model.StandardHours,
                     companyRate = model.Rate,
                     companyCType = model.CType,
                     companyIsActive = model.IsActive,

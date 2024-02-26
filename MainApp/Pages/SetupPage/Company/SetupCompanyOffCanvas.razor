@@ -52,6 +52,18 @@
                 <div class="form-floating pb-2">
                     <InputNumber @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlPlainTextAttributes : _inputFormControlAttributes)"
+                                 id="CompanyStandardHours"
+                                 min="1"
+                                 max="12"
+                                 placeholder="Standard Hours"
+                                 readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive)? true: false)"
+                                 @bind-Value="_companyModel.StandardHours" />
+                    <label for="CompanyStandardHours">Standard Hours</label>
+                </div>
+                <div class="form-floating pb-2">
+                    <InputNumber @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlPlainTextAttributes : _inputFormControlAttributes)"
                                  id="CompanyRate"
                                  min="0.00"
                                  placeholder="Rates"

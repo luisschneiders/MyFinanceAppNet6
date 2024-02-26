@@ -41,7 +41,6 @@ public partial class AdminTimesheetPanelLeft : ComponentBase, IDisposable
      */
     private AdminTimesheetOffCanvas _setupOffCanvas { get; set; } = new();
 
-    private TimesheetModel _timesheetModel { get; set; } = new();
     private DateTimeRange _dateTimeRange { get; set; } = new();
 
     private List<CompanyModel> _companies { get; set; } = new();

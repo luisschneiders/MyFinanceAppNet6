@@ -78,7 +78,10 @@
                                     Clock out
                                 </th>
                                 <th class="col text-nowrap">
-                                    Hours worked
+                                    Work hours
+                                </th>
+                                <th class="col text-nowrap">
+                                    Overtime
                                 </th>
                                 <th class="col text-nowrap text-end">
                                     Total
@@ -127,7 +130,7 @@
                                                 @record.Description.Truncate((int)Truncate.Company)
                                             </td>
                                             <td class="text-nowrap">
-                                                @record.TimeIn.ToString("dd/MM/yy")
+                                                @record.TimeIn.ToString("ddd, dd/MM/yy")
                                             </td>
                                             <td class="text-nowrap">
                                                 @record.TimeIn.ToString("t")
@@ -146,6 +149,13 @@
                                                         <Badge BackgroundColor="Theme.Info" Message="Inactive" />
                                                     </sup>
                                                 }
+                                            </td>
+                                            <td>
+                                                @(
+                                                    (record.HoursWorked != TimeSpan.FromHours(_companies.First(c => c.Id == record.CompanyId).StandardHours) &&
+                                                     record.HoursWorked > TimeSpan.FromHours(_companies.First(c => c.Id == record.CompanyId).StandardHours)) ?
+                                                    (record.HoursWorked - TimeSpan.FromHours(_companies.First(c => c.Id == record.CompanyId).StandardHours)).ToString("h'h 'm'm '") : "--"
+                                                )
                                             </td>
                                             <td class="text-nowrap text-end">
                                                 @record.TotalAmount.ToString("C")
@@ -198,7 +208,7 @@
                                 <td colspan="3"></td>
                             </tr>
                             <tr>
-                                <td class="text-nowrap" colspan="6">Hours worked</td>
+                                <td class="text-nowrap" colspan="6">Work Hours</td>
                                 <td class="text-nowrap text-end">@_timesheetStateContainerDTO.TotalHours</td>
                                 <td colspan="3"></td>
                             </tr>
