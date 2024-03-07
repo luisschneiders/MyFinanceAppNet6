@@ -18,7 +18,7 @@ public partial class Admin : ComponentBase
 
     protected async override Task OnInitializedAsync()
     {
-        _dateTimeRange = _dateTimeService.GetCurrentYear();
+        _dateTimeRange = _dateTimeService.GetCurrentMonth();
         await Task.CompletedTask;
     }
 }

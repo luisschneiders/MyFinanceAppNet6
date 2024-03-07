@@ -2,6 +2,7 @@
 @using MainApp.Components.Chart.Expense
 @using MainApp.Components.Modal
 @using MainApp.Components.Dropdown.Filter
+@using MainApp.Components.Shared
 
 <Modal @ref="_modal"
        Size="Size.Fullscreen"
@@ -13,14 +14,24 @@
     </Title>
     <Body>
         <div class="row">
-            <div class="col-sm-12 col-lg-6">
+            <div class="col-sm-12 col-lg-6 d-flex flex-sm-column flex-md-row justify-content-center">
                 <CardView Styles="w-100 border-0 mb-4 shadow">
                     <CardMiddle>
                         <ChartExpenseTop5 ChartType="ChartType.bar" ChartConfigOption="_chartConfigOption" />
                     </CardMiddle>
                 </CardView>
             </div>
-            <div class="col-sm-12 col-lg-6">
+            <div class="col-sm-12 col-lg-6 d-flex flex-sm-column flex-md-row justify-content-center">
+                <CardView Styles="w-100 border-0 mb-4 shadow">
+                    <CardMiddle>
+                        <MapLocationExpense Color="MapMarkerColor.Brown"
+                                            Width="MapSize.Width800"
+                                            Height="MapSize.Height250"
+                                            Scale="MapScale.Desktop"
+                                            PeriodRange="PeriodRange.Month"
+                                            DateRange="_dateTimeRange" />
+                    </CardMiddle>
+                </CardView>
             </div>
         </div>
     </Body>
