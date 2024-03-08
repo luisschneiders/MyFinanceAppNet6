@@ -256,5 +256,4 @@ public class TripService : ITripService<TripModel>
 
         return results;
     }
-
 }

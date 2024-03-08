@@ -25,22 +25,11 @@
                     <PageMiddleWrapper>
                         <div class="row">
                             <div class="col-12 col-lg-9">
-                                <AdminTimesheetPanelLeft OnStateContainerSetValue="DisplayPanelRight" />
+                                @* <AdminTimesheetPanelLeft OnStateContainerSetValue="DisplayPanelRight" /> *@
+                                <AdminTimesheetPanelLeft />
                             </div>
                             <div class="col-12 col-lg-3 d-none d-lg-block">
-                                @if (_isLoading)
-                                {
-                                    <div class="d-flex justify-content-center align-items-center">
-                                        <Spinner Size="Size.Sm" />
-                                        <span class="ps-2">
-                                            Loading ...
-                                        </span>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <AdminTimesheetPanelRight />
-                                }
+                                <AdminTimesheetPanelRight />
                             </div>
                         </div>
                     </PageMiddleWrapper>

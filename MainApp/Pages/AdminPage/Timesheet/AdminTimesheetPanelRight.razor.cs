@@ -1,63 +1,47 @@
-﻿using MainApp.Components.Spinner;
-using MainApp.Components.Toast;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Pages.AdminPage.Timesheet;
 
-public partial class AdminTimesheetPanelRight : ComponentBase, IDisposable
+public partial class AdminTimesheetPanelRight : ComponentBase
 {
-    [Inject]
-    private ITimesheetService<TimesheetModel> _timesheetService { get; set; } = default!;
-
-    [Inject]
-    private TimesheetStateService _timesheetStateService { get; set; } = default!;
-
-    [Inject]
-    private SpinnerService _spinnerService { get; set; } = new();
-
-    [Inject]
-    private ToastService _toastService { get; set; } = new();
-
-    private TimesheetStateContainerDTO _timesheetStateContainerDTO { get; set; } = new();
-
-    private bool _isLoading { get; set; } = true;
+    // private TimesheetStateContainerDTO _timesheetStateContainerDTO { get; set; } = new();
 
     public AdminTimesheetPanelRight()
     {
     }
 
-    protected override async Task OnInitializedAsync()
-    {
-        _timesheetStateService.OnStateChange += StateHasChanged;
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     _timesheetStateService.OnStateChange += StateHasChanged;
 
-        _timesheetStateContainerDTO = _timesheetStateService.Value;
+    //     _timesheetStateContainerDTO = _timesheetStateService.Value;
 
-        await Task.CompletedTask;
-    }
+    //     await Task.CompletedTask;
+    // }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            try
-            {
-                _spinnerService.ShowSpinner();
-                _isLoading = false;
-            }
-            catch (Exception ex)
-            {
-                _isLoading = false;
-                _toastService.ShowToast(ex.Message, Theme.Danger);
-            }
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     if (firstRender)
+    //     {
+    //         try
+    //         {
+    //             _spinnerService.ShowSpinner();
+    //             _isLoading = false;
+    //         }
+    //         catch (Exception ex)
+    //         {
+    //             _isLoading = false;
+    //             _toastService.ShowToast(ex.Message, Theme.Danger);
+    //         }
 
-            StateHasChanged();
-        }
+    //         StateHasChanged();
+    //     }
 
-        await Task.CompletedTask;
-    }
+    //     await Task.CompletedTask;
+    // }
 
-    public void Dispose()
-    {
-        _timesheetStateService.OnStateChange -= StateHasChanged;
-    }
+    // public void Dispose()
+    // {
+    //     _timesheetStateService.OnStateChange -= StateHasChanged;
+    // }
 }
