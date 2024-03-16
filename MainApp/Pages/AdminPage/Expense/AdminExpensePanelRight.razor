@@ -7,19 +7,16 @@
 
 <CardView Styles="w-100 border-0 mb-4">
     <CardMiddle>
+        <ChartExpenseLast3Months />
+        <hr class="py-2" />
         <div class="d-none d-lg-flex">
-            <div class="btn-group w-100 bg-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
-                <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+            <div class="btn-group w-100 bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
+                <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
                         @onclick="ViewChartsAsync">
-                    <i class="bi bi-bar-chart-line pe-1"></i>View Charts
+                    <i class="bi bi-bar-chart-line pe-1"></i>View more charts
                 </button>
             </div>
         </div>
-    </CardMiddle>
-</CardView>
-<CardView Styles="w-100 border-0 mb-4">
-    <CardMiddle>
-        <ChartExpenseLast3Months />
     </CardMiddle>
 </CardView>
 <AdminExpenseChartModal @ref="_setupChartModal" />

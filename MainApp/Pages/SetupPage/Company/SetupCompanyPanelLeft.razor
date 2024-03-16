@@ -9,7 +9,7 @@
                 <DropdownActions DropdownPosition="Position.End"
                                  ButtonSize="Size.Sm">
                     <li class="px-2">
-                        <button class="dropdown-item text-@(Theme.Info.ToString().ToLower())-emphasis rounded"
+                        <button class="dropdown-item text-@(Theme.Dark.ToString().ToLower())-emphasis rounded"
                                 @onclick="() => AddRecordAsync()">
                             <i class="bi bi-plus-lg pe-1"></i>New Company
                         </button>
@@ -97,7 +97,7 @@
                                                     <input class="form-check-input"
                                                            type="checkbox"
                                                            role="switch"
-                                                           id="IsActive"
+                                                           id="IsActive-@(record.Id)"
                                                            checked
                                                            @onclick="() => UpdateStatusAsync(record)" />
                                                 }
@@ -106,7 +106,7 @@
                                                     <input class="form-check-input"
                                                            type="checkbox"
                                                            role="switch"
-                                                           id="IsActive"
+                                                           id="IsActive-@(record.Id)"
                                                            @onclick="() => UpdateStatusAsync(record)" />
                                                 }
                                             </div>
@@ -187,7 +187,7 @@
                                                             <input class="form-check-input"
                                                                    type="checkbox"
                                                                    role="switch"
-                                                                   id="IsActive"
+                                                                   id="IsActive-@(record.Id)"
                                                                    checked
                                                                    @onclick="() => UpdateStatusAsync(record)" />
                                                         }
@@ -196,7 +196,7 @@
                                                             <input class="form-check-input"
                                                                    type="checkbox"
                                                                    role="switch"
-                                                                   id="IsActive"
+                                                                   id="IsActive-@(record.Id)"
                                                                    @onclick="() => UpdateStatusAsync(record)" />
                                                         }
                                                     </div>

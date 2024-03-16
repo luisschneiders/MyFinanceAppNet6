@@ -37,7 +37,7 @@
                     @if (_viewType == ViewType.Calendar.ToString())
                     {
                         <div class="ps-2">
-                            <DropdownDateMonthYear IconColor="Theme.Info"
+                            <DropdownDateMonthYear IconColor="Theme.Dark"
                                                 ButtonSize="Size.Sm"
                                                 DateTimeRange="@_dateCalendar"
                                                 DropdownLabel="@_dropdownDateCalendarLabel"
@@ -47,29 +47,28 @@
                     else
                     {
                         <div class="ps-2">
-                            <DropdownDateRange IconColor="Theme.Info"
-                                            ButtonSize="Size.Sm"
-                                            DateTimeRange="@_dateRange"
-                                            DropdownLabel="@_dropdownDateRangeLabel"
-                                            PeriodRange="PeriodRange.Month"
-                                            OnSubmitSuccess="data => RefreshDropdownDateRange(data)" />
+                            <DropdownDateRange ButtonSize="Size.Sm"
+                                               DateTimeRange="@_dateRange"
+                                               DropdownLabel="@_dropdownDateRangeLabel"
+                                               PeriodRange="PeriodRange.Month"
+                                               OnSubmitSuccess="data => RefreshDropdownDateRange(data)" />
                         </div>
                         <div class="ps-2 d-none d-lg-flex">
-                            <div class="btn-group bg-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
-                                <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                            <div class="btn-group bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
+                                <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
                                         @onclick="() => ApplyFiltersAsync()">
                                     <i class="bi bi-sliders2 pe-1"></i>Filters
                                     @if(IsFilterApplied())
                                     {
                                         <sup class="ps-1">
-                                            <Badge BackgroundColor="@Theme.Info" Message="Applied" />
+                                            <Badge BackgroundColor="@Theme.Light" Message="Applied" />
                                         </sup>
                                     }
                                 </button>
                                     @if (IsFilterApplied())
                                     {
                                         <div class="d-flex align-items-center">
-                                            <div class="vr my-1 text-@(Theme.Light.ToString().ToLower())-emphasis"></div>
+                                            <div class="vr my-1 text-@(Theme.Dark.ToString().ToLower())-emphasis"></div>
                                             <button class="btn btn-@(Size.Sm.ToString().ToLower())"
                                                     title="Remove"
                                                     @onclick="ResetAllFilters">
@@ -85,7 +84,7 @@
             </div>
             <div class="col-2 col-lg-3 d-flex justify-content-end pb-2">
                 <div class="d-none d-lg-block">
-                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
                             @onclick="AddRecordAsync">
                         <i class="bi bi-plus-lg pe-1"></i>New expense
                     </button>
@@ -94,7 +93,7 @@
                     <DropdownActions DropdownPosition="Position.End"
                                      ButtonSize="Size.Sm">
                         <li class="px-2 d-block d-lg-none">
-                            <button class="dropdown-item text-@(Theme.Info.ToString().ToLower())-emphasis rounded"
+                            <button class="dropdown-item text-@(Theme.Dark.ToString().ToLower())-emphasis rounded"
                                     @onclick="AddRecordAsync">
                                 <i class="bi bi-plus-lg pe-1"></i>New expense
                             </button>

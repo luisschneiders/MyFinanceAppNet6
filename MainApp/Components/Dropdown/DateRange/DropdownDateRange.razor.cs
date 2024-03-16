@@ -24,10 +24,10 @@ public partial class DropdownDateRange : ComponentBase
     public bool IsDisplayLargeNone { get; set; } = false;
 
     [Parameter]
-    public Theme IconColor { get; set; } = Theme.Success;
+    public Theme IconColor { get; set; } = Theme.Dark;
 
     [Parameter]
-    public Theme ButtonColor { get; set; } = Theme.Light;
+    public Theme ButtonColor { get; set; } = Theme.Dark;
 
     [Parameter]
     public Size ButtonSize { get; set; } = Size.Md;

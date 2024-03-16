@@ -16,9 +16,8 @@
                     <DropdownFilter ButtonSize="Size.Md"
                                     DropdownLabel="@_dropdownFilterLabelVehicle"
                                     DropdownPosition="Position.Start"
-                                    IconStartColor="Theme.Info"
                                     IconEnd="bi-chevron-down"
-                                    IconStart="bi-cart4"
+                                    IconStart="bi-truck"
                                     Model="@_filterVehicleModel"
                                     OnSubmitSuccess="ResetDropdownFilterVehicle">
                         @foreach (var (vehicle, index) in _vehicles.Select((value, index) => (value, index)))
@@ -39,9 +38,8 @@
                     <DropdownFilter ButtonSize="Size.Md"
                                     DropdownLabel="@_dropdownFilterLabelTripCategory"
                                     DropdownPosition="Position.Start"
-                                    IconStartColor="Theme.Info"
                                     IconEnd="bi-chevron-down"
-                                    IconStart="bi-bank"
+                                    IconStart="bi-tag"
                                     Model="@_filterTripCategoryModel"
                                     OnSubmitSuccess="ResetDropdownFilterTripCategory">
                        @foreach (var (tripCategory, index) in _tripCategoryDTOs.Select((value, index) => (value, index)))

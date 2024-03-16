@@ -16,9 +16,8 @@
                     <DropdownFilter ButtonSize="Size.Md"
                                     DropdownLabel="@_dropdownFilterLabelCompany"
                                     DropdownPosition="Position.Start"
-                                    IconStartColor="Theme.Info"
                                     IconEnd="bi-chevron-down"
-                                    IconStart="bi-cart4"
+                                    IconStart="bi-building"
                                     Model="@_filterCompanyModel"
                                     OnSubmitSuccess="ResetDropdownFilterCompany">
                         @foreach (var (company, index) in _companies.Select((value, index) => (value, index)))
