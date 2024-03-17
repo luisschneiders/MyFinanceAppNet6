@@ -48,7 +48,7 @@
         <ul class="list-group @("rounded"+_appSettings.Form)">
             @foreach (var (item, index) in _locationlist.Select((value, index) => (value, index)))
             {
-                <li class="list-group-item bg-@(Theme.Light.ToString().ToLower())-subtle">
+                <li class="list-group-item bg-@(Theme.Dark.ToString().ToLower())-subtle">
                     <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="@index" id="@index" @onclick="() => SelectAddress(item)">
                     <label class="form-check-label stretched-link" for="@index">
                         <small>

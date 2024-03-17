@@ -19,6 +19,10 @@ public class CompanyModel : BaseModel
     public decimal Rate { get; set; }
 
     [Required]
+    [Range(1, 12, ErrorMessage = "The Standard Hours field is required.")]
+    public int StandardHours { get; set; }
+
+    [Required]
     [Range(1, 3, ErrorMessage = "The Company Type field is required.")]
     public int CType { get; set; }
 #nullable enable

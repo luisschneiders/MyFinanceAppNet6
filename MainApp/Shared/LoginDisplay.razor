@@ -1,10 +1,10 @@
 ﻿<AuthorizeView>
     <Authorized>
         <div class="dropdown">
-            <a class="btn bg-info-subtle text-info-emphasis @("rounded"+_appSettings.Button)" id="dropdownMenuUser" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+            <a class="btn bg-@Theme.Info.ToString().ToLower()-subtle text-info-emphasis @("rounded"+_appSettings.Button)" id="dropdownMenuUser" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
                 Hello, @context.User.Identity?.Name &#x1F60A<i class="bi bi-chevron-down ps-2"></i>
             </a>
-            <ul class="dropdown-menu dropdown-menu-lg-end border-0 shadow-sm" aria-labelledby="dropdownMenuUser">
+            <ul class="dropdown-menu dropdown-menu-lg-end bg-@Theme.Info.ToString().ToLower()-subtle border-@Theme.Info.ToString().ToLower()-subtle shadow-sm" aria-labelledby="dropdownMenuUser">
                 <li class="px-2">
                     <a class="dropdown-item rounded" href="MicrosoftIdentity/Account/EditProfile">
                         <i class="bi bi-person pe-1"></i>Account

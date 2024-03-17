@@ -10,6 +10,9 @@ public partial class AdminExpenseChartModal : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = default!;
 
+    [Inject]
+    private IDateTimeService _dateTimeService { get; set; } = default!;
+
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
 
@@ -17,10 +20,17 @@ public partial class AdminExpenseChartModal : ComponentBase
 
     private Modal _modal { get; set; } = new();
     private Guid _modalTarget { get; set; }
+    private DateTimeRange _dateTimeRange { get; set; } = new();
 
     public AdminExpenseChartModal()
     {
         _chartConfigOption.IndexAxis = "y";
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        _dateTimeRange = _dateTimeService.GetCurrentMonth();
+        await Task.CompletedTask;
     }
 
     public async Task OpenModalAsync()

@@ -16,9 +16,8 @@
                     <DropdownFilter ButtonSize="Size.Md"
                                     DropdownLabel="@_dropdownFilterLabelTransaction"
                                     DropdownPosition="Position.Start"
-                                    IconStartColor="Theme.Info"
                                     IconEnd="bi-chevron-down"
-                                    IconStart="bi-cart4"
+                                    IconStart="bi-currency-exchange"
                                     Model="@_filterTransactionCategoryModel"
                                     OnSubmitSuccess="ResetDropdownFilterTransactionCategory">
                         @foreach (var (category, index) in _transactionCategories.Select((value, index) => (value, index)))
@@ -39,7 +38,6 @@
                     <DropdownFilter ButtonSize="Size.Md"
                                     DropdownLabel="@_dropdownFilterLabelBank"
                                     DropdownPosition="Position.Start"
-                                    IconStartColor="Theme.Info"
                                     IconEnd="bi-chevron-down"
                                     IconStart="bi-bank"
                                     Model="@_filterBankModel"

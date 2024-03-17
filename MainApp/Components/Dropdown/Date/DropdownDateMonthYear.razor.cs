@@ -20,10 +20,10 @@ public partial class DropdownDateMonthYear : ComponentBase
     public DateTimeRange DateTimeRange { get; set; }
 
     [Parameter]
-    public Theme IconColor { get; set; } = Theme.Success;
+    public Theme IconColor { get; set; } = Theme.Dark;
 
     [Parameter]
-    public Theme ButtonColor { get; set; } = Theme.Light;
+    public Theme ButtonColor { get; set; } = Theme.Dark;
 
     [Parameter]
     public Size ButtonSize { get; set; } = Size.Md;

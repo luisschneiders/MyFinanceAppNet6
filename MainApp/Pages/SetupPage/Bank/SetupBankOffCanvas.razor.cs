@@ -1,11 +1,10 @@
 ﻿using MainApp.Components.OffCanvas;
 using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
-using MyFinanceAppLibrary.Models;
 
 namespace MainApp.Pages.SetupPage.Bank;
 
-public partial class SetupBankOffCanvas
+public partial class SetupBankOffCanvas : ComponentBase
 {
 
     [Inject]

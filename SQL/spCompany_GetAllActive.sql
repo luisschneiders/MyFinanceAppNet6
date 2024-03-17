@@ -7,6 +7,7 @@ BEGIN
 		Id,
         Description,
         Position,
+        StandardHours,
         Rate,
         CType,
         IsActive

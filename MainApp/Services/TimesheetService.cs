@@ -15,8 +15,10 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
     private IUserData _userData { get; set; } = default!;
 
     private UserModel _loggedInUser { get; set; } = new();
-
-    private List<TimesheetListDTO> _resultListByDateRange { get; set; } = new();
+    private List<TimesheetListDTO> _recordsByDateRange { get; set; } = new();
+    private decimal _timesheetTotalAmountSum { get; set; } = 0;
+    private TimeSpan _timesheetTotalWorkHoursSum { get; set; }
+    private TimeSpan _timesheetTotalOvertimeSum { get; set; }
 
     public TimesheetService(ITimesheetData<TimesheetModel> timesheetData, IUserData userData, AuthenticationStateProvider authProvider)
     {
@@ -107,8 +109,11 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         try
         {
             var user = await GetLoggedInUser();
-            var results = await _timesheetData.GetRecordsByDateRange(user.Id, dateTimeRange);
-            return results;
+
+            _recordsByDateRange = await _timesheetData.GetRecordsByDateRange(user.Id, dateTimeRange);
+            _timesheetTotalAmountSum = _recordsByDateRange.Sum(t => t.TotalAmount);
+
+            return _recordsByDateRange;
         }
         catch (Exception ex)
         {
@@ -117,19 +122,29 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         }
     }
 
-    public async Task<List<TimesheetListDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, CompanyModel companyModel)
+    public async Task<List<TimesheetByCompanyGroupDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, FilterTimesheetDTO filterTimesheetDTO)
     {
         try
         {
-            var records = await GetRecordsByDateRange(dateTimeRange);
-
-            if (companyModel.Id > 0)
+            if (filterTimesheetDTO.CompanyId > 0)
             {
-                return _resultListByDateRange = records.Where(c => c.CompanyId == companyModel.Id).ToList();
+                List<TimesheetListDTO> recordsFiltered = new();
+
+                recordsFiltered = _recordsByDateRange.Where(t => t.CompanyId == filterTimesheetDTO.CompanyId).ToList();
+
+                var results = SetRecordsByGroup(recordsFiltered);
+
+                _timesheetTotalAmountSum = recordsFiltered.Sum(t => t.TotalAmount);
+
+                return await Task.FromResult(results);
             }
             else
             {
-                return _resultListByDateRange = records;
+                var results = SetRecordsByGroup(_recordsByDateRange);
+
+                _timesheetTotalAmountSum = _recordsByDateRange.Sum(t => t.TotalAmount);
+
+                return await Task.FromResult(results);
             }
         }
         catch (Exception ex)
@@ -139,23 +154,36 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         }
     }
 
-    public async Task<decimal> GetSumTotalAwaiting()
+    public async Task<decimal> GetSumByDateRange()
     {
-        var totalRecords = _resultListByDateRange.Where(p => p.PayStatus == (int)PayStatus.Awaiting);
-        var totalSum = totalRecords.Sum(s => s.TotalAmount);
-        return await Task.FromResult(totalSum);
+        try
+        {
+            return await Task.FromResult(_timesheetTotalAmountSum);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
-    public async Task<decimal> GetSumTotalPaid()
-    {
-        var totalRecords = _resultListByDateRange.Where(p => p.PayStatus == (int)PayStatus.Paid);
-        var totalSum = totalRecords.Sum(s => s.TotalAmount);
-        return await Task.FromResult(totalSum);
-    }
+    // public async Task<decimal> GetSumTotalAwaiting()
+    // {
+    //     var totalRecords = _recordsByDateRange.Where(p => p.PayStatus == (int)PayStatus.Awaiting);
+    //     var totalSum = totalRecords.Sum(s => s.TotalAmount);
+    //     return await Task.FromResult(totalSum);
+    // }
+
+    // public async Task<decimal> GetSumTotalPaid()
+    // {
+    //     var totalRecords = _recordsByDateRange.Where(p => p.PayStatus == (int)PayStatus.Paid);
+    //     var totalSum = totalRecords.Sum(s => s.TotalAmount);
+    //     return await Task.FromResult(totalSum);
+    // }
 
     public async Task<double> GetSumTotalHours()
     {
-        var totalHours = _resultListByDateRange.Sum(s => s.HoursWorked.TotalHours);
+        var totalHours = _recordsByDateRange.Sum(s => s.HoursWorked.TotalHours);
         return await Task.FromResult(totalHours);
     }
 
@@ -219,8 +247,38 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         }
     }
 
+    public async Task<List<TimesheetByCompanyGroupDTO>> GetRecordsByGroupAndDateRange(DateTimeRange dateTimeRange)
+    {
+        try
+        {
+            var records = await GetRecordsByDateRange(dateTimeRange);
+            var results = SetRecordsByGroup(records);
+            _timesheetTotalAmountSum = records.Sum(t => t.TotalAmount);
+            // _timesheetTotalWorkHoursSum = records.Sum(t => t.HoursWorked);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     private async Task<UserModel> GetLoggedInUser()
     {
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
+    }
+
+    private static List<TimesheetByCompanyGroupDTO> SetRecordsByGroup(List<TimesheetListDTO> records)
+    {
+        var resultsByGroup = records.GroupBy(t => $"{t.Description}");
+        var results = resultsByGroup.Select(tGroup => new TimesheetByCompanyGroupDTO()
+        {
+            Description = tGroup.Key,
+            TotalAmount = tGroup.Sum(a => a.TotalAmount),
+            Timesheets = tGroup.ToList()
+        }).ToList();
+
+        return results;
     }
 }

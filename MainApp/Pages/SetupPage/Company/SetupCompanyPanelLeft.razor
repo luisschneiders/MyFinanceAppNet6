@@ -9,7 +9,7 @@
                 <DropdownActions DropdownPosition="Position.End"
                                  ButtonSize="Size.Sm">
                     <li class="px-2">
-                        <button class="dropdown-item text-@(Theme.Info.ToString().ToLower())-emphasis rounded"
+                        <button class="dropdown-item text-@(Theme.Dark.ToString().ToLower())-emphasis rounded"
                                 @onclick="() => AddRecordAsync()">
                             <i class="bi bi-plus-lg pe-1"></i>New Company
                         </button>
@@ -48,11 +48,14 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th class="col-3">
+                                <th class="col-2">
                                     Company name
                                 </th>
-                                <th class="col-4">
+                                <th class="col-3">
                                     Position
+                                </th>
+                                <th class="col-2 text-end">
+                                    Standard Hours
                                 </th>
                                 <th class="col-1 text-end">
                                     Rate
@@ -79,6 +82,9 @@
                                             @record.Position
                                         </td>
                                         <td class="text-end">
+                                            @(TimeSpan.FromHours(record.StandardHours).ToString("h'h '"))
+                                        </td>
+                                        <td class="text-end">
                                             @record.Rate.ToString("C")
                                         </td>
                                         <td class="">
@@ -91,7 +97,7 @@
                                                     <input class="form-check-input"
                                                            type="checkbox"
                                                            role="switch"
-                                                           id="IsActive"
+                                                           id="IsActive-@(record.Id)"
                                                            checked
                                                            @onclick="() => UpdateStatusAsync(record)" />
                                                 }
@@ -100,7 +106,7 @@
                                                     <input class="form-check-input"
                                                            type="checkbox"
                                                            role="switch"
-                                                           id="IsActive"
+                                                           id="IsActive-@(record.Id)"
                                                            @onclick="() => UpdateStatusAsync(record)" />
                                                 }
                                             </div>
@@ -166,6 +172,9 @@
                                                     @record.Position
                                                 </td>
                                                 <td class="text-end">
+                                                    @(TimeSpan.FromHours(record.StandardHours).ToString("h'h '"))
+                                                </td>
+                                                <td class="text-end">
                                                     @record.Rate.ToString("C")
                                                 </td>
                                                 <td class="">
@@ -178,7 +187,7 @@
                                                             <input class="form-check-input"
                                                                    type="checkbox"
                                                                    role="switch"
-                                                                   id="IsActive"
+                                                                   id="IsActive-@(record.Id)"
                                                                    checked
                                                                    @onclick="() => UpdateStatusAsync(record)" />
                                                         }
@@ -187,7 +196,7 @@
                                                             <input class="form-check-input"
                                                                    type="checkbox"
                                                                    role="switch"
-                                                                   id="IsActive"
+                                                                   id="IsActive-@(record.Id)"
                                                                    @onclick="() => UpdateStatusAsync(record)" />
                                                         }
                                                     </div>

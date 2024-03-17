@@ -1,0 +1,50 @@
+﻿@using MainApp.Components.Modal
+@using MainApp.Components.Dropdown.Filter
+
+<Modal @ref="_modal"
+       Size="Size.Lg"
+       ModalBodyStyle="vh-100">
+    <Title>
+        <span class="text-secondary">
+            Apply filters
+        </span>
+    </Title>
+    <Body>
+        <div class="row"> 
+            <div class="col-auto">
+                <div class="ps-2">
+                    <DropdownFilter ButtonSize="Size.Md"
+                                    DropdownLabel="@_dropdownFilterLabelCompany"
+                                    DropdownPosition="Position.Start"
+                                    IconEnd="bi-chevron-down"
+                                    IconStart="bi-building"
+                                    Model="@_filterCompanyModel"
+                                    OnSubmitSuccess="ResetDropdownFilterCompany">
+                        @foreach (var (company, index) in _companies.Select((value, index) => (value, index)))
+                        {
+                            <li class="px-2">
+                                <button class="dropdown-item rounded"
+                                        title="@company.Description"
+                                        @onclick="() => RefreshDropdownFilterCompany(company.Id)">
+                                    @($"{company.Description}")
+                                </button>
+                            </li>
+                        }
+                    </DropdownFilter>
+                </div>
+            </div>
+        </div> 
+    </Body>
+    <Footer>
+        <div class="row">
+            <div class="col-auto">
+                <button type="button"
+                        class="btn btn-outline-secondary @("rounded"+_appSettings.Button)"
+                        data-dismiss="modal"
+                        @onclick="() => CloseModalAsync()">
+                    Close
+                </button>
+            </div>
+        </div>
+    </Footer>
+</Modal>

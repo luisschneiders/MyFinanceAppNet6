@@ -1,6 +1,6 @@
 ﻿<div class="btn-group bg-@(ButtonColor.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
     <div class="dropdown">
-        <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + Theme.Info.ToString().ToLower() + "-emphasis") text-nowrap @("rounded"+_appSettings.Button)"
+        <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + Theme.Dark.ToString().ToLower() + "-emphasis") text-nowrap @("rounded"+_appSettings.Button)"
                 title="Change date range"
                 id="dropdownDateRange"
                 data-bs-toggle="dropdown"
@@ -10,7 +10,7 @@
             @DropdownLabel
             <i class="bi bi-chevron-down"></i>
         </button>
-        <ul class="dropdown-menu dropdown-menu-@DropdownPosition.ToString().ToLower() border-0 bg-@ButtonColor.ToString().ToLower()-subtle shadow-sm ps-2"
+        <ul class="dropdown-menu dropdown-menu-@DropdownPosition.ToString().ToLower() border-@Theme.Dark.ToString().ToLower()-subtle bg-@Theme.Dark.ToString().ToLower()-subtle shadow-sm ps-2"
             aria-labelledby="dropdownDateRange">
             <li class="d-flex pe-2 gap-2">
                 <input class="form-control form-control-@(Size.Sm.ToString().ToLower()) @("rounded"+_appSettings.Button)"

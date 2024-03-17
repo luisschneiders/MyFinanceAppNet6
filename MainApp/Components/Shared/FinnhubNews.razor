@@ -32,7 +32,7 @@ else
             <small>
                 Source: <NavLink href="https://finnhub.io" class="text-decoration-underline" target="_blank">https://finnhub.io</NavLink>
             </small>
-            <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Light.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis d-none d-lg-block @("rounded"+_appSettings.Button)"
+            <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis d-none d-lg-block @("rounded"+_appSettings.Button)"
                     title="Refresh"
                     @onclick="RefreshNewsAsync">
                 <i class="bi bi-arrow-clockwise pe-1"></i>Refresh
@@ -51,7 +51,7 @@ else
                 </div>
             </div>
             <div class="py-4">
-                <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Light.ToString().ToLower())-subtle  text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle  text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
                         title="Refresh"
                         @onclick="RefreshNewsAsync">
                     <i class="bi bi-arrow-clockwise pe-1"></i>Refresh
