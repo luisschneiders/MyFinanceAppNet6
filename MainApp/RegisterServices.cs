@@ -75,6 +75,7 @@ public static class RegisterServices
         builder.Services.AddScoped<SpinnerService>();
         builder.Services.AddScoped<ToastService>();
         builder.Services.AddScoped<IAppSettingsService, AppSettingsService>();
+        builder.Services.AddScoped<IBrowserService, BrowserService>();
         builder.Services.AddScoped<ICalendarViewService, CalendarViewService>();
         builder.Services.AddScoped<IChartService, ChartService>();
         builder.Services.AddScoped<IChartBankService, ChartBankService>();
