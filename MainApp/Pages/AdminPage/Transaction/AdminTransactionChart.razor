@@ -1,0 +1,67 @@
+﻿@page "/admin/transactions/charts"
+
+@using MainApp.Components.Card
+@using MainApp.Components.Chart.Transaction
+@using MainApp.Components.Chart.Bank
+@using MainApp.Components.Message
+@using MainApp.Components.Modal
+
+<div class="container-lg">
+    <AuthorizeView Policy="Admin">
+        <Authorized>
+            <Modal @ref="_modal"
+                Size="Size.Fullscreen"
+                IsCloseButtonVisible="false"
+                ModalContentStyle="bg-light-subtle">
+                <Title>
+                    <span class="text-secondary">
+                        Charts
+                    </span>
+                </Title>
+                <Body>
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <CardView Styles="w-100 border-0 mb-4 shadow">
+                                <CardMiddle>
+                                    <h3 class="fs-5">Daily</h3>
+                                    <ChartTransactionIOByDay ChartType="ChartType.line" />
+                                </CardMiddle>
+                            </CardView>
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <CardView Styles="w-100 border-0 mb-4 shadow">
+                                <CardMiddle>
+                                    <h3 class="fs-5">Monthly</h3>
+                                    <ChartTransactionIOByMonth ChartType="ChartType.bar" />
+                                </CardMiddle>
+                            </CardView>
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <CardView Styles="w-100 border-0 mb-4 shadow">
+                                <CardMiddle>
+                                    <h3 class="fs-5">Active</h3>
+                                    <ChartBankAccountActive ChartType="ChartType.line" />
+                                </CardMiddle>
+                            </CardView>
+                        </div>
+                    </div>
+                </Body>
+                <Footer>
+                    <div class="row">
+                        <div class="col-auto">
+                            <button type="button"
+                                    class="btn btn-outline-secondary @("rounded"+_appSettings.Button)"
+                                    data-dismiss="modal"
+                                    @onclick="() => CloseModalAsync()">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </Footer>
+            </Modal>
+        </Authorized>
+            <NotAuthorized>
+            <NotAuthorizedMessage />
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
