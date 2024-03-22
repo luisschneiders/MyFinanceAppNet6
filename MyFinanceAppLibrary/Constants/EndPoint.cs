@@ -6,8 +6,10 @@ public static class EndPoint
 
     public const string Admin = "/admin";
     public const string AdminExpenses = $"{Admin}/expenses";
+    public const string AdminExpensesCharts = $"{AdminExpenses}/charts";
     public const string AdminTimesheet = $"{Admin}/timesheet";
     public const string AdminTransactions = $"{Admin}/transactions";
+    public const string AdminTransactionsCharts = $"{AdminTransactions}/charts";
     public const string AdminTrips = $"{Admin}/trips";
 
     public const string Dashboard = "/dashboard";

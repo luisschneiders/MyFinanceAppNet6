@@ -5,53 +5,58 @@ using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Pages.AdminPage.Expense;
 
-public partial class AdminExpenseChartModal : ComponentBase
+public partial class AdminExpenseChart : ComponentBase
 {
     [Inject]
-    private ToastService _toastService { get; set; } = default!;
+    private ToastService _toastService { get; set; } = new();
 
     [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
+    [Inject]
+    private IBrowserService _browserService { get; set; } = default!;
+
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
 
-    private ChartConfigOption _chartConfigOption { get; set; } = new();
-
     private Modal _modal { get; set; } = new();
     private Guid _modalTarget { get; set; }
+    private ChartConfigOption _chartConfigOption { get; set; } = new();
     private DateTimeRange _dateTimeRange { get; set; } = new();
 
-    public AdminExpenseChartModal()
+    public AdminExpenseChart()
     {
         _chartConfigOption.IndexAxis = "y";
     }
 
     protected async override Task OnInitializedAsync()
     {
+        _modalTarget = Guid.NewGuid();
         _dateTimeRange = _dateTimeService.GetCurrentMonth();
         await Task.CompletedTask;
     }
 
-    public async Task OpenModalAsync()
+    protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        try
+        if (firstRender)
         {
-            _modalTarget = Guid.NewGuid();
+            try
+            {
+                await Task.FromResult(_modal.Open(_modalTarget));
+            }
+            catch (Exception ex)
+            {
+                _toastService.ShowToast(ex.Message, Theme.Danger);
+            }
 
-            await Task.FromResult(_modal.Open(_modalTarget));
+            StateHasChanged();
         }
-        catch (Exception ex)
-        {
-            _toastService.ShowToast(ex.Message, Theme.Danger);
-        }
-
         await Task.CompletedTask;
     }
 
     private async Task CloseModalAsync()
     {
-        await Task.FromResult(_modal.Close(_modalTarget));
+        await Task.FromResult(_browserService.CloseTab());
         await Task.CompletedTask;
     }
 }
