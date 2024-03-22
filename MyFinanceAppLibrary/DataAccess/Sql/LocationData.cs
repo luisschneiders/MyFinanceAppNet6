@@ -15,7 +15,7 @@ public class LocationData : ILocationData<UserLocationModel>
         {
             var result = await _dataAccess.LoadData<LocationModel, dynamic>(
                 "myfinancedb.spLocation_GetById",
-                new { userId = userId },
+                new { userId },
                 "Mysql");
 
             return result.FirstOrDefault()!;

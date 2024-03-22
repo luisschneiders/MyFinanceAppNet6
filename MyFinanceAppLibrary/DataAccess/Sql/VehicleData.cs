@@ -68,7 +68,7 @@ public class VehicleData : IVehicleData<VehicleModel>
         {
             var result = await _dataAccess.LoadData<VehicleModel, dynamic>(
                 "myfinancedb.spVehicle_GetById",
-                new { userId = userId, vehicleId = modelId },
+                new { userId, vehicleId = modelId },
                 "Mysql");
 
             return result.FirstOrDefault()!;
@@ -86,7 +86,7 @@ public class VehicleData : IVehicleData<VehicleModel>
         {
             var results = await _dataAccess.LoadData<VehicleModel, dynamic>(
                 "myfinancedb.spVehicle_GetAll",
-                new { userId = userId },
+                new { userId },
                 "Mysql");
 
             return results;
@@ -104,7 +104,7 @@ public class VehicleData : IVehicleData<VehicleModel>
         {
             var results = await _dataAccess.LoadData<VehicleModel, dynamic>(
                 "myfinancedb.spVehicle_GetAllActive",
-                new { userId = userId },
+                new { userId },
                 "Mysql");
 
             return results;
@@ -124,7 +124,7 @@ public class VehicleData : IVehicleData<VehicleModel>
                 "myfinancedb.spVehicle_GetSearchResults",
                 new
                 {
-                    userId = userId,
+                    userId,
                     searchVehicle = search,
                 },
                 "Mysql");
