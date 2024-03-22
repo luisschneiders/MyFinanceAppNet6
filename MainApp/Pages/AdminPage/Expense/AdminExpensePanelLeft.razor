@@ -104,7 +104,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="app-page-responsive-height">
+                <div class="app-page-responsive-height @(_viewType == ViewType.Calendar.ToString() ? "rounded"+_appSettings.Card : "")">
                     @if (_isLoading)
                     {
                         <div class="d-flex justify-content-center align-items-center">
@@ -134,8 +134,8 @@
                                                             <td class="@(day == 0 ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "")">
                                                                 <div class="d-flex justify-content-end">
                                                                     <div class="app-calendar-day text-center p-1 @((DateTime.Now.Day == day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
-                                                                                  $"app-calendar-current-day rounded-circle bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
-                                                                                  "") fw-bold">
+                                                                                $"app-calendar-current-day rounded-circle bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
+                                                                                "") fw-bold">
                                                                         @(day == 0 ? "" : day)
                                                                     </div>
                                                                 </div>
