@@ -69,7 +69,7 @@ public class CompanyData : ICompanyData<CompanyModel>
         {
             var result = await _dataAccess.LoadData<CompanyModel, dynamic>(
                 "myfinancedb.spCompany_GetById",
-                new { userId = userId, companyId = modelId },
+                new { userId, companyId = modelId },
                 "Mysql");
 
             return result.FirstOrDefault()!;
@@ -87,7 +87,7 @@ public class CompanyData : ICompanyData<CompanyModel>
         {
             var results = await _dataAccess.LoadData<CompanyModel, dynamic>(
                 "myfinancedb.spCompany_GetAll",
-                new { userId = userId },
+                new { userId },
                 "Mysql");
 
             return results;
@@ -105,7 +105,7 @@ public class CompanyData : ICompanyData<CompanyModel>
         {
             var results = await _dataAccess.LoadData<CompanyModel, dynamic>(
                 "myfinancedb.spCompany_GetAllActive",
-                new { userId = userId },
+                new { userId },
                 "Mysql");
 
             return results;
@@ -125,7 +125,7 @@ public class CompanyData : ICompanyData<CompanyModel>
                 "myfinancedb.spCompany_GetSearchResults",
                 new
                 {
-                    userId = userId,
+                    userId,
                     searchCompany = search,
                 },
                 "Mysql");

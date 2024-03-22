@@ -66,7 +66,7 @@ public class TransactionCategoryData : ITransactionCategoryData<TransactionCateg
         {
             var result = await _dataAccess.LoadData<TransactionCategoryModel, dynamic>(
                 "myfinancedb.spTransactionCategory_GetById",
-                new { userId = userId, transactionCategoryId = modelId },
+                new { userId, transactionCategoryId = modelId },
                 "Mysql");
 
             return result.FirstOrDefault()!;
@@ -84,7 +84,7 @@ public class TransactionCategoryData : ITransactionCategoryData<TransactionCateg
         {
             var results = await _dataAccess.LoadData<TransactionCategoryModel, dynamic>(
                 "myfinancedb.spTransactionCategory_GetAll",
-                new { userId = userId },
+                new { userId },
                 "Mysql");
 
             return results;
@@ -102,7 +102,7 @@ public class TransactionCategoryData : ITransactionCategoryData<TransactionCateg
         {
             var results = await _dataAccess.LoadData<TransactionCategoryModel, dynamic>(
                 "myfinancedb.spTransactionCategory_GetAllActive",
-                new { userId = userId },
+                new { userId },
                 "Mysql");
 
             return results;
@@ -122,7 +122,7 @@ public class TransactionCategoryData : ITransactionCategoryData<TransactionCateg
                 "myfinancedb.spTransactionCategory_GetSearchResults",
                 new
                 {
-                    userId = userId,
+                    userId,
                     searchTransactionCategory = search,
                 },
                 "Mysql");

@@ -182,7 +182,7 @@ public class TransactionData : ITransactionData<TransactionModel>
                 "myfinancedb.spTransaction_GetIOByDateRangeGroupByMonthAndLabel",
                 new
                 {
-                    userId = userId,
+                    userId,
                     startDate = dateTimeRange.Start,
                     endDate = dateTimeRange.End
                 },
@@ -205,7 +205,7 @@ public class TransactionData : ITransactionData<TransactionModel>
                 "myfinancedb.spTransaction_GetIOByDateRangeGroupByDayAndLabel",
                 new
                 {
-                    userId = userId,
+                    userId,
                     startDate = dateTimeRange.Start,
                     endDate = dateTimeRange.End
                 },
@@ -231,7 +231,7 @@ public class TransactionData : ITransactionData<TransactionModel>
         {
             var result = await _dataAccess.LoadData<TransactionModel, dynamic>(
                 "myfinancedb.spTransaction_GetById",
-                new { userId = userId, transactionId = modelId },
+                new { userId, transactionId = modelId },
                 "Mysql");
 
             return result.FirstOrDefault()!;
@@ -261,7 +261,7 @@ public class TransactionData : ITransactionData<TransactionModel>
                 "myfinancedb.spTransaction_GetRecordsByDateRange",
                 new
                 {
-                    userId = userId,
+                    userId,
                     startDate = dateTimeRange.Start,
                     endDate = dateTimeRange.End
                 },
@@ -284,7 +284,7 @@ public class TransactionData : ITransactionData<TransactionModel>
                 "myfinancedb.spTransaction_GetIOLast3Months",
                 new
                 {
-                    userId = userId,
+                    userId,
                 },
                 "Mysql");
 

@@ -64,7 +64,7 @@ public class BankData : IBankData<BankModel>
                 "myfinancedb.spBank_GetBalancesSum",
                 new
                 {
-                    userId = userId
+                    userId
                 },
                 "Mysql");
 
@@ -89,7 +89,7 @@ public class BankData : IBankData<BankModel>
         {
             var result = await _dataAccess.LoadData<BankModel, dynamic>(
                 "myfinancedb.spBank_GetById",
-                new { userId = userId, bankId = modelId },
+                new { userId, bankId = modelId },
                 "Mysql");
 
             return result.FirstOrDefault()!;
@@ -107,7 +107,7 @@ public class BankData : IBankData<BankModel>
         {
             var results = await _dataAccess.LoadData<BankModel, dynamic>(
                 "myfinancedb.spBank_GetAll",
-                new { userId = userId },
+                new { userId },
                 "Mysql");
 
             return results;
@@ -125,7 +125,7 @@ public class BankData : IBankData<BankModel>
         {
             var results = await _dataAccess.LoadData<BankModel, dynamic>(
                 "myfinancedb.spBank_GetAllActive",
-                new { userId = userId },
+                new { userId },
                 "Mysql");
 
             return results;
@@ -145,7 +145,7 @@ public class BankData : IBankData<BankModel>
                 "myfinancedb.spBank_GetSearchResults",
                 new
                 {
-                    userId = userId,
+                    userId,
                     searchBank = search,
                 },
                 "Mysql");
