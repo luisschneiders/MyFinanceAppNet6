@@ -182,7 +182,6 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         try
         {
             var records = await GetRecordsByDateRange(dateTimeRange);
-
             var results = SetRecordsByGroup(records);
 
             _expensesByDateRangeSum = records.Sum(t => t.Amount);
@@ -202,6 +201,8 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         {
             var records = await GetRecordsByDateRange(dateTimeRange);
             var resultsByGroupDay = records.GroupBy(d => d.EDate);
+
+            _expensesByDateRangeSum = records.Sum(t => t.Amount);
 
             List<ExpenseCalendarDTO> results = new();
 

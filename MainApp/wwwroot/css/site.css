@@ -118,6 +118,10 @@ h1:focus {
     padding: 0.25rem 0.25rem;
 }
 
+.app-table-calendar-height-with-subheader {
+    height: calc(100% - 24px);
+}
+
 /*
 * The component Virtualize won't work if we don't set a fix height for tables
 */

@@ -11,8 +11,8 @@
 
 <CardView Styles="border-0">
     <CardMiddle>
-        <div class="row justify-content-between pb-2">
-            <div class="col-10 col-lg-9 pb-2 d-flex">
+        <div class="row pb-2">
+            <div class="col-10 col-lg-9 pb-2 d-flex align-items-center">
                 @if (_isLoading)
                 {
                     <div class="d-flex justify-content-center align-items-center">
@@ -82,7 +82,7 @@
                 }
 
             </div>
-            <div class="col-2 col-lg-3 d-flex justify-content-end pb-2">
+            <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
                 <div class="d-none d-lg-block">
                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
                             @onclick="AddRecordAsync">
@@ -118,7 +118,20 @@
                     {
                         @if (_viewType == ViewType.Calendar.ToString())
                         {
-                            <CalendarWrapper>
+                            <CalendarWrapper CalendarHasSubheader="true">
+                                    <CalendarSubHeaderView>
+                                        <CalendarSubHeaderWrapper>
+                                            <div class="d-flex justify-content-center px-5 fw-semibold align-items-center
+                                                        bg-@(Theme.Secondary.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis">
+                                                <div class="text-uppercase d-flex">
+                                                    Total<span class="d-none d-lg-block ps-1">for the period</span>
+                                                </div>
+                                                <span class="ps-2 me-expenses-sum">
+                                                    @_expensesTotal.ToString("C")
+                                                </span>
+                                            </div>
+                                        </CalendarSubHeaderWrapper>
+                                    </CalendarSubHeaderView>
                                     <CalendarHeaderView>
                                         <CalendarHeaderWrapper />
                                     </CalendarHeaderView>

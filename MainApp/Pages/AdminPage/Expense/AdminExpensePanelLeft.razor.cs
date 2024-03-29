@@ -124,9 +124,9 @@ public partial class AdminExpensePanelLeft : ComponentBase
             else if (_viewType == ViewType.List.ToString())
             {
                 _expensesByGroup = await _expenseService.GetRecordsByGroupAndDateRange(_dateRange);
-                _expensesTotal = await _expenseService.GetRecordsByDateRangeSum();
             }
 
+            _expensesTotal = await _expenseService.GetRecordsByDateRangeSum();
             _isLoading = false;
         }
         catch (Exception ex)
