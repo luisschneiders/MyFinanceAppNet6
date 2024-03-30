@@ -119,7 +119,7 @@ h1:focus {
 }
 
 .app-table-calendar-height-with-subheader {
-    height: calc(100% - 24px);
+    height: calc(100% - 25px);
 }
 
 /*

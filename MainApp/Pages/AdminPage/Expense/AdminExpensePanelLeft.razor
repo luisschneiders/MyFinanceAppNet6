@@ -121,11 +121,11 @@
                             <CalendarWrapper CalendarHasSubheader="true">
                                     <CalendarSubHeaderView>
                                         <CalendarSubHeaderWrapper>
-                                            <div class="d-flex justify-content-center fw-semibold bg-@(Theme.Secondary.ToString().ToLower())-subtle">
-                                                <div class="d-flex  pe-1">
+                                            <div class="d-flex justify-content-end border-bottom px-2">
+                                                <div class="d-flex pe-1">
                                                     Total<span class="d-none d-lg-block ps-1">expenses for the period</span>
                                                 </div>
-                                                <span class="app-expense-sum-me px-2 bg-@(Theme.Info.ToString().ToLower())-subtle text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)">
+                                                <span class="app-expense-sum-me fw-semibold px-1 text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)">
                                                     @_expensesTotal.ToString("C")
                                                 </span>
                                             </div>
