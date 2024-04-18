@@ -341,6 +341,21 @@ public class ExpenseService : IExpenseService<ExpenseModel>
             throw;
         }
     }
+
+    public async Task<List<ExpenseListGroupByMonthDTO>> GetRecordsGroupByMonth(DateTimeRange dateTimeRange)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<ExpenseListGroupByMonthDTO> results = await _expenseData.GetRecordsGroupByMonth(user.Id, dateTimeRange);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
     private static List<ExpenseByCategoryGroupDTO> SetRecordsByGroup(List<ExpenseListDTO> records)
     {
         var resultsByGroup = records.GroupBy(ec => ec.ExpenseCategoryDescription);

@@ -59,6 +59,60 @@ public class ChartExpenseService : IChartExpenseService
         }
     }
 
+    public async Task<ChartConfigData> ConfigDataExpenseByMonth(DateTimeRange dateTimeRange)
+    {
+        try
+        {
+            List<ExpenseListGroupByMonthDTO> expenses = await _expenseService.GetRecordsGroupByMonth(dateTimeRange);
+            ChartConfigData chartConfigData = await SetChartConfigDataExpenseByMonth(expenses);
+
+            return chartConfigData;
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    private static async Task<ChartConfigData> SetChartConfigDataExpenseByMonth(List<ExpenseListGroupByMonthDTO> expenses)
+    {
+        try
+        {
+            ChartConfigData chartConfigData = new();
+            ChartConfigDataset chartConfigDataset = new();
+
+            List<string> chartLabels = await LabelHelper.GetMonths();
+
+            if (expenses.Count > 0)
+            {
+                foreach (var (item, index) in expenses.Select((value, index) => (value,index)))
+                {
+                    chartConfigDataset.Label = "Expenses";
+                    chartConfigDataset.BackgroundColor.Add($"rgba({item.ECategoryColor},0.2)");
+                    chartConfigDataset.BorderColor.Add($"rgb({item.ECategoryColor})");
+                    chartConfigDataset.Data.Add(item.TotalAmount.ToString());
+                    // chartConfigData.Labels.Add(item.ECategoryDescription.Truncate((int)Truncate.ExpenseCategory)!);
+                }
+
+                chartConfigData.Datasets.Add(chartConfigDataset);
+                chartConfigData.Labels = chartLabels;
+
+                return chartConfigData;
+            }
+            else
+            {
+                return await Task.FromResult(chartConfigData);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     private static async Task<ChartConfigData> SetChartLast3MonthsAsync(List<ExpenseLast3MonthsGraphDTO> expenseLast3Months)
     {
         try
