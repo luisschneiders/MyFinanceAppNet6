@@ -21,17 +21,17 @@ else
         <div class="col-12 d-flex align-items-center gap-2">
             <DropdownDateRange ButtonSize="Size.Sm"
                                DateTimeRange="@_dateTimeRange"
-                               DropdownLabel="@_dropdownDateLabel"
+                               DropdownLabel="@_dropdownLabelDate"
                                PeriodRange="PeriodRange.Year"
                                OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
 
             <DropdownFilter ButtonSize="Size.Sm"
-                            DropdownLabel="@_dropdownFilterLabel"
+                            DropdownLabel="@_dropdownLabelFilter"
                             DropdownPosition="Position.Start"
                             IconEnd="bi-chevron-down"
                             IconStart="bi-cart4"
-                            Model="@_filterExpenseCategoryModel"
-                            OnSubmitSuccess="ResetDropdownFilterExpenseCategory">
+                            Model="@_filterModel"
+                            OnSubmitSuccess="ResetDropdownFilter">
                 @foreach (var (expenseCategory, index) in _expenseCategories.Select((value, index) => (value, index)))
                 {
                     <li class="px-2">
@@ -45,9 +45,8 @@ else
             </DropdownFilter>
         </div>
     </div>
-
     <Chart Id="ExpenseByMonth"
-           Type="@ChartType"
-           Data="@(_chartConfigData)"
-           OnSubmitSuccess="data => SetChartObjectReference(data)" />
+        Type="@ChartType"
+        Data="@(_chartConfigData)"
+        OnSubmitSuccess="data => SetChartObjectReference(data)" />
 }

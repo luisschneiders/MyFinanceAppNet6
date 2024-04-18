@@ -59,12 +59,28 @@ public class ChartExpenseService : IChartExpenseService
         }
     }
 
-    public async Task<ChartConfigData> ConfigDataExpenseByMonth(DateTimeRange dateTimeRange)
+    public async Task<ChartConfigData> ConfigDataExpenseByMonth(FilterExpenseByMonthDTO filter)
     {
         try
         {
-            List<ExpenseListGroupByMonthDTO> expenses = await _expenseService.GetRecordsGroupByMonth(dateTimeRange);
-            ChartConfigData chartConfigData = await SetChartConfigDataExpenseByMonth(expenses);
+            List<ExpenseListGroupByMonthDTO> expenses = new();
+            List<ExpenseListGroupByMonthDTO> expensesFiltered = new();
+
+            if (filter.IsDateChanged is true)
+            {
+                expenses = await _expenseService.GetRecordsGroupByMonth(filter.DateTimeRange);
+            }
+
+            if (filter.IsFilterChanged is true)
+            {
+                expensesFiltered = expenses.Where(e => e.ECategoryId == filter.ExpenseCategoryModel.Id).ToList();
+            }
+            else
+            {
+                expensesFiltered = new();
+            }
+
+            ChartConfigData chartConfigData = await SetChartConfigDataExpenseByMonth(expensesFiltered);
 
             return chartConfigData;
 
@@ -84,25 +100,27 @@ public class ChartExpenseService : IChartExpenseService
             ChartConfigDataset chartConfigDataset = new();
 
             List<string> chartLabels = await LabelHelper.GetMonths();
+            chartConfigData.Labels = chartLabels;
 
             if (expenses.Count > 0)
             {
                 foreach (var (item, index) in expenses.Select((value, index) => (value,index)))
                 {
-                    chartConfigDataset.Label = "Expenses";
+                    chartConfigDataset.Label = item.ECategoryDescription;
                     chartConfigDataset.BackgroundColor.Add($"rgba({item.ECategoryColor},0.2)");
                     chartConfigDataset.BorderColor.Add($"rgb({item.ECategoryColor})");
                     chartConfigDataset.Data.Add(item.TotalAmount.ToString());
-                    // chartConfigData.Labels.Add(item.ECategoryDescription.Truncate((int)Truncate.ExpenseCategory)!);
                 }
 
                 chartConfigData.Datasets.Add(chartConfigDataset);
-                chartConfigData.Labels = chartLabels;
 
                 return chartConfigData;
             }
             else
             {
+                chartConfigDataset.Label = "Select expense";
+                chartConfigData.Datasets.Add(chartConfigDataset);
+
                 return await Task.FromResult(chartConfigData);
             }
         }
@@ -152,20 +170,24 @@ public class ChartExpenseService : IChartExpenseService
 
     private static async Task<List<string>> SetChartBackgroundColorLast3Months()
     {
-        List<string> backgroundColors = new();
-        backgroundColors.Add(BackgroundColor.Orange);
-        backgroundColors.Add(BackgroundColor.Purple);
-        backgroundColors.Add(BackgroundColor.Green);
+        List<string> backgroundColors = new()
+        {
+            BackgroundColor.Orange,
+            BackgroundColor.Purple,
+            BackgroundColor.Green
+        };
 
         return await Task.FromResult(backgroundColors);
     }
 
     private static async Task<List<string>> SetChartBorderColorsLast3Months()
     {
-        List<string> borderColors = new();
-        borderColors.Add(BorderColor.Orange);
-        borderColors.Add(BorderColor.Purple);
-        borderColors.Add(BorderColor.Green);
+        List<string> borderColors = new()
+        {
+            BorderColor.Orange,
+            BorderColor.Purple,
+            BorderColor.Green
+        };
 
         return await Task.FromResult(borderColors);
     }
@@ -209,24 +231,28 @@ public class ChartExpenseService : IChartExpenseService
 
     private static async Task<List<string>> SetChartBackgroundColorLast5Years()
     {
-        List<string> backgroundColors = new();
-        backgroundColors.Add(BackgroundColor.Orange);
-        backgroundColors.Add(BackgroundColor.Purple);
-        backgroundColors.Add(BackgroundColor.Green);
-        backgroundColors.Add(BackgroundColor.Blue);
-        backgroundColors.Add(BackgroundColor.Yellow);
+        List<string> backgroundColors = new()
+        {
+            BackgroundColor.Orange,
+            BackgroundColor.Purple,
+            BackgroundColor.Green,
+            BackgroundColor.Blue,
+            BackgroundColor.Yellow
+        };
 
         return await Task.FromResult(backgroundColors);
     }
 
     private static async Task<List<string>> SetChartBorderColorsLast5Years()
     {
-        List<string> borderColors = new();
-        borderColors.Add(BorderColor.Orange);
-        borderColors.Add(BorderColor.Purple);
-        borderColors.Add(BorderColor.Green);
-        borderColors.Add(BorderColor.Blue);
-        borderColors.Add(BorderColor.Yellow);
+        List<string> borderColors = new()
+        {
+            BorderColor.Orange,
+            BorderColor.Purple,
+            BorderColor.Green,
+            BorderColor.Blue,
+            BorderColor.Yellow
+        };
 
         return await Task.FromResult(borderColors);
     }
