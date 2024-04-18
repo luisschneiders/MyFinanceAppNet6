@@ -1,0 +1,55 @@
+﻿@using MainApp.Components.Shared
+@using MainApp.Components.Spinner
+@using MainApp.Components.Dropdown.DateRange
+@using MainApp.Components.Dropdown.Filter
+
+<SharedHeader Title="Total expenses by period"
+              Icon="@_chartIcon"
+              IconColor="Theme.Info" />
+@if (_isLoading)
+{
+    <div class="d-flex justify-content-center align-items-center">
+        <Spinner Size="Size.Sm" />
+        <span class="ps-1">
+            Loading ...
+        </span>
+    </div>
+}
+else
+{
+    <div class="row text-center align-items-center">
+        <div class="col-12 d-flex align-items-center">
+            <DropdownDateRange ButtonSize="Size.Sm"
+                               DateTimeRange="@_dateTimeRange"
+                               DropdownLabel="@_dropdownLabel"
+                               PeriodRange="PeriodRange.Year"
+                               OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
+
+            <div class="ps-2">
+                <DropdownFilter ButtonSize="Size.Sm"
+                                DropdownLabel="@_dropdownFilterLabelExpense"
+                                DropdownPosition="Position.Start"
+                                IconEnd="bi-chevron-down"
+                                IconStart="bi-cart4"
+                                Model="@_filterExpenseCategoryModel"
+                                OnSubmitSuccess="ResetDropdownFilterExpenseCategory">
+                    @foreach (var (expenseCategory, index) in _expenseCategories.Select((value, index) => (value, index)))
+                    {
+                        <li class="px-2">
+                            <button class="dropdown-item rounded"
+                                    title="@expenseCategory.Description"
+                                    @onclick="() => RefreshDropdownFilterExpenseCategory(expenseCategory.Id)">
+                                @($"{expenseCategory.Description.Truncate((int)Truncate.ExpenseCategory)}")
+                            </button>
+                        </li>
+                    }
+                </DropdownFilter>
+            </div>
+        </div>
+    </div>
+
+    <Chart Id="ExpenseByMonth"
+           Type="@ChartType"
+           Data="@(_chartConfigData)"
+           OnSubmitSuccess="data => SetChartObjectReference(data)" />
+}
