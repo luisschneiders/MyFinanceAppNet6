@@ -66,7 +66,7 @@ public class ChartTransactionService : IChartTransactionService
             ChartConfigData chartConfigData = new();
             ChartConfigDataset chartConfigDataset = new();
 
-            List<string> chartLabels = await SetChartIOLabelByMonth();
+            List<string> chartLabels = await LabelHelper.GetMonths();
             TransactionChartData transactionChartData = await SetChartIODataByMonth();
 
             List<TransactionIOGraphByMonthDTO> incomes = transactions.Where(t => t.Label == "C").ToList();
@@ -138,7 +138,7 @@ public class ChartTransactionService : IChartTransactionService
             ChartConfigData chartConfigData = new();
             ChartConfigDataset chartConfigDataset = new();
 
-            List<string> chartLabels = await SetChartIOLabelByDay();
+            List<string> chartLabels = await LabelHelper.GetDays();
             TransactionChartData transactionChartData = await SetChartIODataByDay();
 
             List<TransactionIOGraphByDayDTO> incomes = transactions.Where(t => t.Label == "C").ToList();
@@ -201,39 +201,6 @@ public class ChartTransactionService : IChartTransactionService
             Console.WriteLine("An exception occurred: " + ex.Message);
             throw;
         }
-    }
-
-    private static async Task<List<string>> SetChartIOLabelByMonth()
-    {
-        List<string> labels = new()
-        {
-            Months.January.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.February.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.March.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.April.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.May.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.June.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.July.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.August.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.September.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.October.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.November.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.December.ToString().Truncate((int)Truncate.ShortMonthName, "")!
-        };
-
-        return await Task.FromResult(labels);
-    }
-
-    private static async Task<List<string>> SetChartIOLabelByDay()
-    {
-        List<string> labels = new();
-
-        for (int i = 1; i <= 31; ++i)
-        {
-            labels.Add(i.ToString());
-        }
-
-        return await Task.FromResult(labels);
     }
 
     private static async Task<TransactionChartData> SetChartIODataByMonth()

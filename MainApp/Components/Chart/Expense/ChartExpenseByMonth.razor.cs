@@ -41,8 +41,8 @@ public partial class ChartExpenseByMonth : ComponentBase
     private ExpenseCategoryModel _filterExpenseCategory { get; set; } = new();
     private List<ExpenseCategoryModel> _expenseCategories { get; set; } = new();
     private string _chartIcon { get; set; } = string.Empty;
-    private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
-    private string _dropdownFilterLabelExpense { get; set; } = Label.NoFilterAssigned;
+    private string _dropdownDateLabel { get; set; } = Label.NoDateAssigned;
+    private string _dropdownFilterLabel { get; set; } = Label.NoFilterAssigned;
     private bool _isLoading { get; set; } = true;
 
     private IJSObjectReference _chartObjectReference = default!;
@@ -54,8 +54,8 @@ public partial class ChartExpenseByMonth : ComponentBase
     protected async override Task OnInitializedAsync()
     {
         _dateTimeRange = _dateTimeService.GetCurrentYear();
-        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
-        _dropdownFilterLabelExpense = await _dropdownFilterService.UpdateLabel(Label.FilterByExpenseCategory);
+        _dropdownDateLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
+        _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(Label.FilterByExpenseCategory);
         await Task.CompletedTask;
     }
 
@@ -121,7 +121,7 @@ public partial class ChartExpenseByMonth : ComponentBase
     private async Task DropdownDateRangeRefresh(DateTimeRange dateTimeRange)
     {
         _dateTimeRange = dateTimeRange;
-        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
+        _dropdownDateLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
 
         await ResetChartDefaults();
         await SetChartConfigDataAsync();
@@ -144,7 +144,6 @@ public partial class ChartExpenseByMonth : ComponentBase
         
         _toastService.ShowToast("Filter for expense removed!", Theme.Info);
 
-        // await OnSubmitFilterSuccess.InvokeAsync(_filterExpenseDTO);
         await Task.CompletedTask;
     }
 
@@ -153,12 +152,12 @@ public partial class ChartExpenseByMonth : ComponentBase
         _filterExpenseCategory = new();
         _filterExpenseDTO.ECategoryId = 0;
         _filterExpenseCategoryModel = await _dropdownFilterService.ResetModel();
-        _dropdownFilterLabelExpense = await _dropdownFilterService.UpdateLabel(Label.FilterByExpenseCategory);
+        _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(Label.FilterByExpenseCategory);
 
         await Task.CompletedTask;
     }
 
-    private async Task RefreshDropdownFilterExpenseCategory(ulong id)
+    private async Task DropdownFilterRefresh(ulong id)
     {
         _filterExpenseDTO.ECategoryId = id;
         _filterExpenseCategory = _expenseCategories.First(i => i.Id == id);
@@ -166,10 +165,9 @@ public partial class ChartExpenseByMonth : ComponentBase
 
         _filterExpenseCategoryModel = await _dropdownFilterService.SetModel(_filterExpenseCategory.Id, _filterExpenseCategory.Description);
 
-        _dropdownFilterLabelExpense = await _dropdownFilterService.UpdateLabel(expenseName!);
+        _dropdownFilterLabel = await _dropdownFilterService.UpdateLabel(expenseName!);
         _toastService.ShowToast("Filter updated!", Theme.Info);
 
-        // await OnSubmitFilterSuccess.InvokeAsync(_filterExpenseDTO);
         await Task.CompletedTask;
     }
 
