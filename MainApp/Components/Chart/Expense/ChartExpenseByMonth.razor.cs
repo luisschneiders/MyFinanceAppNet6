@@ -94,7 +94,7 @@ public partial class ChartExpenseByMonth : ComponentBase
         _filterExpenseByMonthDTO.DateTimeRange = _dateTimeRange;
         _filterExpenseByMonthDTO.ExpenseCategoryModel = _expenseCategory;
 
-        _chartConfigData = await _chartExpenseService.ConfigDataExpenseByMonth(_filterExpenseByMonthDTO);
+        _chartConfigData = await _chartExpenseService.ConfigDataByMonth(_filterExpenseByMonthDTO);
         _isLoading = false;
 
         await InvokeAsync(StateHasChanged);
