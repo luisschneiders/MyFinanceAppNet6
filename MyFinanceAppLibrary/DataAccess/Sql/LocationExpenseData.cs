@@ -17,7 +17,7 @@ public class LocationExpenseData : ILocationExpenseData<LocationExpenseModel>
                 "myfinancedb.spLocationExpense_GetRecordsByDateRange",
                 new
                 {
-                    userId = userId,
+                    userId,
                     startDate = dateTimeRange.Start,
                     endDate = dateTimeRange.End
                 },

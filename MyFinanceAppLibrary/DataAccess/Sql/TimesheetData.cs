@@ -73,7 +73,7 @@ public class TimesheetData : ITimesheetData<TimesheetModel>
         {
             var result = await _dataAccess.LoadData<TimesheetModel, dynamic>(
                 "myfinancedb.spTimesheet_GetById",
-                new { userId = userId, timesheetId = modelId },
+                new { userId, timesheetId = modelId },
                 "Mysql");
 
             return result.FirstOrDefault()!;
@@ -96,7 +96,7 @@ public class TimesheetData : ITimesheetData<TimesheetModel>
         {
             var results = await _dataAccess.LoadData<TimesheetModel, dynamic>(
                 "myfinancedb.spTimesheet_GetAllActive",
-                new { userId = userId },
+                new { userId },
                 "Mysql");
 
             return results;
@@ -116,7 +116,7 @@ public class TimesheetData : ITimesheetData<TimesheetModel>
                 "myfinancedb.spTimesheet_GetRecordsByDateRange",
                 new
                 {
-                    userId = userId,
+                    userId,
                     startDate = dateTimeRange.Start,
                     endDate = dateTimeRange.End
                 },

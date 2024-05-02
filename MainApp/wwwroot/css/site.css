@@ -46,11 +46,11 @@ h1:focus {
     box-shadow: none;
 }
 
-.accordion .me-expenses-sum {
+.accordion .app-expense-sum-me {
     margin-right: 24px;
 }
 
-.accordion .me-trips-sum {
+.accordion .app-trip-sum-me {
     margin-right: 22px;
 }
 
@@ -110,8 +110,16 @@ h1:focus {
     height: 23px;
 }
 
+.app-table-calendar {
+    border-style: hidden;
+}
+
 .app-table-calendar > :not(caption) > * > * {
     padding: 0.25rem 0.25rem;
+}
+
+.app-table-calendar-height-with-subheader {
+    height: calc(100% - 25px);
 }
 
 /*

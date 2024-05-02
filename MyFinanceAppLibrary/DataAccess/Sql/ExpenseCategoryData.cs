@@ -66,7 +66,7 @@ public class ExpenseCategoryData : IExpenseCategoryData<ExpenseCategoryModel>
         {
             var result = await _dataAccess.LoadData<ExpenseCategoryModel, dynamic>(
                 "myfinancedb.spExpenseCategory_GetById",
-                new { userId = userId, expenseCategoryId = modelId },
+                new { userId, expenseCategoryId = modelId },
                 "Mysql");
 
             return result.FirstOrDefault()!;
@@ -84,7 +84,7 @@ public class ExpenseCategoryData : IExpenseCategoryData<ExpenseCategoryModel>
         {
             var results = await _dataAccess.LoadData<ExpenseCategoryModel, dynamic>(
                 "myfinancedb.spExpenseCategory_GetAll",
-                new { userId = userId },
+                new { userId },
                 "Mysql");
 
             return results;
@@ -102,7 +102,7 @@ public class ExpenseCategoryData : IExpenseCategoryData<ExpenseCategoryModel>
         {
             var results = await _dataAccess.LoadData<ExpenseCategoryModel, dynamic>(
                 "myfinancedb.spExpenseCategory_GetAllActive",
-                new { userId = userId },
+                new { userId },
                 "Mysql");
 
             return results;
@@ -122,7 +122,7 @@ public class ExpenseCategoryData : IExpenseCategoryData<ExpenseCategoryModel>
                 "myfinancedb.spExpenseCategory_GetSearchResults",
                 new
                 {
-                    userId = userId,
+                    userId,
                     searchExpenseCategory = search,
                 },
                 "Mysql");

@@ -182,7 +182,6 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         try
         {
             var records = await GetRecordsByDateRange(dateTimeRange);
-
             var results = SetRecordsByGroup(records);
 
             _expensesByDateRangeSum = records.Sum(t => t.Amount);
@@ -202,6 +201,8 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         {
             var records = await GetRecordsByDateRange(dateTimeRange);
             var resultsByGroupDay = records.GroupBy(d => d.EDate);
+
+            _expensesByDateRangeSum = records.Sum(t => t.Amount);
 
             List<ExpenseCalendarDTO> results = new();
 
@@ -332,6 +333,21 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         {
             var user = await GetLoggedInUser();
             List<ExpenseTop5DTO> results = await _expenseData.GetTop5ExpensesByDateRange(user.Id, dateTimeRange);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<List<ExpenseListGroupByMonthDTO>> GetRecordsGroupByMonth(DateTimeRange dateTimeRange)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<ExpenseListGroupByMonthDTO> results = await _expenseData.GetRecordsGroupByMonth(user.Id, dateTimeRange);
             return results;
         }
         catch (Exception ex)

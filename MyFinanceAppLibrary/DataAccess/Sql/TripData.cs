@@ -71,7 +71,7 @@ public class TripData : ITripData<TripModel>
         {
             var result = await _dataAccess.LoadData<TripModel, dynamic>(
                 "myfinancedb.spTrip_GetById",
-                new { userId = userId, tripId = modelId },
+                new { userId, tripId = modelId },
                 "Mysql");
 
             return result.FirstOrDefault()!;
@@ -101,7 +101,7 @@ public class TripData : ITripData<TripModel>
                 "myfinancedb.spTrip_GetRecordsByDateRange",
                 new
                 {
-                    userId = userId,
+                    userId,
                     startDate = dateTimeRange.Start,
                     endDate = dateTimeRange.End
                 },

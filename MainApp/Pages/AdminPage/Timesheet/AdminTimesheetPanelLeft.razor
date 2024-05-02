@@ -87,11 +87,11 @@
                         {
                             <div class="accordion d-flex justify-content-between p-3 fw-semibold
                                         bg-@(Theme.Secondary.ToString().ToLower())-subtle">
-                                <div class="text-uppercase d-flex">
-                                    Total<span class="d-none d-lg-block ps-1">amount</span>
+                                <div class="d-flex">
+                                    Total<span class="d-none d-lg-block ps-1">amount for the period</span>
                                 </div>
-                                <span class="pe-5 me-trips-sum">
-                                    @_sumByDateRange
+                                <span class="pe-5 app-trip-sum-me">
+                                    @_sumByDateRange.ToString("C")
                                 </span>
                             </div>
                             <Accordion Id="Timesheets">
@@ -103,7 +103,7 @@
                                                 @record.Description
                                             </div>
                                             <div>
-                                                @record.TotalAmount
+                                                @record.TotalAmount.ToString("C")
                                             </div>
                                         </AccordionHeader>
                                         <AccordionBody Id="@index.ToString()" IsAlwaysOpen=true>

@@ -8,6 +8,7 @@ BEGIN
 	SELECT
 		e.ECategoryId,
 		ec.Description AS ECategoryDescription,
+        ec.Color AS ECategoryColor,
 		IFNULL(SUM(e.Amount), 0) as TotalAmount,
 		month(e.EDate) AS MonthNumber
 	FROM Expense e

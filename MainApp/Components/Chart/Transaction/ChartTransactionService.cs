@@ -14,7 +14,7 @@ public class ChartTransactionService : IChartTransactionService
         try
         {
             List<TransactionIOGraphByMonthDTO> transactionIO = await _transactionService.GetIOByDateRangeGroupByMonth(dateTimeRange);
-            ChartConfigData chartConfigData = await SetChartConfigDataIOByMonth(transactionIO);
+            ChartConfigData chartConfigData = await SetConfigDataIOByMonth(transactionIO);
 
             return chartConfigData;
 
@@ -31,7 +31,7 @@ public class ChartTransactionService : IChartTransactionService
         try
         {
             List<TransactionIOGraphByDayDTO> transactionIO = await _transactionService.GetIOByDateRangeGroupByDay(dateTimeRange);
-            ChartConfigData chartConfigData = await SetChartConfigDataIOByDay(transactionIO);
+            ChartConfigData chartConfigData = await SetConfigDataIOByDay(transactionIO);
 
             return chartConfigData;
 
@@ -48,7 +48,7 @@ public class ChartTransactionService : IChartTransactionService
         try
         {
             List<TransactionIOLast3MonthsGraphDTO> transactions =  await _transactionService.GetRecordsLast3Months();
-            ChartConfigData chartConfigData = await SetChartConfigDataLast3Months(transactions);
+            ChartConfigData chartConfigData = await SetConfigDataLast3Months(transactions);
 
             return chartConfigData;
         }
@@ -59,15 +59,15 @@ public class ChartTransactionService : IChartTransactionService
         }
     }
 
-    private static async Task<ChartConfigData> SetChartConfigDataIOByMonth(List<TransactionIOGraphByMonthDTO> transactions)
+    private static async Task<ChartConfigData> SetConfigDataIOByMonth(List<TransactionIOGraphByMonthDTO> transactions)
     {
         try
         {
             ChartConfigData chartConfigData = new();
             ChartConfigDataset chartConfigDataset = new();
 
-            List<string> chartLabels = await SetChartIOLabelByMonth();
-            TransactionChartData transactionChartData = await SetChartIODataByMonth();
+            List<string> chartLabels = await LabelHelper.GetMonths();
+            TransactionChartData transactionChartData = await SetDataIOByMonth();
 
             List<TransactionIOGraphByMonthDTO> incomes = transactions.Where(t => t.Label == "C").ToList();
             List<TransactionIOGraphByMonthDTO> outcomes = transactions.Where(t => t.Label == "D").ToList();
@@ -131,15 +131,15 @@ public class ChartTransactionService : IChartTransactionService
         }
     }
 
-    private static async Task<ChartConfigData> SetChartConfigDataIOByDay(List<TransactionIOGraphByDayDTO> transactions)
+    private static async Task<ChartConfigData> SetConfigDataIOByDay(List<TransactionIOGraphByDayDTO> transactions)
     {
         try
         {
             ChartConfigData chartConfigData = new();
             ChartConfigDataset chartConfigDataset = new();
 
-            List<string> chartLabels = await SetChartIOLabelByDay();
-            TransactionChartData transactionChartData = await SetChartIODataByDay();
+            List<string> chartLabels = await LabelHelper.GetDays();
+            TransactionChartData transactionChartData = await SetDataIOByDay();
 
             List<TransactionIOGraphByDayDTO> incomes = transactions.Where(t => t.Label == "C").ToList();
             List<TransactionIOGraphByDayDTO> outcomes = transactions.Where(t => t.Label == "D").ToList();
@@ -203,74 +203,15 @@ public class ChartTransactionService : IChartTransactionService
         }
     }
 
-    private static async Task<List<string>> SetChartIOLabelByMonth()
-    {
-        List<string> labels = new()
-        {
-            Months.January.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.February.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.March.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.April.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.May.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.June.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.July.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.August.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.September.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.October.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.November.ToString().Truncate((int)Truncate.ShortMonthName, "")!,
-            Months.December.ToString().Truncate((int)Truncate.ShortMonthName, "")!
-        };
-
-        return await Task.FromResult(labels);
-    }
-
-    private static async Task<List<string>> SetChartIOLabelByDay()
-    {
-        List<string> labels = new();
-
-        for (int i = 1; i <= 31; ++i)
-        {
-            labels.Add(i.ToString());
-        }
-
-        return await Task.FromResult(labels);
-    }
-
-    private static async Task<TransactionChartData> SetChartIODataByMonth()
-    {
-        TransactionChartData data = new();
-
-        for (int i = 0; i <= 12; ++i)
-        {
-            data.Income.Add("0");
-            data.Outcome.Add("0");
-        }
-
-        return await Task.FromResult(data);
-    }
-
-    private static async Task<TransactionChartData> SetChartIODataByDay()
-    {
-        TransactionChartData data = new();
-
-        for (int i = 1; i <= 31; ++i)
-        {
-            data.Income.Add("0");
-            data.Outcome.Add("0");
-        }
-
-        return await Task.FromResult(data);
-    }
-
-    private static async Task<ChartConfigData> SetChartConfigDataLast3Months(List<TransactionIOLast3MonthsGraphDTO> transactions)
+    private static async Task<ChartConfigData> SetConfigDataLast3Months(List<TransactionIOLast3MonthsGraphDTO> transactions)
     {
         try
         {
             ChartConfigData chartConfigData = new();
             ChartConfigDataset chartConfigDataset = new();
 
-            List<string> chartLabels = await SetChartLast3MonthsLabel();
-            TransactionChartData transactionChartData = await SetChartLast3MonthsData();
+            List<string> chartLabels = await SetLast3MonthsLabel();
+            TransactionChartData transactionChartData = await SetDataLast3Months();
 
             List<TransactionIOLast3MonthsGraphDTO> incomes = transactions.Where(t => t.Label == "C").ToList();
             List<TransactionIOLast3MonthsGraphDTO> outcomes = transactions.Where(t => t.Label == "D").ToList();
@@ -325,19 +266,33 @@ public class ChartTransactionService : IChartTransactionService
         }
     }
 
-    private static async Task<List<string>> SetChartLast3MonthsLabel()
+    private static async Task<TransactionChartData> SetDataIOByMonth()
     {
-        List<string> labels = new();
-        for (int i = 2; i >= 0; --i)
+        TransactionChartData data = new();
+
+        for (int i = 0; i <= 12; ++i)
         {
-            // previous 3 months
-            labels.Add($"{DateTime.Now.AddMonths(-(i + 1)).Month}/{DateTime.Now.AddMonths(-(i + 1)).Year}");
+            data.Income.Add("0");
+            data.Outcome.Add("0");
         }
 
-        return await Task.FromResult(labels);
+        return await Task.FromResult(data);
     }
 
-    private static async Task<TransactionChartData> SetChartLast3MonthsData()
+    private static async Task<TransactionChartData> SetDataIOByDay()
+    {
+        TransactionChartData data = new();
+
+        for (int i = 1; i <= 31; ++i)
+        {
+            data.Income.Add("0");
+            data.Outcome.Add("0");
+        }
+
+        return await Task.FromResult(data);
+    }
+
+    private static async Task<TransactionChartData> SetDataLast3Months()
     {
         TransactionChartData data = new();
 
@@ -349,4 +304,17 @@ public class ChartTransactionService : IChartTransactionService
 
         return await Task.FromResult(data);
     }
+
+    private static async Task<List<string>> SetLast3MonthsLabel()
+    {
+        List<string> labels = new();
+        for (int i = 2; i >= 0; --i)
+        {
+            // previous 3 months
+            labels.Add($"{DateTime.Now.AddMonths(-(i + 1)).Month}/{DateTime.Now.AddMonths(-(i + 1)).Year}");
+        }
+
+        return await Task.FromResult(labels);
+    }
+
 }

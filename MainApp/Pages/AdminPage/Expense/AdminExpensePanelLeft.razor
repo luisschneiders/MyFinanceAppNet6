@@ -11,8 +11,8 @@
 
 <CardView Styles="border-0">
     <CardMiddle>
-        <div class="row justify-content-between pb-2">
-            <div class="col-10 col-lg-9 pb-2 d-flex">
+        <div class="row pb-2">
+            <div class="col-10 col-lg-9 pb-2 d-flex align-items-center">
                 @if (_isLoading)
                 {
                     <div class="d-flex justify-content-center align-items-center">
@@ -82,7 +82,7 @@
                 }
 
             </div>
-            <div class="col-2 col-lg-3 d-flex justify-content-end pb-2">
+            <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
                 <div class="d-none d-lg-block">
                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
                             @onclick="AddRecordAsync">
@@ -104,7 +104,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="app-page-responsive-height">
+                <div class="app-page-responsive-height @(_viewType == ViewType.Calendar.ToString() ? "rounded"+_appSettings.Card : "")">
                     @if (_isLoading)
                     {
                         <div class="d-flex justify-content-center align-items-center">
@@ -118,7 +118,19 @@
                     {
                         @if (_viewType == ViewType.Calendar.ToString())
                         {
-                            <CalendarWrapper>
+                            <CalendarWrapper CalendarHasSubheader="true">
+                                    <CalendarSubHeaderView>
+                                        <CalendarSubHeaderWrapper>
+                                            <div class="d-flex justify-content-end border-bottom px-2">
+                                                <div class="d-flex pe-1">
+                                                    Total<span class="d-none d-lg-block ps-1">expenses for the period</span>
+                                                </div>
+                                                <span class="app-expense-sum-me fw-semibold px-1 text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)">
+                                                    @_expensesTotal.ToString("C")
+                                                </span>
+                                            </div>
+                                        </CalendarSubHeaderWrapper>
+                                    </CalendarSubHeaderView>
                                     <CalendarHeaderView>
                                         <CalendarHeaderWrapper />
                                     </CalendarHeaderView>
@@ -134,8 +146,8 @@
                                                             <td class="@(day == 0 ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "")">
                                                                 <div class="d-flex justify-content-end">
                                                                     <div class="app-calendar-day text-center p-1 @((DateTime.Now.Day == day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
-                                                                                  $"app-calendar-current-day rounded-circle bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
-                                                                                  "") fw-bold">
+                                                                                $"app-calendar-current-day rounded-circle bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
+                                                                                "") fw-bold">
                                                                         @(day == 0 ? "" : day)
                                                                     </div>
                                                                 </div>
@@ -173,10 +185,10 @@
                             {
                                 <div class="accordion d-flex justify-content-between p-3 fw-semibold
                                             bg-@(Theme.Secondary.ToString().ToLower())-subtle">
-                                    <div class="text-uppercase d-flex">
-                                        Total<span class="d-none d-lg-block ps-1">for the period</span>
+                                    <div class="d-flex">
+                                        Total<span class="d-none d-lg-block ps-1">expenses for the period</span>
                                     </div>
-                                    <span class="pe-5 me-expenses-sum">
+                                    <span class="pe-5 app-expense-sum-me">
                                         @_expensesTotal.ToString("C")
                                     </span>
                                 </div>

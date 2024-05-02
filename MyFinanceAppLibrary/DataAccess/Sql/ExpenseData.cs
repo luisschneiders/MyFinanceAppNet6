@@ -73,7 +73,7 @@ public class ExpenseData : IExpenseData<ExpenseModel>
                 "myfinancedb.spExpense_GetAmountHistory",
                 new
                 {
-                    userId = userId,
+                    userId,
                 },
                 "Mysql");
 
@@ -97,7 +97,11 @@ public class ExpenseData : IExpenseData<ExpenseModel>
         {
             var result = await _dataAccess.LoadData<ExpenseModel, dynamic>(
                 "myfinancedb.spExpense_GetById",
-                new { userId = userId, expenseId = modelId },
+                new 
+                {
+                    userId,
+                    expenseId = modelId 
+                },
                 "Mysql");
 
             return result.FirstOrDefault()!;
@@ -127,7 +131,7 @@ public class ExpenseData : IExpenseData<ExpenseModel>
                 "myfinancedb.spExpense_GetRecordsByDateRange",
                 new
                 {
-                    userId = userId,
+                    userId,
                     startDate = dateTimeRange.Start,
                     endDate = dateTimeRange.End
                 },
@@ -150,7 +154,7 @@ public class ExpenseData : IExpenseData<ExpenseModel>
                 "myfinancedb.spExpense_GetRecordsSumLast3Months",
                 new
                 {
-                    userId = userId,
+                    userId,
                 },
                 "Mysql");
 
@@ -171,7 +175,7 @@ public class ExpenseData : IExpenseData<ExpenseModel>
                 "myfinancedb.spExpense_GetRecordsSumLast5Years",
                 new
                 {
-                    userId = userId,
+                    userId,
                 },
                 "Mysql");
 
@@ -192,12 +196,35 @@ public class ExpenseData : IExpenseData<ExpenseModel>
                 "myfinancedb.spExpense_GetRecordsSumTop5ByDateRange",
                 new
                 {
-                    userId = userId,
+                    userId,
                     startDate = dateTimeRange.Start,
                     endDate = dateTimeRange.End
                 },
                 "Mysql");
             
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<List<ExpenseListGroupByMonthDTO>> GetRecordsGroupByMonth(string userId, DateTimeRange dateTimeRange)
+    {
+        try
+        {
+            var results = await _dataAccess.LoadData<ExpenseListGroupByMonthDTO, dynamic>(
+                "myfinancedb.spExpense_GetRecordsSumByDateRangeGroupByMonthAndCategory",
+                new
+                {
+                    userId,
+                    startDate = dateTimeRange.Start,
+                    endDate = dateTimeRange.End
+                },
+                "Mysql");
+
             return results;
         }
         catch (Exception ex)
