@@ -37,7 +37,7 @@
                     @if (_viewType == ViewType.Calendar.ToString())
                     {
                         <div class="ps-2">
-                            <DropdownDateMonthYear IconColor="Theme.Dark"
+                            <DropdownDateMonthYear 
                                                 ButtonSize="Size.Sm"
                                                 DateTimeRange="@_dateCalendar"
                                                 DropdownLabel="@_dropdownDateCalendarLabel"
@@ -53,32 +53,32 @@
                                                PeriodRange="PeriodRange.Month"
                                                OnSubmitSuccess="data => RefreshDropdownDateRange(data)" />
                         </div>
-                        <div class="ps-2 d-none d-lg-flex">
-                            <div class="btn-group bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
-                                <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
-                                        @onclick="() => ApplyFiltersAsync()">
-                                    <i class="bi bi-sliders2 pe-1"></i>Filters
-                                    @if(IsFilterApplied())
-                                    {
-                                        <sup class="ps-1">
-                                            <Badge BackgroundColor="@Theme.Light" Message="Applied" />
-                                        </sup>
-                                    }
-                                </button>
-                                    @if (IsFilterApplied())
-                                    {
-                                        <div class="d-flex align-items-center">
-                                            <div class="vr my-1 text-@(Theme.Dark.ToString().ToLower())-emphasis"></div>
-                                            <button class="btn btn-@(Size.Sm.ToString().ToLower())"
-                                                    title="Remove"
-                                                    @onclick="ResetAllFilters">
-                                                <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
-                                            </button>
-                                        </div>
-                                    }
-                            </div>
-                        </div>
                     }
+                    <div class="ps-2 d-none d-lg-flex">
+                        <div class="btn-group bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
+                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                                    @onclick="() => ApplyFiltersAsync()">
+                                <i class="bi bi-sliders2 pe-1"></i>Filters
+                                @if(IsFilterApplied())
+                                {
+                                    <sup class="ps-1">
+                                        <Badge BackgroundColor="@Theme.Light" Message="Applied" />
+                                    </sup>
+                                }
+                            </button>
+                                @if (IsFilterApplied())
+                                {
+                                    <div class="d-flex align-items-center">
+                                        <div class="vr my-1 text-@(Theme.Dark.ToString().ToLower())-emphasis"></div>
+                                        <button class="btn btn-@(Size.Sm.ToString().ToLower())"
+                                                title="Remove"
+                                                @onclick="ResetAllFilters">
+                                            <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
+                                        </button>
+                                    </div>
+                                }
+                        </div>
+                    </div>
                 }
 
             </div>
@@ -175,7 +175,7 @@
                         }
                         else
                         {
-                            @if (_expensesByGroup.Count <= 0)
+                            @if (_expensesListView.Count <= 0)
                             {
                                 <div class="text-center">
                                     Not record found!
@@ -193,7 +193,7 @@
                                     </span>
                                 </div>
                                 <Accordion Id="Expenses">
-                                    @foreach (var (record, index) in _expensesByGroup.Select((value, index) => (value, index)))
+                                    @foreach (var (record, index) in _expensesListView.Select((value, index) => (value, index)))
                                     {
                                         <AccordionItem>
                                             <AccordionHeader Id="@index.ToString()">
@@ -224,7 +224,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @if (_expensesByGroup.Count <= 0)
+                                                            @if (_expensesListView.Count <= 0)
                                                             {
                                                                 <tr class="bg-light-subtle">
                                                                     <td class="text-center" colspan="5">
@@ -236,7 +236,7 @@
                                                             }
                                                             else
                                                             {
-                                                                foreach (var record in _expensesByGroup[index].Expenses)
+                                                                foreach (var record in _expensesListView[index].Expenses)
                                                                 {
                                                                     <tr class="bg-light-subtle">
                                                                         <td>
