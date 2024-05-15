@@ -121,14 +121,14 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         try
         {
             List<ExpenseListDTO> records = await GetRecordsByDateRange(filter.DateTimeRange);
-            List<ExpenseListDTO> expensesFiltered = new();
+            List<ExpenseListDTO> recordsFiltered = new();
             List<ExpenseByCategoryGroupDTO> resultsByGroup;
 
             if (filter.IsFilterChanged is true)
             {
-                expensesFiltered = await SetRecordsFilter(filter);
-                resultsByGroup = SetRecordsListView(expensesFiltered);
-                _expensesByDateRangeSum = expensesFiltered.Sum(t => t.Amount);
+                recordsFiltered = await SetRecordsFilter(filter);
+                resultsByGroup = SetRecordsListView(recordsFiltered);
+                _expensesByDateRangeSum = recordsFiltered.Sum(t => t.Amount);
             }
             else
             {
@@ -150,16 +150,16 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         try
         {
             List<ExpenseListDTO> records = await GetRecordsByDateRange(filter.DateTimeRange);
-            List<ExpenseListDTO> expensesFiltered = new();
+            List<ExpenseListDTO> recordsFiltered = new();
             IEnumerable<IGrouping<DateTime, ExpenseListDTO>> resultsByGroupDay;
             List<ExpenseCalendarDTO> calendarData = new();
             
             if (filter.IsFilterChanged is true)
             {
-                expensesFiltered = await SetRecordsFilter(filter);
-                resultsByGroupDay = expensesFiltered.GroupBy(d => d.EDate);
-                _expensesByDateRangeSum = expensesFiltered.Sum(t => t.Amount);
-                calendarData = await SetRecordsCalendarView(expensesFiltered);
+                recordsFiltered = await SetRecordsFilter(filter);
+                resultsByGroupDay = recordsFiltered.GroupBy(d => d.EDate);
+                _expensesByDateRangeSum = recordsFiltered.Sum(t => t.Amount);
+                calendarData = await SetRecordsCalendarView(recordsFiltered);
             }
             else
             {
