@@ -66,18 +66,11 @@ public class ChartExpenseService : IChartExpenseService
             List<ExpenseListGroupByMonthDTO> expenses = new();
             List<ExpenseListGroupByMonthDTO> expensesFiltered = new();
 
-            if (filter.IsDateChanged is true)
-            {
-                expenses = await _expenseService.GetRecordsGroupByMonth(filter.DateTimeRange);
-            }
+            expenses = await _expenseService.GetRecordsGroupByMonth(filter.DateTimeRange);
 
             if (filter.IsFilterChanged is true)
             {
                 expensesFiltered = expenses.Where(e => e.ECategoryId == filter.ExpenseCategoryModel.Id).ToList();
-            }
-            else
-            {
-                expensesFiltered = new();
             }
 
             ChartConfigData chartConfigData = await SetConfigDataByMonth(expensesFiltered);

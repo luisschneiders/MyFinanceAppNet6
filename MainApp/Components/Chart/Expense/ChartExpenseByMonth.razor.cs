@@ -66,7 +66,6 @@ public partial class ChartExpenseByMonth : ComponentBase
             try
             {
                 _spinnerService.ShowSpinner();
-                _filterExpenseByMonthDTO.IsDateChanged = true;
 
                 if (ChartType == ChartType.bar)
                 {
@@ -124,8 +123,6 @@ public partial class ChartExpenseByMonth : ComponentBase
 
     private async Task DropdownDateRangeRefresh(DateTimeRange dateTimeRange)
     {
-        _filterExpenseByMonthDTO.IsDateChanged = true;
-
         _dateTimeRange = dateTimeRange;
         _dropdownLabelDate = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
 
