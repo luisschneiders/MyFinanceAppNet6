@@ -167,20 +167,6 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         }
     }
 
-    // public async Task<decimal> GetSumTotalAwaiting()
-    // {
-    //     var totalRecords = _recordsByDateRange.Where(p => p.PayStatus == (int)PayStatus.Awaiting);
-    //     var totalSum = totalRecords.Sum(s => s.TotalAmount);
-    //     return await Task.FromResult(totalSum);
-    // }
-
-    // public async Task<decimal> GetSumTotalPaid()
-    // {
-    //     var totalRecords = _recordsByDateRange.Where(p => p.PayStatus == (int)PayStatus.Paid);
-    //     var totalSum = totalRecords.Sum(s => s.TotalAmount);
-    //     return await Task.FromResult(totalSum);
-    // }
-
     public async Task<double> GetSumTotalHours()
     {
         var totalHours = _recordsByDateRange.Sum(s => s.HoursWorked.TotalHours);
@@ -254,7 +240,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
             var records = await GetRecordsByDateRange(dateTimeRange);
             var results = SetRecordsByGroup(records);
             _timesheetTotalAmountSum = records.Sum(t => t.TotalAmount);
-            // _timesheetTotalWorkHoursSum = records.Sum(t => t.HoursWorked);
+
             return results;
         }
         catch (Exception ex)

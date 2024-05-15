@@ -68,7 +68,7 @@ public class CalendarViewService : ICalendarViewService
                         }
                     }
 
-                    // // Week starting on Sunday
+                    // Week starting on Sunday
                     if (selectedDayOfWeek == DayOfWeek.Sunday)
                     {
                         if (i == 0 && j < firstDayOfWeek)
