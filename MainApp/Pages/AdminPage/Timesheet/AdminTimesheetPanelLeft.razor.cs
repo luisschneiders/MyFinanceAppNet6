@@ -104,8 +104,12 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
             // await OnStateContainerSetValue.InvokeAsync();
 
             _companies = await _companyService.GetRecords();
-            _timesheetsByGroup = await _timesheetService.GetRecordsByGroupAndDateRange(_dateTimeRange);
+
+            _filterTimesheetDTO.DateTimeRange = _dateTimeRange;
+            _timesheetsByGroup = await _timesheetService.GetRecordsListView(_filterTimesheetDTO);
+
             _sumByDateRange = await _timesheetService.GetSumByDateRange();
+
             _isLoading = false;
         }
         catch (Exception ex)
@@ -115,20 +119,6 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         }
 
         await Task.CompletedTask;
-    }
-
-    private async Task FetchFilterDataAsync()
-    {
-        try
-        {
-            _timesheetsByGroup = await _timesheetService.GetRecordsByFilter(_dateTimeRange, _filterTimesheetDTO);
-            _sumByDateRange = await _timesheetService.GetSumByDateRange();
-        }
-        catch (Exception ex)
-        {
-            _isLoading = false;
-            _toastService.ShowToast(ex.Message, Theme.Danger);
-        }
     }
 
     private async Task UpdatePayStatusAsync(TimesheetListDTO timesheetListDTO, int payStatus)
@@ -161,8 +151,9 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     private async Task RefreshFilterList(FilterTimesheetDTO filterTimesheetDTO)
     {
         _filterTimesheetDTO = filterTimesheetDTO;
+        _filterTimesheetDTO.IsFilterChanged = true;
 
-        await FetchFilterDataAsync();
+        await FetchDataAsync();
         await Task.CompletedTask;
     }
 
@@ -231,7 +222,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     {
         _filterTimesheetDTO = new();
 
-        await FetchFilterDataAsync();
+        await FetchDataAsync();
         await Task.CompletedTask;
     }
 
