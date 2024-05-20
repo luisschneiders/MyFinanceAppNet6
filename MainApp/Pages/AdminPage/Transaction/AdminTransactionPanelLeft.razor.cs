@@ -87,7 +87,9 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     {
         try
         {
-            _transactionsByGroup = await _transactionService.GetRecordsByGroupAndDateRange(_dateTimeRange);
+            _filterTransactionDTO.DateTimeRange = _dateTimeRange;
+            _transactionsByGroup = await _transactionService.GetRecordsListView(_filterTransactionDTO);
+
             _isLoading = false;
         }
         catch (Exception ex)
@@ -97,18 +99,6 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         }
 
         await Task.CompletedTask;
-    }
-
-    private async Task FetchFilterDataAsync()
-    {
-        try
-        {
-            _transactionsByGroup = await _transactionService.GetRecordsByFilter(_dateTimeRange, _filterTransactionDTO);
-        }
-        catch (Exception ex)
-        {
-            _toastService.ShowToast(ex.Message, Theme.Danger);
-        }
     }
 
     private async Task AddRecordAsync()
@@ -145,8 +135,9 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private async Task RefreshFilterList(FilterTransactionDTO filterTransactionDTO)
     {
         _filterTransactionDTO = filterTransactionDTO;
+        _filterTransactionDTO.IsFilterChanged = true;
 
-        await FetchFilterDataAsync();
+        await FetchDataAsync();
         await Task.CompletedTask;
     }
 
@@ -164,7 +155,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     {
         _filterTransactionDTO = new();
 
-        await FetchFilterDataAsync();
+        await FetchDataAsync();
         await Task.CompletedTask;
     }
 

@@ -103,67 +103,6 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         throw new NotImplementedException();
     }
 
-    public async Task<List<ExpenseListDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange)
-    {
-        try
-        {
-            var user = await GetLoggedInUser();
-
-            _recordsByDateRange = await _expenseData.GetRecordsByDateRange(user.Id, dateTimeRange);
-
-            return _recordsByDateRange;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("An exception occurred: " + ex.Message);
-            throw;
-        }
-    }
-
-    public async Task<List<ExpenseByCategoryGroupDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, FilterExpenseDTO filterExpenseDTO)
-    {
-        try
-        {
-            if (filterExpenseDTO.BankId > 0 || filterExpenseDTO.ECategoryId > 0)
-            {
-                List<ExpenseListDTO> recordsFiltered = new();
-
-                if (filterExpenseDTO.BankId > 0 && filterExpenseDTO.ECategoryId == 0) // Filter by Bank only
-                {
-                    recordsFiltered = _recordsByDateRange.Where(e => e.BankId == filterExpenseDTO.BankId).ToList();
-                }
-                else if (filterExpenseDTO.BankId == 0 && filterExpenseDTO.ECategoryId > 0) // Filter by Expense only
-                {
-                    recordsFiltered = _recordsByDateRange.Where(e => e.ECategoryId == filterExpenseDTO.ECategoryId).ToList();
-                }
-                else // Filter by Bank and Expense
-                {
-                    recordsFiltered = _recordsByDateRange.Where(e => e.BankId == filterExpenseDTO.BankId && 
-                                                         e.ECategoryId == filterExpenseDTO.ECategoryId).ToList();
-                }
-
-                var results = SetRecordsByGroup(recordsFiltered);
-
-                _expensesByDateRangeSum = recordsFiltered.Sum(t => t.Amount);
-
-                return await Task.FromResult(results);
-            }
-            else
-            {
-                var results = SetRecordsByGroup(_recordsByDateRange);
-
-                _expensesByDateRangeSum = _recordsByDateRange.Sum(t => t.Amount);
-
-                return await Task.FromResult(results);
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("An exception occurred: " + ex.Message);
-            throw;
-        }
-    }
-
     public async Task<decimal> GetRecordsByDateRangeSum()
     {
         try
@@ -177,16 +116,27 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         }
     }
 
-    public async Task<List<ExpenseByCategoryGroupDTO>> GetRecordsByGroupAndDateRange(DateTimeRange dateTimeRange)
+    public async Task<List<ExpenseByCategoryGroupDTO>> GetRecordsListView(FilterExpenseDTO filter)
     {
         try
         {
-            var records = await GetRecordsByDateRange(dateTimeRange);
-            var results = SetRecordsByGroup(records);
+            List<ExpenseListDTO> records = await GetRecordsByDateRange(filter.DateTimeRange);
+            List<ExpenseListDTO> recordsFiltered = new();
+            List<ExpenseByCategoryGroupDTO> resultsByGroup;
 
-            _expensesByDateRangeSum = records.Sum(t => t.Amount);
+            if (filter.IsFilterChanged is true)
+            {
+                recordsFiltered = await SetRecordsFilter(filter);
+                resultsByGroup = SetRecordsListView(recordsFiltered);
+                _expensesByDateRangeSum = recordsFiltered.Sum(t => t.Amount);
+            }
+            else
+            {
+                resultsByGroup = SetRecordsListView(records);
+                _expensesByDateRangeSum = records.Sum(t => t.Amount);
+            }
 
-            return results;
+            return resultsByGroup;
         }
         catch (Exception ex)
         {
@@ -195,39 +145,30 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         }
     }
 
-    public async Task<List<ExpenseCalendarDTO>> GetRecordsCalendarView(DateTimeRange dateTimeRange)
+    public async Task<List<ExpenseCalendarDTO>> GetRecordsCalendarView(FilterExpenseDTO filter)
     {
         try
         {
-            var records = await GetRecordsByDateRange(dateTimeRange);
-            var resultsByGroupDay = records.GroupBy(d => d.EDate);
-
-            _expensesByDateRangeSum = records.Sum(t => t.Amount);
-
-            List<ExpenseCalendarDTO> results = new();
-
-            foreach (var record in records)
+            List<ExpenseListDTO> records = await GetRecordsByDateRange(filter.DateTimeRange);
+            List<ExpenseListDTO> recordsFiltered = new();
+            IEnumerable<IGrouping<DateTime, ExpenseListDTO>> resultsByGroupDay;
+            List<ExpenseCalendarDTO> calendarData = new();
+            
+            if (filter.IsFilterChanged is true)
             {
-                ExpenseCalendarDTO expenseCalendarDTO = new();
-
-                var result = results.Find(e => e.ExpenseCategoryDescription == record.ExpenseCategoryDescription &&
-                                               e.EDate.Date == record.EDate.Date);
-
-                if (result is not null)
-                {
-                    result.Amount += record.Amount;
-                }
-                else
-                {
-                    expenseCalendarDTO.EDate = record.EDate;
-                    expenseCalendarDTO.ExpenseCategoryColor = record.ExpenseCategoryColor;
-                    expenseCalendarDTO.ExpenseCategoryDescription = record.ExpenseCategoryDescription;
-                    expenseCalendarDTO.Amount = record.Amount;
-                    results.Add(expenseCalendarDTO);
-                }
+                recordsFiltered = await SetRecordsFilter(filter);
+                resultsByGroupDay = recordsFiltered.GroupBy(d => d.EDate);
+                _expensesByDateRangeSum = recordsFiltered.Sum(t => t.Amount);
+                calendarData = await SetRecordsCalendarView(recordsFiltered);
+            }
+            else
+            {
+                resultsByGroupDay = records.GroupBy(d => d.EDate);
+                _expensesByDateRangeSum = records.Sum(t => t.Amount);
+                calendarData = await SetRecordsCalendarView(records);
             }
 
-            return results;
+            return calendarData;
         }
         catch (Exception ex)
         {
@@ -356,19 +297,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
             throw;
         }
     }
-    private static List<ExpenseByCategoryGroupDTO> SetRecordsByGroup(List<ExpenseListDTO> records)
-    {
-        var resultsByGroup = records.GroupBy(ec => ec.ExpenseCategoryDescription);
-        var results = resultsByGroup.Select(ecGroup => new ExpenseByCategoryGroupDTO()
-        {
-            Description = ecGroup.Key,
-            Color = ecGroup.Select(c => c.ExpenseCategoryColor).FirstOrDefault(),
-            Total = ecGroup.Sum(a => a.Amount),
-            Expenses = ecGroup.ToList()
-        }).ToList();
 
-        return results;
-    }
     private async Task<UserModel> GetLoggedInUser()
     {
         return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
@@ -384,5 +313,108 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         }
 
         return Task.FromResult(sb.ToString());
+    }
+
+    private async Task<List<ExpenseListDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+
+            _recordsByDateRange = await _expenseData.GetRecordsByDateRange(user.Id, dateTimeRange);
+
+            return _recordsByDateRange;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    private async Task<List<ExpenseListDTO>> SetRecordsFilter(FilterExpenseDTO filter)
+    {
+        try
+        {
+            if (filter.BankId > 0 || filter.ECategoryId > 0)
+            {
+                List<ExpenseListDTO> recordsFiltered = new();
+
+                if (filter.BankId > 0 && filter.ECategoryId == 0) // Filter by Bank only
+                {
+                    recordsFiltered = _recordsByDateRange.Where(e => e.BankId == filter.BankId).ToList();
+                }
+                else if (filter.BankId == 0 && filter.ECategoryId > 0) // Filter by Expense only
+                {
+                    recordsFiltered = _recordsByDateRange.Where(e => e.ECategoryId == filter.ECategoryId).ToList();
+                }
+                else // Filter by Bank and Expense
+                {
+                    recordsFiltered = _recordsByDateRange.Where(e => e.BankId == filter.BankId && 
+                                                         e.ECategoryId == filter.ECategoryId).ToList();
+                }
+
+                return await Task.FromResult(recordsFiltered);
+            }
+            else
+            {
+                return await Task.FromResult(_recordsByDateRange);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    private static async Task<List<ExpenseCalendarDTO>> SetRecordsCalendarView(List<ExpenseListDTO> records)
+    {
+        try
+        {
+            List<ExpenseCalendarDTO> results = new();
+
+            foreach (var record in records)
+            {
+                ExpenseCalendarDTO expenseCalendarDTO = new();
+
+                var result = results.Find(e => e.ExpenseCategoryDescription == record.ExpenseCategoryDescription &&
+                                               e.EDate.Date == record.EDate.Date);
+
+                if (result is not null)
+                {
+                    result.Amount += record.Amount;
+                }
+                else
+                {
+                    expenseCalendarDTO.EDate = record.EDate;
+                    expenseCalendarDTO.ExpenseCategoryColor = record.ExpenseCategoryColor;
+                    expenseCalendarDTO.ExpenseCategoryDescription = record.ExpenseCategoryDescription;
+                    expenseCalendarDTO.Amount = record.Amount;
+                    results.Add(expenseCalendarDTO);
+                }
+            }
+
+            return await Task.FromResult(results);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    private static List<ExpenseByCategoryGroupDTO> SetRecordsListView(List<ExpenseListDTO> records)
+    {
+        var resultsByGroup = records.GroupBy(ec => ec.ExpenseCategoryDescription);
+        var results = resultsByGroup.Select(ecGroup => new ExpenseByCategoryGroupDTO()
+        {
+            Description = ecGroup.Key,
+            Color = ecGroup.Select(c => c.ExpenseCategoryColor).FirstOrDefault(),
+            Total = ecGroup.Sum(a => a.Amount),
+            Expenses = ecGroup.ToList()
+        }).ToList();
+
+        return results;
     }
 }

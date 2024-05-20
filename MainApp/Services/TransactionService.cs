@@ -1,5 +1,4 @@
-﻿using DateTimeLibrary.Models;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace MainApp.Services;
@@ -182,40 +181,6 @@ public class TransactionService : ITransactionService<TransactionModel>
         throw new NotImplementedException();
     }
 
-    public async Task<List<TransactionListDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange)
-    {
-        try
-        {
-            var user = await GetLoggedInUser();
-
-            _recordsByDateRange = await _transactionData.GetRecordsByDateRange(user.Id, dateTimeRange);
-
-            return _recordsByDateRange;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("An exception occurred: " + ex.Message);
-            throw;
-        }
-    }
-
-    public async Task<List<TransactionByCategoryGroupDTO>> GetRecordsByGroupAndDateRange(DateTimeRange dateTimeRange)
-    {
-        try
-        {
-            var records = await GetRecordsByDateRange(dateTimeRange);
-            
-            var results = SetRecordsByGroup(records);
-
-            return results;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("An exception occurred: " + ex.Message);
-            throw;
-        }
-    }
-
     public Task<List<TransactionModel>> GetSearchResults(string search)
     {
         throw new NotImplementedException();
@@ -229,11 +194,6 @@ public class TransactionService : ITransactionService<TransactionModel>
     public Task UpdateRecordStatus(TransactionModel model)
     {
         throw new NotImplementedException();
-    }
-
-    private async Task<UserModel> GetLoggedInUser()
-    {
-        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
     }
 
     public async Task<List<TransactionIOLast3MonthsGraphDTO>> GetRecordsLast3Months()
@@ -251,37 +211,60 @@ public class TransactionService : ITransactionService<TransactionModel>
         }
     }
 
-    public async Task<List<TransactionByCategoryGroupDTO>> GetRecordsByFilter(DateTimeRange dateTimeRange, FilterTransactionDTO filterTransactionDTO)
+    public async Task<List<TransactionByCategoryGroupDTO>> GetRecordsListView(FilterTransactionDTO filter)
     {
         try
         {
-            if (filterTransactionDTO.FromBank > 0 || filterTransactionDTO.TCategoryId > 0)
+            List<TransactionListDTO> records = await GetRecordsByDateRange(filter.DateTimeRange);
+            List<TransactionListDTO> recordsFiltered = new();
+            List<TransactionByCategoryGroupDTO> results = new();
+
+            if (filter.IsFilterChanged is true)
             {
-                List<TransactionListDTO> recordsFiltered = new();
-
-                if (filterTransactionDTO.FromBank > 0 && filterTransactionDTO.TCategoryId == 0) // Filter by Bank only
-                {
-                    recordsFiltered = _recordsByDateRange.Where(t => t.FromBank == filterTransactionDTO.FromBank).ToList();
-                }
-                else if (filterTransactionDTO.FromBank == 0 && filterTransactionDTO.TCategoryId > 0) // Filter by Transaction only
-                {
-                    recordsFiltered = _recordsByDateRange.Where(t => t.TCategoryId == filterTransactionDTO.TCategoryId).ToList();
-                }
-                else // Filter by Bank and Expense
-                {
-                    recordsFiltered = _recordsByDateRange.Where(t => t.FromBank == filterTransactionDTO.FromBank && 
-                                                         t.TCategoryId == filterTransactionDTO.TCategoryId).ToList();
-                }
-
-                var results = SetRecordsByGroup(recordsFiltered);
-
-                return await Task.FromResult(results);
+                recordsFiltered = await SetRecordsFilter(filter);
+                results = await SetRecordsListView(recordsFiltered);
             }
             else
             {
-                var results = SetRecordsByGroup(_recordsByDateRange);
+                results = await SetRecordsListView(records);
+            }
 
-                return await Task.FromResult(results);
+            return await Task.FromResult(results);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    private async Task<List<TransactionListDTO>> SetRecordsFilter(FilterTransactionDTO filter)
+    {
+        try
+        {
+            if (filter.FromBank > 0 || filter.TCategoryId > 0)
+            {
+                List<TransactionListDTO> recordsFiltered = new();
+
+                if (filter.FromBank > 0 && filter.TCategoryId == 0) // Filter by Bank only
+                {
+                    recordsFiltered = _recordsByDateRange.Where(t => t.FromBank == filter.FromBank).ToList();
+                }
+                else if (filter.FromBank == 0 && filter.TCategoryId > 0) // Filter by Transaction only
+                {
+                    recordsFiltered = _recordsByDateRange.Where(t => t.TCategoryId == filter.TCategoryId).ToList();
+                }
+                else // Filter by Bank and Expense
+                {
+                    recordsFiltered = _recordsByDateRange.Where(t => t.FromBank == filter.FromBank && 
+                                                         t.TCategoryId == filter.TCategoryId).ToList();
+                }
+
+                return await Task.FromResult(recordsFiltered);
+            }
+            else
+            {
+                return await Task.FromResult(_recordsByDateRange);
             }
         }
         catch (Exception ex)
@@ -291,16 +274,46 @@ public class TransactionService : ITransactionService<TransactionModel>
         }
     }
 
-    private static List<TransactionByCategoryGroupDTO> SetRecordsByGroup(List<TransactionListDTO> records)
+    private async Task<List<TransactionListDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange)
     {
-        var resultsByGroup = records.GroupBy(tc => tc.TCategoryDescription);
-        var results = resultsByGroup.Select(tcGroup => new TransactionByCategoryGroupDTO()
+        try
         {
-            Description = tcGroup.Key?.Length > 0 ? tcGroup.Key : "Expenses",
-            Total = tcGroup.Sum(a => a.Amount),
-            Transactions = tcGroup.ToList()
-        }).ToList();
+            var user = await GetLoggedInUser();
 
-        return results;
+            _recordsByDateRange = await _transactionData.GetRecordsByDateRange(user.Id, dateTimeRange);
+
+            return _recordsByDateRange;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    private static async Task<List<TransactionByCategoryGroupDTO>> SetRecordsListView(List<TransactionListDTO> records)
+    {
+        try
+        {            
+            var resultsByGroup = records.GroupBy(tc => tc.TCategoryDescription);
+            var results = resultsByGroup.Select(tcGroup => new TransactionByCategoryGroupDTO()
+            {
+                Description = tcGroup.Key?.Length > 0 ? tcGroup.Key : "Expenses",
+                Total = tcGroup.Sum(a => a.Amount),
+                Transactions = tcGroup.ToList()
+            }).ToList();
+
+            return await Task.FromResult(results);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    private async Task<UserModel> GetLoggedInUser()
+    {
+        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
     }
 }

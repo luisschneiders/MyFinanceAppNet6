@@ -48,7 +48,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private DateTimeRange _dateRange { get; set; } = new();
     private DateTimeRange _dateCalendar { get; set; } = new();
 
-    private List<ExpenseByCategoryGroupDTO> _expensesByGroup { get; set; } = new();
+    private List<ExpenseByCategoryGroupDTO> _expensesListView { get; set; } = new();
     private List<ExpenseCalendarDTO> _expensesCalendarView { get; set; } = new();
     private FilterExpenseDTO _filterExpenseDTO { get; set; } = new();
     private string _viewType { get; set; } = ViewType.Calendar.ToString();
@@ -118,12 +118,14 @@ public partial class AdminExpensePanelLeft : ComponentBase
         {
             if (_viewType == ViewType.Calendar.ToString())
             {
-                _expensesCalendarView = await _expenseService.GetRecordsCalendarView(_dateCalendar);
+                _filterExpenseDTO.DateTimeRange = _dateCalendar;
+                _expensesCalendarView = await _expenseService.GetRecordsCalendarView(_filterExpenseDTO);
                 _weeks = await _calendarViewService.Build(_dateCalendar);
             }
             else if (_viewType == ViewType.List.ToString())
             {
-                _expensesByGroup = await _expenseService.GetRecordsByGroupAndDateRange(_dateRange);
+                _filterExpenseDTO.DateTimeRange = _dateRange;
+                _expensesListView = await _expenseService.GetRecordsListView(_filterExpenseDTO);
             }
 
             _expensesTotal = await _expenseService.GetRecordsByDateRangeSum();
@@ -136,19 +138,6 @@ public partial class AdminExpensePanelLeft : ComponentBase
         }
 
         await Task.CompletedTask;
-    }
-
-    private async Task FetchFilterDataAsync()
-    {
-        try
-        {
-            _expensesByGroup = await _expenseService.GetRecordsByFilter(_dateRange, _filterExpenseDTO);
-            _expensesTotal = await _expenseService.GetRecordsByDateRangeSum();
-        }
-        catch (Exception ex)
-        {
-            _toastService.ShowToast(ex.Message, Theme.Danger);
-        }
     }
 
     private async void UpdateUIVIew(ViewType viewType)
@@ -203,8 +192,9 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private async Task RefreshFilterList(FilterExpenseDTO filterExpenseDTO)
     {
         _filterExpenseDTO = filterExpenseDTO;
+        _filterExpenseDTO.IsFilterChanged = true;
 
-        await FetchFilterDataAsync();
+        await FetchDataAsync();
         await Task.CompletedTask;
     }
 
@@ -232,7 +222,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     {
         _filterExpenseDTO = new();
 
-        await FetchFilterDataAsync();
+        await FetchDataAsync();
         await Task.CompletedTask;
     }
 

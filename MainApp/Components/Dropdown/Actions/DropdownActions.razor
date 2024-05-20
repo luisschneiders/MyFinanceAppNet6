@@ -1,5 +1,5 @@
 ﻿<div class="dropdown @(IsDisplayLargeNone ? "d-lg-none" : "")">
-    <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + ButtonColor.ToString().ToLower() + "-emphasis") @(ButtonCssClass) text-nowrap"
+    <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + ButtonColor.ToString().ToLower() + "-emphasis") @(ButtonCssClass) text-nowrap @("rounded"+_appSettings.Button)"
             title="More actions"
             id="dropdownMenuOptions"
             data-bs-toggle="dropdown"
