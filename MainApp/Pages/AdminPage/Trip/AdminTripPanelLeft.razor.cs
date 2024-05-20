@@ -86,7 +86,8 @@ public partial class AdminTripPanelLeft : ComponentBase
     {
         try
         {
-            _tripsByGroup = await _tripService.GetRecordsByGroupAndDateRange(_dateTimeRange);
+            _filterTripDTO.DateTimeRange = _dateTimeRange;
+            _tripsByGroup = await _tripService.GetRecordsListView(_filterTripDTO);
             _sumByDateRange = await _tripService.GetSumByDateRange();
             _isLoading = false;
         }
@@ -97,20 +98,6 @@ public partial class AdminTripPanelLeft : ComponentBase
         }
 
         await Task.CompletedTask;
-    }
-
-    private async Task FetchFilterDataAsync()
-    {
-        try
-        {
-            _tripsByGroup = await _tripService.GetRecordsByFilter(_dateTimeRange, _filterTripDTO);
-            _sumByDateRange = await _tripService.GetSumByDateRange();
-        }
-        catch (Exception ex)
-        {
-            _isLoading = false;
-            _toastService.ShowToast(ex.Message, Theme.Danger);
-        }
     }
 
     private async Task AddRecordAsync()
@@ -183,8 +170,9 @@ public partial class AdminTripPanelLeft : ComponentBase
     private async Task RefreshFilterList(FilterTripDTO filterTripDTO)
     {
         _filterTripDTO = filterTripDTO;
+        _filterTripDTO.IsFilterChanged = true;
 
-        await FetchFilterDataAsync();
+        await FetchDataAsync();
         await Task.CompletedTask;
     }
 
@@ -256,7 +244,7 @@ public partial class AdminTripPanelLeft : ComponentBase
     {
         _filterTripDTO = new();
 
-        await FetchFilterDataAsync();
+        await FetchDataAsync();
         await Task.CompletedTask;
     }
 
