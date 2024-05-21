@@ -11,7 +11,7 @@ public partial class DropdownActions : ComponentBase
     public bool IsDisplayLargeNone { get; set; } = false;
 
     [Parameter]
-    public Size ButtonSize { get; set; } = Size.Md;
+    public Size ButtonSize { get; set; } = Size.Sm;
 
     [Parameter]
     public string IconStart { get; set; } = string.Empty;

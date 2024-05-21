@@ -16,7 +16,7 @@
              _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
             {
                 <div class="col my-4 d-flex justify-content-end">
-                    <DropdownActions>
+                    <DropdownActions ButtonColor="Theme.Danger">
                         <li class="px-2">
                             <button class="dropdown-item rounded text-@(Theme.Danger.ToString().ToLower())-emphasis"
                                     @onclick="ArchiveAsync">
