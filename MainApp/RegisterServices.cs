@@ -97,6 +97,7 @@ public static class RegisterServices
         builder.Services.AddScoped<ILocationService<UserLocationModel>, LocationService>();
         builder.Services.AddScoped<ILocationExpenseService<LocationExpenseModel>, LocationExpenseService>();
         builder.Services.AddScoped<IRapidApiService, RapidApiService>();
+        builder.Services.AddScoped<ISessionStorageService, SessionStorageService>();
         builder.Services.AddScoped<ITimesheetService<TimesheetModel>, TimesheetService>();
         builder.Services.AddScoped<ITransactionService<TransactionModel>, TransactionService>();
         builder.Services.AddScoped<ITransactionCategoryService<TransactionCategoryModel>, TransactionCategoryService>();
