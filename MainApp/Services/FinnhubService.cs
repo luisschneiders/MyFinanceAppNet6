@@ -26,7 +26,7 @@ public class FinnhubService : IFinnhubService
             {
                 Data = new List<FinnhubNewsModel>(),
                 Success = false,
-                ErrorMessage = ex.Message,
+                ErrorMessage = "Finnhub says: " + ex.Message,
             };
         }
     }

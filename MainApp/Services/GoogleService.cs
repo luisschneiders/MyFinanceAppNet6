@@ -34,7 +34,7 @@ public class GoogleService : IGoogleService
             {
                 Data = new List<LocationModel>(),
                 Success = false,
-                ErrorMessage = ex.Message,
+                ErrorMessage = "Google says: " + ex.Message,
             };
         }
     }
@@ -76,7 +76,7 @@ public class GoogleService : IGoogleService
             {
                 Data = string.Empty,
                 Success = false,
-                ErrorMessage = ex.Message,
+                ErrorMessage = "Google says: " + ex.Message,
             };
         }
     }

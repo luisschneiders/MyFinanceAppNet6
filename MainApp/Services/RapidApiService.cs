@@ -35,7 +35,7 @@ public class RapidApiService : IRapidApiService
             {
                 Data = new WeatherModel(),
                 Success = false,
-                ErrorMessage = ex.Message,
+                ErrorMessage = "Rapid API says: " + ex.Message,
             };
         }
     }
