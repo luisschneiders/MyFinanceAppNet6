@@ -117,7 +117,6 @@
                                                     title="View details"
                                                     @onclick="() => ViewRecordAsync(record)">
                                                 <i class="bi bi-eye-fill"></i>
-
                                             </button>
                                         </td>
                                         <td class="text-center">
@@ -136,7 +135,7 @@
                                 @if (_isLoading)
                                 {
                                     <tr>
-                                        <td class="text-center" colspan="4">
+                                        <td class="text-center" colspan="6">
                                             <div>
                                                 <Spinner Size="Size.Sm" />
                                                 <span>
@@ -152,7 +151,7 @@
                                     @if (_companies.Count <= 0)
                                     {
                                         <tr>
-                                            <td class="text-center" colspan="4">
+                                            <td class="text-center" colspan="6">
                                                 <div>
                                                     Not record found!
                                                 </div>
@@ -234,4 +233,3 @@
 {
     <SetupCompanyOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" DataModel="_companyModel" AppSettings="_appSettings" />
 }
-
