@@ -4,6 +4,7 @@ global using DateTimeLibrary.Services;
 global using ExtensionsLibrary;
 global using MyFinanceAppLibrary.Enum;
 global using MyFinanceAppLibrary.Models;
+global using MyFinanceAppLibrary.Records;
 global using MyFinanceAppLibrary.Constants;
 global using MyFinanceAppLibrary.DataAccess.NoSql;
 global using MyFinanceAppLibrary.DataAccess.Sql;
