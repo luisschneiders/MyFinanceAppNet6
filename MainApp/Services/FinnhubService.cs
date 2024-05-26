@@ -2,18 +2,18 @@
 
 public class FinnhubService : IFinnhubService
 {
-    private readonly IWebApiService _webApiService;
+    private readonly IEssentialsAPIService _essentialsAPIService;
 
-    public FinnhubService(IWebApiService webApiService)
+    public FinnhubService(IEssentialsAPIService essentialsAPIService)
     {
-        _webApiService = webApiService;
+        _essentialsAPIService = essentialsAPIService;
     }
 
     public async Task<Response<List<FinnhubNewsModel>>> GetNewsAsync()
     {
         try
         {
-            var client = _webApiService.CreateEssentialsHttpClient();
+            var client = _essentialsAPIService.CreateHttpClient();
 
             Response<List<FinnhubNewsModel>>? response = await client.GetFromJsonAsync<Response<List<FinnhubNewsModel>>>(EndPoint.V2FinnhubNewsAll);
 

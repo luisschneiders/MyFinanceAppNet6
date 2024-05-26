@@ -4,18 +4,18 @@ namespace MainApp.Services;
 
 public class RapidApiService : IRapidApiService
 {
-    private readonly IWebApiService _webApiService;
+    private readonly IEssentialsAPIService _essentialsAPIService;
 
-    public RapidApiService(IWebApiService webApiService)
+    public RapidApiService(IEssentialsAPIService essentialsAPIService)
     {
-        _webApiService = webApiService;
+        _essentialsAPIService = essentialsAPIService;
     }
 
     public async Task<Response<WeatherModel>> GetWeatherCondition(LocationModel locationModel)
     {
         try
         {
-            var client = _webApiService.CreateEssentialsHttpClient();
+            var client = _essentialsAPIService.CreateHttpClient();
 
             var query = new Dictionary<string, string>()
             {

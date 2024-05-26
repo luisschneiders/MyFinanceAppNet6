@@ -5,16 +5,21 @@ using Newtonsoft.Json;
 
 namespace MainApp.Services;
 
-public class EssentialsAPIService : IAPIService
+public class EssentialsAPIService : IEssentialsAPIService
 {
     private readonly HttpClient _httpClient;
-    private readonly IWebApiService _webApiService;
+    private readonly IHttpClientFactory _factory;
     private string _token { get; set; } = string.Empty;
 
-    public EssentialsAPIService(HttpClient httpClient, IWebApiService webApiService)
+    public EssentialsAPIService(IHttpClientFactory factory, HttpClient httpClient)
     {
+        _factory = factory;
         _httpClient = httpClient;
-        _webApiService = webApiService;
+    }
+
+    public HttpClient CreateHttpClient()
+    {
+        return _factory.CreateClient("essentials-api");
     }
 
     public async Task<Response<string>> GetTokenWithBasicAuthAsync(BasicAuthenticationData auth)
@@ -94,7 +99,7 @@ public class EssentialsAPIService : IAPIService
     {
         try
         {
-            var client = _webApiService.CreateEssentialsHttpClient();
+            var client = CreateHttpClient();
 
             string json = JsonConvert.SerializeObject(auth);
 

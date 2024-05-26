@@ -4,18 +4,18 @@ namespace MainApp.Services;
 
 public class GoogleService : IGoogleService
 {
-    private readonly IWebApiService _webApiService;
+    private readonly IEssentialsAPIService _essentialsAPIService;
 
-    public GoogleService(IWebApiService webApiService)
+    public GoogleService(IEssentialsAPIService essentialsAPIService)
     {
-        _webApiService = webApiService;
+        _essentialsAPIService = essentialsAPIService;
     }
 
     public async Task<Response<List<LocationModel>>> GetGeocodeAddress(string address)
     {
         try
         {
-            var client = _webApiService.CreateEssentialsHttpClient();
+            var client = _essentialsAPIService.CreateHttpClient();
 
             var query = new Dictionary<string, string>()
             {
@@ -47,7 +47,7 @@ public class GoogleService : IGoogleService
             var width = (int)model.Width;
             var height = (int)model.Height;
 
-            var client = _webApiService.CreateEssentialsHttpClient();
+            var client = _essentialsAPIService.CreateHttpClient();
             var query = new Dictionary<string, string>()
             {
                 ["Location"] = model.Location,
