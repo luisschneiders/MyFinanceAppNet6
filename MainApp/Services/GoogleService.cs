@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.WebUtilities;
+﻿using System.Net.Http.Headers;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace MainApp.Services;
 
 public class GoogleService : IGoogleService
 {
     private readonly IEssentialsAPIService _essentialsAPIService;
-
+    private string _token { get; set;} = string.Empty;
     public GoogleService(IEssentialsAPIService essentialsAPIService)
     {
         _essentialsAPIService = essentialsAPIService;
@@ -16,6 +17,10 @@ public class GoogleService : IGoogleService
         try
         {
             var client = _essentialsAPIService.CreateHttpClient();
+
+            // Retrieve token for authorization
+            string token = await GetToken();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var query = new Dictionary<string, string>()
             {
@@ -48,6 +53,11 @@ public class GoogleService : IGoogleService
             var height = (int)model.Height;
 
             var client = _essentialsAPIService.CreateHttpClient();
+
+            // Retrieve token for authorization
+            string token = await GetToken();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
             var query = new Dictionary<string, string>()
             {
                 ["Location"] = model.Location,
@@ -64,9 +74,11 @@ public class GoogleService : IGoogleService
             string imgBase64Data = Convert.ToBase64String(response!.Data);
             string imgDataURL = string.Format("data:image/png;base64,{0}", imgBase64Data);
 
-            Response<string> image = new();
-            image.Data = imgDataURL;
-            image.Success = true;
+            Response<string> image = new()
+            {
+                Data = imgDataURL,
+                Success = true
+            };
 
             return await Task.FromResult(image);
         }
@@ -79,5 +91,11 @@ public class GoogleService : IGoogleService
                 ErrorMessage = "Google says: " + ex.Message,
             };
         }
+    }
+
+    private async Task<string> GetToken()
+    {
+        Response<string> response = await _essentialsAPIService.GetTokenWithBasicAuthAsync();
+        return await Task.FromResult(response.Data);
     }
 }

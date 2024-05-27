@@ -18,8 +18,8 @@ public class FinnhubService : IFinnhubService
             var client = _essentialsAPIService.CreateHttpClient();
 
             // Retrieve token for authorization
-            Response<string> authResponse = await _essentialsAPIService.GetTokenWithBasicAuthAsync();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authResponse.Data);
+            string token = await GetToken();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             Response<List<FinnhubNewsModel>>? response = await client.GetFromJsonAsync<Response<List<FinnhubNewsModel>>>(EndPoint.V2FinnhubNewsAll);
 
@@ -35,5 +35,10 @@ public class FinnhubService : IFinnhubService
                 ErrorMessage = "Finnhub says: " + ex.Message,
             };
         }
+    }
+    private async Task<string> GetToken()
+    {
+        Response<string> response = await _essentialsAPIService.GetTokenWithBasicAuthAsync();
+        return await Task.FromResult(response.Data);
     }
 }
