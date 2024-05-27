@@ -79,5 +79,4 @@ public partial class FinnhubNews : ComponentBase
         await FetchDataAsync();
         await Task.CompletedTask;
     }
-
 }

@@ -8,29 +8,44 @@ namespace MainApp.Services;
 public class EssentialsAPIService : IEssentialsAPIService
 {
     private readonly HttpClient _httpClient;
+    private readonly IConfiguration _config;
     private readonly IHttpClientFactory _factory;
+    private ISessionStorageService _sessionStorageService;
     private string _token { get; set; } = string.Empty;
 
-    public EssentialsAPIService(IHttpClientFactory factory, HttpClient httpClient)
+    private BasicAuthenticationData _auth { get; set; } = new();
+
+    public EssentialsAPIService(
+        IConfiguration config,
+        IHttpClientFactory factory,
+        HttpClient httpClient,
+        ISessionStorageService sessionStorageService)
     {
+        _config = config;
         _factory = factory;
         _httpClient = httpClient;
+        _sessionStorageService = sessionStorageService;
+        _auth.Username = _config.GetValue<string>("EssentialsApi:Username");
+        _auth.Password = _config.GetValue<string>("EssentialsApi:Password");
     }
 
     public HttpClient CreateHttpClient()
     {
-        return _factory.CreateClient("essentials-api");
+        return _factory.CreateClient(ClientAPI.Essentials);
     }
 
-    public async Task<Response<string>> GetTokenWithBasicAuthAsync(BasicAuthenticationData auth)
+    public async Task<Response<string>> GetTokenWithBasicAuthAsync()
     {
         try
         {
             Response<string> result = new();
 
-            if (IsTokenExpired())
+            bool isTokenExpired = await IsTokenExpired();
+
+            if (isTokenExpired is true)
             {
-                result = await GetToken(auth);
+                await _sessionStorageService.RemoveAsync(SessionStorage.EssentialsApiToken);
+                result = await FetchTokenAsync();
             }
             else{
                 result = new()
@@ -65,10 +80,12 @@ public class EssentialsAPIService : IEssentialsAPIService
         return Task.FromResult(baseUrl);
     }
 
-    public bool IsTokenExpired()
+    public async Task<bool> IsTokenExpired()
     {
         try
         {
+            _token = await _sessionStorageService.GetAsync<string>(SessionStorage.EssentialsApiToken);
+
             if (string.IsNullOrWhiteSpace(_token))
             {
                 return true;
@@ -95,17 +112,17 @@ public class EssentialsAPIService : IEssentialsAPIService
         }
     }
 
-    private async Task<Response<string>> GetToken(BasicAuthenticationData auth)
+    private async Task<Response<string>> FetchTokenAsync()
     {
         try
         {
             var client = CreateHttpClient();
 
-            string json = JsonConvert.SerializeObject(auth);
+            string json = JsonConvert.SerializeObject(_auth);
 
             StringContent content = new(json, Encoding.UTF8, "application/json");
 
-            var byteArray = Encoding.ASCII.GetBytes($"{auth.Username}:{auth.Password}");
+            var byteArray = Encoding.ASCII.GetBytes($"{_auth.Username}:{_auth.Password}");
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
@@ -120,6 +137,8 @@ public class EssentialsAPIService : IEssentialsAPIService
                 Data = _token,
                 Success = true,
             };
+
+            await _sessionStorageService.SetAsync<string>(SessionStorage.EssentialsApiToken, _token);
 
             return await Task.FromResult(result);
         }

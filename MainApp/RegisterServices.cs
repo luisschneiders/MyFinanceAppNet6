@@ -14,7 +14,7 @@ public static class RegisterServices
     {
         builder.Services.AddRazorPages();
 
-        builder.Services.AddHttpClient<EssentialsAPIService>("essentials-api", opts =>
+        builder.Services.AddHttpClient<EssentialsAPIService>(ClientAPI.Essentials, opts =>
         {
             opts.BaseAddress = new Uri(builder.Configuration.GetValue<string>("EssentialsApiUrl"));
         });

@@ -3,7 +3,7 @@
 public interface IEssentialsAPIService
 {
     HttpClient CreateHttpClient();
-    Task<Response<string>> GetTokenWithBasicAuthAsync(BasicAuthenticationData auth);
+    Task<Response<string>> GetTokenWithBasicAuthAsync();
     Task<string> GetBaseUrl();
-    public bool IsTokenExpired();
+    Task<bool> IsTokenExpired();
 }

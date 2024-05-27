@@ -1,4 +1,6 @@
-﻿namespace MainApp.Services;
+﻿using System.Net.Http.Headers;
+
+namespace MainApp.Services;
 
 public class FinnhubService : IFinnhubService
 {
@@ -14,6 +16,10 @@ public class FinnhubService : IFinnhubService
         try
         {
             var client = _essentialsAPIService.CreateHttpClient();
+
+            // Retrieve token for authorization
+            Response<string> authResponse = await _essentialsAPIService.GetTokenWithBasicAuthAsync();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authResponse.Data);
 
             Response<List<FinnhubNewsModel>>? response = await client.GetFromJsonAsync<Response<List<FinnhubNewsModel>>>(EndPoint.V2FinnhubNewsAll);
 
