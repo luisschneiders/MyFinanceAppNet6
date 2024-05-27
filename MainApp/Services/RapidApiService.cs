@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.WebUtilities;
+﻿using System.Net.Http.Headers;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace MainApp.Services;
 
@@ -16,6 +17,10 @@ public class RapidApiService : IRapidApiService
         try
         {
             var client = _essentialsAPIService.CreateHttpClient();
+
+            // Retrieve token for authorization
+            string token = await GetToken();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var query = new Dictionary<string, string>()
             {
@@ -38,5 +43,11 @@ public class RapidApiService : IRapidApiService
                 ErrorMessage = "Rapid API says: " + ex.Message,
             };
         }
+    }
+
+    private async Task<string> GetToken()
+    {
+        Response<string> response = await _essentialsAPIService.GetTokenWithBasicAuthAsync();
+        return await Task.FromResult(response.Data);
     }
 }
