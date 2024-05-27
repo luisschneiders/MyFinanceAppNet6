@@ -1,19 +1,25 @@
-﻿namespace MainApp.Services;
+﻿using System.Net.Http.Headers;
+
+namespace MainApp.Services;
 
 public class FinnhubService : IFinnhubService
 {
-    private readonly IWebApiService _webApiService;
+    private readonly IEssentialsAPIService _essentialsAPIService;
 
-    public FinnhubService(IWebApiService webApiService)
+    public FinnhubService(IEssentialsAPIService essentialsAPIService)
     {
-        _webApiService = webApiService;
+        _essentialsAPIService = essentialsAPIService;
     }
 
     public async Task<Response<List<FinnhubNewsModel>>> GetNewsAsync()
     {
         try
         {
-            var client = _webApiService.CreateEssentialsHttpClient();
+            var client = _essentialsAPIService.CreateHttpClient();
+
+            // Retrieve token for authorization
+            string token = await GetToken();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             Response<List<FinnhubNewsModel>>? response = await client.GetFromJsonAsync<Response<List<FinnhubNewsModel>>>(EndPoint.V2FinnhubNewsAll);
 
@@ -26,8 +32,13 @@ public class FinnhubService : IFinnhubService
             {
                 Data = new List<FinnhubNewsModel>(),
                 Success = false,
-                ErrorMessage = ex.Message,
+                ErrorMessage = "Finnhub says: " + ex.Message,
             };
         }
+    }
+    private async Task<string> GetToken()
+    {
+        Response<string> response = await _essentialsAPIService.GetTokenWithBasicAuthAsync();
+        return await Task.FromResult(response.Data);
     }
 }

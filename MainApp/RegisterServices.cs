@@ -14,7 +14,7 @@ public static class RegisterServices
     {
         builder.Services.AddRazorPages();
 
-        builder.Services.AddHttpClient<EssentialsAPIService>("essentials-api", opts =>
+        builder.Services.AddHttpClient<EssentialsAPIService>(ClientAPI.Essentials, opts =>
         {
             opts.BaseAddress = new Uri(builder.Configuration.GetValue<string>("EssentialsApiUrl"));
         });
@@ -72,10 +72,15 @@ public static class RegisterServices
 
     public static void AddScopedServices(this WebApplicationBuilder builder)
     {
-        builder.Services.AddScoped<SpinnerService>();
-        builder.Services.AddScoped<ToastService>();
+//      Browser
         builder.Services.AddScoped<IAppSettingsService, AppSettingsService>();
         builder.Services.AddScoped<IBrowserService, BrowserService>();
+        builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
+        builder.Services.AddScoped<ISessionStorageService, SessionStorageService>();
+
+//      Components
+        builder.Services.AddScoped<SpinnerService>();
+        builder.Services.AddScoped<ToastService>();
         builder.Services.AddScoped<ICalendarViewService, CalendarViewService>();
         builder.Services.AddScoped<IChartService, ChartService>();
         builder.Services.AddScoped<IChartBankService, ChartBankService>();
@@ -86,22 +91,25 @@ public static class RegisterServices
         builder.Services.AddScoped<IDropdownDateMonthYearService, DropdownDateMonthYearService>();
         builder.Services.AddScoped<IDropdownFilterService, DropdownFilterService>();
         builder.Services.AddScoped<IOffCanvasService, OffCanvasService>();
+
+//      Data
         builder.Services.AddScoped<IBankService<BankModel>, BankService>();
         builder.Services.AddScoped<ICompanyService<CompanyModel>, CompanyService>();
         builder.Services.AddScoped<IExpenseService<ExpenseModel>, ExpenseService>();
         builder.Services.AddScoped<IExpenseCategoryService<ExpenseCategoryModel>, ExpenseCategoryService>();
-        builder.Services.AddScoped<IFinnhubService, FinnhubService>();
-        builder.Services.AddScoped<IGoogleService, GoogleService>();
-        builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
         builder.Services.AddScoped<ILocationService<UserLocationModel>, LocationService>();
         builder.Services.AddScoped<ILocationExpenseService<LocationExpenseModel>, LocationExpenseService>();
-        builder.Services.AddScoped<IRapidApiService, RapidApiService>();
         builder.Services.AddScoped<ITimesheetService<TimesheetModel>, TimesheetService>();
         builder.Services.AddScoped<ITransactionService<TransactionModel>, TransactionService>();
         builder.Services.AddScoped<ITransactionCategoryService<TransactionCategoryModel>, TransactionCategoryService>();
         builder.Services.AddScoped<ITripService<TripModel>, TripService>();
         builder.Services.AddScoped<IVehicleService<VehicleModel>, VehicleService>();
-        builder.Services.AddScoped<IWebApiService, WebApiService>();
+
+//      APIs
+        builder.Services.AddScoped<IEssentialsAPIService, EssentialsAPIService>();
+        builder.Services.AddScoped<IFinnhubService, FinnhubService>();
+        builder.Services.AddScoped<IGoogleService, GoogleService>();
+        builder.Services.AddScoped<IRapidApiService, RapidApiService>();
 
         //State Container
         builder.Services.AddScoped<TimesheetStateService>();

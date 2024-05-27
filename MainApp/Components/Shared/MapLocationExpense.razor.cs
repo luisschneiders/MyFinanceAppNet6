@@ -84,9 +84,16 @@ public partial class MapLocationExpense : ComponentBase
         try
         {
             GoogleMapStaticModel model = await _expenseService.GetLocationExpense(_dateTimeRange, Color, Width, Height, Scale);
-            Response<string> staticImage = await _googleService.GetMapStaticImage(model);
+            Response<string> response = await _googleService.GetMapStaticImage(model);
 
-            _imageURL = staticImage.Data;
+            if (response.Success is false)
+            {
+                _toastService.ShowToast($"{response.ErrorMessage}", Theme.Danger);
+            }
+            else{
+                _imageURL = response.Data;
+            }
+            
             _isLoading = false;
         }
         catch (Exception ex)

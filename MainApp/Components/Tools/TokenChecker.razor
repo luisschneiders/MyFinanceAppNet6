@@ -1,0 +1,53 @@
+﻿@using MainApp.Components.Card
+@using MainApp.Components.Shared
+
+<CardView Styles="w-100 border-0">
+    <CardMiddle>
+        <SharedHeader Title="Token Checker"
+                        Icon="bi-shield-check"
+                        IconColor="Theme.Dark" />
+        <div class="row py-3">
+            <div class="col-sm-12 col-lg-5">
+                <button class="btn btn-primary w-100 @("rounded"+_appSettings.Button)"
+                        type="button"
+                        title="Get token"
+                        @onclick="GetTokenAsync">
+                        Get Token
+                </button>
+                <div class="text-break">
+                    <code>
+                        @(_response.Data)
+                    </code>
+                </div>
+            </div>
+            <div class="col-2 d-flex justify-content-center">
+                <div class="vr d-none d-lg-flex h-100 mx-lg-0"></div>
+            </div>
+            <div class="col-sm-12 col-lg-5">
+                <button class="btn btn-outline-primary w-100 @("rounded"+_appSettings.Button)"
+                        type="button"
+                        title="Get token"
+                        @onclick="CheckIsTokenExpiredAsync">
+                        Is token expired?
+                </button>
+                @if (_isTokenChecked is true)
+                {
+                    <div class="d-flex justify-content-center py-5">
+                        @if(_isTokenExpired is true)
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                Token is expired!
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-success" role="alert">
+                                Token is not expired!
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </CardMiddle>
+</CardView>

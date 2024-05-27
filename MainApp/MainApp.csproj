@@ -51,6 +51,7 @@
     <PackageReference Include="Microsoft.Identity.Web" Version="2.12.4" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.12.4" />
     <PackageReference Include="Microsoft.AspNetCore.Components.DataAnnotations.Validation" Version="3.2.0-rc1.20223.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\SetupPage\" />
