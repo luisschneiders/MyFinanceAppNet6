@@ -28,6 +28,12 @@ public partial class ChartTransactionIOByDay : ComponentBase
     [Parameter]
     public ChartType ChartType { get; set; } = ChartType.bar; // Or ChartType.line
 
+    [Parameter]
+    public PeriodRange PeriodRange { get; set; } = PeriodRange.Month;
+
+    [Parameter]
+    public DateTimeRange DateRange { get; set; } = new();
+
     private DateTimeRange _dateTimeRange { get; set; } = new();
 
     private ChartConfigData _chartConfigData { get; set; } = new();
@@ -44,7 +50,7 @@ public partial class ChartTransactionIOByDay : ComponentBase
 
     protected async override Task OnInitializedAsync()
     {
-        _dateTimeRange = _dateTimeService.GetCurrentMonth();
+        _dateTimeRange = DateRange;
         _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
 
         await Task.CompletedTask;

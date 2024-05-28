@@ -7,6 +7,9 @@ namespace MainApp.Pages.AdminPage.Transaction;
 public partial class AdminTransactionChart : ComponentBase
 {
     [Inject]
+    private IDateTimeService _dateTimeService { get; set; } = default!;
+
+    [Inject]
     private ToastService _toastService { get; set; } = new();
 
     [Inject]
@@ -14,6 +17,8 @@ public partial class AdminTransactionChart : ComponentBase
 
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
+
+    private DateTimeRange _dateTimeRange { get; set; } = new();
 
     private Modal _modal { get; set; } = new();
     private Guid _modalTarget { get; set; }
@@ -25,6 +30,7 @@ public partial class AdminTransactionChart : ComponentBase
     protected async override Task OnInitializedAsync()
     {
         _modalTarget = Guid.NewGuid();
+        _dateTimeRange = _dateTimeService.GetCurrentMonth();
         await Task.CompletedTask;
     }
 
