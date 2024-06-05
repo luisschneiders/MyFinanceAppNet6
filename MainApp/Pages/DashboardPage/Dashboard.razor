@@ -145,8 +145,8 @@
                                                                 Width="MapSize.Width800"
                                                                 Height="MapSize.Height250"
                                                                 Scale="MapScale.Desktop"
-                                                                PeriodRange="PeriodRange.Year"
-                                                                DateRange="_dateTimeRange" />
+                                                                DateRange="@_dateTimeRange"
+                                                                PeriodRange="PeriodRange.Year" />
                                         </CardMiddle>
                                     </CardView>
                                 </div>
@@ -155,17 +155,12 @@
                         <div class="app-page-background-secondary">
                             <div class="container-lg">
                                 <div class="row gy-5 app-footer-gap">
-                                    <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
+                                    <div class="col-sm-12 col-md-8 d-flex flex-sm-column flex-md-row justify-content-center">
                                         <CardView Styles="w-100 border-0 shadow">
                                             <CardMiddle>
-                                                <ChartBankAccountActive />
-                                            </CardMiddle>
-                                        </CardView>
-                                    </div>
-                                    <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
-                                        <CardView Styles="w-100 border-0 shadow">
-                                            <CardMiddle>
-                                                <ChartBankBalanceSum />
+                                                <ChartTransactionIOByDay ChartType="ChartType.line"
+                                                                         DateRange="@_dateTimeRange"
+                                                                         PeriodRange="PeriodRange.Year" />
                                             </CardMiddle>
                                         </CardView>
                                     </div>

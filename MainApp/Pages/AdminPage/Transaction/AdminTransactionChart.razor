@@ -24,7 +24,9 @@
                             <CardView Styles="w-100 border-0 mb-4 shadow">
                                 <CardMiddle>
                                     <h3 class="fs-5">Daily</h3>
-                                    <ChartTransactionIOByDay ChartType="ChartType.line" />
+                                    <ChartTransactionIOByDay ChartType="ChartType.line"
+                                                             DateRange="@_dateTimeRange"
+                                                             PeriodRange="PeriodRange.Month" />
                                 </CardMiddle>
                             </CardView>
                         </div>
@@ -33,14 +35,6 @@
                                 <CardMiddle>
                                     <h3 class="fs-5">Monthly</h3>
                                     <ChartTransactionIOByMonth ChartType="ChartType.bar" />
-                                </CardMiddle>
-                            </CardView>
-                        </div>
-                        <div class="col-sm-12 col-lg-6">
-                            <CardView Styles="w-100 border-0 mb-4 shadow">
-                                <CardMiddle>
-                                    <h3 class="fs-5">Active</h3>
-                                    <ChartBankAccountActive ChartType="ChartType.line" />
                                 </CardMiddle>
                             </CardView>
                         </div>
