@@ -122,6 +122,11 @@ h1:focus {
     height: calc(100% - 25px);
 }
 
+.app-calendar-cell:hover {
+    transition: background-color 1s ease-out 50ms;
+    background-color: rgba(var(--bs-body-color-rgb), .075);
+}
+
 /*
 * The component Virtualize won't work if we don't set a fix height for tables
 */
