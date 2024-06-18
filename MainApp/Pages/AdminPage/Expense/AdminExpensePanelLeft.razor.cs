@@ -55,7 +55,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
     private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
 
-    private int[][] _weeks { get; set; } = default!;
+    private DateTime[][] _weeks { get; set; } = default!;
 
     private decimal _expensesTotal { get; set; } = 0;
 
@@ -180,6 +180,11 @@ public partial class AdminExpensePanelLeft : ComponentBase
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 
+        await Task.CompletedTask;
+    }
+
+    private async Task ViewExpensesDetailsAsync(DateTime day)
+    {
         await Task.CompletedTask;
     }
 
