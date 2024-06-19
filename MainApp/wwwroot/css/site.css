@@ -127,7 +127,7 @@ h1:focus {
 }
 
 .app-calendar:hover .app-calendar-cell {
-    opacity: 0.5;
+    opacity: 0.6;
 }
 
 .app-calendar .app-calendar-cell:hover {

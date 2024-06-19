@@ -18,17 +18,14 @@ public partial class AdminExpenseDetailsModal : ComponentBase
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
 
-    // Add Modal component reference
-    private AdminExpenseModal _setupModal { get; set; } = new();
-
     private Modal _modal { get; set; } = new();
     private Guid _modalTarget { get; set; }
-    private bool _isLoading { get; set; } = true;
-    List<ExpenseDetailsDTO> _expensesList {get; set; } = new();
+    private List<ExpenseDetailsDTO> _expensesList {get; set; } = new();
     private DateTimeRange _dateTimeRange { get; set; } = new();
     private GoogleMapStaticModel _googleMapStatic{ get; set; } = new();
     private Response<string> _response { get; set; } = new();
     private string _imageURL { get; set; } = string.Empty;
+    private bool _isLoading { get; set; } = true;
 
     public AdminExpenseDetailsModal()
     {
@@ -89,6 +86,7 @@ public partial class AdminExpenseDetailsModal : ComponentBase
             else{
                 _imageURL = string.Empty;
             }
+
             _isLoading = false;
         }
         catch (Exception ex)
