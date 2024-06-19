@@ -65,7 +65,7 @@ public class ExpenseData : IExpenseData<ExpenseModel>
         }
     }
 
-    public async Task<List<ExpenseAmountHistoryDTO>> GetAmountHistoryDTO(string userId)
+    public async Task<List<ExpenseAmountHistoryDTO>> GetAmountHistory(string userId)
     {
         try
         {
@@ -129,6 +129,29 @@ public class ExpenseData : IExpenseData<ExpenseModel>
         {
             var results = await _dataAccess.LoadData<ExpenseListDTO, dynamic>(
                 "myfinancedb.spExpense_GetRecordsByDateRange",
+                new
+                {
+                    userId,
+                    startDate = dateTimeRange.Start,
+                    endDate = dateTimeRange.End
+                },
+                "Mysql");
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<List<ExpenseDetailsDTO>> GetRecordsDetailsByDateRange(string userId, DateTimeRange dateTimeRange)
+    {
+        try
+        {
+            var results = await _dataAccess.LoadData<ExpenseDetailsDTO, dynamic>(
+                "myfinancedb.spExpense_GetRecordsDetailsByDateRange",
                 new
                 {
                     userId,

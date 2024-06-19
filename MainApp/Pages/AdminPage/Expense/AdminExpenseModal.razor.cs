@@ -1,7 +1,6 @@
 ﻿using MainApp.Components.Modal;
 using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
-using MyFinanceAppLibrary.Models;
 
 namespace MainApp.Pages.AdminPage.Expense;
 
