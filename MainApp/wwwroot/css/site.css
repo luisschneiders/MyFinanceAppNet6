@@ -101,30 +101,38 @@ h1:focus {
     background-image: linear-gradient( 0, var(--bs-warning-bg-subtle) 50%, transparent 50% );
 }
 
-.app-calendar-day {
+.app-calendar {
+    border-style: hidden;
+}
+
+.app-calendar-cell-day {
     font-size: 0.65rem;
 }
 
-.app-calendar-current-day {
+.app-calendar-cell-current-day {
     width: 23px;
     height: 23px;
 }
 
-.app-table-calendar {
-    border-style: hidden;
-}
-
-.app-table-calendar > :not(caption) > * > * {
+.app-calendar > :not(caption) > * > * {
     padding: 0.25rem 0.25rem;
 }
 
-.app-table-calendar-height-with-subheader {
+.app-calendar-height-with-subheader {
     height: calc(100% - 25px);
 }
 
-.app-calendar-cell:hover {
-    transition: background-color 1s ease-out 50ms;
+.app-calendar-cell {
+    transition: background-color 0.3s, opacity 0.3s;
+}
+
+.app-calendar:hover .app-calendar-cell {
+    opacity: 0.5;
+}
+
+.app-calendar .app-calendar-cell:hover {
     background-color: rgba(var(--bs-body-color-rgb), .075);
+    opacity: 1;
 }
 
 /*
