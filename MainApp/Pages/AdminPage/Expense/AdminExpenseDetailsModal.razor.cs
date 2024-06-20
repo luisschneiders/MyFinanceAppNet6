@@ -1,4 +1,5 @@
 ﻿using MainApp.Components.Modal;
+using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 
@@ -14,6 +15,9 @@ public partial class AdminExpenseDetailsModal : ComponentBase
 
     [Inject]
     private IGoogleService _googleService { get; set; } = default!;
+
+    [Inject]
+    private SpinnerService _spinnerService { get; set; } = new();
 
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
@@ -36,13 +40,17 @@ public partial class AdminExpenseDetailsModal : ComponentBase
         try
         {
             _modalTarget = Guid.NewGuid();
-
             _dateTimeRange.Start = date;
             _dateTimeRange.End = date;
+            _spinnerService.ShowSpinner();
+
+            await _modal.Open(_modalTarget);
 
             await FetchDataAsync();
 
-            await Task.FromResult(_modal.Open(_modalTarget));
+            await InvokeAsync(StateHasChanged);
+
+            await Task.CompletedTask;
         }
         catch (Exception ex)
         {
@@ -54,12 +62,7 @@ public partial class AdminExpenseDetailsModal : ComponentBase
 
     private async Task CloseModalAsync()
     {
-        _expensesList = new();
-        _googleMapStatic = new();
-        _response = new();
-        _isLoading = false;
-        _imageURL = string.Empty;
-
+        await ResetAsync();
         await Task.FromResult(_modal.Close(_modalTarget));
         await Task.CompletedTask;
     }
@@ -94,6 +97,17 @@ public partial class AdminExpenseDetailsModal : ComponentBase
             _isLoading = false;
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
+
+        await Task.CompletedTask;
+    }
+
+    private async Task ResetAsync()
+    {
+        _expensesList = new();
+        _googleMapStatic = new();
+        _response = new();
+        _isLoading = true;
+        _imageURL = string.Empty;
 
         await Task.CompletedTask;
     }

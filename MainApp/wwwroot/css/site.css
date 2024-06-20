@@ -123,15 +123,11 @@ h1:focus {
 }
 
 .app-calendar-cell {
-    transition: background-color 0.3s, opacity 0.3s;
-}
-
-.app-calendar:hover .app-calendar-cell {
-    opacity: 0.6;
+    transition: background-color 0.3s, opacity 0.03s;
 }
 
 .app-calendar .app-calendar-cell:hover {
-    background-color: rgba(var(--bs-body-color-rgb), .075);
+    background-color: rgba(var(--bs-primary-rgb), .08);
     opacity: 1;
 }
 
