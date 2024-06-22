@@ -79,9 +79,11 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
 
     public async Task AddRecordOffCanvasAsync()
     {
-        _timesheetModel = new();
-        _timesheetModel.TimeIn = DateTime.Now;
-        _timesheetModel.TimeOut = DateTime.Now;
+        _timesheetModel = new()
+        {
+            TimeIn = DateTime.Now,
+            TimeOut = DateTime.Now
+        };
 
         await _offCanvasService.AddRecordAsync();
         await Task.CompletedTask;
