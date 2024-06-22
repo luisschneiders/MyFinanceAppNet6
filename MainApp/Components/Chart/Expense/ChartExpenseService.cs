@@ -47,7 +47,7 @@ public class ChartExpenseService : IChartExpenseService
     {
         try
         {
-            List<ExpenseTop5DTO> expenseTop5 = await _expenseService.GetRecordsTop5ByDateRange(dateTimeRange);
+            List<ExpenseTop5DTO> expenseTop5 = await _expenseService.GetRecordsTop5ByDate(dateTimeRange);
             ChartConfigData chartConfigData = await SetConfigDataTop5(expenseTop5);
 
             return chartConfigData;

@@ -80,7 +80,6 @@
                         </div>
                     </div>
                 }
-
             </div>
             <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
                 <div class="d-none d-lg-block">
@@ -103,8 +102,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12">
-                <div class="app-page-responsive-height @(_viewType == ViewType.Calendar.ToString() ? "rounded"+_appSettings.Card : "")">
+            <div class="col-12 g-0">
+                <div class="app-page-responsive-height px-3 @(_viewType == ViewType.Calendar.ToString() ? "rounded"+_appSettings.Card : "")">
                     @if (_isLoading)
                     {
                         <div class="d-flex justify-content-center align-items-center">
@@ -141,28 +140,44 @@
                                                 @foreach (var week in _weeks)
                                                 {
                                                     <tr>
-                                                        @foreach (var day in week)
+                                                        @foreach (var date in week)
                                                         {
-                                                            <td class="@(day == 0 ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "")">
-                                                                <div class="d-flex justify-content-end">
-                                                                    <div class="app-calendar-day text-center p-1 @((DateTime.Now.Day == day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
-                                                                                $"app-calendar-current-day rounded-circle bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
-                                                                                "") fw-bold">
-                                                                        @(day == 0 ? "" : day)
-                                                                    </div>
-                                                                </div>
-                                                                @if (day != 0)
+                                                            <td class="@((date.Year == 1 && date.Day == 1) ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "app-calendar-cell")">
+                                                                @if ((date.Year != 1 && date.Day >= 1))
                                                                 {
-                                                                    @foreach(var (item, index) in _expensesCalendarView.Select((value, index) => (value, index)))
-                                                                    {
-                                                                        if (item.EDate.Day == day)
+                                                                    <a role="button" class="btn w-100 h-100 p-0"
+                                                                        @onclick="() => ViewExpensesDetailsAsync(date)">
+                                                                        <div class="d-flex justify-content-end">
+                                                                            <div class="app-calendar-cell-day text-center p-1 @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
+                                                                                        $"app-calendar-cell-current-day rounded-circle bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
+                                                                                        "") fw-bold text-secondary-emphasis">
+                                                                                @(date.Day)
+                                                                            </div>
+                                                                        </div>
+                                                                        @if ((date.Year != 1 && date.Day >= 1))
                                                                         {
-                                                                            <small class="d-block app-calendar-text text-secondary-emphasis" title="@item.ExpenseCategoryDescription">
-                                                                                <BadgeColor RGBColor="@item.ExpenseCategoryColor"
-                                                                                            Description="@item.Amount.ToString("C")" />
-                                                                            </small>
+                                                                            @foreach(var (item, index) in _expensesCalendarView.Select((value, index) => (value, index)))
+                                                                            {
+                                                                                if (item.EDate.Day == date.Day)
+                                                                                {
+                                                                                    <small class="d-block app-calendar-text text-secondary-emphasis" title="@item.ExpenseCategoryDescription">
+                                                                                        <BadgeColor RGBColor="@item.ExpenseCategoryColor"
+                                                                                                    Description="@item.Amount.ToString("C")" />
+                                                                                    </small>
+                                                                                }
+                                                                            }
                                                                         }
-                                                                    }
+                                                                    </a>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class="d-flex justify-content-end">
+                                                                        <div class="app-calendar-cell-day text-center p-1 @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
+                                                                                    $"app-calendar-cell-current-day rounded-circle bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
+                                                                                    "") fw-bold">
+                                                                            @(string.Empty)
+                                                                        </div>
+                                                                    </div>
                                                                 }
                                                             </td>
                                                         }
@@ -279,4 +294,5 @@
 </CardView>
 <AdminExpenseOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
 <AdminExpenseModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
+<AdminExpenseDetailsModal @ref="_setupExpenseDetailsModal" />
 <AdminExpenseFilterModal @ref="_setupFilterModal" OnSubmitFilterSuccess="filterExpense => RefreshFilterList(filterExpense)" />

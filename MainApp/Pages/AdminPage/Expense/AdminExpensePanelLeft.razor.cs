@@ -45,6 +45,11 @@ public partial class AdminExpensePanelLeft : ComponentBase
      */
     private AdminExpenseFilterModal _setupFilterModal { get; set; } = new();
 
+    /*
+     * Add Expense Details Modal component reference
+     */
+    private AdminExpenseDetailsModal _setupExpenseDetailsModal { get; set; } = new();
+
     private DateTimeRange _dateRange { get; set; } = new();
     private DateTimeRange _dateCalendar { get; set; } = new();
 
@@ -55,7 +60,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
     private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
 
-    private int[][] _weeks { get; set; } = default!;
+    private DateTime[][] _weeks { get; set; } = default!;
 
     private decimal _expensesTotal { get; set; } = 0;
 
@@ -174,6 +179,20 @@ public partial class AdminExpensePanelLeft : ComponentBase
         try
         {
             await _setupModal.OpenModalAsync(model.Id.ToString());
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;
+    }
+
+    private async Task ViewExpensesDetailsAsync(DateTime date)
+    {
+        try
+        {
+            await _setupExpenseDetailsModal.OpenModalAsync(date);
         }
         catch (Exception ex)
         {

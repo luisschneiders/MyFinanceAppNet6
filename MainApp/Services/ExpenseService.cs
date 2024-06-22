@@ -177,6 +177,22 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         }
     }
 
+    public async Task<List<ExpenseDetailsDTO>> GetRecordsDateView(DateTimeRange dateTimeRange)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<ExpenseDetailsDTO> records = await _expenseData.GetRecordsDetailsByDateRange(user.Id, dateTimeRange);
+
+            return await Task.FromResult(records);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public Task<List<ExpenseModel>> GetSearchResults(string search)
     {
         throw new NotImplementedException();
@@ -227,7 +243,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         try
         {
             var user = await GetLoggedInUser();
-            List<ExpenseAmountHistoryDTO> results = await _expenseData.GetAmountHistoryDTO(user.Id);
+            List<ExpenseAmountHistoryDTO> results = await _expenseData.GetAmountHistory(user.Id);
             return results;
         }
         catch (Exception ex)
@@ -268,7 +284,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         }
     }
 
-    public async Task<List<ExpenseTop5DTO>> GetRecordsTop5ByDateRange(DateTimeRange dateTimeRange)
+    public async Task<List<ExpenseTop5DTO>> GetRecordsTop5ByDate(DateTimeRange dateTimeRange)
     {
         try
         {

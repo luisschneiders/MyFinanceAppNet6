@@ -15,7 +15,7 @@ public class CalendarViewService : ICalendarViewService
         _dateTimeService = dateTimeService;
     }
 
-    public async Task<int[][]> Build(DateTimeRange dateTimeRange)
+    public async Task<DateTime[][]> Build(DateTimeRange dateTimeRange)
     {
         try
         {
@@ -29,13 +29,13 @@ public class CalendarViewService : ICalendarViewService
 
             int firstDayOfWeek = (int)firstDayOfMonth.DayOfWeek;
 
-            int[][] weeks = new int[weeksInMonth][];
+            DateTime[][] weeks = new DateTime[weeksInMonth][];
 
             int dayNumber = 1;
 
             for (int i = 0; i < weeks.Length; i++)
             {
-                weeks[i] = new int[7];
+                weeks[i] = new DateTime[7];
 
                 for (int j = 0; j < weeks[i].Length; j++)
                 {
@@ -46,11 +46,11 @@ public class CalendarViewService : ICalendarViewService
                         {
                             if (i == 0 && j < 6)
                             {
-                                weeks[i][j] = 0;
+                                weeks[i][j] = new DateTime(1,1,1);
                             }
                             else if (dayNumber <= daysInMonth)
                             {
-                                weeks[i][j] = dayNumber;
+                                weeks[i][j] = new DateTime(firstDayOfMonth.Year, firstDayOfMonth.Month, dayNumber);
                                 dayNumber++;
                             }
                         }
@@ -58,11 +58,11 @@ public class CalendarViewService : ICalendarViewService
                         {
                             if (i == 0 && j < (firstDayOfWeek - 1))
                             {
-                                weeks[i][j] = 0;
+                                weeks[i][j] = new DateTime(1,1,1);
                             }
                             else if (dayNumber <= daysInMonth)
                             {
-                                weeks[i][j] = dayNumber;
+                                weeks[i][j] = new DateTime(firstDayOfMonth.Year, firstDayOfMonth.Month, dayNumber);
                                 dayNumber++;
                             }
                         }
@@ -73,14 +73,13 @@ public class CalendarViewService : ICalendarViewService
                     {
                         if (i == 0 && j < firstDayOfWeek)
                         {
-                            weeks[i][j] = 0;
+                            weeks[i][j] = new DateTime(1,1,1);
                         }
                         else if (dayNumber <= daysInMonth)
                         {
-                            weeks[i][j] = dayNumber;
+                            weeks[i][j] = new DateTime(firstDayOfMonth.Year, firstDayOfMonth.Month, dayNumber);
                             dayNumber++;
                         }
-
                     }
                 }
             }
