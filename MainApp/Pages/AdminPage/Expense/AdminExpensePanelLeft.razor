@@ -172,9 +172,7 @@
                                                                 else
                                                                 {
                                                                     <div class="d-flex justify-content-end">
-                                                                        <div class="app-calendar-cell-day text-center p-1 @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
-                                                                                    $"app-calendar-cell-current-day rounded-circle bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
-                                                                                    "") fw-bold">
+                                                                        <div class="app-calendar-cell-day text-center p-1">
                                                                             @(string.Empty)
                                                                         </div>
                                                                     </div>
