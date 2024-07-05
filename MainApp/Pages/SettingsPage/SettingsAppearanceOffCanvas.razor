@@ -16,18 +16,17 @@
             <div class="col-auto">
                 <DropdownActions Title="@_localStorageTheme"
                                  ButtonSize="Size.Sm"
-                                 ButtonColor="Theme.Info"
                                  IconEnd="bi-chevron-down"
                                  ButtonCssClass="@("rounded"+_appSettings.Button)"
                                  ButtonInnerStyles="d-flex justify-content-between">
                     <li class="px-2">
-                        <button class="dropdown-item rounded"
+                        <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
                                 @onclick="() => UpdateThemeAsync(ColorMode.Dark)">
                             dark
                         </button>
                     </li>
                     <li class="px-2">
-                        <button class="dropdown-item rounded"
+                        <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
                                 @onclick="() => UpdateThemeAsync(ColorMode.Light)">
                             light
                         </button>

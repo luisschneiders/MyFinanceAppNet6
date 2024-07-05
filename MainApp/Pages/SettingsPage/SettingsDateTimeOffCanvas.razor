@@ -16,7 +16,6 @@
             <div class="col-auto">
                 <DropdownActions Title="@_localStorageStartOfWeek"
                                  ButtonSize="Size.Sm"
-                                 ButtonColor="Theme.Info"
                                  IconEnd="bi-chevron-down"
                                  ButtonCssClass="@("rounded"+_appSettings.Button)"
                                  ButtonInnerStyles="d-flex justify-content-between">
@@ -24,7 +23,7 @@
                     {
                         <li class="px-2">
                             @*Only enable Sunday and Monday*@
-                            <button class="dropdown-item rounded"
+                            <button class="dropdown-item rounded @(index > 1 ? "" : "text-" + Theme.Primary.ToString().ToLower() + "-emphasis")"
                                     disabled="@(index > 1)"
                                     @onclick="() => UpdateWeekDayAsync(weekDay)">
                                 @($"{weekDay}")

@@ -255,4 +255,10 @@ public partial class AdminExpensePanelLeft : ComponentBase
             return false;
         }
     }
+
+    private async Task OpenSetupOffCanvas()
+    {
+        await AddRecordAsync();
+        await Task.CompletedTask;
+    }
 }

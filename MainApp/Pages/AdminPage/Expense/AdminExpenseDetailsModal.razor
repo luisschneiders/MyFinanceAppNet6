@@ -106,12 +106,18 @@
         </div>
     </Body>
     <Footer>
-        <div class="row">
+        <div class="row d-flex w-100 justify-content-between">
+            <div class="col-auto">
+                <button class="btn btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
+                        @onclick="AddRecordAsync">
+                    <i class="bi bi-plus-lg pe-1"></i>New expense
+                </button>
+            </div>
             <div class="col-auto">
                 <button type="button"
-                        class="btn btn-outline-secondary @("rounded"+_appSettings.Button)"
+                        class="btn btn-outline-@(Theme.Secondary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
                         data-dismiss="modal"
-                        @onclick="() => CloseModalAsync()">
+                        @onclick="CloseModalAsync">
                     Close
                 </button>
             </div>
