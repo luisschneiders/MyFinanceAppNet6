@@ -12,7 +12,7 @@
             <Modal @ref="_modal"
                 Size="Size.Fullscreen"
                 IsCloseButtonVisible="false"
-                ModalContentStyle="bg-light-subtle">
+                ModalContentStyle="main">
                 <Title>
                     <span class="text-secondary">
                         Charts
@@ -21,7 +21,7 @@
                 <Body>
                     <div class="row">
                         <div class="col-sm-12 col-lg-6">
-                            <CardView Styles="w-100 border-0 mb-4 shadow">
+                            <CardView Styles="w-100 border-0 mb-4">
                                 <CardMiddle>
                                     <h3 class="fs-5">Daily</h3>
                                     <ChartTransactionIOByDay ChartType="ChartType.line"
@@ -31,7 +31,7 @@
                             </CardView>
                         </div>
                         <div class="col-sm-12 col-lg-6">
-                            <CardView Styles="w-100 border-0 mb-4 shadow">
+                            <CardView Styles="w-100 border-0 mb-4">
                                 <CardMiddle>
                                     <h3 class="fs-5">Monthly</h3>
                                     <ChartTransactionIOByMonth ChartType="ChartType.bar" />

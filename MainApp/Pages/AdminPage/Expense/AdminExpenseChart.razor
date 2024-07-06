@@ -12,7 +12,7 @@
             <Modal @ref="_modal"
                 Size="Size.Fullscreen"
                 IsCloseButtonVisible="false"
-                ModalContentStyle="bg-light-subtle">
+                ModalContentStyle="main">
                 <Title>
                     <span class="text-secondary">
                         Charts
@@ -21,14 +21,14 @@
                 <Body>
                     <div class="row">
                         <div class="col-sm-12 col-lg-6 d-flex flex-sm-column flex-md-row justify-content-center">
-                            <CardView Styles="w-100 border-0 mb-4 shadow">
+                            <CardView Styles="w-100 border-0 mb-4">
                                 <CardMiddle>
                                     <ChartExpenseTop5 ChartType="ChartType.bar" ChartConfigOption="_chartConfigOption" />
                                 </CardMiddle>
                             </CardView>
                         </div>
                         <div class="col-sm-12 col-lg-6 d-flex flex-sm-column flex-md-row justify-content-center">
-                            <CardView Styles="w-100 border-0 mb-4 shadow">
+                            <CardView Styles="w-100 border-0 mb-4">
                                 <CardMiddle>
                                     <MapLocationExpense Color="MapMarkerColor.Brown"
                                                         Width="MapSize.Width800"
@@ -42,14 +42,14 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-lg-8 d-flex flex-sm-column flex-md-row justify-content-center">
-                            <CardView Styles="w-100 border-0 mb-4 shadow">
+                            <CardView Styles="w-100 border-0 mb-4">
                                 <CardMiddle>
                                     <ChartExpenseByMonth />
                                 </CardMiddle>
                             </CardView>
                         </div>
                         <div class="col-sm-12 col-lg-4 d-flex flex-sm-column flex-md-row justify-content-center">
-                            <CardView Styles="w-100 border-0 mb-4 shadow">
+                            <CardView Styles="w-100 border-0 mb-4">
                                 <CardMiddle>
                                     <ChartExpenseLast5Years />
                                 </CardMiddle>

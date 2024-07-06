@@ -292,9 +292,8 @@ h1:focus {
     border-color: var(--bs-danger);
 }
 
-.main {
+.app-main-top {
     padding-top: 62px;
-    /* padding-top: 58px; */
 }
 
 .validation-message {
