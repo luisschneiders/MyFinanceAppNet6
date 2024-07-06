@@ -8,7 +8,7 @@
        IsCloseButtonVisible="false">
     <Title>
         <span class="text-secondary">
-            @($"{_dateTimeRange.Start.ToString("dd/MM/yyyy")}")
+            @($"{_dateTimeRange.Start.ToString("dddd, d MMM yyyy")}")
         </span>
     </Title>
     <Body>
@@ -34,9 +34,9 @@
                     else
                     {
                         <div class="text-center w-100 p-5 bg-light rounded">
-                            <i class="bi bi-exclamation-circle fs-2 text-@(Theme.Danger.ToString().ToLower())-emphasis"></i>
+                            <i class="bi bi-card-image fs-2 text-@(Theme.Danger.ToString().ToLower())-emphasis"></i>
                             <div>
-                                No image available!
+                                @Label.NoImageAvailable
                             </div>
                         </div>
                     }
@@ -69,7 +69,7 @@
                                     <tr class="bg-light-subtle">
                                         <td class="text-center" colspan="5">
                                             <div>
-                                                Not record found!
+                                                @Label.NoRecordFound
                                             </div>
                                         </td>
                                     </tr>
