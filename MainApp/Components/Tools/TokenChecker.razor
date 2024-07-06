@@ -8,7 +8,7 @@
                         IconColor="Theme.Dark" />
         <div class="row py-3">
             <div class="col-sm-12 col-lg-5">
-                <button class="btn btn-primary w-100 @("rounded"+_appSettings.Button)"
+                <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-primary w-100 @("rounded"+_appSettings.Button)"
                         type="button"
                         title="Get token"
                         @onclick="GetTokenAsync">
@@ -24,7 +24,7 @@
                 <div class="vr d-none d-lg-flex h-100 mx-lg-0"></div>
             </div>
             <div class="col-sm-12 col-lg-5">
-                <button class="btn btn-outline-primary w-100 @("rounded"+_appSettings.Button)"
+                <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary w-100 @("rounded"+_appSettings.Button)"
                         type="button"
                         title="Get token"
                         @onclick="CheckIsTokenExpiredAsync">

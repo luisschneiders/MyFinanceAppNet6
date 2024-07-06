@@ -64,7 +64,7 @@
         <div class="row">
             <div class="col-auto">
                 <button type="button"
-                        class="btn btn-outline-secondary @("rounded"+_appSettings.Button)"
+                        class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary @("rounded"+_appSettings.Button)"
                         data-dismiss="modal"
                         @onclick="() => CloseModalAsync()">
                     Close

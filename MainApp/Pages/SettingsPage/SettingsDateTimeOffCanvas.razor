@@ -46,7 +46,7 @@
     </fieldset>
     <div class="row">
         <div class="col-6">
-            <button class="btn btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
+            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
                     @onclick="() => CloseOffCanvasAsync()">
                 Close
             </button>

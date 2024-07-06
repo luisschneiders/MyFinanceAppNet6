@@ -89,7 +89,7 @@
         }
         <div class="row">
             <div class="col-6">
-                <button class="btn btn-outline-secondary w-100 @("rounded"+AppSettings.Button)"
+                <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary w-100 @("rounded"+AppSettings.Button)"
                         @onclick="() => CloseOffCanvasAsync()">
                     Cancel
                 </button>
@@ -97,7 +97,7 @@
             @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add || _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
             {
                 <div class="col-6">
-                    <button class="btn btn-primary w-100 @("rounded"+AppSettings.Button)"
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-primary w-100 @("rounded"+AppSettings.Button)"
                             disabled="@(_isProcessing ? true : false)"
                             type="submit">
                         @(_isProcessing ? "Saving..." : "Save")
@@ -107,7 +107,7 @@
             else if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View)
             {
                 <div class="col-6">
-                    <button class="btn btn-outline-primary w-100 @("rounded"+AppSettings.Button)"
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary w-100 @("rounded"+AppSettings.Button)"
                             type="button"
                             @onclick="UpdateFormStateAsync">
                         Edit

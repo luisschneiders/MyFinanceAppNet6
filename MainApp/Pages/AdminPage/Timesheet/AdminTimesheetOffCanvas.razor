@@ -166,13 +166,13 @@
             }
             <div class="row">
                 <div class="col-6">
-                    <button class="btn btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
                             @onclick="() => CloseOffCanvasAsync()">
                         Cancel
                     </button>
                 </div>
                 <div class="col-6">
-                    <button class="btn btn-primary w-100 @("rounded"+_appSettings.Button)"
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-primary w-100 @("rounded"+_appSettings.Button)"
                             disabled="@(_isProcessing ? true : false)"
                             type="submit">
                         @(_isProcessing ? "Saving..." : "Save")
