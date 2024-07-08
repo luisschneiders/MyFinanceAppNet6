@@ -83,7 +83,7 @@
             </div>
             <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
                 <div class="d-none d-lg-block">
-                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
                             @onclick="AddRecordAsync">
                         <i class="bi bi-plus-lg pe-1"></i>New expense
                     </button>
@@ -92,7 +92,7 @@
                     <DropdownActions DropdownPosition="Position.End"
                                      ButtonSize="Size.Sm">
                         <li class="px-2 d-block d-lg-none">
-                            <button class="dropdown-item text-@(Theme.Dark.ToString().ToLower())-emphasis rounded"
+                            <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
                                     @onclick="AddRecordAsync">
                                 <i class="bi bi-plus-lg pe-1"></i>New expense
                             </button>
@@ -102,8 +102,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12 g-0">
-                <div class="app-page-responsive-height px-3 @(_viewType == ViewType.Calendar.ToString() ? "rounded"+_appSettings.Card : "")">
+            <div class="col-12">
+                <div class="app-page-responsive-height @(_viewType == ViewType.Calendar.ToString() ? "rounded"+_appSettings.Card : "")">
                     @if (_isLoading)
                     {
                         <div class="d-flex justify-content-center align-items-center">
@@ -172,9 +172,7 @@
                                                                 else
                                                                 {
                                                                     <div class="d-flex justify-content-end">
-                                                                        <div class="app-calendar-cell-day text-center p-1 @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
-                                                                                    $"app-calendar-cell-current-day rounded-circle bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
-                                                                                    "") fw-bold">
+                                                                        <div class="app-calendar-cell-day text-center p-1">
                                                                             @(string.Empty)
                                                                         </div>
                                                                     </div>
@@ -193,7 +191,7 @@
                             @if (_expensesListView.Count <= 0)
                             {
                                 <div class="text-center">
-                                    Not record found!
+                                    @Label.NoRecordFound
                                 </div>
                             }
                             else
@@ -244,7 +242,7 @@
                                                                 <tr class="bg-light-subtle">
                                                                     <td class="text-center" colspan="5">
                                                                         <div>
-                                                                            Not record found!
+                                                                            @Label.NoRecordFound
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -294,5 +292,5 @@
 </CardView>
 <AdminExpenseOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
 <AdminExpenseModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
-<AdminExpenseDetailsModal @ref="_setupExpenseDetailsModal" />
+<AdminExpenseDetailsModal @ref="_setupExpenseDetailsModal" OnSubmitSuccess="OpenSetupOffCanvas" />
 <AdminExpenseFilterModal @ref="_setupFilterModal" OnSubmitFilterSuccess="filterExpense => RefreshFilterList(filterExpense)" />

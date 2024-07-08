@@ -10,7 +10,7 @@
                 <DropdownActions DropdownPosition="Position.End"
                                  ButtonSize="Size.Sm">
                     <li class="px-2">
-                        <button class="dropdown-item text-@(Theme.Dark.ToString().ToLower())-emphasis rounded"
+                        <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
                                 @onclick="() => AddRecordAsync()">
                             <i class="bi bi-plus-lg pe-1"></i>New Expense
                         </button>
@@ -147,7 +147,7 @@
                                         <tr>
                                             <td class="text-center" colspan="4">
                                                 <div>
-                                                    Not record found!
+                                                    @Label.NoRecordFound
                                                 </div>
                                             </td>
                                         </tr>

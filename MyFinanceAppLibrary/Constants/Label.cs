@@ -12,4 +12,6 @@ public static class Label
     public const string NoDateAssigned = "No date assigned!";
     public const string NoFilterAssigned = "No filter assigned!";
     public const string NotSpecified = "Not Specified";
+    public const string NoImageAvailable = "No image available";
+    public const string NoRecordFound = "Not record found!";
 }

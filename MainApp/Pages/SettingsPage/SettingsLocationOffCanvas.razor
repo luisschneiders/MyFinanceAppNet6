@@ -42,7 +42,7 @@
             }
             <div class="row pb-4">
                 <div class="col-12 d-flex justify-content-end">
-                    <button class="btn btn-outline-primary @("rounded"+_appSettings.Button)"
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary @("rounded"+_appSettings.Button)"
                             disabled="@(_isProcessing ? true : false)"
                             title="Verify address"
                             @onclick="VerifyAddress">
@@ -96,13 +96,13 @@
     </fieldset>
     <div class="row">
         <div class="col-6">
-            <button class="btn btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
+            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
                     @onclick="() => CloseOffCanvasAsync()">
                 Close
             </button>
         </div>
         <div class="col-6">
-            <button class="btn btn-primary w-100 @("rounded"+_appSettings.Button)"
+            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-primary w-100 @("rounded"+_appSettings.Button)"
                     disabled="@(_userLocationModel.Location.Latitude == 0 && _userLocationModel.Location.Longitude == 0 ? true : false)"
                     @onclick="SaveAddress">
                 @(_isProcessing ? "Saving..." : "Save")
