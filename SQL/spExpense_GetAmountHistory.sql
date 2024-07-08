@@ -13,6 +13,7 @@ BEGIN
     JOIN ExpenseCategory ec ON ec.Id = e.ECategoryId
 	WHERE e.UpdatedBy = userId
 		AND ec.IsArchived = FALSE
+        AND e.IsArchived = FALSE
 	GROUP BY ECategoryId;
 END$$
 DELIMITER ;
