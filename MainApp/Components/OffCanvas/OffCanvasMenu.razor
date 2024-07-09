@@ -27,7 +27,7 @@
             <AuthorizeView Policy="Admin">
                 <li class="nav-item dropdown">
                     <NavLink class="nav-link app-nav-link app-outline-none" href="@EndPoint.Setup" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-grid-3x3-gap pe-1"></i>Setup<i class="bi bi-chevron-down ps-2"></i>
+                        <i class="bi bi-columns-gap pe-1"></i>Setup<i class="bi bi-chevron-down ps-2"></i>
                     </NavLink>
                     <ul class="dropdown-menu app-dropdown-menu border-0 bg-light-subtle shadow-sm" aria-labelledby="navbarDropdownSettingsLink">
                         <li class="px-2">
@@ -60,7 +60,7 @@
                 </li>
                 <li class="nav-item dropdown">
                     <NavLink class="nav-link app-nav-link app-outline-none" href="@EndPoint.Admin" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Admin<i class="bi bi-chevron-down ps-2"></i>
+                        <i class="bi  bi-grid-3x3-gap pe-1"></i>Admin<i class="bi bi-chevron-down ps-2"></i>
                     </NavLink>
                     <ul class="dropdown-menu app-dropdown-menu border-0 bg-light-subtle shadow-sm" aria-labelledby="navbarDropdownSettingsLink">
                         <li class="px-2">
@@ -94,13 +94,13 @@
                     <NavLink class="nav-link" href="@EndPoint.Tools">
                         Tools
                     </NavLink>
+                    <hr class="d-lg-none">
                 </li>
             </AuthorizeView>
             @*Only user with role "Admin" have access - end*@
         </ul>
 
         <div>
-            <hr class="d-lg-none">
             <LoginDisplay />
             <LoginOrRegister />
         </div>
