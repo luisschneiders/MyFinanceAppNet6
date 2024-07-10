@@ -66,17 +66,17 @@
                                     </sup>
                                 }
                             </button>
-                                @if (IsFilterApplied())
-                                {
-                                    <div class="d-flex align-items-center">
-                                        <div class="vr my-1 text-@(Theme.Dark.ToString().ToLower())-emphasis"></div>
-                                        <button class="btn btn-@(Size.Sm.ToString().ToLower())"
-                                                title="Remove"
-                                                @onclick="ResetAllFilters">
-                                            <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
-                                        </button>
-                                    </div>
-                                }
+                            @if (IsFilterApplied())
+                            {
+                                <div class="d-flex align-items-center">
+                                    <div class="vr my-1 text-@(Theme.Dark.ToString().ToLower())-emphasis"></div>
+                                    <button class="btn btn-@(Size.Sm.ToString().ToLower())"
+                                            title="Remove"
+                                            @onclick="ResetAllFilters">
+                                        <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
+                                    </button>
+                                </div>
+                            }
                         </div>
                     </div>
                 }

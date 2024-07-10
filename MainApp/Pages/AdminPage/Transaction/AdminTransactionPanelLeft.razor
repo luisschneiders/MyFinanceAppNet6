@@ -1,7 +1,9 @@
 ﻿@using MainApp.Components.Badge
 @using MainApp.Components.Badge.Color
 @using MainApp.Components.Card
+@using MainApp.Components.CalendarView
 @using MainApp.Components.Dropdown.Actions
+@using MainApp.Components.Dropdown.Date
 @using MainApp.Components.Dropdown.DateRange
 @using MainApp.Components.Dropdown.Filter
 @using MainApp.Components.Spinner
@@ -9,25 +11,61 @@
 
 <CardView Styles="border-0">
     <CardMiddle>
-        <div class="row justify-content-between pb-2">
-            <div class="col-10 col-lg-8 pb-2 d-flex">
-                <DropdownDateRange ButtonSize="Size.Sm"
-                                   DateTimeRange="@_dateTimeRange"
-                                   DropdownLabel="@_dropdownLabel"
-                                   PeriodRange="PeriodRange.Month"
-                                   OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
-                <div class="ps-2 d-none d-lg-flex">
-                    <div class="btn-group bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
-                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
-                                @onclick="() => ApplyFiltersAsync()">
-                            <i class="bi bi-sliders2 pe-1"></i>Filters
-                            @if(IsFilterApplied())
-                            {
-                                <sup class="ps-1">
-                                    <Badge BackgroundColor="@Theme.Light" Message="Applied" />
-                                </sup>
-                            }
-                        </button>
+        <div class="row pb-2">
+            <div class="col-10 col-lg-9 pb-2 d-flex align-items-center">
+                @if (_isLoading)
+                {
+                    <div class="d-flex justify-content-center align-items-center">
+                        <Spinner Size="Size.Sm" />
+                        <span class="ps-2">
+                            Loading ...
+                        </span>
+                    </div>
+                }
+                else
+                {
+                    <div class="btn-group align-items-center @("rounded"+_appSettings.Button)"
+                         role="group"
+                         aria-label="Radio toggle button group"
+                         title="Change view">
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value="@_viewType" @onclick="() => UpdateUIVIew(ViewType.Calendar)">
+                        <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Light.ToString().ToLower() ) border-0 @("rounded-start"+_appSettings.Button) @(_viewType == @ViewType.Calendar.ToString() ? "active" : "")" for="btnradio1"><i class="bi bi-calendar3"></i></label>
+
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value="@_viewType" @onclick="() => UpdateUIVIew(ViewType.List)">
+                        <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Light.ToString().ToLower() ) border-0 @("rounded-end"+_appSettings.Button) @(_viewType == @ViewType.List.ToString() ? "active" : "")" for="btnradio2"><i class="bi bi-list-ul"></i></label>
+                    </div>
+                    @if (_viewType == ViewType.Calendar.ToString())
+                    {
+                        <div class="ps-2">
+                            <DropdownDateMonthYear 
+                                                ButtonSize="Size.Sm"
+                                                DateTimeRange="@_dateCalendar"
+                                                DropdownLabel="@_dropdownDateCalendarLabel"
+                                                OnSubmitSuccess="data => RefreshDropdownDateMonthYear(data)" />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="ps-2">
+                            <DropdownDateRange ButtonSize="Size.Sm"
+                                            DateTimeRange="@_dateRange"
+                                            DropdownLabel="@_dropdownDateRangeLabel"
+                                            PeriodRange="PeriodRange.Month"
+                                            OnSubmitSuccess="data => RefreshDropdownDateRange(data)" />
+                        </div>
+                    }
+                    <div class="ps-2 d-none d-lg-flex">
+                        <div class="btn-group bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
+                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                                    @onclick="() => ApplyFiltersAsync()">
+                                <i class="bi bi-sliders2 pe-1"></i>Filters
+                                @if(IsFilterApplied())
+                                {
+                                    <sup class="ps-1">
+                                        <Badge BackgroundColor="@Theme.Light" Message="Applied" />
+                                    </sup>
+                                }
+                            </button>
                             @if (IsFilterApplied())
                             {
                                 <div class="d-flex align-items-center">
@@ -39,10 +77,11 @@
                                     </button>
                                 </div>
                             }
+                        </div>
                     </div>
-                </div>
+                }
             </div>
-            <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
+            <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
                 <div class="d-none d-lg-block">
                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
                             @onclick="() => AddRecordAsync()">
@@ -64,7 +103,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="app-page-responsive-height">
+                <div class="app-page-responsive-height @(_viewType == ViewType.Calendar.ToString() ? "rounded"+_appSettings.Card : "")">
                     @if (_isLoading)
                     {
                         <div class="d-flex justify-content-center align-items-center">
@@ -76,130 +115,190 @@
                     }
                     else
                     {
-
-                        @if (_transactionsByGroup.Count <= 0)
+                        @if (_viewType == ViewType.Calendar.ToString())
                         {
-                            <div class="text-center">
-                                @Label.NoRecordFound
-                            </div>
+                            <CalendarWrapper CalendarHasSubheader="false">
+                                <CalendarHeaderView>
+                                    <CalendarHeaderWrapper />
+                                </CalendarHeaderView>
+                                <CalendarBodyView>
+                                    <CalendarBodyWrapper>
+                                        @if (_weeks is not null)
+                                        {
+                                            @foreach (var week in _weeks)
+                                            {
+                                                <tr>
+                                                    @foreach (var date in week)
+                                                    {
+                                                        <td class="@((date.Year == 1 && date.Day == 1) ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "app-calendar-cell")">
+                                                            @if ((date.Year != 1 && date.Day >= 1))
+                                                            {
+                                                                <a role="button" class="btn w-100 h-100 p-0"
+                                                                    @onclick="() => ViewTransactionsDetailsAsync(date)">
+                                                                    <div class="d-flex justify-content-end">
+                                                                        <div class="app-calendar-cell-day text-center p-1 @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
+                                                                                    $"app-calendar-cell-current-day rounded-circle bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
+                                                                                    "") fw-bold text-secondary-emphasis">
+                                                                            @(date.Day)
+                                                                        </div>
+                                                                    </div>
+                                                                    @if ((date.Year != 1 && date.Day >= 1))
+                                                                    {
+                                                                        @foreach(var (item, index) in _transactionsCalendarView.Select((value, index) => (value, index)))
+                                                                        {
+                                                                            if (item.TDate.Day == date.Day)
+                                                                            {
+                                                                                <small class="d-block app-calendar-text text-secondary-emphasis" title="@item.TransactionCategoryDescription">
+                                                                                    <BadgeColor RGBColor="@item.TransactionCategoryColor"
+                                                                                                Description="@item.Amount.ToString("C")" />
+                                                                                </small>
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                </a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="d-flex justify-content-end">
+                                                                    <div class="app-calendar-cell-day text-center p-1">
+                                                                        @(string.Empty)
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        </td>
+                                                    }
+                                                </tr>
+                                            }
+                                        }
+                                    </CalendarBodyWrapper>
+                                </CalendarBodyView>
+                            </CalendarWrapper>
                         }
                         else
                         {
-                            <Accordion Id="Transactions">
-                                @foreach (var (record, index) in _transactionsByGroup.Select((value, index) => (value, index)))
-                                {
-                                    <AccordionItem>
-                                        <AccordionHeader Id="@index.ToString()">
-                                            <div>
-                                                @record.Description
-                                            </div>
-                                            <div>
-                                                @record.Total.ToString("C")
-                                            </div>
-                                        </AccordionHeader>
-                                        <AccordionBody Id="@index.ToString()">
-                                            <div class="table-responsive">
-                                                <table class="table table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="col-2">
-                                                                Date
-                                                            </th>
-                                                            <th class="col-1 text-center">
-                                                                Action
-                                                            </th>
-                                                            <th class="col-3">
-                                                                Bank
-                                                            </th>
-                                                            <th class="col-4">
-                                                                Comments
-                                                            </th>
-                                                            <th class="col-2 text-end">
-                                                                Amount
-                                                            </th>
-                                                            <th></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @if (_transactionsByGroup.Count <= 0)
-                                                        {
-                                                            <tr class="bg-light-subtle">
-                                                                <td class="text-center" colspan="5">
-                                                                    <div>
-                                                                        @Label.NoRecordFound
-                                                                    </div>
-                                                                </td>
+                            @if (_transactionsListView.Count <= 0)
+                            {
+                                <div class="text-center">
+                                    @Label.NoRecordFound
+                                </div>
+                            }
+                            else
+                            {
+                                <Accordion Id="Transactions">
+                                    @foreach (var (record, index) in _transactionsListView.Select((value, index) => (value, index)))
+                                    {
+                                        <AccordionItem>
+                                            <AccordionHeader Id="@index.ToString()">
+                                                <div>
+                                                    @record.Description
+                                                </div>
+                                                <div>
+                                                    @record.Total.ToString("C")
+                                                </div>
+                                            </AccordionHeader>
+                                            <AccordionBody Id="@index.ToString()">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="col-2">
+                                                                    Date
+                                                                </th>
+                                                                <th class="col-1 text-center">
+                                                                    Action
+                                                                </th>
+                                                                <th class="col-3">
+                                                                    Bank
+                                                                </th>
+                                                                <th class="col-4">
+                                                                    Comments
+                                                                </th>
+                                                                <th class="col-2 text-end">
+                                                                    Amount
+                                                                </th>
+                                                                <th></th>
                                                             </tr>
-                                                        }
-                                                        else
-                                                        {
-                                                            foreach (var record in _transactionsByGroup[index].Transactions)
+                                                        </thead>
+                                                        <tbody>
+                                                            @if (_transactionsListView.Count <= 0)
                                                             {
                                                                 <tr class="bg-light-subtle">
-                                                                    <td>
-                                                                        @record.TDate.ToString("dd/MM/yy")
+                                                                    <td class="text-center" colspan="5">
+                                                                        <div>
+                                                                            @Label.NoRecordFound
+                                                                        </div>
                                                                     </td>
-                                                                    <td class="text-center">
-                                                                        @switch (record.Label)
-                                                                        {
-                                                                            case "C":
-                                                                                <BadgeColor RGBColor="@TransactionTypeColor.Credit"
-                                                                                            Description="@(_enumHelper.GetDescription((TransactionActionType)Enum.Parse(typeof(TransactionActionType), record.Label)))" />
-                                                                                break;
-                                                                            case "D":
-                                                                                <BadgeColor RGBColor="@TransactionTypeColor.Debit"
-                                                                                            Description="@(_enumHelper.GetDescription((TransactionActionType)Enum.Parse(typeof(TransactionActionType), record.Label)))" />
-                                                                                break;
-                                                                            case "T":
-                                                                                <BadgeColor RGBColor="@TransactionTypeColor.Transfer"
-                                                                                            Description="@(_enumHelper.GetDescription((TransactionActionType)Enum.Parse(typeof(TransactionActionType), record.Label)))" />
-                                                                                break;
-                                                                        }
-                                                                    </td>
-                                                                    <td>
-                                                                        @record.BankDescription
-                                                                    </td>
-                                                                    <td>
-                                                                        @record.Comments
-                                                                    </td>
-                                                                    <td class="text-end">
-                                                                        @record.Amount.ToString("C")
-                                                                    </td>
-                                                                    @if (record.TCategoryId != 0)
-                                                                    {
-                                                                        <td class="text-center">
-                                                                            <button class="btn btn-link p-0 text-danger"
-                                                                                    type="button"
-                                                                                    title="Archive"
-                                                                                    @onclick="() => ArchiveRecordAsync(record)">
-                                                                                <i class="bi bi-archive"></i>
-                                                                            </button>
-                                                                        </td>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <td class="text-center">
-                                                                            <button class="btn btn-link p-0 text-info"
-                                                                                    type="button"
-                                                                                    title="Info"
-                                                                                    @onclick="() => InfoRecordAsync()">
-                                                                                <i class="bi bi-info-square-fill"></i>
-                                                                            </button>
-                                                                        </td>
-                                                                    }
                                                                 </tr>
                                                             }
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </AccordionBody>
-                                    </AccordionItem>
-                                }
-                            </Accordion>
+                                                            else
+                                                            {
+                                                                foreach (var record in _transactionsListView[index].Transactions)
+                                                                {
+                                                                    <tr class="bg-light-subtle">
+                                                                        <td>
+                                                                            @record.TDate.ToString("dd/MM/yy")
+                                                                        </td>
+                                                                        <td class="text-center">
+                                                                            @switch (record.Label)
+                                                                            {
+                                                                                case "C":
+                                                                                    <BadgeColor RGBColor="@TransactionTypeColor.Credit"
+                                                                                                Description="@(_enumHelper.GetDescription((TransactionActionType)Enum.Parse(typeof(TransactionActionType), record.Label)))" />
+                                                                                    break;
+                                                                                case "D":
+                                                                                    <BadgeColor RGBColor="@TransactionTypeColor.Debit"
+                                                                                                Description="@(_enumHelper.GetDescription((TransactionActionType)Enum.Parse(typeof(TransactionActionType), record.Label)))" />
+                                                                                    break;
+                                                                                case "T":
+                                                                                    <BadgeColor RGBColor="@TransactionTypeColor.Transfer"
+                                                                                                Description="@(_enumHelper.GetDescription((TransactionActionType)Enum.Parse(typeof(TransactionActionType), record.Label)))" />
+                                                                                    break;
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            @record.BankDescription
+                                                                        </td>
+                                                                        <td>
+                                                                            @record.Comments
+                                                                        </td>
+                                                                        <td class="text-end">
+                                                                            @record.Amount.ToString("C")
+                                                                        </td>
+                                                                        @if (record.TCategoryId != 0)
+                                                                        {
+                                                                            <td class="text-center">
+                                                                                <button class="btn btn-link p-0 text-danger"
+                                                                                        type="button"
+                                                                                        title="Archive"
+                                                                                        @onclick="() => ArchiveRecordAsync(record)">
+                                                                                    <i class="bi bi-archive"></i>
+                                                                                </button>
+                                                                            </td>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <td class="text-center">
+                                                                                <button class="btn btn-link p-0 text-info"
+                                                                                        type="button"
+                                                                                        title="Info"
+                                                                                        @onclick="() => InfoRecordAsync()">
+                                                                                    <i class="bi bi-info-square-fill"></i>
+                                                                                </button>
+                                                                            </td>
+                                                                        }
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </AccordionBody>
+                                        </AccordionItem>
+                                    }
+                                </Accordion>
+                            }
                         }
                     }
-
                 </div>
             </div>
         </div>
