@@ -127,12 +127,12 @@ public class ExpenseService : IExpenseService<ExpenseModel>
             if (filter.IsFilterChanged is true)
             {
                 recordsFiltered = await SetRecordsFilter(filter);
-                resultsByGroup = SetRecordsListView(recordsFiltered);
+                resultsByGroup = await SetRecordsListView(recordsFiltered);
                 _expensesByDateRangeSum = recordsFiltered.Sum(t => t.Amount);
             }
             else
             {
-                resultsByGroup = SetRecordsListView(records);
+                resultsByGroup = await SetRecordsListView(records);
                 _expensesByDateRangeSum = records.Sum(t => t.Amount);
             }
 
@@ -151,19 +151,16 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         {
             List<ExpenseListDTO> records = await GetRecordsByDateRange(filter.DateTimeRange);
             List<ExpenseListDTO> recordsFiltered = new();
-            IEnumerable<IGrouping<DateTime, ExpenseListDTO>> resultsByGroupDay;
             List<ExpenseCalendarDTO> calendarData = new();
             
             if (filter.IsFilterChanged is true)
             {
                 recordsFiltered = await SetRecordsFilter(filter);
-                resultsByGroupDay = recordsFiltered.GroupBy(d => d.EDate);
                 _expensesByDateRangeSum = recordsFiltered.Sum(t => t.Amount);
                 calendarData = await SetRecordsCalendarView(recordsFiltered);
             }
             else
             {
-                resultsByGroupDay = records.GroupBy(d => d.EDate);
                 _expensesByDateRangeSum = records.Sum(t => t.Amount);
                 calendarData = await SetRecordsCalendarView(records);
             }
@@ -394,7 +391,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
             {
                 ExpenseCalendarDTO expenseCalendarDTO = new();
 
-                var result = results.Find(e => e.ExpenseCategoryDescription == record.ExpenseCategoryDescription &&
+                var result = results.Find(e => e.ECategoryDescription == record.ExpenseCategoryDescription &&
                                                e.EDate.Date == record.EDate.Date);
 
                 if (result is not null)
@@ -404,8 +401,8 @@ public class ExpenseService : IExpenseService<ExpenseModel>
                 else
                 {
                     expenseCalendarDTO.EDate = record.EDate;
-                    expenseCalendarDTO.ExpenseCategoryColor = record.ExpenseCategoryColor;
-                    expenseCalendarDTO.ExpenseCategoryDescription = record.ExpenseCategoryDescription;
+                    expenseCalendarDTO.ECategoryColor = record.ExpenseCategoryColor;
+                    expenseCalendarDTO.ECategoryDescription = record.ExpenseCategoryDescription;
                     expenseCalendarDTO.Amount = record.Amount;
                     results.Add(expenseCalendarDTO);
                 }
@@ -420,17 +417,25 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         }
     }
 
-    private static List<ExpenseByCategoryGroupDTO> SetRecordsListView(List<ExpenseListDTO> records)
+    private static async Task<List<ExpenseByCategoryGroupDTO>> SetRecordsListView(List<ExpenseListDTO> records)
     {
-        var resultsByGroup = records.GroupBy(ec => ec.ExpenseCategoryDescription);
-        var results = resultsByGroup.Select(ecGroup => new ExpenseByCategoryGroupDTO()
+        try
         {
-            Description = ecGroup.Key,
-            Color = ecGroup.Select(c => c.ExpenseCategoryColor).FirstOrDefault(),
-            Total = ecGroup.Sum(a => a.Amount),
-            Expenses = ecGroup.ToList()
-        }).ToList();
+            var resultsByGroup = records.GroupBy(ec => ec.ExpenseCategoryDescription);
+            var results = resultsByGroup.Select(ecGroup => new ExpenseByCategoryGroupDTO()
+            {
+                Description = ecGroup.Key,
+                Color = ecGroup.Select(c => c.ExpenseCategoryColor).FirstOrDefault(),
+                Total = ecGroup.Sum(a => a.Amount),
+                Expenses = ecGroup.ToList()
+            }).ToList();
 
-        return results;
+            return await Task.FromResult(results);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 }

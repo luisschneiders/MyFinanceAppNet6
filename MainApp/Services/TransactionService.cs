@@ -238,6 +238,33 @@ public class TransactionService : ITransactionService<TransactionModel>
         }
     }
 
+    public async Task<List<TransactionCalendarDTO>> GetRecordsCalendarView(FilterTransactionDTO filter)
+    {
+        try
+        {
+            List<TransactionListDTO> records = await GetRecordsByDateRange(filter.DateTimeRange);
+            List<TransactionListDTO> recordsFiltered = new();
+            List<TransactionCalendarDTO> calendarData = new();
+            
+            if (filter.IsFilterChanged is true)
+            {
+                recordsFiltered = await SetRecordsFilter(filter);
+                calendarData = await SetRecordsCalendarView(recordsFiltered);
+            }
+            else
+            {
+                calendarData = await SetRecordsCalendarView(records);
+            }
+
+            return calendarData;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     private async Task<List<TransactionListDTO>> SetRecordsFilter(FilterTransactionDTO filter)
     {
         try
@@ -266,6 +293,70 @@ public class TransactionService : ITransactionService<TransactionModel>
             {
                 return await Task.FromResult(_recordsByDateRange);
             }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    private static async Task<List<TransactionCalendarDTO>> SetRecordsCalendarView(List<TransactionListDTO> records)
+    {
+        try
+        {
+            List<TransactionCalendarDTO> results = new();
+
+            foreach (var record in records)
+            {
+                TransactionCalendarDTO transactionCalendarDTO = new();
+
+                var result = results.Find(t => (t.TCategoryDescription?.Length > 0 ? t.TCategoryDescription: "Expenses") == (record.TCategoryDescription?.Length > 0 ? record.TCategoryDescription: "Expenses") &&
+                                               t.TDate.Date == record.TDate.Date);
+
+                if (result is not null)
+                {
+                    result.Amount += record.Amount;
+                }
+                else
+                {
+                    transactionCalendarDTO.TDate = record.TDate;
+                    transactionCalendarDTO.TCategoryColor = await GetTransactionLabelColor(record);
+                    transactionCalendarDTO.TCategoryDescription = record.TCategoryDescription?.Length > 0 ? record.TCategoryDescription: "Expenses";
+                    transactionCalendarDTO.Amount = record.Amount;
+                    results.Add(transactionCalendarDTO);
+                }
+            }
+
+            return await Task.FromResult(results);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    private static async Task<string> GetTransactionLabelColor(TransactionListDTO record)
+    {
+        try
+        {
+            string color = string.Empty;
+
+            switch (record.Label)
+            {
+                case "C":
+                    color = TransactionTypeColor.Credit;
+                    break;
+                case "D":
+                    color = TransactionTypeColor.Debit;
+                    break;
+                case "T":
+                    color = TransactionTypeColor.Transfer;
+                    break;
+            }
+
+            return await Task.FromResult(color);
         }
         catch (Exception ex)
         {

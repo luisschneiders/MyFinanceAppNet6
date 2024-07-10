@@ -121,8 +121,8 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         {
             if (_viewType == ViewType.Calendar.ToString())
             {
-                // _filterExpenseDTO.DateTimeRange = _dateCalendar;
-                // _transactionsCalendarView = await _expenseService.GetRecordsCalendarView(_filterExpenseDTO);
+                _filterTransactionDTO.DateTimeRange = _dateCalendar;
+                _transactionsCalendarView = await _transactionService.GetRecordsCalendarView(_filterTransactionDTO);
                 _weeks = await _calendarViewService.Build(_dateCalendar);
 
             }
