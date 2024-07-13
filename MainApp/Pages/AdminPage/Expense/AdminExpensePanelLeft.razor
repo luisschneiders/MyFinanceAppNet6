@@ -292,5 +292,5 @@
 </CardView>
 <AdminExpenseOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
 <AdminExpenseModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
-<AdminExpenseDetailsModal @ref="_setupExpenseDetailsModal" OnSubmitSuccess="OpenSetupOffCanvas" />
-<AdminExpenseFilterModal @ref="_setupFilterModal" OnSubmitFilterSuccess="filterExpense => RefreshFilterList(filterExpense)" />
+<AdminExpenseModalDetails @ref="_setupExpenseModalDetails" OnSubmitSuccess="OpenSetupOffCanvas" />
+<AdminExpenseModalFilter @ref="_setupFilterModal" OnSubmitFilterSuccess="filterExpense => RefreshFilterList(filterExpense)" />

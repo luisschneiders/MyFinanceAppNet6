@@ -1,0 +1,126 @@
+﻿@using MainApp.Components.Badge.Color
+@using MainApp.Components.Modal
+@using MainApp.Components.Spinner
+
+<Modal @ref="_modal"
+       Size="Size.Lg"
+       ModalBodyStyle="vh-100"
+       IsCloseButtonVisible="false">
+    <Title>
+        <span class="text-secondary">
+            @($"{_dateTimeRange.Start.ToString("dddd, d MMM yyyy")}")
+        </span>
+    </Title>
+    <Body>
+        <div class="row">
+                @if (_isLoading)
+                {
+                    <div class="col-12 d-flex justify-content-center">
+                        <div class="text-center">
+                            <Spinner Size="Size.Sm" />
+                            <span>
+                                Loading ...
+                            </span>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                <div class="col-12 d-flex justify-content-center pb-2">
+                    @if (_imageURL.Length > 0)
+                    {
+                        <img src="@_imageURL" class="img-fluid rounded" />
+                    }
+                    else
+                    {
+                        <div class="text-center w-100 p-5 bg-@Theme.Light.ToString().ToLower()-subtle rounded">
+                            <i class="bi bi-card-image fs-2 text-@(Theme.Danger.ToString().ToLower())-emphasis"></i>
+                            <div>
+                                @Label.NoImageAvailable
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="table-responsive w-100">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="col-2">
+                                        Expense
+                                    </th>
+                                    <th class="col-3">
+                                        Location
+                                    </th>
+                                    <th class="col-3">
+                                        Debit from
+                                    </th>
+                                    <th class="col-2">
+                                        Comments
+                                    </th>
+                                    <th class="col-2 text-end">
+                                        Amount
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (_expenseList.Count <= 0)
+                                {
+                                    <tr class="bg-light-subtle">
+                                        <td class="text-center" colspan="5">
+                                            <div>
+                                                @Label.NoRecordFound
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    foreach (var record in _expenseList)
+                                    {
+                                        <tr class="bg-light-subtle">
+                                            <td>
+                                                <BadgeColor RGBColor="@record.ECategoryColor"
+                                                            Description="@record.ECategoryDescription" />
+                                            </td>
+                                            <td>
+                                                @record.Address
+                                            </td>
+                                            <td>
+                                                @record.BankDescription
+                                            </td>
+                                            <td>
+                                                @record.Comments
+                                            </td>
+                                            <td class="text-end">
+                                                @record.Amount.ToString("C")
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                }
+        </div>
+    </Body>
+    <Footer>
+        <div class="row d-flex w-100 justify-content-between">
+            <div class="col-auto">
+                <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
+                        @onclick="AddRecordAsync">
+                    <i class="bi bi-plus-lg pe-1"></i>New expense
+                </button>
+            </div>
+            <div class="col-auto">
+                <button type="button"
+                        class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
+                        data-dismiss="modal"
+                        @onclick="CloseModalAsync">
+                    Close
+                </button>
+            </div>
+        </div>
+    </Footer>
+</Modal>

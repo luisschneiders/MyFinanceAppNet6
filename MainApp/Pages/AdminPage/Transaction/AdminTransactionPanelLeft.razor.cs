@@ -50,7 +50,13 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     /*
      * Add Filter Modal component reference
      */
-    private AdminTransactionFilterModal _setupFilterModal { get; set; } = new();
+    private AdminTransactionModalFilter _setupFilterModal { get; set; } = new();
+
+    /*
+     * Add Expense Details Modal component reference
+     */
+    private AdminTransactionModalDetails _setupTransactionModalDetails { get; set; } = new();
+
 
     private AdminTransactionModalInfo _setupModalInfo { get; set; } = new();
     private DateTimeRange _dateRange { get; set; } = new();
@@ -181,7 +187,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     {
         try
         {
-            // await _setupExpenseDetailsModal.OpenModalAsync(date);
+            await _setupTransactionModalDetails.OpenModalAsync(date);
         }
         catch (Exception ex)
         {
@@ -257,6 +263,12 @@ public partial class AdminTransactionPanelLeft : ComponentBase
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 
+        await Task.CompletedTask;
+    }
+
+    private async Task OpenSetupOffCanvas()
+    {
+        await AddRecordAsync();
         await Task.CompletedTask;
     }
 }

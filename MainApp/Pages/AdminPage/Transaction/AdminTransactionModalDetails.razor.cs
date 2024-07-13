@@ -3,21 +3,18 @@ using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 
-namespace MainApp.Pages.AdminPage.Expense;
+namespace MainApp.Pages.AdminPage.Transaction;
 
-public partial class AdminExpenseDetailsModal : ComponentBase
+public partial class AdminTransactionModalDetails : ComponentBase
 {
     [Inject]
     private ToastService _toastService { get; set; } = default!;
 
     [Inject]
-    private IExpenseService<ExpenseModel> _expenseService { get; set; } = default!;
-
-    [Inject]
-    private IGoogleService _googleService { get; set; } = default!;
-
-    [Inject]
     private SpinnerService _spinnerService { get; set; } = new();
+
+    [Inject]
+    private ITransactionService<TransactionModel> _transactionService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
@@ -27,14 +24,11 @@ public partial class AdminExpenseDetailsModal : ComponentBase
 
     private Modal _modal { get; set; } = new();
     private Guid _modalTarget { get; set; }
-    private List<ExpenseDetailsDTO> _expensesList {get; set; } = new();
     private DateTimeRange _dateTimeRange { get; set; } = new();
-    private GoogleMapStaticModel _googleMapStatic{ get; set; } = new();
-    private Response<string> _response { get; set; } = new();
-    private string _imageURL { get; set; } = string.Empty;
+    private List<TransactionDetailsDTO> _transactionList {get; set; } = new();
     private bool _isLoading { get; set; } = true;
 
-    public AdminExpenseDetailsModal()
+    public AdminTransactionModalDetails()
     {
     }
 
@@ -81,25 +75,7 @@ public partial class AdminExpenseDetailsModal : ComponentBase
     {
         try
         {
-            _expensesList = await _expenseService.GetRecordsDateView(_dateTimeRange);
-
-            if (_expensesList.Count > 0)
-            {
-                _googleMapStatic = await _expenseService.GetLocationExpense(_dateTimeRange, MapMarkerColor.Brown, MapSize.Width800, MapSize.Height250, MapScale.Desktop);
-                _response = await _googleService.GetMapStaticImage(_googleMapStatic);
-
-                if (_response.Success is false)
-                {
-                    _toastService.ShowToast($"{_response.ErrorMessage}", Theme.Danger);
-                }
-                else{
-                    _imageURL = _response.Data;
-                }
-            }
-            else{
-                _imageURL = string.Empty;
-            }
-
+            _transactionList = await _transactionService.GetRecordsDateView(_dateTimeRange);
             _isLoading = false;
         }
         catch (Exception ex)
@@ -113,11 +89,8 @@ public partial class AdminExpenseDetailsModal : ComponentBase
 
     private async Task ResetAsync()
     {
-        _expensesList = new();
-        _googleMapStatic = new();
-        _response = new();
+        _transactionList = new();
         _isLoading = true;
-        _imageURL = string.Empty;
 
         await Task.CompletedTask;
     }

@@ -10,6 +10,7 @@ public class TransactionListDTO : BaseModel
     public string BankDescription { get; }
     public ulong TCategoryId { get; set; }
     public string TCategoryDescription { get; }
+    public string TCategoryColor {get;}
     public string Action { get; }
     public string Label { get; }
     public string Comments { get; }

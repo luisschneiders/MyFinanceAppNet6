@@ -43,12 +43,12 @@ public partial class AdminExpensePanelLeft : ComponentBase
     /*
      * Add Filter Modal component reference
      */
-    private AdminExpenseFilterModal _setupFilterModal { get; set; } = new();
+    private AdminExpenseModalFilter _setupFilterModal { get; set; } = new();
 
     /*
      * Add Expense Details Modal component reference
      */
-    private AdminExpenseDetailsModal _setupExpenseDetailsModal { get; set; } = new();
+    private AdminExpenseModalDetails _setupExpenseModalDetails { get; set; } = new();
 
     private DateTimeRange _dateRange { get; set; } = new();
     private DateTimeRange _dateCalendar { get; set; } = new();
@@ -192,7 +192,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     {
         try
         {
-            await _setupExpenseDetailsModal.OpenModalAsync(date);
+            await _setupExpenseModalDetails.OpenModalAsync(date);
         }
         catch (Exception ex)
         {

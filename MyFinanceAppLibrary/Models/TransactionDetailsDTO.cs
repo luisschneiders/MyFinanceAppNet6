@@ -1,15 +1,15 @@
 ﻿namespace MyFinanceAppLibrary.Models;
 
-public class ExpenseDetailsDTO
+public class TransactionDetailsDTO
 {
     #nullable disable
     public ulong Id { get; }
-    public DateTime EDate { get;}
+    public DateTime TDate { get;}
     public string BankDescription { get; }
-    public string ECategoryDescription { get; }
-    public string ECategoryColor { get; }
+    public string TCategoryDescription { get; }
+    public string TCategoryColor { get; set; }
+    public string Label { get; set; }
     public string Comments { get; }
     public decimal Amount { get; }
-    public string Address { get; }
     #nullable enable
 }

@@ -242,15 +242,15 @@
                                                                             @switch (record.Label)
                                                                             {
                                                                                 case "C":
-                                                                                    <BadgeColor RGBColor="@TransactionTypeColor.Credit"
+                                                                                    <BadgeColor RGBColor="@record.TCategoryColor"
                                                                                                 Description="@(_enumHelper.GetDescription((TransactionActionType)Enum.Parse(typeof(TransactionActionType), record.Label)))" />
                                                                                     break;
                                                                                 case "D":
-                                                                                    <BadgeColor RGBColor="@TransactionTypeColor.Debit"
+                                                                                    <BadgeColor RGBColor="@record.TCategoryColor"
                                                                                                 Description="@(_enumHelper.GetDescription((TransactionActionType)Enum.Parse(typeof(TransactionActionType), record.Label)))" />
                                                                                     break;
                                                                                 case "T":
-                                                                                    <BadgeColor RGBColor="@TransactionTypeColor.Transfer"
+                                                                                    <BadgeColor RGBColor="@record.TCategoryColor"
                                                                                                 Description="@(_enumHelper.GetDescription((TransactionActionType)Enum.Parse(typeof(TransactionActionType), record.Label)))" />
                                                                                     break;
                                                                             }
@@ -307,4 +307,5 @@
 <AdminTransactionOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
 <AdminTransactionModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
 <AdminTransactionModalInfo @ref="_setupModalInfo" />
-<AdminTransactionFilterModal @ref="_setupFilterModal" OnSubmitFilterSuccess="filterTransaction => RefreshFilterList(filterTransaction)" />
+<AdminTransactionModalFilter @ref="_setupFilterModal" OnSubmitFilterSuccess="filterTransaction => RefreshFilterList(filterTransaction)" />
+<AdminTransactionModalDetails @ref="_setupTransactionModalDetails" OnSubmitSuccess="OpenSetupOffCanvas" />

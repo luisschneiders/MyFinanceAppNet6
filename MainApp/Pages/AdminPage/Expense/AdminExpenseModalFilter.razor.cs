@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Pages.AdminPage.Expense;
 
-public partial class AdminExpenseFilterModal : ComponentBase
+public partial class AdminExpenseModalFilter : ComponentBase
 {
     [Inject]
     private ToastService _toastService { get; set; } = default!;
@@ -37,7 +37,7 @@ public partial class AdminExpenseFilterModal : ComponentBase
     private string _dropdownFilterLabelExpense { get; set; } = Label.NoFilterAssigned;
     private string _dropdownFilterLabelBank { get; set; } = Label.NoFilterAssigned;
 
-    public AdminExpenseFilterModal()
+    public AdminExpenseModalFilter()
     {
     }
 

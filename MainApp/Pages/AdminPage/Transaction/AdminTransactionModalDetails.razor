@@ -26,36 +26,18 @@
                 }
                 else
                 {
-                <div class="col-12 d-flex justify-content-center pb-2">
-                    @if (_imageURL.Length > 0)
-                    {
-                        <img src="@_imageURL" class="img-fluid rounded" />
-                    }
-                    else
-                    {
-                        <div class="text-center w-100 p-5 bg-@Theme.Light.ToString().ToLower()-subtle rounded">
-                            <i class="bi bi-card-image fs-2 text-@(Theme.Danger.ToString().ToLower())-emphasis"></i>
-                            <div>
-                                @Label.NoImageAvailable
-                            </div>
-                        </div>
-                    }
-                </div>
                 <div class="col-12 d-flex justify-content-center">
                     <div class="table-responsive w-100">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th class="col-2">
-                                        Expense
+                                    <th class="col-3">
+                                        Description
                                     </th>
                                     <th class="col-3">
-                                        Location
+                                        Bank
                                     </th>
                                     <th class="col-3">
-                                        Debit from
-                                    </th>
-                                    <th class="col-2">
                                         Comments
                                     </th>
                                     <th class="col-2 text-end">
@@ -64,7 +46,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (_expensesList.Count <= 0)
+                                @if (_transactionList.Count <= 0)
                                 {
                                     <tr class="bg-light-subtle">
                                         <td class="text-center" colspan="5">
@@ -76,15 +58,12 @@
                                 }
                                 else
                                 {
-                                    foreach (var record in _expensesList)
+                                    foreach (var record in _transactionList)
                                     {
                                         <tr class="bg-light-subtle">
                                             <td>
-                                                <BadgeColor RGBColor="@record.ExpenseCategoryColor"
-                                                            Description="@record.ExpenseCategoryDescription" />
-                                            </td>
-                                            <td>
-                                                @record.Address
+                                                <BadgeColor RGBColor="@record.TCategoryColor"
+                                                            Description="@record.TCategoryDescription" />
                                             </td>
                                             <td>
                                                 @record.BankDescription
@@ -110,7 +89,7 @@
             <div class="col-auto">
                 <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
                         @onclick="AddRecordAsync">
-                    <i class="bi bi-plus-lg pe-1"></i>New expense
+                    <i class="bi bi-plus-lg pe-1"></i>New transaction
                 </button>
             </div>
             <div class="col-auto">
