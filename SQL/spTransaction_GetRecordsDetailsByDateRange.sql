@@ -1,5 +1,5 @@
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `spTransaction_GetRecordsByDateRange`(
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spTransaction_GetRecordsDetailsByDateRange`(
 	IN userId varchar(28),
     IN startDate datetime,
     IN endDate datetime
@@ -7,16 +7,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spTransaction_GetRecordsByDateRange
 BEGIN
 	SELECT
 		t.Id,
-        t.Link,
 		t.TDate,
-        t.FromBank,
 		b.Description AS BankDescription,
-        t.TCategoryId,
 		CASE 
 			WHEN t.TCategoryId = 0 THEN 'Expenses'
 			ELSE tc.Description
 		END AS TCategoryDescription,
-		t.Action,
         t.Label,
         CASE 
             WHEN t.Label = 'D' THEN '220, 53, 69'
@@ -25,8 +21,7 @@ BEGIN
             ELSE 'undefined'
         END AS TCategoryColor,
 		t.Comments,
-		t.Amount,
-		t.IsActive
+		t.Amount
 	FROM Transaction t
 	JOIN Bank b ON b.Id = t.FromBank
     LEFT JOIN TransactionCategory tc ON tc.Id = t.TCategoryId
