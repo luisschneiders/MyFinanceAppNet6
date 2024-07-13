@@ -4,7 +4,6 @@
 
 <Modal @ref="_modal"
        Size="Size.Lg"
-       ModalBodyStyle="vh-100"
        IsCloseButtonVisible="false">
     <Title>
         <span class="text-secondary">
@@ -12,10 +11,10 @@
         </span>
     </Title>
     <Body>
-        <div class="row">
+        <div class="row d-flex justify-content-center">
                 @if (_isLoading)
                 {
-                    <div class="col-12 d-flex justify-content-center">
+                    <div class="col-12">
                         <div class="text-center">
                             <Spinner Size="Size.Sm" />
                             <span>
@@ -26,7 +25,7 @@
                 }
                 else
                 {
-                <div class="col-12 d-flex justify-content-center pb-2">
+                <div class="col-12">
                     @if (_imageURL.Length > 0)
                     {
                         <img src="@_imageURL" class="img-fluid rounded" />
@@ -41,7 +40,7 @@
                         </div>
                     }
                 </div>
-                <div class="col-12 d-flex justify-content-center">
+                <div class="col-12">
                     <div class="table-responsive w-100">
                         <table class="table table-hover">
                             <thead>
@@ -49,13 +48,13 @@
                                     <th class="col-2">
                                         Expense
                                     </th>
-                                    <th class="col-3">
+                                    <th class="col-2">
                                         Location
                                     </th>
-                                    <th class="col-3">
+                                    <th class="col-2">
                                         Debit from
                                     </th>
-                                    <th class="col-2">
+                                    <th class="col-6">
                                         Comments
                                     </th>
                                     <th class="col-2 text-end">

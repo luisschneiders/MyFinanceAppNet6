@@ -6,6 +6,7 @@ public class TransactionDetailsDTO
     public ulong Id { get; }
     public DateTime TDate { get;}
     public string BankDescription { get; }
+    public string ECategoryDescription { get; }
     public string TCategoryDescription { get; }
     public string TCategoryColor { get; set; }
     public string Label { get; set; }
