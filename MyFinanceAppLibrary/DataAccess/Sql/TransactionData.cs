@@ -276,6 +276,29 @@ public class TransactionData : ITransactionData<TransactionModel>
         }
     }
 
+    public async Task<List<TransactionDetailsDTO>> GetRecordsDetailsByDateRange(string userId, DateTimeRange dateTimeRange)
+    {
+        try
+        {
+            var results = await _dataAccess.LoadData<TransactionDetailsDTO, dynamic>(
+                "myfinancedb.spTransaction_GetRecordsDetailsByDateRange",
+                new
+                {
+                    userId,
+                    startDate = dateTimeRange.Start,
+                    endDate = dateTimeRange.End
+                },
+                "Mysql");
+
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public async Task<List<TransactionIOLast3MonthsGraphDTO>> GetRecordsLast3Months(string userId)
     {
         try

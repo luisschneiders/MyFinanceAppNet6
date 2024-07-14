@@ -66,17 +66,17 @@
                                     </sup>
                                 }
                             </button>
-                                @if (IsFilterApplied())
-                                {
-                                    <div class="d-flex align-items-center">
-                                        <div class="vr my-1 text-@(Theme.Dark.ToString().ToLower())-emphasis"></div>
-                                        <button class="btn btn-@(Size.Sm.ToString().ToLower())"
-                                                title="Remove"
-                                                @onclick="ResetAllFilters">
-                                            <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
-                                        </button>
-                                    </div>
-                                }
+                            @if (IsFilterApplied())
+                            {
+                                <div class="d-flex align-items-center">
+                                    <div class="vr my-1 text-@(Theme.Dark.ToString().ToLower())-emphasis"></div>
+                                    <button class="btn btn-@(Size.Sm.ToString().ToLower())"
+                                            title="Remove"
+                                            @onclick="ResetAllFilters">
+                                        <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
+                                    </button>
+                                </div>
+                            }
                         </div>
                     </div>
                 }
@@ -84,7 +84,7 @@
             <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
                 <div class="d-none d-lg-block">
                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
-                            @onclick="AddRecordAsync">
+                            @onclick="() => AddRecordAsync(DateTime.Now)">
                         <i class="bi bi-plus-lg pe-1"></i>New expense
                     </button>
                 </div>
@@ -93,7 +93,7 @@
                                      ButtonSize="Size.Sm">
                         <li class="px-2 d-block d-lg-none">
                             <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
-                                    @onclick="AddRecordAsync">
+                                    @onclick="() => AddRecordAsync(DateTime.Now)">
                                 <i class="bi bi-plus-lg pe-1"></i>New expense
                             </button>
                         </li>
@@ -160,8 +160,8 @@
                                                                             {
                                                                                 if (item.EDate.Day == date.Day)
                                                                                 {
-                                                                                    <small class="d-block app-calendar-text text-secondary-emphasis" title="@item.ExpenseCategoryDescription">
-                                                                                        <BadgeColor RGBColor="@item.ExpenseCategoryColor"
+                                                                                    <small class="d-block app-calendar-text text-secondary-emphasis" title="@item.ECategoryDescription">
+                                                                                        <BadgeColor RGBColor="@item.ECategoryColor"
                                                                                                     Description="@item.Amount.ToString("C")" />
                                                                                     </small>
                                                                                 }
@@ -292,5 +292,5 @@
 </CardView>
 <AdminExpenseOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
 <AdminExpenseModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
-<AdminExpenseDetailsModal @ref="_setupExpenseDetailsModal" OnSubmitSuccess="OpenSetupOffCanvas" />
-<AdminExpenseFilterModal @ref="_setupFilterModal" OnSubmitFilterSuccess="filterExpense => RefreshFilterList(filterExpense)" />
+<AdminExpenseModalDetails @ref="_setupExpenseModalDetails" OnSubmitSuccess="dateTime => OpenSetupOffCanvas(dateTime)" />
+<AdminExpenseModalFilter @ref="_setupFilterModal" OnSubmitFilterSuccess="filterExpense => RefreshFilterList(filterExpense)" />

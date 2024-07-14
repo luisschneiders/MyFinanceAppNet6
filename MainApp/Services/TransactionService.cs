@@ -238,6 +238,50 @@ public class TransactionService : ITransactionService<TransactionModel>
         }
     }
 
+    public async Task<List<TransactionCalendarDTO>> GetRecordsCalendarView(FilterTransactionDTO filter)
+    {
+        try
+        {
+            List<TransactionListDTO> records = await GetRecordsByDateRange(filter.DateTimeRange);
+            List<TransactionListDTO> recordsFiltered = new();
+            List<TransactionCalendarDTO> calendarData = new();
+            
+            if (filter.IsFilterChanged is true)
+            {
+                recordsFiltered = await SetRecordsFilter(filter);
+                calendarData = await SetRecordsCalendarView(recordsFiltered);
+            }
+            else
+            {
+                calendarData = await SetRecordsCalendarView(records);
+            }
+
+            return calendarData;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<List<TransactionDetailsDTO>> GetRecordsDateView(DateTimeRange dateTimeRange)
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<TransactionDetailsDTO> records = await _transactionData.GetRecordsDetailsByDateRange(user.Id, dateTimeRange);
+
+            return await Task.FromResult(records);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+
     private async Task<List<TransactionListDTO>> SetRecordsFilter(FilterTransactionDTO filter)
     {
         try
@@ -274,6 +318,42 @@ public class TransactionService : ITransactionService<TransactionModel>
         }
     }
 
+    private static async Task<List<TransactionCalendarDTO>> SetRecordsCalendarView(List<TransactionListDTO> records)
+    {
+        try
+        {
+            List<TransactionCalendarDTO> results = new();
+
+            foreach (var record in records)
+            {
+                TransactionCalendarDTO transactionCalendarDTO = new();
+
+                var result = results.Find(t => t.TCategoryDescription == record.TCategoryDescription &&
+                                               t.TDate.Date == record.TDate.Date);
+
+                if (result is not null)
+                {
+                    result.Amount += record.Amount;
+                }
+                else
+                {
+                    transactionCalendarDTO.TDate = record.TDate;
+                    transactionCalendarDTO.TCategoryColor = record.TCategoryColor;
+                    transactionCalendarDTO.TCategoryDescription = record.TCategoryDescription;
+                    transactionCalendarDTO.Amount = record.Amount;
+                    results.Add(transactionCalendarDTO);
+                }
+            }
+
+            return await Task.FromResult(results);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     private async Task<List<TransactionListDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange)
     {
         try
@@ -298,7 +378,7 @@ public class TransactionService : ITransactionService<TransactionModel>
             var resultsByGroup = records.GroupBy(tc => tc.TCategoryDescription);
             var results = resultsByGroup.Select(tcGroup => new TransactionByCategoryGroupDTO()
             {
-                Description = tcGroup.Key?.Length > 0 ? tcGroup.Key : "Expenses",
+                Description = tcGroup.Key,
                 Total = tcGroup.Sum(a => a.Amount),
                 Transactions = tcGroup.ToList()
             }).ToList();

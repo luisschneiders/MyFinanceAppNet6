@@ -11,5 +11,6 @@ public interface ITransactionData<T> : IBaseData<T>
     Task<List<TransactionIOGraphByMonthDTO>> GetIOByDateRangeGroupByMonth(string userId, DateTimeRange dateTimeRange);
     Task<List<TransactionIOGraphByDayDTO>> GetIOByDateRangeGroupByDay(string userId, DateTimeRange dateTimeRange);
     Task<List<TransactionListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange);
+    Task<List<TransactionDetailsDTO>> GetRecordsDetailsByDateRange(string userId, DateTimeRange dateTimeRange);
     Task<List<TransactionIOLast3MonthsGraphDTO>> GetRecordsLast3Months(string userId);
 }

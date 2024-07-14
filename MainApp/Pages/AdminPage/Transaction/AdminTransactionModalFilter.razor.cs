@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Pages.AdminPage.Transaction;
 
-public partial class AdminTransactionFilterModal : ComponentBase
+public partial class AdminTransactionModalFilter : ComponentBase
 {
     [Inject]
     private ToastService _toastService { get; set; } = default!;
@@ -36,7 +36,7 @@ public partial class AdminTransactionFilterModal : ComponentBase
     private string _dropdownFilterLabelTransaction { get; set; } = Label.NoFilterAssigned;
     private string _dropdownFilterLabelBank { get; set; } = Label.NoFilterAssigned;
 
-    public AdminTransactionFilterModal()
+    public AdminTransactionModalFilter()
     {
     }
 

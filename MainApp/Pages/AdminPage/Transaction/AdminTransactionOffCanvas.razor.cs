@@ -95,10 +95,12 @@ public partial class AdminTransactionOffCanvas : ComponentBase
         return _shouldRender;
     }
 
-    public async Task AddRecordOffCanvasAsync()
+    public async Task AddRecordOffCanvasAsync(DateTime date)
     {
-        _transactionModel = new();
-        _transactionModel.TDate = DateTime.Today;
+        _transactionModel = new()
+        {
+            TDate = date
+        };
 
         await _offCanvasService.AddRecordAsync();
         await Task.CompletedTask;

@@ -135,7 +135,7 @@ h1:focus {
 * The component Virtualize won't work if we don't set a fix height for tables
 */
 .app-page-responsive-height {
-    height: calc(100vh - (3rem + 252px));
+    height: calc(100vh - (2.5rem + 232px));
     overflow-y: auto;
 }
 
@@ -293,7 +293,7 @@ h1:focus {
 }
 
 .app-main-top {
-    padding-top: 62px;
+    padding-top: 42px;
 }
 
 .validation-message {
@@ -383,10 +383,15 @@ h1:focus {
 
     .hero-section-left, .hero-section-right {
         width: 50%;
-        height: calc(100vh - 118px);
+        height: 100vh;
     }
+
+    .app-main-top-reverse {
+        margin-top: -46px;
+    }
+
     .app-page-responsive-height {
-        height: calc(100vh - (3rem + 256px));
+        height: calc(100vh - (1.5rem + 236px));
     }
 }
 

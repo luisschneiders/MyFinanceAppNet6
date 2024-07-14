@@ -13,6 +13,9 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
     [Inject]
+    private ICalendarViewService _calendarViewService { get; set; } = default!;
+
+    [Inject]
     private ToastService _toastService { get; set; } = new();
 
     [Inject]
@@ -22,7 +25,14 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
 
     [Inject]
+    private IDropdownDateMonthYearService _dropdownDateMonthYearService { get; set; } = default!;
+
+    [Inject]
     private IEnumHelper _enumHelper { get; set; } = default!;
+
+    //TODO: replace ILocalStorageService with IAppSettingsService
+    [Inject]
+    private ILocalStorageService _localStorageService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
@@ -40,15 +50,24 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     /*
      * Add Filter Modal component reference
      */
-    private AdminTransactionFilterModal _setupFilterModal { get; set; } = new();
-    
+    private AdminTransactionModalFilter _setupFilterModal { get; set; } = new();
+
+    /*
+     * Add Expense Details Modal component reference
+     */
+    private AdminTransactionModalDetails _setupTransactionModalDetails { get; set; } = new();
+
+
     private AdminTransactionModalInfo _setupModalInfo { get; set; } = new();
-
-    private DateTimeRange _dateTimeRange { get; set; } = new();
-
-    private List<TransactionByCategoryGroupDTO> _transactionsByGroup { get; set; } = new();
+    private DateTimeRange _dateRange { get; set; } = new();
+    private DateTimeRange _dateCalendar { get; set; } = new();
+    private List<TransactionByCategoryGroupDTO> _transactionsListView { get; set; } = new();
+    private List<TransactionCalendarDTO> _transactionsCalendarView { get; set; } = new();
     private FilterTransactionDTO _filterTransactionDTO { get; set; } = new();
-    private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
+    private string _viewType { get; set; } = ViewType.Calendar.ToString();
+    private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
+    private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
+    private DateTime[][] _weeks { get; set; } = default!;
     private bool _isLoading { get; set; } = true;
 
     public AdminTransactionPanelLeft()
@@ -57,8 +76,13 @@ public partial class AdminTransactionPanelLeft : ComponentBase
 
     protected async override Task OnInitializedAsync()
     {
-        _dateTimeRange = _dateTimeService.GetCurrentMonth();
-        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
+        _dateRange = _dateTimeService.GetCurrentMonth();
+
+        _dropdownDateRangeLabel = await _dropdownDateRangeService.UpdateLabel(_dateRange);
+
+        _dateCalendar = _dateTimeService.GetCurrentMonth();
+        _dropdownDateCalendarLabel = await _dropdownDateMonthYearService.UpdateLabel(_dateCalendar);
+
         await Task.CompletedTask;
     }
 
@@ -69,6 +93,13 @@ public partial class AdminTransactionPanelLeft : ComponentBase
             try
             {
                 _spinnerService.ShowSpinner();
+                string transactionView = await GetLocalStorageTransactionViewAsync();
+
+                if (string.IsNullOrEmpty(transactionView) == false)
+                {
+                    _viewType = transactionView;
+                }
+
                 await FetchDataAsync();
             }
             catch (Exception ex)
@@ -83,12 +114,29 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
+    private async Task<string> GetLocalStorageTransactionViewAsync()
+    {
+        string? localStorage = await _localStorageService.GetAsync<string>(LocalStorage.AppTransactionView);
+
+        return await Task.FromResult(localStorage!);
+    }
+
     private async Task FetchDataAsync()
     {
         try
         {
-            _filterTransactionDTO.DateTimeRange = _dateTimeRange;
-            _transactionsByGroup = await _transactionService.GetRecordsListView(_filterTransactionDTO);
+            if (_viewType == ViewType.Calendar.ToString())
+            {
+                _filterTransactionDTO.DateTimeRange = _dateCalendar;
+                _transactionsCalendarView = await _transactionService.GetRecordsCalendarView(_filterTransactionDTO);
+                _weeks = await _calendarViewService.Build(_dateCalendar);
+
+            }
+            else if (_viewType == ViewType.List.ToString())
+            {
+                _filterTransactionDTO.DateTimeRange = _dateRange;
+                _transactionsListView = await _transactionService.GetRecordsListView(_filterTransactionDTO);
+            }
 
             _isLoading = false;
         }
@@ -101,9 +149,18 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task AddRecordAsync()
+    private async void UpdateUIVIew(ViewType viewType)
     {
-        await _setupOffCanvas.AddRecordOffCanvasAsync();
+        _viewType = viewType.ToString();
+
+        await _localStorageService.SetAsync<string>(LocalStorage.AppTransactionView, _viewType);
+        await FetchDataAsync();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task AddRecordAsync(DateTime date)
+    {
+        await _setupOffCanvas.AddRecordOffCanvasAsync(date);
         await Task.CompletedTask;
     }
 
@@ -126,6 +183,20 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         await _setupModalInfo.OpenModalAsync();
     }
 
+    private async Task ViewTransactionsDetailsAsync(DateTime date)
+    {
+        try
+        {
+            await _setupTransactionModalDetails.OpenModalAsync(date);
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;
+    }
+
     private async Task RefreshList()
     {
         await FetchDataAsync();
@@ -142,11 +213,22 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     }
 
 
-    private async Task DropdownDateRangeRefresh(DateTimeRange dateTimeRange)
+    private async Task RefreshDropdownDateRange(DateTimeRange dateTimeRange)
     {
-        _dateTimeRange = dateTimeRange;
-        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
+        _dateRange = dateTimeRange;
+        _dropdownDateRangeLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
         _toastService.ShowToast("Date range has changed!", Theme.Info);
+
+        await RefreshList();
+        await Task.CompletedTask;
+    }
+
+    private async Task RefreshDropdownDateMonthYear(DateTimeRange dateTimeRange)
+    {
+        _dateCalendar = dateTimeRange;
+        _dropdownDateCalendarLabel = await _dropdownDateMonthYearService.UpdateLabel(dateTimeRange);
+        _toastService.ShowToast("Date range has changed!", Theme.Info);
+
         await RefreshList();
         await Task.CompletedTask;
     }
@@ -181,6 +263,12 @@ public partial class AdminTransactionPanelLeft : ComponentBase
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 
+        await Task.CompletedTask;
+    }
+
+    private async Task OpenSetupOffCanvas(DateTime date)
+    {
+        await AddRecordAsync(date);
         await Task.CompletedTask;
     }
 }

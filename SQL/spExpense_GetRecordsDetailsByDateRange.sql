@@ -9,8 +9,8 @@ BEGIN
 		e.Id,
 		e.EDate,
 		b.Description AS BankDescription,
-		ec.Description AS ExpenseCategoryDescription,
-        ec.Color AS ExpenseCategoryColor,
+		ec.Description AS ECategoryDescription,
+        ec.Color AS ECategoryColor,
 		e.Comments,
 		e.Amount,
 		le.Address

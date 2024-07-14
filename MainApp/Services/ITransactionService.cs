@@ -8,5 +8,7 @@ public interface ITransactionService<T> : IBaseService<T>
     Task<List<TransactionIOGraphByMonthDTO>> GetIOByDateRangeGroupByMonth(DateTimeRange dateTimeRange);
     Task<List<TransactionIOGraphByDayDTO>> GetIOByDateRangeGroupByDay(DateTimeRange dateTimeRange);
     Task<List<TransactionByCategoryGroupDTO>> GetRecordsListView(FilterTransactionDTO filter);
+    Task<List<TransactionCalendarDTO>> GetRecordsCalendarView(FilterTransactionDTO filter);
+    Task<List<TransactionDetailsDTO>> GetRecordsDateView(DateTimeRange dateTimeRange);
     Task<List<TransactionIOLast3MonthsGraphDTO>> GetRecordsLast3Months();
 }
