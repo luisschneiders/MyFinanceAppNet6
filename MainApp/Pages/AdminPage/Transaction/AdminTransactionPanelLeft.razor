@@ -84,7 +84,7 @@
             <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
                 <div class="d-none d-lg-block">
                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
-                            @onclick="() => AddRecordAsync()">
+                            @onclick="() => AddRecordAsync(DateTime.Now)">
                         <i class="bi bi-plus-lg pe-1"></i>New transaction
                     </button>
                 </div>
@@ -93,7 +93,7 @@
                                      ButtonSize="Size.Sm">
                         <li class="px-2 d-block d-lg-none">
                             <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
-                                    @onclick="() => AddRecordAsync()">
+                                    @onclick="() => AddRecordAsync(DateTime.Now)">
                                 <i class="bi bi-plus-lg pe-1"></i>New transaction
                             </button>
                         </li>
@@ -308,4 +308,4 @@
 <AdminTransactionModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
 <AdminTransactionModalInfo @ref="_setupModalInfo" />
 <AdminTransactionModalFilter @ref="_setupFilterModal" OnSubmitFilterSuccess="filterTransaction => RefreshFilterList(filterTransaction)" />
-<AdminTransactionModalDetails @ref="_setupTransactionModalDetails" OnSubmitSuccess="OpenSetupOffCanvas" />
+<AdminTransactionModalDetails @ref="_setupTransactionModalDetails" OnSubmitSuccess="dateTime => OpenSetupOffCanvas(dateTime)" />

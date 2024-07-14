@@ -158,9 +158,9 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         await InvokeAsync(StateHasChanged);
     }
 
-    private async Task AddRecordAsync()
+    private async Task AddRecordAsync(DateTime date)
     {
-        await _setupOffCanvas.AddRecordOffCanvasAsync();
+        await _setupOffCanvas.AddRecordOffCanvasAsync(date);
         await Task.CompletedTask;
     }
 
@@ -266,9 +266,9 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task OpenSetupOffCanvas()
+    private async Task OpenSetupOffCanvas(DateTime date)
     {
-        await AddRecordAsync();
+        await AddRecordAsync(date);
         await Task.CompletedTask;
     }
 }

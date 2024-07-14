@@ -23,7 +23,7 @@ public partial class AdminExpenseModalDetails : ComponentBase
     protected AppSettings _appSettings { get; set; } = new();
 
     [Parameter]
-    public EventCallback OnSubmitSuccess { get; set; }
+    public EventCallback<DateTime> OnSubmitSuccess { get; set; }
 
     private Modal _modal { get; set; } = new();
     private Guid _modalTarget { get; set; }
@@ -73,7 +73,7 @@ public partial class AdminExpenseModalDetails : ComponentBase
     private async Task AddRecordAsync()
     {
         await CloseModalAsync();
-        await OnSubmitSuccess.InvokeAsync();
+        await OnSubmitSuccess.InvokeAsync(_dateTimeRange.Start);
         await Task.CompletedTask;
     }
 
