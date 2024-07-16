@@ -145,29 +145,26 @@
                                                         <td class="@((date.Year == 1 && date.Day == 1) ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "app-calendar-cell")">
                                                             @if ((date.Year != 1 && date.Day >= 1))
                                                             {
-                                                                <a role="button" class="btn w-100 h-100 p-0"
-                                                                    @onclick="() => ViewTimesheetDetailsAsync(date)">
-                                                                    <div class="d-flex justify-content-end">
-                                                                        <div class="app-calendar-cell-day text-center p-1 @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
-                                                                                    $"app-calendar-cell-current-day rounded-circle bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
-                                                                                    "") fw-bold text-secondary-emphasis">
-                                                                            @(date.Day)
-                                                                        </div>
+                                                                <div class="d-flex justify-content-end">
+                                                                    <div class="app-calendar-cell-day text-center p-1 @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
+                                                                                $"app-calendar-cell-current-day rounded-circle bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
+                                                                                "") fw-bold text-secondary-emphasis">
+                                                                        @(date.Day)
                                                                     </div>
-                                                                    @if ((date.Year != 1 && date.Day >= 1))
+                                                                </div>
+                                                                @if ((date.Year != 1 && date.Day >= 1))
+                                                                {
+                                                                    @foreach(var (item, index) in _timesheetCalendarView.Select((value, index) => (value, index)))
                                                                     {
-                                                                        @foreach(var (item, index) in _timesheetCalendarView.Select((value, index) => (value, index)))
+                                                                        if (item.TDate.Day == date.Day)
                                                                         {
-                                                                            if (item.TDate.Day == date.Day)
-                                                                            {
-                                                                                <small class="d-block app-calendar-text text-secondary-emphasis" title="@item.CompanyDescription">
-                                                                                    <BadgeColor RGBColor="@($"{(item.PayStatus == 0 ? StatusColor.Awaiting : StatusColor.Paid)}")"
-                                                                                                Description="@($"{item.TotalAmount.ToString("C")} ({UpdatePayStatusTitle(item.PayStatus)})" )" />
-                                                                                </small>
-                                                                            }
+                                                                            <small class="d-block app-calendar-text text-secondary-emphasis" title="@item.CompanyDescription">
+                                                                                <BadgeColor RGBColor="@($"{(item.PayStatus == 0 ? StatusColor.Awaiting : StatusColor.Paid)}")"
+                                                                                            Description="@($"{item.TotalAmount.ToString("C")} ({UpdatePayStatusTitle(item.PayStatus)})" )" />
+                                                                            </small>
                                                                         }
                                                                     }
-                                                                </a>
+                                                                }
                                                             }
                                                             else
                                                             {

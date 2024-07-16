@@ -298,20 +298,6 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         }
     }
 
-    private async Task ViewTimesheetDetailsAsync(DateTime date)
-    {
-        try
-        {
-            // await _setupExpenseModalDetails.OpenModalAsync(date);
-        }
-        catch (Exception ex)
-        {
-            _toastService.ShowToast(ex.Message, Theme.Danger);
-        }
-
-        await Task.CompletedTask;
-    }
-
     // public void Dispose()
     // {
     //     _timesheetStateService.OnStateChange -= StateHasChanged;
