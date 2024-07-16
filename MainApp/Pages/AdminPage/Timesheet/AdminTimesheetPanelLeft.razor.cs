@@ -13,6 +13,9 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
     [Inject]
+    private ICalendarViewService _calendarViewService { get; set; } = default!;
+
+    [Inject]
     private ICompanyService<CompanyModel> _companyService { get; set; } = default!;
 
     [Inject]
@@ -27,6 +30,14 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     [Inject]
     private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
 
+    [Inject]
+    private IDropdownDateMonthYearService _dropdownDateMonthYearService { get; set; } = default!;
+
+    //TODO: replace ILocalStorageService with IAppSettingsService
+    [Inject]
+    private ILocalStorageService _localStorageService { get; set; } = default!;
+
+
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
 
@@ -38,15 +49,20 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
      */
     private AdminTimesheetOffCanvas _setupOffCanvas { get; set; } = new();
 
-    private DateTimeRange _dateTimeRange { get; set; } = new();
+    private DateTimeRange _dateRange { get; set; } = new();
     private List<CompanyModel> _companies { get; set; } = new();
     // private TimesheetStateContainerDTO _timesheetStateContainerDTO { get; set; } = new();
     private PayStatus[] _payStatuses { get; set; } = default!;
-    private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
+    private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
     private bool _isLoading { get; set; } = true;
     private AdminTimesheetFilterModal _setupFilterModal { get; set; } = new();
     private FilterTimesheetDTO _filterTimesheetDTO { get; set; } = new();
-    private List<TimesheetByCompanyGroupDTO> _timesheetsByGroup { get; set; } = new();
+    private List<TimesheetByCompanyGroupDTO> _timesheetListView { get; set; } = new();
+    private List<TimesheetCalendarDTO> _timesheetCalendarView { get; set; } = new();
+    private DateTimeRange _dateCalendar { get; set; } = new();
+    private string _viewType { get; set; } = ViewType.Calendar.ToString();
+    private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
+    private DateTime[][] _weeks { get; set; } = default!;
     private decimal _sumByDateRange { get; set; }
 
     public AdminTimesheetPanelLeft()
@@ -56,8 +72,11 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
 
     protected async override Task OnInitializedAsync()
     {
-        _dateTimeRange = _dateTimeService.GetCurrentMonth();
-        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
+        _dateRange = _dateTimeService.GetCurrentMonth();
+        _dropdownDateRangeLabel = await _dropdownDateRangeService.UpdateLabel(_dateRange);
+
+        _dateCalendar = _dateTimeService.GetCurrentMonth();
+        _dropdownDateCalendarLabel = await _dropdownDateMonthYearService.UpdateLabel(_dateCalendar);
 
         // _timesheetStateService.OnStateChange += StateHasChanged;
 
@@ -71,6 +90,13 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
             try
             {
                 _spinnerService.ShowSpinner();
+                string timesheetView = await GetLocalStorageTimesheetViewAsync();
+
+                if (string.IsNullOrEmpty(timesheetView) == false)
+                {
+                    _viewType = timesheetView;
+                }
+
                 await FetchDataAsync();
             }
             catch (Exception ex)
@@ -85,11 +111,32 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
+    private async Task<string> GetLocalStorageTimesheetViewAsync()
+    {
+        string? localStorage = await _localStorageService.GetAsync<string>(LocalStorage.AppTimesheetView);
+
+        return await Task.FromResult(localStorage!);
+    }
+
     private async Task FetchDataAsync()
     {
         try
         {
-            // List<TimesheetListDTO> timesheets = await _timesheetService.GetRecordsByFilter(_dateTimeRange, _filterCompany);
+            if (_viewType == ViewType.Calendar.ToString())
+            {
+                _filterTimesheetDTO.DateTimeRange = _dateCalendar;
+                _timesheetCalendarView = await _timesheetService.GetRecordsCalendarView(_filterTimesheetDTO);
+                _weeks = await _calendarViewService.Build(_dateCalendar);
+            }
+            else if (_viewType == ViewType.List.ToString())
+            {
+                _companies = await _companyService.GetRecords();
+
+                _filterTimesheetDTO.DateTimeRange = _dateRange;
+                _timesheetListView = await _timesheetService.GetRecordsListView(_filterTimesheetDTO);
+
+            }
+            // List<TimesheetListDTO> timesheets = await _timesheetService.GetRecordsByFilter(_dateRange, _filterCompany);
             // decimal totalAwaiting = await _timesheetService.GetSumTotalAwaiting();
             // decimal totalPaid = await _timesheetService.GetSumTotalPaid();
             // double totalHours = await _timesheetService.GetSumTotalHours();
@@ -103,13 +150,8 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
 
             // await OnStateContainerSetValue.InvokeAsync();
 
-            _companies = await _companyService.GetRecords();
-
-            _filterTimesheetDTO.DateTimeRange = _dateTimeRange;
-            _timesheetsByGroup = await _timesheetService.GetRecordsListView(_filterTimesheetDTO);
 
             _sumByDateRange = await _timesheetService.GetSumByDateRange();
-
             _isLoading = false;
         }
         catch (Exception ex)
@@ -119,6 +161,15 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         }
 
         await Task.CompletedTask;
+    }
+
+    private async void UpdateUIVIew(ViewType viewType)
+    {
+        _viewType = viewType.ToString();
+
+        await _localStorageService.SetAsync<string>(LocalStorage.AppTimesheetView, _viewType);
+        await FetchDataAsync();
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task UpdatePayStatusAsync(TimesheetListDTO timesheetListDTO, int payStatus)
@@ -177,14 +228,24 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task DropdownDateRangeRefresh(DateTimeRange dateTimeRange)
+    private async Task RefreshDropdownDateRange(DateTimeRange dateTimeRange)
     {
-        _dateTimeRange = dateTimeRange;
-        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
+        _dateRange = dateTimeRange;
+        _dropdownDateRangeLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
         _toastService.ShowToast("Date range has changed!", Theme.Info);
 
         await RefreshList();
 
+        await Task.CompletedTask;
+    }
+
+    private async Task RefreshDropdownDateMonthYear(DateTimeRange dateTimeRange)
+    {
+        _dateCalendar = dateTimeRange;
+        _dropdownDateCalendarLabel = await _dropdownDateMonthYearService.UpdateLabel(dateTimeRange);
+        _toastService.ShowToast("Date range has changed!", Theme.Info);
+
+        await RefreshList();
         await Task.CompletedTask;
     }
 
@@ -235,6 +296,20 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         else{
             return false;
         }
+    }
+
+    private async Task ViewTimesheetDetailsAsync(DateTime date)
+    {
+        try
+        {
+            // await _setupExpenseModalDetails.OpenModalAsync(date);
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;
     }
 
     // public void Dispose()
