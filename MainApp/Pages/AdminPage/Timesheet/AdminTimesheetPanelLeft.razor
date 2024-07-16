@@ -1,49 +1,87 @@
 ﻿@using MainApp.Components.Accordion
 @using MainApp.Components.Badge
+@using MainApp.Components.Badge.Color
 @using MainApp.Components.Card
+@using MainApp.Components.CalendarView
 @using MainApp.Components.Dropdown.Actions
+@using MainApp.Components.Dropdown.Date
 @using MainApp.Components.Dropdown.DateRange
 @using MainApp.Components.Dropdown.Filter
 @using MainApp.Components.Spinner
 
 <CardView Styles="border-0">
     <CardMiddle>
-        <div class="row justify-content-between pb-2">
-            <div class="col-10 col-lg-8 pb-2 d-flex">
-                <div>
-                    <DropdownDateRange ButtonSize="Size.Sm"
-                                       DateTimeRange="@_dateTimeRange"
-                                       DropdownLabel="@_dropdownLabel"
-                                       PeriodRange="PeriodRange.Month"
-                                       OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
-                </div>
-                <div class="ps-2 d-none d-lg-flex">
-                    <div class="btn-group bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
-                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
-                                @onclick="() => ApplyFiltersAsync()">
-                            <i class="bi bi-sliders2 pe-1"></i>Filters
-                            @if(IsFilterApplied())
-                            {
-                                <sup class="ps-1">
-                                    <Badge BackgroundColor="@Theme.Light" Message="Applied" />
-                                </sup>
-                            }
-                        </button>
-                            @if (IsFilterApplied())
-                            {
-                                <div class="d-flex align-items-center">
-                                    <div class="vr my-1 text-@(Theme.Dark.ToString().ToLower())-emphasis"></div>
-                                    <button class="btn btn-@(Size.Sm.ToString().ToLower())"
-                                            title="Remove"
-                                            @onclick="ResetAllFilters">
-                                        <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
-                                    </button>
-                                </div>
-                            }
+        <div class="row pb-2">
+            <div class="col-10 col-lg-9 pb-2 d-flex align-items-center">
+                @if (_isLoading)
+                {
+                    <div class="d-flex justify-content-center align-items-center">
+                        <Spinner Size="Size.Sm" />
+                        <span class="ps-2">
+                            Loading ...
+                        </span>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <div class="btn-group align-items-center @("rounded"+_appSettings.Button)"
+                         role="group"
+                         aria-label="Radio toggle button group"
+                         title="Change view">
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value="@_viewType" @onclick="() => UpdateUIVIew(ViewType.Calendar)">
+                        <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Light.ToString().ToLower() ) border-0 @("rounded-start"+_appSettings.Button) @(_viewType == @ViewType.Calendar.ToString() ? "active" : "")" for="btnradio1"><i class="bi bi-calendar3"></i></label>
+
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value="@_viewType" @onclick="() => UpdateUIVIew(ViewType.List)">
+                        <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Light.ToString().ToLower() ) border-0 @("rounded-end"+_appSettings.Button) @(_viewType == @ViewType.List.ToString() ? "active" : "")" for="btnradio2"><i class="bi bi-list-ul"></i></label>
+                    </div>
+                    @if (_viewType == ViewType.Calendar.ToString())
+                    {
+                        <div class="ps-2">
+                            <DropdownDateMonthYear 
+                                                ButtonSize="Size.Sm"
+                                                DateTimeRange="@_dateCalendar"
+                                                DropdownLabel="@_dropdownDateCalendarLabel"
+                                                OnSubmitSuccess="data => RefreshDropdownDateMonthYear(data)" />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="ps-2">
+                            <DropdownDateRange ButtonSize="Size.Sm"
+                                            DateTimeRange="@_dateRange"
+                                            DropdownLabel="@_dropdownDateRangeLabel"
+                                            PeriodRange="PeriodRange.Month"
+                                            OnSubmitSuccess="data => RefreshDropdownDateRange(data)" />
+                        </div>
+                    }
+                    <div class="ps-2 d-none d-lg-flex">
+                        <div class="btn-group bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
+                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                                    @onclick="() => ApplyFiltersAsync()">
+                                <i class="bi bi-sliders2 pe-1"></i>Filters
+                                @if(IsFilterApplied())
+                                {
+                                    <sup class="ps-1">
+                                        <Badge BackgroundColor="@Theme.Light" Message="Applied" />
+                                    </sup>
+                                }
+                            </button>
+                                @if (IsFilterApplied())
+                                {
+                                    <div class="d-flex align-items-center">
+                                        <div class="vr my-1 text-@(Theme.Dark.ToString().ToLower())-emphasis"></div>
+                                        <button class="btn btn-@(Size.Sm.ToString().ToLower())"
+                                                title="Remove"
+                                                @onclick="ResetAllFilters">
+                                            <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
+                                        </button>
+                                    </div>
+                                }
+                        </div>
+                    </div>
+                }
             </div>
-            <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
+            <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
                 <div class="d-none d-lg-block">
                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
                             @onclick="() => AddRecordAsync()">
@@ -65,7 +103,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="app-page-responsive-height">
+                <div class="app-page-responsive-height @(_viewType == ViewType.Calendar.ToString() ? "rounded"+_appSettings.Card : "")">
                     @if (_isLoading)
                     {
                         <div class="d-flex justify-content-center align-items-center">
@@ -77,156 +115,227 @@
                     }
                     else
                     {
-                        @if (_timesheetsByGroup.Count <= 0)
+                        @if (_viewType == ViewType.Calendar.ToString())
                         {
-                            <div class="text-center">
-                                @Label.NoRecordFound
-                            </div>
+                            <CalendarWrapper CalendarHasSubheader="true">
+                                <CalendarSubHeaderView>
+                                    <CalendarSubHeaderWrapper>
+                                        <div class="d-flex justify-content-end border-bottom px-2">
+                                            <div class="d-flex pe-1">
+                                                Total<span class="d-none d-lg-block ps-1">amount for the period</span>
+                                            </div>
+                                            <span class="app-expense-sum-me fw-semibold px-1 text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)">
+                                                @_sumByDateRange.ToString("C")
+                                            </span>
+                                        </div>
+                                    </CalendarSubHeaderWrapper>
+                                </CalendarSubHeaderView>
+                                <CalendarHeaderView>
+                                    <CalendarHeaderWrapper />
+                                </CalendarHeaderView>
+                                <CalendarBodyView>
+                                    <CalendarBodyWrapper>
+                                        @if (_weeks is not null)
+                                        {
+                                            @foreach (var week in _weeks)
+                                            {
+                                                <tr>
+                                                    @foreach (var date in week)
+                                                    {
+                                                        <td class="@((date.Year == 1 && date.Day == 1) ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "app-calendar-cell")">
+                                                            @if ((date.Year != 1 && date.Day >= 1))
+                                                            {
+                                                                <div class="d-flex justify-content-end">
+                                                                    <div class="app-calendar-cell-day text-center p-1 @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
+                                                                                $"app-calendar-cell-current-day rounded-circle bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
+                                                                                "") fw-bold text-secondary-emphasis">
+                                                                        @(date.Day)
+                                                                    </div>
+                                                                </div>
+                                                                @if ((date.Year != 1 && date.Day >= 1))
+                                                                {
+                                                                    @foreach(var (item, index) in _timesheetCalendarView.Select((value, index) => (value, index)))
+                                                                    {
+                                                                        if (item.TDate.Day == date.Day)
+                                                                        {
+                                                                            <small class="d-block app-calendar-text text-secondary-emphasis" title="@item.CompanyDescription">
+                                                                                <BadgeColor RGBColor="@($"{(item.PayStatus == 0 ? StatusColor.Awaiting : StatusColor.Paid)}")"
+                                                                                            Description="@($"{item.TotalAmount.ToString("C")} ({UpdatePayStatusTitle(item.PayStatus)})" )" />
+                                                                            </small>
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="d-flex justify-content-end">
+                                                                    <div class="app-calendar-cell-day text-center p-1">
+                                                                        @(string.Empty)
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        </td>
+                                                    }
+                                                </tr>
+                                            }
+                                        }
+                                    </CalendarBodyWrapper>
+                                </CalendarBodyView>
+                            </CalendarWrapper>
                         }
                         else
                         {
-                            <div class="accordion d-flex justify-content-between p-3 fw-semibold
-                                        bg-@(Theme.Secondary.ToString().ToLower())-subtle">
-                                <div class="d-flex">
-                                    Total<span class="d-none d-lg-block ps-1">amount for the period</span>
+                            @if (_timesheetListView.Count <= 0)
+                            {
+                                <div class="text-center">
+                                    @Label.NoRecordFound
                                 </div>
-                                <span class="pe-5 app-trip-sum-me">
-                                    @_sumByDateRange.ToString("C")
-                                </span>
-                            </div>
-                            <Accordion Id="Timesheets">
-                                @foreach (var (record, index) in _timesheetsByGroup.Select((value, index) => (value, index)))
-                                {
-                                    <AccordionItem>
-                                        <AccordionHeader Id="@index.ToString()" IsAlwaysOpen=true>
-                                            <div>
-                                                @record.Description
-                                            </div>
-                                            <div>
-                                                @record.TotalAmount.ToString("C")
-                                            </div>
-                                        </AccordionHeader>
-                                        <AccordionBody Id="@index.ToString()" IsAlwaysOpen=true>
-                                            <div class="table-responsive">
-                                                <table class="table table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="col text-nowrap">
-                                                                Date
-                                                            </th>
-                                                            <th class="col text-nowrap">
-                                                                Clock in
-                                                            </th>
-                                                            <th class="col text-nowrap">
-                                                                Break
-                                                            </th>
-                                                            <th class="col text-nowrap">
-                                                                Clock out
-                                                            </th>
-                                                            <th class="col text-nowrap">
-                                                                Work hours
-                                                            </th>
-                                                            <th class="col text-nowrap">
-                                                                Overtime
-                                                            </th>
-                                                            <th class="col text-nowrap text-end">
-                                                                Total
-                                                            </th>
-                                                            <th class="col text-nowrap" colspan="2">
-                                                                Pay Status
-                                                            </th>
-                                                            <th class="col text-nowrap">
-                                                                Comments
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @if (_timesheetsByGroup.Count <= 0)
-                                                        {
-                                                            <tr class="bg-light-subtle">
-                                                                <td class="text-center" colspan="8">
-                                                                    <div>
-                                                                        @Label.NoRecordFound
-                                                                    </div>
-                                                                </td>
+                            }
+                            else
+                            {
+                                <div class="accordion d-flex justify-content-between p-3 fw-semibold
+                                            bg-@(Theme.Secondary.ToString().ToLower())-subtle">
+                                    <div class="d-flex">
+                                        Total<span class="d-none d-lg-block ps-1">amount for the period</span>
+                                    </div>
+                                    <span class="pe-5 app-trip-sum-me">
+                                        @_sumByDateRange.ToString("C")
+                                    </span>
+                                </div>
+                                <Accordion Id="Timesheets">
+                                    @foreach (var (record, index) in _timesheetListView.Select((value, index) => (value, index)))
+                                    {
+                                        <AccordionItem>
+                                            <AccordionHeader Id="@index.ToString()" IsAlwaysOpen=true>
+                                                <div>
+                                                    @record.Description
+                                                </div>
+                                                <div>
+                                                    @record.TotalAmount.ToString("C")
+                                                </div>
+                                            </AccordionHeader>
+                                            <AccordionBody Id="@index.ToString()" IsAlwaysOpen=true>
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="col text-nowrap">
+                                                                    Date
+                                                                </th>
+                                                                <th class="col text-nowrap">
+                                                                    Clock in
+                                                                </th>
+                                                                <th class="col text-nowrap">
+                                                                    Break
+                                                                </th>
+                                                                <th class="col text-nowrap">
+                                                                    Clock out
+                                                                </th>
+                                                                <th class="col text-nowrap">
+                                                                    Work hours
+                                                                </th>
+                                                                <th class="col text-nowrap">
+                                                                    Overtime
+                                                                </th>
+                                                                <th class="col text-nowrap text-end">
+                                                                    Total
+                                                                </th>
+                                                                <th class="col text-nowrap" colspan="2">
+                                                                    Pay Status
+                                                                </th>
+                                                                <th class="col text-nowrap">
+                                                                    Comments
+                                                                </th>
                                                             </tr>
-                                                        }
-                                                        else{
-                                                            foreach (var record in _timesheetsByGroup[index].Timesheets)
+                                                        </thead>
+                                                        <tbody>
+                                                            @if (_timesheetListView.Count <= 0)
                                                             {
-                                                                <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
-                                                                    <td class="text-nowrap">
-                                                                        @record.TimeIn.ToString("ddd, dd/MM/yy")
-                                                                    </td>
-                                                                    <td class="text-nowrap">
-                                                                        @record.TimeIn.ToString("t")
-                                                                    </td>
-                                                                    <td class="text-nowrap">
-                                                                        @($"{record.TimeBreak}m")
-                                                                    </td>
-                                                                    <td class="text-nowrap">
-                                                                        @record.TimeOut.ToString("t")
-                                                                    </td>
-                                                                    <td class="text-nowrap">
-                                                                        @record.HoursWorked.ToString("h'h 'm'm '")
-                                                                        @if (record.IsActive == false)
-                                                                        {
-                                                                            <sup class="text-uppercase">
-                                                                                <Badge BackgroundColor="Theme.Info" Message="Inactive" />
-                                                                            </sup>
-                                                                        }
-                                                                    </td>
-                                                                    <td>
-                                                                        @(
-                                                                            (record.HoursWorked != TimeSpan.FromHours(_companies.First(c => c.Id == record.CompanyId).StandardHours) &&
-                                                                            record.HoursWorked > TimeSpan.FromHours(_companies.First(c => c.Id == record.CompanyId).StandardHours)) ?
-                                                                            (record.HoursWorked - TimeSpan.FromHours(_companies.First(c => c.Id == record.CompanyId).StandardHours)).ToString("h'h 'm'm '") : "--"
-                                                                        )
-                                                                    </td>
-                                                                    <td class="text-nowrap text-end">
-                                                                        @record.TotalAmount.ToString("C")
-                                                                    </td>
-                                                                    <td class="text-nowrap">
-                                                                        <DropdownActions Title="@UpdatePayStatusTitle(record.PayStatus)"
-                                                                                        ButtonSize="Size.Sm"
-                                                                                        IconEnd="bi-chevron-down"
-                                                                                        ButtonColor="@UpdatePayStatusButton(record.PayStatus)"
-                                                                                        ButtonCssClass="w-100"
-                                                                                        ButtonInnerStyles="d-flex justify-content-between">
-                                                                            @foreach (var (status, index) in _payStatuses.Select((value, index) => (value, index)))
-                                                                            {
-                                                                                int statusValue = index;
-
-                                                                                <li class="px-2">
-                                                                                    <button class="dropdown-item"
-                                                                                            @onclick="() => UpdatePayStatusAsync(record, statusValue)">
-                                                                                        @($"{status}")
-                                                                                    </button>
-                                                                                </li>
-                                                                            }
-                                                                        </DropdownActions>
-                                                                    </td>
-                                                                    <td class="text-center">
-                                                                        <button class="btn btn-link p-0 text-danger"
-                                                                                type="button"
-                                                                                title="Edit"
-                                                                                @onclick="() => EditRecordAsync(record)">
-                                                                            <i class="bi bi-pencil"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                    <td class="text-nowrap">
-                                                                        @record.Comments
+                                                                <tr class="bg-light-subtle">
+                                                                    <td class="text-center" colspan="8">
+                                                                        <div>
+                                                                            @Label.NoRecordFound
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                             }
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </AccordionBody>
-                                    </AccordionItem>
-                                }
-                            </Accordion>
+                                                            else{
+                                                                foreach (var record in _timesheetListView[index].Timesheets)
+                                                                {
+                                                                    <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
+                                                                        <td class="text-nowrap">
+                                                                            @record.TimeIn.ToString("ddd, dd/MM/yy")
+                                                                        </td>
+                                                                        <td class="text-nowrap">
+                                                                            @record.TimeIn.ToString("t")
+                                                                        </td>
+                                                                        <td class="text-nowrap">
+                                                                            @($"{record.TimeBreak}m")
+                                                                        </td>
+                                                                        <td class="text-nowrap">
+                                                                            @record.TimeOut.ToString("t")
+                                                                        </td>
+                                                                        <td class="text-nowrap">
+                                                                            @record.HoursWorked.ToString("h'h 'm'm '")
+                                                                            @if (record.IsActive == false)
+                                                                            {
+                                                                                <sup class="text-uppercase">
+                                                                                    <Badge BackgroundColor="Theme.Info" Message="Inactive" />
+                                                                                </sup>
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            @(
+                                                                                (record.HoursWorked != TimeSpan.FromHours(_companies.First(c => c.Id == record.CompanyId).StandardHours) &&
+                                                                                record.HoursWorked > TimeSpan.FromHours(_companies.First(c => c.Id == record.CompanyId).StandardHours)) ?
+                                                                                (record.HoursWorked - TimeSpan.FromHours(_companies.First(c => c.Id == record.CompanyId).StandardHours)).ToString("h'h 'm'm '") : "--"
+                                                                            )
+                                                                        </td>
+                                                                        <td class="text-nowrap text-end">
+                                                                            @record.TotalAmount.ToString("C")
+                                                                        </td>
+                                                                        <td class="text-nowrap">
+                                                                            <DropdownActions Title="@UpdatePayStatusTitle(record.PayStatus)"
+                                                                                            ButtonSize="Size.Sm"
+                                                                                            IconEnd="bi-chevron-down"
+                                                                                            ButtonColor="@UpdatePayStatusButton(record.PayStatus)"
+                                                                                            ButtonCssClass="w-100"
+                                                                                            ButtonInnerStyles="d-flex justify-content-between">
+                                                                                @foreach (var (status, index) in _payStatuses.Select((value, index) => (value, index)))
+                                                                                {
+                                                                                    int statusValue = index;
+
+                                                                                    <li class="px-2">
+                                                                                        <button class="dropdown-item"
+                                                                                                @onclick="() => UpdatePayStatusAsync(record, statusValue)">
+                                                                                            @($"{status}")
+                                                                                        </button>
+                                                                                    </li>
+                                                                                }
+                                                                            </DropdownActions>
+                                                                        </td>
+                                                                        <td class="text-center">
+                                                                            <button class="btn btn-link p-0 text-danger"
+                                                                                    type="button"
+                                                                                    title="Edit"
+                                                                                    @onclick="() => EditRecordAsync(record)">
+                                                                                <i class="bi bi-pencil"></i>
+                                                                            </button>
+                                                                        </td>
+                                                                        <td class="text-nowrap">
+                                                                            @record.Comments
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </AccordionBody>
+                                        </AccordionItem>
+                                    }
+                                </Accordion>
+                            }
                         }
                     }
                 </div>

@@ -16,7 +16,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
 
     private UserModel _loggedInUser { get; set; } = new();
     private List<TimesheetListDTO> _recordsByDateRange { get; set; } = new();
-    private decimal _timesheetTotalAmountSum { get; set; } = 0;
+    private decimal _timesheetByDateRangeSum { get; set; } = 0;
 
     public TimesheetService(ITimesheetData<TimesheetModel> timesheetData, IUserData userData, AuthenticationStateProvider authProvider)
     {
@@ -129,11 +129,40 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         }
     }
 
+    public async Task<List<TimesheetCalendarDTO>> GetRecordsCalendarView(FilterTimesheetDTO filter)
+    {
+        try
+        {
+            List<TimesheetListDTO> records = await GetRecordsByDateRange(filter.DateTimeRange);
+            List<TimesheetListDTO> recordsFiltered = new();
+            List<TimesheetCalendarDTO> calendarData = new();
+            
+            if (filter.IsFilterChanged is true)
+            {
+                recordsFiltered = await SetRecordsFilter(filter);
+                _timesheetByDateRangeSum = recordsFiltered.Sum(t => t.TotalAmount);
+                calendarData = await SetRecordsCalendarView(recordsFiltered);
+            }
+            else
+            {
+                _timesheetByDateRangeSum = records.Sum(t => t.TotalAmount);
+                calendarData = await SetRecordsCalendarView(records);
+            }
+
+            return calendarData;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public async Task<decimal> GetSumByDateRange()
     {
         try
         {
-            return await Task.FromResult(_timesheetTotalAmountSum);
+            return await Task.FromResult(_timesheetByDateRangeSum);
         }
         catch (Exception ex)
         {
@@ -218,18 +247,54 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
 
                 recordsFiltered = _recordsByDateRange.Where(t => t.CompanyId == filter.CompanyId).ToList();
 
-                _timesheetTotalAmountSum = recordsFiltered.Sum(t => t.TotalAmount);
+                _timesheetByDateRangeSum = recordsFiltered.Sum(t => t.TotalAmount);
 
                 return await Task.FromResult(recordsFiltered);
             }
             else
             {
-                _timesheetTotalAmountSum = _recordsByDateRange.Sum(t => t.TotalAmount);
+                _timesheetByDateRangeSum = _recordsByDateRange.Sum(t => t.TotalAmount);
 
                 return await Task.FromResult(_recordsByDateRange);
             }
         }
         catch (System.Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    private static async Task<List<TimesheetCalendarDTO>> SetRecordsCalendarView(List<TimesheetListDTO> records)
+    {
+        try
+        {
+            List<TimesheetCalendarDTO> results = new();
+
+            foreach (var record in records)
+            {
+                TimesheetCalendarDTO timesheetCalendarDTO = new();
+
+                var result = results.Find(t => t.CompanyDescription == record.Description &&
+                                               t.TDate.Date == record.TimeIn.Date);
+
+                if (result is not null)
+                {
+                    result.TotalAmount += record.TotalAmount;
+                }
+                else
+                {
+                    timesheetCalendarDTO.TDate = record.TimeIn;
+                    timesheetCalendarDTO.CompanyDescription = record.Description;
+                    timesheetCalendarDTO.PayStatus = record.PayStatus;
+                    timesheetCalendarDTO.TotalAmount = record.TotalAmount;
+                    results.Add(timesheetCalendarDTO);
+                }
+            }
+
+            return await Task.FromResult(results);
+        }
+        catch (Exception ex)
         {
             Console.WriteLine("An exception occurred: " + ex.Message);
             throw;
@@ -265,7 +330,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
             var user = await GetLoggedInUser();
 
             _recordsByDateRange = await _timesheetData.GetRecordsByDateRange(user.Id, dateTimeRange);
-            _timesheetTotalAmountSum = _recordsByDateRange.Sum(t => t.TotalAmount);
+            _timesheetByDateRangeSum = _recordsByDateRange.Sum(t => t.TotalAmount);
 
             return _recordsByDateRange;
         }
