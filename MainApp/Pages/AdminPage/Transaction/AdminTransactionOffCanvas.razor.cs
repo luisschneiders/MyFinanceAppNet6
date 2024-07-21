@@ -24,6 +24,10 @@ public partial class AdminTransactionOffCanvas : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = default!;
 
+    [Inject]
+    private IAnimationService _animationService { get; set; } = default!;
+
+
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
 
@@ -147,10 +151,13 @@ public partial class AdminTransactionOffCanvas : ComponentBase
             _isProcessing = false;
             _toastService.ShowToast("Transaction added!", Theme.Success);
 
-            await OnSubmitSuccess.InvokeAsync();
-            await Task.Delay((int)Delay.DataSuccess);
-            await CloseOffCanvasAsync();
+            if (_transactionModel.TransactionCategoryModel.ActionType == TransactionActionType.C.ToString())
+            {
+                await _animationService.ConfettiTransaction();
+            }
 
+            await OnSubmitSuccess.InvokeAsync();
+            await CloseOffCanvasAsync();
         }
         catch (Exception ex)
         {
