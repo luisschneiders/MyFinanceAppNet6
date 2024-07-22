@@ -45,6 +45,7 @@ public class TimesheetData : ITimesheetData<TimesheetModel>
                     timesheetTimeOut = model.TimeOut,
                     timesheetPayStatus = model.PayStatus,
                     timesheetHoursWorked = model.HoursWorked,
+                    timesheetOvertime = model.Overtime,
                     timesheetHourRate = model.HourRate,
                     timesheetTotalAmount = model.TotalAmount,
                     timesheetComments = model.Comments,
