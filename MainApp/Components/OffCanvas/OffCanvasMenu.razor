@@ -29,7 +29,7 @@
                     <NavLink class="nav-link app-nav-link app-outline-none" href="@EndPoint.Setup" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-columns-gap pe-1"></i>Setup<i class="bi bi-chevron-down ps-2"></i>
                     </NavLink>
-                    <ul class="dropdown-menu app-dropdown-menu border-0 bg-light-subtle shadow-sm" aria-labelledby="navbarDropdownSettingsLink">
+                    <ul class="dropdown-menu app-dropdown-menu border-@Theme.Dark.ToString().ToLower()-subtle bg-@Theme.Light.ToString().ToLower()-subtle shadow-sm" aria-labelledby="navbarDropdownSettingsLink">
                         <li class="px-2">
                             <NavLink class="dropdown-item rounded" href="@EndPoint.SetupBank">
                                 Bank
@@ -62,7 +62,7 @@
                     <NavLink class="nav-link app-nav-link app-outline-none" href="@EndPoint.Admin" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi  bi-grid-3x3-gap pe-1"></i>Admin<i class="bi bi-chevron-down ps-2"></i>
                     </NavLink>
-                    <ul class="dropdown-menu app-dropdown-menu border-0 bg-light-subtle shadow-sm" aria-labelledby="navbarDropdownSettingsLink">
+                    <ul class="dropdown-menu app-dropdown-menu border-@Theme.Dark.ToString().ToLower()-subtle bg-@Theme.Light.ToString().ToLower()-subtle shadow-sm" aria-labelledby="navbarDropdownSettingsLink">
                         <li class="px-2">
                             <NavLink class="dropdown-item rounded" href="@EndPoint.AdminExpenses">
                                 <i class="bi bi-cart4 pe-1"></i>Expenses
