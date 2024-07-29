@@ -20,6 +20,8 @@ public class TimesheetListDTO : BaseModel
     public int PayStatus { get; set; }
 
     public string Comments { get; }
+
+    public TimeSpan Overtime { get; }
 #nullable enable
 
     public TimeSpan HoursWorked { get; }

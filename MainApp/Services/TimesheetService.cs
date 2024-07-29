@@ -13,16 +13,23 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
 
     [Inject]
     private IUserData _userData { get; set; } = default!;
+    
+    [Inject]
+    ICompanyService<CompanyModel> _companyService { get; set; } = default!;
 
     private UserModel _loggedInUser { get; set; } = new();
     private List<TimesheetListDTO> _recordsByDateRange { get; set; } = new();
     private decimal _timesheetByDateRangeSum { get; set; } = 0;
 
-    public TimesheetService(ITimesheetData<TimesheetModel> timesheetData, IUserData userData, AuthenticationStateProvider authProvider)
+    public TimesheetService(ITimesheetData<TimesheetModel> timesheetData,
+                            IUserData userData,
+                            AuthenticationStateProvider authProvider,
+                            ICompanyService<CompanyModel> companyService)
     {
         _timesheetData = timesheetData;
         _userData = userData;
         _authProvider = authProvider;
+        _companyService = companyService;
     }
 
     public async Task ArchiveRecord(TimesheetModel model)
@@ -49,6 +56,13 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         try
         {
             var user = await GetLoggedInUser();
+            List<CompanyModel> companies = await _companyService.GetRecords();
+
+            if (model.HoursWorked != TimeSpan.FromHours(companies.First(c => c.Id == model.CompanyId).StandardHours) &&
+                model.HoursWorked > TimeSpan.FromHours(companies.First(c => c.Id == model.CompanyId).StandardHours))
+            {
+                model.Overtime = model.HoursWorked - TimeSpan.FromHours(companies.First(c => c.Id == model.CompanyId).StandardHours);
+            }
 
             model.UpdatedBy = user.Id;
 

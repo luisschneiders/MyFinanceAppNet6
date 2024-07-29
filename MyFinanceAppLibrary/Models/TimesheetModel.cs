@@ -28,6 +28,8 @@ public class TimesheetModel : BaseModel, IValidatableObject
 
     [MaxLength(45, ErrorMessage = "Max length is 45 characteres.")]
     public string Comments { get; set; }
+    public TimeSpan Overtime { get; set; }
+
 #nullable enable
 
     public TimeSpan HoursWorked

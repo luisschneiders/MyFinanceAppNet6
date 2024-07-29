@@ -285,11 +285,7 @@
                                                                             }
                                                                         </td>
                                                                         <td>
-                                                                            @(
-                                                                                (record.HoursWorked != TimeSpan.FromHours(_companies.First(c => c.Id == record.CompanyId).StandardHours) &&
-                                                                                record.HoursWorked > TimeSpan.FromHours(_companies.First(c => c.Id == record.CompanyId).StandardHours)) ?
-                                                                                (record.HoursWorked - TimeSpan.FromHours(_companies.First(c => c.Id == record.CompanyId).StandardHours)).ToString("h'h 'm'm '") : "--"
-                                                                            )
+                                                                            @record.Overtime.ToString("h'h 'm'm '")
                                                                         </td>
                                                                         <td class="text-nowrap text-end">
                                                                             @record.TotalAmount.ToString("C")
