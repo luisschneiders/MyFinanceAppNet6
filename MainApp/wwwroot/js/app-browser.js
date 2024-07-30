@@ -5,4 +5,8 @@
         window.close();
     }
 
+    window.printTripRecords = () => {
+        window.print();
+    }
+
 })()
