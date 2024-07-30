@@ -29,21 +29,18 @@ public partial class AdminTripPanelLeft : ComponentBase
 
     private DateTimeRange _dateTimeRange { get; set; } = new();
     private List<TripByVehicleGroupDTO> _tripsByGroup { get; set; } = new();
-    private AdminTripFilterModal _setupFilterModal { get; set; } = new();
     private FilterTripDTO _filterTripDTO { get; set; } = new();
     private PayStatus[] _payStatuses { get; set; } = default!;
     private TripCategory[] _tripCategories { get; set; } = default!;
     private decimal _sumByDateRange { get; set; }
 
     /*
-     * Add OffCanvas component reference
+     * Add component reference
      */
     private AdminTripOffCanvas _setupOffCanvas { get; set; } = new();
-
-    /*
-     * Add Modal component reference
-     */
     private AdminTripModal _setupModal { get; set; } = new();
+    private AdminTripFilterModal _setupFilterModal { get; set; } = new();
+    private AdminTripPrinterModal _setupPrinterModal { get; set; } = new();
 
     private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
     private bool _isLoading { get; set; } = true;
@@ -106,6 +103,26 @@ public partial class AdminTripPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
+    private async Task PrintAsync()
+    {
+        try
+        {
+            PrintTripDTO printTripDTO = new ()
+            {
+                DateTimeRange = _dateTimeRange,
+                TripsByGroup = _tripsByGroup,
+                SumByDateRange = _sumByDateRange,
+            };
+
+            await _setupPrinterModal.OpenModalAsync(printTripDTO);
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+        await Task.CompletedTask;
+    }
+
     private async Task ArchiveRecordAsync(TripListDTO model)
     {
         try
@@ -140,6 +157,7 @@ public partial class AdminTripPanelLeft : ComponentBase
 
         await Task.CompletedTask;
     }
+
     private async Task UpdateTripCategoryAsync(TripListDTO tripListDTO, ulong tripCategory)
     {
         try
