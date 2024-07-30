@@ -23,4 +23,17 @@ public class BrowserService : IBrowserService
             throw;
         }
     }
+
+    public async Task PrintWindow(string printPage)
+    {
+        try
+        {
+            await _jsRuntime.InvokeVoidAsync(printPage);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
 }

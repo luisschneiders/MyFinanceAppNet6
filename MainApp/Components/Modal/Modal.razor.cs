@@ -30,6 +30,12 @@ public partial class Modal : ComponentBase
     [Parameter]
     public bool IsCloseButtonVisible { get; set; } = true;
 
+    [Parameter]
+    public bool IsModalDialogCentered { get; set; } = true;
+
+    [Parameter]
+    public bool IsModalDialogScrollable { get; set; } = true;
+
     private ModalDisplay _modalDisplay { get; set; } = ModalDisplay.none;
     private string _modalStatus { get; set; } = string.Empty;
     private bool _showBackdrop { get; set; } = false;

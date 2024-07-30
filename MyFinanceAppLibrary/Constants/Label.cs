@@ -3,6 +3,7 @@
 public static class Label
 {
     public const string AppTitle = "My Finance";
+    public const string AppTitleTrip = "Trips (Log book)";
     public const string FilterByBank = "Filter by Bank";
     public const string FilterByCompany = "Filter by Company";
     public const string FilterByExpenseCategory = "Filter by Expense";

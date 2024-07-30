@@ -1,0 +1,142 @@
+﻿@using MainApp.Components.Accordion
+@using MainApp.Components.Modal
+@using MainApp.Components.Spinner
+
+<Modal @ref="_modal"
+    Size="Size.Xl"
+    IsModalDialogCentered="false"
+    IsModalDialogScrollable="false">
+    <Title>
+        <span class="text-secondary">
+            @Label.AppTitleTrip
+        </span>
+    </Title>
+    <Body>
+        @if (_isLoading)
+        {
+            <div class="d-flex justify-content-center align-items-center">
+                <Spinner Size="Size.Sm" />
+                <span class="ps-2">
+                    Loading ...
+                </span>
+            </div>
+        }
+        else
+        {
+            @if (_printTripDTO.TripsByGroup.Count <= 0)
+            {
+                <div class="text-center">
+                    @Label.NoRecordFound
+                </div>
+            }
+            else
+            {
+                <div class="row d-flex justify-content-between align-items-center p-3">
+                    <div class="col-auto">
+                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Secondary.ToString().ToLower()) @("rounded"+_appSettings.Button)" disabled>
+                            <i class="bi bi-calendar3 pe-1"></i>@_printTripDTO.DateTimeRange.Start.ToString("dd/MM/yyyy") - @_printTripDTO.DateTimeRange.End.ToString("dd/MM/yyyy")
+                        </button>
+                    </div>
+                    <div class="col-auto">
+                        <span>Total distance @_printTripDTO.SumByDateRange Km</span>
+                    </div>
+                </div>
+                <Accordion Id="TripsReport">
+                    @foreach (var (record, index) in _printTripDTO.TripsByGroup.Select((value, index) => (value, index)))
+                    {
+                        <AccordionItem>
+                            <AccordionHeader Id="@index.ToString()" IsAlwaysOpen=true>
+                                <div>
+                                    @record.Description
+                                </div>
+                                <div>
+                                    Total @record.Total Km
+                                </div>
+                            </AccordionHeader>
+                            <AccordionBody Id="@index.ToString()" IsAlwaysOpen=true>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-nowrap">
+                                                    Date
+                                                </th>
+                                                <th class="text-nowrap">
+                                                    Category
+                                                </th>
+                                                <th class="text-end text-nowrap">
+                                                    Start Odometer
+                                                </th>
+                                                <th class="text-end text-nowrap">
+                                                    End Odometer
+                                                </th>
+                                                <th class="text-end text-nowrap">
+                                                    Distance (Km)
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (_printTripDTO.TripsByGroup.Count <= 0)
+                                            {
+                                                <tr class="">
+                                                    <td class="text-center" colspan="5">
+                                                        <div>
+                                                            @Label.NoRecordFound
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                foreach (var record in _printTripDTO.TripsByGroup[index].Trips)
+                                                {
+                                                    <tr class="">
+                                                        <td class="text-nowrap">
+                                                            @record.TDate.ToString("ddd, dd/MM/yy")
+                                                        </td>
+                                                        <td class="text-nowrap">
+                                                            @(UpdateTripCategoryTitle(record.TCategoryId))
+                                                        </td>
+                                                        <td class="text-end text-nowrap">
+                                                            @(record.StartOdometer <= 0 ? "--" : record.StartOdometer)
+                                                        </td>
+                                                        <td class="text-end text-nowrap">
+                                                            @(record.EndOdometer <= 0 ? "--" : record.EndOdometer)
+                                                        </td>
+                                                        <td class="text-end text-nowrap">
+                                                            @record.Distance
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </AccordionBody>
+                        </AccordionItem>
+                    }
+                </Accordion>
+            }
+        }
+    </Body>
+    <Footer>
+        <div class="row">
+            <div class="col-auto">
+                <button type="button"
+                        class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary @("rounded"+_appSettings.Button)"
+                        data-dismiss="modal"
+                        @onclick="() => CloseModalAsync()">
+                    Close
+                </button>
+            </div>
+            <div class="col-auto">
+                <button type="button"
+                        class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
+                        data-dismiss="modal"
+                        @onclick="() => PrintAsync()">
+                    <i class="bi bi-printer pe-1"></i>Print
+                </button>
+            </div>
+        </div>
+    </Footer>
+</Modal>

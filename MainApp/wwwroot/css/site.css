@@ -239,11 +239,6 @@ h1:focus {
     --bs-gradient: none;
 }
 
-.btn:disabled {
-    cursor: not-allowed;
-    pointer-events: initial;
-}
-
 .breadcrumb-divider {
     --bs-breadcrumb-divider: '/';
 }
