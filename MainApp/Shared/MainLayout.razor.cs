@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using MyFinanceAppLibrary.Constants;
 
 namespace MainApp.Shared;
 
@@ -26,4 +25,3 @@ public partial class MainLayout
         await Task.CompletedTask;
     }
 }
-
