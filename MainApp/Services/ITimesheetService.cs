@@ -2,9 +2,9 @@
 
 public interface ITimesheetService<T> : IBaseService<T>
 {
-    Task<List<TimesheetByCompanyGroupDTO>> GetRecordsListView(FilterTimesheetDTO filter);
-    Task<List<TimesheetCalendarDTO>> GetRecordsCalendarView(FilterTimesheetDTO filter);
-    Task<decimal> GetSumByDateRange();
-    Task<double> GetSumTotalHours();
-    Task UpdateRecordPayStatus(T model);
+    public Task<List<TimesheetByCompanyGroupDTO>> GetRecordsListView(FilterTimesheetDTO filter);
+    public Task<List<TimesheetCalendarDTO>> GetRecordsCalendarView(FilterTimesheetDTO filter);
+    public Task<decimal> GetSumByDateRange();
+    public Task<double> GetSumTotalHours();
+    public Task UpdateRecordPayStatus(T model);
 }

@@ -2,5 +2,5 @@
 
 public interface IDropdownDateMonthYearService
 {
-    Task<string> UpdateLabel(DateTimeRange dateTimeRange);
+    public Task<string> UpdateLabel(DateTimeRange dateTimeRange);
 }

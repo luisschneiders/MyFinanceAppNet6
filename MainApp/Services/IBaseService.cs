@@ -2,13 +2,13 @@
 
 public interface IBaseService<T>
 {
-    Task<List<T>> GetRecords();
-    Task<List<T>> GetRecordsActive();
-    Task<List<T>> GetSearchResults(string search);
-    Task<T> GetRecordById(string modelId);
-    Task<ulong> GetLastInsertedId();
-    Task CreateRecord(T model);
-    Task UpdateRecord(T model);
-    Task UpdateRecordStatus(T model);
-    Task ArchiveRecord(T model);
+    public Task<List<T>> GetRecords();
+    public Task<List<T>> GetRecordsActive();
+    public Task<List<T>> GetSearchResults(string search);
+    public Task<T> GetRecordById(string modelId);
+    public Task<ulong> GetLastInsertedId();
+    public Task CreateRecord(T model);
+    public Task UpdateRecord(T model);
+    public Task UpdateRecordStatus(T model);
+    public Task ArchiveRecord(T model);
 }
