@@ -1,3 +1,4 @@
+@using MainApp.Components.Badge
 @using MainApp.Components.Modal
 @using MainApp.Components.Dropdown.MultiSelect
 
@@ -11,80 +12,78 @@
         </span>
     </Title>
     <Body>
-        <div class="row"> 
-            <div class="col-auto">
-                <div class="d-flex bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)">
-                    <DropdownMultiSelect ButtonSize="Size.Sm"
-                                    DropdownLabel="@Label.FilterByExpenseCategory"
-                                    DropdownPosition="Position.Start"
-                                    IconEnd="bi-chevron-down"
-                                    IconStart="bi-cart4">
-                        @foreach (var (expenseCategory, index) in _expenseCategories.Select((value, index) => (value, index)))
-                        {
-                            <li class="px-2 py-1">
-                                <div class="form-check">
-                                    <input class="form-check-input" 
-                                           type="checkbox"
-                                           checked="@expenseCategory.IsChecked"
-                                           id="@($"expense-category{expenseCategory.Id}")"
-                                           value="@(expenseCategory.Id)"
-                                           @onchange="(e) => OnCheckboxChangedExpense(e, expenseCategory.Id)" />
-                                    <label class="form-check-label" for="@($"expense-category{expenseCategory.Id}")" title="@expenseCategory.Description">
-                                        @($"{expenseCategory.Description.Truncate((int)Truncate.ExpenseCategory)}")
-                                    </label>
-                                </div>
-                            </li>
-                        }
-                    </DropdownMultiSelect>
-                    @if (_multiFilterExpenseDTO.ECategoryId.Count > 0)
+        <div class="d-flex">
+            <div class="d-flex bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) me-2">
+                <DropdownMultiSelect ButtonSize="Size.Sm"
+                                DropdownLabel="@Label.FilterByExpenseCategory"
+                                DropdownPosition="Position.Start"
+                                IconEnd="bi-chevron-down"
+                                IconStart="bi-cart4">
+                    @foreach (var (expenseCategory, index) in _expenseCategories.Select((value, index) => (value, index)))
                     {
-                        <div class="d-flex align-items-center">
-                            <button class="btn btn-@(Size.Sm.ToString().ToLower())"
-                                    title="Clear filter"
-                                    @onclick="RemoveDropdownFilterExpenseCategory">
-                                <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
-                            </button>
-                        </div>
+                        <li class="px-2 py-1">
+                            <div class="form-check">
+                                <input class="form-check-input" 
+                                        type="checkbox"
+                                        checked="@expenseCategory.IsChecked"
+                                        id="@($"expense-category{expenseCategory.Id}")"
+                                        value="@(expenseCategory.Id)"
+                                        @onchange="(e) => OnCheckboxChangedExpense(e, expenseCategory.Id)" />
+                                <label class="form-check-label" for="@($"expense-category{expenseCategory.Id}")" title="@expenseCategory.Description">
+                                    @($"{expenseCategory.Description.Truncate((int)Truncate.ExpenseCategory)}")
+                                </label>
+                            </div>
+                        </li>
                     }
-                </div>
+                </DropdownMultiSelect>
+                @if (_multiFilterExpenseDTO.ECategoryId.Count > 0)
+                {
+                    <div class="d-flex align-items-center">
+                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) text-@(Theme.Dark.ToString().ToLower())-emphasis"
+                                title="Clear filter"
+                                @onclick="RemoveDropdownFilterExpenseCategory">
+                                <Badge BackgroundColor="@Theme.Light" Message="Clear Filter" />
+                                <i class="bi bi-x-circle"></i>
+                        </button>
+                    </div>
+                }
             </div>
-            <div class="col-auto">
-                <div class="d-flex bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)">
-                    <DropdownMultiSelect ButtonSize="Size.Sm"
-                                    DropdownLabel="@Label.FilterByBank"
-                                    DropdownPosition="Position.Start"
-                                    IconEnd="bi-chevron-down"
-                                    IconStart="bi-bank">
-                        @foreach (var (bank, index) in _banks.Select((value, index) => (value, index)))
-                        {
-                            <li class="px-2 py-1">
-                                <div class="form-check">
-                                    <input class="form-check-input" 
-                                           type="checkbox"
-                                           checked="@bank.IsChecked"
-                                           id="@($"bank-{bank.Id}")"
-                                           value="@(bank.Id)"
-                                           @onchange="(e) => OnCheckboxChangedBank(e, bank.Id)" />
-                                    <label class="form-check-label" for="@($"bank-{bank.Id}")" title="@bank.Description">
-                                        @($"{bank.Description}")
-                                    </label>
-                                </div>
-                            </li>
-                        }
-                    </DropdownMultiSelect>
-                    @if (_multiFilterExpenseDTO.BankId.Count > 0)
+            <div class="d-flex bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) me-2">
+                <DropdownMultiSelect ButtonSize="Size.Sm"
+                                DropdownLabel="@Label.FilterByBank"
+                                DropdownPosition="Position.Start"
+                                IconEnd="bi-chevron-down"
+                                IconStart="bi-bank">
+                    @foreach (var (bank, index) in _banks.Select((value, index) => (value, index)))
                     {
-                        <div class="d-flex align-items-center">
-                            <button class="btn btn-@(Size.Sm.ToString().ToLower())"
-                                    title="Clear filter"
-                                    @onclick="RemoveDropdownFilterBank">
-                                <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
-                            </button>
-                        </div>
+                        <li class="px-2 py-1">
+                            <div class="form-check">
+                                <input class="form-check-input" 
+                                        type="checkbox"
+                                        checked="@bank.IsChecked"
+                                        id="@($"bank-{bank.Id}")"
+                                        value="@(bank.Id)"
+                                        @onchange="(e) => OnCheckboxChangedBank(e, bank.Id)" />
+                                <label class="form-check-label" for="@($"bank-{bank.Id}")" title="@bank.Description">
+                                    @($"{bank.Description}")
+                                </label>
+                            </div>
+                        </li>
                     }
-                </div>
+                </DropdownMultiSelect>
+                @if (_multiFilterExpenseDTO.BankId.Count > 0)
+                {
+                    <div class="d-flex align-items-center">
+                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) text-@(Theme.Dark.ToString().ToLower())-emphasis"
+                                title="Clear filter"
+                                @onclick="RemoveDropdownFilterBank">
+                                <Badge BackgroundColor="@Theme.Light" Message="Clear Filter" />
+                                <i class="bi bi-x-circle"></i>
+                        </button>
+                    </div>
+                }
             </div>
-        </div> 
+        </div>
     </Body>
     <Footer>
         <div class="row">
