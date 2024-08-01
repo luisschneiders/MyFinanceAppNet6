@@ -11,9 +11,6 @@ public partial class DropdownMultiSelect : ComponentBase
     public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
-    public EventCallback OnSubmitSuccess { get; set; }
-
-    [Parameter]
     public bool IsDisplayLargeNone { get; set; } = false;
 
     [Parameter]

@@ -1,9 +1,10 @@
 @using MainApp.Components.Modal
-@using MainApp.Components.Dropdown.Filter
+@using MainApp.Components.Dropdown.MultiSelect
 
 <Modal @ref="_modal"
        Size="Size.Lg"
-       ModalBodyStyle="vh-100">
+       ModalBodyStyle="vh-100"
+       IsCloseButtonVisible="false">
     <Title>
         <span class="text-secondary">
             Apply filters
@@ -12,47 +13,75 @@
     <Body>
         <div class="row"> 
             <div class="col-auto">
-                <div class="ps-2">
-                    <DropdownFilter ButtonSize="Size.Sm"
-                                    DropdownLabel="@_dropdownFilterLabelExpense"
+                <div class="d-flex bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)">
+                    <DropdownMultiSelect ButtonSize="Size.Sm"
+                                    DropdownLabel="@Label.FilterByExpenseCategory"
                                     DropdownPosition="Position.Start"
                                     IconEnd="bi-chevron-down"
-                                    IconStart="bi-cart4"
-                                    Model="@_filterExpenseCategoryModel"
-                                    OnSubmitSuccess="ResetDropdownFilterExpenseCategory">
+                                    IconStart="bi-cart4">
                         @foreach (var (expenseCategory, index) in _expenseCategories.Select((value, index) => (value, index)))
                         {
-                            <li class="px-2">
-                                <button class="dropdown-item rounded"
-                                        title="@expenseCategory.Description"
-                                        @onclick="() => RefreshDropdownFilterExpenseCategory(expenseCategory.Id)">
-                                    @($"{expenseCategory.Description.Truncate((int)Truncate.ExpenseCategory)}")
-                                </button>
+                            <li class="px-2 py-1">
+                                <div class="form-check">
+                                    <input class="form-check-input" 
+                                           type="checkbox"
+                                           checked="@expenseCategory.IsChecked"
+                                           id="@($"expense-category{expenseCategory.Id}")"
+                                           value="@(expenseCategory.Id)"
+                                           @onchange="(e) => OnCheckboxChangedExpense(e, expenseCategory.Id)" />
+                                    <label class="form-check-label" for="@($"expense-category{expenseCategory.Id}")" title="@expenseCategory.Description">
+                                        @($"{expenseCategory.Description.Truncate((int)Truncate.ExpenseCategory)}")
+                                    </label>
+                                </div>
                             </li>
                         }
-                    </DropdownFilter>
+                    </DropdownMultiSelect>
+                    @if (_multiFilterExpenseDTO.ECategoryId.Count > 0)
+                    {
+                        <div class="d-flex align-items-center">
+                            <button class="btn btn-@(Size.Sm.ToString().ToLower())"
+                                    title="Clear filter"
+                                    @onclick="RemoveDropdownFilterExpenseCategory">
+                                <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
+                            </button>
+                        </div>
+                    }
                 </div>
             </div>
             <div class="col-auto">
-                <div class="ps-2">
-                    <DropdownFilter ButtonSize="Size.Sm"
-                                    DropdownLabel="@_dropdownFilterLabelBank"
+                <div class="d-flex bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)">
+                    <DropdownMultiSelect ButtonSize="Size.Sm"
+                                    DropdownLabel="@Label.FilterByBank"
                                     DropdownPosition="Position.Start"
                                     IconEnd="bi-chevron-down"
-                                    IconStart="bi-bank"
-                                    Model="@_filterBankModel"
-                                    OnSubmitSuccess="ResetDropdownFilterBank">
+                                    IconStart="bi-bank">
                         @foreach (var (bank, index) in _banks.Select((value, index) => (value, index)))
                         {
-                            <li class="px-2">
-                                <button class="dropdown-item rounded"
-                                        title="@bank.Description"
-                                        @onclick="() => RefreshDropdownFilterBank(bank.Id)">
-                                    @($"{bank.Description}")
-                                </button>
+                            <li class="px-2 py-1">
+                                <div class="form-check">
+                                    <input class="form-check-input" 
+                                           type="checkbox"
+                                           checked="@bank.IsChecked"
+                                           id="@($"bank-{bank.Id}")"
+                                           value="@(bank.Id)"
+                                           @onchange="(e) => OnCheckboxChangedBank(e, bank.Id)" />
+                                    <label class="form-check-label" for="@($"bank-{bank.Id}")" title="@bank.Description">
+                                        @($"{bank.Description}")
+                                    </label>
+                                </div>
                             </li>
                         }
-                    </DropdownFilter>
+                    </DropdownMultiSelect>
+                    @if (_multiFilterExpenseDTO.BankId.Count > 0)
+                    {
+                        <div class="d-flex align-items-center">
+                            <button class="btn btn-@(Size.Sm.ToString().ToLower())"
+                                    title="Clear filter"
+                                    @onclick="RemoveDropdownFilterBank">
+                                <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
+                            </button>
+                        </div>
+                    }
                 </div>
             </div>
         </div> 
