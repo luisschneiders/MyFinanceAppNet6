@@ -1,39 +1,53 @@
-﻿@using MainApp.Components.Modal
-@using MainApp.Components.Dropdown.Filter
+﻿@using MainApp.Components.Badge
+@using MainApp.Components.Modal
+@using MainApp.Components.Dropdown.MultiSelect
 
 <Modal @ref="_modal"
        Size="Size.Lg"
-       ModalBodyStyle="vh-100">
+       ModalBodyStyle="vh-100"
+       IsCloseButtonVisible="false">
     <Title>
         <span class="text-secondary">
             Apply filters
         </span>
     </Title>
     <Body>
-        <div class="row"> 
-            <div class="col-auto">
-                <div class="ps-2">
-                    <DropdownFilter ButtonSize="Size.Sm"
-                                    DropdownLabel="@_dropdownFilterLabelCompany"
-                                    DropdownPosition="Position.Start"
-                                    IconEnd="bi-chevron-down"
-                                    IconStart="bi-building"
-                                    Model="@_filterCompanyModel"
-                                    OnSubmitSuccess="ResetDropdownFilterCompany">
-                        @foreach (var (company, index) in _companies.Select((value, index) => (value, index)))
-                        {
-                            <li class="px-2">
-                                <button class="dropdown-item rounded"
-                                        title="@company.Description"
-                                        @onclick="() => RefreshDropdownFilterCompany(company.Id)">
-                                    @($"{company.Description}")
-                                </button>
-                            </li>
-                        }
-                    </DropdownFilter>
-                </div>
+        <div class="d-flex">
+            <div class="d-flex bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) me-2">
+                <DropdownMultiSelect ButtonSize="Size.Sm"
+                                DropdownLabel="@Label.FilterByCompany"
+                                DropdownPosition="Position.Start"
+                                IconEnd="bi-chevron-down"
+                                IconStart="bi-building">
+                    @foreach (var (_company, index) in _companies.Select((value, index) => (value, index)))
+                    {
+                        <li class="px-2 py-1">
+                            <div class="form-check">
+                                <input class="form-check-input" 
+                                        type="checkbox"
+                                        checked="@_company.IsChecked"
+                                        id="@($"company{_company.Id}")"
+                                        value="@(_company.Id)"
+                                        @onchange="(e) => OnCheckboxChangedCompany(e, _company.Id)" />
+                                <label class="form-check-label" for="@($"company{_company.Id}")" title="@_company.Description">
+                                    @($"{_company.Description.Truncate((int)Truncate.Company)}")
+                                </label>
+                            </div>
+                        </li>
+                    }
+                </DropdownMultiSelect>
+                @if (_multiFilterTimesheetDTO.CompanyId.Count > 0)
+                {
+                    <div class="d-flex align-items-center">
+                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) text-@(Theme.Dark.ToString().ToLower())-emphasis"
+                                title="Clear filter"
+                                @onclick="RemoveDropdownFilterCompany">
+                                <Badge BackgroundColor="@Theme.Light" Message="Clear Filter" />
+                        </button>
+                    </div>
+                }
             </div>
-        </div> 
+        </div>
     </Body>
     <Footer>
         <div class="row">
