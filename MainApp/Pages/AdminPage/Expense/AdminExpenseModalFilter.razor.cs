@@ -107,9 +107,9 @@ public partial class AdminExpenseModalFilter : ComponentBase
     {
         _multiFilterExpenseDTO.BankId = new();
         _banks = await _dropDownMultiSelectService.UncheckAll(_banks);
-        
+
         await OnSubmitFilterSuccess.InvokeAsync(_multiFilterExpenseDTO);
-        
+
         await Task.CompletedTask;
     }
 
@@ -117,9 +117,9 @@ public partial class AdminExpenseModalFilter : ComponentBase
     {
         _multiFilterExpenseDTO.ECategoryId = new();
         _expenseCategories = await _dropDownMultiSelectService.UncheckAll(_expenseCategories);
-        
+
         await OnSubmitFilterSuccess.InvokeAsync(_multiFilterExpenseDTO);
-        
+
         await Task.CompletedTask;
     }
 

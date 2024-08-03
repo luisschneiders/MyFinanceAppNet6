@@ -26,10 +26,10 @@
                                 <input class="form-check-input" 
                                         type="checkbox"
                                         checked="@expenseCategory.IsChecked"
-                                        id="@($"expense-category{expenseCategory.Id}")"
+                                        id="@($"expense-category-{expenseCategory.Id}")"
                                         value="@(expenseCategory.Id)"
                                         @onchange="(e) => OnCheckboxChangedExpense(e, expenseCategory.Id)" />
-                                <label class="form-check-label" for="@($"expense-category{expenseCategory.Id}")" title="@expenseCategory.Description">
+                                <label class="form-check-label" for="@($"expense-category-{expenseCategory.Id}")" title="@expenseCategory.Description">
                                     @($"{expenseCategory.Description.Truncate((int)Truncate.ExpenseCategory)}")
                                 </label>
                             </div>
