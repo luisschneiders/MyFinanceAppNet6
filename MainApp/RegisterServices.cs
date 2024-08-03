@@ -91,6 +91,7 @@ public static class RegisterServices
         builder.Services.AddScoped<IDropdownDateRangeService, DropdownDateRangeService>();
         builder.Services.AddScoped<IDropdownDateMonthYearService, DropdownDateMonthYearService>();
         builder.Services.AddScoped<IDropdownFilterService, DropdownFilterService>();
+        builder.Services.AddScoped<IDropdownMultiSelectService, DropdownMultiSelectService>();
         builder.Services.AddScoped<IOffCanvasService, OffCanvasService>();
 
 //      Data

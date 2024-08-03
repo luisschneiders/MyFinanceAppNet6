@@ -2,5 +2,5 @@
 
 public interface IRapidApiService
 {
-    Task<Response<WeatherModel>> GetWeatherCondition(LocationModel locationModel);
+    public Task<Response<WeatherModel>> GetWeatherCondition(LocationModel locationModel);
 }

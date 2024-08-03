@@ -1,64 +1,87 @@
-﻿@using MainApp.Components.Modal
-@using MainApp.Components.Dropdown.Filter
+﻿@using MainApp.Components.Badge
+@using MainApp.Components.Modal
+@using MainApp.Components.Dropdown.MultiSelect
 
 <Modal @ref="_modal"
        Size="Size.Lg"
-       ModalBodyStyle="vh-100">
+       ModalBodyStyle="vh-100"
+       IsCloseButtonVisible="false">
     <Title>
         <span class="text-secondary">
             Apply filters
         </span>
     </Title>
     <Body>
-        <div class="row"> 
-            <div class="col-auto">
-                <div class="ps-2">
-                    <DropdownFilter ButtonSize="Size.Sm"
-                                    DropdownLabel="@_dropdownFilterLabelVehicle"
-                                    DropdownPosition="Position.Start"
-                                    IconEnd="bi-chevron-down"
-                                    IconStart="bi-truck"
-                                    Model="@_filterVehicleModel"
-                                    OnSubmitSuccess="ResetDropdownFilterVehicle">
-                        @foreach (var (vehicle, index) in _vehicles.Select((value, index) => (value, index)))
-                        {
-                            <li class="px-2">
-                                <button class="dropdown-item rounded"
-                                        title="@vehicle.Description"
-                                        @onclick="() => RefreshDropdownFilterVehicle(vehicle.Id)">
+        <div class="d-flex">
+            <div class="d-flex bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) me-2">
+                <DropdownMultiSelect ButtonSize="Size.Sm"
+                                DropdownLabel="@Label.FilterByVehicle"
+                                DropdownPosition="Position.Start"
+                                IconEnd="bi-chevron-down"
+                                IconStart="bi-truck">
+                    @foreach (var (vehicle, index) in _vehicles.Select((value, index) => (value, index)))
+                    {
+                        <li class="px-2 py-1">
+                            <div class="form-check">
+                                <input class="form-check-input" 
+                                        type="checkbox"
+                                        checked="@vehicle.IsChecked"
+                                        id="@($"vehicle-{vehicle.Id}")"
+                                        value="@(vehicle.Id)"
+                                        @onchange="(e) => OnCheckboxChangedVehicle(e, vehicle.Id)" />
+                                <label class="form-check-label" for="@($"vehicle-{vehicle.Id}")" title="@vehicle.Description">
                                     @($"{vehicle.Description}")
-                                </button>
-                            </li>
-                        }
-                    </DropdownFilter>
-                </div>
+                                </label>
+                            </div>
+                        </li>
+                    }
+                </DropdownMultiSelect>
+                @if (_multiFilterTripDTO.VehicleId.Count > 0)
+                {
+                    <div class="d-flex align-items-center">
+                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) text-@(Theme.Dark.ToString().ToLower())-emphasis"
+                                title="Clear filter"
+                                @onclick="RemoveDropdownFilterVehicle">
+                                <Badge BackgroundColor="@Theme.Light" Message="Clear Filter" />
+                        </button>
+                    </div>
+                }
             </div>
-            <div class="col-auto">
-                <div class="ps-2">
-                    <DropdownFilter ButtonSize="Size.Sm"
-                                    DropdownLabel="@_dropdownFilterLabelTripCategory"
-                                    DropdownPosition="Position.Start"
-                                    IconEnd="bi-chevron-down"
-                                    IconStart="bi-tag"
-                                    Model="@_filterTripCategoryModel"
-                                    OnSubmitSuccess="ResetDropdownFilterTripCategory">
-                       @foreach (var (tripCategory, index) in _tripCategoryDTOs.Select((value, index) => (value, index)))
-                        {
-                            if (index > 0)
-                            {
-                                <li class="px-2">
-                                    <button class="dropdown-item rounded"
-                                            title="@tripCategory.Description"
-                                            @onclick="() => RefreshDropdownFilterTripCategory(tripCategory.Id)">
-                                        @($"{tripCategory.Description}")
-                                    </button>
-                                </li>
-                            }
-                        }
-                    </DropdownFilter>
-                </div>
+            <div class="d-flex bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) me-2">
+                <DropdownMultiSelect ButtonSize="Size.Sm"
+                                DropdownLabel="@Label.FilterByTripCategory"
+                                DropdownPosition="Position.Start"
+                                IconEnd="bi-chevron-down"
+                                IconStart="bi-tag">
+                    @foreach (var (tripCategory, index) in _tripCategoryDTOs.Select((value, index) => (value, index)))
+                    {
+                        <li class="px-2 py-1">
+                            <div class="form-check">
+                                <input class="form-check-input" 
+                                        type="checkbox"
+                                        checked="@tripCategory.IsChecked"
+                                        id="@($"trip-category-{tripCategory.Id}")"
+                                        value="@(tripCategory.Id)"
+                                        @onchange="(e) => OnCheckboxChangedTripCategory(e, tripCategory.Id)" />
+                                <label class="form-check-label" for="@($"trip-category-{tripCategory.Id}")" title="@tripCategory.Description">
+                                    @($"{tripCategory.Description}")
+                                </label>
+                            </div>
+                        </li>
+                    }
+                </DropdownMultiSelect>
+                @if (_multiFilterTripDTO.TCategoryId.Count > 0)
+                {
+                    <div class="d-flex align-items-center">
+                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) text-@(Theme.Dark.ToString().ToLower())-emphasis"
+                                title="Clear filter"
+                                @onclick="RemoveDropdownFilterTripCategory">
+                                <Badge BackgroundColor="@Theme.Light" Message="Clear Filter" />
+                        </button>
+                    </div>
+                }
             </div>
-        </div> 
+        </div>
     </Body>
     <Footer>
         <div class="row">

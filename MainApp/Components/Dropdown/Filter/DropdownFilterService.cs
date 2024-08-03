@@ -9,14 +9,18 @@ public class DropdownFilterService : IDropdownFilterService
     public async Task<FilterModel> ResetModel()
     {
         var model = new FilterModel();
+
         return await Task.FromResult(model);
     }
 
     public async Task<FilterModel> SetModel(ulong id, string description)
     {
-        FilterModel model = new();
-        model.Id = id;
-        model.Description = description;
+        FilterModel model = new()
+        {
+            Id = id,
+            Description = description
+        };
+
         return await Task.FromResult(model);
     }
 
@@ -24,6 +28,7 @@ public class DropdownFilterService : IDropdownFilterService
     {
         string label = string.Empty;
         label = description;
+
         return await Task.FromResult(label);
     }
 }

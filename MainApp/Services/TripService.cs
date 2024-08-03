@@ -96,7 +96,7 @@ public class TripService : ITripService<TripModel>
         throw new NotImplementedException();
     }
 
-    public async Task<List<TripByVehicleGroupDTO>> GetRecordsListView(FilterTripDTO filter)
+    public async Task<List<TripByVehicleGroupDTO>> GetRecordsListView(MultiFilterTripDTO filter)
     {
         try
         {
@@ -209,26 +209,26 @@ public class TripService : ITripService<TripModel>
         }
     }
 
-    private async Task<List<TripListDTO>> SetRecordsFilter(FilterTripDTO filter)
+    private async Task<List<TripListDTO>> SetRecordsFilter(MultiFilterTripDTO filter)
     {
         try
         {
-            if (filter.VehicleId > 0 || filter.TCategoryId > 0)
+            if (filter.VehicleId.Count > 0 || filter.TCategoryId.Count > 0)
             {
                 List<TripListDTO> recordsFiltered = new();
 
-                if (filter.VehicleId > 0 && filter.TCategoryId == 0) // Filter by Vehicle only
+                if (filter.VehicleId.Count > 0 && filter.TCategoryId.Count == 0) // Filter by Vehicle only
                 {
-                    recordsFiltered = _recordsByDateRange.Where(t => t.VehicleId == filter.VehicleId).ToList();
+                    recordsFiltered = _recordsByDateRange.Where(t => filter.VehicleId.Contains(t.VehicleId)).ToList();
                 }
-                else if (filter.VehicleId == 0 && filter.TCategoryId > 0) // Filter by Trip only
+                else if (filter.VehicleId.Count == 0 && filter.TCategoryId.Count > 0) // Filter by Trip only
                 {
-                    recordsFiltered = _recordsByDateRange.Where(t => t.TCategoryId == filter.TCategoryId).ToList();
+                    recordsFiltered = _recordsByDateRange.Where(t => filter.TCategoryId.Contains(t.TCategoryId)).ToList();
                 }
                 else // Filter by Vehicle and Trip Category
                 {
-                    recordsFiltered = _recordsByDateRange.Where(t => t.VehicleId == filter.VehicleId && 
-                                                         t.TCategoryId == filter.TCategoryId).ToList();
+                    recordsFiltered = _recordsByDateRange.Where(t => filter.VehicleId.Contains(t.VehicleId) && 
+                                                         filter.TCategoryId.Contains(t.TCategoryId)).ToList();
                 }
 
                 _tripDistanceByDateRangeSum = recordsFiltered.Sum(t => t.Distance);

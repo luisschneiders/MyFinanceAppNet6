@@ -116,7 +116,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         }
     }
 
-    public async Task<List<TimesheetByCompanyGroupDTO>> GetRecordsListView(FilterTimesheetDTO filter)
+    public async Task<List<TimesheetByCompanyGroupDTO>> GetRecordsListView(MultiFilterTimesheetDTO filter)
     {
         try
         {
@@ -143,7 +143,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         }
     }
 
-    public async Task<List<TimesheetCalendarDTO>> GetRecordsCalendarView(FilterTimesheetDTO filter)
+    public async Task<List<TimesheetCalendarDTO>> GetRecordsCalendarView(MultiFilterTimesheetDTO filter)
     {
         try
         {
@@ -251,15 +251,15 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         }
     }
 
-    private async Task<List<TimesheetListDTO>> SetRecordsFilter(FilterTimesheetDTO filter)
+    private async Task<List<TimesheetListDTO>> SetRecordsFilter(MultiFilterTimesheetDTO filter)
     {
         try
         {
-            if (filter.CompanyId > 0)
+            if (filter.CompanyId.Count > 0)
             {
                 List<TimesheetListDTO> recordsFiltered = new();
 
-                recordsFiltered = _recordsByDateRange.Where(t => t.CompanyId == filter.CompanyId).ToList();
+                recordsFiltered = _recordsByDateRange.Where(t => filter.CompanyId.Contains(t.CompanyId)).ToList();
 
                 _timesheetByDateRangeSum = recordsFiltered.Sum(t => t.TotalAmount);
 

@@ -38,32 +38,19 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     protected AppSettings _appSettings { get; set; } = new();
 
     /*
-     * Add OffCanvas component reference
+     * Add component reference
      */
     private AdminTransactionOffCanvas _setupOffCanvas { get; set; } = new();
-
-    /*
-     * Add Modal component reference
-     */
     private AdminTransactionModal _setupModal { get; set; } = new();
-
-    /*
-     * Add Filter Modal component reference
-     */
     private AdminTransactionModalFilter _setupFilterModal { get; set; } = new();
-
-    /*
-     * Add Expense Details Modal component reference
-     */
     private AdminTransactionModalDetails _setupTransactionModalDetails { get; set; } = new();
-
 
     private AdminTransactionModalInfo _setupModalInfo { get; set; } = new();
     private DateTimeRange _dateRange { get; set; } = new();
     private DateTimeRange _dateCalendar { get; set; } = new();
     private List<TransactionByCategoryGroupDTO> _transactionsListView { get; set; } = new();
     private List<TransactionCalendarDTO> _transactionsCalendarView { get; set; } = new();
-    private FilterTransactionDTO _filterTransactionDTO { get; set; } = new();
+    private MultiFilterTransactionDTO _multiFilterTransactionDTO { get; set; } = new();
     private string _viewType { get; set; } = ViewType.Calendar.ToString();
     private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
     private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
@@ -127,15 +114,15 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         {
             if (_viewType == ViewType.Calendar.ToString())
             {
-                _filterTransactionDTO.DateTimeRange = _dateCalendar;
-                _transactionsCalendarView = await _transactionService.GetRecordsCalendarView(_filterTransactionDTO);
+                _multiFilterTransactionDTO.DateTimeRange = _dateCalendar;
+                _transactionsCalendarView = await _transactionService.GetRecordsCalendarView(_multiFilterTransactionDTO);
                 _weeks = await _calendarViewService.Build(_dateCalendar);
 
             }
             else if (_viewType == ViewType.List.ToString())
             {
-                _filterTransactionDTO.DateTimeRange = _dateRange;
-                _transactionsListView = await _transactionService.GetRecordsListView(_filterTransactionDTO);
+                _multiFilterTransactionDTO.DateTimeRange = _dateRange;
+                _transactionsListView = await _transactionService.GetRecordsListView(_multiFilterTransactionDTO);
             }
 
             _isLoading = false;
@@ -161,6 +148,20 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private async Task AddRecordAsync(DateTime date)
     {
         await _setupOffCanvas.AddRecordOffCanvasAsync(date);
+        await Task.CompletedTask;
+    }
+
+    private async Task ApplyFiltersAsync()
+    {
+        try
+        {
+            await _setupFilterModal.OpenModalAsync(IsFilterApplied());
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
         await Task.CompletedTask;
     }
 
@@ -203,10 +204,10 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task RefreshFilterList(FilterTransactionDTO filterTransactionDTO)
+    private async Task RefreshFilterList(MultiFilterTransactionDTO multiFilterTransactionDTO)
     {
-        _filterTransactionDTO = filterTransactionDTO;
-        _filterTransactionDTO.IsFilterChanged = true;
+        _multiFilterTransactionDTO = multiFilterTransactionDTO;
+        _multiFilterTransactionDTO.IsFilterChanged = true;
 
         await FetchDataAsync();
         await Task.CompletedTask;
@@ -235,7 +236,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
 
     private async Task ResetAllFilters()
     {
-        _filterTransactionDTO = new();
+        _multiFilterTransactionDTO = new();
 
         await FetchDataAsync();
         await Task.CompletedTask;
@@ -243,27 +244,13 @@ public partial class AdminTransactionPanelLeft : ComponentBase
 
     private bool IsFilterApplied()
     {
-        if (_filterTransactionDTO.FromBank != 0 || _filterTransactionDTO.TCategoryId != 0)
+        if (_multiFilterTransactionDTO.FromBank.Count > 0 || _multiFilterTransactionDTO.TCategoryId.Count > 0)
         {
             return true;
         }
         else{
             return false;
         }
-    }
-
-    private async Task ApplyFiltersAsync()
-    {
-        try
-        {
-            await _setupFilterModal.OpenModalAsync(IsFilterApplied());
-        }
-        catch (Exception ex)
-        {
-            _toastService.ShowToast(ex.Message, Theme.Danger);
-        }
-
-        await Task.CompletedTask;
     }
 
     private async Task OpenSetupOffCanvas(DateTime date)

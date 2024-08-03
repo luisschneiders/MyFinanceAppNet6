@@ -10,7 +10,7 @@ public partial class AdminTimesheetFilterModal : ComponentBase
     private ToastService _toastService { get; set; } = default!;
 
     [Inject]
-    private IDropdownFilterService _dropdownFilterService { get; set; } = default!;
+    private IDropdownMultiSelectService _dropDownMultiSelectService { get;set; } = default!;
 
     [Inject]
     private ICompanyService<CompanyModel> _companyService { get; set; } = default!;
@@ -19,25 +19,15 @@ public partial class AdminTimesheetFilterModal : ComponentBase
     protected AppSettings _appSettings { get; set; } = new();
 
     [Parameter]
-    public EventCallback<FilterTimesheetDTO> OnSubmitFilterSuccess { get; set; }
-
-    private List<CompanyModel> _companies { get; set; } = new();
-    private FilterModel _filterCompanyModel { get; set; } = new();
-    private FilterTimesheetDTO _filterTimesheetDTO { get; set; } = new();
-    private CompanyModel _filterCompany { get; set; } = new();
+    public EventCallback<MultiFilterTimesheetDTO> OnSubmitFilterSuccess { get; set; }
+    
+    private MultiFilterTimesheetDTO _multiFilterTimesheetDTO { get; set; } = new();
+    private List<CheckboxItemModel> _companies { get; set; } = new();
     private Modal _modal { get; set; } = new();
     private Guid _modalTarget { get; set; }
-    private string _dropdownFilterLabelCompany { get; set; } = Label.NoFilterAssigned;
 
     public AdminTimesheetFilterModal()
     {
-    }
-
-    protected async override Task OnInitializedAsync()
-    {
-        _dropdownFilterLabelCompany = await _dropdownFilterService.UpdateLabel(Label.FilterByCompany);
-
-        await Task.CompletedTask;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -80,17 +70,11 @@ public partial class AdminTimesheetFilterModal : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task CloseModalAsync()
-    {
-        await Task.FromResult(_modal.Close(_modalTarget));
-        await Task.CompletedTask;
-    }
-
     private async Task FetchDataAsync()
     {
         try
         {
-            _companies = await _companyService.GetRecords();
+            _companies = await _companyService.GetRecordsForFilter();
         }
         catch (Exception ex)
         {
@@ -100,41 +84,62 @@ public partial class AdminTimesheetFilterModal : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task ResetAllFilters()
+    private async Task CloseModalAsync()
     {
-        await RemoveDropdownFilterCompany();
+        await Task.FromResult(_modal.Close(_modalTarget));
         await Task.CompletedTask;
     }
 
-    private async Task ResetDropdownFilterCompany()
+    private async Task ResetAllFilters()
     {
-        await RemoveDropdownFilterCompany();
-        
-        _toastService.ShowToast("Filter for company removed!", Theme.Info);
+        await UncheckAll();
+        await RemoveAllFilters();
 
-        await OnSubmitFilterSuccess.InvokeAsync(_filterTimesheetDTO);
         await Task.CompletedTask;
     }
 
     private async Task RemoveDropdownFilterCompany()
     {
-        _filterCompany = new();
-        _filterTimesheetDTO.CompanyId = 0;
-        _filterCompanyModel = await _dropdownFilterService.ResetModel();
-        _dropdownFilterLabelCompany = await _dropdownFilterService.UpdateLabel(Label.FilterByCompany);
+        _multiFilterTimesheetDTO.CompanyId = new();
+        _companies = await _dropDownMultiSelectService.UncheckAll(_companies);
+
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTimesheetDTO);
 
         await Task.CompletedTask;
     }
 
-    private async Task RefreshDropdownFilterCompany(ulong id)
+    private async Task UncheckAll()
     {
-        _filterTimesheetDTO.CompanyId = id;
-        _filterCompany = _companies.First(i => i.Id == id);
-        _filterCompanyModel = await _dropdownFilterService.SetModel(_filterCompany.Id, _filterCompany.Description);
-        _dropdownFilterLabelCompany = await _dropdownFilterService.UpdateLabel(_filterCompany.Description);
-        _toastService.ShowToast("Filter updated!", Theme.Info);
+        _companies = await _dropDownMultiSelectService.UncheckAll(_companies);
 
-        await OnSubmitFilterSuccess.InvokeAsync(_filterTimesheetDTO);
+        await Task.CompletedTask;
+    }
+
+    private async Task RemoveAllFilters()
+    {
+        _multiFilterTimesheetDTO.CompanyId = new();
+
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTimesheetDTO);
+
+        await Task.CompletedTask;
+    }
+
+    private async void OnCheckboxChangedCompany(ChangeEventArgs e, ulong id)
+    {
+        CheckboxItemModel company = _companies.FirstOrDefault(i => i.Id == id)!;
+
+        if (e.Value is true)
+        {
+            _multiFilterTimesheetDTO.CompanyId.Add(id);
+            company.IsChecked = true;
+        }
+        else if (e.Value is false)
+        {
+            _multiFilterTimesheetDTO.CompanyId.Remove(id);
+            company.IsChecked = false;
+        }
+
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTimesheetDTO);
         await Task.CompletedTask;
     }
 }

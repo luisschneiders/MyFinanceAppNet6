@@ -10,7 +10,7 @@ public partial class AdminTransactionModalFilter : ComponentBase
     private ToastService _toastService { get; set; } = default!;
 
     [Inject]
-    private IDropdownFilterService _dropdownFilterService { get; set; } = default!;
+    private IDropdownMultiSelectService _dropDownMultiSelectService { get; set; } = default!;
 
     [Inject]
     private ITransactionCategoryService<TransactionCategoryModel> _transactionCategoryService { get; set; } = default!;
@@ -22,30 +22,17 @@ public partial class AdminTransactionModalFilter : ComponentBase
     protected AppSettings _appSettings { get; set; } = new();
 
     [Parameter]
-    public EventCallback<FilterTransactionDTO> OnSubmitFilterSuccess { get; set; }
+    public EventCallback<MultiFilterTransactionDTO> OnSubmitFilterSuccess { get; set; }
+
+    private MultiFilterTransactionDTO _multiFilterTransactionDTO { get; set; } = new();
+    private List<CheckboxItemModel> _transactionCategories { get; set; } = new();
+    private List<CheckboxItemModel> _banks { get; set; } = new();
 
     private Modal _modal { get; set; } = new();
-    private FilterModel _filterTransactionCategoryModel { get; set; } = new();
-    private FilterModel _filterBankModel { get; set; } = new();
-    private TransactionCategoryModel _filterTransactionCategory { get; set; } = new();
-    private List<TransactionCategoryModel> _transactionCategories { get; set; } = new();
-    private List<BankModel> _banks { get; set; } = new();
-    private BankModel _filterBank { get; set; } = new();
-    private FilterTransactionDTO _filterTransactionDTO { get; set; } = new();
     private Guid _modalTarget { get; set; }
-    private string _dropdownFilterLabelTransaction { get; set; } = Label.NoFilterAssigned;
-    private string _dropdownFilterLabelBank { get; set; } = Label.NoFilterAssigned;
 
     public AdminTransactionModalFilter()
     {
-    }
-
-    protected async override Task OnInitializedAsync()
-    {
-        _dropdownFilterLabelTransaction = await _dropdownFilterService.UpdateLabel(Label.FilterByTransactionCategory);
-        _dropdownFilterLabelBank = await _dropdownFilterService.UpdateLabel(Label.FilterByBank);
-
-        await Task.CompletedTask;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -66,22 +53,6 @@ public partial class AdminTransactionModalFilter : ComponentBase
 
         await Task.CompletedTask;
     }
-
-    private async Task FetchDataAsync()
-    {
-        try
-        {
-            _transactionCategories = await _transactionCategoryService.GetRecords();
-            _banks = await _bankService.GetRecords();
-        }
-        catch (Exception ex)
-        {
-            _toastService.ShowToast(ex.Message, Theme.Danger);
-        }
-
-        await Task.CompletedTask;
-    }
-
 
     public async Task OpenModalAsync(bool isFilterApplied)
     {
@@ -104,87 +75,110 @@ public partial class AdminTransactionModalFilter : ComponentBase
         await Task.CompletedTask;
     }
 
+    private async Task FetchDataAsync()
+    {
+        try
+        {
+            _transactionCategories = await _transactionCategoryService.GetRecordsForFilter();
+            _banks = await _bankService.GetRecordsForFilter();
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;
+    }
+
     private async Task CloseModalAsync()
     {
         await Task.FromResult(_modal.Close(_modalTarget));
         await Task.CompletedTask;
     }
 
-    private async Task ResetDropdownFilterTransactionCategory()
-    {
-        await RemoveDropdownFilterTransactionCategory();
-        
-        _toastService.ShowToast("Filter for transaction removed!", Theme.Info);
-
-        await OnSubmitFilterSuccess.InvokeAsync(_filterTransactionDTO);
-        await Task.CompletedTask;
-    }
-
-    private async Task ResetDropdownFilterBank()
-    {
-        await RemoveDropdownFilterBank();
-        
-        _toastService.ShowToast("Filter for bank removed!", Theme.Info);
-
-        await OnSubmitFilterSuccess.InvokeAsync(_filterTransactionDTO);
-        await Task.CompletedTask;
-    }
-
     private async Task ResetAllFilters()
     {
-        await RemoveDropdownFilterBank();
-        await RemoveDropdownFilterTransactionCategory();
-        await Task.CompletedTask;
-    }
-
-    private async Task RemoveDropdownFilterTransactionCategory()
-    {
-        _filterTransactionCategory = new();
-        _filterTransactionDTO.TCategoryId = 0;
-        _filterTransactionCategoryModel = await _dropdownFilterService.ResetModel();
-        _dropdownFilterLabelTransaction = await _dropdownFilterService.UpdateLabel(Label.FilterByTransactionCategory);
+        await UncheckAll();
+        await RemoveAllFilters();
 
         await Task.CompletedTask;
     }
 
     private async Task RemoveDropdownFilterBank()
     {
-        _filterBank = new();
-        _filterTransactionDTO.FromBank = 0;
-        _filterBankModel = await _dropdownFilterService.ResetModel();
-        _dropdownFilterLabelBank = await _dropdownFilterService.UpdateLabel(Label.FilterByBank);
+        _multiFilterTransactionDTO.FromBank = new();
+        _banks = await _dropDownMultiSelectService.UncheckAll(_banks);
+        
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTransactionDTO);
+
 
         await Task.CompletedTask;
     }
 
-    private async Task RefreshDropdownFilterTransactionCategory(ulong id)
+    private async Task RemoveDropdownFilterTransactionCategory()
     {
-        _filterTransactionDTO.TCategoryId = id;
-        _filterTransactionCategory = _transactionCategories.First(i => i.Id == id);
-        string? transactionName = _filterTransactionCategory.Description.Truncate((int)Truncate.TransactionCategory);
+        _multiFilterTransactionDTO.TCategoryId = new();
+        _transactionCategories = await _dropDownMultiSelectService.UncheckAll(_transactionCategories);
+        
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTransactionDTO);
 
-        _filterTransactionCategoryModel = await _dropdownFilterService.SetModel(_filterTransactionCategory.Id, _filterTransactionCategory.Description);
 
-        _dropdownFilterLabelTransaction = await _dropdownFilterService.UpdateLabel(transactionName!);
-        _toastService.ShowToast("Filter updated!", Theme.Info);
-
-        await OnSubmitFilterSuccess.InvokeAsync(_filterTransactionDTO);
         await Task.CompletedTask;
     }
 
-    private async Task RefreshDropdownFilterBank(ulong id)
+    private async Task UncheckAll()
     {
-        _filterTransactionDTO.FromBank = id;
-        _filterBank = _banks.First(i => i.Id == id);
-        string? bankName = _filterBank.Description.Truncate((int)Truncate.Bank);
+        _banks = await _dropDownMultiSelectService.UncheckAll(_banks);
+        _transactionCategories = await _dropDownMultiSelectService.UncheckAll(_transactionCategories);
 
-        _filterBankModel = await _dropdownFilterService.SetModel(_filterBank.Id, _filterBank.Description);
-
-        _dropdownFilterLabelBank = await _dropdownFilterService.UpdateLabel(bankName!);
-        _toastService.ShowToast("Filter updated!", Theme.Info);
-
-        await OnSubmitFilterSuccess.InvokeAsync(_filterTransactionDTO);
         await Task.CompletedTask;
     }
 
+    private async Task RemoveAllFilters()
+    {
+        _multiFilterTransactionDTO.FromBank = new();
+        _multiFilterTransactionDTO.TCategoryId = new();
+        
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTransactionDTO);
+        
+        await Task.CompletedTask;
+    }
+
+    private async void OnCheckboxChangedTransaction(ChangeEventArgs e, ulong id)
+    {
+        CheckboxItemModel transaction = _transactionCategories.FirstOrDefault(i => i.Id == id)!;
+
+        if (e.Value is true)
+        {
+            _multiFilterTransactionDTO.TCategoryId.Add(id);
+            transaction.IsChecked = true;
+        }
+        else if (e.Value is false)
+        {
+            _multiFilterTransactionDTO.TCategoryId.Remove(id);
+            transaction.IsChecked = false;
+        }
+
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTransactionDTO);
+        await Task.CompletedTask;
+    }
+
+    private async void OnCheckboxChangedBank(ChangeEventArgs e, ulong id)
+    {
+        CheckboxItemModel bank = _banks.FirstOrDefault(i => i.Id == id)!;
+
+        if (e.Value is true)
+        {
+            _multiFilterTransactionDTO.FromBank.Add(id);
+            bank.IsChecked = true;
+        }
+        else if (e.Value is false)
+        {
+            _multiFilterTransactionDTO.FromBank.Remove(id);
+            bank.IsChecked = false;
+        }
+
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTransactionDTO);
+        await Task.CompletedTask;
+    }
 }

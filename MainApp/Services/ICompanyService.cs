@@ -2,5 +2,6 @@
 
 public interface ICompanyService<T> : IBaseService<T>
 {
-    Task<decimal> GetHourRate(string modelId);
+    public Task<List<CheckboxItemModel>> GetRecordsForFilter();
+    public Task<decimal> GetHourRate(string modelId);
 }

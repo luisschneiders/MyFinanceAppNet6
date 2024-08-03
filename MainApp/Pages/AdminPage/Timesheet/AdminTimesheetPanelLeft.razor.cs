@@ -50,13 +50,12 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     private AdminTimesheetOffCanvas _setupOffCanvas { get; set; } = new();
 
     private DateTimeRange _dateRange { get; set; } = new();
-    private List<CompanyModel> _companies { get; set; } = new();
     // private TimesheetStateContainerDTO _timesheetStateContainerDTO { get; set; } = new();
     private PayStatus[] _payStatuses { get; set; } = default!;
     private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
     private bool _isLoading { get; set; } = true;
     private AdminTimesheetFilterModal _setupFilterModal { get; set; } = new();
-    private FilterTimesheetDTO _filterTimesheetDTO { get; set; } = new();
+    private MultiFilterTimesheetDTO _multiFilterTimesheetDTO { get; set; } = new();
     private List<TimesheetByCompanyGroupDTO> _timesheetListView { get; set; } = new();
     private List<TimesheetCalendarDTO> _timesheetCalendarView { get; set; } = new();
     private DateTimeRange _dateCalendar { get; set; } = new();
@@ -124,17 +123,14 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         {
             if (_viewType == ViewType.Calendar.ToString())
             {
-                _filterTimesheetDTO.DateTimeRange = _dateCalendar;
-                _timesheetCalendarView = await _timesheetService.GetRecordsCalendarView(_filterTimesheetDTO);
+                _multiFilterTimesheetDTO.DateTimeRange = _dateCalendar;
+                _timesheetCalendarView = await _timesheetService.GetRecordsCalendarView(_multiFilterTimesheetDTO);
                 _weeks = await _calendarViewService.Build(_dateCalendar);
             }
             else if (_viewType == ViewType.List.ToString())
             {
-                _companies = await _companyService.GetRecords();
-
-                _filterTimesheetDTO.DateTimeRange = _dateRange;
-                _timesheetListView = await _timesheetService.GetRecordsListView(_filterTimesheetDTO);
-
+                _multiFilterTimesheetDTO.DateTimeRange = _dateRange;
+                _timesheetListView = await _timesheetService.GetRecordsListView(_multiFilterTimesheetDTO);
             }
             // List<TimesheetListDTO> timesheets = await _timesheetService.GetRecordsByFilter(_dateRange, _filterCompany);
             // decimal totalAwaiting = await _timesheetService.GetSumTotalAwaiting();
@@ -149,7 +145,6 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
             // _timesheetStateService.SetValue(_timesheetStateContainerDTO);
 
             // await OnStateContainerSetValue.InvokeAsync();
-
 
             _sumByDateRange = await _timesheetService.GetSumByDateRange();
             _isLoading = false;
@@ -199,10 +194,10 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task RefreshFilterList(FilterTimesheetDTO filterTimesheetDTO)
+    private async Task RefreshFilterList(MultiFilterTimesheetDTO multiFilterTimesheetDTO)
     {
-        _filterTimesheetDTO = filterTimesheetDTO;
-        _filterTimesheetDTO.IsFilterChanged = true;
+        _multiFilterTimesheetDTO = multiFilterTimesheetDTO;
+        _multiFilterTimesheetDTO.IsFilterChanged = true;
 
         await FetchDataAsync();
         await Task.CompletedTask;
@@ -281,7 +276,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
 
     private async Task ResetAllFilters()
     {
-        _filterTimesheetDTO = new();
+        _multiFilterTimesheetDTO = new();
 
         await FetchDataAsync();
         await Task.CompletedTask;
@@ -289,7 +284,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
 
     private bool IsFilterApplied()
     {
-        if (_filterTimesheetDTO.CompanyId != 0)
+        if (_multiFilterTimesheetDTO.CompanyId.Count > 0)
         {
             return true;
         }

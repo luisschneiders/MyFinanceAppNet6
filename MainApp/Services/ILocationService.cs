@@ -2,6 +2,6 @@
 
 public interface ILocationService<T>
 {
-    Task<LocationModel> GetRecordById();
-    Task SaveRecord(T model);
+    public Task<LocationModel> GetRecordById();
+    public Task SaveRecord(T model);
 }
