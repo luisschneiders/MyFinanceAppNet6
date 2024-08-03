@@ -135,9 +135,9 @@ public partial class AdminExpenseModalFilter : ComponentBase
     {
         _multiFilterExpenseDTO.BankId = new();
         _multiFilterExpenseDTO.ECategoryId = new();
-        
+
         await OnSubmitFilterSuccess.InvokeAsync(_multiFilterExpenseDTO);
-        
+
         await Task.CompletedTask;
     }
 
