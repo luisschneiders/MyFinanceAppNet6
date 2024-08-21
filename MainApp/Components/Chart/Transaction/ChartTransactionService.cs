@@ -72,6 +72,8 @@ public class ChartTransactionService : IChartTransactionService
             List<TransactionIOGraphByMonthDTO> incomes = transactions.Where(t => t.Label == "C").ToList();
             List<TransactionIOGraphByMonthDTO> outcomes = transactions.Where(t => t.Label == "D").ToList();
 
+            chartConfigData.Labels = chartLabels;
+
             if (transactions.Count > 0)
             {
                 foreach (var (item, index) in chartLabels.Select((value, index) => (value, index)))
@@ -95,8 +97,6 @@ public class ChartTransactionService : IChartTransactionService
                         transactionChartData.Outcome[index] = record.TotalAmount.ToString();
                     }
                 }
-
-                chartConfigData.Labels = chartLabels;
 
                 //Incomes data
                 chartConfigDataset.Label = "Income";
