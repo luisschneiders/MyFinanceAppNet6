@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Pages.AdminPage.Trip;
 
-public partial class AdminTripPrinterModal : ComponentBase
+public partial class AdminTripModalPrinter : ComponentBase
 {
     [Inject]
     private ToastService _toastService { get; set; } = new();
@@ -26,7 +26,7 @@ public partial class AdminTripPrinterModal : ComponentBase
 
     private TripCategory[] _tripCategories { get; set; } = default!;
 
-    public AdminTripPrinterModal()
+    public AdminTripModalPrinter()
     {
         _tripCategories = (TripCategory[])Enum.GetValues(typeof(TripCategory));
     }

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Pages.AdminPage.Trip;
 
-public partial class AdminTripFilterModal : ComponentBase
+public partial class AdminTripModalFilter : ComponentBase
 {
     [Inject]
     private ToastService _toastService { get; set; } = default!;
@@ -32,7 +32,7 @@ public partial class AdminTripFilterModal : ComponentBase
     private Guid _modalTarget { get; set; }
     private TripCategory[] _tripCategories { get; set; } = default!;
 
-    public AdminTripFilterModal()
+    public AdminTripModalFilter()
     {
         _tripCategories = (TripCategory[])Enum.GetValues(typeof(TripCategory));
     }

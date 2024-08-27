@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Pages.AdminPage.Timesheet;
 
-public partial class AdminTimesheetFilterModal : ComponentBase
+public partial class AdminTimesheetModalFilter : ComponentBase
 {
     [Inject]
     private ToastService _toastService { get; set; } = default!;
@@ -26,7 +26,7 @@ public partial class AdminTimesheetFilterModal : ComponentBase
     private Modal _modal { get; set; } = new();
     private Guid _modalTarget { get; set; }
 
-    public AdminTimesheetFilterModal()
+    public AdminTimesheetModalFilter()
     {
     }
 

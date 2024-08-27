@@ -54,7 +54,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     private PayStatus[] _payStatuses { get; set; } = default!;
     private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
     private bool _isLoading { get; set; } = true;
-    private AdminTimesheetFilterModal _setupFilterModal { get; set; } = new();
+    private AdminTimesheetModalFilter _setupFilterModal { get; set; } = new();
     private MultiFilterTimesheetDTO _multiFilterTimesheetDTO { get; set; } = new();
     private List<TimesheetByCompanyGroupDTO> _timesheetListView { get; set; } = new();
     private List<TimesheetCalendarDTO> _timesheetCalendarView { get; set; } = new();

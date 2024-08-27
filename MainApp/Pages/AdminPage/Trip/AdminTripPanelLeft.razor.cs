@@ -39,8 +39,8 @@ public partial class AdminTripPanelLeft : ComponentBase
      */
     private AdminTripOffCanvas _setupOffCanvas { get; set; } = new();
     private AdminTripModal _setupModal { get; set; } = new();
-    private AdminTripFilterModal _setupFilterModal { get; set; } = new();
-    private AdminTripPrinterModal _setupPrinterModal { get; set; } = new();
+    private AdminTripModalFilter _setupFilterModal { get; set; } = new();
+    private AdminTripModalPrinter _setupPrinterModal { get; set; } = new();
 
     private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
     private bool _isLoading { get; set; } = true;
