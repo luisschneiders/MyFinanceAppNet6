@@ -284,7 +284,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
 
     private bool IsFilterApplied()
     {
-        if (_multiFilterTimesheetDTO.CompanyId.Count > 0)
+        if (_multiFilterTimesheetDTO.CompanyId.Count > 0 || _multiFilterTimesheetDTO.StatusId.Count > 0)
         {
             return true;
         }

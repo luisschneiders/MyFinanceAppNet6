@@ -7,4 +7,5 @@ public interface ITimesheetService<T> : IBaseService<T>
     public Task<decimal> GetSumByDateRange();
     public Task<double> GetSumTotalHours();
     public Task UpdateRecordPayStatus(T model);
+    public Task<List<CheckboxItemModel>> GetRecordsForFilter();
 }

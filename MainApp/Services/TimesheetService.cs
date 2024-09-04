@@ -251,15 +251,56 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         }
     }
 
+    public async Task<List<CheckboxItemModel>> GetRecordsForFilter()
+    {
+        try
+        {
+
+            PayStatus[] results = (PayStatus[])Enum.GetValues(typeof(PayStatus));
+
+            List<CheckboxItemModel> filter = new();
+
+            foreach (var (status, index) in results.Select((value, index) => (value, index)))
+            {
+                ulong statusValue = (ulong)index;
+                CheckboxItemModel filterItem = new()
+                {
+                    Id = statusValue,
+                    Description = status.ToString(),
+                };
+                filter.Add(filterItem);
+            }
+
+            return await Task.FromResult(filter);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     private async Task<List<TimesheetListDTO>> SetRecordsFilter(MultiFilterTimesheetDTO filter)
     {
         try
         {
-            if (filter.CompanyId.Count > 0)
+            if (filter.CompanyId.Count > 0 || filter.StatusId.Count > 0)
             {
                 List<TimesheetListDTO> recordsFiltered = new();
 
-                recordsFiltered = _recordsByDateRange.Where(t => filter.CompanyId.Contains(t.CompanyId)).ToList();
+                if (filter.CompanyId.Count > 0 && filter.StatusId.Count == 0) // Filter by Company only
+                {
+                    recordsFiltered = _recordsByDateRange.Where(t => filter.CompanyId.Contains(t.CompanyId)).ToList();
+                }
+                else if (filter.CompanyId.Count == 0 && filter.StatusId.Count > 0) // Filter by Status only
+                {
+                    recordsFiltered = _recordsByDateRange.Where(t => filter.StatusId.Contains((ulong)t.PayStatus)).ToList();
+                }
+                else // Filter by Company and Status
+                {
+                    recordsFiltered = _recordsByDateRange.Where(t => filter.CompanyId.Contains(t.CompanyId) && 
+                                                         filter.StatusId.Contains((ulong)t.PayStatus)).ToList();
+                }
 
                 _timesheetByDateRangeSum = recordsFiltered.Sum(t => t.TotalAmount);
 

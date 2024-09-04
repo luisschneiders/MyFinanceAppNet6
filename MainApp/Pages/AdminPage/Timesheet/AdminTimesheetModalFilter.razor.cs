@@ -14,6 +14,8 @@ public partial class AdminTimesheetModalFilter : ComponentBase
 
     [Inject]
     private ICompanyService<CompanyModel> _companyService { get; set; } = default!;
+    [Inject]
+    private ITimesheetService<TimesheetModel> _timesheetService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
@@ -23,6 +25,7 @@ public partial class AdminTimesheetModalFilter : ComponentBase
     
     private MultiFilterTimesheetDTO _multiFilterTimesheetDTO { get; set; } = new();
     private List<CheckboxItemModel> _companies { get; set; } = new();
+    private List<CheckboxItemModel> _statuses { get; set; } = new();
     private Modal _modal { get; set; } = new();
     private Guid _modalTarget { get; set; }
 
@@ -75,6 +78,7 @@ public partial class AdminTimesheetModalFilter : ComponentBase
         try
         {
             _companies = await _companyService.GetRecordsForFilter();
+            _statuses = await _timesheetService.GetRecordsForFilter();
         }
         catch (Exception ex)
         {
@@ -107,10 +111,20 @@ public partial class AdminTimesheetModalFilter : ComponentBase
 
         await Task.CompletedTask;
     }
+    private async Task RemoveDropdownFilterStatus()
+    {
+        _multiFilterTimesheetDTO.StatusId = new();
+        _statuses = await _dropDownMultiSelectService.UncheckAll(_statuses);
+
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTimesheetDTO);
+
+        await Task.CompletedTask;
+    }
 
     private async Task UncheckAll()
     {
         _companies = await _dropDownMultiSelectService.UncheckAll(_companies);
+        _statuses = await _dropDownMultiSelectService.UncheckAll(_statuses);
 
         await Task.CompletedTask;
     }
@@ -118,6 +132,7 @@ public partial class AdminTimesheetModalFilter : ComponentBase
     private async Task RemoveAllFilters()
     {
         _multiFilterTimesheetDTO.CompanyId = new();
+        _multiFilterTimesheetDTO.StatusId = new();
 
         await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTimesheetDTO);
 
@@ -137,6 +152,24 @@ public partial class AdminTimesheetModalFilter : ComponentBase
         {
             _multiFilterTimesheetDTO.CompanyId.Remove(id);
             company.IsChecked = false;
+        }
+
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTimesheetDTO);
+        await Task.CompletedTask;
+    }
+    private async void OnCheckboxChangedStatus(ChangeEventArgs e, ulong id)
+    {
+        CheckboxItemModel status = _statuses.FirstOrDefault(i => i.Id == id)!;
+
+        if (e.Value is true)
+        {
+            _multiFilterTimesheetDTO.StatusId.Add(id);
+            status.IsChecked = true;
+        }
+        else if (e.Value is false)
+        {
+            _multiFilterTimesheetDTO.StatusId.Remove(id);
+            status.IsChecked = false;
         }
 
         await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTimesheetDTO);
