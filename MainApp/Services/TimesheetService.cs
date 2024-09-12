@@ -19,7 +19,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
 
     private UserModel _loggedInUser { get; set; } = new();
     private List<TimesheetListDTO> _recordsByDateRange { get; set; } = new();
-    private decimal _timesheetByDateRangeSum { get; set; } = 0;
+    private TimesheetTotal _timesheetTotal { get; set; } = new();
 
     public TimesheetService(ITimesheetData<TimesheetModel> timesheetData,
                             IUserData userData,
@@ -154,12 +154,12 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
             if (filter.IsFilterChanged is true)
             {
                 recordsFiltered = await SetRecordsFilter(filter);
-                _timesheetByDateRangeSum = recordsFiltered.Sum(t => t.TotalAmount);
+                _timesheetTotal = new(recordsFiltered.Sum(t => t.TotalAmount), recordsFiltered.Sum(t => t.HoursWorked.TotalHours));
                 calendarData = await SetRecordsCalendarView(recordsFiltered);
             }
             else
             {
-                _timesheetByDateRangeSum = records.Sum(t => t.TotalAmount);
+                _timesheetTotal = new(records.Sum(t => t.TotalAmount), records.Sum(t => t.HoursWorked.TotalHours));
                 calendarData = await SetRecordsCalendarView(records);
             }
 
@@ -172,23 +172,17 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         }
     }
 
-    public async Task<decimal> GetSumByDateRange()
+    public async Task<TimesheetTotal> GetTotals()
     {
         try
         {
-            return await Task.FromResult(_timesheetByDateRangeSum);
+            return await Task.FromResult(_timesheetTotal);
         }
         catch (Exception ex)
         {
             Console.WriteLine("An exception occurred: " + ex.Message);
             throw;
         }
-    }
-
-    public async Task<double> GetSumTotalHours()
-    {
-        var totalHours = _recordsByDateRange.Sum(s => s.HoursWorked.TotalHours);
-        return await Task.FromResult(totalHours);
     }
 
     public Task<List<TimesheetModel>> GetSearchResults(string search)
@@ -302,13 +296,13 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
                                                          filter.StatusId.Contains((ulong)t.PayStatus)).ToList();
                 }
 
-                _timesheetByDateRangeSum = recordsFiltered.Sum(t => t.TotalAmount);
+                _timesheetTotal = new(recordsFiltered.Sum(t => t.TotalAmount), recordsFiltered.Sum(t => t.HoursWorked.TotalHours));
 
                 return await Task.FromResult(recordsFiltered);
             }
             else
             {
-                _timesheetByDateRangeSum = _recordsByDateRange.Sum(t => t.TotalAmount);
+                _timesheetTotal = new(_recordsByDateRange.Sum(t => t.TotalAmount), _recordsByDateRange.Sum(t => t.HoursWorked.TotalHours));
 
                 return await Task.FromResult(_recordsByDateRange);
             }
@@ -364,6 +358,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
             var results = resultsByGroup.Select(tGroup => new TimesheetByCompanyGroupDTO()
             {
                 Description = tGroup.Key,
+                TotalWorkHours = tGroup.Sum(h => h.HoursWorked.TotalHours),
                 TotalAmount = tGroup.Sum(a => a.TotalAmount),
                 Timesheets = tGroup.ToList()
             }).ToList();
@@ -385,7 +380,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
             var user = await GetLoggedInUser();
 
             _recordsByDateRange = await _timesheetData.GetRecordsByDateRange(user.Id, dateTimeRange);
-            _timesheetByDateRangeSum = _recordsByDateRange.Sum(t => t.TotalAmount);
+            _timesheetTotal = new(_recordsByDateRange.Sum(t => t.TotalAmount), _recordsByDateRange.Sum(t => t.HoursWorked.TotalHours));
 
             return _recordsByDateRange;
         }

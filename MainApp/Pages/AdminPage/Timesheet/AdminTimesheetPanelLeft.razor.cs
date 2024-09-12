@@ -62,7 +62,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     private string _viewType { get; set; } = ViewType.Calendar.ToString();
     private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
     private DateTime[][] _weeks { get; set; } = default!;
-    private decimal _sumByDateRange { get; set; }
+    private TimesheetTotal _timesheetTotal{ get; set; } = new();
 
     public AdminTimesheetPanelLeft()
     {
@@ -146,7 +146,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
 
             // await OnStateContainerSetValue.InvokeAsync();
 
-            _sumByDateRange = await _timesheetService.GetSumByDateRange();
+            _timesheetTotal = await _timesheetService.GetTotals();
             _isLoading = false;
         }
         catch (Exception ex)
@@ -291,6 +291,12 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         else{
             return false;
         }
+    }
+
+    static string FormatTimeSpan(TimeSpan timeSpan)
+    {
+        // Format the TimeSpan with days, hours, minutes, and seconds
+        return $"{timeSpan.Days} days, {timeSpan.Hours} hours, {timeSpan.Minutes} minutes";
     }
 
     // public void Dispose()
