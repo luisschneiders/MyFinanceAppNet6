@@ -11,6 +11,7 @@ public enum WeatherConditionType
     PatchyRainPossible = 1063,
     Fog = 1135,
     FreezingFog = 1147,
+    PatchyLightDrizzle = 1150,
     LightDrizzle = 1153,
     PatchyLightRain = 1180,
     LightRain = 1183,
