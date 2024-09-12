@@ -114,7 +114,7 @@
                                                 @record.Description
                                             </div>
                                             <div>
-                                                @record.Total Km
+                                                <Badge BackgroundColor="@Theme.Light" Message="@($"{record.Total.ToString()} Km")" />
                                             </div>
                                         </AccordionHeader>
                                         <AccordionBody Id="@index.ToString()" IsAlwaysOpen=true>
