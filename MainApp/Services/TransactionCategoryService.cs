@@ -39,6 +39,34 @@ public class TransactionCategoryService : ITransactionCategoryService<Transactio
         }
     }
 
+    public async Task<List<CheckboxItemModel>> GetRecordsForFilter()
+    {
+        try
+        {
+            var user = await GetLoggedInUser();
+            List<TransactionCategoryModel> results = await _transactionCategoryData.GetRecords(user.Id);
+
+            List<CheckboxItemModel> filter = new();
+
+            foreach (var item in results)
+            {
+                CheckboxItemModel filterItem = new()
+                {
+                    Id = item.Id,
+                    Description = item.Description,
+                };
+                filter.Add(filterItem);
+            }
+
+            return filter;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public async Task<List<TransactionCategoryModel>> GetSearchResults(string search)
     {
         try

@@ -15,33 +15,33 @@
         <div class="d-flex">
             <div class="d-flex bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) me-2">
                 <DropdownMultiSelect ButtonSize="Size.Sm"
-                            DropdownLabel="@Label.FilterByTransactionCategory"
-                            DropdownPosition="Position.Start"
-                            IconEnd="bi-chevron-down"
-                            IconStart="bi-currency-exchange">
-                    @foreach (var (transactionCategory, index) in _transactionCategories.Select((value, index) => (value, index)))
+                                DropdownLabel="@Label.FilterByVehicle"
+                                DropdownPosition="Position.Start"
+                                IconEnd="bi-chevron-down"
+                                IconStart="bi-truck">
+                    @foreach (var (vehicle, index) in _vehicles.Select((value, index) => (value, index)))
                     {
                         <li class="px-2 py-1">
                             <div class="form-check">
                                 <input class="form-check-input" 
                                         type="checkbox"
-                                        checked="@transactionCategory.IsChecked"
-                                        id="@($"transaction-category{transactionCategory.Id}")"
-                                        value="@(transactionCategory.Id)"
-                                        @onchange="(e) => OnCheckboxChangedTransaction(e, transactionCategory.Id)" />
-                                <label class="form-check-label" for="@($"transaction-category{transactionCategory.Id}")" title="@transactionCategory.Description">
-                                    @($"{transactionCategory.Description.Truncate((int)Truncate.TransactionCategory)}")
+                                        checked="@vehicle.IsChecked"
+                                        id="@($"vehicle-{vehicle.Id}")"
+                                        value="@(vehicle.Id)"
+                                        @onchange="(e) => OnCheckboxChangedVehicle(e, vehicle.Id)" />
+                                <label class="form-check-label" for="@($"vehicle-{vehicle.Id}")" title="@vehicle.Description">
+                                    @($"{vehicle.Description}")
                                 </label>
                             </div>
                         </li>
                     }
                 </DropdownMultiSelect>
-                @if (_multiFilterTransactionDTO.TCategoryId.Count > 0)
+                @if (_multiFilterTripDTO.VehicleId.Count > 0)
                 {
                     <div class="d-flex align-items-center">
                         <button class="btn btn-@(Size.Sm.ToString().ToLower()) text-@(Theme.Dark.ToString().ToLower())-emphasis"
                                 title="Clear filter"
-                                @onclick="RemoveDropdownFilterTransactionCategory">
+                                @onclick="RemoveDropdownFilterVehicle">
                                 <Badge BackgroundColor="@Theme.Light" Message="Clear Filter" />
                         </button>
                     </div>
@@ -49,33 +49,33 @@
             </div>
             <div class="d-flex bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) me-2">
                 <DropdownMultiSelect ButtonSize="Size.Sm"
-                                DropdownLabel="@Label.FilterByBank"
+                                DropdownLabel="@Label.FilterByTripCategory"
                                 DropdownPosition="Position.Start"
                                 IconEnd="bi-chevron-down"
-                                IconStart="bi-bank">
-                    @foreach (var (bank, index) in _banks.Select((value, index) => (value, index)))
+                                IconStart="bi-tag">
+                    @foreach (var (tripCategory, index) in _tripCategoryDTOs.Select((value, index) => (value, index)))
                     {
                         <li class="px-2 py-1">
                             <div class="form-check">
                                 <input class="form-check-input" 
                                         type="checkbox"
-                                        checked="@bank.IsChecked"
-                                        id="@($"bank-{bank.Id}")"
-                                        value="@(bank.Id)"
-                                        @onchange="(e) => OnCheckboxChangedBank(e, bank.Id)" />
-                                <label class="form-check-label" for="@($"bank-{bank.Id}")" title="@bank.Description">
-                                    @($"{bank.Description}")
+                                        checked="@tripCategory.IsChecked"
+                                        id="@($"trip-category-{tripCategory.Id}")"
+                                        value="@(tripCategory.Id)"
+                                        @onchange="(e) => OnCheckboxChangedTripCategory(e, tripCategory.Id)" />
+                                <label class="form-check-label" for="@($"trip-category-{tripCategory.Id}")" title="@tripCategory.Description">
+                                    @($"{tripCategory.Description}")
                                 </label>
                             </div>
                         </li>
                     }
                 </DropdownMultiSelect>
-                @if (_multiFilterTransactionDTO.FromBank.Count > 0)
+                @if (_multiFilterTripDTO.TCategoryId.Count > 0)
                 {
                     <div class="d-flex align-items-center">
                         <button class="btn btn-@(Size.Sm.ToString().ToLower()) text-@(Theme.Dark.ToString().ToLower())-emphasis"
                                 title="Clear filter"
-                                @onclick="RemoveDropdownFilterBank">
+                                @onclick="RemoveDropdownFilterTripCategory">
                                 <Badge BackgroundColor="@Theme.Light" Message="Clear Filter" />
                         </button>
                     </div>

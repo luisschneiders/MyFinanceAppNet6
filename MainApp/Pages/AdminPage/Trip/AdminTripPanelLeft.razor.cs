@@ -29,7 +29,7 @@ public partial class AdminTripPanelLeft : ComponentBase
 
     private DateTimeRange _dateTimeRange { get; set; } = new();
     private List<TripByVehicleGroupDTO> _tripsByGroup { get; set; } = new();
-    private FilterTripDTO _filterTripDTO { get; set; } = new();
+    private MultiFilterTripDTO _multiFilterTripDTO { get; set; } = new();
     private PayStatus[] _payStatuses { get; set; } = default!;
     private TripCategory[] _tripCategories { get; set; } = default!;
     private decimal _sumByDateRange { get; set; }
@@ -39,8 +39,8 @@ public partial class AdminTripPanelLeft : ComponentBase
      */
     private AdminTripOffCanvas _setupOffCanvas { get; set; } = new();
     private AdminTripModal _setupModal { get; set; } = new();
-    private AdminTripFilterModal _setupFilterModal { get; set; } = new();
-    private AdminTripPrinterModal _setupPrinterModal { get; set; } = new();
+    private AdminTripModalFilter _setupFilterModal { get; set; } = new();
+    private AdminTripModalPrinter _setupPrinterModal { get; set; } = new();
 
     private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
     private bool _isLoading { get; set; } = true;
@@ -55,6 +55,7 @@ public partial class AdminTripPanelLeft : ComponentBase
     {
         _dateTimeRange = _dateTimeService.GetCurrentMonth();
         _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
+
         await Task.CompletedTask;
     }
 
@@ -83,8 +84,8 @@ public partial class AdminTripPanelLeft : ComponentBase
     {
         try
         {
-            _filterTripDTO.DateTimeRange = _dateTimeRange;
-            _tripsByGroup = await _tripService.GetRecordsListView(_filterTripDTO);
+            _multiFilterTripDTO.DateTimeRange = _dateTimeRange;
+            _tripsByGroup = await _tripService.GetRecordsListView(_multiFilterTripDTO);
             _sumByDateRange = await _tripService.GetSumByDateRange();
             _isLoading = false;
         }
@@ -185,12 +186,13 @@ public partial class AdminTripPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task RefreshFilterList(FilterTripDTO filterTripDTO)
+    private async Task RefreshFilterList(MultiFilterTripDTO multiFilterTripDTO)
     {
-        _filterTripDTO = filterTripDTO;
-        _filterTripDTO.IsFilterChanged = true;
+        _multiFilterTripDTO = multiFilterTripDTO;
+        _multiFilterTripDTO.IsFilterChanged = true;
 
         await FetchDataAsync();
+
         await Task.CompletedTask;
     }
 
@@ -201,18 +203,21 @@ public partial class AdminTripPanelLeft : ComponentBase
         _toastService.ShowToast("Date range has changed!", Theme.Info);
 
         await RefreshList();
+
         await Task.CompletedTask;
     }
 
     private string UpdatePayStatusTitle(int id)
     {
         var title = _payStatuses[id];
+
         return title.ToString();
     }
 
     private string UpdateTripCategoryTitle(ulong id)
     {
         string? title;
+
         if (id == (int)TripCategory.NotSpecified)
         {
             title = Label.NotSpecified;
@@ -221,6 +226,7 @@ public partial class AdminTripPanelLeft : ComponentBase
         {
             title = _enumHelper.GetDescription(_tripCategories[id]);
         }
+
         return title;
     }
 
@@ -260,15 +266,16 @@ public partial class AdminTripPanelLeft : ComponentBase
 
     private async Task ResetAllFilters()
     {
-        _filterTripDTO = new();
+        _multiFilterTripDTO = new();
 
         await FetchDataAsync();
+
         await Task.CompletedTask;
     }
 
     private bool IsFilterApplied()
     {
-        if (_filterTripDTO.VehicleId != 0 || _filterTripDTO.TCategoryId != 0)
+        if (_multiFilterTripDTO.VehicleId.Count > 0 || _multiFilterTripDTO.TCategoryId.Count > 0)
         {
             return true;
         }

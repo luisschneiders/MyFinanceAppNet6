@@ -213,7 +213,7 @@
                                                 <BadgeColor RGBColor="@record.Color"
                                                             Description="@record.Description" />
                                                 <div>
-                                                    @record.Total.ToString("C")
+                                                    <Badge BackgroundColor="@Theme.Light" Message="@record.Total.ToString("C")" />
                                                 </div>
                                             </AccordionHeader>
                                             <AccordionBody Id="@index.ToString()">

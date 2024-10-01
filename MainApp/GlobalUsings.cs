@@ -14,6 +14,7 @@ global using MainApp.Components.CalendarView;
 global using MainApp.Components.Dropdown.Date;
 global using MainApp.Components.Dropdown.DateRange;
 global using MainApp.Components.Dropdown.Filter;
+global using MainApp.Components.Dropdown.MultiSelect;
 global using MainApp.Components.Chart.Bank;
 global using MainApp.Components.Chart.Expense;
 global using MainApp.Components.Chart.Transaction;

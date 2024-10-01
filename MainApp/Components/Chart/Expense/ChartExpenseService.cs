@@ -1,14 +1,17 @@
-﻿using MyFinanceAppLibrary.Models;
-
-namespace MainApp.Components.Chart.Expense; 
+﻿namespace MainApp.Components.Chart.Expense; 
 
 public class ChartExpenseService : IChartExpenseService
 {
     private IExpenseService<ExpenseModel> _expenseService { get; set; } = default!;
 
-    public ChartExpenseService(IExpenseService<ExpenseModel> expenseService)
+    private IExpenseCategoryService<ExpenseCategoryModel> _expenseCategoryService { get; set; } = default!;
+    
+    public ChartExpenseService(
+        IExpenseService<ExpenseModel> expenseService, 
+        IExpenseCategoryService<ExpenseCategoryModel> expenseCategoryService)
     {
         _expenseService = expenseService;
+        _expenseCategoryService = expenseCategoryService;
     }
 
     public async Task<ChartConfigData> ConfigDataLast3Months()
@@ -59,21 +62,15 @@ public class ChartExpenseService : IChartExpenseService
         }
     }
 
-    public async Task<ChartConfigData> ConfigDataByMonth(FilterExpenseByMonthDTO filter)
+    public async Task<ChartConfigData> ConfigDataByMonth(MultiFilterExpenseByMonthDTO filter)
     {
         try
         {
             List<ExpenseListGroupByMonthDTO> expenses = new();
-            List<ExpenseListGroupByMonthDTO> expensesFiltered = new();
 
             expenses = await _expenseService.GetRecordsGroupByMonth(filter.DateTimeRange);
 
-            if (filter.IsFilterChanged is true)
-            {
-                expensesFiltered = expenses.Where(e => e.ECategoryId == filter.ExpenseCategoryModel.Id).ToList();
-            }
-
-            ChartConfigData chartConfigData = await SetConfigDataByMonth(expensesFiltered);
+            ChartConfigData chartConfigData = await SetConfigDataByMonth(expenses, filter);
 
             return chartConfigData;
 
@@ -85,47 +82,82 @@ public class ChartExpenseService : IChartExpenseService
         }
     }
 
-    private static async Task<ChartConfigData> SetConfigDataByMonth(List<ExpenseListGroupByMonthDTO> expenses)
+    private async Task<ChartConfigData> SetConfigDataByMonth(List<ExpenseListGroupByMonthDTO> expenses, MultiFilterExpenseByMonthDTO filter)
     {
         try
         {
+            List<ExpenseListGroupByMonthDTO> expensesFiltered = new();
             ChartConfigData chartConfigData = new();
-            ChartConfigDataset chartConfigDataset = new();
+            ChartConfigDataset chartConfigDataset = new()
+            {
+                Label = "Select expense",
+                Data = new List<string>(),
+            };
 
             List<string> chartLabels = await LabelHelper.GetMonths();
-            ExpenseChartData expenseChartData = await SetByMonth();
+            ExpenseChartData expenseChartData = new();
 
             chartConfigData.Labels = chartLabels;
 
-            if (expenses.Count > 0)
+            if (filter.IsFilterChanged is true)
             {
-                foreach (var (item, index) in chartLabels.Select((value, index) => (value, index)))
+                chartConfigData.Datasets.Remove(chartConfigDataset);
+
+                if (expenses.Count > 0)
                 {
-                    var i = index + 1;
-                    var record = expenses.Find(e => e.MonthNumber == i);
-
-                    if (i == record?.MonthNumber)
+                    foreach (var id in filter.ECategoryId)
                     {
-                        expenseChartData.Records[index] = record.TotalAmount.ToString();
+                        chartConfigDataset = new();
+                        expenseChartData = await SetByMonth();
+                        expensesFiltered = expenses.Where(e => e.ECategoryId == id).ToList();
+
+                        if (expensesFiltered.Count > 0)
+                        {
+                            foreach (var (item, index) in chartLabels.Select((value, index) => (value, index)))
+                            {
+                                var i = index + 1;
+                                var record = expensesFiltered.Find(e => e.MonthNumber == i);
+
+                                if (i == record?.MonthNumber)
+                                {
+                                    expenseChartData.Records[index] = record.TotalAmount.ToString();
+                                }
+                            }
+
+                            chartConfigDataset.Label = expensesFiltered[0].ECategoryDescription;
+                            chartConfigDataset.BackgroundColor.Add($"rgba({expensesFiltered[0].ECategoryColor},0.2)");
+                            chartConfigDataset.BorderColor.Add($"rgb({expensesFiltered[0].ECategoryColor})");
+                            chartConfigDataset.Data = expenseChartData.Records;
+
+                            chartConfigData.Datasets.Add(chartConfigDataset);
+
+                        }
+                        else
+                        {
+                            ExpenseCategoryModel expenseCategory = await _expenseCategoryService.GetRecordById(id.ToString());
+
+                            chartConfigDataset.Label = expenseCategory.Description;
+                            chartConfigDataset.BackgroundColor.Add($"rgba({expenseCategory.Color},0.2)");
+                            chartConfigDataset.BorderColor.Add($"rgb({expenseCategory.Color})");
+                            chartConfigDataset.Data = new List<string>();
+                            chartConfigData.Datasets.Add(chartConfigDataset);
+                        }
+
                     }
+
+                    return await Task.FromResult(chartConfigData);
                 }
-
-                chartConfigDataset.Label = expenses[0].ECategoryDescription;
-                chartConfigDataset.BackgroundColor.Add(BackgroundColor.Blue);
-                chartConfigDataset.BorderColor.Add(BorderColor.Blue);
-                chartConfigDataset.Data = expenseChartData.Records;
-
-                chartConfigData.Datasets.Add(chartConfigDataset);
-
-                return chartConfigData;
+                else
+                {
+                    return await Task.FromResult(chartConfigData);
+                }
             }
             else
             {
-                chartConfigDataset.Label = "Select expense";
                 chartConfigData.Datasets.Add(chartConfigDataset);
-
                 return await Task.FromResult(chartConfigData);
             }
+
         }
         catch (Exception ex)
         {

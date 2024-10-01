@@ -10,43 +10,28 @@ public partial class AdminExpenseModalFilter : ComponentBase
     private ToastService _toastService { get; set; } = default!;
 
     [Inject]
-    private IDropdownFilterService _dropdownFilterService { get; set; } = default!;
-
-    [Inject]
     private IExpenseCategoryService<ExpenseCategoryModel> _expenseCategoryService { get; set; } = default!;
 
     [Inject]
     private IBankService<BankModel> _bankService { get; set; } = default!;
 
+    [Inject]
+    private IDropdownMultiSelectService _dropDownMultiSelectService { get;set; } = default!;
+
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
 
     [Parameter]
-    public EventCallback<FilterExpenseDTO> OnSubmitFilterSuccess { get; set; }
+    public EventCallback<MultiFilterExpenseDTO> OnSubmitFilterSuccess { get; set; }
 
-    private FilterModel _filterExpenseCategoryModel { get; set; } = new();
-    private FilterModel _filterBankModel { get; set; } = new();
-    private FilterExpenseDTO _filterExpenseDTO { get; set; } = new();
-    private ExpenseCategoryModel _filterExpenseCategory { get; set; } = new();
-    private BankModel _filterBank { get; set; } = new();
-    private List<ExpenseCategoryModel> _expenseCategories { get; set; } = new();
-    private List<BankModel> _banks { get; set; } = new();
+    private MultiFilterExpenseDTO _multiFilterExpenseDTO { get; set; } = new();
+    private List<CheckboxItemModel> _expenseCategories { get; set; } = new();
+    private List<CheckboxItemModel> _banks { get; set; } = new();
     private Modal _modal { get; set; } = new();
     private Guid _modalTarget { get; set; }
 
-    private string _dropdownFilterLabelExpense { get; set; } = Label.NoFilterAssigned;
-    private string _dropdownFilterLabelBank { get; set; } = Label.NoFilterAssigned;
-
     public AdminExpenseModalFilter()
     {
-    }
-
-    protected async override Task OnInitializedAsync()
-    {
-        _dropdownFilterLabelExpense = await _dropdownFilterService.UpdateLabel(Label.FilterByExpenseCategory);
-        _dropdownFilterLabelBank = await _dropdownFilterService.UpdateLabel(Label.FilterByBank);
-
-        await Task.CompletedTask;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -93,8 +78,8 @@ public partial class AdminExpenseModalFilter : ComponentBase
     {
         try
         {
-            _expenseCategories = await _expenseCategoryService.GetRecords();
-            _banks = await _bankService.GetRecords();
+            _expenseCategories = await _expenseCategoryService.GetRecordsForFilter();
+            _banks = await _bankService.GetRecordsForFilter();
         }
         catch (Exception ex)
         {
@@ -110,81 +95,87 @@ public partial class AdminExpenseModalFilter : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task ResetDropdownFilterExpenseCategory()
-    {
-        await RemoveDropdownFilterExpenseCategory();
-        
-        _toastService.ShowToast("Filter for expense removed!", Theme.Info);
-
-        await OnSubmitFilterSuccess.InvokeAsync(_filterExpenseDTO);
-        await Task.CompletedTask;
-    }
-
-    private async Task ResetDropdownFilterBank()
-    {
-        await RemoveDropdownFilterBank();
-        
-        _toastService.ShowToast("Filter for bank removed!", Theme.Info);
-
-        await OnSubmitFilterSuccess.InvokeAsync(_filterExpenseDTO);
-        await Task.CompletedTask;
-    }
-
-
     private async Task ResetAllFilters()
     {
-        await RemoveDropdownFilterBank();
-        await RemoveDropdownFilterExpenseCategory();
+        await UncheckAll();
+        await RemoveAllFilters();
+
         await Task.CompletedTask;
     }
 
     private async Task RemoveDropdownFilterBank()
     {
-        _filterBank = new();
-        _filterExpenseDTO.BankId = 0;
-        _filterBankModel = await _dropdownFilterService.ResetModel();
-        _dropdownFilterLabelBank = await _dropdownFilterService.UpdateLabel(Label.FilterByBank);
+        _multiFilterExpenseDTO.BankId = new();
+        _banks = await _dropDownMultiSelectService.UncheckAll(_banks);
+
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterExpenseDTO);
 
         await Task.CompletedTask;
     }
 
     private async Task RemoveDropdownFilterExpenseCategory()
     {
-        _filterExpenseCategory = new();
-        _filterExpenseDTO.ECategoryId = 0;
-        _filterExpenseCategoryModel = await _dropdownFilterService.ResetModel();
-        _dropdownFilterLabelExpense = await _dropdownFilterService.UpdateLabel(Label.FilterByExpenseCategory);
+        _multiFilterExpenseDTO.ECategoryId = new();
+        _expenseCategories = await _dropDownMultiSelectService.UncheckAll(_expenseCategories);
+
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterExpenseDTO);
 
         await Task.CompletedTask;
     }
 
-    private async Task RefreshDropdownFilterExpenseCategory(ulong id)
+    private async Task UncheckAll()
     {
-        _filterExpenseDTO.ECategoryId = id;
-        _filterExpenseCategory = _expenseCategories.First(i => i.Id == id);
-        string? expenseName = _filterExpenseCategory.Description.Truncate((int)Truncate.ExpenseCategory);
+        _banks = await _dropDownMultiSelectService.UncheckAll(_banks);
+        _expenseCategories = await _dropDownMultiSelectService.UncheckAll(_expenseCategories);
 
-        _filterExpenseCategoryModel = await _dropdownFilterService.SetModel(_filterExpenseCategory.Id, _filterExpenseCategory.Description);
-
-        _dropdownFilterLabelExpense = await _dropdownFilterService.UpdateLabel(expenseName!);
-        _toastService.ShowToast("Filter updated!", Theme.Info);
-
-        await OnSubmitFilterSuccess.InvokeAsync(_filterExpenseDTO);
         await Task.CompletedTask;
     }
 
-    private async Task RefreshDropdownFilterBank(ulong id)
+    private async Task RemoveAllFilters()
     {
-        _filterExpenseDTO.BankId = id;
-        _filterBank = _banks.First(i => i.Id == id);
-        string? bankName = _filterBank.Description.Truncate((int)Truncate.Bank);
+        _multiFilterExpenseDTO.BankId = new();
+        _multiFilterExpenseDTO.ECategoryId = new();
 
-        _filterBankModel = await _dropdownFilterService.SetModel(_filterBank.Id, _filterBank.Description);
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterExpenseDTO);
 
-        _dropdownFilterLabelBank = await _dropdownFilterService.UpdateLabel(bankName!);
-        _toastService.ShowToast("Filter updated!", Theme.Info);
+        await Task.CompletedTask;
+    }
 
-        await OnSubmitFilterSuccess.InvokeAsync(_filterExpenseDTO);
+    private async void OnCheckboxChangedExpense(ChangeEventArgs e, ulong id)
+    {
+        CheckboxItemModel expense = _expenseCategories.FirstOrDefault(i => i.Id == id)!;
+
+        if (e.Value is true)
+        {
+            _multiFilterExpenseDTO.ECategoryId.Add(id);
+            expense.IsChecked = true;
+        }
+        else if (e.Value is false)
+        {
+            _multiFilterExpenseDTO.ECategoryId.Remove(id);
+            expense.IsChecked = false;
+        }
+
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterExpenseDTO);
+        await Task.CompletedTask;
+    }
+
+    private async void OnCheckboxChangedBank(ChangeEventArgs e, ulong id)
+    {
+        CheckboxItemModel bank = _banks.FirstOrDefault(i => i.Id == id)!;
+
+        if (e.Value is true)
+        {
+            _multiFilterExpenseDTO.BankId.Add(id);
+            bank.IsChecked = true;
+        }
+        else if (e.Value is false)
+        {
+            _multiFilterExpenseDTO.BankId.Remove(id);
+            bank.IsChecked = false;
+        }
+
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterExpenseDTO);
         await Task.CompletedTask;
     }
 }

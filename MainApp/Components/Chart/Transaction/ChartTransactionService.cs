@@ -1,4 +1,6 @@
-﻿namespace MainApp.Components.Chart.Transaction;
+﻿using System.Globalization;
+
+namespace MainApp.Components.Chart.Transaction;
 
 public class ChartTransactionService : IChartTransactionService
 {
@@ -72,6 +74,8 @@ public class ChartTransactionService : IChartTransactionService
             List<TransactionIOGraphByMonthDTO> incomes = transactions.Where(t => t.Label == "C").ToList();
             List<TransactionIOGraphByMonthDTO> outcomes = transactions.Where(t => t.Label == "D").ToList();
 
+            chartConfigData.Labels = chartLabels;
+
             if (transactions.Count > 0)
             {
                 foreach (var (item, index) in chartLabels.Select((value, index) => (value, index)))
@@ -95,8 +99,6 @@ public class ChartTransactionService : IChartTransactionService
                         transactionChartData.Outcome[index] = record.TotalAmount.ToString();
                     }
                 }
-
-                chartConfigData.Labels = chartLabels;
 
                 //Incomes data
                 chartConfigDataset.Label = "Income";
@@ -218,16 +220,30 @@ public class ChartTransactionService : IChartTransactionService
 
             if (transactions.Count > 0)
             {
-                for (int index = 0; index <= 2; index++)
-                {
-                    if (incomes.Count > 0)
-                    {
-                        transactionChartData.Income[index] = incomes[index].TotalAmount.ToString();
-                    }
 
-                    if (outcomes.Count > 0)
+                foreach (var (item, index) in chartLabels.Select((value, index) => (value, index)))
+                {
+                    DateTime date = DateTime.ParseExact(item, "M/yyyy", CultureInfo.InvariantCulture);
+                    int month = date.Month;
+
+                    var record = incomes.Find(m => m.MonthNumber == month);
+
+                    if (month == record?.MonthNumber)
                     {
-                        transactionChartData.Outcome[index] = outcomes[index].TotalAmount.ToString();
+                        transactionChartData.Income[index] = record.TotalAmount.ToString();
+                    }
+                }
+
+                foreach (var (item, index) in chartLabels.Select((value, index) => (value, index)))
+                {
+                    DateTime date = DateTime.ParseExact(item, "M/yyyy", CultureInfo.InvariantCulture);
+                    int month = date.Month;
+
+                    var record = outcomes.Find(m => m.MonthNumber == month);
+
+                    if (month == record?.MonthNumber)
+                    {
+                        transactionChartData.Outcome[index] = record.TotalAmount.ToString();
                     }
                 }
 
@@ -242,9 +258,10 @@ public class ChartTransactionService : IChartTransactionService
                 chartConfigData.Datasets.Add(chartConfigDataset);
 
                 //Outcomes data
-                chartConfigDataset = new();
-
-                chartConfigDataset.Label = "Outcome";
+                chartConfigDataset = new()
+                {
+                    Label = "Outcome"
+                };
                 chartConfigDataset.BackgroundColor.Add(BackgroundColor.Red);
                 chartConfigDataset.BorderColor.Add(BorderColor.Red);
                 chartConfigDataset.Data = transactionChartData.Outcome;

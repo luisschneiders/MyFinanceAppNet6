@@ -35,5 +35,6 @@
     .modal.show .modal-dialog, .accordion-body {
         background-color: white !important;
         color: black !important;
+        padding: 0;
     }
 }

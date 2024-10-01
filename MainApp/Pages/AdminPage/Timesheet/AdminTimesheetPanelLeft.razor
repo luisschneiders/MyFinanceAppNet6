@@ -125,7 +125,7 @@
                                                 Total<span class="d-none d-lg-block ps-1">amount for the period</span>
                                             </div>
                                             <span class="app-expense-sum-me fw-semibold px-1 text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)">
-                                                @_sumByDateRange.ToString("C")
+                                                @_timesheetTotal.Amount.ToString("C")
                                             </span>
                                         </div>
                                     </CalendarSubHeaderWrapper>
@@ -199,7 +199,7 @@
                                         Total<span class="d-none d-lg-block ps-1">amount for the period</span>
                                     </div>
                                     <span class="pe-5 app-trip-sum-me">
-                                        @_sumByDateRange.ToString("C")
+                                        @_timesheetTotal.Amount.ToString("C")
                                     </span>
                                 </div>
                                 <Accordion Id="Timesheets">
@@ -211,7 +211,12 @@
                                                     @record.Description
                                                 </div>
                                                 <div>
-                                                    @record.TotalAmount.ToString("C")
+                                                    <span class="pe-4">
+                                                        <Badge BackgroundColor="@Theme.Warning" Message="@FormatTimeSpan(TimeSpan.FromHours(record.TotalWorkHours))" />
+                                                    </span>
+                                                    <span>
+                                                        <Badge BackgroundColor="@Theme.Light" Message="@record.TotalAmount.ToString("C")" />
+                                                    </span>
                                                 </div>
                                             </AccordionHeader>
                                             <AccordionBody Id="@index.ToString()" IsAlwaysOpen=true>
@@ -340,4 +345,4 @@
     </CardMiddle>
 </CardView>
 <AdminTimesheetOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
-<AdminTimesheetFilterModal @ref="_setupFilterModal" OnSubmitFilterSuccess="filter => RefreshFilterList(filter)" />
+<AdminTimesheetModalFilter @ref="_setupFilterModal" OnSubmitFilterSuccess="filter => RefreshFilterList(filter)" />

@@ -34,36 +34,24 @@ public partial class AdminExpensePanelLeft : ComponentBase
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
 
-    // Add OffCanvas component reference
+    /*
+     * Add component reference
+     */
     private AdminExpenseOffCanvas _setupOffCanvas { get; set; } = new();
-
-    // Add Modal component reference
     private AdminExpenseModal _setupModal { get; set; } = new();
-
-    /*
-     * Add Filter Modal component reference
-     */
     private AdminExpenseModalFilter _setupFilterModal { get; set; } = new();
-
-    /*
-     * Add Expense Details Modal component reference
-     */
     private AdminExpenseModalDetails _setupExpenseModalDetails { get; set; } = new();
 
     private DateTimeRange _dateRange { get; set; } = new();
     private DateTimeRange _dateCalendar { get; set; } = new();
-
     private List<ExpenseByCategoryGroupDTO> _expensesListView { get; set; } = new();
     private List<ExpenseCalendarDTO> _expensesCalendarView { get; set; } = new();
-    private FilterExpenseDTO _filterExpenseDTO { get; set; } = new();
+    private MultiFilterExpenseDTO _multiFilterExpenseDTO { get; set; } = new();
     private string _viewType { get; set; } = ViewType.Calendar.ToString();
     private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
     private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
-
     private DateTime[][] _weeks { get; set; } = default!;
-
     private decimal _expensesTotal { get; set; } = 0;
-
     private bool _isLoading { get; set; } = true;
 
     public AdminExpensePanelLeft()
@@ -123,14 +111,14 @@ public partial class AdminExpensePanelLeft : ComponentBase
         {
             if (_viewType == ViewType.Calendar.ToString())
             {
-                _filterExpenseDTO.DateTimeRange = _dateCalendar;
-                _expensesCalendarView = await _expenseService.GetRecordsCalendarView(_filterExpenseDTO);
+                _multiFilterExpenseDTO.DateTimeRange = _dateCalendar;
+                _expensesCalendarView = await _expenseService.GetRecordsCalendarView(_multiFilterExpenseDTO);
                 _weeks = await _calendarViewService.Build(_dateCalendar);
             }
             else if (_viewType == ViewType.List.ToString())
             {
-                _filterExpenseDTO.DateTimeRange = _dateRange;
-                _expensesListView = await _expenseService.GetRecordsListView(_filterExpenseDTO);
+                _multiFilterExpenseDTO.DateTimeRange = _dateRange;
+                _expensesListView = await _expenseService.GetRecordsListView(_multiFilterExpenseDTO);
             }
 
             _expensesTotal = await _expenseService.GetRecordsByDateRangeSum();
@@ -208,10 +196,10 @@ public partial class AdminExpensePanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task RefreshFilterList(FilterExpenseDTO filterExpenseDTO)
+    private async Task RefreshFilterList(MultiFilterExpenseDTO multiFilterExpenseDTO)
     {
-        _filterExpenseDTO = filterExpenseDTO;
-        _filterExpenseDTO.IsFilterChanged = true;
+        _multiFilterExpenseDTO = multiFilterExpenseDTO;
+        _multiFilterExpenseDTO.IsFilterChanged = true;
 
         await FetchDataAsync();
         await Task.CompletedTask;
@@ -239,7 +227,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
 
     private async Task ResetAllFilters()
     {
-        _filterExpenseDTO = new();
+        _multiFilterExpenseDTO = new();
 
         await FetchDataAsync();
         await Task.CompletedTask;
@@ -247,7 +235,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
 
     private bool IsFilterApplied()
     {
-        if (_filterExpenseDTO.BankId != 0 || _filterExpenseDTO.ECategoryId != 0)
+        if (_multiFilterExpenseDTO.BankId.Count > 0 || _multiFilterExpenseDTO.ECategoryId.Count > 0)
         {
             return true;
         }

@@ -2,5 +2,5 @@
 
 public interface IFinnhubService
 {
-    Task<Response<List<FinnhubNewsModel>>> GetNewsAsync();
+    public Task<Response<List<FinnhubNewsModel>>> GetNewsAsync();
 }

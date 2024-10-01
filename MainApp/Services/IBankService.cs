@@ -2,5 +2,6 @@
 
 public interface IBankService<T> : IBaseService<T>
 {
-    Task<BankBalanceSumDTO> GetBankBalancesSum();
+    public Task<BankBalanceSumDTO> GetBankBalancesSum();
+    public Task<List<CheckboxItemModel>> GetRecordsForFilter();
 }

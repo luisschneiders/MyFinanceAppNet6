@@ -2,7 +2,7 @@
 
 public interface IDropdownFilterService
 {
-    Task<FilterModel> SetModel(ulong id, string description);
-    Task<FilterModel> ResetModel();
-    Task<string> UpdateLabel(string description);
+    public Task<FilterModel> SetModel(ulong id, string description);
+    public Task<FilterModel> ResetModel();
+    public Task<string> UpdateLabel(string description);
 }

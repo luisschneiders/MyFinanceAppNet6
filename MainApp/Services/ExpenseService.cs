@@ -116,7 +116,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         }
     }
 
-    public async Task<List<ExpenseByCategoryGroupDTO>> GetRecordsListView(FilterExpenseDTO filter)
+    public async Task<List<ExpenseByCategoryGroupDTO>> GetRecordsListView(MultiFilterExpenseDTO filter)
     {
         try
         {
@@ -145,7 +145,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         }
     }
 
-    public async Task<List<ExpenseCalendarDTO>> GetRecordsCalendarView(FilterExpenseDTO filter)
+    public async Task<List<ExpenseCalendarDTO>> GetRecordsCalendarView(MultiFilterExpenseDTO filter)
     {
         try
         {
@@ -345,26 +345,26 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         }
     }
 
-    private async Task<List<ExpenseListDTO>> SetRecordsFilter(FilterExpenseDTO filter)
+    private async Task<List<ExpenseListDTO>> SetRecordsFilter(MultiFilterExpenseDTO filter)
     {
         try
         {
-            if (filter.BankId > 0 || filter.ECategoryId > 0)
+            if (filter.BankId.Count > 0 || filter.ECategoryId.Count > 0)
             {
                 List<ExpenseListDTO> recordsFiltered = new();
 
-                if (filter.BankId > 0 && filter.ECategoryId == 0) // Filter by Bank only
+                if (filter.BankId.Count > 0 && filter.ECategoryId.Count == 0) // Filter by Bank only
                 {
-                    recordsFiltered = _recordsByDateRange.Where(e => e.BankId == filter.BankId).ToList();
+                    recordsFiltered = _recordsByDateRange.Where(e => filter.BankId.Contains(e.BankId)).ToList();
                 }
-                else if (filter.BankId == 0 && filter.ECategoryId > 0) // Filter by Expense only
+                else if (filter.BankId.Count == 0 && filter.ECategoryId.Count > 0) // Filter by Expense only
                 {
-                    recordsFiltered = _recordsByDateRange.Where(e => e.ECategoryId == filter.ECategoryId).ToList();
+                    recordsFiltered = _recordsByDateRange.Where(e => filter.ECategoryId.Contains(e.ECategoryId)).ToList();
                 }
                 else // Filter by Bank and Expense
                 {
-                    recordsFiltered = _recordsByDateRange.Where(e => e.BankId == filter.BankId && 
-                                                         e.ECategoryId == filter.ECategoryId).ToList();
+                    recordsFiltered = _recordsByDateRange.Where(e => filter.BankId.Contains(e.BankId) && 
+                                                         filter.ECategoryId.Contains(e.ECategoryId)).ToList();
                 }
 
                 return await Task.FromResult(recordsFiltered);

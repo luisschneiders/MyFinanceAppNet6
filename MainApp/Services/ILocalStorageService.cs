@@ -2,8 +2,8 @@
 
 public interface ILocalStorageService
 {
-    Task<T> GetAsync<T>(string key);
-    Task RemoveAsync(string key);
-    Task SetAsync<T>(string key, T value);
-    Task ClearAsync();
+    public Task<T> GetAsync<T>(string key);
+    public Task RemoveAsync(string key);
+    public Task SetAsync<T>(string key, T value);
+    public Task ClearAsync();
 }

@@ -2,8 +2,8 @@
 
 public interface IEssentialsAPIService
 {
-    HttpClient CreateHttpClient();
-    Task<Response<string>> GetTokenWithBasicAuthAsync();
-    Task<string> GetBaseUrl();
-    Task<bool> IsTokenExpired();
+    public HttpClient CreateHttpClient();
+    public Task<Response<string>> GetTokenWithBasicAuthAsync();
+    public Task<string> GetBaseUrl();
+    public Task<bool> IsTokenExpired();
 }
