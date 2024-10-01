@@ -59,7 +59,7 @@ BEGIN
 			`UpdatedAt`
 		)
 		VALUES (
-			expenseEDate,
+            DATE(expenseEDate),
 			expenseBankId,
 			transactionTCategoryId,
 			transactionAction,
@@ -85,7 +85,7 @@ BEGIN
 			`UpdatedAt`
 		)
 		VALUES (
-			expenseEDate,
+			DATE(expenseEDate),
 			expenseBankId,
 			expenseECategoryId,
 			expenseComments,
@@ -100,7 +100,7 @@ BEGIN
         
         IF (expenseLocationId is not null OR expenseLocationId != '') THEN
 			CALL spLocationExpense_Create(
-				expenseEDate,
+                DATE(expenseEDate),
 				lastInsertedExpenseId,
 				expenseLocationId,
 				expenseLocationAddress,
