@@ -14,11 +14,16 @@ BEGIN
 		ec.Description AS ExpenseCategoryDescription,
         ec.Color AS ExpenseCategoryColor,
 		e.Comments,
+		CASE
+			WHEN e.TaxCategoryId <> 0 THEN (e.Amount * taxc.Rate / (100 + taxc.Rate))
+			ELSE 0
+		END AS TaxAmount,
 		e.Amount,
 		e.IsActive
 	FROM Expense e
-	JOIN Bank b ON b.Id = e.BankId
-    JOIN ExpenseCategory ec ON ec.Id = e.ECategoryId
+	LEFT JOIN Bank b ON b.Id = e.BankId
+    LEFT JOIN ExpenseCategory ec ON ec.Id = e.ECategoryId
+	LEFT JOIN TaxCategory taxc ON taxc.Id = e.TaxCategoryId
 	WHERE e.UpdatedBy = userId
 		AND (date(e.EDate) >= date(startDate) AND date(e.EDate) <= date(endDate))
         AND e.IsActive = TRUE
