@@ -14,8 +14,6 @@ public class CompanyService : ICompanyService<CompanyModel>
     [Inject]
     private IUserData _userData { get; set; } = default!;
 
-    private UserModel _loggedInUser { get; set; } = new();
-
     public CompanyService(ICompanyData<CompanyModel> companyData, IUserData userData, AuthenticationStateProvider authProvider)
     {
         _companyData = companyData;
@@ -195,7 +193,7 @@ public class CompanyService : ICompanyService<CompanyModel>
 
     private async Task<UserModel> GetLoggedInUser()
     {
-        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
+        return await _authProvider.GetUserFromAuth(_userData);
     }
 
     public async Task<decimal> GetHourRate(string modelId)

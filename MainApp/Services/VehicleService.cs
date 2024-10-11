@@ -14,8 +14,6 @@ public class VehicleService : IVehicleService<VehicleModel>
     [Inject]
     private IUserData _userData { get; set; } = default!;
 
-    private UserModel _loggedInUser { get; set; } = new();
-
     public VehicleService(IVehicleData<VehicleModel> vehicleData, IUserData userData, AuthenticationStateProvider authProvider)
     {
         _vehicleData = vehicleData;
@@ -180,7 +178,7 @@ public class VehicleService : IVehicleService<VehicleModel>
 
     private async Task<UserModel> GetLoggedInUser()
     {
-        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
+        return await _authProvider.GetUserFromAuth(_userData);
     }
 
     public async Task<List<VehicleModel>> GetRecordsActive()

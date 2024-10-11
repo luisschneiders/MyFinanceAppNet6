@@ -15,8 +15,6 @@ public class TaxCategoryService : ITaxCategoryService<TaxCategoryModel>
     [Inject]
     private IUserData _userData { get; set; } = default!;
 
-    private UserModel _loggedInUser { get; set; } = new();
-
     public TaxCategoryService(ITaxCategoryData<TaxCategoryModel> taxCategoryData, IUserData userData, AuthenticationStateProvider authProvider)
     {
         _taxCategoryData = taxCategoryData;
@@ -196,6 +194,6 @@ public class TaxCategoryService : ITaxCategoryService<TaxCategoryModel>
 
     private async Task<UserModel> GetLoggedInUser()
     {
-        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
+        return await _authProvider.GetUserFromAuth(_userData);
     }
 }
