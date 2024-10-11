@@ -221,14 +221,17 @@
                                                     <table class="table table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th class="col-2">
+                                                                <th class="col-1">
                                                                     Date
                                                                 </th>
                                                                 <th class="col-3">
                                                                     Debit from
                                                                 </th>
-                                                                <th class="col-5">
+                                                                <th class="col-4">
                                                                     Comments
+                                                                </th>
+                                                                <th class="col-2 text-end">
+                                                                    Tax amount
                                                                 </th>
                                                                 <th class="col-2 text-end">
                                                                     Amount
@@ -260,6 +263,9 @@
                                                                         </td>
                                                                         <td>
                                                                             @record.Comments
+                                                                        </td>
+                                                                        <td class="text-end">
+                                                                            @record.TaxAmount.ToString("C")
                                                                         </td>
                                                                         <td class="text-end">
                                                                             @record.Amount.ToString("C")

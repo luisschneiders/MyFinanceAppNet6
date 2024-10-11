@@ -11,6 +11,7 @@ public class ExpenseListDTO : BaseModel
     public string ExpenseCategoryDescription { get; }
     public string ExpenseCategoryColor { get; }
     public string Comments { get; }
+    public decimal TaxAmount { get; }
     public decimal Amount { get; }
 #nullable enable
 }

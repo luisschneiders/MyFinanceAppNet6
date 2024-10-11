@@ -46,6 +46,7 @@ public class ExpenseData : IExpenseData<ExpenseModel>
                     expenseEDate = model.EDate,
                     expenseBankId = model.BankId,
                     expenseECategoryId = model.ECategoryId,
+                    expenseTaxCategoryId = model.TaxCategoryId,
                     expenseComments = model.Comments,
                     expenseAmount = model.Amount,
                     expenseLocationId = model.Location.Id,

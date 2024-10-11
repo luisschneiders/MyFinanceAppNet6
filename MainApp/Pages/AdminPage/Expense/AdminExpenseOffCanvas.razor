@@ -116,6 +116,30 @@
                     }
                 </div>
                 <div class="form-floating pb-2">
+                    @if (_isLoading)
+                    {
+                        <span>Loading...</span>
+                    }
+                    else
+                    {
+                        <InputSelect id="TaxCategoryId"
+                                     @attributes="_inputFormSelectAttributes"
+                                     @oninput="OnValueChangedTaxCategory"
+                                     @bind-Value="_expenseModel.TaxCategoryId"
+                                     title="If selected, it will display the claimable tax applied to the purchase">
+                            <option value="0">-- Select Tax --</option>
+                            @foreach (var (tax, index) in _activeTaxCategories.Select((value, index) => (value, index)))
+                            {
+                                <option value="@tax.Id"> @($"{tax.Description}") </option>
+                            }
+                        </InputSelect>
+                        <label for="TaxCategoryId">
+                            Tax
+                            <sup><i class="bi bi-info-circle-fill text-info-emphasis"></i></sup>
+                        </label>
+                    }
+                </div>
+                <div class="form-floating pb-2">
                     <InputText id="Comments"
                                @attributes="_inputFormControlAttributes"
                                placeholder="Comments"
