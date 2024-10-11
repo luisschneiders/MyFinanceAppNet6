@@ -40,7 +40,7 @@ public class TaxCategoryData : ITaxCategoryData<TaxCategoryModel>
                 new
                 {
                     taxCategoryDescription = model.Description,
-                    taxCategoryActionType = model.Rate,
+                    taxCategoryRate = model.Rate,
                     taxCategoryUpdatedBy = model.UpdatedBy,
                     taxCategoryCreatedAt = model.CreatedAt,
                     taxCategoryUpdatedAt = model.UpdatedAt,
@@ -146,7 +146,7 @@ public class TaxCategoryData : ITaxCategoryData<TaxCategoryModel>
                 {
                     taxCategoryId = model.Id,
                     taxCategoryDescription = model.Description,
-                    taxCategoryActionType = model.Rate,
+                    taxCategoryRate = model.Rate,
                     taxCategoryIsActive = model.IsActive,
                     taxCategoryUpdatedBy = model.UpdatedBy,
                     taxCategoryUpdatedAt = model.UpdatedAt,
