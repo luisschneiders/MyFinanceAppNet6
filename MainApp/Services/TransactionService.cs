@@ -14,8 +14,6 @@ public class TransactionService : ITransactionService<TransactionModel>
     [Inject]
     private IUserData _userData { get; set; } = default!;
 
-    private UserModel _loggedInUser { get; set; } = new();
-
     private List<TransactionListDTO> _recordsByDateRange { get; set; } = new();
 
     public TransactionService(
@@ -394,6 +392,6 @@ public class TransactionService : ITransactionService<TransactionModel>
 
     private async Task<UserModel> GetLoggedInUser()
     {
-        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
+        return await _authProvider.GetUserFromAuth(_userData);
     }
 }

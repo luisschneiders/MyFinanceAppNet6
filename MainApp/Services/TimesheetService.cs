@@ -17,7 +17,6 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
     [Inject]
     ICompanyService<CompanyModel> _companyService { get; set; } = default!;
 
-    private UserModel _loggedInUser { get; set; } = new();
     private List<TimesheetListDTO> _recordsByDateRange { get; set; } = new();
     private TimesheetTotal _timesheetTotal { get; set; } = new();
 
@@ -393,6 +392,6 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
 
     private async Task<UserModel> GetLoggedInUser()
     {
-        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
+        return await _authProvider.GetUserFromAuth(_userData);
     }
 }

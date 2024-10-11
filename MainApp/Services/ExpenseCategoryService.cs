@@ -15,8 +15,6 @@ public class ExpenseCategoryService : IExpenseCategoryService<ExpenseCategoryMod
     [Inject]
     private IUserData _userData { get; set; } = default!;
 
-    private UserModel _loggedInUser { get; set; } = new();
-
     public ExpenseCategoryService(IExpenseCategoryData<ExpenseCategoryModel> expenseCategoryData, IUserData userData, AuthenticationStateProvider authProvider)
     {
         _expenseCategoryData = expenseCategoryData;
@@ -197,7 +195,7 @@ public class ExpenseCategoryService : IExpenseCategoryService<ExpenseCategoryMod
 
     private async Task<UserModel> GetLoggedInUser()
     {
-        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
+        return await _authProvider.GetUserFromAuth(_userData);
     }
 
     private static async Task<string> SetRandomColor()

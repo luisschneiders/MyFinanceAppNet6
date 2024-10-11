@@ -14,8 +14,6 @@ public class TransactionCategoryService : ITransactionCategoryService<Transactio
     [Inject]
     private IUserData _userData { get; set; } = default!;
 
-    private UserModel _loggedInUser { get; set; } = new();
-
     public TransactionCategoryService(ITransactionCategoryData<TransactionCategoryModel> transactionCategoryData, IUserData userData, AuthenticationStateProvider authProvider)
     {
         _transactionCategoryData = transactionCategoryData;
@@ -180,7 +178,7 @@ public class TransactionCategoryService : ITransactionCategoryService<Transactio
 
     private async Task<UserModel> GetLoggedInUser()
     {
-        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
+        return await _authProvider.GetUserFromAuth(_userData);
     }
 
     public async Task<List<TransactionCategoryModel>> GetRecordsActive()

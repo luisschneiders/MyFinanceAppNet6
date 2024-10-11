@@ -18,8 +18,6 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     [Inject]
     private IUserData _userData { get; set; } = default!;
 
-    private UserModel _loggedInUser { get; set; } = new();
-
     private List<ExpenseListDTO> _recordsByDateRange { get; set; } = new();
 
     private decimal _expensesByDateRangeSum { get; set; } = 0;
@@ -313,7 +311,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
 
     private async Task<UserModel> GetLoggedInUser()
     {
-        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
+        return await _authProvider.GetUserFromAuth(_userData);
     }
 
     private static Task<string> BuildLocation(List<LocationExpenseDTO> locations)

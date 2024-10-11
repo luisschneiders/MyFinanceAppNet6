@@ -4,7 +4,8 @@
     window.startAnimation = () => {
         const count = 200;
         const defaults = {
-          origin: { y: 0.7 }
+          origin: { y: 0.7 },
+          zIndex: 1050
         };
 
         function fire(particleRatio, opts) {

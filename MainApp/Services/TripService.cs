@@ -14,8 +14,6 @@ public class TripService : ITripService<TripModel>
     [Inject]
     private IUserData _userData { get; set; } = default!;
 
-    private UserModel _loggedInUser { get; set; } = new();
-
     private List<TripListDTO> _recordsByDateRange { get; set; } = new();
     private decimal _tripDistanceByDateRangeSum { get; set; } = 0;
 
@@ -269,6 +267,6 @@ public class TripService : ITripService<TripModel>
 
     private async Task<UserModel> GetLoggedInUser()
     {
-        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
+        return await _authProvider.GetUserFromAuth(_userData);
     }
 }

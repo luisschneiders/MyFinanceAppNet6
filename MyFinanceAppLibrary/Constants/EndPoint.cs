@@ -26,6 +26,7 @@ public static class EndPoint
     public const string SetupBank = $"{Setup}/bank";
     public const string SetupCompany = $"{Setup}/company";
     public const string SetupExpense = $"{Setup}/expense";
+    public const string SetupTax = $"{Setup}/tax";
     public const string SetupTransaction = $"{Setup}/transaction";
     public const string SetupVehicle = $"{Setup}/vehicle";
 
