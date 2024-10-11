@@ -1,0 +1,41 @@
+﻿@page "/setup/tax"
+
+@using MainApp.Components.Page
+@using MainApp.Components.Card
+@using MainApp.Components.Message
+@using MainApp.Components.Breadcrumb
+@using MainApp.Components.Badge
+
+<div class="container-lg">
+    <AuthorizeView Policy="Admin">
+        <Authorized>
+            <PageWrapper>
+
+                <PageTopView>
+                    <PageTopWrapper>
+                        <div class="d-flex align-items-baseline">
+                            <i class="bi bi-receipt text-info-emphasis pe-1 fs-5" /><PageTopTitle Title="Setup Tax" />
+                        </div>
+                        <Breadcrumb AppPageLink="@EndPoint.SetupTax" />
+                    </PageTopWrapper>
+                </PageTopView>
+
+                <PageMiddleView>
+                    <PageMiddleWrapper>
+                        <div class="row">
+                            <div class="col-12">
+                                <SetupTaxCategoryPanelLeft />
+                            </div>
+                        </div>
+                    </PageMiddleWrapper>
+                </PageMiddleView>
+
+                <PageBottomView />
+
+            </PageWrapper>
+        </Authorized>
+        <NotAuthorized>
+            <NotAuthorizedMessage />
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
