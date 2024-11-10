@@ -1,0 +1,208 @@
+﻿@using MainApp.Components.Badge.Color
+@using MainApp.Components.Card
+@using MainApp.Components.Dropdown.Actions
+@using MainApp.Components.Spinner
+
+<CardView Styles="border-0">
+    <CardMiddle>
+        <div class="row flex-row-reverse justify-content-between pb-2">
+            <div class="col-2 col-md-2 col-lg-2 d-flex justify-content-end pb-2">
+                <DropdownActions DropdownPosition="Position.End"
+                                 ButtonSize="Size.Sm">
+                    <li class="px-2">
+                        <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
+                                @onclick="() => AddRecordAsync()">
+                            <i class="bi bi-plus-lg pe-1"></i>New Tax Category
+                        </button>
+                    </li>
+                </DropdownActions>
+            </div>
+            <div class="col-10 col-md-8 col-lg-6 pb-2">
+                <div class="row">
+                    <div class="col-8 col-md-8">
+                        <input type="text"
+                               class="form-control form-control-@(Size.Sm.ToString().ToLower()) @("rounded"+_appSettings.Button)"
+                               placeholder="Search here..."
+                               aria-label="search"
+                               @bind-value="_searchTerm"
+                               @oninput="SearchTermAsync">
+
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary @("rounded"+_appSettings.Button)"
+                                @onclick="() => SearchAsync()"
+                                disabled="@(_searchButtonEnabled ? false : true)">
+                            <span class="d-md-none">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <span class="d-none d-md-block">
+                                Search
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive app-page-responsive-height">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="col-7">
+                                    Description
+                                </th>
+                                <th class="col-3 text-end">
+                                    Rate
+                                </th>
+                                <th class="col" colspan="3">
+                                    Status
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (_isSearching)
+                            {
+                                foreach (var record in _searchResults)
+                                {
+                                    <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
+                                        <td>
+                                            @record.Description
+                                        </td>
+                                        <td class="text-end">
+                                            @($"{record.Rate.ToString("0.00")} %")
+                                        </td>
+                                        <td>
+                                            <div class="form-check form-switch">
+                                                @if (record.IsActive)
+                                                {
+                                                    <input class="form-check-input"
+                                                           type="checkbox"
+                                                           role="switch"
+                                                           id="IsActive-@(record.Id)"
+                                                           checked
+                                                           @onclick="() => UpdateStatusAsync(record)" />
+                                                }
+                                                else
+                                                {
+                                                    <input class="form-check-input"
+                                                           type="checkbox"
+                                                           role="switch"
+                                                           id="IsActive-@(record.Id)"
+                                                           @onclick="() => UpdateStatusAsync(record)" />
+                                                }
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <button class="btn btn-link p-0 text-info"
+                                                    type="button"
+                                                    title="View details"
+                                                    @onclick="() => ViewRecordAsync(record)">
+                                                <i class="bi bi-eye-fill"></i>
+
+                                            </button>
+                                        </td>
+                                        <td class="text-center">
+                                            <button class="btn btn-link p-0 text-danger"
+                                                    type="button"
+                                                    title="Edit"
+                                                    @onclick="() => EditRecordAsync(record)">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                @if (_isLoading)
+                                {
+                                    <tr>
+                                        <td class="text-center" colspan="4">
+                                            <div>
+                                                <Spinner Size="Size.Sm" />
+                                                <span>
+                                                    Loading ...
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+
+                                    @if (_taxCategories.Count <= 0)
+                                    {
+                                        <tr>
+                                            <td class="text-center" colspan="4">
+                                                <div>
+                                                    @Label.NoRecordFound
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        foreach (var record in _taxCategories)
+                                        {
+                                            <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
+                                                <td>
+                                                    @record.Description
+                                                </td>
+                                                <td class="text-end">
+                                                    @($"{record.Rate.ToString("0.00")} %")
+                                                </td>
+                                                <td>
+                                                    <div class="form-check form-switch">
+                                                        @if (record.IsActive)
+                                                        {
+                                                            <input class="form-check-input"
+                                                                   type="checkbox"
+                                                                   role="switch"
+                                                                   id="IsActive-@(record.Id)"
+                                                                   checked
+                                                                   @onclick="() => UpdateStatusAsync(record)" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input class="form-check-input"
+                                                                   type="checkbox"
+                                                                   role="switch"
+                                                                   id="IsActive-@(record.Id)"
+                                                                   @onclick="() => UpdateStatusAsync(record)" />
+                                                        }
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-link p-0 text-info"
+                                                            type="button"
+                                                            title="View details"
+                                                            @onclick="() => ViewRecordAsync(record)">
+                                                        <i class="bi bi-eye-fill"></i>
+
+                                                    </button>
+                                                </td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-link p-0 text-danger"
+                                                            type="button"
+                                                            title="Edit"
+                                                            @onclick="() => EditRecordAsync(record)">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </CardMiddle>
+</CardView>
+@if (_isLoading is false)
+{
+    <SetupTaxCategoryOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" DataModel="_taxCategoryModel" AppSettings="_appSettings" />
+}

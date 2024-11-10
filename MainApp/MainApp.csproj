@@ -54,6 +54,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Pages/SetupPage/TaxCategory/" />
     <Folder Include="Pages\SetupPage\" />
     <Folder Include="Services\" />
     <Folder Include="Pages\SetupPage\Bank\" />

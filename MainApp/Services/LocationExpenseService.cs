@@ -14,8 +14,6 @@ public class LocationExpenseService : ILocationExpenseService<LocationExpenseMod
     [Inject]
     private IUserData _userData { get; set; } = default!;
 
-    private UserModel _loggedInUser { get; set; } = new();
-
     public LocationExpenseService(
         ILocationExpenseData<LocationExpenseModel> locationExpenseData,
         IUserData userData,
@@ -43,6 +41,6 @@ public class LocationExpenseService : ILocationExpenseService<LocationExpenseMod
 
     private async Task<UserModel> GetLoggedInUser()
     {
-        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
+        return await _authProvider.GetUserFromAuth(_userData);
     }
 }

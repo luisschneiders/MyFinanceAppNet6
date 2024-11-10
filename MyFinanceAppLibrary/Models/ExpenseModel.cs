@@ -16,6 +16,8 @@ public class ExpenseModel : BaseModel, IValidatableObject
     [Range(1, int.MaxValue, ErrorMessage = "The Expense field is required.")]
     public ulong ECategoryId { get; set; }
 
+    public ulong TaxCategoryId { get; set; }
+
     [Required]
     public string Comments { get; set; }
 
@@ -30,8 +32,9 @@ public class ExpenseModel : BaseModel, IValidatableObject
     public LocationModel Location { get; set; } = new();
 
     // For validation only, not part of the schema - start
-    public ExpenseCategoryModel ExpenseCategoryModel { get; set; } = new();
     public BankModel BankModel { get; set; } = new();
+    public ExpenseCategoryModel ExpenseCategoryModel { get; set; } = new();
+    public TaxCategoryModel TaxCategoryModel { get; set; } = new();
     // For validation only, not part of the schema - end
 #nullable enable
 

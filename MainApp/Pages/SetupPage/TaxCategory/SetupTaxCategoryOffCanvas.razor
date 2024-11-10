@@ -1,0 +1,109 @@
+﻿@using MainApp.Components.OffCanvas
+@using MainApp.Components.Dropdown.Actions
+@using MainApp.Components.Badge
+
+<OffCanvas @ref="_offCanvasService.OffCanvas" PositionX="Position.End">
+    <EditForm Model="@_taxCategoryModel"
+              OnValidSubmit="@HandleValidSubmitAsync"
+              OnInvalidSubmit="@HandleInvalidSubmitAsync"
+              autocomplete="off">
+        <ObjectGraphDataAnnotationsValidator />
+        <div class="row align-items-center">
+            <div class="col my-4">
+                <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing tax...")" />
+            </div>
+            @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                  _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
+            {
+                <div class="col my-4 d-flex justify-content-end">
+                    <DropdownActions ButtonColor="Theme.Danger">
+                        <li class="px-2">
+                            <button class="dropdown-item rounded text-@(Theme.Danger.ToString().ToLower())-emphasis"
+                                    @onclick="ArchiveAsync">
+                                <i class="bi bi-archive pe-1"></i>Archive
+                            </button>
+                        </li>
+                    </DropdownActions>
+                </div>
+            }
+        </div>
+        <div class="row pb-4">
+            <div class="col-12">
+                <div class="form-floating pb-2">
+                    <InputText @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlPlainTextAttributes : _inputFormControlAttributes)"
+                               id="TaxCategoryDescription"
+                               placeholder="Description"
+                               readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
+                               @bind-Value="_taxCategoryModel.Description" />
+                    <label for="TaxCategoryDescription">Description</label>
+                </div>
+                <div class="form-floating pb-2">
+                    <InputNumber @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlPlainTextAttributes : _inputFormControlAttributes)"
+                                 id="Rate"
+                                 min="0.00"
+                                 placeholder="Rate"
+                                 readonly="@(_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ? true: false)"
+                                 @bind-Value="_taxCategoryModel.Rate" />
+                    <label for="Rate">Rate (%)</label>
+                </div>
+            </div>
+        </div>
+        @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
+        {
+            <div class="row pb-4">
+                <div class="col-12 d-flex align-items-start">
+                    <div class="form-check form-switch form-check-reverse">
+                        <label class="form-check-label" for="IsActive">Active?</label>
+                        <InputCheckbox class="form-check-input"
+                                       type="checkbox"
+                                       role="switch"
+                                       id="IsActive"
+                                       @bind-Value="_taxCategoryModel.IsActive" />
+                    </div>
+                </div>
+            </div>
+        }
+        @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add || _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
+        {
+        @if (_displayErrorMessages)
+            {
+            <div class="row">
+                <div class="col-12">
+                    <ValidationSummary />
+                </div>
+            </div>
+            }
+        }
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary w-100 @("rounded"+AppSettings.Button)"
+                        @onclick="() => CloseOffCanvasAsync()">
+                    Cancel
+                </button>
+            </div>
+            @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add || _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
+            {
+                <div class="col-6">
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-primary w-100 @("rounded"+AppSettings.Button)"
+                            disabled="@(_isProcessing ? true : false)"
+                            type="submit">
+                        @(_isProcessing ? "Saving..." : "Save")
+                    </button>
+                </div>
+            }
+            else if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View)
+            {
+                <div class="col-6">
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary w-100 @("rounded"+AppSettings.Button)"
+                            type="button"
+                            @onclick="UpdateFormStateAsync">
+                        Edit
+                    </button>
+                </div>
+            }
+        </div>
+    </EditForm>
+</OffCanvas>

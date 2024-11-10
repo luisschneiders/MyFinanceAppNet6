@@ -15,6 +15,8 @@ public partial class AdminExpenseOffCanvas : ComponentBase
 
     [Inject]
     private IExpenseCategoryService<ExpenseCategoryModel> _expenseCategoryService { get; set; } = default!;
+    [Inject]
+    private ITaxCategoryService<TaxCategoryModel> _taxCategoryService { get; set; } = default!;
 
     [Inject]
     private IOffCanvasService _offCanvasService { get; set; } = default!;
@@ -35,6 +37,7 @@ public partial class AdminExpenseOffCanvas : ComponentBase
     private LocationModel _locationModel { get; set; } = new();
     private List<BankModel> _activeBanks { get; set; } = new();
     private List<ExpenseCategoryModel> _activeExpenseCategories { get; set; } = new();
+    private List<TaxCategoryModel> _activeTaxCategories { get; set; } = new();
     private List<LocationModel> _locationlist { get; set; } = new();
 
     private Dictionary<string, object> _inputFormControlAttributes = default!;
@@ -109,6 +112,7 @@ public partial class AdminExpenseOffCanvas : ComponentBase
         {
             _activeBanks = await _bankService.GetRecordsActive();
             _activeExpenseCategories = await _expenseCategoryService.GetRecordsActive();
+            _activeTaxCategories = await _taxCategoryService.GetRecordsActive();
             _isLoading = false;
             StateHasChanged();
         }
@@ -155,6 +159,28 @@ public partial class AdminExpenseOffCanvas : ComponentBase
             if (categotyId != 0)
             {
                 _expenseModel.ExpenseCategoryModel = _activeExpenseCategories.Find(c => c.Id == categotyId);
+            }
+            else
+            {
+                _expenseModel.ExpenseCategoryModel = new();
+            }
+
+            StateHasChanged();
+        }
+
+        await Task.CompletedTask;
+    }
+    private async void OnValueChangedTaxCategory(ChangeEventArgs args)
+    {
+        var valueChanged = args?.Value;
+
+        if (valueChanged is not null)
+        {
+            ulong categotyId = ulong.Parse(valueChanged.ToString()!);
+
+            if (categotyId != 0)
+            {
+                _expenseModel.TaxCategoryModel = _activeTaxCategories.Find(c => c.Id == categotyId);
             }
             else
             {

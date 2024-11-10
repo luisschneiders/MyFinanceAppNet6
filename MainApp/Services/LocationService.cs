@@ -15,8 +15,6 @@ public class LocationService : ILocationService<UserLocationModel>
     [Inject]
     private IUserData _userData { get; set; } = default!;
 
-    private UserModel _loggedInUser { get; set; } = new();
-
     public LocationService(ILocationData<UserLocationModel> locationData, IUserData userData, AuthenticationStateProvider authProvider)
     {
         _locationData = locationData;
@@ -58,6 +56,6 @@ public class LocationService : ILocationService<UserLocationModel>
 
     private async Task<UserModel> GetLoggedInUser()
     {
-        return _loggedInUser = await _authProvider.GetUserFromAuth(_userData);
+        return await _authProvider.GetUserFromAuth(_userData);
     }
 }
