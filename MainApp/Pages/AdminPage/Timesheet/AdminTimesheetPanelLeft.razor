@@ -7,6 +7,7 @@
 @using MainApp.Components.Dropdown.Date
 @using MainApp.Components.Dropdown.DateRange
 @using MainApp.Components.Dropdown.Filter
+@using MainApp.Components.Dropdown.MultiSelect
 @using MainApp.Components.Spinner
 
 <CardView Styles="border-0">
@@ -79,6 +80,34 @@
                                 }
                         </div>
                     </div>
+                    @if (_viewType == ViewType.List.ToString())
+                    {
+                        <div class="ps-2 d-none d-lg-flex">
+                            <DropdownMultiSelect ButtonSize="Size.Sm"
+                                            DropdownLabel="@Label.AppTableColumns"
+                                            DropdownPosition="Position.Start"
+                                            IconEnd="bi-chevron-down"
+                                            IconStart="bi-layout-three-columns">
+                                @foreach (var (column, index) in _tableColumns.Select((value, index) => (value, index)))
+                                {
+                                    <li class="px-2 py-1">
+                                        <div class="form-check">
+                                            <input class="form-check-input"
+                                                    type="checkbox"
+                                                    checked="@column.IsChecked"
+                                                    disabled="@(column.IsDisabled)"
+                                                    id="@($"timesheet-column-{column.Id}")"
+                                                    value="@(column.Id)"
+                                                    @onchange="(e) => OnCheckboxChangedColumns(e, column.Id)" />
+                                            <label class="form-check-label" for="@($"timesheet-column-{column.Id}")" title="@column.Description">
+                                                @($"{column.Description.Truncate((int)Truncate.ColumnTimesheet)}")
+                                            </label>
+                                        </div>
+                                    </li>
+                                }
+                            </DropdownMultiSelect>
+                        </div>
+                    }
                 }
             </div>
             <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
@@ -224,33 +253,12 @@
                                                     <table class="table table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th class="col text-nowrap">
-                                                                    Date
-                                                                </th>
-                                                                <th class="col text-nowrap">
-                                                                    Clock in
-                                                                </th>
-                                                                <th class="col text-nowrap">
-                                                                    Break
-                                                                </th>
-                                                                <th class="col text-nowrap">
-                                                                    Clock out
-                                                                </th>
-                                                                <th class="col text-nowrap">
-                                                                    Work hours
-                                                                </th>
-                                                                <th class="col text-nowrap">
-                                                                    Overtime
-                                                                </th>
-                                                                <th class="col text-nowrap text-end">
-                                                                    Total
-                                                                </th>
-                                                                <th class="col text-nowrap" colspan="2">
-                                                                    Pay Status
-                                                                </th>
-                                                                <th class="col text-nowrap">
-                                                                    Comments
-                                                                </th>
+                                                                @foreach (var (column, index) in _tableColumns.Select((value, index) => (value, index)))
+                                                                {
+                                                                    <th class="@(column.CssClass) @(column.IsChecked ? "":"d-none")" colspan="@(column.Colspan)">
+                                                                        @column.Description
+                                                                    </th>
+                                                                }
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -268,19 +276,19 @@
                                                                 foreach (var record in _timesheetListView[index].Timesheets)
                                                                 {
                                                                     <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
-                                                                        <td class="text-nowrap">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetDate)!.IsChecked ? "":"d-none")">
                                                                             @record.TimeIn.ToString("ddd, dd/MM/yy")
                                                                         </td>
-                                                                        <td class="text-nowrap">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetClockIn)!.IsChecked ? "":"d-none")">
                                                                             @record.TimeIn.ToString("t")
                                                                         </td>
-                                                                        <td class="text-nowrap">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetBreak)!.IsChecked ? "":"d-none")">
                                                                             @($"{record.TimeBreak}m")
                                                                         </td>
-                                                                        <td class="text-nowrap">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetClockOut)!.IsChecked ? "":"d-none")">
                                                                             @record.TimeOut.ToString("t")
                                                                         </td>
-                                                                        <td class="text-nowrap">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetWorkHours)!.IsChecked ? "":"d-none")">
                                                                             @record.HoursWorked.ToString("h'h 'm'm '")
                                                                             @if (record.IsActive == false)
                                                                             {
@@ -289,13 +297,13 @@
                                                                                 </sup>
                                                                             }
                                                                         </td>
-                                                                        <td>
+                                                                        <td class="@(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetOvertime)!.IsChecked ? "":"d-none")">
                                                                             @record.Overtime.ToString("h'h 'm'm '")
                                                                         </td>
-                                                                        <td class="text-nowrap text-end">
+                                                                        <td class="text-nowrap text-end @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetTotal)!.IsChecked ? "":"d-none")">
                                                                             @record.TotalAmount.ToString("C")
                                                                         </td>
-                                                                        <td class="text-nowrap">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetPayStatus)!.IsChecked ? "":"d-none")">
                                                                             <DropdownActions Title="@UpdatePayStatusTitle(record.PayStatus)"
                                                                                             ButtonSize="Size.Sm"
                                                                                             IconEnd="bi-chevron-down"
@@ -315,7 +323,7 @@
                                                                                 }
                                                                             </DropdownActions>
                                                                         </td>
-                                                                        <td class="text-center">
+                                                                        <td class="text-center @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetEdit)!.IsChecked ? "":"d-none")">
                                                                             <button class="btn btn-link p-0 text-danger"
                                                                                     type="button"
                                                                                     title="Edit"
@@ -323,7 +331,7 @@
                                                                                 <i class="bi bi-pencil"></i>
                                                                             </button>
                                                                         </td>
-                                                                        <td class="text-nowrap">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetComments)!.IsChecked ? "":"d-none")">
                                                                             @record.Comments
                                                                         </td>
                                                                     </tr>

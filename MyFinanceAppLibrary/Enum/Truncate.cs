@@ -6,6 +6,7 @@ public enum Truncate
     LastName = 12,
     Bank = 15,
     Company = Bank,
+    ColumnTimesheet = Bank,
     ShortMonthName = 3,
     ExpenseCategory = 20,
     TransactionCategory = ExpenseCategory

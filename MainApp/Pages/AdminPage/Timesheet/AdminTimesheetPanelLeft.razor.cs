@@ -63,10 +63,21 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
     private DateTime[][] _weeks { get; set; } = default!;
     private TimesheetTotal _timesheetTotal{ get; set; } = new();
+    private List<TableColumn> _tableColumns { get; set;} = new();
 
     public AdminTimesheetPanelLeft()
     {
         _payStatuses = (PayStatus[])Enum.GetValues(typeof(PayStatus));
+        _tableColumns.Add(new TableColumn{Id=1, Description=Label.TimesheetDate, IsChecked=true, IsDisabled=true, CssClass="col text-nowrap", Colspan=""});
+        _tableColumns.Add(new TableColumn{Id=2, Description=Label.TimesheetClockIn, IsChecked=true, IsDisabled=true, CssClass="col text-nowrap", Colspan=""});
+        _tableColumns.Add(new TableColumn{Id=3, Description=Label.TimesheetBreak, IsChecked=true, IsDisabled=false, CssClass="col text-nowrap", Colspan=""});
+        _tableColumns.Add(new TableColumn{Id=4, Description=Label.TimesheetClockOut, IsChecked=true, IsDisabled=true, CssClass="col text-nowrap", Colspan=""});
+        _tableColumns.Add(new TableColumn{Id=5, Description=Label.TimesheetWorkHours, IsChecked=true, IsDisabled=true, CssClass="col text-nowrap", Colspan=""});
+        _tableColumns.Add(new TableColumn{Id=6, Description=Label.TimesheetOvertime, IsChecked=true, IsDisabled=false, CssClass="col text-nowrap", Colspan=""});
+        _tableColumns.Add(new TableColumn{Id=7, Description=Label.TimesheetTotal, IsChecked=true, IsDisabled=false, CssClass="col text-nowrap text-end", Colspan=""});
+        _tableColumns.Add(new TableColumn{Id=8, Description=Label.TimesheetPayStatus, IsChecked=true, IsDisabled=false, CssClass="col text-nowrap", Colspan=""});
+        _tableColumns.Add(new TableColumn{Id=9, Description=Label.TimesheetEdit, IsChecked=true, IsDisabled=true, CssClass="col text-nowrap text-center", Colspan=""});
+        _tableColumns.Add(new TableColumn{Id=10, Description=Label.TimesheetComments, IsChecked=true, IsDisabled=false, CssClass="col text-nowrap", Colspan=""});
     }
 
     protected async override Task OnInitializedAsync()
@@ -297,6 +308,22 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     {
         // Format the TimeSpan with days, hours, minutes, and seconds
         return $"{timeSpan.Days} days, {timeSpan.Hours} hours, {timeSpan.Minutes} minutes";
+    }
+
+    private async void OnCheckboxChangedColumns(ChangeEventArgs e, int id)
+    {
+        TableColumn timesheetColumn = _tableColumns.FirstOrDefault(i => i.Id == id)!;
+
+        if (e.Value is true)
+        {
+            timesheetColumn.IsChecked = true;
+        }
+        else if (e.Value is false)
+        {
+            timesheetColumn.IsChecked = false;
+        }
+
+        await Task.CompletedTask;
     }
 
     // public void Dispose()
