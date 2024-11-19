@@ -20,18 +20,27 @@
 
         var mode = window.matchMedia('(prefers-color-scheme: light)').matches ? 'dark' : 'light';
 
-        return mode;
+        return capitalizeWord(mode);
     };
 
     const setTheme = function (theme) {
-        if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        var color = theme;
+        if (color.toLowerCase() === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             document.documentElement.setAttribute('data-bs-theme', 'dark')
             localStorage.setItem(key, JSON.stringify(theme));
         } else {
-            document.documentElement.setAttribute('data-bs-theme', theme)
+            document.documentElement.setAttribute('data-bs-theme', color.toLowerCase())
             localStorage.setItem(key, JSON.stringify(theme));
         }
     };
+
+    const capitalizeWord = function (str) {
+        return str
+            .toLowerCase() // Convert the string to lowercase
+            .split(' ') // Split the string into words
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
+            .join(' '); // Join the words back together
+    }
 
     setTheme(getPreferredTheme());
 
