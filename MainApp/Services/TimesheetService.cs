@@ -17,18 +17,23 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
     [Inject]
     ICompanyService<CompanyModel> _companyService { get; set; } = default!;
 
+    [Inject]
+    ILocalStorageService _localStorageService{ get; set; } = default!;
+
     private List<TimesheetListDTO> _recordsByDateRange { get; set; } = new();
     private TimesheetTotal _timesheetTotal { get; set; } = new();
 
     public TimesheetService(ITimesheetData<TimesheetModel> timesheetData,
                             IUserData userData,
                             AuthenticationStateProvider authProvider,
-                            ICompanyService<CompanyModel> companyService)
+                            ICompanyService<CompanyModel> companyService,
+                            ILocalStorageService localStorageService)
     {
         _timesheetData = timesheetData;
         _userData = userData;
         _authProvider = authProvider;
         _companyService = companyService;
+        _localStorageService = localStorageService;
     }
 
     public async Task ArchiveRecord(TimesheetModel model)
@@ -265,6 +270,93 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
             }
 
             return await Task.FromResult(filter);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<string> GetLocalStorageViewType()
+    {
+        try
+        {
+            string? localStorage = await _localStorageService.GetAsync<string>(LocalStorage.AppTimesheetView);
+
+            return await Task.FromResult(localStorage!);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<List<TableColumn>> GetLocalStorageTableColumns()
+    {
+        try
+        {
+            List<TableColumn> columns = await _localStorageService.GetAsync<List<TableColumn>>(LocalStorage.AppTimesheetTableColumn);
+
+            columns ??= await SetLocalStorageInitialColumns();
+
+            return await Task.FromResult(columns);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task SetLocalStorageViewType(string view)
+    {
+        try
+        {
+            await _localStorageService.SetAsync<string>(LocalStorage.AppTimesheetView, view);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task SetLocalStorageTableColumns(List<TableColumn> columns)
+    {
+        try
+        {
+            await _localStorageService.SetAsync<List<TableColumn>>(LocalStorage.AppTimesheetTableColumn, columns);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    private async Task<List<TableColumn>> SetLocalStorageInitialColumns()
+    {
+        try
+        {
+            List<TableColumn> tableColumns = new()
+            {
+                new TableColumn { Id = 1, Description = Label.TimesheetDate, IsChecked = true, IsDisabled = true, CssClass = "col text-nowrap", Colspan = "" },
+                new TableColumn { Id = 2, Description = Label.TimesheetClockIn, IsChecked = true, IsDisabled = true, CssClass = "col text-nowrap", Colspan = "" },
+                new TableColumn { Id = 3, Description = Label.TimesheetBreak, IsChecked = true, IsDisabled = false, CssClass = "col text-nowrap", Colspan = "" },
+                new TableColumn { Id = 4, Description = Label.TimesheetClockOut, IsChecked = true, IsDisabled = true, CssClass = "col text-nowrap", Colspan = "" },
+                new TableColumn { Id = 5, Description = Label.TimesheetWorkHours, IsChecked = true, IsDisabled = true, CssClass = "col text-nowrap", Colspan = "" },
+                new TableColumn { Id = 6, Description = Label.TimesheetOvertime, IsChecked = true, IsDisabled = false, CssClass = "col text-nowrap", Colspan = "" },
+                new TableColumn { Id = 7, Description = Label.TimesheetTotal, IsChecked = true, IsDisabled = false, CssClass = "col text-nowrap text-end", Colspan = "" },
+                new TableColumn { Id = 8, Description = Label.TimesheetPayStatus, IsChecked = true, IsDisabled = false, CssClass = "col text-nowrap", Colspan = "" },
+                new TableColumn { Id = 9, Description = Label.TimesheetEdit, IsChecked = true, IsDisabled = true, CssClass = "col text-nowrap text-center", Colspan = "" },
+                new TableColumn { Id = 10, Description = Label.TimesheetComments, IsChecked = true, IsDisabled = false, CssClass = "col text-nowrap", Colspan = "" }
+            };
+
+            await _localStorageService.SetAsync<List<TableColumn>>(LocalStorage.AppTimesheetTableColumn, tableColumns);
+
+            return await Task.FromResult(tableColumns);
         }
         catch (Exception ex)
         {
