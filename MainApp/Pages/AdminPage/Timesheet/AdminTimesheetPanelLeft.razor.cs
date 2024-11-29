@@ -33,11 +33,6 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     [Inject]
     private IDropdownDateMonthYearService _dropdownDateMonthYearService { get; set; } = default!;
 
-    //TODO: replace ILocalStorageService with IAppSettingsService
-    [Inject]
-    private ILocalStorageService _localStorageService { get; set; } = default!;
-
-
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
 
@@ -68,16 +63,6 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     public AdminTimesheetPanelLeft()
     {
         _payStatuses = (PayStatus[])Enum.GetValues(typeof(PayStatus));
-        _tableColumns.Add(new TableColumn{Id=1, Description=Label.TimesheetDate, IsChecked=true, IsDisabled=true, CssClass="col text-nowrap", Colspan=""});
-        _tableColumns.Add(new TableColumn{Id=2, Description=Label.TimesheetClockIn, IsChecked=true, IsDisabled=true, CssClass="col text-nowrap", Colspan=""});
-        _tableColumns.Add(new TableColumn{Id=3, Description=Label.TimesheetBreak, IsChecked=true, IsDisabled=false, CssClass="col text-nowrap", Colspan=""});
-        _tableColumns.Add(new TableColumn{Id=4, Description=Label.TimesheetClockOut, IsChecked=true, IsDisabled=true, CssClass="col text-nowrap", Colspan=""});
-        _tableColumns.Add(new TableColumn{Id=5, Description=Label.TimesheetWorkHours, IsChecked=true, IsDisabled=true, CssClass="col text-nowrap", Colspan=""});
-        _tableColumns.Add(new TableColumn{Id=6, Description=Label.TimesheetOvertime, IsChecked=true, IsDisabled=false, CssClass="col text-nowrap", Colspan=""});
-        _tableColumns.Add(new TableColumn{Id=7, Description=Label.TimesheetTotal, IsChecked=true, IsDisabled=false, CssClass="col text-nowrap text-end", Colspan=""});
-        _tableColumns.Add(new TableColumn{Id=8, Description=Label.TimesheetPayStatus, IsChecked=true, IsDisabled=false, CssClass="col text-nowrap", Colspan=""});
-        _tableColumns.Add(new TableColumn{Id=9, Description=Label.TimesheetEdit, IsChecked=true, IsDisabled=true, CssClass="col text-nowrap text-center", Colspan=""});
-        _tableColumns.Add(new TableColumn{Id=10, Description=Label.TimesheetComments, IsChecked=true, IsDisabled=false, CssClass="col text-nowrap", Colspan=""});
     }
 
     protected async override Task OnInitializedAsync()
@@ -100,11 +85,18 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
             try
             {
                 _spinnerService.ShowSpinner();
-                string timesheetView = await GetLocalStorageTimesheetViewAsync();
+
+                string timesheetView = await _timesheetService.GetLocalStorageViewType();
+                List<TableColumn> tableColumns = await _timesheetService.GetLocalStorageTableColumns();
 
                 if (string.IsNullOrEmpty(timesheetView) == false)
                 {
                     _viewType = timesheetView;
+                }
+
+                if (tableColumns.Count > 0)
+                {
+                    _tableColumns = tableColumns;
                 }
 
                 await FetchDataAsync();
@@ -119,13 +111,6 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         }
 
         await Task.CompletedTask;
-    }
-
-    private async Task<string> GetLocalStorageTimesheetViewAsync()
-    {
-        string? localStorage = await _localStorageService.GetAsync<string>(LocalStorage.AppTimesheetView);
-
-        return await Task.FromResult(localStorage!);
     }
 
     private async Task FetchDataAsync()
@@ -173,8 +158,10 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     {
         _viewType = viewType.ToString();
 
-        await _localStorageService.SetAsync<string>(LocalStorage.AppTimesheetView, _viewType);
+        await _timesheetService.SetLocalStorageViewType(_viewType);
+
         await FetchDataAsync();
+
         await InvokeAsync(StateHasChanged);
     }
 
@@ -322,6 +309,8 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         {
             timesheetColumn.IsChecked = false;
         }
+
+        await _timesheetService.SetLocalStorageTableColumns(_tableColumns);
 
         await Task.CompletedTask;
     }
