@@ -3,7 +3,19 @@
 public static class Label
 {
     public const string AppTitle = "My Finance";
+    public const string AppTitleAdmin = "Admin";
+    public const string AppTitleBank = "Bank";
+    public const string AppTitleCompany = "Company";
+    public const string AppTitleDashboard = "Dashboard";
+    public const string AppTitleExpense = "Expense";
+    public const string AppTitleSetting = "Settings";
+    public const string AppTitleSetup = "Setup";
+    public const string AppTitleTax = "Tax";
+    public const string AppTitleTimesheet = "Timesheet";
+    public const string AppTitleTools = "Tools";
+    public const string AppTitleTransaction = "Transaction";
     public const string AppTitleTrip = "Trips (Log book)";
+    public const string AppTitleVehicle = "Vehicle";
     public const string AppTableColumns = "Columns";
     public const string FilterByBank = "Filter By Bank";
     public const string FilterByCompany = "Filter By Company";
@@ -27,4 +39,6 @@ public static class Label
     public const string TimesheetPayStatus = "Pay status";
     public const string TimesheetEdit = "Edit";
     public const string TimesheetComments = "Comments";
+
+
 }
