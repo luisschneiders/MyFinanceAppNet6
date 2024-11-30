@@ -34,6 +34,9 @@ public partial class Modal : ComponentBase
     public bool IsModalDialogCentered { get; set; } = true;
 
     [Parameter]
+    public bool IsModalDialogBordered { get; set; } = true;
+
+    [Parameter]
     public bool IsModalDialogScrollable { get; set; } = true;
 
     private ModalDisplay _modalDisplay { get; set; } = ModalDisplay.none;
