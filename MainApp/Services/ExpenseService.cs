@@ -18,6 +18,9 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     [Inject]
     private IUserData _userData { get; set; } = default!;
 
+    [Inject]
+    ILocalStorageService _localStorageService{ get; set; } = default!;
+
     private List<ExpenseListDTO> _recordsByDateRange { get; set; } = new();
 
     private decimal _expensesByDateRangeSum { get; set; } = 0;
@@ -26,12 +29,14 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         IExpenseData<ExpenseModel> expenseData,
         ILocationExpenseService<LocationExpenseModel> locationExpenseService,
         IUserData userData,
-        AuthenticationStateProvider authProvider)
+        AuthenticationStateProvider authProvider,
+        ILocalStorageService localStorageService)
     {
         _expenseData = expenseData;
         _locationExpenseService = locationExpenseService;
         _userData = userData;
         _authProvider = authProvider;
+        _localStorageService = localStorageService;
     }
 
     public async Task ArchiveRecord(ExpenseModel model)
@@ -301,6 +306,34 @@ public class ExpenseService : IExpenseService<ExpenseModel>
             var user = await GetLoggedInUser();
             List<ExpenseListGroupByMonthDTO> results = await _expenseData.GetRecordsGroupByMonth(user.Id, dateTimeRange);
             return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<string> GetLocalStorageViewType()
+    {
+        try
+        {
+            string? localStorage = await _localStorageService.GetAsync<string>(LocalStorage.AppExpenseView);
+
+            return await Task.FromResult(localStorage!);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task SetLocalStorageViewType(string view)
+    {
+        try
+        {
+            await _localStorageService.SetAsync<string>(LocalStorage.AppExpenseView, view);
         }
         catch (Exception ex)
         {

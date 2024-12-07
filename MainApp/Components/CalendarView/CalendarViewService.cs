@@ -4,7 +4,6 @@ namespace MainApp.Components.CalendarView;
 
 public class CalendarViewService : ICalendarViewService
 {
-    //TODO: replace ILocalStorageService with IAppSettingsService
     private ILocalStorageService _localStorageService { get; set; } = default!;
 
     private IDateTimeService _dateTimeService { get; set; } = default!;
@@ -24,7 +23,7 @@ public class CalendarViewService : ICalendarViewService
             int daysInMonth = lastDayOfMonth.Day;
             int weeksInMonth = 6; // maximum number of weeks in any given month
 
-            string appStartOfWeek = await _localStorageService.GetAsync<string>(LocalStorage.AppStartOfWeek);
+            string appStartOfWeek = await GetLocalStorageStartOfWeek();
             DayOfWeek selectedDayOfWeek = _dateTimeService.MapDayOfWeekStringToEnum(appStartOfWeek!);
 
             int firstDayOfWeek = (int)firstDayOfMonth.DayOfWeek;
@@ -85,6 +84,21 @@ public class CalendarViewService : ICalendarViewService
             }
 
             return await Task.FromResult(weeks);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<string> GetLocalStorageStartOfWeek()
+    {
+        try
+        {
+            string? localStorage = await _localStorageService.GetAsync<string>(LocalStorage.AppStartOfWeek);
+
+            return await Task.FromResult(localStorage!);
         }
         catch (Exception ex)
         {

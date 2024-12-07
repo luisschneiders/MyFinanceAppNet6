@@ -2,7 +2,6 @@
 using MainApp.Components.OffCanvas;
 using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 
 namespace MainApp.Pages.SettingsPage;
 
@@ -11,21 +10,17 @@ public partial class SettingsDateTimeOffCanvas : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = new();
 
-    //TODO: replace ILocalStorageService with IAppSettingsService
     [Inject]
-    private ILocalStorageService _localStorageService { get; set; } = default!;
+    private IAppSettingsService _appSettingsService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
 
     private OffCanvas _offCanvas { get; set; } = new();
     private string _offCanvasTarget { get; set; } = string.Empty;
-
     private string[] _dayNames { get; set; } = CultureInfo.CurrentCulture.DateTimeFormat.DayNames;
     private string _localStorageStartOfWeek { get; set; } = string.Empty;
-
     private bool _startOfWeekIsInvalid { get; set; } = false;
-    private bool _startOfWeekIsProcessing { get; set; } = false;
 
     public SettingsDateTimeOffCanvas()
     {
@@ -44,28 +39,31 @@ public partial class SettingsDateTimeOffCanvas : ComponentBase
     public async Task OpenAsync()
     {
         _offCanvasTarget = Guid.NewGuid().ToString();
+
         await ResetDefaults();
+
         await Task.FromResult(_offCanvas.Open(_offCanvasTarget));
+
         await Task.CompletedTask;
     }
 
     private async Task CloseOffCanvasAsync()
     {
         await Task.FromResult(_offCanvas.Close(_offCanvasTarget));
+
         await Task.CompletedTask;
     }
 
     private async Task<string> GetLocalStorageStartOfWeekAsync()
     {
-        string? localStorage = await _localStorageService.GetAsync<string>(LocalStorage.AppStartOfWeek);
+        string startOfWeek = await _appSettingsService.GetLocalStorageStartOfWeek();
 
-        return await Task.FromResult(localStorage!);
+        return await Task.FromResult(startOfWeek!);
     }
 
     private async Task ResetDefaults()
     {
         _startOfWeekIsInvalid = false;
-        _startOfWeekIsProcessing = false;
 
         await Task.CompletedTask;
     }
@@ -82,12 +80,9 @@ public partial class SettingsDateTimeOffCanvas : ComponentBase
                 return;
             }
 
-            _startOfWeekIsProcessing = true;
-
-            await _localStorageService.SetAsync<string>(LocalStorage.AppStartOfWeek, weekDay);
+            await _appSettingsService.SetLocalStorageStartOfWeek(weekDay);
 
             _localStorageStartOfWeek = weekDay;
-            _startOfWeekIsProcessing = false;
         }
         catch (Exception ex)
         {

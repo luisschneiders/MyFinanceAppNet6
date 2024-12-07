@@ -5,10 +5,8 @@ namespace MainApp.Components.CalendarView;
 
 public partial class CalendarHeaderWrapper : ComponentBase
 {
-    //TODO: replace ILocalStorageService with IAppSettingsService
     [Inject]
-    private ILocalStorageService _localStorageService { get; set; } = default!;
-
+    private ICalendarViewService _calendarViewService { get; set; } = default!;
     [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
@@ -21,8 +19,8 @@ public partial class CalendarHeaderWrapper : ComponentBase
 
     protected async override Task OnInitializedAsync()
     {
-        string localStorage = await _localStorageService.GetAsync<string>(LocalStorage.AppStartOfWeek);
-        DayOfWeek selectedDayOfWeek = _dateTimeService.MapDayOfWeekStringToEnum(localStorage!);
+        string startOfWeek = await _calendarViewService.GetLocalStorageStartOfWeek();
+        DayOfWeek selectedDayOfWeek = _dateTimeService.MapDayOfWeekStringToEnum(startOfWeek);
 
         for (int i = 0; i < _abbreviatedDays.Length; i++)
         {

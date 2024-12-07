@@ -14,16 +14,22 @@ public class TransactionService : ITransactionService<TransactionModel>
     [Inject]
     private IUserData _userData { get; set; } = default!;
 
+    [Inject]
+    ILocalStorageService _localStorageService{ get; set; } = default!;
+
+
     private List<TransactionListDTO> _recordsByDateRange { get; set; } = new();
 
     public TransactionService(
         ITransactionData<TransactionModel> transactionData,
         IUserData userData,
-        AuthenticationStateProvider authProvider)
+        AuthenticationStateProvider authProvider,
+        ILocalStorageService localStorageService)
     {
         _transactionData = transactionData;
         _userData = userData;
         _authProvider = authProvider;
+        _localStorageService = localStorageService;
     }
 
     public async Task ArchiveRecord(TransactionModel model)
@@ -279,6 +285,33 @@ public class TransactionService : ITransactionService<TransactionModel>
         }
     }
 
+    public async Task<string> GetLocalStorageViewType()
+    {
+        try
+        {
+            string? localStorage = await _localStorageService.GetAsync<string>(LocalStorage.AppTransactionView);
+
+            return await Task.FromResult(localStorage!);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task SetLocalStorageViewType(string view)
+    {
+        try
+        {
+            await _localStorageService.SetAsync<string>(LocalStorage.AppTransactionView, view);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
 
     private async Task<List<TransactionListDTO>> SetRecordsFilter(MultiFilterTransactionDTO filter)
     {

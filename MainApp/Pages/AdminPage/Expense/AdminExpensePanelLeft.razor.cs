@@ -27,10 +27,6 @@ public partial class AdminExpensePanelLeft : ComponentBase
     [Inject]
     private ICalendarViewService _calendarViewService { get; set; } = default!;
 
-    //TODO: replace ILocalStorageService with IAppSettingsService
-    [Inject]
-    private ILocalStorageService _localStorageService { get; set; } = default!;
-
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
 
@@ -77,7 +73,8 @@ public partial class AdminExpensePanelLeft : ComponentBase
             try
             {
                 _spinnerService.ShowSpinner();
-                string expenseView = await GetLocalStorageExpenseViewAsync();
+
+                string expenseView = await _expenseService.GetLocalStorageViewType();
 
                 if (string.IsNullOrEmpty(expenseView) == false)
                 {
@@ -96,13 +93,6 @@ public partial class AdminExpensePanelLeft : ComponentBase
         }
 
         await Task.CompletedTask;
-    }
-
-    private async Task<string> GetLocalStorageExpenseViewAsync()
-    {
-        string? localStorage = await _localStorageService.GetAsync<string>(LocalStorage.AppExpenseView);
-
-        return await Task.FromResult(localStorage!);
     }
 
     private async Task FetchDataAsync()
@@ -137,8 +127,10 @@ public partial class AdminExpensePanelLeft : ComponentBase
     {
         _viewType = viewType.ToString();
 
-        await _localStorageService.SetAsync<string>(LocalStorage.AppExpenseView, _viewType);
+        await _expenseService.SetLocalStorageViewType(_viewType);
+
         await FetchDataAsync();
+
         await InvokeAsync(StateHasChanged);
     }
 
