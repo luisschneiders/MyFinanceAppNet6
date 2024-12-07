@@ -33,11 +33,6 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     [Inject]
     private IDropdownDateMonthYearService _dropdownDateMonthYearService { get; set; } = default!;
 
-    //TODO: replace ILocalStorageService with IAppSettingsService
-    [Inject]
-    private ILocalStorageService _localStorageService { get; set; } = default!;
-
-
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
 
@@ -63,6 +58,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
     private DateTime[][] _weeks { get; set; } = default!;
     private TimesheetTotal _timesheetTotal{ get; set; } = new();
+    private List<TableColumn> _tableColumns { get; set;} = new();
 
     public AdminTimesheetPanelLeft()
     {
@@ -89,11 +85,18 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
             try
             {
                 _spinnerService.ShowSpinner();
-                string timesheetView = await GetLocalStorageTimesheetViewAsync();
+
+                string timesheetView = await _timesheetService.GetLocalStorageViewType();
+                List<TableColumn> tableColumns = await _timesheetService.GetLocalStorageTableColumns();
 
                 if (string.IsNullOrEmpty(timesheetView) == false)
                 {
                     _viewType = timesheetView;
+                }
+
+                if (tableColumns.Count > 0)
+                {
+                    _tableColumns = tableColumns;
                 }
 
                 await FetchDataAsync();
@@ -108,13 +111,6 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         }
 
         await Task.CompletedTask;
-    }
-
-    private async Task<string> GetLocalStorageTimesheetViewAsync()
-    {
-        string? localStorage = await _localStorageService.GetAsync<string>(LocalStorage.AppTimesheetView);
-
-        return await Task.FromResult(localStorage!);
     }
 
     private async Task FetchDataAsync()
@@ -162,8 +158,10 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     {
         _viewType = viewType.ToString();
 
-        await _localStorageService.SetAsync<string>(LocalStorage.AppTimesheetView, _viewType);
+        await _timesheetService.SetLocalStorageViewType(_viewType);
+
         await FetchDataAsync();
+
         await InvokeAsync(StateHasChanged);
     }
 
@@ -297,6 +295,24 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     {
         // Format the TimeSpan with days, hours, minutes, and seconds
         return $"{timeSpan.Days} days, {timeSpan.Hours} hours, {timeSpan.Minutes} minutes";
+    }
+
+    private async void OnCheckboxChangedColumns(ChangeEventArgs e, int id)
+    {
+        TableColumn timesheetColumn = _tableColumns.FirstOrDefault(i => i.Id == id)!;
+
+        if (e.Value is true)
+        {
+            timesheetColumn.IsChecked = true;
+        }
+        else if (e.Value is false)
+        {
+            timesheetColumn.IsChecked = false;
+        }
+
+        await _timesheetService.SetLocalStorageTableColumns(_tableColumns);
+
+        await Task.CompletedTask;
     }
 
     // public void Dispose()

@@ -8,14 +8,14 @@ public class AppSettingsService : IAppSettingsService
     private ILocalStorageService _localStorageService { get; set; } = default!;
 
     public AppSettingsService(ILocalStorageService localStorageService)
-	{
-		_localStorageService = localStorageService;
-	}
+    {
+        _localStorageService = localStorageService;
+    }
 
-	public async Task SetShapes(string radius)
-	{
-		try
-		{
+    public async Task SetShapes(string radius)
+    {
+        try
+        {
             switch (radius)
             {
                 case Radius.Default:
@@ -32,12 +32,33 @@ public class AppSettingsService : IAppSettingsService
 
             await Task.CompletedTask;
         }
-		catch (Exception ex)
-		{
+        catch (Exception ex)
+        {
             Console.WriteLine("An exception occurred: " + ex.Message);
             throw;
         }
-	}
+    }
+
+    public async Task SetTableColumns(string view, List<TableColumn> columns)
+    {
+        try
+        {
+            switch (view)
+            {
+                case PageView.Timesheet:
+                    await _localStorageService.SetAsync<List<TableColumn>>(LocalStorage.AppTimesheetTableColumn, columns);
+                    break;
+            }
+
+            await Task.CompletedTask;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
 
     public async Task<string> GetShapes()
     {

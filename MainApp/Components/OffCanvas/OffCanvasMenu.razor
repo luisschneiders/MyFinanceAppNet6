@@ -18,7 +18,7 @@
                 <Authorized>
                     <li class="nav-item col-12 col-lg-auto">
                         <NavLink class="nav-link app-nav-link" href="@EndPoint.Dashboard" Match="NavLinkMatch.All">
-                            Dashboard
+                            @Label.AppTitleDashboard
                         </NavLink>
                     </li>
                 </Authorized>
@@ -27,39 +27,39 @@
             <AuthorizeView Policy="Admin">
                 <li class="nav-item dropdown">
                     <NavLink class="nav-link app-nav-link app-outline-none" href="@EndPoint.Setup" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-columns-gap pe-1"></i>Setup<i class="bi bi-chevron-down ps-2"></i>
+                        <i class="bi bi-columns-gap pe-1"></i>@Label.AppTitleSetup<i class="bi bi-chevron-down ps-2"></i>
                     </NavLink>
                     <ul class="dropdown-menu app-dropdown-menu border-@Theme.Dark.ToString().ToLower()-subtle bg-@Theme.Light.ToString().ToLower()-subtle shadow-sm" aria-labelledby="navbarDropdownSettingsLink">
                         <li class="px-2">
                             <NavLink class="dropdown-item rounded" href="@EndPoint.SetupBank">
-                                Bank
+                                @Label.AppTitleBank
                             </NavLink>
                         </li>
                         <li class="px-2">
                             <NavLink class="dropdown-item rounded" href="@EndPoint.SetupCompany">
-                                Company
+                                @Label.AppTitleCompany
                             </NavLink>
                         </li>
                         <li class="px-2">
                             <NavLink class="dropdown-item rounded" href="@EndPoint.SetupVehicle">
-                                Vehicle
+                                @Label.AppTitleVehicle
                             </NavLink>
                         </li>
                         <li class="px-2">
                             <hr />
                             <NavLink class="dropdown-item rounded" href="@EndPoint.SetupExpense">
-                                Expense
+                                @Label.AppTitleExpense
                             </NavLink>
                         </li>
                         <li class="px-2">
                             <NavLink class="dropdown-item rounded" href="@EndPoint.SetupTransaction">
-                                Transaction
+                                @Label.AppTitleTransaction
                             </NavLink>
                         </li>
                         <li class="px-2">
                             <hr />
                             <NavLink class="dropdown-item rounded" href="@EndPoint.SetupTax">
-                                Tax
+                                @Label.AppTitleTax
                             </NavLink>
                         </li>
 
@@ -67,28 +67,28 @@
                 </li>
                 <li class="nav-item dropdown">
                     <NavLink class="nav-link app-nav-link app-outline-none" href="@EndPoint.Admin" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi  bi-grid-3x3-gap pe-1"></i>Admin<i class="bi bi-chevron-down ps-2"></i>
+                        <i class="bi  bi-grid-3x3-gap pe-1"></i>@Label.AppTitleAdmin<i class="bi bi-chevron-down ps-2"></i>
                     </NavLink>
                     <ul class="dropdown-menu app-dropdown-menu border-@Theme.Dark.ToString().ToLower()-subtle bg-@Theme.Light.ToString().ToLower()-subtle shadow-sm" aria-labelledby="navbarDropdownSettingsLink">
                         <li class="px-2">
                             <NavLink class="dropdown-item rounded" href="@EndPoint.AdminExpenses">
-                                <i class="bi bi-cart4 pe-1"></i>Expenses
+                                <i class="bi bi-cart4 pe-1"></i>@Label.AppTitleExpense
                             </NavLink>
                         </li>
                         <li class="px-2">
                             <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTransactions">
-                                <i class="bi bi-currency-exchange pe-1"></i>Transactions
+                                <i class="bi bi-currency-exchange pe-1"></i>@Label.AppTitleTransaction
                             </NavLink>
                         </li>
                         <li class="px-2">
                             <hr />
                             <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTimesheet">
-                                <i class="bi bi-clock-history pe-1"></i>Timesheet
+                                <i class="bi bi-clock-history pe-1"></i>@Label.AppTitleTimesheet
                             </NavLink>
                         </li>
                         <li class="px-2">
                             <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTrips">
-                                <i class="bi bi-pin-map pe-1"></i>Trips
+                                <i class="bi bi-pin-map pe-1"></i>@Label.AppTitleTrip
                             </NavLink>
                         </li>
                     </ul>
@@ -99,7 +99,7 @@
                 </li>
                 <li class="nav-item">
                     <NavLink class="nav-link" href="@EndPoint.Tools">
-                        Tools
+                        @Label.AppTitleTools
                     </NavLink>
                     <hr class="d-lg-none">
                 </li>

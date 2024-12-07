@@ -54,10 +54,10 @@ public partial class SettingsAppearanceOffCanvas : ComponentBase
     {
         try
         {
-            await _localStorageService.SetAsync<string>(LocalStorage.AppTheme, color.ToString().ToLower());
-            await JS.InvokeVoidAsync("updateColorMode", color.ToString().ToLower());
+            await _localStorageService.SetAsync<string>(LocalStorage.AppTheme, color.ToString());
+            await JS.InvokeVoidAsync("updateColorMode", color.ToString());
 
-            _localStorageTheme = color.ToString().ToLower();
+            _localStorageTheme = color.ToString();
         }
         catch (Exception ex)
         {
