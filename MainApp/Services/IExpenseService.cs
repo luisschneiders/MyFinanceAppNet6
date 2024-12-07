@@ -12,4 +12,6 @@ public interface IExpenseService<T> : IBaseService<T>
     public Task<GoogleMapStaticModel> GetLocationExpense(DateTimeRange dateTimeRange, MapMarkerColor mapMarkerColor, MapSize mapSizeWidth, MapSize mapSizeHeight, MapScale scale);
     public Task<List<ExpenseTop5DTO>> GetRecordsTop5ByDate(DateTimeRange dateTimeRange);
     public Task<List<ExpenseListGroupByMonthDTO>> GetRecordsGroupByMonth(DateTimeRange dateTimeRange);
+    public Task<string> GetLocalStorageViewType();
+    public Task SetLocalStorageViewType(string view);
 }

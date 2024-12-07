@@ -11,4 +11,6 @@ public interface ITransactionService<T> : IBaseService<T>
     public Task<List<TransactionCalendarDTO>> GetRecordsCalendarView(MultiFilterTransactionDTO filter);
     public Task<List<TransactionDetailsDTO>> GetRecordsDateView(DateTimeRange dateTimeRange);
     public Task<List<TransactionIOLast3MonthsGraphDTO>> GetRecordsLast3Months();
+    public Task<string> GetLocalStorageViewType();
+    public Task SetLocalStorageViewType(string view);
 }

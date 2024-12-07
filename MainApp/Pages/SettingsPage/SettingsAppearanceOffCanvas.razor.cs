@@ -10,9 +10,8 @@ public partial class SettingsAppearanceOffCanvas : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = new();
 
-    //TODO: replace ILocalStorageService with IAppSettingsService
     [Inject]
-    private ILocalStorageService _localStorageService { get; set; } = default!;
+    private IAppSettingsService _appSettingsService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
@@ -54,7 +53,8 @@ public partial class SettingsAppearanceOffCanvas : ComponentBase
     {
         try
         {
-            await _localStorageService.SetAsync<string>(LocalStorage.AppTheme, color.ToString());
+            await _appSettingsService.SetLocalStorageAppTheme(color.ToString());
+
             await JS.InvokeVoidAsync("updateColorMode", color.ToString());
 
             _localStorageTheme = color.ToString();
@@ -69,8 +69,8 @@ public partial class SettingsAppearanceOffCanvas : ComponentBase
 
     private async Task<string> GetLocalStorageThemeAsync()
     {
-        string? localStorage = await _localStorageService.GetAsync<string>(LocalStorage.AppTheme);
+        string theme = await _appSettingsService.GetLocalStorageAppTheme();
 
-        return await Task.FromResult(localStorage!);
+        return await Task.FromResult(theme!);
     }
 }
