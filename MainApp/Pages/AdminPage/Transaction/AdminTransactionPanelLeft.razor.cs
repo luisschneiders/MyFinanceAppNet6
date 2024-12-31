@@ -30,10 +30,6 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     [Inject]
     private IEnumHelper _enumHelper { get; set; } = default!;
 
-    //TODO: replace ILocalStorageService with IAppSettingsService
-    [Inject]
-    private ILocalStorageService _localStorageService { get; set; } = default!;
-
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
 
@@ -80,7 +76,8 @@ public partial class AdminTransactionPanelLeft : ComponentBase
             try
             {
                 _spinnerService.ShowSpinner();
-                string transactionView = await GetLocalStorageTransactionViewAsync();
+
+                string transactionView = await _transactionService.GetLocalStorageViewType();
 
                 if (string.IsNullOrEmpty(transactionView) == false)
                 {
@@ -99,13 +96,6 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         }
 
         await Task.CompletedTask;
-    }
-
-    private async Task<string> GetLocalStorageTransactionViewAsync()
-    {
-        string? localStorage = await _localStorageService.GetAsync<string>(LocalStorage.AppTransactionView);
-
-        return await Task.FromResult(localStorage!);
     }
 
     private async Task FetchDataAsync()
@@ -140,8 +130,10 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     {
         _viewType = viewType.ToString();
 
-        await _localStorageService.SetAsync<string>(LocalStorage.AppTransactionView, _viewType);
+        await _transactionService.SetLocalStorageViewType(_viewType);
+
         await FetchDataAsync();
+
         await InvokeAsync(StateHasChanged);
     }
 

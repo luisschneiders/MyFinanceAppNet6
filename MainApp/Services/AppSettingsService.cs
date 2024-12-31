@@ -84,14 +84,72 @@ public class AppSettingsService : IAppSettingsService
     {
         try
         {
-            AppSettings appSettings = new();
-            appSettings.Button = await GetButtonShape();
-            appSettings.Card = await GetCardShape();
-            appSettings.Form = await GetFormShape();
-            appSettings.Menu = await GetMenuShape();
-            appSettings.Modal = await GetModalShape();
+            AppSettings appSettings = new()
+            {
+                Button = await GetButtonShape(),
+                Card = await GetCardShape(),
+                Form = await GetFormShape(),
+                Menu = await GetMenuShape(),
+                Modal = await GetModalShape()
+            };
 
             return await Task.FromResult(appSettings);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<string> GetLocalStorageStartOfWeek()
+    {
+        try
+        {
+            string? localStorage = await _localStorageService.GetAsync<string>(LocalStorage.AppStartOfWeek);
+
+            return await Task.FromResult(localStorage!);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task SetLocalStorageStartOfWeek(string startOfWeek)
+    {
+        try
+        {
+            await _localStorageService.SetAsync<string>(LocalStorage.AppStartOfWeek, startOfWeek);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<string> GetLocalStorageAppTheme()
+    {
+        try
+        {
+            string? localStorage = await _localStorageService.GetAsync<string>(LocalStorage.AppTheme);
+
+            return await Task.FromResult(localStorage!);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task SetLocalStorageAppTheme(string theme)
+    {
+        try
+        {
+            await _localStorageService.SetAsync<string>(LocalStorage.AppTheme, theme);
         }
         catch (Exception ex)
         {
