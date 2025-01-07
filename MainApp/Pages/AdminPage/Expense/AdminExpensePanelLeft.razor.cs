@@ -140,6 +140,40 @@ public partial class AdminExpensePanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
+    private async Task PreviousPeriodAsync(DateTimeRange date)
+    {
+        try
+        {
+            DateTimeRange previousDate = new();
+            previousDate = _dateTimeService.GetPreviousMonth(date);
+
+            await RefreshDropdownDateMonthYear(previousDate);
+        }
+        catch (Exception ex)
+        {
+             _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+        
+        await Task.CompletedTask;
+    }
+
+    private async Task NextPeriodAsync(DateTimeRange date)
+    {
+        try
+        {
+            DateTimeRange nextDate = new();
+            nextDate = _dateTimeService.GetNextMonth(date);
+
+            await RefreshDropdownDateMonthYear(nextDate);
+        }
+        catch (Exception ex)
+        {
+             _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;
+    }
+
     private async Task ApplyFiltersAsync()
     {
         try
