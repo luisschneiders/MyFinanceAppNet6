@@ -19,9 +19,6 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private ToastService _toastService { get; set; } = new();
 
     [Inject]
-    private SpinnerService _spinnerService { get; set; } = new();
-
-    [Inject]
     private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
 
     [Inject]
@@ -52,6 +49,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
     private DateTime[][] _weeks { get; set; } = default!;
     private bool _isLoading { get; set; } = true;
+    private bool _isLoadingCalendar { get; set; } = true;
 
     public AdminTransactionPanelLeft()
     {
@@ -75,8 +73,6 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         {
             try
             {
-                _spinnerService.ShowSpinner();
-
                 string transactionView = await _transactionService.GetLocalStorageViewType();
 
                 if (string.IsNullOrEmpty(transactionView) == false)
@@ -107,7 +103,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
                 _multiFilterTransactionDTO.DateTimeRange = _dateCalendar;
                 _transactionsCalendarView = await _transactionService.GetRecordsCalendarView(_multiFilterTransactionDTO);
                 _weeks = await _calendarViewService.Build(_dateCalendar);
-
+                _isLoadingCalendar = false;
             }
             else if (_viewType == ViewType.List.ToString())
             {
@@ -140,6 +136,46 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private async Task AddRecordAsync(DateTime date)
     {
         await _setupOffCanvas.AddRecordOffCanvasAsync(date);
+        await Task.CompletedTask;
+    }
+
+    private async Task PreviousPeriodAsync(DateTimeRange date)
+    {
+        try
+        {
+            _isLoadingCalendar = true;
+            DateTimeRange previousDate = new();
+            previousDate = _dateTimeService.GetPreviousMonth(date);
+
+            await RefreshDropdownDateMonthYear(previousDate);
+            _isLoadingCalendar = false;
+        }
+        catch (Exception ex)
+        {
+            _isLoadingCalendar = false;
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+        
+        await Task.CompletedTask;
+    }
+
+    private async Task NextPeriodAsync(DateTimeRange date)
+    {
+        try
+        {
+            _isLoadingCalendar = true;
+            DateTimeRange nextDate = new();
+            nextDate = _dateTimeService.GetNextMonth(date);
+
+            await RefreshDropdownDateMonthYear(nextDate);
+            _isLoadingCalendar = false;
+        }
+        catch (Exception ex)
+        {
+            _isLoadingCalendar = false;
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
         await Task.CompletedTask;
     }
 

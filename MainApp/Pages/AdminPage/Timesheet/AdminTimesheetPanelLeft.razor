@@ -38,11 +38,23 @@
                     @if (_viewType == ViewType.Calendar.ToString())
                     {
                         <div class="ps-2">
+                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                                    @onclick="() => PreviousPeriodAsync(_dateCalendar)"
+                                    title="Previous"
+                                    disabled="@(_isLoadingCalendar ? true : false)">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
                             <DropdownDateMonthYear 
                                                 ButtonSize="Size.Sm"
                                                 DateTimeRange="@_dateCalendar"
                                                 DropdownLabel="@_dropdownDateCalendarLabel"
                                                 OnSubmitSuccess="data => RefreshDropdownDateMonthYear(data)" />
+                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                                    @onclick="() => NextPeriodAsync(_dateCalendar)"
+                                    title="Next"
+                                    disabled="@(_isLoadingCalendar ? true : false)">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
                         </div>
                     }
                     else
@@ -164,48 +176,65 @@
                                 </CalendarHeaderView>
                                 <CalendarBodyView>
                                     <CalendarBodyWrapper>
-                                        @if (_weeks is not null)
+                                        @if (_isLoadingCalendar is true)
                                         {
-                                            @foreach (var week in _weeks)
+                                            <tr>
+                                                <td colspan="7">
+                                                    <div class="d-flex justify-content-center align-items-center h-100">
+                                                        <Spinner Size="Size.Sm" />
+                                                        <span class="ps-2">
+                                                            Loading ...
+                                                        </span>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            @if (_weeks is not null)
                                             {
-                                                <tr>
-                                                    @foreach (var date in week)
-                                                    {
-                                                        <td class="@((date.Year == 1 && date.Day == 1) ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "app-calendar-cell")">
-                                                            @if ((date.Year != 1 && date.Day >= 1))
-                                                            {
-                                                                <div class="d-flex justify-content-end">
-                                                                    <div class="app-calendar-cell-day text-center p-1 @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
-                                                                                $"app-calendar-cell-current-day rounded-circle bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
-                                                                                "") fw-bold text-secondary-emphasis">
-                                                                        @(date.Day)
-                                                                    </div>
-                                                                </div>
+                                                @foreach (var week in _weeks)
+                                                {
+                                                    <tr>
+                                                        @foreach (var date in week)
+                                                        {
+                                                            <td class="@((date.Year == 1 && date.Day == 1) ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "app-calendar-cell")">
                                                                 @if ((date.Year != 1 && date.Day >= 1))
                                                                 {
-                                                                    @foreach(var (item, index) in _timesheetCalendarView.Select((value, index) => (value, index)))
+                                                                    <div class="d-flex justify-content-end">
+                                                                        <div class="app-calendar-cell-day text-center p-1 @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
+                                                                                    $"app-calendar-cell-current-day rounded-circle bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
+                                                                                    "") fw-bold text-secondary-emphasis">
+                                                                            @(date.Day)
+                                                                        </div>
+                                                                    </div>
+                                                                    @if ((date.Year != 1 && date.Day >= 1))
                                                                     {
-                                                                        if (item.TDate.Day == date.Day)
+                                                                        @foreach(var (item, index) in _timesheetCalendarView.Select((value, index) => (value, index)))
                                                                         {
-                                                                            <small class="d-block app-calendar-text text-secondary-emphasis" title="@item.CompanyDescription">
-                                                                                <BadgeColor RGBColor="@($"{(item.PayStatus == 0 ? StatusColor.Awaiting : StatusColor.Paid)}")"
-                                                                                            Description="@($"{item.TotalAmount.ToString("C")} ({UpdatePayStatusTitle(item.PayStatus)})" )" />
-                                                                            </small>
+                                                                            if (item.TDate.Day == date.Day)
+                                                                            {
+                                                                                <small class="d-block app-calendar-text text-secondary-emphasis" title="@item.CompanyDescription">
+                                                                                    <BadgeColor RGBColor="@($"{(item.PayStatus == 0 ? StatusColor.Awaiting : StatusColor.Paid)}")"
+                                                                                                Description="@($"{item.TotalAmount.ToString("C")} ({UpdatePayStatusTitle(item.PayStatus)})" )" />
+                                                                                </small>
+                                                                            }
                                                                         }
                                                                     }
                                                                 }
-                                                            }
-                                                            else
-                                                            {
-                                                                <div class="d-flex justify-content-end">
-                                                                    <div class="app-calendar-cell-day text-center p-1">
-                                                                        @(string.Empty)
+                                                                else
+                                                                {
+                                                                    <div class="d-flex justify-content-end">
+                                                                        <div class="app-calendar-cell-day text-center p-1">
+                                                                            @(string.Empty)
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            }
-                                                        </td>
-                                                    }
-                                                </tr>
+                                                                }
+                                                            </td>
+                                                        }
+                                                    </tr>
+                                                }
                                             }
                                         }
                                     </CalendarBodyWrapper>
