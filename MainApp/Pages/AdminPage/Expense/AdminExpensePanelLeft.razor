@@ -15,7 +15,7 @@
             <div class="col-10 col-lg-9 pb-2 d-flex align-items-center">
                 @if (_isLoading)
                 {
-                    <div class="d-flex justify-content-center align-items-center">
+                    <div class="d-flex justify-content-center align-items-center h-100">
                         <Spinner Size="Size.Sm" />
                         <span class="ps-2">
                             Loading ...
@@ -39,7 +39,8 @@
                         <div class="ps-2">
                             <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
                                     @onclick="() => PreviousPeriodAsync(_dateCalendar)"
-                                    title="Previous">
+                                    title="Previous"
+                                    disabled="@(_isLoadingCalendar ? true : false)">
                                 <i class="bi bi-chevron-left"></i>
                             </button>
                             <DropdownDateMonthYear 
@@ -49,7 +50,8 @@
                                                 OnSubmitSuccess="data => RefreshDropdownDateMonthYear(data)" />
                             <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
                                     @onclick="() => NextPeriodAsync(_dateCalendar)"
-                                    title="Next">
+                                    title="Next"
+                                    disabled="@(_isLoadingCalendar ? true : false)">
                                 <i class="bi bi-chevron-right"></i>
                             </button>
 
@@ -129,23 +131,39 @@
                         @if (_viewType == ViewType.Calendar.ToString())
                         {
                             <CalendarWrapper CalendarHasSubheader="true">
-                                    <CalendarSubHeaderView>
-                                        <CalendarSubHeaderWrapper>
-                                            <div class="d-flex justify-content-end border-bottom px-2">
-                                                <div class="d-flex pe-1">
-                                                    Total<span class="d-none d-lg-block ps-1">expenses for the period</span>
-                                                </div>
-                                                <span class="app-expense-sum-me fw-semibold px-1 text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)">
-                                                    @_expensesTotal.ToString("C")
-                                                </span>
+                                <CalendarSubHeaderView>
+                                    <CalendarSubHeaderWrapper>
+                                        <div class="d-flex justify-content-end border-bottom px-2">
+                                            <div class="d-flex pe-1">
+                                                Total<span class="d-none d-lg-block ps-1">expenses for the period</span>
                                             </div>
-                                        </CalendarSubHeaderWrapper>
-                                    </CalendarSubHeaderView>
-                                    <CalendarHeaderView>
-                                        <CalendarHeaderWrapper />
-                                    </CalendarHeaderView>
-                                    <CalendarBodyView>
-                                        <CalendarBodyWrapper>
+                                            <span class="app-expense-sum-me fw-semibold px-1 text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)">
+                                                @_expensesTotal.ToString("C")
+                                            </span>
+                                        </div>
+                                    </CalendarSubHeaderWrapper>
+                                </CalendarSubHeaderView>
+                                <CalendarHeaderView>
+                                    <CalendarHeaderWrapper />
+                                </CalendarHeaderView>
+                                <CalendarBodyView>
+                                    <CalendarBodyWrapper>
+                                        @if (_isLoadingCalendar is true)
+                                        {
+                                            <tr>
+                                                <td colspan="7">
+                                                    <div class="d-flex justify-content-center align-items-center h-100">
+                                                        <Spinner Size="Size.Sm" />
+                                                        <span class="ps-2">
+                                                            Loading ...
+                                                        </span>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
                                             @if (_weeks is not null)
                                             {
                                                 @foreach (var week in _weeks)
@@ -193,8 +211,9 @@
                                                     </tr>
                                                 }
                                             }
-                                        </CalendarBodyWrapper>
-                                    </CalendarBodyView>
+                                        }
+                                    </CalendarBodyWrapper>
+                                </CalendarBodyView>
                             </CalendarWrapper>
                         }
                         else
