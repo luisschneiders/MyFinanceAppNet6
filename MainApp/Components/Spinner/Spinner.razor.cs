@@ -51,5 +51,6 @@ public partial class Spinner : ComponentBase, IDisposable
     {
         _spinnerService.OnShow -= ShowSpinner;
         _spinnerService.OnHide -= HideSpinner;
+        GC.SuppressFinalize(this);
     }
 }
