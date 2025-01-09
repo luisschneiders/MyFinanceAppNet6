@@ -19,9 +19,6 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     private ICompanyService<CompanyModel> _companyService { get; set; } = default!;
 
     [Inject]
-    private SpinnerService _spinnerService { get; set; } = new();
-
-    [Inject]
     private ToastService _toastService { get; set; } = new();
 
     // [Inject]
@@ -59,7 +56,8 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     private DateTime[][] _weeks { get; set; } = default!;
     private TimesheetTotal _timesheetTotal{ get; set; } = new();
     private List<TableColumn> _tableColumns { get; set;} = new();
-
+    private bool _isLoadingCalendar { get; set; } = true;
+    
     public AdminTimesheetPanelLeft()
     {
         _payStatuses = (PayStatus[])Enum.GetValues(typeof(PayStatus));
@@ -84,8 +82,6 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         {
             try
             {
-                _spinnerService.ShowSpinner();
-
                 string timesheetView = await _timesheetService.GetLocalStorageViewType();
                 List<TableColumn> tableColumns = await _timesheetService.GetLocalStorageTableColumns();
 
@@ -122,6 +118,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
                 _multiFilterTimesheetDTO.DateTimeRange = _dateCalendar;
                 _timesheetCalendarView = await _timesheetService.GetRecordsCalendarView(_multiFilterTimesheetDTO);
                 _weeks = await _calendarViewService.Build(_dateCalendar);
+                _isLoadingCalendar = false;
             }
             else if (_viewType == ViewType.List.ToString())
             {
@@ -215,6 +212,46 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         }
         catch (Exception ex)
         {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;
+    }
+
+    private async Task PreviousPeriodAsync(DateTimeRange date)
+    {
+        try
+        {
+            _isLoadingCalendar = true;
+            DateTimeRange previousDate = new();
+            previousDate = _dateTimeService.GetPreviousMonth(date);
+
+            await RefreshDropdownDateMonthYear(previousDate);
+            _isLoadingCalendar = false;
+        }
+        catch (Exception ex)
+        {
+            _isLoadingCalendar = false;
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+        
+        await Task.CompletedTask;
+    }
+
+    private async Task NextPeriodAsync(DateTimeRange date)
+    {
+        try
+        {
+            _isLoadingCalendar = true;
+            DateTimeRange nextDate = new();
+            nextDate = _dateTimeService.GetNextMonth(date);
+
+            await RefreshDropdownDateMonthYear(nextDate);
+            _isLoadingCalendar = false;
+        }
+        catch (Exception ex)
+        {
+            _isLoadingCalendar = false;
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 

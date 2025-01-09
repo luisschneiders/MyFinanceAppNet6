@@ -18,15 +18,15 @@
             return theme;
         }
 
-        var mode = window.matchMedia('(prefers-color-scheme: light)').matches ? 'dark' : 'light';
+        var mode = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
 
         return capitalizeWord(mode);
     };
 
     const setTheme = function (theme) {
         var color = theme;
-        if (color.toLowerCase() === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.setAttribute('data-bs-theme', 'dark')
+        if (color.toLowerCase() === 'auto' && window.matchMedia('(prefers-color-scheme: light)').matches) {
+            document.documentElement.setAttribute('data-bs-theme', 'light')
             localStorage.setItem(key, JSON.stringify(theme));
         } else {
             document.documentElement.setAttribute('data-bs-theme', color.toLowerCase())
@@ -44,7 +44,7 @@
 
     setTheme(getPreferredTheme());
 
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
         if (storedTheme !== "light" || storedTheme !== "dark") {
             setTheme(getPreferredTheme())
         }

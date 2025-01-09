@@ -3,8 +3,8 @@
 public class DateTimeService : IDateTimeService
 {
     public DateTimeService()
-	{
-	}
+    {
+    }
 
     public DateTimeRange GetCurrentWeek()
     {
@@ -29,6 +29,32 @@ public class DateTimeService : IDateTimeService
 
         dateTimeRange.Start = startDate;
         dateTimeRange.End = endDate;
+
+        return dateTimeRange;
+    }
+
+    public DateTimeRange GetPreviousMonth(DateTimeRange date)
+    {
+        DateTimeRange dateTimeRange = new()
+        {
+            Start = date.Start.AddMonths(-1),
+            End = date.End.AddMonths(-1)
+        };
+
+        dateTimeRange.End = GetLastDayOfMonth(dateTimeRange);
+
+        return dateTimeRange;
+    }
+
+    public DateTimeRange GetNextMonth(DateTimeRange date)
+    {
+        DateTimeRange dateTimeRange = new()
+        {
+            Start = date.Start.AddMonths(1),
+            End = date.End.AddMonths(1)
+        };
+
+        dateTimeRange.End = GetLastDayOfMonth(dateTimeRange);
 
         return dateTimeRange;
     }
