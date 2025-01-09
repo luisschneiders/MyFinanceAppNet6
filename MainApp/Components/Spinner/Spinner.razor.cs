@@ -7,7 +7,7 @@ namespace MainApp.Components.Spinner;
 public partial class Spinner : ComponentBase, IDisposable
 {
     [Inject]
-    private SpinnerService _spinnerService { get; set; }
+    private ISpinnerService _spinnerService { get; set; } = default!;
 
     [Parameter]
     public Size Size { get; set; }
@@ -22,7 +22,6 @@ public partial class Spinner : ComponentBase, IDisposable
 
     public Spinner()
     {
-        _spinnerService = new();
         _componentSize = string.Empty;
         _componentColor = string.Empty;
     }

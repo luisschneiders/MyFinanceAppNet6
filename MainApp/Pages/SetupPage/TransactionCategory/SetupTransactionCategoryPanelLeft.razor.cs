@@ -14,7 +14,7 @@ public partial class SetupTransactionCategoryPanelLeft : ComponentBase
     private ToastService _toastService { get; set; } = new();
 
     [Inject]
-    private SpinnerService _spinnerService { get; set; } = new();
+    private ISpinnerService _spinnerService { get; set; } = default!;
 
     [Inject]
     private IEnumHelper _enumHelper { get; set; } = default!;

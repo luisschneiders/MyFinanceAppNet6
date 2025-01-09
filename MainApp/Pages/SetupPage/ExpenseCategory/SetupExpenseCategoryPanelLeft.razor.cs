@@ -17,7 +17,7 @@ public partial class SetupExpenseCategoryPanelLeft : ComponentBase
     private ToastService _toastService { get; set; } = new();
 
     [Inject]
-    private SpinnerService _spinnerService { get; set; } = new();
+    private ISpinnerService _spinnerService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();

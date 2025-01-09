@@ -80,7 +80,6 @@ public static class RegisterServices
         builder.Services.AddScoped<ISessionStorageService, SessionStorageService>();
 
 //      Components
-        builder.Services.AddScoped<SpinnerService>();
         builder.Services.AddScoped<ToastService>();
         builder.Services.AddScoped<IAnimationService, AnimationService>();
         builder.Services.AddScoped<ICalendarViewService, CalendarViewService>();
@@ -94,6 +93,7 @@ public static class RegisterServices
         builder.Services.AddScoped<IDropdownFilterService, DropdownFilterService>();
         builder.Services.AddScoped<IDropdownMultiSelectService, DropdownMultiSelectService>();
         builder.Services.AddScoped<IOffCanvasService, OffCanvasService>();
+        builder.Services.AddScoped<ISpinnerService, SpinnerService>();
 
 //      Data
         builder.Services.AddScoped<IBankService<BankModel>, BankService>();

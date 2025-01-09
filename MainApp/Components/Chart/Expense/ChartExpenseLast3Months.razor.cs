@@ -14,7 +14,7 @@ public partial class ChartExpenseLast3Months : ComponentBase
     private ToastService _toastService { get; set; } = new();
 
     [Inject]
-    private SpinnerService _spinnerService { get; set; } = new();
+    private ISpinnerService _spinnerService { get; set; } = default!;
 
     private ChartConfigData _chartConfigData { get; set; } = new();
 

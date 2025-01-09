@@ -11,7 +11,7 @@ public partial class AdminTransactionModalDetails : ComponentBase
     private ToastService _toastService { get; set; } = default!;
 
     [Inject]
-    private SpinnerService _spinnerService { get; set; } = new();
+    private ISpinnerService _spinnerService { get; set; } = default!;
 
     [Inject]
     private ITransactionService<TransactionModel> _transactionService { get; set; } = default!;
