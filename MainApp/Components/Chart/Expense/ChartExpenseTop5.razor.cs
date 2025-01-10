@@ -17,7 +17,7 @@ public partial class ChartExpenseTop5 : ComponentBase
     private ToastService _toastService { get; set; } = new();
 
     [Inject]
-    private SpinnerService _spinnerService { get; set; } = new();
+    private ISpinnerService _spinnerService { get; set; } = default!;
     
     [Inject]
     private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;

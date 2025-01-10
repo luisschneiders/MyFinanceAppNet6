@@ -17,7 +17,7 @@ public partial class AdminExpenseModalDetails : ComponentBase
     private IGoogleService _googleService { get; set; } = default!;
 
     [Inject]
-    private SpinnerService _spinnerService { get; set; } = new();
+    private ISpinnerService _spinnerService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();

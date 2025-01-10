@@ -8,7 +8,7 @@ namespace MainApp.Components.Chart.Expense;
 public partial class ChartExpenseByMonth : ComponentBase
 {
     [Inject]
-    private SpinnerService _spinnerService { get; set; } = new();
+    private ISpinnerService _spinnerService { get; set; } = default!;
 
     [Inject]
     private ToastService _toastService { get; set; } = new();
