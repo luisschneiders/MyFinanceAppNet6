@@ -13,9 +13,6 @@ public partial class ChartBankAccountActive : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = new();
 
-    [Inject]
-    private ISpinnerService _spinnerService { get; set; } = default!;
-
     [Parameter]
     public ChartType ChartType { get; set; } = ChartType.polarArea;
 
@@ -36,9 +33,7 @@ public partial class ChartBankAccountActive : ComponentBase
         {
             try
             {
-                _spinnerService.ShowSpinner();
-
-// TODO: Create a service/helper for dinamic icons based on ChartType
+                // TODO: Create a service/helper for dinamic icons based on ChartType
                 if (ChartType == ChartType.bar)
                 {
                     _chartIcon = "bi-bar-chart-line";
