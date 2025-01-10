@@ -1,6 +1,6 @@
-﻿@using MainApp.Components.Shared
-@using MainApp.Components.Dropdown.DateRange
-@using MainApp.Components.Spinner
+﻿@using MainApp.Components.Dropdown.DateRange
+@using MainApp.Components.Loader
+@using MainApp.Components.Shared
 
 <SharedHeader Title="Purchase location"
                 Icon="bi-map"
@@ -21,12 +21,7 @@
     <div class="col-12 d-flex justify-content-center">
         @if (_isLoading)
         {
-            <div class="text-center">
-                <Spinner Size="Size.Sm" />
-                <span>
-                    Loading ...
-                </span>
-            </div>
+            <Loader />
         }
         else
         {

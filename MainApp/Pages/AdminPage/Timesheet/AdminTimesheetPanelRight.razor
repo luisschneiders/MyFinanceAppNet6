@@ -1,4 +1,5 @@
-﻿@using MainApp.Components.Tools
+﻿@using MainApp.Components.Loader
+@using MainApp.Components.Tools
 
 <div class="d-flex flex-column gap-4">
     @* <CardView Styles="w-100 border-0 bg-info-subtle">
@@ -11,12 +12,7 @@
                     <div class="form-control form-control-sm bg-light-subtle text-info-emphasis p-2 border-0">
                         @if (_isLoading)
                         {
-                            <div class="d-flex justify-content-center align-items-center">
-                                <Spinner Size="Size.Sm" />
-                                <span class="ps-2">
-                                    Loading ...
-                                </span>
-                            </div>
+                            <Loader />
                         }
                         else
                         {

@@ -4,7 +4,7 @@
 @using MainApp.Components.Card
 @using MainApp.Components.Dropdown.Actions
 @using MainApp.Components.Dropdown.DateRange
-@using MainApp.Components.Spinner
+@using MainApp.Components.Loader
 
 <CardView Styles="border-0">
     <CardMiddle>
@@ -79,12 +79,7 @@
                 <div class="app-page-responsive-height">
                     @if (_isLoading)
                     {
-                        <div class="d-flex justify-content-center align-items-center">
-                            <Spinner Size="Size.Sm" />
-                            <span class="ps-2">
-                                Loading ...
-                            </span>
-                        </div>
+                        <Loader />
                     }
                     else
                     {

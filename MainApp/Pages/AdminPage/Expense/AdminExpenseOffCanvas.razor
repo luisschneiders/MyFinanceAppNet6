@@ -1,6 +1,7 @@
-﻿@using MainApp.Components.OffCanvas
+﻿@using MainApp.Components.Badge
 @using MainApp.Components.Dropdown.Actions
-@using MainApp.Components.Badge
+@using MainApp.Components.Loader
+@using MainApp.Components.OffCanvas
 
 <OffCanvas @ref="_offCanvasService.OffCanvas" PositionX="Position.End">
     <div class="row align-items-center">
@@ -78,7 +79,7 @@
                 <div class="form-floating pb-2">
                     @if (_isLoading)
                     {
-                        <span>Loading...</span>
+                        <Loader />
                     }
                     else
                     {
@@ -98,7 +99,7 @@
                 <div class="form-floating pb-2">
                     @if (_isLoading)
                     {
-                        <span>Loading...</span>
+                        <Loader />
                     }
                     else
                     {
@@ -120,7 +121,7 @@
                     <div class="form-floating pb-2">
                         @if (_isLoading)
                         {
-                            <span>Loading...</span>
+                            <Loader />
                         }
                         else
                         {

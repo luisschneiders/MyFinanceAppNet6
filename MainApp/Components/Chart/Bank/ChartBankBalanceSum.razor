@@ -1,6 +1,6 @@
 ﻿@using MainApp.Components.Card
 @using MainApp.Components.Badge
-@using MainApp.Components.Spinner
+@using MainApp.Components.Loader
 @using MainApp.Components.Shared
 
 <SharedHeader Title="All Accounts"
@@ -9,12 +9,7 @@
 
 @if (_isLoading)
 {
-    <div class="d-flex justify-content-center align-items-center">
-        <Spinner Size="Size.Sm" />
-        <span class="ps-1">
-            Loading ...
-        </span>
-    </div>
+    <Loader />
 }
 else
 {

@@ -13,9 +13,6 @@ public partial class SetupCompanyPanelLeft : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = new();
 
-    [Inject]
-    private ISpinnerService _spinnerService { get; set; } = default!;
-
     [CascadingParameter(Name = "AppSettings")]
     protected AppSettings _appSettings { get; set; } = new();
 
@@ -41,16 +38,6 @@ public partial class SetupCompanyPanelLeft : ComponentBase
     protected async override Task OnInitializedAsync()
     {
         await FetchDataAsync();
-        await Task.CompletedTask;
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            _spinnerService.ShowSpinner();
-        }
-
         await Task.CompletedTask;
     }
 

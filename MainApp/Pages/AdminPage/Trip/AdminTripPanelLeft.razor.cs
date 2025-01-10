@@ -13,9 +13,6 @@ public partial class AdminTripPanelLeft : ComponentBase
     private ToastService _toastService { get; set; } = new();
 
     [Inject]
-    private ISpinnerService _spinnerService { get; set; } = default!;
-
-    [Inject]
     private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
 
     [Inject]
@@ -65,7 +62,6 @@ public partial class AdminTripPanelLeft : ComponentBase
         {
             try
             {
-                _spinnerService.ShowSpinner();
                 await FetchDataAsync();
             }
             catch (Exception ex)
