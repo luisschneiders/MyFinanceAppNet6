@@ -1,6 +1,6 @@
-﻿@using MainApp.Components.Spinner
+﻿@using MainApp.Components.Dropdown.DateRange
+@using MainApp.Components.Loader
 @using MainApp.Components.Shared
-@using MainApp.Components.Dropdown.DateRange
 
 <SharedHeader Title="In & Out"
               Icon="@_chartIcon"
@@ -8,12 +8,7 @@
 
 @if (_isLoading)
 {
-    <div class="d-flex justify-content-center align-items-center">
-        <Spinner Size="Size.Sm" />
-        <span class="ps-1">
-            Loading ...
-        </span>
-    </div>
+    <Loader />
 }
 else
 {

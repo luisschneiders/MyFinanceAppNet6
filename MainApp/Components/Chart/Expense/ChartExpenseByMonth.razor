@@ -1,8 +1,8 @@
 ﻿@using MainApp.Components.Badge
 @using MainApp.Components.Dropdown.DateRange
 @using MainApp.Components.Dropdown.MultiSelect
+@using MainApp.Components.Loader
 @using MainApp.Components.Shared
-@using MainApp.Components.Spinner
 
 <SharedHeader Title="Total expense by period"
               Icon="@_chartIcon"
@@ -11,12 +11,7 @@
               BadgeTitle="New chart" />
 @if (_isLoading)
 {
-    <div class="d-flex justify-content-center align-items-center">
-        <Spinner Size="Size.Sm" />
-        <span class="ps-1">
-            Loading ...
-        </span>
-    </div>
+    <Loader />
 }
 else
 {

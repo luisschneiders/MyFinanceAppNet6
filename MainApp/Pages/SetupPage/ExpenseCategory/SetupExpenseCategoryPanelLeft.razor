@@ -1,7 +1,7 @@
 ﻿@using MainApp.Components.Badge.Color
 @using MainApp.Components.Card
 @using MainApp.Components.Dropdown.Actions
-@using MainApp.Components.Spinner
+@using MainApp.Components.Loader
 
 <CardView Styles="border-0">
     <CardMiddle>
@@ -131,12 +131,7 @@
                                 {
                                     <tr>
                                         <td class="text-center" colspan="4">
-                                            <div>
-                                                <Spinner Size="Size.Sm" />
-                                                <span>
-                                                    Loading ...
-                                                </span>
-                                            </div>
+                                            <Loader />
                                         </td>
                                     </tr>
                                 }

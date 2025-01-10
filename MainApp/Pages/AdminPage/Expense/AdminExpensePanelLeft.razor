@@ -7,8 +7,7 @@
 @using MainApp.Components.Dropdown.Date
 @using MainApp.Components.Dropdown.DateRange
 @using MainApp.Components.Dropdown.Filter
-@using MainApp.Components.Load
-@using MainApp.Components.Spinner
+@using MainApp.Components.Loader
 
 <CardView Styles="border-0">
     <CardMiddle>
@@ -16,12 +15,7 @@
             <div class="col-10 col-lg-9 pb-2 d-flex align-items-center">
                 @if (_isLoading)
                 {
-                    <div class="d-flex justify-content-center align-items-center h-100">
-                        <Spinner Size="Size.Sm" />
-                        <span class="ps-2">
-                            Loading ...
-                        </span>
-                    </div>
+                    <Loader />
                 }
                 else
                 {
@@ -119,7 +113,7 @@
                 <div class="app-page-responsive-height @(_viewType == ViewType.Calendar.ToString() ? "rounded"+_appSettings.Card : "")">
                     @if (_isLoading)
                     {
-                        <Load />
+                        <Loader />
                     }
                     else
                     {
@@ -143,11 +137,11 @@
                                 </CalendarHeaderView>
                                 <CalendarBodyView>
                                     <CalendarBodyWrapper>
-                                        @if (_isLoadingCalendar is true)
+                                        @if (_isLoadingCalendar)
                                         {
                                             <tr>
                                                 <td colspan="7">
-                                                    <Load />
+                                                    <Loader />
                                                 </td>
                                             </tr>
                                         }
