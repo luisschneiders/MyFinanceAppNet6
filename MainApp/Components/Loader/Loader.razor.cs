@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Components;
 
-namespace MainApp.Components.Load;
+namespace MainApp.Components.Loader;
 
-public partial class Load : ComponentBase
+public partial class Loader : ComponentBase
 {
     [Parameter]
     public string Message { get; set; } = Label.Loading;
@@ -13,7 +13,7 @@ public partial class Load : ComponentBase
     [Parameter]
     public Theme Color { get; set; } = Theme.Primary;
 
-    public Load()
+    public Loader()
     {
     }
 }
