@@ -28,7 +28,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private IEnumHelper _enumHelper { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     /*
      * Add component reference

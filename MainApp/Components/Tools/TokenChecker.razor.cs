@@ -15,7 +15,7 @@ public partial class TokenChecker : ComponentBase
     private ISessionStorageService _sessionStorageService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     private Response<string> _response = new();
     private bool _isTokenExpired { get; set; } = false;

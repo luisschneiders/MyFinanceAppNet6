@@ -19,7 +19,7 @@ public partial class AdminExpenseModalFilter : ComponentBase
     private IDropdownMultiSelectService _dropDownMultiSelectService { get;set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     [Parameter]
     public EventCallback<MultiFilterExpenseDTO> OnSubmitFilterSuccess { get; set; }

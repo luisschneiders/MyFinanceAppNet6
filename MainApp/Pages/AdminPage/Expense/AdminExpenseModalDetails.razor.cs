@@ -17,7 +17,7 @@ public partial class AdminExpenseModalDetails : ComponentBase
     private IGoogleService _googleService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     [Parameter]
     public EventCallback<DateTime> OnSubmitSuccess { get; set; }

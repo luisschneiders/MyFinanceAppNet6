@@ -14,7 +14,7 @@ public partial class AdminTransactionModalDetails : ComponentBase
     private ITransactionService<TransactionModel> _transactionService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     [Parameter]
     public EventCallback<DateTime> OnSubmitSuccess { get; set; }

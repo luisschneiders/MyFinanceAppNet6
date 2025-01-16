@@ -6,7 +6,7 @@ namespace MainApp.Shared;
 public partial class LoginDisplay : ComponentBase
 {
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     public LoginDisplay()
     {

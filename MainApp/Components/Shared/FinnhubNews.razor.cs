@@ -14,7 +14,7 @@ public partial class FinnhubNews : ComponentBase
     private ToastService _toastService { get; set; } = new();
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     Response<List<FinnhubNewsModel>> _newsList { get; set; } = default!;
 

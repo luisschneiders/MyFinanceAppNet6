@@ -17,7 +17,7 @@ public partial class AdminExpenseChart : ComponentBase
     private IBrowserService _browserService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     private Modal _modal { get; set; } = new();
     private Guid _modalTarget { get; set; }

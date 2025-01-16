@@ -1,7 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Components;
-
-namespace MainApp.Settings.Shared
+﻿namespace MainApp.Settings.Shared
 {
 	public class AppSettings : IAppSettings
 	{

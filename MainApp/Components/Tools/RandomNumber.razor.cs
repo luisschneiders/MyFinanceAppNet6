@@ -5,7 +5,7 @@ namespace MainApp.Components.Tools;
 public partial class RandomNumber : ComponentBase
 {
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     private int _randonNumberMin { get; set; } = 1;
     private int _randonNumberMax { get; set; } = 1000;

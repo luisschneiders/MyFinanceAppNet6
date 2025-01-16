@@ -1,6 +1,4 @@
-﻿using MainApp.Components.Spinner;
-using MainApp.Components.Toast;
-using MainApp.Pages.SetupPage.Vehicle;
+﻿using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Pages.SetupPage.Vehicle;
@@ -14,7 +12,7 @@ public partial class SetupVehiclePanelLeft : ComponentBase
     private ToastService _toastService { get; set; } = new();
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     /*
      * Add OffCanvas component reference

@@ -18,7 +18,7 @@ public partial class AdminTimesheetModalFilter : ComponentBase
     private ITimesheetService<TimesheetModel> _timesheetService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     [Parameter]
     public EventCallback<MultiFilterTimesheetDTO> OnSubmitFilterSuccess { get; set; }

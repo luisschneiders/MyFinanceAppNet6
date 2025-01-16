@@ -22,7 +22,7 @@ public partial class AdminTripPanelLeft : ComponentBase
     private IEnumHelper _enumHelper { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     private DateTimeRange _dateTimeRange { get; set; } = new();
     private List<TripByVehicleGroupDTO> _tripsByGroup { get; set; } = new();

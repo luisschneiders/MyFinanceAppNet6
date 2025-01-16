@@ -38,7 +38,7 @@ public partial class DropdownActions : ComponentBase
     public string ButtonInnerStyles { get; set; } = string.Empty;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
 
     public DropdownActions()
