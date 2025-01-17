@@ -39,27 +39,6 @@ public class AppSettingsService : IAppSettingsService
         }
     }
 
-    public async Task SetTableColumns(string view, List<TableColumn> columns)
-    {
-        try
-        {
-            switch (view)
-            {
-                case PageView.Timesheet:
-                    await _localStorageService.SetAsync<List<TableColumn>>(LocalStorage.AppTimesheetTableColumn, columns);
-                    break;
-            }
-
-            await Task.CompletedTask;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("An exception occurred: " + ex.Message);
-            throw;
-        }
-    }
-
-
     public async Task<string> GetShapes()
     {
         try
@@ -80,6 +59,75 @@ public class AppSettingsService : IAppSettingsService
         }
     }
 
+    public async Task SetShadow(string shadow)
+    {
+        try
+        {
+            switch (shadow)
+            {
+                case Shadow.Default:
+                    await _localStorageService.SetAsync<string>(LocalStorage.AppInterfaceShadow, ShadowSize.Default.ToString());
+                    break;
+                case Shadow.Small:
+                    await _localStorageService.SetAsync<string>(LocalStorage.AppInterfaceShadow, ShadowSize.Small.ToString());
+                    break;
+                case Shadow.Medium:
+                    await _localStorageService.SetAsync<string>(LocalStorage.AppInterfaceShadow, ShadowSize.Medium.ToString());
+                    break;
+                case Shadow.Large:
+                    await _localStorageService.SetAsync<string>(LocalStorage.AppInterfaceShadow, ShadowSize.Large.ToString());
+                    break;
+            }
+
+            await Task.CompletedTask;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<string> GetShadow()
+    {
+        try
+        {
+            string shadow = await _localStorageService.GetAsync<string>(LocalStorage.AppInterfaceShadow);
+
+            if (string.IsNullOrEmpty(shadow))
+            {
+                shadow = Shadow.Medium;
+            }
+
+            return await Task.FromResult(shadow);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task SetTableColumns(string view, List<TableColumn> columns)
+    {
+        try
+        {
+            switch (view)
+            {
+                case PageView.Timesheet:
+                    await _localStorageService.SetAsync<List<TableColumn>>(LocalStorage.AppTimesheetTableColumn, columns);
+                    break;
+            }
+
+            await Task.CompletedTask;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public async Task<AppSettings> GetInterface()
     {
         try
@@ -90,7 +138,8 @@ public class AppSettingsService : IAppSettingsService
                 Card = await GetCardShape(),
                 Form = await GetFormShape(),
                 Menu = await GetMenuShape(),
-                Modal = await GetModalShape()
+                Modal = await GetModalShape(),
+                Shadow = await GetShadowSize(),
             };
 
             return await Task.FromResult(appSettings);
@@ -228,6 +277,20 @@ public class AppSettingsService : IAppSettingsService
         }
     }
 
+    private async Task<string> GetShadowSize()
+    {
+        try
+        {
+            string shadow = await BuildShadowSize(Shadow.Default);
+            return await Task.FromResult(shadow);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     private async Task<string> BuildShape(string radius)
     {
         try
@@ -249,6 +312,38 @@ public class AppSettingsService : IAppSettingsService
             }
 
             return await Task.FromResult(componentRadius);
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+    private async Task<string> BuildShadowSize(string shadow)
+    {
+        try
+        {
+            string defaultShadow = await GetShadow();
+            string componentShadow = string.Empty;
+
+            switch (defaultShadow)
+            {
+                case "Default":
+                    componentShadow = Shadow.Default;
+                    break;
+                case "Small":
+                    componentShadow = Shadow.Small;
+                    break;
+                case "Large":
+                    componentShadow = Shadow.Large;
+                    break;
+                case "":
+                    componentShadow = shadow;
+                    break;
+            }
+
+            return await Task.FromResult(componentShadow);
 
         }
         catch (Exception ex)

@@ -14,13 +14,10 @@ public partial class SetupTransactionCategoryPanelLeft : ComponentBase
     private ToastService _toastService { get; set; } = new();
 
     [Inject]
-    private ISpinnerService _spinnerService { get; set; } = default!;
-
-    [Inject]
     private IEnumHelper _enumHelper { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     /*
      * Add OffCanvas component reference
@@ -42,16 +39,6 @@ public partial class SetupTransactionCategoryPanelLeft : ComponentBase
     protected async override Task OnInitializedAsync()
     {
         await FetchDataAsync();
-        await Task.CompletedTask;
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            _spinnerService.ShowSpinner();
-        }
-
         await Task.CompletedTask;
     }
 

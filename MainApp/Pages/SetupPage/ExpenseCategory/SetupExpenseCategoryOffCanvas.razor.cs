@@ -23,7 +23,7 @@ public partial class SetupExpenseCategoryOffCanvas : ComponentBase
     public ExpenseCategoryModel DataModel { get; set; } = default!;
 
     [Parameter]
-    public AppSettings AppSettings { get; set; } = default!;
+    public IAppSettings AppSettings { get; set; } = default!;
 
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;

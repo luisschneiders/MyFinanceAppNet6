@@ -5,7 +5,7 @@ namespace MainApp.Pages.SetupPage;
 public partial class Setup : ComponentBase
 {
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     public Setup()
     {

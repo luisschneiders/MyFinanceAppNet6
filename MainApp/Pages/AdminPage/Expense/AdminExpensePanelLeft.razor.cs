@@ -24,7 +24,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private ICalendarViewService _calendarViewService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     /*
      * Add component reference

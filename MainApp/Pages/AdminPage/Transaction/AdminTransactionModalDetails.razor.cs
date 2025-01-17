@@ -11,13 +11,10 @@ public partial class AdminTransactionModalDetails : ComponentBase
     private ToastService _toastService { get; set; } = default!;
 
     [Inject]
-    private ISpinnerService _spinnerService { get; set; } = default!;
-
-    [Inject]
     private ITransactionService<TransactionModel> _transactionService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     [Parameter]
     public EventCallback<DateTime> OnSubmitSuccess { get; set; }
@@ -39,7 +36,6 @@ public partial class AdminTransactionModalDetails : ComponentBase
             _modalTarget = Guid.NewGuid();
             _dateTimeRange.Start = date;
             _dateTimeRange.End = date;
-            _spinnerService.ShowSpinner();
 
             await _modal.Open(_modalTarget);
 

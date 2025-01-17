@@ -1,7 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Components;
-
-namespace MainApp.Settings.Shared
+﻿namespace MainApp.Settings.Shared
 {
 	public class AppSettings : IAppSettings
 	{
@@ -10,5 +7,6 @@ namespace MainApp.Settings.Shared
         public string Form { get; set; } = string.Empty;
         public string Menu { get; set; } = string.Empty;
         public string Modal { get; set; } = string.Empty;
+        public string Shadow { get; set; } = string.Empty;
     }
 }

@@ -6,7 +6,7 @@ namespace MainApp.Components.Tools;
 public partial class SpinnerChecker : ComponentBase
 {
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     [Inject]
     private ISpinnerService _spinnerService { get; set; } = default!;

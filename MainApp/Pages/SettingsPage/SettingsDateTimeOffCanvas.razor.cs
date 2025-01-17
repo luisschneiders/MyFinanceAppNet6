@@ -14,7 +14,7 @@ public partial class SettingsDateTimeOffCanvas : ComponentBase
     private IAppSettingsService _appSettingsService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     private OffCanvas _offCanvas { get; set; } = new();
     private string _offCanvasTarget { get; set; } = string.Empty;

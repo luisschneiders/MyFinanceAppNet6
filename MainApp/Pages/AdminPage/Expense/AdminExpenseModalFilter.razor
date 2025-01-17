@@ -13,7 +13,7 @@
     </Title>
     <Body>
         <div class="d-flex">
-            <div class="d-flex bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) me-2">
+            <div class="d-flex me-2">
                 <DropdownMultiSelect ButtonSize="Size.Sm"
                                 DropdownLabel="@Label.FilterByExpenseCategory"
                                 DropdownPosition="Position.Start"
@@ -36,7 +36,7 @@
                         </li>
                     }
                 </DropdownMultiSelect>
-                @if (_multiFilterExpenseDTO.ECategoryId.Count > 0)
+                @* @if (_multiFilterExpenseDTO.ECategoryId.Count > 0)
                 {
                     <div class="d-flex align-items-center">
                         <button class="btn btn-@(Size.Sm.ToString().ToLower()) text-@(Theme.Dark.ToString().ToLower())-emphasis"
@@ -45,9 +45,9 @@
                                 <Badge BackgroundColor="@Theme.Light" Message="Clear Filter" />
                         </button>
                     </div>
-                }
+                } *@
             </div>
-            <div class="d-flex bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) me-2">
+            <div class="d-flex me-2">
                 <DropdownMultiSelect ButtonSize="Size.Sm"
                                 DropdownLabel="@Label.FilterByBank"
                                 DropdownPosition="Position.Start"
@@ -70,7 +70,7 @@
                         </li>
                     }
                 </DropdownMultiSelect>
-                @if (_multiFilterExpenseDTO.BankId.Count > 0)
+                @* @if (_multiFilterExpenseDTO.BankId.Count > 0)
                 {
                     <div class="d-flex align-items-center">
                         <button class="btn btn-@(Size.Sm.ToString().ToLower()) text-@(Theme.Dark.ToString().ToLower())-emphasis"
@@ -79,7 +79,7 @@
                                 <Badge BackgroundColor="@Theme.Light" Message="Clear Filter" />
                         </button>
                     </div>
-                }
+                } *@
             </div>
         </div>
     </Body>

@@ -14,17 +14,46 @@
         </div>
         <div class="row">
             <div class="col-12 d-flex justify-content-between">
-                <input type="radio" class="btn-check" name="options-outlined" id="Square" autocomplete="off" checked="@(_appSettings.Button == Radius.Square ? true : false)"
+                <input type="radio" class="btn-check" name="ui-shape" id="Square" autocomplete="off" checked="@(_appSettings.Button == Radius.Square ? true : false)"
                        @onclick="() => SetRadiusAsync(Radius.Square)">
                 <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary rounded-0" for="Square">Square</label>
 
-                <input type="radio" class="btn-check" name="options-outlined" id="Default" autocomplete="off" checked="@(_appSettings.Button == Radius.Default ? true : false)"
+                <input type="radio" class="btn-check" name="ui-shape" id="Default" autocomplete="off" checked="@(_appSettings.Button == Radius.Default ? true : false)"
                        @onclick="() => SetRadiusAsync(Radius.Default)">
                 <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary rounded" for="Default">Default</label>
 
-                <input type="radio" class="btn-check" name="options-outlined" id="Round" autocomplete="off" checked="@(_appSettings.Button == Radius.Round5 ? true : false)"
+                <input type="radio" class="btn-check" name="ui-shape" id="Round" autocomplete="off" checked="@(_appSettings.Button == Radius.Round5 ? true : false)"
                        @onclick="() => SetRadiusAsync(Radius.Round5)">
                 <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary rounded-5" for="Round">Round</label>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset class="py-5">
+        <legend><i class="bi bi-ui-checks-grid text-info-emphasis fs-5 pe-2"></i>Shadows</legend>
+        <div class="row">
+            <div class="col-auto pb-2">
+                <small class="text-secondary">
+                    Buttons and fields
+                </small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 d-flex justify-content-between">
+                <input type="radio" class="btn-check" name="ui-shadow" id="NoShadow" autocomplete="off" checked="@(_appSettings.Shadow == Shadow.Default ? true : false)"
+                       @onclick="() => SetShadowAsync(Shadow.Default)">
+                <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary @("rounded"+_appSettings.Button) shadow-none" for="NoShadow">None</label>
+
+                <input type="radio" class="btn-check" name="ui-shadow" id="SmallShadow" autocomplete="off" checked="@(_appSettings.Shadow == Shadow.Small ? true : false)"
+                       @onclick="() => SetShadowAsync(Shadow.Small)">
+                <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary @("rounded"+_appSettings.Button) shadow-sm" for="SmallShadow">Small</label>
+
+                <input type="radio" class="btn-check" name="ui-shadow" id="RegularShadow" autocomplete="off" checked="@(_appSettings.Shadow == Shadow.Medium ? true : false)"
+                       @onclick="() => SetShadowAsync(Shadow.Medium)">
+                <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary @("rounded"+_appSettings.Button) shadow" for="RegularShadow">Medium</label>
+
+                <input type="radio" class="btn-check" name="ui-shadow" id="LargeShadow" autocomplete="off" checked="@(_appSettings.Shadow == Shadow.Large ? true : false)"
+                       @onclick="() => SetShadowAsync(Shadow.Large)">
+                <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary @("rounded"+_appSettings.Button) shadow-lg" for="LargeShadow">Large</label>
             </div>
         </div>
     </fieldset>

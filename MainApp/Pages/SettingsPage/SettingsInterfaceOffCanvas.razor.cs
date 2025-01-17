@@ -13,7 +13,7 @@ public partial class SettingsInterfaceOffCanvas : ComponentBase
     private IAppSettingsService _appSettingsService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     /*
      * Add Modal component reference
@@ -22,9 +22,7 @@ public partial class SettingsInterfaceOffCanvas : ComponentBase
 
     private OffCanvas _offCanvas { get; set; } = new();
     private string _offCanvasTarget { get; set; } = string.Empty;
-
-    private string _radius { get; set; } = Radius.Default;
-    private bool _shapeChanged { get; set; } = false;
+    private bool _interfaceChanged { get; set; } = false;
 
     public SettingsInterfaceOffCanvas()
 	{
@@ -40,9 +38,15 @@ public partial class SettingsInterfaceOffCanvas : ComponentBase
 
     private async Task SetRadiusAsync(string radius)
     {
-        _radius = radius;
-        _shapeChanged = true;
+        _interfaceChanged = true;
         await _appSettingsService.SetShapes(radius);
+        await Task.CompletedTask;
+    }
+
+    private async Task SetShadowAsync(string shadow)
+    {
+        _interfaceChanged = true;
+        await _appSettingsService.SetShadow(shadow);
         await Task.CompletedTask;
     }
 
@@ -51,7 +55,7 @@ public partial class SettingsInterfaceOffCanvas : ComponentBase
 
         await Task.FromResult(_offCanvas.Close(_offCanvasTarget));
 
-        if (_shapeChanged)
+        if (_interfaceChanged)
         {
             await Task.Delay((int)Delay.DataLoading);
             await ReloadAsync();

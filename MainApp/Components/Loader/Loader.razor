@@ -1,0 +1,11 @@
+﻿<div class="d-flex justify-content-center align-items-center h-100">
+    <div class="spinner-border spinner-border-@Size.ToString().ToLower() text-@Color.ToString().ToLower()" role="status">
+        <span class="visually-hidden">@Label.Loading</span>
+    </div>
+    @if (Message.Length > 0)
+    {
+        <span class="ps-1">
+            @Message
+        </span>
+    }
+</div>

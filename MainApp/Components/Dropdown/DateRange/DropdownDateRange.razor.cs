@@ -12,7 +12,7 @@ public partial class DropdownDateRange : ComponentBase
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     [Parameter]
     public EventCallback<DateTimeRange> OnSubmitSuccess { get; set; }

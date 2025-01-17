@@ -17,7 +17,7 @@ public partial class SetupTransactionCategoryOffCanvas : ComponentBase
     private ToastService _toastService { get; set; } = default!;
 
     [Parameter]
-    public AppSettings AppSettings { get; set; } = default!;
+    public IAppSettings AppSettings { get; set; } = default!;
 
     [Parameter]
     public EventCallback OnSubmitSuccess { get; set; }

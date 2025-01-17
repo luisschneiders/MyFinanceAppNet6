@@ -19,7 +19,7 @@ public partial class AdminTransactionModalFilter : ComponentBase
     private IBankService<BankModel> _bankService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     [Parameter]
     public EventCallback<MultiFilterTransactionDTO> OnSubmitFilterSuccess { get; set; }
@@ -104,27 +104,27 @@ public partial class AdminTransactionModalFilter : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task RemoveDropdownFilterBank()
-    {
-        _multiFilterTransactionDTO.FromBank = new();
-        _banks = await _dropDownMultiSelectService.UncheckAll(_banks);
+    // private async Task RemoveDropdownFilterBank()
+    // {
+    //     _multiFilterTransactionDTO.FromBank = new();
+    //     _banks = await _dropDownMultiSelectService.UncheckAll(_banks);
         
-        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTransactionDTO);
+    //     await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTransactionDTO);
 
 
-        await Task.CompletedTask;
-    }
+    //     await Task.CompletedTask;
+    // }
 
-    private async Task RemoveDropdownFilterTransactionCategory()
-    {
-        _multiFilterTransactionDTO.TCategoryId = new();
-        _transactionCategories = await _dropDownMultiSelectService.UncheckAll(_transactionCategories);
+    // private async Task RemoveDropdownFilterTransactionCategory()
+    // {
+    //     _multiFilterTransactionDTO.TCategoryId = new();
+    //     _transactionCategories = await _dropDownMultiSelectService.UncheckAll(_transactionCategories);
         
-        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTransactionDTO);
+    //     await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTransactionDTO);
 
 
-        await Task.CompletedTask;
-    }
+    //     await Task.CompletedTask;
+    // }
 
     private async Task UncheckAll()
     {

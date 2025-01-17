@@ -5,7 +5,7 @@ namespace MainApp.Pages.AdminPage.Transaction;
 public partial class AdminTransactionPanelRight : ComponentBase
 {
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     public AdminTransactionPanelRight()
     {

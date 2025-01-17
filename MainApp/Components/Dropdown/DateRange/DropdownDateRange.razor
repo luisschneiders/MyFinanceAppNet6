@@ -1,4 +1,4 @@
-﻿<div class="btn-group bg-@(ButtonColor.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
+﻿<div class="btn-group bg-@(ButtonColor.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
     <div class="dropdown @(IsDisplayLargeNone ? "d-lg-none" : "") ">
         <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + Theme.Dark.ToString().ToLower() + "-emphasis") text-nowrap @("rounded"+_appSettings.Button)"
                 title="Change date range"

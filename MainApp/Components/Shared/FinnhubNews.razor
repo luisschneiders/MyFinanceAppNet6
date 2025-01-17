@@ -1,6 +1,6 @@
 ﻿@using MainApp.Components.ListGroup
+@using MainApp.Components.Loader
 @using MainApp.Components.Shared
-@using MainApp.Components.Spinner
 
 <SharedHeader Title="Latest news"
               Icon="bi-rss"
@@ -8,12 +8,7 @@
 
 @if (_isLoading)
 {
-    <div class="d-flex justify-content-center align-items-center h-100">
-        <Spinner Size="Size.Sm" />
-        <span class="ps-1">
-            Loading ...
-        </span>
-    </div>
+    <Loader />
 }
 else
 {

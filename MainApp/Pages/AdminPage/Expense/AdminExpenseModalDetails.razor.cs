@@ -16,11 +16,8 @@ public partial class AdminExpenseModalDetails : ComponentBase
     [Inject]
     private IGoogleService _googleService { get; set; } = default!;
 
-    [Inject]
-    private ISpinnerService _spinnerService { get; set; } = default!;
-
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     [Parameter]
     public EventCallback<DateTime> OnSubmitSuccess { get; set; }
@@ -45,7 +42,6 @@ public partial class AdminExpenseModalDetails : ComponentBase
             _modalTarget = Guid.NewGuid();
             _dateTimeRange.Start = date;
             _dateTimeRange.End = date;
-            _spinnerService.ShowSpinner();
 
             await _modal.Open(_modalTarget);
 

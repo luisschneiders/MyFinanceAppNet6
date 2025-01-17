@@ -7,7 +7,7 @@ public partial class Modal : ComponentBase
     // TODO: Add service for the modal
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     [Parameter]
     public RenderFragment? Title { get; set; }

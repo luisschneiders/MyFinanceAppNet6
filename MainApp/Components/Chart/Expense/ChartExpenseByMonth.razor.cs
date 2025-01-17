@@ -8,9 +8,6 @@ namespace MainApp.Components.Chart.Expense;
 public partial class ChartExpenseByMonth : ComponentBase
 {
     [Inject]
-    private ISpinnerService _spinnerService { get; set; } = default!;
-
-    [Inject]
     private ToastService _toastService { get; set; } = new();
 
     [Inject]
@@ -32,7 +29,7 @@ public partial class ChartExpenseByMonth : ComponentBase
     private IExpenseCategoryService<ExpenseCategoryModel> _expenseCategoryService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     [Parameter]
     public ChartType ChartType { get; set; } = ChartType.line; // Or ChartType.line
@@ -67,8 +64,6 @@ public partial class ChartExpenseByMonth : ComponentBase
         {
             try
             {
-                _spinnerService.ShowSpinner();
-
                 if (ChartType == ChartType.bar)
                 {
                     _chartIcon = "bi-bar-chart-line";
