@@ -7,5 +7,6 @@
         public string Form { get; set; } = string.Empty;
         public string Menu { get; set; } = string.Empty;
         public string Modal { get; set; } = string.Empty;
+        public string Shadow { get; set; } = string.Empty;
     }
 }

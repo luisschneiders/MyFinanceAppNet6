@@ -5,7 +5,7 @@ namespace MainApp.Components.Dropdown.MultiSelect;
 public partial class DropdownMultiSelect : ComponentBase
 {
     [CascadingParameter(Name = "AppSettings")]
-    protected IAppSettings _appSettings { get; set; } = default!;
+    protected AppSettings _appSettings { get; set; } = new();
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }

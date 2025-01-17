@@ -20,7 +20,7 @@
                 }
                 else
                 {
-                    <div class="btn-group align-items-center @("rounded"+_appSettings.Button)"
+                    <div class="btn-group align-items-center @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                          role="group"
                          aria-label="Radio toggle button group"
                          title="Change view">
@@ -33,7 +33,7 @@
                     @if (_viewType == ViewType.Calendar.ToString())
                     {
                         <div class="ps-2">
-                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                     @onclick="() => PreviousPeriodAsync(_dateCalendar)"
                                     title="Previous"
                                     disabled="@(_isLoadingCalendar ? true : false)">
@@ -44,7 +44,7 @@
                                                 DateTimeRange="@_dateCalendar"
                                                 DropdownLabel="@_dropdownDateCalendarLabel"
                                                 OnSubmitSuccess="data => RefreshDropdownDateMonthYear(data)" />
-                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                     @onclick="() => NextPeriodAsync(_dateCalendar)"
                                     title="Next"
                                     disabled="@(_isLoadingCalendar ? true : false)">
@@ -63,7 +63,7 @@
                         </div>
                     }
                     <div class="ps-2 d-none d-lg-flex">
-                        <div class="btn-group bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
+                        <div class="btn-group bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
                             <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
                                     @onclick="() => ApplyFiltersAsync()">
                                 <i class="bi bi-sliders2 pe-1"></i>Filters
@@ -74,17 +74,17 @@
                                     </sup>
                                 }
                             </button>
-                                @if (IsFilterApplied())
-                                {
-                                    <div class="d-flex align-items-center">
-                                        <div class="vr my-1 text-@(Theme.Dark.ToString().ToLower())-emphasis"></div>
-                                        <button class="btn btn-@(Size.Sm.ToString().ToLower())"
-                                                title="Remove"
-                                                @onclick="ResetAllFilters">
-                                            <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
-                                        </button>
-                                    </div>
-                                }
+                            @if (IsFilterApplied())
+                            {
+                                <div class="d-flex align-items-center">
+                                    <div class="vr my-1 text-@(Theme.Dark.ToString().ToLower())-emphasis"></div>
+                                    <button class="btn btn-@(Size.Sm.ToString().ToLower())"
+                                            title="Remove"
+                                            @onclick="ResetAllFilters">
+                                        <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
+                                    </button>
+                                </div>
+                            }
                         </div>
                     </div>
                     @if (_viewType == ViewType.List.ToString())
@@ -119,7 +119,7 @@
             </div>
             <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
                 <div class="d-none d-lg-block">
-                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => AddRecordAsync()">
                         <i class="bi bi-plus-lg pe-1"></i>New timesheet
                     </button>

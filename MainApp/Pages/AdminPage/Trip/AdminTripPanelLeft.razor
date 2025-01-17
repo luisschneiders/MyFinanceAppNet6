@@ -19,7 +19,7 @@
 
                 </div>
                 <div class="ps-2 d-none d-lg-flex">
-                    <div class="btn-group bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
+                    <div class="btn-group bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
                         <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
                                 @onclick="() => ApplyFiltersAsync()">
                             <i class="bi bi-sliders2 pe-1"></i>Filters
@@ -46,11 +46,11 @@
             </div>
             <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
                 <div class="d-none d-lg-block">
-                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-@Theme.Light.ToString().ToLower() border-@Theme.Dark.ToString().ToLower()-subtle @("rounded"+_appSettings.Button)"
+                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-@Theme.Light.ToString().ToLower() border-@Theme.Dark.ToString().ToLower()-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => PrintAsync()">
                         <i class="bi bi-printer pe-1"></i>Print
                     </button>
-                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => AddRecordAsync()">
                         <i class="bi bi-plus-lg pe-1"></i>New trip
                     </button>
