@@ -102,24 +102,24 @@ public partial class AdminTimesheetModalFilter : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task RemoveDropdownFilterCompany()
-    {
-        _multiFilterTimesheetDTO.CompanyId = new();
-        _companies = await _dropDownMultiSelectService.UncheckAll(_companies);
+    // private async Task RemoveDropdownFilterCompany()
+    // {
+    //     _multiFilterTimesheetDTO.CompanyId = new();
+    //     _companies = await _dropDownMultiSelectService.UncheckAll(_companies);
 
-        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTimesheetDTO);
+    //     await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTimesheetDTO);
 
-        await Task.CompletedTask;
-    }
-    private async Task RemoveDropdownFilterStatus()
-    {
-        _multiFilterTimesheetDTO.StatusId = new();
-        _statuses = await _dropDownMultiSelectService.UncheckAll(_statuses);
+    //     await Task.CompletedTask;
+    // }
+    // private async Task RemoveDropdownFilterStatus()
+    // {
+    //     _multiFilterTimesheetDTO.StatusId = new();
+    //     _statuses = await _dropDownMultiSelectService.UncheckAll(_statuses);
 
-        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTimesheetDTO);
+    //     await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTimesheetDTO);
 
-        await Task.CompletedTask;
-    }
+    //     await Task.CompletedTask;
+    // }
 
     private async Task UncheckAll()
     {
