@@ -67,7 +67,7 @@ public class GoogleService : IGoogleService
                 ["Height"] = height.ToString(),
             };
 
-            var uri = QueryHelpers.AddQueryString(EndPoint.V2GoogleMapStatic, query!);
+            var uri = QueryHelpers.AddQueryString(EndPoint.V2GoogleMapStaticImage, query!);
 
             Response<byte[]>? response = await client.GetFromJsonAsync<Response<byte[]>>(uri);
 
@@ -93,9 +93,35 @@ public class GoogleService : IGoogleService
         }
     }
 
+    public async Task<Response<Uri>> GetMapInteractiveUrl()
+    {
+        try
+        {
+            var client = _essentialsAPIService.CreateHttpClient();
+
+            // Retrieve token for authorization
+            string token = await GetToken();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            Response<Uri>? response = await client.GetFromJsonAsync<Response<Uri>>(EndPoint.V2GoogleMapInteractiveUrl);
+
+            return await Task.FromResult(response!);
+        }
+        catch (Exception ex)
+        {
+            return new Response<Uri>()
+            {
+                Data = new Uri(""),
+                Success = false,
+                ErrorMessage = "Essentials API says: " + ex.Message,
+            };
+        }
+    }
+
     private async Task<string> GetToken()
     {
         Response<string> response = await _essentialsAPIService.GetTokenWithBasicAuthAsync();
         return await Task.FromResult(response.Data);
     }
+
 }
