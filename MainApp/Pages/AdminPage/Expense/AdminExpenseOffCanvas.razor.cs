@@ -28,7 +28,7 @@ public partial class AdminExpenseOffCanvas : ComponentBase
     private IGoogleService _googleService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     [Parameter]
     public EventCallback OnSubmitSuccess { get; set; }

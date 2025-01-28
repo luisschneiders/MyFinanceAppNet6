@@ -17,9 +17,6 @@ public partial class ChartTransactionIOByDay : ComponentBase
     private ToastService _toastService { get; set; } = new();
 
     [Inject]
-    private ISpinnerService _spinnerService { get; set; } = default!;
-
-    [Inject]
     private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
 
     [Inject]
@@ -62,8 +59,6 @@ public partial class ChartTransactionIOByDay : ComponentBase
         {
             try
             {
-                _spinnerService.ShowSpinner();
-
                 if (ChartType == ChartType.bar)
                 {
                     _chartIcon = "bi-bar-chart-line";

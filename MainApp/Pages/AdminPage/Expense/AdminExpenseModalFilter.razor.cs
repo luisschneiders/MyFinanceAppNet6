@@ -19,7 +19,7 @@ public partial class AdminExpenseModalFilter : ComponentBase
     private IDropdownMultiSelectService _dropDownMultiSelectService { get;set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     [Parameter]
     public EventCallback<MultiFilterExpenseDTO> OnSubmitFilterSuccess { get; set; }
@@ -103,25 +103,25 @@ public partial class AdminExpenseModalFilter : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task RemoveDropdownFilterBank()
-    {
-        _multiFilterExpenseDTO.BankId = new();
-        _banks = await _dropDownMultiSelectService.UncheckAll(_banks);
+    // private async Task RemoveDropdownFilterBank()
+    // {
+    //     _multiFilterExpenseDTO.BankId = new();
+    //     _banks = await _dropDownMultiSelectService.UncheckAll(_banks);
 
-        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterExpenseDTO);
+    //     await OnSubmitFilterSuccess.InvokeAsync(_multiFilterExpenseDTO);
 
-        await Task.CompletedTask;
-    }
+    //     await Task.CompletedTask;
+    // }
 
-    private async Task RemoveDropdownFilterExpenseCategory()
-    {
-        _multiFilterExpenseDTO.ECategoryId = new();
-        _expenseCategories = await _dropDownMultiSelectService.UncheckAll(_expenseCategories);
+    // private async Task RemoveDropdownFilterExpenseCategory()
+    // {
+    //     _multiFilterExpenseDTO.ECategoryId = new();
+    //     _expenseCategories = await _dropDownMultiSelectService.UncheckAll(_expenseCategories);
 
-        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterExpenseDTO);
+    //     await OnSubmitFilterSuccess.InvokeAsync(_multiFilterExpenseDTO);
 
-        await Task.CompletedTask;
-    }
+    //     await Task.CompletedTask;
+    // }
 
     private async Task UncheckAll()
     {

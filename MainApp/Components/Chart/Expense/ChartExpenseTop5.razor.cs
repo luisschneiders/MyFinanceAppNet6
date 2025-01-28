@@ -17,9 +17,6 @@ public partial class ChartExpenseTop5 : ComponentBase
     private ToastService _toastService { get; set; } = new();
 
     [Inject]
-    private ISpinnerService _spinnerService { get; set; } = default!;
-    
-    [Inject]
     private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
 
     [Parameter]
@@ -59,8 +56,6 @@ public partial class ChartExpenseTop5 : ComponentBase
         {
             try
             {
-                _spinnerService.ShowSpinner();
-
                 if (ChartType == ChartType.bar)
                 {
                     _chartIcon = "bi-bar-chart-line";

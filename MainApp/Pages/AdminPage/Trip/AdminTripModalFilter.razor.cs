@@ -19,7 +19,7 @@ public partial class AdminTripModalFilter : ComponentBase
     private IEnumHelper _enumHelper { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     [Parameter]
     public EventCallback<MultiFilterTripDTO> OnSubmitFilterSuccess { get; set; }
@@ -114,25 +114,25 @@ public partial class AdminTripModalFilter : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task RemoveDropdownFilterVehicle()
-    {
-        _multiFilterTripDTO.VehicleId = new();
-        _vehicles = await _dropDownMultiSelectService.UncheckAll(_vehicles);
+    // private async Task RemoveDropdownFilterVehicle()
+    // {
+    //     _multiFilterTripDTO.VehicleId = new();
+    //     _vehicles = await _dropDownMultiSelectService.UncheckAll(_vehicles);
         
-        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTripDTO);
+    //     await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTripDTO);
 
-        await Task.CompletedTask;
-    }
+    //     await Task.CompletedTask;
+    // }
 
-    private async Task RemoveDropdownFilterTripCategory()
-    {
-        _multiFilterTripDTO.TCategoryId = new();
-        _tripCategoryDTOs = await _dropDownMultiSelectService.UncheckAll(_tripCategoryDTOs);
+    // private async Task RemoveDropdownFilterTripCategory()
+    // {
+    //     _multiFilterTripDTO.TCategoryId = new();
+    //     _tripCategoryDTOs = await _dropDownMultiSelectService.UncheckAll(_tripCategoryDTOs);
 
-        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTripDTO);
+    //     await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTripDTO);
 
-        await Task.CompletedTask;
-    }
+    //     await Task.CompletedTask;
+    // }
 
     private async Task UncheckAll()
     {

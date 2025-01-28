@@ -9,7 +9,7 @@ public partial class Dashboard : ComponentBase
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
 
     private DateTimeRange _dateTimeRange { get; set; } = new();
 

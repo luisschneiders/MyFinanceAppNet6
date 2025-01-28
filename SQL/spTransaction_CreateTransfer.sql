@@ -2,22 +2,22 @@ DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spTransaction_CreateTransfer`(
 	IN transactionTDate datetime,
 	IN transactionFromBank int,
-	IN transactionToBank int,
+    IN transactionToBank int,
 	IN transactionTCategoryId int,
-	IN transactionLabel char (1),
+    IN transactionLabel char (1),
 	IN transactionAmount decimal(10,2),
-	IN transactionComments varchar(200),
+    IN transactionComments varchar(200),
 	IN transactionUpdatedBy varchar(28),
 	IN transactionCreatedAt datetime,
 	IN transactionUpdatedAt datetime
 )
 BEGIN
 	DECLARE bankCurrentBalance decimal(10,2) default 0;
-	DECLARE transactionAction char(1);
-	DECLARE transactionLink int;
-	DECLARE lastInsertedId int default 0;
+    DECLARE transactionAction char(1);
+    DECLARE transactionLink int;
+    DECLARE lastInsertedId int default 0;
     
-	START TRANSACTION;
+    START TRANSACTION;
 	/* Debit transaction */
 		SET transactionAction = "D";
 
@@ -26,8 +26,8 @@ BEGIN
 		INTO bankCurrentBalance
 		FROM Bank
 		WHERE Id = transactionFromBank
-			AND IsActive = TRUE
-			AND IsArchived = FALSE;
+		AND IsActive = TRUE
+		AND IsArchived = FALSE;
 		
 		UPDATE `myfinancedb`.`Bank`
 		SET
@@ -49,7 +49,7 @@ BEGIN
 			`UpdatedAt`
 		)
 		VALUES (
-			transactionTDate,
+			Date(transactionTDate),
 			transactionFromBank,
 			transactionTCategoryId,
 			transactionAction,
@@ -73,8 +73,8 @@ BEGIN
 			INTO bankCurrentBalance
 			FROM Bank
 			WHERE Id = transactionToBank
-				AND IsActive = TRUE
-				AND IsArchived = FALSE;
+			AND IsActive = TRUE
+			AND IsArchived = FALSE;
 			
 			UPDATE `myfinancedb`.`Bank`
 			SET
@@ -98,7 +98,7 @@ BEGIN
 			)
 			VALUES (
 				transactionLink,
-				transactionTDate,
+				Date(transactionTDate),
 				transactionToBank,
 				transactionTCategoryId,
 				transactionAction,

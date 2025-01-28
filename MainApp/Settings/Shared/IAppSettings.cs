@@ -7,4 +7,5 @@ public interface IAppSettings
     public string Form { get; set; }
     public string Menu { get; set; }
     public string Modal { get; set; }
+    public string Shadow { get; set; }
 }

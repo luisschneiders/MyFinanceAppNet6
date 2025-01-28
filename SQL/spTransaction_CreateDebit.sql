@@ -3,16 +3,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spTransaction_CreateDebit`(
 	IN transactionTDate datetime,
 	IN transactionFromBank int,
 	IN transactionTCategoryId int,
-	IN transactionAction char (1),
-	IN transactionLabel char (1),
+    IN transactionAction char (1),
+    IN transactionLabel char (1),
 	IN transactionAmount decimal(10,2),
-	IN transactionComments varchar(200),
+    IN transactionComments varchar(200),
 	IN transactionUpdatedBy varchar(28),
 	IN transactionCreatedAt datetime,
 	IN transactionUpdatedAt datetime
 )
 BEGIN
-	DECLARE bankCurrentBalance decimal(10,2) default 0;
+    DECLARE bankCurrentBalance decimal(10,2) default 0;
 
 	START TRANSACTION;
 
@@ -21,8 +21,8 @@ BEGIN
 		INTO bankCurrentBalance
 		FROM Bank
 		WHERE Id = transactionFromBank
-			AND IsActive = TRUE
-			AND IsArchived = FALSE;
+		AND IsActive = TRUE
+		AND IsArchived = FALSE;
 		
 		UPDATE `myfinancedb`.`Bank`
 		SET
@@ -44,7 +44,7 @@ BEGIN
 			`UpdatedAt`
 		)
 		VALUES (
-			transactionTDate,
+			Date(transactionTDate),
 			transactionFromBank,
 			transactionTCategoryId,
 			transactionAction,

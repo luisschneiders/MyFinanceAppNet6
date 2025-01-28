@@ -13,7 +13,7 @@
     </Title>
     <Body>
         <div class="d-flex">
-            <div class="d-flex bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) me-2">
+            <div class="d-flex me-2">
                 <DropdownMultiSelect ButtonSize="Size.Sm"
                                 DropdownLabel="@Label.FilterByCompany"
                                 DropdownPosition="Position.Start"
@@ -36,7 +36,7 @@
                         </li>
                     }
                 </DropdownMultiSelect>
-                @if (_multiFilterTimesheetDTO.CompanyId.Count > 0)
+                @* @if (_multiFilterTimesheetDTO.CompanyId.Count > 0)
                 {
                     <div class="d-flex align-items-center">
                         <button class="btn btn-@(Size.Sm.ToString().ToLower()) text-@(Theme.Dark.ToString().ToLower())-emphasis"
@@ -45,14 +45,14 @@
                                 <Badge BackgroundColor="@Theme.Light" Message="Clear Filter" />
                         </button>
                     </div>
-                }
+                } *@
             </div>
-            <div class="d-flex bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) me-2">
+            <div class="d-flex me-2">
                 <DropdownMultiSelect ButtonSize="Size.Sm"
                                 DropdownLabel="@Label.Status"
                                 DropdownPosition="Position.Start"
                                 IconEnd="bi-chevron-down"
-                                IconStart="bi-building">
+                                IconStart="bi-flag">
                     @foreach (var (status, index) in _statuses.Select((value, index) => (value, index)))
                     {
                         <li class="px-2 py-1">
@@ -70,7 +70,7 @@
                         </li>
                     }
                 </DropdownMultiSelect>
-                @if (_multiFilterTimesheetDTO.StatusId.Count > 0)
+                @* @if (_multiFilterTimesheetDTO.StatusId.Count > 0)
                 {
                     <div class="d-flex align-items-center">
                         <button class="btn btn-@(Size.Sm.ToString().ToLower()) text-@(Theme.Dark.ToString().ToLower())-emphasis"
@@ -79,7 +79,7 @@
                                 <Badge BackgroundColor="@Theme.Light" Message="Clear Filter" />
                         </button>
                     </div>
-                }
+                } *@
             </div>
         </div>
     </Body>

@@ -1,6 +1,6 @@
 ﻿@using MainApp.Components.Accordion
+@using MainApp.Components.Loader
 @using MainApp.Components.Modal
-@using MainApp.Components.Spinner
 
 <Modal @ref="_modal"
     Size="Size.Xl"
@@ -14,12 +14,7 @@
     <Body>
         @if (_isLoading)
         {
-            <div class="d-flex justify-content-center align-items-center">
-                <Spinner Size="Size.Sm" />
-                <span class="ps-2">
-                    Loading ...
-                </span>
-            </div>
+            <Loader />
         }
         else
         {

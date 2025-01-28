@@ -1,4 +1,4 @@
-﻿@using MainApp.Components.Spinner
+﻿@using MainApp.Components.Loader
 @using MainApp.Components.Shared
 
 <SharedHeader Title="Previous 3 months"
@@ -7,12 +7,7 @@
 
 @if (_isLoading)
 {
-    <div class="d-flex justify-content-center align-items-center">
-        <Spinner Size="Size.Sm" />
-        <span class="ps-1">
-            Loading ...
-        </span>
-    </div>
+    <Loader />
 }
 else
 {

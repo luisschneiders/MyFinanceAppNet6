@@ -13,9 +13,6 @@ public partial class ChartExpenseLast5Years : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = new();
 
-    [Inject]
-    private ISpinnerService _spinnerService { get; set; } = default!;
-
     private ChartConfigData _chartConfigData { get; set; } = new();
 
     private bool _isLoading { get; set; } = true;
@@ -32,7 +29,6 @@ public partial class ChartExpenseLast5Years : ComponentBase
         {
             try
             {
-                _spinnerService.ShowSpinner();
                 await SetChartConfigDataAsync();
             }
             catch (Exception ex)

@@ -6,7 +6,7 @@ namespace MainApp.Pages.SettingsPage;
 public partial class Settings : ComponentBase
 {
     [CascadingParameter(Name = "AppSettings")]
-    protected AppSettings _appSettings { get; set; } = new();
+    protected IAppSettings _appSettings { get; set; } = default!;
     /*
      * Add component reference
      */

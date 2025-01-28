@@ -23,6 +23,7 @@ public static class Label
     public const string FilterByTransactionCategory = "Filter By Transaction";
     public const string FilterByTripCategory = "Filter By Category";
     public const string FilterByVehicle = "Filter By Vehicle";
+    public const string Loading = "Loading...";
     public const string NoDateAssigned = "No Date Assigned!";
     public const string NoFilterAssigned = "No Filter Assigned!";
     public const string NotSpecified = "Not Specified";

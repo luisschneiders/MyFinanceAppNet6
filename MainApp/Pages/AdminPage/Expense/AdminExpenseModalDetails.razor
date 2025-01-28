@@ -1,6 +1,6 @@
 ﻿@using MainApp.Components.Badge.Color
+@using MainApp.Components.Loader
 @using MainApp.Components.Modal
-@using MainApp.Components.Spinner
 
 <Modal @ref="_modal"
        Size="Size.Lg"
@@ -14,14 +14,7 @@
         <div class="row d-flex justify-content-center">
                 @if (_isLoading)
                 {
-                    <div class="col-12">
-                        <div class="text-center">
-                            <Spinner Size="Size.Sm" />
-                            <span>
-                                Loading ...
-                            </span>
-                        </div>
-                    </div>
+                    <Loader />
                 }
                 else
                 {
