@@ -24,6 +24,7 @@ public static class Label
     public const string FilterByTripCategory = "Filter By Category";
     public const string FilterByVehicle = "Filter By Vehicle";
     public const string Loading = "Loading...";
+    public const string MapInteractiveGoogle = "google-interactive-map";
     public const string NoDateAssigned = "No Date Assigned!";
     public const string NoFilterAssigned = "No Filter Assigned!";
     public const string NotSpecified = "Not Specified";
@@ -40,6 +41,5 @@ public static class Label
     public const string TimesheetPayStatus = "Pay status";
     public const string TimesheetEdit = "Edit";
     public const string TimesheetComments = "Comments";
-
 
 }
