@@ -172,6 +172,6 @@ public partial class ChartExpenseByMonth : ComponentBase
     private async Task RefreshChart()
     {
         await SetChartConfigDataAsync();
-        await _chartService.UpdateChartData(_chartObjectReference, _chartConfigData);
+        await _chartService.UpdateData(_chartObjectReference, _chartConfigData);
     }
 }

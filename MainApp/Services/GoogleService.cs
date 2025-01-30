@@ -67,7 +67,7 @@ public class GoogleService : IGoogleService
                 ["Height"] = height.ToString(),
             };
 
-            var uri = QueryHelpers.AddQueryString(EndPoint.V2GoogleMapStatic, query!);
+            var uri = QueryHelpers.AddQueryString(EndPoint.V2GoogleStaticMapImage, query!);
 
             Response<byte[]>? response = await client.GetFromJsonAsync<Response<byte[]>>(uri);
 

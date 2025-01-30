@@ -1,0 +1,17 @@
+﻿@using MainApp.Components.Card
+@using MainApp.Components.Map
+@using MainApp.Components.Shared
+@using MainApp.Components.Spinner
+
+<CardView Styles="w-100 border-0">
+    <CardMiddle>
+        <SharedHeader Title="Interactive map"
+                        Icon="bi-map"
+                        IconColor="Theme.Dark" />
+        <div class="row py-3">
+            <div class="d-flex col-sm-12">
+                <InteractiveGoogleMap Locations="@(_locations)"/>
+            </div>
+        </div>
+    </CardMiddle>
+</CardView>

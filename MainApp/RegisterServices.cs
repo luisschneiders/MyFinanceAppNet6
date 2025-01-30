@@ -5,6 +5,7 @@ using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
 using MainApp.Components.Chart;
 using MainApp.Components.OffCanvas;
+using MainApp.Components.Map;
 
 namespace MainApp;
 
@@ -92,6 +93,7 @@ public static class RegisterServices
         builder.Services.AddScoped<IDropdownDateMonthYearService, DropdownDateMonthYearService>();
         builder.Services.AddScoped<IDropdownFilterService, DropdownFilterService>();
         builder.Services.AddScoped<IDropdownMultiSelectService, DropdownMultiSelectService>();
+        builder.Services.AddScoped<IMapService, MapService>();
         builder.Services.AddScoped<IOffCanvasService, OffCanvasService>();
         builder.Services.AddScoped<ISpinnerService, SpinnerService>();
 

@@ -99,7 +99,7 @@ public partial class ChartExpenseTop5 : ComponentBase
 
         await ResetChartDefaults();
         await SetChartConfigDataAsync();
-        await _chartService.UpdateChartData(_chartObjectReference, _chartConfigData);
+        await _chartService.UpdateData(_chartObjectReference, _chartConfigData);
 
         _toastService.ShowToast("Date range has changed!", Theme.Info);
 
