@@ -40,10 +40,10 @@ public partial class Chart : ComponentBase
             _chartConfig.Data = Data;
             _chartConfig.Option = Option;
 
-            await _chartService.InvokeChartModule();
-            await _chartService.SetupChartModule(Id, _chartConfig, Position);
+            await _chartService.InvokeModule();
+            await _chartService.SetupModule(Id, _chartConfig, Position);
 
-            IJSObjectReference objectReference = await _chartService.GetChartObjectReference();
+            IJSObjectReference objectReference = await _chartService.GetObjectReference();
 
             await OnSubmitSuccess.InvokeAsync(objectReference);
         }

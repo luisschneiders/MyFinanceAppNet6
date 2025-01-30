@@ -6,38 +6,37 @@ namespace MainApp.Components.Chart;
 public class ChartService : IChartService, IAsyncDisposable
 {
     [Inject]
-    private IJSRuntime _js { get; set; } = default!;
+    private IJSRuntime _jsRuntime { get; set; } = default!;
 
     private IJSObjectReference _chartModule = default!;
-    private IJSObjectReference _chartObjectReference = default!;
+    
+    private IJSObjectReference _objectReference = default!;
 
-    private List<string> _chartData { get; set; } = new();
-
-    public ChartService(IJSRuntime JS)
+    public ChartService(IJSRuntime jsRuntime)
     {   
-        _js = JS;
+        _jsRuntime = jsRuntime;
     }
 
-    public async Task<IJSObjectReference> InvokeChartModule()
+    public async Task<IJSObjectReference> InvokeModule()
     {
-        _chartModule = await _js.InvokeAsync<IJSObjectReference>("import", "./Components/Chart/Chart.razor.js");
+        _chartModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./Components/Chart/Chart.razor.js");
         return await Task.FromResult(_chartModule);
     }
 
-    public async Task<IJSObjectReference> SetupChartModule(string id, ChartConfig chartConfig, Position position)
+    public async Task<IJSObjectReference> SetupModule(string id, ChartConfig chartConfig, Position position)
     {
-        _chartObjectReference = await _chartModule.InvokeAsync<IJSObjectReference>("setupChart", id, chartConfig, position.ToString().ToLower());
-        return await Task.FromResult(_chartObjectReference);
+        _objectReference = await _chartModule.InvokeAsync<IJSObjectReference>("setupChart", id, chartConfig, position.ToString().ToLower());
+        return await Task.FromResult(_objectReference);
     }
 
-    public async Task<IJSObjectReference> GetChartObjectReference()
+    public async Task<IJSObjectReference> GetObjectReference()
     {
-        return await Task.FromResult(_chartObjectReference);
+        return await Task.FromResult(_objectReference);
     }
 
-    public async Task UpdateChartData(IJSObjectReference chartObjectReference, ChartConfigData chartData)
+    public async Task UpdateData(IJSObjectReference chartObjectReference, ChartConfigData chartData)
     {
-        _chartObjectReference = chartObjectReference;
+        _objectReference = chartObjectReference;
         if (chartObjectReference is not null)
         {
             await _chartModule.InvokeVoidAsync("updateChartData", chartObjectReference, chartData);
@@ -45,12 +44,12 @@ public class ChartService : IChartService, IAsyncDisposable
         await Task.CompletedTask;
     }
 
-    public async Task RemoveChartData(IJSObjectReference chartObjectReference)
+    public async Task RemoveData(IJSObjectReference objectReference)
     {
-        _chartObjectReference = chartObjectReference;
-        if (chartObjectReference is not null)
+        _objectReference = objectReference;
+        if (objectReference is not null)
         {
-            await _chartModule.InvokeVoidAsync("removeChartData", chartObjectReference);
+            await _chartModule.InvokeVoidAsync("removeChartData", objectReference);
         }
         await Task.CompletedTask;
     }
@@ -62,9 +61,9 @@ public class ChartService : IChartService, IAsyncDisposable
             await _chartModule.DisposeAsync();
         }
 
-        if (_chartObjectReference is not null)
+        if (_objectReference is not null)
         {
-            await _chartObjectReference.DisposeAsync();
+            await _objectReference.DisposeAsync();
         }
     }
 }
