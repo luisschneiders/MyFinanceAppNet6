@@ -13,7 +13,7 @@
 <CardView Styles="border-0">
     <CardMiddle>
         <div class="row pb-2">
-            <div class="col-10 col-lg-9 pb-2 d-flex align-items-center">
+            <div class="col-10 col-lg-8 pb-2 d-flex align-items-center">
                 @if (_isLoading)
                 {
                     <Loader />
@@ -117,8 +117,12 @@
                     }
                 }
             </div>
-            <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
+            <div class="col-2 col-lg-4 pb-2 d-flex justify-content-end">
                 <div class="d-none d-lg-block">
+                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                            @onclick="() => UpdateShiftAsync(DateTime.Today)">
+                        <i class="bi bi-calendar4-week pe-1"></i>Add shift
+                    </button>
                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => AddRecordAsync()">
                         <i class="bi bi-plus-lg pe-1"></i>New timesheet
@@ -127,6 +131,12 @@
                 <div class="d-block d-lg-none">
                     <DropdownActions DropdownPosition="Position.End"
                                      ButtonSize="Size.Sm">
+                        <li class="px-2 d-block d-lg-none">
+                            <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
+                                    @onclick="() => UpdateShiftAsync(DateTime.Today)">
+                                <i class="bi bi-calendar4-week pe-1"></i>Add shift
+                            </button>
+                        </li>
                         <li class="px-2 d-block d-lg-none">
                             <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
                                     @onclick="() => AddRecordAsync()">
@@ -186,26 +196,29 @@
                                                             <td class="@((date.Year == 1 && date.Day == 1) ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "app-calendar-cell")">
                                                                 @if ((date.Year != 1 && date.Day >= 1))
                                                                 {
-                                                                    <div class="d-flex justify-content-end">
-                                                                        <div class="app-calendar-cell-day text-center p-1 @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
-                                                                                    $"app-calendar-cell-current-day rounded-circle bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
-                                                                                    "") fw-bold text-secondary-emphasis">
-                                                                            @(date.Day)
+                                                                    <a role="button" class="btn w-100 h-100 p-0"
+                                                                        @onclick="() => UpdateShiftAsync(date)">
+                                                                        <div class="d-flex justify-content-end">
+                                                                            <div class="app-calendar-cell-day text-center p-1 @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
+                                                                                        $"app-calendar-cell-current-day rounded-circle bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
+                                                                                        "") fw-bold text-secondary-emphasis">
+                                                                                @(date.Day)
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    @if ((date.Year != 1 && date.Day >= 1))
-                                                                    {
-                                                                        @foreach(var (item, index) in _timesheetCalendarView.Select((value, index) => (value, index)))
+                                                                        @if ((date.Year != 1 && date.Day >= 1))
                                                                         {
-                                                                            if (item.TDate.Day == date.Day)
+                                                                            @foreach(var (item, index) in _timesheetCalendarView.Select((value, index) => (value, index)))
                                                                             {
-                                                                                <small class="d-block app-calendar-text text-secondary-emphasis" title="@item.CompanyDescription">
-                                                                                    <BadgeColor RGBColor="@($"{(item.PayStatus == 0 ? StatusColor.Awaiting : StatusColor.Paid)}")"
-                                                                                                Description="@($"{item.TotalAmount.ToString("C")} ({UpdatePayStatusTitle(item.PayStatus)})" )" />
-                                                                                </small>
+                                                                                if (item.TDate.Day == date.Day)
+                                                                                {
+                                                                                    <small class="d-block app-calendar-text text-secondary-emphasis" title="@item.CompanyDescription">
+                                                                                        <BadgeColor RGBColor="@($"{(item.PayStatus == 0 ? StatusColor.Awaiting : StatusColor.Paid)}")"
+                                                                                                    Description="@($"{item.TotalAmount.ToString("C")} ({UpdatePayStatusTitle(item.PayStatus)})" )" />
+                                                                                    </small>
+                                                                                }
                                                                             }
                                                                         }
-                                                                    }
+                                                                    </a>
                                                                 }
                                                                 else
                                                                 {
@@ -367,3 +380,4 @@
 </CardView>
 <AdminTimesheetOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
 <AdminTimesheetModalFilter @ref="_setupFilterModal" OnSubmitFilterSuccess="filter => RefreshFilterList(filter)" />
+<AdminTimesheetModalShift @ref="_setupTimesheetModalShift" OnSubmitSuccess="RefreshList" />
