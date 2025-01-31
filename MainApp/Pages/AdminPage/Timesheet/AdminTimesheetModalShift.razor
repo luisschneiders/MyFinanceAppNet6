@@ -1,0 +1,84 @@
+﻿@using MainApp.Components.Badge.Color
+@using MainApp.Components.Loader
+@using MainApp.Components.Modal
+
+<Modal @ref="_modal"
+       Size="Size.Sm"
+       IsCloseButtonVisible="false">
+    <Title>
+        <span class="text-secondary">
+            @($"{_shiftModel.SDate.ToString("dddd, d MMM yyyy")}")
+        </span>
+    </Title>
+    <Body>
+        <EditForm Model="@_shiftModel"
+                OnValidSubmit="@HandleValidSubmitAsync"
+                OnInvalidSubmit="@HandleInvalidSubmitAsync"
+                autocomplete="off">
+            <DataAnnotationsValidator />
+            <div class="row pb-2">
+                <div class="col-12">
+                    <div class="form-floating pb-2">
+                        <InputDate id="SDate"
+                                @attributes="_inputFormControlAttributes"
+                                placeholder="Date"
+                                @bind-Value="_shiftModel.SDate"
+                                Type="InputDateType.Date" />
+                        <label for="SDate">Date</label>
+                    </div>
+
+                </div>
+
+                <div class="col-12">
+                    <div class="form-floating pb-2">
+                        @if (_isLoading)
+                        {
+                            <Loader />
+                        }
+                        else
+                        {
+                            <InputSelect id="CompanyId"
+                                            @attributes="_inputFormSelectAttributes"
+                                            @bind-Value="_shiftModel.CompanyId">
+                                <option value="0">-- Select Company --</option>
+                                @foreach (var (company, index) in _activeCompanies.Select((value, index) => (value, index)))
+                                {
+                                    <option value="@company.Id"> @($"{company.Description}") </option>
+                                }
+                            </InputSelect>
+                            <label for="CompanyId">Company</label>
+                        }
+                    </div>
+                </div>
+            </div>
+            @if (_displayErrorMessages)
+            {
+                <div class="row">
+                    <div class="col-12">
+                        <ValidationSummary />
+                    </div>
+                </div>
+            }
+            <div class="row justify-content-between">
+                <div class="col-6">
+                    <button type="button"
+                            class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) w-100 @("rounded"+_appSettings.Button)"
+                            data-dismiss="modal"
+                            @onclick="CloseModalAsync">
+                        Close
+                    </button>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) w-100 @("rounded"+_appSettings.Button)"
+                            disabled="@(_isProcessing ? true : false)"
+                            type="submit">
+                        <i class="bi bi-calendar4-week pe-1"></i>
+                        @(_isProcessing ? "Adding..." : "Add shift")
+                    </button>
+                </div>
+            </div>
+        </EditForm>
+    </Body>
+    <Footer>
+    </Footer>
+</Modal>
