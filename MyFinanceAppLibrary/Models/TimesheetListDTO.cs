@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MyFinanceAppLibrary.Models;
+﻿namespace MyFinanceAppLibrary.Models;
 
 public class TimesheetListDTO : BaseModel
 {

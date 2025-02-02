@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using MainApp.Shared;
-using MainApp.Components.Spinner;
 
 namespace MainApp.Components.Spinner;
 
