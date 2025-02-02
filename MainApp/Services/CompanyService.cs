@@ -25,7 +25,7 @@ public class CompanyService : ICompanyService<CompanyModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.IsArchived = true;
             model.UpdatedBy = user.Id;
@@ -44,7 +44,7 @@ public class CompanyService : ICompanyService<CompanyModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.UpdatedBy = user.Id;
 
@@ -67,7 +67,7 @@ public class CompanyService : ICompanyService<CompanyModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             CompanyModel result = await _companyData.GetRecordById(user.Id, modelId);
             return result;
         }
@@ -83,7 +83,7 @@ public class CompanyService : ICompanyService<CompanyModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<CompanyModel> results = await _companyData.GetRecords(user.Id);
             return results;
         }
@@ -98,7 +98,7 @@ public class CompanyService : ICompanyService<CompanyModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<CompanyModel> results = await _companyData.GetRecords(user.Id);
 
             List<CheckboxItemModel> filter = new();
@@ -126,7 +126,7 @@ public class CompanyService : ICompanyService<CompanyModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<CompanyModel> results = await _companyData.GetRecordsActive(user.Id);
             return results;
         }
@@ -141,7 +141,7 @@ public class CompanyService : ICompanyService<CompanyModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<CompanyModel> results = await _companyData.GetSearchResults(user.Id, search);
             return results;
         }
@@ -157,7 +157,7 @@ public class CompanyService : ICompanyService<CompanyModel>
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.UpdatedBy = user.Id;
             model.UpdatedAt = DateTime.Now;
@@ -176,7 +176,7 @@ public class CompanyService : ICompanyService<CompanyModel>
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.IsActive = !model.IsActive;
             model.UpdatedBy = user.Id;

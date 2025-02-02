@@ -26,7 +26,7 @@ public class LocationService : ILocationService<UserLocationModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.UpdatedBy = user.Id;
 
@@ -43,7 +43,7 @@ public class LocationService : ILocationService<UserLocationModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             LocationModel result = await _locationData.GetRecordById(user.Id);
             return result;
         }

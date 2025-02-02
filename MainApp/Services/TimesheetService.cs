@@ -40,7 +40,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.IsArchived = true;
             model.UpdatedBy = user.Id;
@@ -59,7 +59,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<CompanyModel> companies = await _companyService.GetRecords();
 
             if (model.HoursWorked != TimeSpan.FromHours(companies.First(c => c.Id == model.CompanyId).StandardHours) &&
@@ -89,7 +89,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             TimesheetModel result = await _timesheetData.GetRecordById(user.Id, modelId);
             return result;
         }
@@ -109,7 +109,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<TimesheetModel> results = await _timesheetData.GetRecordsActive(user.Id);
             return results;
         }
@@ -151,6 +151,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
     {
         try
         {
+            // List<ShiftListDTO> shiftRecords = await _shiftService.GetRecordsByDateRange(filter.DateTimeRange);
             List<TimesheetListDTO> records = await GetRecordsByDateRange(filter.DateTimeRange);
             List<TimesheetListDTO> recordsFiltered = new();
             List<TimesheetCalendarDTO> calendarData = new();
@@ -198,7 +199,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.UpdatedBy = user.Id;
             model.UpdatedAt = DateTime.Now;
@@ -216,7 +217,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.IsActive = !model.IsActive;
             model.UpdatedBy = user.Id;
@@ -235,7 +236,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.UpdatedBy = user.Id;
             model.UpdatedAt = DateTime.Now;
@@ -468,7 +469,7 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             _recordsByDateRange = await _timesheetData.GetRecordsByDateRange(user.Id, dateTimeRange);
             _timesheetTotal = new(_recordsByDateRange.Sum(t => t.TotalAmount), _recordsByDateRange.Sum(t => t.HoursWorked.TotalHours));

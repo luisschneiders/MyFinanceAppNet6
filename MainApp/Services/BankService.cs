@@ -26,7 +26,7 @@ public class BankService : IBankService<BankModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<BankModel> results = await _bankData.GetRecords(user.Id);
             return results;
         }
@@ -41,7 +41,7 @@ public class BankService : IBankService<BankModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<BankModel> results = await _bankData.GetRecords(user.Id);
 
             List<CheckboxItemModel> filter = new();
@@ -69,7 +69,7 @@ public class BankService : IBankService<BankModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<BankModel> results = await _bankData.GetSearchResults(user.Id, search);
             return results;
         }
@@ -84,7 +84,7 @@ public class BankService : IBankService<BankModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             BankModel result = await _bankData.GetRecordById(user.Id, modelId);
             return result;
         }
@@ -105,7 +105,7 @@ public class BankService : IBankService<BankModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.InitialBalance = model.CurrentBalance;
             model.UpdatedBy = user.Id;
@@ -124,7 +124,7 @@ public class BankService : IBankService<BankModel>
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.UpdatedBy = user.Id;
             model.UpdatedAt = DateTime.Now;
@@ -143,7 +143,7 @@ public class BankService : IBankService<BankModel>
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.IsActive = !model.IsActive;
             model.UpdatedBy = user.Id;
@@ -162,7 +162,7 @@ public class BankService : IBankService<BankModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.IsArchived = true;
             model.UpdatedBy = user.Id;
@@ -181,7 +181,7 @@ public class BankService : IBankService<BankModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             BankBalanceSumDTO result = await _bankData.GetBankBalancesSum(user.Id);
             return result;
         }
@@ -196,7 +196,7 @@ public class BankService : IBankService<BankModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<BankModel> results = await _bankData.GetRecordsActive(user.Id);
             return results;
         }

@@ -25,7 +25,7 @@ public class VehicleService : IVehicleService<VehicleModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.IsArchived = true;
             model.UpdatedBy = user.Id;
@@ -44,7 +44,7 @@ public class VehicleService : IVehicleService<VehicleModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.UpdatedBy = user.Id;
 
@@ -67,7 +67,7 @@ public class VehicleService : IVehicleService<VehicleModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             VehicleModel result = await _vehicleData.GetRecordById(user.Id, modelId);
             return result;
         }
@@ -83,7 +83,7 @@ public class VehicleService : IVehicleService<VehicleModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<VehicleModel> results = await _vehicleData.GetRecords(user.Id);
             return results;
         }
@@ -98,7 +98,7 @@ public class VehicleService : IVehicleService<VehicleModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<VehicleModel> results = await _vehicleData.GetRecords(user.Id);
 
             List<CheckboxItemModel> filter = new();
@@ -126,7 +126,7 @@ public class VehicleService : IVehicleService<VehicleModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<VehicleModel> results = await _vehicleData.GetSearchResults(user.Id, search);
             return results;
         }
@@ -142,7 +142,7 @@ public class VehicleService : IVehicleService<VehicleModel>
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.UpdatedBy = user.Id;
             model.UpdatedAt = DateTime.Now;
@@ -161,7 +161,7 @@ public class VehicleService : IVehicleService<VehicleModel>
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.IsActive = !model.IsActive;
             model.UpdatedBy = user.Id;
@@ -185,7 +185,7 @@ public class VehicleService : IVehicleService<VehicleModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<VehicleModel> results = await _vehicleData.GetRecordsActive(user.Id);
             return results;
         }

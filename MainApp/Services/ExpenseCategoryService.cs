@@ -27,7 +27,7 @@ public class ExpenseCategoryService : IExpenseCategoryService<ExpenseCategoryMod
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<ExpenseCategoryModel> results = await _expenseCategoryData.GetRecords(user.Id);
             return results;
         }
@@ -42,7 +42,7 @@ public class ExpenseCategoryService : IExpenseCategoryService<ExpenseCategoryMod
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<ExpenseCategoryModel> results = await _expenseCategoryData.GetRecords(user.Id);
 
             List<CheckboxItemModel> filter = new();
@@ -70,7 +70,7 @@ public class ExpenseCategoryService : IExpenseCategoryService<ExpenseCategoryMod
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<ExpenseCategoryModel> results = await _expenseCategoryData.GetSearchResults(user.Id, search);
             return results;
         }
@@ -85,7 +85,7 @@ public class ExpenseCategoryService : IExpenseCategoryService<ExpenseCategoryMod
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             ExpenseCategoryModel result = await _expenseCategoryData.GetRecordById(user.Id, modelId);
             return result;
         }
@@ -106,7 +106,7 @@ public class ExpenseCategoryService : IExpenseCategoryService<ExpenseCategoryMod
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.UpdatedBy = user.Id;
             model.Color = await SetRandomColor();
@@ -125,7 +125,7 @@ public class ExpenseCategoryService : IExpenseCategoryService<ExpenseCategoryMod
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.UpdatedBy = user.Id;
             model.UpdatedAt = DateTime.Now;
@@ -144,7 +144,7 @@ public class ExpenseCategoryService : IExpenseCategoryService<ExpenseCategoryMod
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.IsActive = !model.IsActive;
             model.UpdatedBy = user.Id;
@@ -163,7 +163,7 @@ public class ExpenseCategoryService : IExpenseCategoryService<ExpenseCategoryMod
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.IsArchived = true;
             model.UpdatedBy = user.Id;
@@ -182,7 +182,7 @@ public class ExpenseCategoryService : IExpenseCategoryService<ExpenseCategoryMod
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<ExpenseCategoryModel> results = await _expenseCategoryData.GetRecordsActive(user.Id);
             return results;
         }

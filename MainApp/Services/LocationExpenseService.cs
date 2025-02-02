@@ -28,7 +28,7 @@ public class LocationExpenseService : ILocationExpenseService<LocationExpenseMod
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<LocationExpenseDTO> results = await _locationExpenseData.GetRecordsByDateRange(user.Id, dateTimeRange);
             return results;
         }

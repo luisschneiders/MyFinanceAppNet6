@@ -31,7 +31,7 @@ public class TripService : ITripService<TripModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.IsArchived = true;
             model.IsActive = false;
@@ -51,7 +51,7 @@ public class TripService : ITripService<TripModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.UpdatedBy = user.Id;
 
@@ -73,7 +73,7 @@ public class TripService : ITripService<TripModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             TripModel result = await _tripData.GetRecordById(user.Id, modelId);
             return result;
         }
@@ -153,7 +153,7 @@ public class TripService : ITripService<TripModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.UpdatedBy = user.Id;
             model.UpdatedAt = DateTime.Now;
@@ -171,7 +171,7 @@ public class TripService : ITripService<TripModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.UpdatedBy = user.Id;
             model.UpdatedAt = DateTime.Now;
@@ -251,7 +251,7 @@ public class TripService : ITripService<TripModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             _recordsByDateRange = await _tripData.GetRecordsByDateRange(user.Id, dateTimeRange);
             _tripDistanceByDateRangeSum = _recordsByDateRange.Sum(t => t.Distance);
