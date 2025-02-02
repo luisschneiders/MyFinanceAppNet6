@@ -2,6 +2,6 @@
 
 public interface ILocationData<T>
 {
-    Task<LocationModel> GetRecordById(string userId);
-    Task SaveRecord(T model);
+    public Task<LocationModel> GetRecordById(string userId);
+    public Task SaveRecord(T model);
 }
