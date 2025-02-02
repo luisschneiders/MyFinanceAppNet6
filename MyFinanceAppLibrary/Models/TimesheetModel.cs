@@ -49,7 +49,7 @@ public class TimesheetModel : BaseModel, IValidatableObject
         get
         {
             var seconds = HoursWorked.TotalHours;
-            var total = (((decimal)seconds) * HourRate);
+            var total = ((decimal)seconds) * HourRate;
             return total;
         }
     }
