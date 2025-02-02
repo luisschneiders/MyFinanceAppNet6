@@ -195,7 +195,7 @@
                                                         {
                                                             ShiftListDTO shift = _shiftCalendarView.Find(s => s.SDate.Day == date.Day)!;
                                                             <td class="@((date.Year == 1 && date.Day == 1) ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "app-calendar-cell")">
-                                                                <div class="@((shift?.SDate == date) ? $"bg-{Theme.Success.ToString().ToLower()}-subtle w-100 h-100" :"")">
+                                                                <div class="@((shift?.SDate == date) ? $"bg-{Theme.Success.ToString().ToLower()}-subtle" :"") w-100 h-100">
                                                                     @if ((date.Year != 1 && date.Day >= 1))
                                                                     {
                                                                         <a role="button" class="btn w-100 h-100 p-0"
