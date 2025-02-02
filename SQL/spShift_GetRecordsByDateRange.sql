@@ -13,8 +13,9 @@ BEGIN
 		s.IsActive
 	FROM Shift s
 	JOIN Company c ON c.Id = s.CompanyId
-	WHERE s.UpdatedBy = userId 
-		AND s.IsArchived = FALSE 
+	WHERE s.UpdatedBy = userId
+		AND s.IsActive = TRUE
+		AND s.IsArchived = FALSE
         AND (date(s.SDate) BETWEEN startDate AND endDate)
 	ORDER BY s.SDate ASC;
 END$$
