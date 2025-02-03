@@ -119,7 +119,11 @@
             </div>
             <div class="col-2 col-lg-4 pb-2 d-flex justify-content-end">
                 <div class="d-none d-lg-block">
-                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Light.ToString().ToLower()) border-@Theme.Dark.ToString().ToLower()-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                            @onclick="() => OpenCalculatorAsync()" title="Calculator">
+                        <i class="bi bi-calculator"></i>
+                    </button>
+                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Light.ToString().ToLower()) border-@Theme.Dark.ToString().ToLower()-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => UpdateShiftAsync(DateTime.Today)">
                         <i class="bi bi-calendar4-week pe-1"></i>Add shift
                     </button>
@@ -131,6 +135,12 @@
                 <div class="d-block d-lg-none">
                     <DropdownActions DropdownPosition="Position.End"
                                      ButtonSize="Size.Sm">
+                        <li class="px-2 d-block d-lg-none">
+                            <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
+                                    @onclick="() => OpenCalculatorAsync()">
+                                <i class="bi bi-calculator pe-1"></i>Calculator
+                            </button>
+                        </li>
                         <li class="px-2 d-block d-lg-none">
                             <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
                                     @onclick="() => UpdateShiftAsync(DateTime.Today)">
@@ -382,4 +392,5 @@
 </CardView>
 <AdminTimesheetOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
 <AdminTimesheetModalFilter @ref="_setupFilterModal" OnSubmitFilterSuccess="filter => RefreshFilterList(filter)" />
-<AdminTimesheetModalShift @ref="_setupTimesheetModalShift" OnSubmitSuccess="RefreshList" />
+<AdminTimesheetModalShift @ref="_setupShiftModal" OnSubmitSuccess="RefreshList" />
+<AdminTimesheetModalCalculator @ref="_setupCalculatorModal"/>

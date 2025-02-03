@@ -46,7 +46,8 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
     private bool _isLoading { get; set; } = true;
     private AdminTimesheetModalFilter _setupFilterModal { get; set; } = new();
-    private AdminTimesheetModalShift _setupTimesheetModalShift { get; set; } = new();
+    private AdminTimesheetModalShift _setupShiftModal { get; set; } = new();
+    private AdminTimesheetModalCalculator _setupCalculatorModal { get; set; } = new();
     private MultiFilterTimesheetDTO _multiFilterTimesheetDTO { get; set; } = new();
     private List<TimesheetByCompanyGroupDTO> _timesheetListView { get; set; } = new();
     private List<TimesheetCalendarDTO> _timesheetCalendarView { get; set; } = new();
@@ -189,7 +190,21 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     {
         try
         {
-            await _setupTimesheetModalShift.OpenModalAsync(date);
+            await _setupShiftModal.OpenModalAsync(date);
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);;
+        }
+
+        await Task.CompletedTask;
+    }
+
+    private async Task OpenCalculatorAsync()
+    {
+        try
+        {
+            await _setupCalculatorModal.OpenModalAsync();
         }
         catch (Exception ex)
         {
