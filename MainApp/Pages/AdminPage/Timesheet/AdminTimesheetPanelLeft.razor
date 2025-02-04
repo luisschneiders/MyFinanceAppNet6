@@ -205,41 +205,39 @@
                                                         {
                                                             ShiftListDTO shift = _shiftCalendarView.Find(s => s.SDate.Day == date.Day)!;
                                                             <td class="@((date.Year == 1 && date.Day == 1) ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "app-calendar-cell")">
-                                                                <div class="@((shift?.SDate == date) ? $"bg-{Theme.Success.ToString().ToLower()}-subtle" :"") w-100 h-100">
-                                                                    @if ((date.Year != 1 && date.Day >= 1))
-                                                                    {
-                                                                        <a role="button" class="btn w-100 h-100 p-0"
-                                                                            @onclick="() => UpdateShiftAsync(date)">
-                                                                            <div class="d-flex justify-content-end">
-                                                                                <div class="app-calendar-cell-day text-center p-1 @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
-                                                                                            $"app-calendar-cell-current-day rounded-circle bg-{Theme.Danger.ToString().ToLower()} text-white" : "text-secondary-emphasis") fw-bold">
-                                                                                    @(date.Day)
-                                                                                </div>
-                                                                            </div>
-                                                                            @if ((date.Year != 1 && date.Day >= 1))
-                                                                            {
-                                                                                @foreach(var (item, index) in _timesheetCalendarView.Select((value, index) => (value, index)))
-                                                                                {
-                                                                                    if (item.TDate.Day == date.Day)
-                                                                                    {
-                                                                                        <small class="d-block app-calendar-text text-secondary-emphasis" title="@item.CompanyDescription">
-                                                                                            <BadgeColor RGBColor="@($"{(item.PayStatus == 0 ? StatusColor.Awaiting : StatusColor.Paid)}")"
-                                                                                                        Description="@($"{item.TotalAmount.ToString("C")} ({UpdatePayStatusTitle(item.PayStatus)})" )" />
-                                                                                        </small>
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        </a>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <div class="d-flex justify-content-end">
-                                                                            <div class="app-calendar-cell-day text-center p-1">
-                                                                                @(string.Empty)
+                                                                @if ((date.Year != 1 && date.Day >= 1))
+                                                                {
+                                                                    <a role="button" class="btn w-100 h-100 p-0"
+                                                                        @onclick="() => UpdateShiftAsync(date)">
+                                                                        <div class="d-flex justify-content-end @($"rounded{_appSettings.Button}") @((shift?.SDate == date) ? $"bg-{Theme.Success.ToString().ToLower()}-subtle" :"")">
+                                                                            <div class="app-calendar-cell-day app-calendar-cell-current-day text-center @($"rounded{_appSettings.Button}") p-1 fw-bold @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
+                                                                                        $"bg-{Theme.Danger.ToString().ToLower()} text-white" : $"bg-{Theme.Light.ToString().ToLower()}")">
+                                                                                @(date.Day)
                                                                             </div>
                                                                         </div>
-                                                                    }
-                                                                </div>
+                                                                        @if ((date.Year != 1 && date.Day >= 1))
+                                                                        {
+                                                                            @foreach(var (item, index) in _timesheetCalendarView.Select((value, index) => (value, index)))
+                                                                            {
+                                                                                if (item.TDate.Day == date.Day)
+                                                                                {
+                                                                                    <small class="d-block app-calendar-text text-secondary-emphasis" title="@item.CompanyDescription">
+                                                                                        <BadgeColor RGBColor="@($"{(item.PayStatus == 0 ? StatusColor.Awaiting : StatusColor.Paid)}")"
+                                                                                                    Description="@($"{item.TotalAmount.ToString("C")} ({UpdatePayStatusTitle(item.PayStatus)})" )" />
+                                                                                    </small>
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    </a>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class="d-flex justify-content-end">
+                                                                        <div class="app-calendar-cell-day text-center p-1">
+                                                                            @(string.Empty)
+                                                                        </div>
+                                                                    </div>
+                                                                }
                                                             </td>
                                                         }
                                                     </tr>
