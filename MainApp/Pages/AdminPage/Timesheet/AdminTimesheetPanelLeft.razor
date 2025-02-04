@@ -221,9 +221,9 @@
                                                                             {
                                                                                 if (item.TDate.Day == date.Day)
                                                                                 {
-                                                                                    <small class="d-block app-calendar-text text-secondary-emphasis" title="@item.CompanyDescription">
-                                                                                        <BadgeColor RGBColor="@($"{(item.PayStatus == 0 ? StatusColor.Awaiting : StatusColor.Paid)}")"
-                                                                                                    Description="@($"{item.TotalAmount.ToString("C")} ({UpdatePayStatusTitle(item.PayStatus)})" )" />
+                                                                                    <small class="d-block app-calendar-text text-secondary-emphasis" title="@($"{item.TotalAmount.ToString("C")} ({UpdatePayStatusTitle(item.PayStatus)})" )">
+                                                                                        <BadgeColor RGBColor="@($"{(item.PayStatus == 0 ? StatusColor.Warning : StatusColor.Paid)}")"
+                                                                                                    Description="@($"{item.CompanyDescription}")" />
                                                                                     </small>
                                                                                 }
                                                                             }
