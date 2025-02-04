@@ -119,11 +119,11 @@
             </div>
             <div class="col-2 col-lg-4 pb-2 d-flex justify-content-end">
                 <div class="d-none d-lg-block">
-                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Light.ToString().ToLower()) border-@Theme.Dark.ToString().ToLower()-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
-                            @onclick="() => OpenCalculatorAsync()" title="Calculator">
+                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                            @onclick="() => OpenCalculatorAsync()" title="Calculato-outline">
                         <i class="bi bi-calculator"></i>
                     </button>
-                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Light.ToString().ToLower()) border-@Theme.Dark.ToString().ToLower()-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => UpdateShiftAsync(DateTime.Today)">
                         <i class="bi bi-calendar4-week pe-1"></i>Add shift
                     </button>
