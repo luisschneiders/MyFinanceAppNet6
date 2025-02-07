@@ -209,7 +209,7 @@
                                                                 {
                                                                     <a role="button" class="btn w-100 h-100 p-0"
                                                                         @onclick="() => UpdateShiftAsync(date)">
-                                                                        <div class="d-flex justify-content-end @($"rounded{_appSettings.Button}") @((shift?.SDate == date) ? $"bg-{Theme.Success.ToString().ToLower()}-subtle" :"")">
+                                                                        <div class="d-flex justify-content-end @($"rounded{_appSettings.Button}") @((shift?.SDate == date) ? $"bg-{Theme.Success.ToString().ToLower()}-subtle" :"")" title="@((shift?.SDate == date) ? $"Shift scheduled for: {shift.Description}" : "No shift scheduled")">
                                                                             <div class="app-calendar-cell-day app-calendar-cell-current-day text-center p-1 fw-bold @($"rounded{_appSettings.Button}") @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
                                                                                         $"bg-{Theme.Danger.ToString().ToLower()} text-white" : $"bg-{Theme.Light.ToString().ToLower()}")">
                                                                                 @(date.Day)
