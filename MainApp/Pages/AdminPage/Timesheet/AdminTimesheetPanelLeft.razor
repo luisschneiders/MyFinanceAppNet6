@@ -204,7 +204,7 @@
                                                         @foreach (var date in week)
                                                         {
                                                             ShiftListDTO shift = _shiftCalendarView.Find(s => s.SDate.Day == date.Day)!;
-                                                            <td class="@((date.Year == 1 && date.Day == 1) ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "app-calendar-cell")">
+                                                            <td class="@((date.Year == 1 && date.Day == 1) ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "app-calendar-cell") @((shift?.SDate == date) ? $"app-shift-bg-{Theme.Success.ToString().ToLower()}-subtle" :"")">
                                                                 @if ((date.Year != 1 && date.Day >= 1))
                                                                 {
                                                                     <a role="button" class="btn w-100 h-100 p-0"

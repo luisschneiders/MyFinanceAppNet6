@@ -341,6 +341,9 @@ h1:focus {
     .app-dropdown-menu {
         border-color: transparent;
     }
+    .app-shift-bg-success-subtle {
+        background-color: var(--bs-success-bg-subtle) !important;
+    }
 }
 
 @media (min-width: 641px) {
