@@ -341,8 +341,11 @@ h1:focus {
     .app-dropdown-menu {
         border-color: transparent;
     }
-    .app-shift-bg-success-subtle {
+    .app-shift-bg-success {
         background-color: var(--bs-success-bg-subtle) !important;
+    }
+    .app-shift-bg-danger {
+        background-color: var(--bs-danger) !important;
     }
 }
 

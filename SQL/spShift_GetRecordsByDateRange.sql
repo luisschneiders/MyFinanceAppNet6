@@ -8,6 +8,7 @@ BEGIN
 	SELECT
 		s.Id,
         s.CompanyId,
+        s.IsAvailable,
 		c.Description,
 		s.SDate,
 		s.IsActive
