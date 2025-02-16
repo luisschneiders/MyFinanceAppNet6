@@ -2,6 +2,7 @@ DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spShift_Save`(
 	IN shiftSDate datetime,
     IN shiftCompanyId varchar(28),
+    IN shiftIsAvailable bool,
 	IN shiftUpdatedBy varchar(28),
 	IN shiftCreatedAt datetime,
 	IN shiftUpdatedAt datetime
@@ -21,6 +22,8 @@ BEGIN
         SET
 			`SDate` = DATE(shiftSDate),
 			`CompanyId` = shiftCompanyId,
+            `IsAvailable` = shiftIsAvailable,
+            `IsArchived` = false,
 			`UpdatedBy` = shiftUpdatedBy,
 			`UpdatedAt` = shiftUpdatedAt
 		WHERE (`CompanyId` = shiftCompanyId AND `SDate` = shiftSDate);
@@ -28,6 +31,8 @@ BEGIN
 		INSERT INTO `myfinancedb`.`Shift` (
 			`SDate`,
 			`CompanyId`,
+            `IsAvailable`,
+            `IsArchived`,
 			`UpdatedBy`,
 			`CreatedAt`,
 			`UpdatedAt`
@@ -35,6 +40,8 @@ BEGIN
 		VALUES (
 			DATE(shiftSDate),
 			shiftCompanyId,
+            shiftIsAvailable,
+            false,
 			shiftUpdatedBy,
 			shiftCreatedAt,
 			shiftUpdatedAt
