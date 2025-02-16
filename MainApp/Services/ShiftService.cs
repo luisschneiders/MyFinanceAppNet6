@@ -25,9 +25,23 @@ public class ShiftService : IShiftService<ShiftModel>
         _authProvider = authProvider;
 
     }
-    public Task ArchiveRecord(ShiftModel model)
+    public async Task ArchiveRecord(ShiftModel model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            UserModel user = await GetLoggedInUser();
+
+            model.IsArchived = true;
+            model.UpdatedBy = user.Id;
+            model.UpdatedAt = DateTime.Now;
+
+            await _shiftData.ArchiveRecord(model);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public Task CreateRecord(ShiftModel model)
@@ -89,7 +103,7 @@ public class ShiftService : IShiftService<ShiftModel>
 
     public async Task<List<ShiftListDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange)
     {
-                try
+        try
         {
             UserModel user = await GetLoggedInUser();
 

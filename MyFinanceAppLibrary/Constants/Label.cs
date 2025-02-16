@@ -31,6 +31,7 @@ public static class Label
     public const string NoImageAvailable = "No Image Available";
     public const string NoRecordFound = "Not Record Found!";
     public const string Status = "Filter By Status";
+    public const string ShiftToday = "Today's assigned shift";
     public const string TimesheetDate = "Date";
     public const string TimesheetClockIn = "Clock in";
     public const string TimesheetBreak = "Break";

@@ -8,9 +8,26 @@ public class ShiftData : IShiftData<ShiftModel>
         _dataAccess = dataAccess;
     }
 
-    public Task ArchiveRecord(ShiftModel model)
+    public async Task ArchiveRecord(ShiftModel model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            await _dataAccess.SaveData<dynamic>(
+                "myfinancedb.spShift_Archive",
+                new
+                {
+                    shiftId = model.Id,
+                    shiftIsArchived = model.IsArchived,
+                    shiftUpdatedBy = model.UpdatedBy,
+                    shiftUpdatedAt = model.UpdatedAt,
+                },
+                "Mysql");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public Task CreateRecord(ShiftModel model)
@@ -86,6 +103,7 @@ public class ShiftData : IShiftData<ShiftModel>
                 {
                     shiftSDate = model.SDate,
                     shiftCompanyId = model.CompanyId,
+                    shiftIsAvailable = model.IsAvailable,
                     shiftUpdatedBy = model.UpdatedBy,
                     shiftCreatedAt = model.CreatedAt,
                     shiftUpdatedAt = model.UpdatedAt,

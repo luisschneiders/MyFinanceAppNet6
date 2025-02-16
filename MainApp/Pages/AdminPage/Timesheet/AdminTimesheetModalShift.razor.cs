@@ -31,7 +31,10 @@ public partial class AdminTimesheetModalShift : ComponentBase
 
     private List<CompanyModel> _activeCompanies { get; set; } = new();
 
+    private List<ShiftListDTO> _activeShifts { get; set; } = new();
+
     private Dictionary<string, object> _inputFormSelectAttributes = default!;
+
     private Dictionary<string, object> _inputFormControlAttributes = default!;
 
     private bool _displayErrorMessages { get; set; } = false;
@@ -39,6 +42,8 @@ public partial class AdminTimesheetModalShift : ComponentBase
     private bool _isProcessing { get; set; } = false;
 
     private bool _isLoading { get; set; } = true;
+
+    private bool _isLoadingShift { get; set; } = true;
 
     public AdminTimesheetModalShift()
     {
@@ -90,6 +95,8 @@ public partial class AdminTimesheetModalShift : ComponentBase
 
             await FetchDataAsync();
 
+            await FetchShiftDataAsync();
+
             await InvokeAsync(StateHasChanged);
 
             await Task.CompletedTask;
@@ -132,19 +139,35 @@ public partial class AdminTimesheetModalShift : ComponentBase
         await Task.CompletedTask;
     }
 
+    private async Task FetchShiftDataAsync()
+    {
+        try
+        {
+            _activeShifts = await _shiftService.GetRecordsByDateRange(_dateTimeRange);
+            _isLoadingShift = false;
+        }
+        catch (Exception ex)
+        {
+            _isLoadingShift = false;
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;
+    }
+
     private async Task HandleValidSubmitAsync()
     {
         try
         {
-            _displayErrorMessages = false;
             _isProcessing = true;
+            _displayErrorMessages = false;
 
             await _shiftService.SaveRecord(_shiftModel);
             await Task.Delay((int)Delay.DataSuccess);
 
-            _isProcessing = false;
-
+            await FetchShiftDataAsync();
             await OnSubmitSuccess.InvokeAsync();
+            _isProcessing = false;
 
         }
         catch (Exception ex)
@@ -160,5 +183,40 @@ public partial class AdminTimesheetModalShift : ComponentBase
         _isProcessing = false;
         _displayErrorMessages = true;
         await Task.CompletedTask;
+    }
+
+    private async void ArchiveRecord(ShiftModel shift)
+    {
+        try
+        {
+            await _shiftService.ArchiveRecord(shift);
+            await FetchShiftDataAsync();
+            await OnSubmitSuccess.InvokeAsync();
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+    }
+
+    private ShiftModel ConverteModelAsync(ShiftListDTO shiftListDTO)
+    {
+        try
+        {
+            ShiftModel shift = new()
+            {
+                Id = shiftListDTO.Id
+            };
+
+            return  shift;
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+
+            ShiftModel shift = new();
+
+            return shift;
+        }
     }
 }

@@ -1,9 +1,11 @@
 namespace MyFinanceAppLibrary.Models;
 
-public class ShiftListDTO : BaseModel
+public class ShiftListDTO
 {
 #nullable disable
     public ulong Id { get; }
+
+    public DateTime SDate { get; }
 
     public ulong CompanyId { get; }
 
@@ -11,6 +13,5 @@ public class ShiftListDTO : BaseModel
 
     public string Description { get; }
 
-    public DateTime SDate { get; }
 #nullable enable
 }

@@ -1,4 +1,5 @@
 ﻿@using MainApp.Components.Badge.Color
+@using MainApp.Components.Dropdown.MultiSelect
 @using MainApp.Components.Loader
 @using MainApp.Components.Modal
 
@@ -17,6 +18,37 @@
                 autocomplete="off">
             <DataAnnotationsValidator />
             <div class="row pb-2">
+                <div class="col-12 d-flex justify-content-center">
+                        @if (_isLoadingShift)
+                        {
+                            <Loader />
+                        }
+                        else
+                        {
+                            <DropdownMultiSelect ButtonSize="Size.Sm"
+                                            ButtonColor="Theme.Info"
+                                            DropdownLabel="@Label.ShiftToday"
+                                            DropdownPosition="Position.Start"
+                                            IconEnd="bi-chevron-down"
+                                            IconStart="bi-calendar-check">
+                                @foreach (var (shift, index) in _activeShifts.Select((value, index) => (value, index)))
+                                {
+                                    <li class="px-2 py-1 d-flex w-100 justify-content-between align-items-center text-nowrap">
+                                        @($"{shift.Description}")
+                                        <a role="button" 
+                                            class="btn btn-link btn-@(Size.Sm.ToString().ToLower()) text-@(Theme.Danger.ToString().ToLower()) @("rounded"+_appSettings.Button)"
+                                            title="Remove"
+                                            @onclick="() => ArchiveRecord(ConverteModelAsync(shift))">
+                                            <i class="bi bi-archive"></i>
+                                        </a>
+                                    </li>
+                                }
+                            </DropdownMultiSelect>
+                        }
+                </div>
+            </div>
+            <hr />
+            <div class="row pb-2">
                 <div class="col-12">
                     <div class="form-floating pb-2">
                         <InputDate id="SDate"
@@ -26,9 +58,7 @@
                                 Type="InputDateType.Date" />
                         <label for="SDate">Date</label>
                     </div>
-
                 </div>
-
                 <div class="col-12">
                     <div class="form-floating pb-2">
                         @if (_isLoading)
@@ -48,6 +78,20 @@
                             </InputSelect>
                             <label for="CompanyId">Company</label>
                         }
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-control @("rounded"+_appSettings.Form)">
+                        <label class="app-form-floating-label">Availability status</label>
+                        <div class="form-check form-switch">
+                            <label class="form-check-label" for="IsAvailable">@(_shiftModel.IsAvailable is true ? "Available" : "Unavailable")</label>
+                            <InputCheckbox class="form-check-input"
+                                        type="checkbox"
+                                        role="switch"
+                                        id="IsAvailable"
+                                        @bind-Value="_shiftModel.IsAvailable" />
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -73,7 +117,7 @@
                             disabled="@(_isProcessing ? true : false)"
                             type="submit">
                         <i class="bi bi-calendar4-week pe-1"></i>
-                        @(_isProcessing ? "Adding..." : "Add shift")
+                        @(_isProcessing ? "Saving..." : "Save shift")
                     </button>
                 </div>
             </div>
