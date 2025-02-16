@@ -149,7 +149,7 @@
                                                                         @onclick="() => ViewTransactionsDetailsAsync(date)">
                                                                         <div class="d-flex justify-content-end">
                                                                             <div class="app-calendar-cell-day app-calendar-cell-current-day text-center p-1 fw-bold @($"rounded{_appSettings.Button}") @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
-                                                                                        $"bg-{Theme.Danger.ToString().ToLower()} text-white" : $"bg-{Theme.Light.ToString().ToLower()}")">
+                                                                                        $"bg-{Theme.Secondary.ToString().ToLower()} text-white" : $"bg-{Theme.Light.ToString().ToLower()}")">
                                                                                 @(date.Day)
                                                                             </div>
                                                                         </div>
