@@ -204,12 +204,12 @@
                                                         @foreach (var date in week)
                                                         {
                                                             ShiftListDTO shift = _shiftCalendarView.Find(s => s.SDate.Day == date.Day)!;
-                                                            <td class="@((date.Year == 1 && date.Day == 1) ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "app-calendar-cell") @((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"app-shift-bg-{Theme.Success.ToString().ToLower()}" : $"app-shift-bg-{Theme.Danger.ToString().ToLower()}") : "")">
+                                                            <td class="@((date.Year == 1 && date.Day == 1) ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "app-calendar-cell") @((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"app-shift-bg-{Theme.Info.ToString().ToLower()}" : $"app-shift-bg-{Theme.Danger.ToString().ToLower()}") : "")">
                                                                 @if ((date.Year != 1 && date.Day >= 1))
                                                                 {
                                                                     <a role="button" class="btn w-100 h-100 p-0"
                                                                         @onclick="() => UpdateShiftAsync(date)">
-                                                                        <div class="d-flex justify-content-end @($"rounded{_appSettings.Button}") @((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"bg-{Theme.Success.ToString().ToLower()}-subtle" : $"bg-{Theme.Danger.ToString().ToLower()}") : $"bg-{Theme.Light.ToString().ToLower()}")" title="@((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"Shift scheduled for: {shift.Description}" : "Unavailable") : "No shift scheduled")">
+                                                                        <div class="d-flex justify-content-end @($"rounded{_appSettings.Button}") @((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"bg-{Theme.Info.ToString().ToLower()}" : $"bg-{Theme.Danger.ToString().ToLower()}") : $"bg-{Theme.Light.ToString().ToLower()}")" title="@((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"Shift scheduled for: {shift.Description}" : "Unavailable") : "No shift scheduled")">
                                                                             <div class="app-calendar-cell-day app-calendar-cell-current-day text-center p-1 fw-bold @($"rounded{_appSettings.Button}") @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
                                                                                         $"bg-{Theme.Secondary.ToString().ToLower()} text-white" : $"bg-{Theme.Light.ToString().ToLower()}")">
                                                                                 @(date.Day)

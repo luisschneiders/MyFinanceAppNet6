@@ -184,6 +184,8 @@ h1:focus {
     position: sticky;
     top: 0;
     z-index: 10;
+    width: 14.28%; /* 100% divided by 7 days */
+    white-space: nowrap; /* Prevents wrapping */
 }
 
 #blazor-error-ui {
@@ -346,11 +348,17 @@ h1:focus {
     .app-dropdown-menu {
         border-color: transparent;
     }
-    .app-shift-bg-success {
-        background-color: var(--bs-success-bg-subtle) !important;
-    }
     .app-shift-bg-danger {
         background-color: var(--bs-danger) !important;
+    }
+    .app-shift-bg-info {
+        background-color: var(--bs-info-bg-subtle) !important;
+    }
+    .app-shift-bg-primary {
+        background-color: var(--bs-primary-bg-subtle) !important;
+    }
+    .app-shift-bg-success {
+        background-color: var(--bs-success-bg-subtle) !important;
     }
 }
 
