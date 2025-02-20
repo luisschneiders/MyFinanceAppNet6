@@ -74,8 +74,8 @@ h1:focus {
 }
 .app-offcanvas-backdrop.show {
     opacity: 1;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
 }
 
 .app-calendar-text {
@@ -384,8 +384,8 @@ h1:focus {
 
 @media (min-width: 992px) {
     .app-navbar {
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
     }
 
     [data-bs-theme=light] .app-navbar {
