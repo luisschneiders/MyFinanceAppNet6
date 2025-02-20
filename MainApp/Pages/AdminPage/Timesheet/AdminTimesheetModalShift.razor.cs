@@ -49,39 +49,24 @@ public partial class AdminTimesheetModalShift : ComponentBase
     {
     }
 
-    protected async override Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            try
-            {
-                _inputFormControlAttributes = new()
-                {
-                    {
-                        "class", $"form-control rounded{_appSettings.Form}"
-                    }
-                };
-
-                _inputFormSelectAttributes = new()
-                {
-                    {
-                        "class", $"form-select rounded{_appSettings.Form}"
-                    }
-                };
-            }
-            catch (Exception ex)
-            {
-                _toastService.ShowToast(ex.Message, Theme.Danger);
-            }
-        }
-        await Task.CompletedTask;
-    }
-
-
     public async Task OpenModalAsync(DateTime date)
     {
         try
         {
+            _inputFormControlAttributes = new()
+            {
+                {
+                    "class", $"form-control rounded{_appSettings.Form}"
+                }
+            };
+
+            _inputFormSelectAttributes = new()
+            {
+                {
+                    "class", $"form-select rounded{_appSettings.Form}"
+                }
+            };
+
             _modalTarget = Guid.NewGuid();
             _dateTimeRange.Start = date;
             _dateTimeRange.End = date;
@@ -217,6 +202,22 @@ public partial class AdminTimesheetModalShift : ComponentBase
             ShiftModel shift = new();
 
             return shift;
+        }
+    }
+
+    private async Task OnInputDateChanged(ChangeEventArgs e)
+    {
+        if (!string.IsNullOrWhiteSpace(e.Value?.ToString()))
+        {
+            DateTime dateTime = DateTime.Parse((string)e.Value!);
+
+            if (dateTime is DateTime date)
+            {
+                _dateTimeRange.Start = date;
+                _dateTimeRange.End = date;
+
+                await FetchShiftDataAsync();
+            }
         }
     }
 }

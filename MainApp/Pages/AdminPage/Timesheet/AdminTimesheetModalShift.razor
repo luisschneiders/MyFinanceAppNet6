@@ -8,7 +8,7 @@
        IsCloseButtonVisible="false">
     <Title>
         <span class="text-secondary">
-            @($"{_shiftModel.SDate.ToString("dddd, d MMM yyyy")}")
+            @($"{_shiftModel.SDate.ToString("ddd, d MMM yyyy")}")
         </span>
     </Title>
     <Body>
@@ -55,7 +55,8 @@
                                 @attributes="_inputFormControlAttributes"
                                 placeholder="Date"
                                 @bind-Value="_shiftModel.SDate"
-                                Type="InputDateType.Date" />
+                                Type="InputDateType.Date"
+                                @oninput="OnInputDateChanged" />
                         <label for="SDate">Date</label>
                     </div>
                 </div>
