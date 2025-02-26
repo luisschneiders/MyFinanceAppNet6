@@ -1,7 +1,7 @@
 ﻿<AuthorizeView>
     <Authorized>
         <div class="dropdown">
-            <a class="btn btn-@Theme.Light.ToString().ToLower() border-@Theme.Dark.ToString().ToLower()-subtle @("rounded"+_appSettings.Button)" id="dropdownMenuUser" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+            <a class="btn btn-@Theme.Light.ToString().ToLower() border-@Theme.Light.ToString().ToLower()-subtle @("rounded"+_appSettings.Button)" id="dropdownMenuUser" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
                 Hello, @context.User.Identity?.Name &#x1F60A<i class="bi bi-chevron-down ps-2"></i>
             </a>
             <ul class="w-100 dropdown-menu dropdown-menu-lg-end bg-@Theme.Light.ToString().ToLower()-subtle border-@Theme.Dark.ToString().ToLower()-subtle shadow-sm" aria-labelledby="dropdownMenuUser">

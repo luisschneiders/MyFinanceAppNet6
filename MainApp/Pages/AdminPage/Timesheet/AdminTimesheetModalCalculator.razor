@@ -1,0 +1,14 @@
+﻿@using MainApp.Components.Modal
+@using MainApp.Components.Tools
+
+<Modal @ref="_modal"
+       Size="Size.Sm"
+       IsCloseButtonVisible="true"
+       ModalContentStyle="@($"bg-{Theme.Dark.ToString().ToLower()}-subtle")">
+    
+    <Body>
+        <TimesheetCalculator />
+    </Body>
+    <Footer>
+    </Footer>
+</Modal>

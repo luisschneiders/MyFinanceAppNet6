@@ -160,9 +160,8 @@
                                                                     <a role="button" class="btn w-100 h-100 p-0"
                                                                         @onclick="() => ViewExpensesDetailsAsync(date)">
                                                                         <div class="d-flex justify-content-end">
-                                                                            <div class="app-calendar-cell-day text-center p-1 @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
-                                                                                        $"app-calendar-cell-current-day rounded-circle bg-{Theme.Danger.ToString().ToLower()}-subtle text-{Theme.Danger.ToString().ToLower()}-emphasis" :
-                                                                                        "") fw-bold text-secondary-emphasis">
+                                                                            <div class="app-calendar-cell-day app-calendar-cell-current-day text-center p-1 fw-bold @($"rounded{_appSettings.Button}") @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
+                                                                                        $"bg-{Theme.Secondary.ToString().ToLower()} text-white" : $"bg-{Theme.Light.ToString().ToLower()}")">
                                                                                 @(date.Day)
                                                                             </div>
                                                                         </div>

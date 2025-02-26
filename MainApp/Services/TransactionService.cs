@@ -36,7 +36,7 @@ public class TransactionService : ITransactionService<TransactionModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.IsArchived = true;
             model.IsActive = false;
@@ -72,7 +72,7 @@ public class TransactionService : ITransactionService<TransactionModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.Action = TransactionActionType.C.ToString();
             model.Label = model.TransactionCategoryModel.ActionType;
@@ -91,7 +91,7 @@ public class TransactionService : ITransactionService<TransactionModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.Action = TransactionActionType.D.ToString();
             model.Label = model.TransactionCategoryModel.ActionType;
@@ -110,7 +110,7 @@ public class TransactionService : ITransactionService<TransactionModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.Label = model.TransactionCategoryModel.ActionType;
             model.Comments = $"Transfer from {model.FromBankModel.Description} to {model.ToBankModel.Description}";
@@ -129,7 +129,7 @@ public class TransactionService : ITransactionService<TransactionModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<TransactionIOGraphByMonthDTO> results = await _transactionData.GetIOByDateRangeGroupByMonth(user.Id, dateTimeRange);
             return results;
         }
@@ -144,7 +144,7 @@ public class TransactionService : ITransactionService<TransactionModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<TransactionIOGraphByDayDTO> results = await _transactionData.GetIOByDateRangeGroupByDay(user.Id, dateTimeRange);
             return results;
         }
@@ -164,7 +164,7 @@ public class TransactionService : ITransactionService<TransactionModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             TransactionModel result = await _transactionData.GetRecordById(user.Id, modelId);
             return result;
         }
@@ -204,7 +204,7 @@ public class TransactionService : ITransactionService<TransactionModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<TransactionIOLast3MonthsGraphDTO> results = await _transactionData.GetRecordsLast3Months(user.Id);
             return results;
         }
@@ -273,7 +273,7 @@ public class TransactionService : ITransactionService<TransactionModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<TransactionDetailsDTO> records = await _transactionData.GetRecordsDetailsByDateRange(user.Id, dateTimeRange);
 
             return await Task.FromResult(records);
@@ -389,7 +389,7 @@ public class TransactionService : ITransactionService<TransactionModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             _recordsByDateRange = await _transactionData.GetRecordsByDateRange(user.Id, dateTimeRange);
 

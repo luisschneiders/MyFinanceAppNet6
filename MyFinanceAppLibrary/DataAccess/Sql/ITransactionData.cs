@@ -2,15 +2,15 @@
 
 public interface ITransactionData<T> : IBaseData<T>
 {
-    Task ArchiveRecordCredit(T model);
-    Task ArchiveRecordDebit(T model);
-    Task ArchiveRecordTransfer(T model);
-    Task CreateRecordCredit(T model);
-    Task CreateRecordDebit(T model);
-    Task CreateRecordTransfer(T model);
-    Task<List<TransactionIOGraphByMonthDTO>> GetIOByDateRangeGroupByMonth(string userId, DateTimeRange dateTimeRange);
-    Task<List<TransactionIOGraphByDayDTO>> GetIOByDateRangeGroupByDay(string userId, DateTimeRange dateTimeRange);
-    Task<List<TransactionListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange);
-    Task<List<TransactionDetailsDTO>> GetRecordsDetailsByDateRange(string userId, DateTimeRange dateTimeRange);
-    Task<List<TransactionIOLast3MonthsGraphDTO>> GetRecordsLast3Months(string userId);
+    public Task ArchiveRecordCredit(T model);
+    public Task ArchiveRecordDebit(T model);
+    public Task ArchiveRecordTransfer(T model);
+    public Task CreateRecordCredit(T model);
+    public Task CreateRecordDebit(T model);
+    public Task CreateRecordTransfer(T model);
+    public Task<List<TransactionIOGraphByMonthDTO>> GetIOByDateRangeGroupByMonth(string userId, DateTimeRange dateTimeRange);
+    public Task<List<TransactionIOGraphByDayDTO>> GetIOByDateRangeGroupByDay(string userId, DateTimeRange dateTimeRange);
+    public Task<List<TransactionListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange);
+    public Task<List<TransactionDetailsDTO>> GetRecordsDetailsByDateRange(string userId, DateTimeRange dateTimeRange);
+    public Task<List<TransactionIOLast3MonthsGraphDTO>> GetRecordsLast3Months(string userId);
 }

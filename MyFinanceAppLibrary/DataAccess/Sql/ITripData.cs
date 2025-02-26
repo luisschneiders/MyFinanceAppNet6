@@ -2,7 +2,7 @@
 
 public interface ITripData<T> : IBaseData<T>
 {
-    Task<List<TripListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange);
-    Task UpdateRecordPayStatus(T model);
-    Task UpdateRecordTripCategory(T model);
+    public Task<List<TripListDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange);
+    public Task UpdateRecordPayStatus(T model);
+    public Task UpdateRecordTripCategory(T model);
 }

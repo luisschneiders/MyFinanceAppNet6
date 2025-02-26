@@ -26,7 +26,7 @@ public class TransactionCategoryService : ITransactionCategoryService<Transactio
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<TransactionCategoryModel> results = await _transactionCategoryData.GetRecords(user.Id);
             return results;
         }
@@ -41,7 +41,7 @@ public class TransactionCategoryService : ITransactionCategoryService<Transactio
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<TransactionCategoryModel> results = await _transactionCategoryData.GetRecords(user.Id);
 
             List<CheckboxItemModel> filter = new();
@@ -69,7 +69,7 @@ public class TransactionCategoryService : ITransactionCategoryService<Transactio
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<TransactionCategoryModel> results = await _transactionCategoryData.GetSearchResults(user.Id, search);
             return results;
         }
@@ -84,7 +84,7 @@ public class TransactionCategoryService : ITransactionCategoryService<Transactio
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             TransactionCategoryModel result = await _transactionCategoryData.GetRecordById(user.Id, modelId);
             return result;
         }
@@ -105,7 +105,7 @@ public class TransactionCategoryService : ITransactionCategoryService<Transactio
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.UpdatedBy = user.Id;
 
@@ -123,7 +123,7 @@ public class TransactionCategoryService : ITransactionCategoryService<Transactio
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.UpdatedBy = user.Id;
             model.UpdatedAt = DateTime.Now;
@@ -142,7 +142,7 @@ public class TransactionCategoryService : ITransactionCategoryService<Transactio
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.IsActive = !model.IsActive;
             model.UpdatedBy = user.Id;
@@ -161,7 +161,7 @@ public class TransactionCategoryService : ITransactionCategoryService<Transactio
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.IsArchived = true;
             model.UpdatedBy = user.Id;
@@ -185,7 +185,7 @@ public class TransactionCategoryService : ITransactionCategoryService<Transactio
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<TransactionCategoryModel> results = await _transactionCategoryData.GetRecordsActive(user.Id);
             return results;
         }

@@ -34,6 +34,9 @@ public partial class DropdownMultiSelect : ComponentBase
     [Parameter]
     public Position DropdownPosition { get; set; } = Position.Start;
 
+    [Parameter]
+    public bool AutoClose { get; set; } = false;
+
     public DropdownMultiSelect()
     {
     }

@@ -43,7 +43,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.IsArchived = true;
             model.IsActive = false;
@@ -63,7 +63,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.UpdatedBy = user.Id;
 
@@ -85,7 +85,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             ExpenseModel result = await _expenseData.GetRecordById(user.Id, modelId);
             return result;
         }
@@ -181,7 +181,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<ExpenseDetailsDTO> records = await _expenseData.GetRecordsDetailsByDateRange(user.Id, dateTimeRange);
 
             return await Task.FromResult(records);
@@ -212,7 +212,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<ExpenseLast3MonthsGraphDTO> results = await _expenseData.GetRecordsLast3Months(user.Id);
             return results;
         }
@@ -227,7 +227,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<ExpenseLast5YearsGraphDTO> results = await _expenseData.GetRecordsLast5Years(user.Id);
             return results;
         }
@@ -242,7 +242,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<ExpenseAmountHistoryDTO> results = await _expenseData.GetAmountHistory(user.Id);
             return results;
         }
@@ -288,7 +288,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<ExpenseTop5DTO> results = await _expenseData.GetTop5ExpensesByDateRange(user.Id, dateTimeRange);
             return results;
         }
@@ -303,7 +303,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<ExpenseListGroupByMonthDTO> results = await _expenseData.GetRecordsGroupByMonth(user.Id, dateTimeRange);
             return results;
         }
@@ -363,7 +363,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             _recordsByDateRange = await _expenseData.GetRecordsByDateRange(user.Id, dateTimeRange);
 

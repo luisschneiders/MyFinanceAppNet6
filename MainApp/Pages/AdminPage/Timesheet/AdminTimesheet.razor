@@ -5,7 +5,6 @@
 @using MainApp.Components.Message
 @using MainApp.Components.Breadcrumb
 @using MainApp.Components.Badge
-@using MainApp.Components.Spinner
 
 <div class="container-lg">
     <AuthorizeView Policy="Admin">
@@ -24,12 +23,9 @@
                 <PageMiddleView>
                     <PageMiddleWrapper>
                         <div class="row">
-                            <div class="col-12 col-lg-9">
+                            <div class="col-12">
                                 @* <AdminTimesheetPanelLeft OnStateContainerSetValue="DisplayPanelRight" /> *@
                                 <AdminTimesheetPanelLeft />
-                            </div>
-                            <div class="col-12 col-lg-3 d-none d-lg-block">
-                                <AdminTimesheetPanelRight />
                             </div>
                         </div>
                     </PageMiddleWrapper>

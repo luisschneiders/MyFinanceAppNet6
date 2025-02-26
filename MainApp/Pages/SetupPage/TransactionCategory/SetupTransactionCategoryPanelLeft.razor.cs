@@ -1,6 +1,4 @@
-﻿using MainApp.Components.Spinner;
-using MainApp.Components.Toast;
-using MainApp.Pages.SetupPage.TransactionCategory;
+﻿using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Pages.SetupPage.TransactionCategory;

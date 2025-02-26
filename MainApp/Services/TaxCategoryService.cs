@@ -26,7 +26,7 @@ public class TaxCategoryService : ITaxCategoryService<TaxCategoryModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.IsArchived = true;
             model.UpdatedBy = user.Id;
@@ -45,7 +45,7 @@ public class TaxCategoryService : ITaxCategoryService<TaxCategoryModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.UpdatedBy = user.Id;
 
@@ -68,7 +68,7 @@ public class TaxCategoryService : ITaxCategoryService<TaxCategoryModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             TaxCategoryModel result = await _taxCategoryData.GetRecordById(user.Id, modelId);
             return result;
         }
@@ -84,7 +84,7 @@ public class TaxCategoryService : ITaxCategoryService<TaxCategoryModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<TaxCategoryModel> results = await _taxCategoryData.GetRecords(user.Id);
             return results;
         }
@@ -99,7 +99,7 @@ public class TaxCategoryService : ITaxCategoryService<TaxCategoryModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<TaxCategoryModel> results = await _taxCategoryData.GetRecordsActive(user.Id);
             return results;
         }
@@ -114,7 +114,7 @@ public class TaxCategoryService : ITaxCategoryService<TaxCategoryModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<TaxCategoryModel> results = await _taxCategoryData.GetSearchResults(user.Id, search);
             return results;
         }
@@ -130,7 +130,7 @@ public class TaxCategoryService : ITaxCategoryService<TaxCategoryModel>
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.UpdatedBy = user.Id;
             model.UpdatedAt = DateTime.Now;
@@ -149,7 +149,7 @@ public class TaxCategoryService : ITaxCategoryService<TaxCategoryModel>
         // TODO: check if record is not archived in Mysql Stored Procedure
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
 
             model.IsActive = !model.IsActive;
             model.UpdatedBy = user.Id;
@@ -168,7 +168,7 @@ public class TaxCategoryService : ITaxCategoryService<TaxCategoryModel>
     {
         try
         {
-            var user = await GetLoggedInUser();
+            UserModel user = await GetLoggedInUser();
             List<TaxCategoryModel> results = await _taxCategoryData.GetRecords(user.Id);
 
             List<CheckboxItemModel> filter = new();

@@ -2,5 +2,5 @@
 
 public interface IBankData<T> : IBaseData<T>
 {
-    Task<BankBalanceSumDTO> GetBankBalancesSum(string userId);
+    public Task<BankBalanceSumDTO> GetBankBalancesSum(string userId);
 }

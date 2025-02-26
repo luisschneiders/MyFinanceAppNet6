@@ -36,16 +36,6 @@
                         </li>
                     }
                 </DropdownMultiSelect>
-                @* @if (_multiFilterExpenseDTO.ECategoryId.Count > 0)
-                {
-                    <div class="d-flex align-items-center">
-                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) text-@(Theme.Dark.ToString().ToLower())-emphasis"
-                                title="Clear filter"
-                                @onclick="RemoveDropdownFilterExpenseCategory">
-                                <Badge BackgroundColor="@Theme.Light" Message="Clear Filter" />
-                        </button>
-                    </div>
-                } *@
             </div>
             <div class="d-flex me-2">
                 <DropdownMultiSelect ButtonSize="Size.Sm"
@@ -70,16 +60,6 @@
                         </li>
                     }
                 </DropdownMultiSelect>
-                @* @if (_multiFilterExpenseDTO.BankId.Count > 0)
-                {
-                    <div class="d-flex align-items-center">
-                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) text-@(Theme.Dark.ToString().ToLower())-emphasis"
-                                title="Clear filter"
-                                @onclick="RemoveDropdownFilterBank">
-                                <Badge BackgroundColor="@Theme.Light" Message="Clear Filter" />
-                        </button>
-                    </div>
-                } *@
             </div>
         </div>
     </Body>

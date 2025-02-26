@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using MainApp.Components.Spinner;
 using MainApp.Components.Toast;
 
 namespace MainApp.Pages.AdminPage.Timesheet;
@@ -10,13 +9,13 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     private ITimesheetService<TimesheetModel> _timesheetService { get; set; } = default!;
 
     [Inject]
+    private IShiftService<ShiftModel> _shiftService { get; set; } = default!;
+
+    [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
     [Inject]
     private ICalendarViewService _calendarViewService { get; set; } = default!;
-
-    [Inject]
-    private ICompanyService<CompanyModel> _companyService { get; set; } = default!;
 
     [Inject]
     private ToastService _toastService { get; set; } = new();
@@ -47,9 +46,12 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
     private bool _isLoading { get; set; } = true;
     private AdminTimesheetModalFilter _setupFilterModal { get; set; } = new();
+    private AdminTimesheetModalShift _setupShiftModal { get; set; } = new();
+    private AdminTimesheetModalCalculator _setupCalculatorModal { get; set; } = new();
     private MultiFilterTimesheetDTO _multiFilterTimesheetDTO { get; set; } = new();
     private List<TimesheetByCompanyGroupDTO> _timesheetListView { get; set; } = new();
     private List<TimesheetCalendarDTO> _timesheetCalendarView { get; set; } = new();
+    private List<ShiftListDTO> _shiftCalendarView { get; set; } = new();
     private DateTimeRange _dateCalendar { get; set; } = new();
     private string _viewType { get; set; } = ViewType.Calendar.ToString();
     private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
@@ -117,6 +119,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
             {
                 _multiFilterTimesheetDTO.DateTimeRange = _dateCalendar;
                 _timesheetCalendarView = await _timesheetService.GetRecordsCalendarView(_multiFilterTimesheetDTO);
+                _shiftCalendarView = await _shiftService.GetRecordsByDateRange(_multiFilterTimesheetDTO.DateTimeRange);
                 _weeks = await _calendarViewService.Build(_dateCalendar);
                 _isLoadingCalendar = false;
             }
@@ -178,6 +181,34 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         catch (Exception ex)
         {
             _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;
+    }
+
+    private async Task UpdateShiftAsync(DateTime date)
+    {
+        try
+        {
+            await _setupShiftModal.OpenModalAsync(date);
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);;
+        }
+
+        await Task.CompletedTask;
+    }
+
+    private async Task OpenCalculatorAsync()
+    {
+        try
+        {
+            await _setupCalculatorModal.OpenModalAsync();
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);;
         }
 
         await Task.CompletedTask;
