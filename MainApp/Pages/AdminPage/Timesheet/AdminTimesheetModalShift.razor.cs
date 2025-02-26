@@ -207,6 +207,7 @@ public partial class AdminTimesheetModalShift : ComponentBase
 
     private async Task OnInputDateChanged(ChangeEventArgs e)
     {
+        // TODO: Create method to validate object||string in IDateTimeService
         if (!string.IsNullOrWhiteSpace(e.Value?.ToString()))
         {
             DateTime dateTime = DateTime.Parse((string)e.Value!);
