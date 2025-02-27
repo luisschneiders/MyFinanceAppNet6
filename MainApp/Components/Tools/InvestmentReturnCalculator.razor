@@ -1,0 +1,62 @@
+﻿@using MainApp.Components.Card
+@using MainApp.Components.Shared
+
+<CardView Styles="@($"w-100 border-0 bg-{Theme.Light.ToString().ToLower()}-subtle")">
+    <CardMiddle>
+        <SharedHeader Title="Investment returns"
+                        Icon="bi-calculator"
+                        IconColor="Theme.Dark" />
+        <EditForm Model="@_investmentReturnModel"
+                    autocomplete="off">
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="form-floating pb-1">
+                        <InputSelect class="form-control form-control-sm"
+                                        id="ReturnType"
+                                        @bind-Value="_investmentReturnModel.IRType">
+                            <option value="0">-- Select return type --</option>
+                            @foreach (var (iType, index) in _investmentReturnTypes.Select((value, index) => (value, index)))
+                            {
+                                int investmentTypeValue = index + 1;
+                                <option value="@investmentTypeValue"> @($"{iType}") </option>
+                            }
+                        </InputSelect>
+                        <label for="ReturnType">Return type</label>
+                    </div>
+                    <div class="form-floating pb-1">
+                        <InputNumber class="form-control form-control-sm"
+                                        id="Period"
+                                        placeholder="Period"
+                                        disabled="@(_investmentReturnModel.IRType == (int)InvestmentReturn.Simple)"
+                                        @bind-Value="_investmentReturnModel.Period" />
+                        <label for="Period">Period</label>
+                    </div>
+                    <div class="form-floating pb-1">
+                        <InputNumber class="form-control form-control-sm"
+                                        id="InitialValue"
+                                        placeholder="Initial amount"
+                                        min="0"
+                                        max="60"
+                                        @bind-Value="_investmentReturnModel.InitialValue" />
+                        <label for="InitialValue">Initial amount</label>
+                    </div>
+                    <div class="form-floating pb-1">
+                        <InputNumber class="form-control form-control-sm"
+                                        id="FinalValue"
+                                        placeholder="Final amount"
+                                        min="0"
+                                        max="60"
+                                        @bind-Value="_investmentReturnModel.FinalValue" />
+                        <label for="FinalValue">Final amount</label>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="d-flex justify-content-center align-items-center h-100 bg-@Theme.Light.ToString().ToLower()-subtle @("rounded"+_appSettings.Card)">
+                        <span class="display-3 text-@Theme.Info.ToString().ToLower()">@_investmentReturnModel.Percentage.ToString("0.00")</span>
+                        <span class="display-5 text-@Theme.Info.ToString().ToLower() text-opacity-50">%</span>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    </CardMiddle>
+</CardView>

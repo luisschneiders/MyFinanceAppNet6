@@ -1,7 +1,7 @@
 ﻿@using MainApp.Components.Card
 @using MainApp.Components.Shared
 
-<CardView Styles="w-100 border-0 bg-dark-subtle">
+<CardView Styles="@($"w-100 border-0 bg-{Theme.Light.ToString().ToLower()}-subtle")">
     <CardMiddle>
         <SharedHeader Title="Timesheet rate"
                         Icon="bi-calculator"
@@ -47,7 +47,7 @@
         </EditForm>
         <div class="row">
             <div class="col-12 opacity-75">
-                <div class="form-control form-control-sm text-dark-emphasis p-2 border-0">
+                <div class="form-control form-control-sm text-dark-emphasis p-0 border-0">
                     <div>
                         Work hours: <span class="fw-semibold">@_timesheetModel.HoursWorked.ToString("h'h 'm'm '")</span>
                     </div>

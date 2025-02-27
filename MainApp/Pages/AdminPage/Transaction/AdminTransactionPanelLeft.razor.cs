@@ -34,9 +34,9 @@ public partial class AdminTransactionPanelLeft : ComponentBase
      */
     private AdminTransactionOffCanvas _setupOffCanvas { get; set; } = new();
     private AdminTransactionModal _setupModal { get; set; } = new();
-    private AdminTransactionModalFilter _setupFilterModal { get; set; } = new();
-    private AdminTransactionModalDetails _setupTransactionModalDetails { get; set; } = new();
-
+    private AdminTransactionModalFilter _setupModalFilter { get; set; } = new();
+    private AdminTransactionModalDetails _setupModalTransactionDetails { get; set; } = new();
+    private AdminTransactionModalCalculator _setupModalCalculator { get; set; } = new();
     private AdminTransactionModalInfo _setupModalInfo { get; set; } = new();
     private DateTimeRange _dateRange { get; set; } = new();
     private DateTimeRange _dateCalendar { get; set; } = new();
@@ -182,7 +182,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     {
         try
         {
-            await _setupFilterModal.OpenModalAsync(IsFilterApplied());
+            await _setupModalFilter.OpenModalAsync(IsFilterApplied());
         }
         catch (Exception ex)
         {
@@ -211,11 +211,26 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         await _setupModalInfo.OpenModalAsync();
     }
 
+    private async Task OpenCalculatorAsync()
+    {
+        try
+        {
+            await _setupModalCalculator.OpenModalAsync();
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);;
+        }
+
+        await Task.CompletedTask;
+    }
+
+
     private async Task ViewTransactionsDetailsAsync(DateTime date)
     {
         try
         {
-            await _setupTransactionModalDetails.OpenModalAsync(date);
+            await _setupModalTransactionDetails.OpenModalAsync(date);
         }
         catch (Exception ex)
         {
