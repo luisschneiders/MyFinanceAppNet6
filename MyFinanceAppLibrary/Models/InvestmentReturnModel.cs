@@ -4,8 +4,8 @@ public class InvestmentReturnModel
 {
     public int IRType { get; set; }
     public decimal Period { get; set; }
-    public decimal InitialValue { get; set; }
-    public decimal FinalValue { get; set; }
+    public decimal PersonalContribution { get; set; }
+    public decimal FinalAmount { get; set; }
 
     public decimal Percentage
     {
@@ -13,11 +13,11 @@ public class InvestmentReturnModel
         {
             if (IRType == (int)InvestmentReturn.Annualized)
             {
-                return CalculateAnnualized(InitialValue, FinalValue, Period) * 100;
+                return CalculateAnnualized(PersonalContribution, FinalAmount, Period) * 100;
             }
             else if (IRType == (int)InvestmentReturn.Simple)
             {
-                return CalculateSimple(InitialValue, FinalValue, Period) * 100;
+                return CalculateSimple(PersonalContribution, FinalAmount) * 100;
             }
             else
             {
@@ -26,11 +26,11 @@ public class InvestmentReturnModel
         }
     }
 
-    private static decimal CalculateSimple(decimal initial, decimal final, decimal period)
+    private static decimal CalculateSimple(decimal personalContribution, decimal finalAmount)
     {
-        if (initial != 0 && final != 0)
+        if (personalContribution != 0 && finalAmount != 0)
         {
-            return (final - initial) / initial;
+            return (finalAmount - personalContribution) / personalContribution;
         }
         else
         {
@@ -38,11 +38,11 @@ public class InvestmentReturnModel
         }
     }
 
-    private static decimal CalculateAnnualized(decimal initial, decimal final, decimal period)
+    private static decimal CalculateAnnualized(decimal personalContribution, decimal finalAmount, decimal period)
     {
-        if (initial != 0 && final != 0 && period != 0)
+        if (personalContribution != 0 && finalAmount != 0 && period != 0)
         {
-            double cagr = Math.Pow((double)(final / initial), 1.0 / (double)period) - 1.0;
+            double cagr = Math.Pow((double)(finalAmount / personalContribution), 1.0 / (double)period) - 1.0;
 
             return (decimal)cagr;
         }
