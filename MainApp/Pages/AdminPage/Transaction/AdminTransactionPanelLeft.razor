@@ -90,6 +90,10 @@
             </div>
             <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
                 <div class="d-none d-lg-block">
+                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                            @onclick="() => OpenCalculatorAsync()" title="Calculator">
+                        <i class="bi bi-calculator"></i>
+                    </button>
                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => AddRecordAsync(DateTime.Now)">
                         <i class="bi bi-plus-lg pe-1"></i>New transaction
@@ -98,6 +102,13 @@
                 <div class="d-block d-lg-none">
                     <DropdownActions DropdownPosition="Position.End"
                                      ButtonSize="Size.Sm">
+                        <li class="px-2 d-block d-lg-none">
+                            <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
+                                    @onclick="() => OpenCalculatorAsync()">
+                                <i class="bi bi-calculator pe-1"></i>Calculator
+                            </button>
+                        </li>
+
                         <li class="px-2 d-block d-lg-none">
                             <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
                                     @onclick="() => AddRecordAsync(DateTime.Now)">
@@ -319,5 +330,6 @@
 <AdminTransactionOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
 <AdminTransactionModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
 <AdminTransactionModalInfo @ref="_setupModalInfo" />
-<AdminTransactionModalFilter @ref="_setupFilterModal" OnSubmitFilterSuccess="filterTransaction => RefreshFilterList(filterTransaction)" />
-<AdminTransactionModalDetails @ref="_setupTransactionModalDetails" OnSubmitSuccess="dateTime => OpenSetupOffCanvas(dateTime)" />
+<AdminTransactionModalFilter @ref="_setupModalFilter" OnSubmitFilterSuccess="filterTransaction => RefreshFilterList(filterTransaction)" />
+<AdminTransactionModalDetails @ref="_setupModalTransactionDetails" OnSubmitSuccess="dateTime => OpenSetupOffCanvas(dateTime)" />
+<AdminTransactionModalCalculator @ref="_setupModalCalculator"/>

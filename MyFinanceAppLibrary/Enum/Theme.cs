@@ -4,6 +4,7 @@ public enum Theme
 {
     Primary,
     Secondary,
+    Tertiary,
     Success,
     Info,
     Warning,

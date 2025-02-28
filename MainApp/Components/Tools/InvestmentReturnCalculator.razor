@@ -1,0 +1,118 @@
+﻿@using MainApp.Components.Card
+@using MainApp.Components.Shared
+
+<CardView Styles="@($"w-100 border-0 bg-{Theme.Light.ToString().ToLower()}-subtle")">
+    <CardMiddle>
+        <SharedHeader Title="Investment returns"
+                        Icon="bi-calculator"
+                        IconColor="Theme.Dark" />
+        <EditForm Model="@_investmentReturnModel"
+                    autocomplete="off">
+            <div class="row py-3">
+                <div class="col-12 col-lg-6">
+                    <div id="carouselCaptions" class="carousel slide d-none d-md-block">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="0" class="active bg-@Theme.Dark.ToString().ToLower()"
+                                aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="1" class="bg-@Theme.Dark.ToString().ToLower()"
+                                aria-label="Slide 2"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <svg class="d-block w-100 rounded"
+                                        width="800"
+                                        height="320"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        role="img"
+                                        aria-label="Annualized percentage"
+                                        preserveAspectRatio="xMidYMid slice"
+                                        focusable="false">
+                                    <title>Annualized percentage</title>
+                                    <rect width="100%" height="100%" fill="@(BackgroundColor.Gray)"></rect>
+                                </svg>
+
+                                <div class="carousel-caption d-none d-md-block text-@Theme.Dark.ToString().ToLower()">
+                                    <h5>Annualized percentage</h5>
+                                    <p>
+                                        The annualized percentage or CAGR - (Compound Annual Growth Rate) reflects the average rate of return over a year, accounting for the effects of compounding over multiple periods.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <svg class="d-block w-100 rounded"
+                                        width="800"
+                                        height="320"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        role="img"
+                                        aria-label="Simple percentage"
+                                        preserveAspectRatio="xMidYMid slice"
+                                        focusable="false">
+                                    <title>Simple percentage</title>
+                                    <rect width="100%" height="100%" fill="@(BackgroundColor.Gray)"></rect>
+                                </svg>
+
+                                <div class="carousel-caption d-none d-md-block text-@Theme.Dark.ToString().ToLower()">
+                                    <h5>Simple percentage</h5>
+                                    <p>
+                                        Simple percentage is calculated based on the initial value and does not account for compounding over time. It's often used for one-time, straightforward percentage changes.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @* </div>
+            <div class="row"> *@
+                <div class="col-12 col-lg-6">
+                    <div class="form-floating pb-1">
+                        <InputSelect class="form-control form-control-sm"
+                                        id="ReturnType"
+                                        @bind-Value="_investmentReturnModel.IRType">
+                            <option value="0">-- Select percentage --</option>
+                            @foreach (var (iType, index) in _investmentReturnTypes.Select((value, index) => (value, index)))
+                            {
+                                int investmentTypeValue = index + 1;
+                                <option value="@investmentTypeValue"> @($"{iType}") </option>
+                            }
+                        </InputSelect>
+                        <label for="ReturnType">Percentage type</label>
+                    </div>
+                    <div class="form-floating pb-1">
+                        <InputNumber class="form-control form-control-sm"
+                                        id="Period"
+                                        placeholder="Period (in years)"
+                                        disabled="@(_investmentReturnModel.IRType == (int)InvestmentReturn.Simple)"
+                                        @bind-Value="_investmentReturnModel.Period" />
+                        <label for="Period">Period (in years)</label>
+                    </div>
+                    <div class="form-floating pb-1">
+                        <InputNumber class="form-control form-control-sm"
+                                        id="PersonalContribution"
+                                        placeholder="Personal contributions"
+                                        min="0"
+                                        @bind-Value="_investmentReturnModel.PersonalContribution" />
+                        <label for="PersonalContribution">Personal contributions</label>
+                    </div>
+                    <div class="form-floating pb-1">
+                        <InputNumber class="form-control form-control-sm"
+                                        id="FinalAmount"
+                                        placeholder="Final amount"
+                                        min="0"
+                                        @bind-Value="_investmentReturnModel.FinalAmount" />
+                        <label for="FinalAmount">Final amount</label>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center bg-@Theme.Light.ToString().ToLower()-subtle @("rounded"+_appSettings.Card)">
+                        <span class="display-3 text-@Theme.Info.ToString().ToLower()">@_investmentReturnModel.Percentage.ToString("0.00")</span>
+                        <span class="display-5 text-@Theme.Info.ToString().ToLower() text-opacity-50">%</span>
+                    </div>
+                </div>
+                @* <div class="col-12 col-lg-6">
+                    <div class="d-flex justify-content-center align-items-center h-100 bg-@Theme.Light.ToString().ToLower()-subtle @("rounded"+_appSettings.Card)">
+                        <span class="display-3 text-@Theme.Info.ToString().ToLower()">@_investmentReturnModel.Percentage.ToString("0.00")</span>
+                        <span class="display-5 text-@Theme.Info.ToString().ToLower() text-opacity-50">%</span>
+                    </div>
+                </div> *@
+            </div>
+        </EditForm>
+    </CardMiddle>
+</CardView>
