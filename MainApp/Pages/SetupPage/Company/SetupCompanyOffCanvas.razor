@@ -78,7 +78,7 @@
                                  disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                              _offCanvasService.GetOffCanvasViewType()== OffCanvasViewType.Archive) ? true: false)"
                                  @bind-Value="_companyModel.CType">
-                        <option value="0">-- Select type --</option>
+                        <option value="0">-- Select --</option>
                         @foreach (var (cType, index) in _companyTypes.Select((value, index) => (value, index)))
                         {
                             int companyTypeValue = index + 1;

@@ -68,7 +68,7 @@
                         <InputSelect class="form-control form-control-sm"
                                         id="ReturnType"
                                         @bind-Value="_investmentReturnModel.IRType">
-                            <option value="0">-- Select percentage --</option>
+                            <option value="0">-- Select --</option>
                             @foreach (var (iType, index) in _investmentReturnTypes.Select((value, index) => (value, index)))
                             {
                                 int investmentTypeValue = index + 1;

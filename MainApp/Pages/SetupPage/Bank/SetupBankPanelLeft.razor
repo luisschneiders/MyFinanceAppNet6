@@ -9,7 +9,7 @@
                 <div class="d-none d-lg-block">
                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => AddRecordAsync()">
-                        <i class="bi bi-plus-lg pe-1"></i>New Bank
+                        <i class="bi bi-plus-lg pe-1"></i>New Institution
                     </button>
                 </div>
                 <div class="d-block d-lg-none">
@@ -18,7 +18,7 @@
                         <li class="px-2 d-block d-lg-none">
                             <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
                                     @onclick="() => AddRecordAsync()">
-                                <i class="bi bi-plus-lg pe-1"></i>New Bank
+                                <i class="bi bi-plus-lg pe-1"></i>New Institution
                             </button>
                         </li>
                     </DropdownActions>

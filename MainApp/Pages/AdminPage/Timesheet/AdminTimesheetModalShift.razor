@@ -71,7 +71,7 @@
                             <InputSelect id="CompanyId"
                                             @attributes="_inputFormSelectAttributes"
                                             @bind-Value="_shiftModel.CompanyId">
-                                <option value="0">-- Select Company --</option>
+                                <option value="0">-- Select --</option>
                                 @foreach (var (company, index) in _activeCompanies.Select((value, index) => (value, index)))
                                 {
                                     <option value="@company.Id"> @($"{company.Description}") </option>

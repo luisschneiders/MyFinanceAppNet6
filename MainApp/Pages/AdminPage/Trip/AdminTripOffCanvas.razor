@@ -71,7 +71,7 @@
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
                                      @bind-Value="_tripModel.VehicleId">
-                            <option value="0">-- Select Vehicle --</option>
+                            <option value="0">-- Select --</option>
                             @foreach (var (vehicle, index) in _activeVehicles.Select((value, index) => (value, index)))
                                 {
                                 <option value="@vehicle.Id">@($"{vehicle.Description} - {vehicle.Plate} ({vehicle.Year})") </option>
@@ -93,7 +93,7 @@
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
                                      @bind-Value="_tripModel.TCategoryId">
-                            <option value="0">-- Select Category --</option>
+                            <option value="0">-- Select --</option>
                             @foreach (var (category, index) in _tripCategoryDTOs.Select((value, index) => (value, index)))
                             {
                                 if (index > 0)
