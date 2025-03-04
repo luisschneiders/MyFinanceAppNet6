@@ -35,7 +35,7 @@
                                      @attributes="_inputFormSelectAttributes"
                                      @oninput="OnValueChangedCategoryType"
                                      @bind-Value="_transactionModel.TCategoryId">
-                            <option value="0">-- Select Action --</option>
+                            <option value="0">-- Select --</option>
                             @foreach (var (action, index) in _activeTransactionCategories.Select((value, index) => (value, index)))
                             {
                                 <option value="@action.Id"> @($"{action.Description}") </option>
@@ -55,13 +55,13 @@
                                      @attributes="_inputFormSelectAttributes"
                                      @oninput="OnValueChangedFromBank"
                                      @bind-Value="_transactionModel.FromBank">
-                            <option value="0">-- Select Bank --</option>
+                            <option value="0">-- Select --</option>
                             @foreach (var (bank, index) in _activeBanks.Select((value, index) => (value, index)))
                             {
                                 <option value="@bank.Id"> @($"{bank.Description} - {bank.CurrentBalance.ToString("C")}") </option>
                             }
                         </InputSelect>
-                        <label for="FromBank">From Bank</label>
+                        <label for="FromBank">From Financial Institution</label>
                     }
                 </div>
                 @if (_actionType == TransactionActionType.T.ToString())
@@ -77,13 +77,13 @@
                                          @attributes="_inputFormSelectAttributes"
                                          @oninput="OnValueChangedToBank"
                                          @bind-Value="_transactionModel.ToBank">
-                                <option value="0">-- Select Bank --</option>
+                                <option value="0">-- Select --</option>
                                 @foreach (var (bank, index) in _activeBanks.Select((value, index) => (value, index)))
                                 {
                                     <option value="@bank.Id"> @($"{bank.Description} - {bank.CurrentBalance.ToString("C")}") </option>
                                 }
                             </InputSelect>
-                            <label for="ToBank">To Bank</label>
+                            <label for="ToBank">To Financial Institution</label>
                         }
                     </div>
                 }

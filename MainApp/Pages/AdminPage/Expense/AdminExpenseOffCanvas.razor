@@ -87,13 +87,13 @@
                                      @attributes="_inputFormSelectAttributes"
                                      @oninput="OnValueChangedBank"
                                      @bind-Value="_expenseModel.BankId">
-                            <option value="0">-- Select Bank --</option>
+                            <option value="0">-- Select --</option>
                             @foreach (var (bank, index) in _activeBanks.Select((value, index) => (value, index)))
                             {
                                 <option value="@bank.Id"> @($"{bank.Description} - {bank.CurrentBalance.ToString("C")}") </option>
                             }
                         </InputSelect>
-                        <label for="BankId">Bank</label>
+                        <label for="BankId">Financial Institution</label>
                     }
                 </div>
                 <div class="form-floating pb-2">
@@ -107,7 +107,7 @@
                                      @attributes="_inputFormSelectAttributes"
                                      @oninput="OnValueChangedExpenseCategory"
                                      @bind-Value="_expenseModel.ECategoryId">
-                            <option value="0">-- Select Expense --</option>
+                            <option value="0">-- Select --</option>
                             @foreach (var (action, index) in _activeExpenseCategories.Select((value, index) => (value, index)))
                             {
                                 <option value="@action.Id"> @($"{action.Description}") </option>
@@ -130,7 +130,7 @@
                                         @oninput="OnValueChangedTaxCategory"
                                         @bind-Value="_expenseModel.TaxCategoryId"
                                         title="If selected, it will display the claimable tax applied to the purchase">
-                                <option value="0">-- Select Tax --</option>
+                                <option value="0">-- Select --</option>
                                 @foreach (var (tax, index) in _activeTaxCategories.Select((value, index) => (value, index)))
                                 {
                                     <option value="@tax.Id"> @($"{tax.Description}") </option>

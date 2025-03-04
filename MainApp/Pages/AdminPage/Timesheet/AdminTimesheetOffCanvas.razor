@@ -59,7 +59,7 @@
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit ) ? true: false)"
                                      @oninput="OnValueChanged"
                                      @bind-Value="_timesheetModel.CompanyId">
-                            <option value="0">-- Select Company --</option>
+                            <option value="0">-- Select --</option>
                             @foreach (var (company, index) in _activeCompanies.Select((value, index) => (value, index)))
                             {
                                 <option value="@company.Id"> @($"{company.Description}") </option>
