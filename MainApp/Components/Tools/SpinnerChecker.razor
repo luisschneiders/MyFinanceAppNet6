@@ -4,22 +4,20 @@
 
 <CardView Styles="w-100 border-0">
     <CardMiddle>
-        <SharedHeader Title="Spinner"
+        <SharedHeader Title="@Label.AppComponentSpinnerTitle"
                         Icon="bi-arrow-clockwise"
                         IconColor="Theme.Dark" />
         <div class="row py-3">
             <div class="d-flex col-sm-12 col-lg-5 gap-2">
                 <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-primary w-50 @("rounded"+_appSettings.Button)"
                         type="button"
-                        title="Get token"
                         @onclick="ShowSpinnerAsync">
-                        Show spinner
+                        @Label.AppComponentSpinnerShow
                 </button>
                 <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-primary w-50 @("rounded"+_appSettings.Button)"
                         type="button"
-                        title="Get token"
                         @onclick="HideSpinnerAsync">
-                        Hide spinner
+                        @Label.AppComponentSpinnerHide
                 </button>
             </div>
             <div class="col-2 d-flex justify-content-center">

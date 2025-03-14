@@ -1,6 +1,6 @@
-﻿<div class="btn-group bg-@(ButtonColor.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
+﻿<div class="btn-group btn-outline-@(ButtonColor.ToString().ToLower()) border border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
     <div class="dropdown @(IsDisplayLargeNone ? "d-lg-none" : "")">
-        <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + Theme.Dark.ToString().ToLower() + "-emphasis") text-nowrap @("rounded"+_appSettings.Button)"
+        <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("btn-outline-" + ButtonColor.ToString().ToLower() ) border-0 text-nowrap @("rounded"+_appSettings.Button)"
                 title="Click dropdown to expand"
                 id="dropdownMultiSelect"
                 data-bs-toggle="dropdown"
@@ -9,7 +9,7 @@
             <div class="d-flex w-100 justify-content-between">
                 @if (IconStart is not null && IconStart.Length > 0)
                 {
-                    <i class="bi @IconStart text-@IconStartColor.ToString().ToLower()-emphasis pe-1"></i>
+                    <i class="bi @IconStart pe-1"></i>
                 }
                 @if (DropdownLabel is not null && DropdownLabel.Length > 0)
                 {

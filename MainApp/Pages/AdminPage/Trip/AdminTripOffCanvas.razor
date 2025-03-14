@@ -21,7 +21,7 @@
                         <li class="px-2">
                             <button class="dropdown-item rounded text-@(Theme.Danger.ToString().ToLower())-emphasis"
                                     @onclick="ArchiveAsync">
-                                <i class="bi bi-archive pe-1"></i>Archive
+                                <i class="bi bi-archive pe-1"></i>@Label.AppButtonArchive
                             </button>
                         </li>
                     </DropdownActions>
@@ -49,7 +49,7 @@
                     <InputDate id="TDate"
                                @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                         _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? _inputFormControlAttributesPlainText : _inputFormControlAttributes)"
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                placeholder="Date"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
@@ -66,12 +66,12 @@
                     else
                     {
                         <InputSelect id="VehicleId"
-                                     @attributes="_inputFormSelectAttributes"
+                                     @attributes="_inputFormAttributes.Select"
                                      disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
                                      @bind-Value="_tripModel.VehicleId">
-                            <option value="0">-- Select --</option>
+                            <option value="0">@Label.AppFieldSelect</option>
                             @foreach (var (vehicle, index) in _activeVehicles.Select((value, index) => (value, index)))
                                 {
                                 <option value="@vehicle.Id">@($"{vehicle.Description} - {vehicle.Plate} ({vehicle.Year})") </option>
@@ -88,12 +88,12 @@
                     else
                     {
                         <InputSelect id="TCategoryId"
-                                     @attributes="_inputFormSelectAttributes"
+                                     @attributes="_inputFormAttributes.Select"
                                      disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
                                                _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
                                      @bind-Value="_tripModel.TCategoryId">
-                            <option value="0">-- Select --</option>
+                            <option value="0">@Label.AppFieldSelect</option>
                             @foreach (var (category, index) in _tripCategoryDTOs.Select((value, index) => (value, index)))
                             {
                                 if (index > 0)
@@ -109,7 +109,7 @@
                     <InputNumber id="StartOdometer"
                                  @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? _inputFormControlAttributesPlainText : _inputFormControlAttributes)"
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                  min="0"
                                  placeholder="Start Odometer"
                                  readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
@@ -123,7 +123,7 @@
                     <InputNumber id="EndOdometer"
                                  @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? _inputFormControlAttributesPlainText : _inputFormControlAttributes)"
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                  min="0"
                                  placeholder="End Odometer"
                                  readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
@@ -137,7 +137,7 @@
                     <InputNumber id="Distance"
                                  @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
-                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? _inputFormControlAttributesPlainText : _inputFormControlAttributes)"
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                  min="0"
                                  placeholder="Distance"
                                  readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
@@ -170,7 +170,7 @@
                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-primary w-100 @("rounded"+_appSettings.Button)"
                             disabled="@(_isProcessing ? true : false)"
                             type="submit">
-                        @(_isProcessing ? "Saving..." : "Save")
+                        @(_isProcessing ? Label.AppButtonSaving : Label.AppButtonSave)
                     </button>
                 </div>
             </div>

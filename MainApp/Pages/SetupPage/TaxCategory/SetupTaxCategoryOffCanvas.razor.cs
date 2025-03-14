@@ -27,43 +27,11 @@ public partial class SetupTaxCategoryOffCanvas : ComponentBase
 
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
-
-    private Dictionary<string, object> _inputFormControlAttributes = default!;
-    private Dictionary<string, object> _inputFormControlPlainTextAttributes = default!;
-    private Dictionary<string, object> _inputFormSelectAttributes = default!;
-
+    private InputFormAttributes _inputFormAttributes{ get; set; } = new();
     private TaxCategoryModel _taxCategoryModel { get; set; } = new();
-
-    private List<ActionTypeModel> _actionTypes { get; set; } = new();
 
     public SetupTaxCategoryOffCanvas()
     {
-    }
-
-    protected async override Task OnInitializedAsync()
-    {
-        ActionTypeModel actionTypeModel = new()
-        {
-            Id = "C",
-            Name = "Credit"
-        };
-        _actionTypes.Add(actionTypeModel);
-
-        actionTypeModel = new()
-        {
-            Id = "D",
-            Name = "Debit"
-        };
-        _actionTypes.Add(actionTypeModel);
-
-        actionTypeModel = new()
-        {
-            Id = "T",
-            Name = "Transfer"
-        };
-        _actionTypes.Add(actionTypeModel);
-
-        await Task.CompletedTask;
     }
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
@@ -72,21 +40,21 @@ public partial class SetupTaxCategoryOffCanvas : ComponentBase
         {
             try
             {
-                _inputFormControlAttributes = new()
+                _inputFormAttributes.Control = new()
                 {
                     {
                         "class", $"form-control rounded{AppSettings.Form}"
                     }
                 };
 
-                _inputFormControlPlainTextAttributes = new()
+                _inputFormAttributes.PlainText = new()
                 {
                     {
                         "class", $"form-control-plaintext"
                     }
                 };
 
-                _inputFormSelectAttributes = new()
+                _inputFormAttributes.Select = new()
                 {
                     {
                         "class", $"form-select rounded{AppSettings.Form}"
@@ -122,7 +90,7 @@ public partial class SetupTaxCategoryOffCanvas : ComponentBase
             else
             {
                 _taxCategoryModel = new();
-                _toastService.ShowToast("No record found!", Theme.Danger);
+                _toastService.ShowToast(Label.AppNoRecordFound, Theme.Danger);
             }
         }
         catch (Exception ex)
@@ -145,7 +113,7 @@ public partial class SetupTaxCategoryOffCanvas : ComponentBase
             else
             {
                 _taxCategoryModel = new();
-                _toastService.ShowToast("No record found!", Theme.Danger);
+                _toastService.ShowToast(Label.AppNoRecordFound, Theme.Danger);
             }
         }
         catch (Exception ex)
@@ -190,17 +158,17 @@ public partial class SetupTaxCategoryOffCanvas : ComponentBase
                 await _taxCategoryService.CreateRecord(_taxCategoryModel);
 
                 _taxCategoryModel.Id = await _taxCategoryService.GetLastInsertedId();
-                _toastService.ShowToast("Tax category added!", Theme.Success);
+                _toastService.ShowToast(Label.AppMenuSetupTax+" "+Label.AppAdded, Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Edit)
             {
                 await _taxCategoryService.UpdateRecord(_taxCategoryModel);
-                _toastService.ShowToast("Tax category updated!", Theme.Success);
+                _toastService.ShowToast(Label.AppMenuSetupTax+" "+Label.AppUpdated, Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Archive)
             {
                 await _taxCategoryService.ArchiveRecord(_taxCategoryModel);
-                _toastService.ShowToast("Tax category archived!", Theme.Success);
+                _toastService.ShowToast(Label.AppMenuSetupTax+" "+Label.AppArchived, Theme.Success);
             }
             _isProcessing = false;
 

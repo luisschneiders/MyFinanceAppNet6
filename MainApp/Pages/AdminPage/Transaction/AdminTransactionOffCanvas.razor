@@ -18,7 +18,7 @@
             <div class="col-12">
                 <div class="form-floating pb-2">
                     <InputDate id="TDate"
-                               @attributes="_inputFormControlAttributes"
+                               @attributes="_inputFormAttributes.Control"
                                placeholder="Date"
                                @bind-Value="_transactionModel.TDate"
                                Type="InputDateType.Date" />
@@ -32,10 +32,10 @@
                     else
                     {
                         <InputSelect id="TCategoryId"
-                                     @attributes="_inputFormSelectAttributes"
+                                     @attributes="_inputFormAttributes.Select"
                                      @oninput="OnValueChangedCategoryType"
                                      @bind-Value="_transactionModel.TCategoryId">
-                            <option value="0">-- Select --</option>
+                            <option value="0">@Label.AppFieldSelect</option>
                             @foreach (var (action, index) in _activeTransactionCategories.Select((value, index) => (value, index)))
                             {
                                 <option value="@action.Id"> @($"{action.Description}") </option>
@@ -52,10 +52,10 @@
                     else
                     {
                         <InputSelect id="FromBank"
-                                     @attributes="_inputFormSelectAttributes"
+                                     @attributes="_inputFormAttributes.Select"
                                      @oninput="OnValueChangedFromBank"
                                      @bind-Value="_transactionModel.FromBank">
-                            <option value="0">-- Select --</option>
+                            <option value="0">@Label.AppFieldSelect</option>
                             @foreach (var (bank, index) in _activeBanks.Select((value, index) => (value, index)))
                             {
                                 <option value="@bank.Id"> @($"{bank.Description} - {bank.CurrentBalance.ToString("C")}") </option>
@@ -74,10 +74,10 @@
                         else
                         {
                             <InputSelect id="ToBank"
-                                         @attributes="_inputFormSelectAttributes"
+                                         @attributes="_inputFormAttributes.Select"
                                          @oninput="OnValueChangedToBank"
                                          @bind-Value="_transactionModel.ToBank">
-                                <option value="0">-- Select --</option>
+                                <option value="0">@Label.AppFieldSelect</option>
                                 @foreach (var (bank, index) in _activeBanks.Select((value, index) => (value, index)))
                                 {
                                     <option value="@bank.Id"> @($"{bank.Description} - {bank.CurrentBalance.ToString("C")}") </option>
@@ -89,7 +89,7 @@
                 }
                 <div class="form-floating pb-2">
                     <InputText id="Comments"
-                               @attributes="(_actionType == TransactionActionType.T.ToString() ? _inputFormControlDisabledAttributes : _inputFormControlAttributes)"
+                               @attributes="(_actionType == TransactionActionType.T.ToString() ? _inputFormAttributes.Disabled : _inputFormAttributes.Control)"
                                placeholder="Comments"
                                readonly="@((_actionType == TransactionActionType.T.ToString()) ? true: false)"
                                @bind-Value="_transactionModel.Comments" />
@@ -97,7 +97,7 @@
                 </div>
                 <div class="form-floating">
                     <InputNumber id="Amount"
-                                 @attributes="_inputFormControlAttributes"
+                                 @attributes="_inputFormAttributes.Control"
                                  min="0"
                                  placeholder="Amount"
                                  @bind-Value="_transactionModel.Amount" />
@@ -124,7 +124,7 @@
                 <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-primary w-100 @("rounded"+_appSettings.Button)"
                         disabled="@(_isProcessing ? true : false)"
                         type="submit">
-                    @(_isProcessing ? "Saving..." : "Save")
+                    @(_isProcessing ? Label.AppButtonSaving : Label.AppButtonSave)
                 </button>
             </div>
         </div>

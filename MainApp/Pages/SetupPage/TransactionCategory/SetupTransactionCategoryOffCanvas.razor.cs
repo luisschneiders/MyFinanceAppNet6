@@ -1,7 +1,6 @@
 ﻿using MainApp.Components.OffCanvas;
 using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
-using MyFinanceAppLibrary.Models;
 
 namespace MainApp.Pages.SetupPage.TransactionCategory;
 
@@ -27,13 +26,8 @@ public partial class SetupTransactionCategoryOffCanvas : ComponentBase
 
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
-
-    private Dictionary<string, object> _inputFormControlAttributes = default!;
-    private Dictionary<string, object> _inputFormControlPlainTextAttributes = default!;
-    private Dictionary<string, object> _inputFormSelectAttributes = default!;
-
+    private InputFormAttributes _inputFormAttributes{ get; set; } = new();
     private TransactionCategoryModel _transactionCategoryModel { get; set; } = new();
-
     private List<ActionTypeModel> _actionTypes { get; set; } = new();
 
     public SetupTransactionCategoryOffCanvas()
@@ -72,21 +66,21 @@ public partial class SetupTransactionCategoryOffCanvas : ComponentBase
         {
             try
             {
-                _inputFormControlAttributes = new()
+                _inputFormAttributes.Control = new()
                 {
                     {
                         "class", $"form-control rounded{AppSettings.Form}"
                     }
                 };
 
-                _inputFormControlPlainTextAttributes = new()
+                _inputFormAttributes.PlainText = new()
                 {
                     {
                         "class", $"form-control-plaintext"
                     }
                 };
 
-                _inputFormSelectAttributes = new()
+                _inputFormAttributes.Select = new()
                 {
                     {
                         "class", $"form-select rounded{AppSettings.Form}"
@@ -122,7 +116,7 @@ public partial class SetupTransactionCategoryOffCanvas : ComponentBase
             else
             {
                 _transactionCategoryModel = new();
-                _toastService.ShowToast("No record found!", Theme.Danger);
+                _toastService.ShowToast(Label.AppNoRecordFound, Theme.Danger);
             }
         }
         catch (Exception ex)
@@ -145,7 +139,7 @@ public partial class SetupTransactionCategoryOffCanvas : ComponentBase
             else
             {
                 _transactionCategoryModel = new();
-                _toastService.ShowToast("No record found!", Theme.Danger);
+                _toastService.ShowToast(Label.AppNoRecordFound, Theme.Danger);
             }
         }
         catch (Exception ex)
@@ -190,17 +184,17 @@ public partial class SetupTransactionCategoryOffCanvas : ComponentBase
                 await _transactionCategoryService.CreateRecord(_transactionCategoryModel);
 
                 _transactionCategoryModel.Id = await _transactionCategoryService.GetLastInsertedId();
-                _toastService.ShowToast("Transaction category added!", Theme.Success);
+                _toastService.ShowToast(Label.AppMenuSetupTransaction+" "+Label.AppAdded, Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Edit)
             {
                 await _transactionCategoryService.UpdateRecord(_transactionCategoryModel);
-                _toastService.ShowToast("Transaction category updated!", Theme.Success);
+                _toastService.ShowToast(Label.AppMenuSetupTransaction+" "+Label.AppUpdated, Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Archive)
             {
                 await _transactionCategoryService.ArchiveRecord(_transactionCategoryModel);
-                _toastService.ShowToast("Transaction category archived!", Theme.Success);
+                _toastService.ShowToast(Label.AppMenuSetupTransaction+" "+Label.AppArchived, Theme.Success);
             }
             _isProcessing = false;
 

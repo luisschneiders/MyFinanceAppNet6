@@ -27,10 +27,7 @@ public partial class SetupExpenseCategoryOffCanvas : ComponentBase
 
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
-
-    private Dictionary<string, object> _inputFormControlAttributes = default!;
-    private Dictionary<string, object> _inputFormControlPlainTextAttributes = default!;
-
+    private InputFormAttributes _inputFormAttributes{ get; set; } = new();
     private ExpenseCategoryModel _expenseCategoryModel { get; set; } = new();
 
     public SetupExpenseCategoryOffCanvas()
@@ -43,13 +40,13 @@ public partial class SetupExpenseCategoryOffCanvas : ComponentBase
         {
             try
             {
-                _inputFormControlAttributes = new()
+                _inputFormAttributes.Control = new()
                 {
                     {
                         "class", $"form-control rounded{AppSettings.Form}"
                     }
                 };
-                _inputFormControlPlainTextAttributes = new()
+                _inputFormAttributes.PlainText = new()
                 {
                     {
                         "class", $"form-control-plaintext"
@@ -84,7 +81,7 @@ public partial class SetupExpenseCategoryOffCanvas : ComponentBase
             else
             {
                 _expenseCategoryModel = new();
-                _toastService.ShowToast("No record found!", Theme.Danger);
+                _toastService.ShowToast(Label.AppNoRecordFound, Theme.Danger);
             }
         }
         catch (Exception ex)
@@ -107,7 +104,7 @@ public partial class SetupExpenseCategoryOffCanvas : ComponentBase
             else
             {
                 _expenseCategoryModel = new();
-                _toastService.ShowToast("No record found!", Theme.Danger);
+                _toastService.ShowToast(Label.AppNoRecordFound, Theme.Danger);
             }
         }
         catch (Exception ex)
@@ -152,17 +149,17 @@ public partial class SetupExpenseCategoryOffCanvas : ComponentBase
                 await _expenseCategoryService.CreateRecord(_expenseCategoryModel);
 
                 _expenseCategoryModel.Id = await _expenseCategoryService.GetLastInsertedId();
-                _toastService.ShowToast("Expense category added!", Theme.Success);
+                _toastService.ShowToast(Label.AppMenuSetupExpense+" "+Label.AppAdded, Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Edit)
             {
                 await _expenseCategoryService.UpdateRecord(_expenseCategoryModel);
-                _toastService.ShowToast("Expense category updated!", Theme.Success);
+                _toastService.ShowToast(Label.AppMenuSetupExpense+" "+Label.AppUpdated, Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Archive)
             {
                 await _expenseCategoryService.ArchiveRecord(_expenseCategoryModel);
-                _toastService.ShowToast("Expense category archived!", Theme.Success);
+                _toastService.ShowToast(Label.AppMenuSetupExpense+" "+Label.AppArchived, Theme.Success);
             }
 
             _isProcessing = false;

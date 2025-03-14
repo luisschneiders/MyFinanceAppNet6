@@ -10,7 +10,7 @@
         <ObjectGraphDataAnnotationsValidator />
         <div class="row align-items-center">
             <div class="col my-4">
-                <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing vehicle...")" />
+                <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing {@Label.AppMenuSetupVehicle}...")" />
             </div>
             @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                    _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
@@ -20,7 +20,7 @@
                         <li class="px-2">
                             <button class="dropdown-item rounded text-@(Theme.Danger.ToString().ToLower())-emphasis"
                                     @onclick="ArchiveAsync">
-                                <i class="bi bi-archive pe-1"></i>Archive
+                                <i class="bi bi-archive pe-1"></i>@Label.AppButtonArchive
                             </button>
                         </li>
                     </DropdownActions>
@@ -31,45 +31,45 @@
             <div class="col-12">
                 <div class="form-floating pb-2">
                     <InputText @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlPlainTextAttributes : _inputFormControlAttributes)"
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                id="VehicleDescription"
-                               placeholder="Description"
+                               placeholder="@Label.AppSetupVehicleFieldDescription"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                @bind-Value="_vehicleModel.Description" />
-                    <label for="VehicleDescription">Description</label>
+                    <label for="VehicleDescription">@Label.AppSetupVehicleFieldDescription</label>
                 </div>
                 <div class="form-floating pb-2">
                     <InputNumber @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlPlainTextAttributes : _inputFormControlAttributes)"
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                id="VehicleYear"
-                               placeholder="Year"
+                               placeholder="@Label.AppSetupVehicleFieldYear"
                                min="1900"
                                max="@_currentYear.Year"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                @bind-Value="_vehicleModel.Year" />
-                    <label for="VehicleYear">Year</label>
+                    <label for="VehicleYear">@Label.AppSetupVehicleFieldYear</label>
                 </div>
                 <div class="form-floating pb-2">
                     <InputText @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlPlainTextAttributes : _inputFormControlAttributes)"
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                id="VehicleCarmaker"
-                               placeholder="Carmaker"
+                               placeholder="@Label.AppSetupVehicleFieldCarmaker"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                @bind-Value="_vehicleModel.Carmaker" />
-                    <label for="VehicleCarmaker">Carmaker</label>
+                    <label for="VehicleCarmaker">@Label.AppSetupVehicleFieldCarmaker</label>
                 </div>
                 <div class="form-floating pb-2">
                     <InputText @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlPlainTextAttributes : _inputFormControlAttributes)"
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                id="VehiclePlate"
-                               placeholder="Plate"
+                               placeholder="@Label.AppSetupVehicleFieldPlate"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                @bind-Value="_vehicleModel.Plate" />
-                    <label for="VehiclePlate">Plate</label>
+                    <label for="VehiclePlate">@Label.AppSetupVehicleFieldPlate</label>
                 </div>
             </div>
         </div>
@@ -78,7 +78,7 @@
             <div class="row pb-4">
                 <div class="col-12 d-flex align-items-start">
                     <div class="form-check form-switch form-check-reverse">
-                        <label class="form-check-label" for="IsActive">Active?</label>
+                        <label class="form-check-label" for="IsActive">@Label.AppButtonActive</label>
                         <InputCheckbox class="form-check-input"
                                        type="checkbox"
                                        role="switch"
@@ -103,7 +103,7 @@
             <div class="col-6">
                 <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary w-100 @("rounded"+AppSettings.Button)"
                         @onclick="() => CloseOffCanvasAsync()">
-                    Cancel
+                    @Label.AppButtonCancel
                 </button>
             </div>
             @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add || _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
@@ -112,7 +112,7 @@
                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-primary w-100 @("rounded"+AppSettings.Button)"
                             disabled="@(_isProcessing ? true : false)"
                             type="submit">
-                        @(_isProcessing ? "Saving..." : "Save")
+                        @(_isProcessing ? Label.AppButtonSaving : Label.AppButtonSave)
                     </button>
                 </div>
             }
@@ -122,7 +122,7 @@
                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary w-100 @("rounded"+AppSettings.Button)"
                             type="button"
                             @onclick="UpdateFormStateAsync">
-                        Edit
+                        @Label.AppButtonEdit
                     </button>
                 </div>
             }

@@ -26,11 +26,7 @@ public partial class SetupCompanyOffCanvas : ComponentBase
 
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
-
-    private Dictionary<string, object> _inputFormControlAttributes = default!;
-    private Dictionary<string, object> _inputFormControlPlainTextAttributes = default!;
-    private Dictionary<string, object> _inputFormSelectAttributes = default!;
-
+    private InputFormAttributes _inputFormAttributes{ get; set; } = new();
     private CompanyModel _companyModel { get; set; } = new();
 
     private CompanyType[] _companyTypes { get; set; } = default!;
@@ -46,19 +42,19 @@ public partial class SetupCompanyOffCanvas : ComponentBase
         {
             try
             {
-                _inputFormControlAttributes = new()
+                _inputFormAttributes.Control = new()
                 {
                     {
                         "class", $"form-control rounded{AppSettings.Form}"
                     }
                 };
-                _inputFormControlPlainTextAttributes = new()
+                _inputFormAttributes.PlainText = new()
                 {
                     {
                         "class", $"form-control-plaintext"
                     }
                 };
-                _inputFormSelectAttributes = new()
+                _inputFormAttributes.Select = new()
                 {
                     {
                         "class", $"form-select rounded{AppSettings.Form}"
@@ -94,7 +90,7 @@ public partial class SetupCompanyOffCanvas : ComponentBase
             else
             {
                 _companyModel = new();
-                _toastService.ShowToast("No record found!", Theme.Danger);
+                _toastService.ShowToast(Label.AppNoRecordFound, Theme.Danger);
             }
         }
         catch (Exception ex)
@@ -118,7 +114,7 @@ public partial class SetupCompanyOffCanvas : ComponentBase
             else
             {
                 _companyModel = new();
-                _toastService.ShowToast("No record found!", Theme.Danger);
+                _toastService.ShowToast(Label.AppNoRecordFound, Theme.Danger);
             }
         }
         catch (Exception ex)
@@ -163,17 +159,17 @@ public partial class SetupCompanyOffCanvas : ComponentBase
                 await _companyService.CreateRecord(_companyModel);
 
                 _companyModel.Id = await _companyService.GetLastInsertedId();
-                _toastService.ShowToast("Company added!", Theme.Success);
+                _toastService.ShowToast(Label.AppMenuSetupCompany+" "+Label.AppAdded, Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Edit)
             {
                 await _companyService.UpdateRecord(_companyModel);
-                _toastService.ShowToast("Company updated!", Theme.Success);
+                _toastService.ShowToast(Label.AppMenuSetupCompany+" "+Label.AppUpdated, Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Archive)
             {
                 await _companyService.ArchiveRecord(_companyModel);
-                _toastService.ShowToast("Company archived!", Theme.Success);
+                _toastService.ShowToast(Label.AppMenuSetupCompany+" "+Label.AppArchived, Theme.Success);
             }
             _isProcessing = false;
 

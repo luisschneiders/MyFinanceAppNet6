@@ -37,11 +37,7 @@ public partial class AdminTransactionOffCanvas : ComponentBase
     private TransactionModel _transactionModel { get; set; } = new();
     private List<BankModel> _activeBanks { get; set; } = new();
     private List<TransactionCategoryModel> _activeTransactionCategories { get; set; } = new();
-
-    private Dictionary<string, object> _inputFormControlAttributes = default!;
-    private Dictionary<string, object> _inputFormControlDisabledAttributes = default!;
-    private Dictionary<string, object> _inputFormSelectAttributes = default!;
-
+    private InputFormAttributes _inputFormAttributes{ get; set; } = new();
     private bool _shouldRender { get; set; } = true;
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
@@ -61,19 +57,19 @@ public partial class AdminTransactionOffCanvas : ComponentBase
             {
                 await FetchDataAsync();
 
-                _inputFormControlAttributes = new()
+                _inputFormAttributes.Control = new()
                 {
                     {
                         "class", $"form-control rounded{_appSettings.Form}"
                     }
                 };
-                _inputFormSelectAttributes = new()
+                _inputFormAttributes.Select = new()
                 {
                     {
                         "class", $"form-select rounded{_appSettings.Form}"
                     }
                 };
-                _inputFormControlDisabledAttributes = new()
+                _inputFormAttributes.Disabled = new()
                 {
                     {
                         "class", $"form-control rounded{_appSettings.Form} bg-secondary-subtle"

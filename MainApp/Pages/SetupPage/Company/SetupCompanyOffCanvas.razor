@@ -10,7 +10,7 @@
         <ObjectGraphDataAnnotationsValidator />
         <div class="row align-items-center">
             <div class="col my-4">
-                <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing company...")" />
+                <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing {Label.AppMenuSetupCompany}...")" />
             </div>
             @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                  _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
@@ -20,7 +20,7 @@
                         <li class="px-2">
                             <button class="dropdown-item rounded text-@(Theme.Danger.ToString().ToLower())-emphasis"
                                     @onclick="ArchiveAsync">
-                                <i class="bi bi-archive pe-1"></i>Archive
+                                <i class="bi bi-archive pe-1"></i>@Label.AppButtonArchive
                             </button>
                         </li>
                     </DropdownActions>
@@ -31,61 +31,61 @@
             <div class="col-12">
                 <div class="form-floating pb-2">
                     <InputText @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlPlainTextAttributes : _inputFormControlAttributes)"
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                id="CompanyDescription"
-                               placeholder="Company name"
+                               placeholder="@Label.AppSetupCompanyFieldDescription"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                @bind-Value="_companyModel.Description" />
-                    <label for="CompanyDescription">Company name</label>
+                    <label for="CompanyDescription">@Label.AppSetupCompanyFieldDescription</label>
                 </div>
                 <div class="form-floating pb-2">
                     <InputText @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlPlainTextAttributes : _inputFormControlAttributes)"
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                id="CompanyPosition"
-                               placeholder="Position"
+                               placeholder="@Label.AppSetupCompanyFieldPosition"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                @bind-Value="_companyModel.Position" />
-                    <label for="CompanyPosition">Position</label>
+                    <label for="CompanyPosition">@Label.AppSetupCompanyFieldPosition</label>
                 </div>
                 <div class="form-floating pb-2">
                     <InputNumber @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlPlainTextAttributes : _inputFormControlAttributes)"
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                  id="CompanyStandardHours"
                                  min="1"
                                  max="12"
-                                 placeholder="Standard Hours"
+                                 placeholder="@Label.AppSetupCompanyFieldStandardHours"
                                  readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive)? true: false)"
                                  @bind-Value="_companyModel.StandardHours" />
-                    <label for="CompanyStandardHours">Standard Hours</label>
+                    <label for="CompanyStandardHours">@Label.AppSetupCompanyFieldStandardHours</label>
                 </div>
                 <div class="form-floating pb-2">
                     <InputNumber @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlPlainTextAttributes : _inputFormControlAttributes)"
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                  id="CompanyRate"
                                  min="0.00"
-                                 placeholder="Rates"
+                                 placeholder="@Label.AppSetupCompanyFieldRate"
                                  readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive)? true: false)"
                                  @bind-Value="_companyModel.Rate" />
-                    <label for="CompanyRate">Rates</label>
+                    <label for="CompanyRate">@Label.AppSetupCompanyFieldRate</label>
                 </div>
                 <div class="form-floating pb-2">
-                    <InputSelect @attributes="_inputFormSelectAttributes"
+                    <InputSelect @attributes="_inputFormAttributes.Select"
                                  id="CompanyCType"
                                  disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                              _offCanvasService.GetOffCanvasViewType()== OffCanvasViewType.Archive) ? true: false)"
                                  @bind-Value="_companyModel.CType">
-                        <option value="0">-- Select --</option>
+                        <option value="0">@Label.AppFieldSelect</option>
                         @foreach (var (cType, index) in _companyTypes.Select((value, index) => (value, index)))
                         {
                             int companyTypeValue = index + 1;
                             <option value="@companyTypeValue"> @($"{cType}") </option>
                         }
                     </InputSelect>
-                    <label for="CompanyCType">Company type</label>
+                    <label for="CompanyCType">@Label.AppSetupCompanyFieldCompanyType</label>
                 </div>
             </div>
         </div>
@@ -94,7 +94,7 @@
             <div class="row pb-4">
                 <div class="col-12 d-flex align-items-start">
                     <div class="form-check form-switch form-check-reverse">
-                        <label class="form-check-label" for="IsActive">Active?</label>
+                        <label class="form-check-label" for="IsActive">@Label.AppButtonActive</label>
                         <InputCheckbox class="form-check-input"
                                        type="checkbox"
                                        role="switch"
@@ -119,7 +119,7 @@
             <div class="col-6">
                 <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary w-100 @("rounded"+AppSettings.Button)"
                         @onclick="() => CloseOffCanvasAsync()">
-                    Cancel
+                    @Label.AppButtonCancel
                 </button>
             </div>
             @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add || _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
@@ -128,7 +128,7 @@
                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-primary w-100 @("rounded"+AppSettings.Button)"
                             disabled="@(_isProcessing ? true : false)"
                             type="submit">
-                        @(_isProcessing ? "Saving..." : "Save")
+                        @(_isProcessing ? @Label.AppButtonSaving : @Label.AppButtonSave)
                     </button>
                 </div>
             }
@@ -138,7 +138,7 @@
                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary w-100 @("rounded"+AppSettings.Button)"
                             type="button"
                             @onclick="UpdateFormStateAsync">
-                        Edit
+                        @Label.AppButtonEdit
                     </button>
                 </div>
             }

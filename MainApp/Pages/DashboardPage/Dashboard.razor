@@ -19,7 +19,7 @@
                     <div class="container-lg">
                         <PageTopWrapper>
                             <div class="d-flex align-items-baseline">
-                                <i class="bi bi-house text-info-emphasis pe-1 fs-5" /><PageTopTitle Title="@(Label.AppTitleDashboard)" />
+                                <i class="bi bi-house text-info-emphasis pe-1 fs-5" /><PageTopTitle Title="@(Label.AppMenuDashboard)" />
                             </div>
                         </PageTopWrapper>
                     </div>
@@ -55,7 +55,7 @@
                                     <CardView Styles="w-100 border-0 bg-transparent">
                                         <CardMiddle>
                                             <h2 class="fs-5">
-                                                <span class="text-info-emphasis app-text-background-info px-2">Quick links</span>
+                                                <span class="text-info-emphasis app-text-background-info px-2">@Label.AppDashboardQuickLinks</span>
                                             </h2>
                                             <div class="d-grid gap-3">
                                                 <NavLink href="@EndPoint.Admin">
@@ -63,9 +63,9 @@
                                                         <i class="bi  bi-grid-3x3-gap text-info-emphasis fs-5"></i>
                                                         <div class="w-100 text-start ps-3 pe-2">
                                                             <span class="mb-1">
-                                                                Admin
+                                                                @Label.AppMenuAdmin
                                                                 <sup>
-                                                                    <Badge Message="Dashboard"/>
+                                                                    <Badge Message="@(Label.AppMenuDashboard)"/>
                                                                 </sup>
                                                             </span>
                                                         </div>
@@ -78,7 +78,7 @@
                                                     <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
                                                         <i class="bi bi-cart4 text-info-emphasis fs-5"></i>
                                                         <div class="w-100 text-start ps-3 pe-2">
-                                                            <span class="mb-1">Expenses</span>
+                                                            <span class="mb-1">@Label.AppMenuAdminExpense</span>
                                                         </div>
                                                         <div class="text-secondary">
                                                             <i class="bi bi-chevron-right"></i>
@@ -89,7 +89,7 @@
                                                     <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
                                                         <i class="bi bi-sliders text-info-emphasis fs-5"></i>
                                                         <div class="w-100 text-start ps-3 pe-2">
-                                                            <span class="mb-1">Settings</span>
+                                                            <span class="mb-1">@Label.AppMenuSetting</span>
                                                         </div>
                                                         <div class="text-secondary">
                                                             <i class="bi bi-chevron-right"></i>
@@ -101,9 +101,9 @@
                                                         <i class="bi bi-columns-gap text-info-emphasis fs-5"></i>
                                                         <div class="w-100 text-start ps-3 pe-2">
                                                             <span class="mb-1">
-                                                                Setup
+                                                                @Label.AppMenuSetup
                                                                 <sup>
-                                                                    <Badge Message="Dashboard"/>
+                                                                    <Badge Message="@(Label.AppMenuDashboard)"/>
                                                                 </sup>
                                                             </span>
                                                         </div>
@@ -116,7 +116,7 @@
                                                     <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
                                                         <i class="bi bi-clock-history text-info-emphasis fs-5"></i>
                                                         <div class="w-100 text-start ps-3 pe-2">
-                                                            <span class="mb-1">Timesheet</span>
+                                                            <span class="mb-1">@Label.AppMenuAdminTimesheet</span>
                                                         </div>
                                                         <div class="text-secondary">
                                                             <i class="bi bi-chevron-right"></i>
@@ -127,7 +127,7 @@
                                                     <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
                                                         <i class="bi bi-currency-exchange text-info-emphasis fs-5"></i>
                                                         <div class="w-100 text-start ps-3 pe-2">
-                                                            <span class="mb-1">Transactions</span>
+                                                            <span class="mb-1">@Label.AppMenuAdminTransaction</span>
                                                         </div>
                                                         <div class="text-secondary">
                                                             <i class="bi bi-chevron-right"></i>

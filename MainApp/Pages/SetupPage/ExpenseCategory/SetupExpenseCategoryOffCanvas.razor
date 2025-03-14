@@ -10,7 +10,7 @@
         <ObjectGraphDataAnnotationsValidator />
         <div class="row align-items-center">
             <div class="col my-4">
-                <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing expense...")" />
+                <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing {@Label.AppMenuSetupExpense}...")" />
             </div>
             @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                    _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
@@ -20,7 +20,7 @@
                         <li class="px-2">
                             <button class="dropdown-item rounded text-@(Theme.Danger.ToString().ToLower())-emphasis"
                                     @onclick="ArchiveAsync">
-                                <i class="bi bi-archive pe-1"></i>Archive
+                                <i class="bi bi-archive pe-1"></i>@Label.AppButtonArchive
                             </button>
                         </li>
                     </DropdownActions>
@@ -31,13 +31,13 @@
             <div class="col-12">
                 <div class="form-floating pb-2">
                     <InputText @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormControlPlainTextAttributes : _inputFormControlAttributes)"
+                                        _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                id="ExpenseDescription"
-                               placeholder="Description"
+                               placeholder="@Label.AppSetupExpenseFieldDescription"
                                readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                @bind-Value="_expenseCategoryModel.Description" />
-                    <label for="ExpenseDescription">Description</label>
+                    <label for="ExpenseDescription">@Label.AppSetupExpenseFieldDescription</label>
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
             <div class="row pb-4">
                 <div class="col-12 d-flex align-items-start">
                     <div class="form-check form-switch form-check-reverse">
-                        <label class="form-check-label" for="IsActive">Active?</label>
+                        <label class="form-check-label" for="IsActive">@Label.AppButtonActive</label>
                         <InputCheckbox class="form-check-input"
                                        type="checkbox"
                                        role="switch"
@@ -71,7 +71,7 @@
             <div class="col-6">
                 <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary w-100 @("rounded"+AppSettings.Button)"
                         @onclick="() => CloseOffCanvasAsync()">
-                    Cancel
+                    @Label.AppButtonCancel
                 </button>
             </div>
             @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add || _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
@@ -80,7 +80,7 @@
                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-primary w-100 @("rounded"+AppSettings.Button)"
                             disabled="@(_isProcessing ? true : false)"
                             type="submit">
-                        @(_isProcessing ? "Saving..." : "Save")
+                        @(_isProcessing ? Label.AppButtonSaving : Label.AppButtonSave)
                     </button>
                 </div>
             }
@@ -90,7 +90,7 @@
                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary w-100 @("rounded"+AppSettings.Button)"
                             type="button"
                             @onclick="UpdateFormStateAsync">
-                        Edit
+                        @Label.AppButtonEdit
                     </button>
                 </div>
             }

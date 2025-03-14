@@ -4,11 +4,11 @@
 
 <OffCanvas @ref="_offCanvas" PositionX="Position.End" Title="Interface">
     <fieldset class="py-5">
-        <legend><i class="bi bi-ui-checks-grid text-info-emphasis fs-5 pe-2"></i>Shapes</legend>
+        <legend><i class="bi bi-ui-checks-grid text-info-emphasis fs-5 pe-2"></i>@Label.AppSettingInterfaceShape</legend>
         <div class="row">
             <div class="col-auto pb-2">
                 <small class="text-secondary">
-                    Buttons, components and forms
+                    @Label.AppSettingInterfaceShapeParagraph
                 </small>
             </div>
         </div>
@@ -16,24 +16,24 @@
             <div class="col-12 d-flex justify-content-between">
                 <input type="radio" class="btn-check" name="ui-shape" id="Square" autocomplete="off" checked="@(_appSettings.Button == Radius.Square ? true : false)"
                        @onclick="() => SetRadiusAsync(Radius.Square)">
-                <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary rounded-0" for="Square">Square</label>
+                <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary rounded-0" for="Square">@Label.AppSettingInterfaceShapeSquare</label>
 
                 <input type="radio" class="btn-check" name="ui-shape" id="Default" autocomplete="off" checked="@(_appSettings.Button == Radius.Default ? true : false)"
                        @onclick="() => SetRadiusAsync(Radius.Default)">
-                <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary rounded" for="Default">Default</label>
+                <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary rounded" for="Default">@Label.AppSettingInterfaceShapeDefault</label>
 
                 <input type="radio" class="btn-check" name="ui-shape" id="Round" autocomplete="off" checked="@(_appSettings.Button == Radius.Round5 ? true : false)"
                        @onclick="() => SetRadiusAsync(Radius.Round5)">
-                <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary rounded-5" for="Round">Round</label>
+                <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary rounded-5" for="Round">@Label.AppSettingInterfaceShapeRound</label>
             </div>
         </div>
     </fieldset>
     <fieldset class="py-5">
-        <legend><i class="bi bi-ui-checks-grid text-info-emphasis fs-5 pe-2"></i>Shadows</legend>
+        <legend><i class="bi bi-ui-checks-grid text-info-emphasis fs-5 pe-2"></i>@Label.AppSettingInterfaceShadow</legend>
         <div class="row">
             <div class="col-auto pb-2">
                 <small class="text-secondary">
-                    Buttons and fields
+                    @Label.AppSettingInterfaceShadowParagraph
                 </small>
             </div>
         </div>
@@ -41,19 +41,19 @@
             <div class="col-12 d-flex justify-content-between">
                 <input type="radio" class="btn-check" name="ui-shadow" id="NoShadow" autocomplete="off" checked="@(_appSettings.Shadow == Shadow.Default ? true : false)"
                        @onclick="() => SetShadowAsync(Shadow.Default)">
-                <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary @("rounded"+_appSettings.Button) shadow-none" for="NoShadow">None</label>
+                <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary @("rounded"+_appSettings.Button) shadow-none" for="NoShadow">@Label.AppSettingInterfaceShadowNone</label>
 
                 <input type="radio" class="btn-check" name="ui-shadow" id="SmallShadow" autocomplete="off" checked="@(_appSettings.Shadow == Shadow.Small ? true : false)"
                        @onclick="() => SetShadowAsync(Shadow.Small)">
-                <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary @("rounded"+_appSettings.Button) shadow-sm" for="SmallShadow">Small</label>
+                <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary @("rounded"+_appSettings.Button) shadow-sm" for="SmallShadow">@Label.AppSettingInterfaceShadowSmall</label>
 
                 <input type="radio" class="btn-check" name="ui-shadow" id="RegularShadow" autocomplete="off" checked="@(_appSettings.Shadow == Shadow.Medium ? true : false)"
                        @onclick="() => SetShadowAsync(Shadow.Medium)">
-                <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary @("rounded"+_appSettings.Button) shadow" for="RegularShadow">Medium</label>
+                <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary @("rounded"+_appSettings.Button) shadow" for="RegularShadow">@Label.AppSettingInterfaceShadowMedium</label>
 
                 <input type="radio" class="btn-check" name="ui-shadow" id="LargeShadow" autocomplete="off" checked="@(_appSettings.Shadow == Shadow.Large ? true : false)"
                        @onclick="() => SetShadowAsync(Shadow.Large)">
-                <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary @("rounded"+_appSettings.Button) shadow-lg" for="LargeShadow">Large</label>
+                <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary @("rounded"+_appSettings.Button) shadow-lg" for="LargeShadow">@Label.AppSettingInterfaceShadowLarge</label>
             </div>
         </div>
     </fieldset>
@@ -61,7 +61,7 @@
         <div class="col-6">
             <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
                     @onclick="() => CloseOffCanvasAsync()">
-                Close
+                @Label.AppButtonClose
             </button>
         </div>
     </div>

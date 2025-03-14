@@ -19,14 +19,14 @@
 
                 </div>
                 <div class="ps-2 d-none d-lg-flex">
-                    <div class="btn-group bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
-                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                    <div class="btn-group btn-outline-@(Theme.Secondary.ToString().ToLower()) border border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
+                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-0 @("rounded"+_appSettings.Button)"
                                 @onclick="() => ApplyFiltersAsync()">
                             <i class="bi bi-sliders2 pe-1"></i>Filters
                             @if(IsFilterApplied())
                             {
                                 <sup class="ps-1">
-                                    <Badge BackgroundColor="@Theme.Light" Message="Applied" />
+                                    <Badge BackgroundColor="@Theme.Info" Message="Applied" />
                                 </sup>
                             }
                         </button>
@@ -34,10 +34,10 @@
                             {
                                 <div class="d-flex align-items-center">
                                     <div class="vr my-1 text-@(Theme.Dark.ToString().ToLower())-emphasis"></div>
-                                    <button class="btn btn-@(Size.Sm.ToString().ToLower())"
+                                    <button class="btn btn-outline-@(Theme.Light.ToString().ToLower()) btn-@(Size.Sm.ToString().ToLower()) border-0 rounded-5"
                                             title="Remove"
                                             @onclick="ResetAllFilters">
-                                        <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
+                                        <i class="bi bi-x-lg text-@(Theme.Secondary.ToString().ToLower())"></i>
                                     </button>
                                 </div>
                             }
@@ -46,26 +46,27 @@
             </div>
             <div class="col-2 col-lg-4 d-flex justify-content-end pb-2">
                 <div class="d-none d-lg-block">
-                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@Theme.Primary.ToString().ToLower() @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => PrintAsync()">
                         <i class="bi bi-printer pe-1"></i>Print
                     </button>
-                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Dark.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => AddRecordAsync()">
                         <i class="bi bi-plus-lg pe-1"></i>New trip
                     </button>
                 </div>
                 <div class="d-block d-lg-none">
                     <DropdownActions DropdownPosition="Position.End"
-                                     ButtonSize="Size.Sm">
+                                     ButtonSize="Size.Sm"
+                                     ButtonColor="Theme.Dark">
                         <li class="px-2 d-block d-lg-none">
-                            <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
+                            <button class="dropdown-item text-@(Theme.Secondary.ToString().ToLower())-emphasis rounded"
                                     @onclick="() => AddRecordAsync()">
                                 <i class="bi bi-plus-lg pe-1"></i>New trip
                             </button>
                         </li>
                         <li class="px-2 d-block d-lg-none">
-                            <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
+                            <button class="dropdown-item text-@(Theme.Secondary.ToString().ToLower())-emphasis rounded"
                                     @onclick="() => PrintAsync()">
                                 <i class="bi bi-printer pe-1"></i>Print
                             </button>
@@ -86,7 +87,7 @@
                         @if (_tripsByGroup.Count <= 0)
                         {
                             <div class="text-center">
-                                @Label.NoRecordFound
+                                @Label.AppNoRecordFound
                             </div>
                         }
                         else
@@ -143,7 +144,7 @@
                                                             <tr class="bg-light-subtle">
                                                                 <td class="text-center" colspan="7">
                                                                     <div>
-                                                                        @Label.NoRecordFound
+                                                                        @Label.AppNoRecordFound
                                                                     </div>
                                                                 </td>
                                                             </tr>

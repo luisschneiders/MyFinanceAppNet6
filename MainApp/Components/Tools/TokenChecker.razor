@@ -3,16 +3,15 @@
 
 <CardView Styles="w-100 border-0">
     <CardMiddle>
-        <SharedHeader Title="Token Checker"
+        <SharedHeader Title="@Label.AppComponentTokenCheckerTitle"
                         Icon="bi-shield-check"
                         IconColor="Theme.Dark" />
         <div class="row py-3">
             <div class="col-sm-12 col-lg-5">
                 <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-primary w-100 @("rounded"+_appSettings.Button)"
                         type="button"
-                        title="Get token"
                         @onclick="GetTokenAsync">
-                        Get Token
+                        @Label.AppComponentTokenCheckerGet
                 </button>
                 <div class="text-break">
                     <code>
@@ -26,9 +25,8 @@
             <div class="col-sm-12 col-lg-5">
                 <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary w-100 @("rounded"+_appSettings.Button)"
                         type="button"
-                        title="Get token"
                         @onclick="CheckIsTokenExpiredAsync">
-                        Is token expired?
+                        @Label.AppComponentTokenCheckerIsExpired
                 </button>
                 @if (_isTokenChecked is true)
                 {
@@ -36,13 +34,13 @@
                         @if(_isTokenExpired is true)
                         {
                             <div class="alert alert-danger" role="alert">
-                                Token is expired!
+                                @Label.AppComponentTokenCheckerExpired
                             </div>
                         }
                         else
                         {
                             <div class="alert alert-success" role="alert">
-                                Token is not expired!
+                                @Label.AppComponentTokenCheckerNotExpired
                             </div>
                         }
                     </div>

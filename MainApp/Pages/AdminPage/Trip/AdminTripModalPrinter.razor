@@ -8,7 +8,7 @@
     IsModalDialogScrollable="false">
     <Title>
         <span class="text-secondary">
-            @Label.AppTitleTrip
+            @Label.AppMenuAdminTrip
         </span>
     </Title>
     <Body>
@@ -21,7 +21,7 @@
             @if (_printTripDTO.TripsByGroup.Count <= 0)
             {
                 <div class="text-center">
-                    @Label.NoRecordFound
+                    @Label.AppNoRecordFound
                 </div>
             }
             else
@@ -76,7 +76,7 @@
                                                 <tr class="">
                                                     <td class="text-center" colspan="5">
                                                         <div>
-                                                            @Label.NoRecordFound
+                                                            @Label.AppNoRecordFound
                                                         </div>
                                                     </td>
                                                 </tr>

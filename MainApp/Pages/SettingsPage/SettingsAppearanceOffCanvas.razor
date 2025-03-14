@@ -4,13 +4,13 @@
 
 @inject IJSRuntime JS
 
-<OffCanvas @ref="_offCanvas" PositionX="Position.End" Title="Appearance">
+<OffCanvas @ref="_offCanvas" PositionX="Position.End" Title="@Label.AppSettingAppearance">
     <fieldset class="py-5">
-        <legend><i class="bi bi-moon-stars-fill text-info-emphasis fs-5 pe-2"></i>App mode view</legend>
+        <legend><i class="bi bi-moon-stars-fill text-info-emphasis fs-5 pe-2"></i>@Label.AppSettingAppearanceMoveView</legend>
         <div class="row align-items-center">
             <div class="col-auto pe-0">
                 <small class="text-secondary">
-                    Your current mode view is
+                    @Label.AppSettingAppearanceCurrentMoveView
                 </small>
             </div>
             <div class="col-auto">
@@ -22,13 +22,13 @@
                     <li class="px-2">
                         <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
                                 @onclick="() => UpdateThemeAsync(ColorMode.Dark)">
-                            Dark
+                            @Label.AppSettingAppearanceMoveViewDark
                         </button>
                     </li>
                     <li class="px-2">
                         <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
                                 @onclick="() => UpdateThemeAsync(ColorMode.Light)">
-                            Light
+                            @Label.AppSettingAppearanceMoveViewLight
                         </button>
                     </li>
                 </DropdownActions>
@@ -39,7 +39,7 @@
         <div class="col-6">
             <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
                     @onclick="() => CloseOffCanvasAsync()">
-                Close
+                @Label.AppButtonClose
             </button>
         </div>
     </div>

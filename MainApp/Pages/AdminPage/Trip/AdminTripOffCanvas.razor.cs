@@ -36,10 +36,7 @@ public partial class AdminTripOffCanvas : ComponentBase
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
     private bool _isLoading { get; set; } = true;
-
-    private Dictionary<string, object> _inputFormControlAttributes = default!;
-    private Dictionary<string, object> _inputFormSelectAttributes = default!;
-    private Dictionary<string, object> _inputFormControlAttributesPlainText = default!;
+    private InputFormAttributes _inputFormAttributes{ get; set; } = new();
 
     public AdminTripOffCanvas()
     {
@@ -63,19 +60,19 @@ public partial class AdminTripOffCanvas : ComponentBase
 
                 await FetchDataAsync();
 
-                _inputFormControlAttributes = new()
+                _inputFormAttributes.Control = new()
                 {
                     {
                         "class", $"form-control rounded{_appSettings.Form}"
                     }
                 };
-                _inputFormSelectAttributes = new()
+                _inputFormAttributes.Select = new()
                 {
                     {
                         "class", $"form-select rounded{_appSettings.Form}"
                     }
                 };
-                _inputFormControlAttributesPlainText = new()
+                _inputFormAttributes.PlainText = new()
                 {
                     {
                         "class", $"form-control-plaintext"

@@ -14,6 +14,11 @@ input[disabled] {
     cursor: not-allowed;
 }
 
+.form-control, .form-control:focus, .form-select, .form-select:focus {
+    outline: none;
+    box-shadow: none;
+}
+
 .form-select:disabled {
     background-color: transparent;
     border: none;
@@ -184,8 +189,11 @@ h1:focus {
     position: sticky;
     top: 0;
     z-index: 10;
+}
+
+.app-calendar-table thead tr th {
     width: 14.28%; /* 100% divided by 7 days */
-    white-space: nowrap; /* Prevents wrapping */
+    white-space: nowrap; /* Prevents wrapping */    
 }
 
 #blazor-error-ui {
@@ -359,6 +367,18 @@ h1:focus {
     }
     .app-shift-bg-success {
         background-color: var(--bs-success-bg-subtle) !important;
+    }
+    .app-shift-bg-dark {
+        background-color: var(--bs-dark-bg-subtle) !important;
+    }
+    .app-shift-bg-secondary {
+        background-color: var(--bs-secondary-bg-subtle) !important;
+    }
+    .app-shift-bg-tertiary {
+        background-color: var(--bs-tertiary-color) !important;
+    }
+    .app-shift-bg-warning {
+        background-color: var(--bs-warning-bg-subtle) !important;
     }
 }
 

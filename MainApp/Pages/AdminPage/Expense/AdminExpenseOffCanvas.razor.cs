@@ -39,10 +39,7 @@ public partial class AdminExpenseOffCanvas : ComponentBase
     private List<ExpenseCategoryModel> _activeExpenseCategories { get; set; } = new();
     private List<TaxCategoryModel> _activeTaxCategories { get; set; } = new();
     private List<LocationModel> _locationlist { get; set; } = new();
-
-    private Dictionary<string, object> _inputFormControlAttributes = default!;
-    private Dictionary<string, object> _inputFormSelectAttributes = default!;
-
+    private InputFormAttributes _inputFormAttributes{ get; set; } = new();
     private bool _shouldRender { get; set; } = true;
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
@@ -63,13 +60,13 @@ public partial class AdminExpenseOffCanvas : ComponentBase
             {
                 await FetchDataAsync();
 
-                _inputFormControlAttributes = new()
+                _inputFormAttributes.Control = new()
                 {
                     {
                         "class", $"form-control rounded{_appSettings.Form}"
                     }
                 };
-                _inputFormSelectAttributes = new()
+                _inputFormAttributes.Select = new()
                 {
                     {
                         "class", $"form-select rounded{_appSettings.Form}"

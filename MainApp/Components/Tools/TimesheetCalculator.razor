@@ -3,44 +3,44 @@
 
 <CardView Styles="@($"w-100 border-0 bg-{Theme.Light.ToString().ToLower()}-subtle")">
     <CardMiddle>
-        <SharedHeader Title="Timesheet rate"
+        <SharedHeader Title="@Label.AppComponentTimesheetTitle"
                         Icon="bi-calculator"
                         IconColor="Theme.Dark" />
         <EditForm Model="@_timesheetModel"
                     autocomplete="off">
-            <div class="row">
+            <div class="row py-3">
                 <div class="col-12">
                     <div class="form-floating pb-1">
-                        <InputNumber class="form-control form-control-sm"
-                                        id="HourRate"
-                                        placeholder="Hour Rate"
+                        <InputNumber id="HourRate"
+                                        placeholder="@Label.AppComponentTimesheetHourRate"
+                                        @attributes="InputFormAttributes.Control"
                                         @bind-Value="_timesheetModel.HourRate" />
-                        <label for="HourRate">Hour Rate</label>
+                        <label for="HourRate">@Label.AppComponentTimesheetHourRate</label>
                     </div>
                     <div class="form-floating pb-1">
-                        <InputDate class="form-control form-control-sm"
-                                    id="TimeIn"
-                                    placeholder="Clock in"
+                        <InputDate id="TimeIn"
+                                    placeholder="@Label.AppComponentTimesheetClockIn"
+                                    @attributes="InputFormAttributes.Control"
                                     @bind-Value="_timesheetModel.TimeIn"
                                     Type="InputDateType.DateTimeLocal" />
-                        <label for="TimeIn">Clock in</label>
+                        <label for="TimeIn">@Label.AppComponentTimesheetClockIn</label>
                     </div>
                     <div class="form-floating pb-1">
-                        <InputNumber class="form-control form-control-sm"
-                                        id="TimeBreak"
-                                        placeholder="Break (in minutes)"
+                        <InputNumber id="TimeBreak"
+                                        placeholder="@Label.AppComponentTimesheetBreak"
                                         min="0"
                                         max="60"
+                                        @attributes="InputFormAttributes.Control"
                                         @bind-Value="_timesheetModel.TimeBreak" />
-                        <label for="TimeBreak">Break (in minutes)</label>
+                        <label for="TimeBreak">@Label.AppComponentTimesheetBreak</label>
                     </div>
                     <div class="form-floating pb-2">
-                        <InputDate class="form-control form-control-sm"
-                                    id="TimeOut"
-                                    placeholder="Clock in"
+                        <InputDate id="TimeOut"
+                                    placeholder="@Label.AppComponentTimesheetClockOut"
+                                    @attributes="InputFormAttributes.Control"
                                     @bind-Value="_timesheetModel.TimeOut"
                                     Type="InputDateType.DateTimeLocal" />
-                        <label for="TimeOut">Clock out</label>
+                        <label for="TimeOut">@Label.AppComponentTimesheetClockOut</label>
                     </div>
                 </div>
             </div>
@@ -49,10 +49,10 @@
             <div class="col-12 opacity-75">
                 <div class="form-control form-control-sm text-dark-emphasis p-0 border-0">
                     <div>
-                        Work hours: <span class="fw-semibold">@_timesheetModel.HoursWorked.ToString("h'h 'm'm '")</span>
+                        @Label.AppComponentTimesheetWorkHours <span class="fw-semibold">@_timesheetModel.HoursWorked.ToString("h'h 'm'm '")</span>
                     </div>
                     <div>
-                        Total amount: <span class="fw-semibold">@_timesheetModel.TotalAmount.ToString("C")</span>
+                        @Label.AppComponentTimesheetTotalAmount <span class="fw-semibold">@_timesheetModel.TotalAmount.ToString("C")</span>
                     </div>
                 </div>
             </div>

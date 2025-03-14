@@ -1,19 +1,19 @@
-﻿<div class="btn-group bg-@(ButtonColor.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
+﻿<div class="btn-group btn-outline-@(ButtonColor.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle  @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
     <div class="dropdown">
-        <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + Theme.Dark.ToString().ToLower() + "-emphasis") text-nowrap @("rounded"+_appSettings.Button)"
+        <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("btn-outline-" + ButtonColor.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle text-nowrap @("rounded"+_appSettings.Button)"
                 title="Change date range"
                 id="dropdownDateRange"
                 data-bs-toggle="dropdown"
                 data-bs-auto-close="inside"
                 aria-expanded="false">
-            <i class="bi bi-calendar3 text-@IconColor.ToString().ToLower()-emphasis"></i>
+            <i class="bi bi-calendar3"></i>
             @DropdownLabel
             <i class="bi bi-chevron-down"></i>
         </button>
         <ul class="dropdown-menu dropdown-menu-@DropdownPosition.ToString().ToLower() border-@Theme.Dark.ToString().ToLower()-subtle bg-@Theme.Dark.ToString().ToLower()-subtle shadow-sm ps-2"
             aria-labelledby="dropdownDateRange">
             <li class="d-flex pe-2 gap-2">
-                <input class="form-control form-control-@(Size.Sm.ToString().ToLower()) @("rounded"+_appSettings.Button)"
+                <input class="form-control form-control-@(Size.Sm.ToString().ToLower()) @("rounded"+_appSettings.Form)"
                        id="Start"
                        type="month"
                        placeholder="Month / Year"

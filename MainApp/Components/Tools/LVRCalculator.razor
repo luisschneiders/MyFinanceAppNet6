@@ -3,26 +3,26 @@
 
 <CardView Styles="@($"w-100 border-0 bg-{Theme.Light.ToString().ToLower()}-subtle")">
     <CardMiddle>
-        <SharedHeader Title="LVR Calculator"
+        <SharedHeader Title="@Label.AppComponentLVRTitle"
                         Icon="bi-calculator"
                         IconColor="Theme.Dark" />
         <EditForm Model="@_lvrModel"
                     autocomplete="off">
-            <div class="row">
+            <div class="row py-3">
                 <div class="col-12">
                     <div class="form-floating pb-1">
                         <InputNumber id="LoanAmount"
-                                    placeholder="Loan amount"
-                                    class="form-control"
+                                    placeholder="@Label.AppComponentLVRLoanAmount"
+                                    @attributes="InputFormAttributes.Control"
                                     @bind-Value="_lvrModel.LoanAmount" />
-                        <label for="LoanAmount">Loan amount</label>
+                        <label for="LoanAmount">@Label.AppComponentLVRLoanAmount</label>
                     </div>
                     <div class="form-floating pb-2">
                         <InputNumber id="PropertyValue"
-                                    placeholder="Property Value"
-                                    class="form-control"
+                                    placeholder="@Label.AppComponentLVRPropertyValue"
+                                    @attributes="InputFormAttributes.Control"
                                     @bind-Value="_lvrModel.PropertyValue" />
-                        <label for="PropertyValue">Property Value</label>
+                        <label for="PropertyValue">@Label.AppComponentLVRPropertyValue</label>
                     </div>
                 </div>
             </div>
@@ -31,11 +31,11 @@
             <div class="col-12 opacity-75">
                 <div class="form-control form-control-sm text-dark-emphasis p-2 border-0">
                     <div>
-                        LVR<sup>*</sup>: <span class="fw-semibold">@_lvrModel.Percentage.ToString("0.00") %</span>
+                        @Label.AppComponentLVR<sup>*</sup>: <span class="fw-semibold">@_lvrModel.Percentage.ToString("0.00") %</span>
                     </div>
                     <hr/>
                     <small>
-                        LVR stands for loan-to-value (or sometimes loan-to-valuation) ratio. It’s a percentage figure that compares how much a lender is willing to loan you against the total value of the asset you plan to buy.
+                        @Label.AppComponentLVRParagraph
                     </small>
                 </div>
             </div>

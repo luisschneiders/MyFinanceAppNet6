@@ -3,7 +3,7 @@
 
 <CardView Styles="@($"w-100 border-0 bg-{Theme.Light.ToString().ToLower()}-subtle")">
     <CardMiddle>
-        <SharedHeader Title="Investment returns"
+        <SharedHeader Title="@Label.AppComponentIRTitle"
                         Icon="bi-calculator"
                         IconColor="Theme.Dark" />
         <EditForm Model="@_investmentReturnModel"
@@ -24,17 +24,17 @@
                                         height="320"
                                         xmlns="http://www.w3.org/2000/svg"
                                         role="img"
-                                        aria-label="Annualized percentage"
+                                        aria-label="@Label.AppComponentIRAnnualizedTitle"
                                         preserveAspectRatio="xMidYMid slice"
                                         focusable="false">
-                                    <title>Annualized percentage</title>
+                                    <title>@Label.AppComponentIRAnnualizedTitle</title>
                                     <rect width="100%" height="100%" fill="@(BackgroundColor.Gray)"></rect>
                                 </svg>
 
                                 <div class="carousel-caption d-none d-md-block text-@Theme.Dark.ToString().ToLower()">
-                                    <h5>Annualized percentage</h5>
+                                    <h5>@Label.AppComponentIRAnnualizedTitle</h5>
                                     <p>
-                                        The annualized percentage or CAGR - (Compound Annual Growth Rate) reflects the average rate of return over a year, accounting for the effects of compounding over multiple periods.
+                                        @Label.AppComponentIRAnnualizedParagraph
                                     </p>
                                 </div>
                             </div>
@@ -44,74 +44,66 @@
                                         height="320"
                                         xmlns="http://www.w3.org/2000/svg"
                                         role="img"
-                                        aria-label="Simple percentage"
+                                        aria-label="@Label.AppComponentIRSimpleTitle"
                                         preserveAspectRatio="xMidYMid slice"
                                         focusable="false">
-                                    <title>Simple percentage</title>
+                                    <title>@Label.AppComponentIRSimpleTitle</title>
                                     <rect width="100%" height="100%" fill="@(BackgroundColor.Gray)"></rect>
                                 </svg>
 
                                 <div class="carousel-caption d-none d-md-block text-@Theme.Dark.ToString().ToLower()">
-                                    <h5>Simple percentage</h5>
+                                    <h5>@Label.AppComponentIRSimpleTitle</h5>
                                     <p>
-                                        Simple percentage is calculated based on the initial value and does not account for compounding over time. It's often used for one-time, straightforward percentage changes.
+                                        @Label.AppComponentIRSimpleParagraph
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            @* </div>
-            <div class="row"> *@
                 <div class="col-12 col-lg-6">
                     <div class="form-floating pb-1">
-                        <InputSelect class="form-control form-control-sm"
-                                        id="ReturnType"
+                        <InputSelect id="ReturnType"
+                                        @attributes="InputFormAttributes.Control"
                                         @bind-Value="_investmentReturnModel.IRType">
-                            <option value="0">-- Select --</option>
+                            <option value="0">@Label.AppFieldSelect</option>
                             @foreach (var (iType, index) in _investmentReturnTypes.Select((value, index) => (value, index)))
                             {
                                 int investmentTypeValue = index + 1;
                                 <option value="@investmentTypeValue"> @($"{iType}") </option>
                             }
                         </InputSelect>
-                        <label for="ReturnType">Percentage type</label>
+                        <label for="ReturnType">@Label.AppComponentIRPercentageType</label>
                     </div>
                     <div class="form-floating pb-1">
-                        <InputNumber class="form-control form-control-sm"
-                                        id="Period"
-                                        placeholder="Period (in years)"
+                        <InputNumber id="Period"
+                                        placeholder="@Label.AppComponentIRPeriodYears"
                                         disabled="@(_investmentReturnModel.IRType == (int)InvestmentReturn.Simple)"
+                                        @attributes="InputFormAttributes.Control"
                                         @bind-Value="_investmentReturnModel.Period" />
-                        <label for="Period">Period (in years)</label>
+                        <label for="Period">@Label.AppComponentIRPeriodYears</label>
                     </div>
                     <div class="form-floating pb-1">
-                        <InputNumber class="form-control form-control-sm"
-                                        id="PersonalContribution"
-                                        placeholder="Personal contributions"
+                        <InputNumber id="PersonalContribution"
+                                        placeholder="@Label.AppComponentIRPersonalContributions"
                                         min="0"
+                                        @attributes="InputFormAttributes.Control"
                                         @bind-Value="_investmentReturnModel.PersonalContribution" />
-                        <label for="PersonalContribution">Personal contributions</label>
+                        <label for="PersonalContribution">@Label.AppComponentIRPersonalContributions</label>
                     </div>
                     <div class="form-floating pb-1">
-                        <InputNumber class="form-control form-control-sm"
-                                        id="FinalAmount"
-                                        placeholder="Final amount"
+                        <InputNumber id="FinalAmount"
+                                        placeholder="@Label.AppComponentIRFinalAmount"
                                         min="0"
+                                        @attributes="InputFormAttributes.Control"
                                         @bind-Value="_investmentReturnModel.FinalAmount" />
-                        <label for="FinalAmount">Final amount</label>
+                        <label for="FinalAmount">@Label.AppComponentIRFinalAmount</label>
                     </div>
                     <div class="d-flex justify-content-center align-items-center bg-@Theme.Light.ToString().ToLower()-subtle @("rounded"+_appSettings.Card)">
                         <span class="display-3 text-@Theme.Info.ToString().ToLower()">@_investmentReturnModel.Percentage.ToString("0.00")</span>
                         <span class="display-5 text-@Theme.Info.ToString().ToLower() text-opacity-50">%</span>
                     </div>
                 </div>
-                @* <div class="col-12 col-lg-6">
-                    <div class="d-flex justify-content-center align-items-center h-100 bg-@Theme.Light.ToString().ToLower()-subtle @("rounded"+_appSettings.Card)">
-                        <span class="display-3 text-@Theme.Info.ToString().ToLower()">@_investmentReturnModel.Percentage.ToString("0.00")</span>
-                        <span class="display-5 text-@Theme.Info.ToString().ToLower() text-opacity-50">%</span>
-                    </div>
-                </div> *@
             </div>
         </EditForm>
     </CardMiddle>

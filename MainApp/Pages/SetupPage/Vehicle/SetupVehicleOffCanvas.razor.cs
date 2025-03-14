@@ -1,7 +1,6 @@
 ﻿using MainApp.Components.OffCanvas;
 using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
-using MyFinanceAppLibrary.Models;
 
 namespace MainApp.Pages.SetupPage.Vehicle;
 
@@ -27,12 +26,8 @@ public partial class SetupVehicleOffCanvas : ComponentBase
 
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
-
-    private Dictionary<string, object> _inputFormControlAttributes = default!;
-    private Dictionary<string, object> _inputFormControlPlainTextAttributes = default!;
-
+    private InputFormAttributes _inputFormAttributes{ get; set; } = new();
     private VehicleModel _vehicleModel { get; set; } = new();
-
     private DateTime _currentYear { get; }
 
     public SetupVehicleOffCanvas()
@@ -46,13 +41,13 @@ public partial class SetupVehicleOffCanvas : ComponentBase
         {
             try
             {
-                _inputFormControlAttributes = new()
+                _inputFormAttributes.Control = new()
                 {
                     {
                         "class", $"form-control rounded{AppSettings.Form}"
                     }
                 };
-                _inputFormControlPlainTextAttributes = new()
+                _inputFormAttributes.PlainText = new()
                 {
                     {
                         "class", $"form-control-plaintext"
@@ -88,7 +83,7 @@ public partial class SetupVehicleOffCanvas : ComponentBase
             else
             {
                 _vehicleModel = new();
-                _toastService.ShowToast("No record found!", Theme.Danger);
+                _toastService.ShowToast(Label.AppNoRecordFound, Theme.Danger);
             }
         }
         catch (Exception ex)
@@ -111,7 +106,7 @@ public partial class SetupVehicleOffCanvas : ComponentBase
             else
             {
                 _vehicleModel = new();
-                _toastService.ShowToast("No record found!", Theme.Danger);
+                _toastService.ShowToast(Label.AppNoRecordFound, Theme.Danger);
             }
         }
         catch (Exception ex)
@@ -156,17 +151,17 @@ public partial class SetupVehicleOffCanvas : ComponentBase
                 await _vehicleService.CreateRecord(_vehicleModel);
 
                 _vehicleModel.Id = await _vehicleService.GetLastInsertedId();
-                _toastService.ShowToast("Vehicle added!", Theme.Success);
+                _toastService.ShowToast(Label.AppMenuSetupVehicle+" "+Label.AppAdded, Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Edit)
             {
                 await _vehicleService.UpdateRecord(_vehicleModel);
-                _toastService.ShowToast("Vehicle updated!", Theme.Success);
+                _toastService.ShowToast(Label.AppMenuSetupVehicle+" "+Label.AppUpdated, Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Archive)
             {
                 await _vehicleService.ArchiveRecord(_vehicleModel);
-                _toastService.ShowToast("Vehicle archived!", Theme.Success);
+                _toastService.ShowToast(Label.AppMenuSetupVehicle+" "+Label.AppArchived, Theme.Success);
             }
             _isProcessing = false;
 

@@ -20,29 +20,16 @@ public partial class AdminTimesheetModalShift : ComponentBase
 
     [Parameter]
     public EventCallback<DateTime> OnSubmitSuccess { get; set; }
-
     private Modal _modal { get; set; } = new();
-
     private Guid _modalTarget { get; set; }
-
     private DateTimeRange _dateTimeRange { get; set; } = new();
-
     private ShiftModel _shiftModel { get; set; } = new();
-
     private List<CompanyModel> _activeCompanies { get; set; } = new();
-
     private List<ShiftListDTO> _activeShifts { get; set; } = new();
-
-    private Dictionary<string, object> _inputFormSelectAttributes = default!;
-
-    private Dictionary<string, object> _inputFormControlAttributes = default!;
-
+    private InputFormAttributes _inputFormAttributes{ get; set; } = new();
     private bool _displayErrorMessages { get; set; } = false;
-
     private bool _isProcessing { get; set; } = false;
-
     private bool _isLoading { get; set; } = true;
-
     private bool _isLoadingShift { get; set; } = true;
 
     public AdminTimesheetModalShift()
@@ -53,14 +40,14 @@ public partial class AdminTimesheetModalShift : ComponentBase
     {
         try
         {
-            _inputFormControlAttributes = new()
+            _inputFormAttributes.Control = new()
             {
                 {
                     "class", $"form-control rounded{_appSettings.Form}"
                 }
             };
 
-            _inputFormSelectAttributes = new()
+            _inputFormAttributes.Select = new()
             {
                 {
                     "class", $"form-select rounded{_appSettings.Form}"

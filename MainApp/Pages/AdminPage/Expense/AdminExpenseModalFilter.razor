@@ -21,7 +21,7 @@
                                 IconStart="bi-cart4">
                     @foreach (var (expenseCategory, index) in _expenseCategories.Select((value, index) => (value, index)))
                     {
-                        <li class="px-2 py-1">
+                        <li class="px-2 py-1 dropdown-item rounded">
                             <div class="form-check">
                                 <input class="form-check-input" 
                                         type="checkbox"
@@ -45,7 +45,7 @@
                                 IconStart="bi-bank">
                     @foreach (var (bank, index) in _banks.Select((value, index) => (value, index)))
                     {
-                        <li class="px-2 py-1">
+                        <li class="px-2 py-1 dropdown-item rounded">
                             <div class="form-check">
                                 <input class="form-check-input" 
                                         type="checkbox"
@@ -54,7 +54,7 @@
                                         value="@(bank.Id)"
                                         @onchange="(e) => OnCheckboxChangedBank(e, bank.Id)" />
                                 <label class="form-check-label" for="@($"bank-{bank.Id}")" title="@bank.Description">
-                                    @($"{bank.Description}")
+                                    @($"{bank.Description.Truncate((int)Truncate.Bank)}")
                                 </label>
                             </div>
                         </li>

@@ -25,15 +25,15 @@
                          aria-label="Radio toggle button group"
                          title="Change view">
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value="@_viewType" @onclick="() => UpdateUIVIew(ViewType.Calendar)">
-                        <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Light.ToString().ToLower() ) border-0 @("rounded-start"+_appSettings.Button) @(_viewType == @ViewType.Calendar.ToString() ? "active" : "")" for="btnradio1"><i class="bi bi-calendar3"></i></label>
+                        <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded-start"+_appSettings.Button) @(_viewType == @ViewType.Calendar.ToString() ? "active" : "")" for="btnradio1"><i class="bi bi-calendar3"></i></label>
 
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value="@_viewType" @onclick="() => UpdateUIVIew(ViewType.List)">
-                        <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Light.ToString().ToLower() ) border-0 @("rounded-end"+_appSettings.Button) @(_viewType == @ViewType.List.ToString() ? "active" : "")" for="btnradio2"><i class="bi bi-list-ul"></i></label>
+                        <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded-end"+_appSettings.Button) @(_viewType == @ViewType.List.ToString() ? "active" : "")" for="btnradio2"><i class="bi bi-list-ul"></i></label>
                     </div>
                     @if (_viewType == ViewType.Calendar.ToString())
                     {
                         <div class="ps-2">
-                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                     @onclick="() => PreviousPeriodAsync(_dateCalendar)"
                                     title="Previous"
                                     disabled="@(_isLoadingCalendar ? true : false)">
@@ -41,10 +41,11 @@
                             </button>
                             <DropdownDateMonthYear 
                                                 ButtonSize="Size.Sm"
+                                                ButtonColor="Theme.Secondary"
                                                 DateTimeRange="@_dateCalendar"
                                                 DropdownLabel="@_dropdownDateCalendarLabel"
                                                 OnSubmitSuccess="data => RefreshDropdownDateMonthYear(data)" />
-                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                     @onclick="() => NextPeriodAsync(_dateCalendar)"
                                     title="Next"
                                     disabled="@(_isLoadingCalendar ? true : false)">
@@ -55,7 +56,9 @@
                     else
                     {
                         <div class="ps-2">
-                            <DropdownDateRange ButtonSize="Size.Sm"
+                            <DropdownDateRange 
+                                            ButtonSize="Size.Sm"
+                                            ButtonColor="Theme.Secondary"
                                             DateTimeRange="@_dateRange"
                                             DropdownLabel="@_dropdownDateRangeLabel"
                                             PeriodRange="PeriodRange.Month"
@@ -63,14 +66,14 @@
                         </div>
                     }
                     <div class="ps-2 d-none d-lg-flex">
-                        <div class="btn-group bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
-                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                        <div class="btn-group btn-outline-@(Theme.Secondary.ToString().ToLower()) border border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
+                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-0 @("rounded"+_appSettings.Button)"
                                     @onclick="() => ApplyFiltersAsync()">
                                 <i class="bi bi-sliders2 pe-1"></i>Filters
                                 @if(IsFilterApplied())
                                 {
                                     <sup class="ps-1">
-                                        <Badge BackgroundColor="@Theme.Light" Message="Applied" />
+                                        <Badge BackgroundColor="@Theme.Info" Message="Applied" />
                                     </sup>
                                 }
                             </button>
@@ -78,10 +81,10 @@
                             {
                                 <div class="d-flex align-items-center">
                                     <div class="vr my-1 text-@(Theme.Dark.ToString().ToLower())-emphasis"></div>
-                                    <button class="btn btn-@(Size.Sm.ToString().ToLower())"
+                                    <button class="btn btn-outline-@(Theme.Light.ToString().ToLower()) btn-@(Size.Sm.ToString().ToLower()) border-0 rounded-5"
                                             title="Remove"
                                             @onclick="ResetAllFilters">
-                                        <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
+                                        <i class="bi bi-x-lg text-@(Theme.Secondary.ToString().ToLower())-emphasis"></i>
                                     </button>
                                 </div>
                             }
@@ -90,7 +93,9 @@
                     @if (_viewType == ViewType.List.ToString())
                     {
                         <div class="ps-2 d-none d-lg-flex">
-                            <DropdownMultiSelect ButtonSize="Size.Sm"
+                            <DropdownMultiSelect 
+                                            ButtonSize="Size.Sm"
+                                            ButtonColor="Theme.Secondary"
                                             DropdownLabel="@Label.AppTableColumns"
                                             DropdownPosition="Position.Start"
                                             IconEnd="bi-chevron-down"
@@ -119,36 +124,37 @@
             </div>
             <div class="col-2 col-lg-4 pb-2 d-flex justify-content-end">
                 <div class="d-none d-lg-block">
-                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => OpenCalculatorAsync()" title="Calculator">
                         <i class="bi bi-calculator"></i>
                     </button>
-                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => UpdateShiftAsync(DateTime.Today)">
                         <i class="bi bi-calendar4-week pe-1"></i>Add shift
                     </button>
-                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Dark.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => AddRecordAsync()">
                         <i class="bi bi-plus-lg pe-1"></i>New timesheet
                     </button>
                 </div>
                 <div class="d-block d-lg-none">
                     <DropdownActions DropdownPosition="Position.End"
-                                     ButtonSize="Size.Sm">
+                                     ButtonSize="Size.Sm"
+                                     ButtonColor="Theme.Dark">
                         <li class="px-2 d-block d-lg-none">
-                            <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
+                            <button class="dropdown-item text-@(Theme.Secondary.ToString().ToLower())-emphasis rounded"
                                     @onclick="() => OpenCalculatorAsync()">
                                 <i class="bi bi-calculator pe-1"></i>Calculator
                             </button>
                         </li>
                         <li class="px-2 d-block d-lg-none">
-                            <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
+                            <button class="dropdown-item text-@(Theme.Secondary.ToString().ToLower())-emphasis rounded"
                                     @onclick="() => UpdateShiftAsync(DateTime.Today)">
                                 <i class="bi bi-calendar4-week pe-1"></i>Add shift
                             </button>
                         </li>
                         <li class="px-2 d-block d-lg-none">
-                            <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
+                            <button class="dropdown-item text-@(Theme.Secondary.ToString().ToLower())-emphasis rounded"
                                     @onclick="() => AddRecordAsync()">
                                 <i class="bi bi-plus-lg pe-1"></i>New timesheet
                             </button>
@@ -159,7 +165,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="app-page-responsive-height @(_viewType == ViewType.Calendar.ToString() ? "rounded"+_appSettings.Card : "")">
+                <div class="app-page-responsive-height app-calendar-table @(_viewType == ViewType.Calendar.ToString() ? "rounded"+_appSettings.Card : "")">
                     @if (_isLoading)
                     {
                         <Loader />
@@ -173,9 +179,9 @@
                                     <CalendarSubHeaderWrapper>
                                         <div class="d-flex justify-content-end border-bottom px-2">
                                             <div class="d-flex pe-1">
-                                                Total<span class="d-none d-lg-block ps-1">amount for the period</span>
+                                                Total<span class="d-none d-lg-block ps-1">amount for the period:</span>
                                             </div>
-                                            <span class="app-expense-sum-me fw-semibold px-1 text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)">
+                                            <span class="app-expense-sum-me fw-semibold px-1 @("rounded"+_appSettings.Button)">
                                                 @_timesheetTotal.Amount.ToString("C")
                                             </span>
                                         </div>
@@ -204,14 +210,14 @@
                                                         @foreach (var date in week)
                                                         {
                                                             ShiftListDTO shift = _shiftCalendarView.Find(s => s.SDate.Day == date.Day)!;
-                                                            <td class="@((date.Year == 1 && date.Day == 1) ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "app-calendar-cell") @((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"app-shift-bg-{Theme.Info.ToString().ToLower()}" : $"app-shift-bg-{Theme.Danger.ToString().ToLower()}") : "")">
+                                                            <td class="@((date.Year == 1 && date.Day == 1) ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "app-calendar-cell") @((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"app-shift-bg-{Theme.Dark.ToString().ToLower()}" : $"app-shift-bg-{Theme.Danger.ToString().ToLower()}") : "")">
                                                                 @if ((date.Year != 1 && date.Day >= 1))
                                                                 {
                                                                     <a role="button" class="btn w-100 h-100 p-0"
                                                                         @onclick="() => UpdateShiftAsync(date)">
-                                                                        <div class="d-flex justify-content-end @($"rounded{_appSettings.Button}") @((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"bg-{Theme.Info.ToString().ToLower()}" : $"bg-{Theme.Danger.ToString().ToLower()}") : $"bg-{Theme.Light.ToString().ToLower()}")" title="@((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"Shift scheduled for: {shift.Description}" : "Unavailable") : "No shift scheduled")">
+                                                                        <div class="d-flex justify-content-end @($"rounded{_appSettings.Button}") @((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"bg-{Theme.Secondary.ToString().ToLower()}" : $"bg-{Theme.Danger.ToString().ToLower()}") : $"bg-{Theme.Light.ToString().ToLower()}")" title="@((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"Shift scheduled for: {shift.Description}" : "Unavailable") : "No shift scheduled")">
                                                                             <div class="app-calendar-cell-day app-calendar-cell-current-day text-center p-1 fw-bold @($"rounded{_appSettings.Button}") @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
-                                                                                        $"bg-{Theme.Secondary.ToString().ToLower()} text-white" : $"bg-{Theme.Light.ToString().ToLower()}")">
+                                                                                        $"bg-{Theme.Dark.ToString().ToLower()} text-white" : $"bg-{Theme.Light.ToString().ToLower()}")">
                                                                                 @(date.Day)
                                                                             </div>
                                                                         </div>
@@ -221,7 +227,7 @@
                                                                             {
                                                                                 if (item.TDate.Day == date.Day)
                                                                                 {
-                                                                                    <small class="d-block app-calendar-text text-secondary-emphasis" title="@($"{item.TotalAmount.ToString("C")} ({UpdatePayStatusTitle(item.PayStatus)})" )">
+                                                                                    <small class="d-block app-calendar-text text-light-emphasis" title="@($"{item.TotalAmount.ToString("C")} ({UpdatePayStatusTitle(item.PayStatus)})" )">
                                                                                         <BadgeColor RGBColor="@($"{(item.PayStatus == 0 ? StatusColor.Warning : StatusColor.Paid)}")"
                                                                                                     Description="@($"{item.CompanyDescription}")" />
                                                                                     </small>
@@ -253,7 +259,7 @@
                             @if (_timesheetListView.Count <= 0)
                             {
                                 <div class="text-center">
-                                    @Label.NoRecordFound
+                                    @Label.AppNoRecordFound
                                 </div>
                             }
                             else
@@ -303,7 +309,7 @@
                                                                 <tr class="bg-light-subtle">
                                                                     <td class="text-center" colspan="8">
                                                                         <div>
-                                                                            @Label.NoRecordFound
+                                                                            @Label.AppNoRecordFound
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -362,7 +368,7 @@
                                                                         <td class="text-center @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetEdit)!.IsChecked ? "":"d-none")">
                                                                             <button class="btn btn-link p-0 text-danger"
                                                                                     type="button"
-                                                                                    title="Edit"
+                                                                                    title="@Label.AppButtonEdit"
                                                                                     @onclick="() => EditRecordAsync(record)">
                                                                                 <i class="bi bi-pencil"></i>
                                                                             </button>

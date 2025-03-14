@@ -6,11 +6,11 @@
 
 <OffCanvas @ref="_offCanvas" PositionX="Position.End" Title="Date & Time">
     <fieldset class="py-5">
-        <legend><i class="bi bi-calendar2-heart text-info-emphasis fs-5 pe-2"></i>Calendar view</legend>
+        <legend><i class="bi bi-calendar2-heart text-info-emphasis fs-5 pe-2"></i>@Label.AppSettingDateTimeCalendarView</legend>
         <div class="row align-items-center">
             <div class="col-auto pe-0">
                 <small class="text-secondary">
-                    Your current start of the week is
+                    @Label.AppSettingDateTimeCurrentCalendarView
                 </small>
             </div>
             <div class="col-auto">
@@ -38,7 +38,7 @@
             <div class="row">
                 <div class="col-12">
                     <ul class="validation-errors">
-                        <li class="validation-message">Start of the week field is required.</li>
+                        <li class="validation-message">@Label.AppSettingDateTimeMessageFieldRequired</li>
                     </ul>
                 </div>
             </div>
@@ -48,7 +48,7 @@
         <div class="col-6">
             <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
                     @onclick="() => CloseOffCanvasAsync()">
-                Close
+                @Label.AppButtonClose
             </button>
         </div>
     </div>

@@ -20,10 +20,10 @@ public partial class DropdownMultiSelect : ComponentBase
     public string IconStart { get; set; } = string.Empty;
 
     [Parameter]
-    public Theme ButtonColor { get; set; } = Theme.Dark;
+    public Theme ButtonColor { get; set; } = Theme.Secondary;
 
     [Parameter]
-    public Theme IconStartColor { get; set; } = Theme.Dark;
+    public Theme IconStartColor { get; set; } = Theme.Secondary;
 
     [Parameter]
     public string IconEnd { get; set; } = "bi-chevron-down";
