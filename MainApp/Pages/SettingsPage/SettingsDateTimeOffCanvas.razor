@@ -21,9 +21,9 @@
                                  ButtonInnerStyles="d-flex justify-content-between">
                     @foreach (var (weekDay, index) in _dayNames.Select((value, index) => (value, index)))
                     {
-                        <li class="px-2">
+                        <li class="p-1 rounded">
                             @*Only enable Sunday and Monday*@
-                            <button class="dropdown-item rounded @(index > 1 ? "" : "text-" + Theme.Primary.ToString().ToLower() + "-emphasis")"
+                            <button class="dropdown-item rounded"
                                     disabled="@(index > 1)"
                                     @onclick="() => UpdateWeekDayAsync(weekDay)">
                                 @($"{weekDay}")

@@ -19,14 +19,14 @@
                                  IconEnd="bi-chevron-down"
                                  ButtonCssClass="@("rounded"+_appSettings.Button)"
                                  ButtonInnerStyles="d-flex justify-content-between">
-                    <li class="px-2">
-                        <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
+                    <li class="p-1 rounded">
+                        <button class="dropdown-item rounded"
                                 @onclick="() => UpdateThemeAsync(ColorMode.Dark)">
                             @Label.AppSettingAppearanceMoveViewDark
                         </button>
                     </li>
-                    <li class="px-2">
-                        <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
+                    <li class="p-1 rounded">
+                        <button class="dropdown-item rounded"
                                 @onclick="() => UpdateThemeAsync(ColorMode.Light)">
                             @Label.AppSettingAppearanceMoveViewLight
                         </button>

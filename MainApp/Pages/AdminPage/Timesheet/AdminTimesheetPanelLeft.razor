@@ -102,7 +102,7 @@
                                             IconStart="bi-layout-three-columns">
                                 @foreach (var (column, index) in _tableColumns.Select((value, index) => (value, index)))
                                 {
-                                    <li class="px-2 py-1">
+                                    <li class="px-1 py-1 dropdown-item rounded">
                                         <div class="form-check">
                                             <input class="form-check-input"
                                                     type="checkbox"
@@ -132,7 +132,7 @@
                             @onclick="() => UpdateShiftAsync(DateTime.Today)">
                         <i class="bi bi-calendar4-week pe-1"></i>Add shift
                     </button>
-                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Dark.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => AddRecordAsync()">
                         <i class="bi bi-plus-lg pe-1"></i>New timesheet
                     </button>
@@ -140,21 +140,21 @@
                 <div class="d-block d-lg-none">
                     <DropdownActions DropdownPosition="Position.End"
                                      ButtonSize="Size.Sm"
-                                     ButtonColor="Theme.Dark">
-                        <li class="px-2 d-block d-lg-none">
-                            <button class="dropdown-item text-@(Theme.Secondary.ToString().ToLower())-emphasis rounded"
+                                     ButtonColor="Theme.Secondary">
+                        <li class="p-1 rounded">
+                            <button class="dropdown-item rounded"
                                     @onclick="() => OpenCalculatorAsync()">
                                 <i class="bi bi-calculator pe-1"></i>Calculator
                             </button>
                         </li>
-                        <li class="px-2 d-block d-lg-none">
-                            <button class="dropdown-item text-@(Theme.Secondary.ToString().ToLower())-emphasis rounded"
+                        <li class="p-1 rounded">
+                            <button class="dropdown-item rounded"
                                     @onclick="() => UpdateShiftAsync(DateTime.Today)">
                                 <i class="bi bi-calendar4-week pe-1"></i>Add shift
                             </button>
                         </li>
-                        <li class="px-2 d-block d-lg-none">
-                            <button class="dropdown-item text-@(Theme.Secondary.ToString().ToLower())-emphasis rounded"
+                        <li class="p-1 rounded">
+                            <button class="dropdown-item rounded"
                                     @onclick="() => AddRecordAsync()">
                                 <i class="bi bi-plus-lg pe-1"></i>New timesheet
                             </button>
@@ -210,12 +210,12 @@
                                                         @foreach (var date in week)
                                                         {
                                                             ShiftListDTO shift = _shiftCalendarView.Find(s => s.SDate.Day == date.Day)!;
-                                                            <td class="@((date.Year == 1 && date.Day == 1) ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "app-calendar-cell") @((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"app-shift-bg-{Theme.Dark.ToString().ToLower()}" : $"app-shift-bg-{Theme.Danger.ToString().ToLower()}") : "")">
+                                                            <td class="@((date.Year == 1 && date.Day == 1) ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "app-calendar-cell") @((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"app-shift-bg-{Theme.Primary.ToString().ToLower()}" : $"app-shift-bg-{Theme.Danger.ToString().ToLower()}") : "")">
                                                                 @if ((date.Year != 1 && date.Day >= 1))
                                                                 {
                                                                     <a role="button" class="btn w-100 h-100 p-0"
                                                                         @onclick="() => UpdateShiftAsync(date)">
-                                                                        <div class="d-flex justify-content-end @($"rounded{_appSettings.Button}") @((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"bg-{Theme.Secondary.ToString().ToLower()}" : $"bg-{Theme.Danger.ToString().ToLower()}") : $"bg-{Theme.Light.ToString().ToLower()}")" title="@((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"Shift scheduled for: {shift.Description}" : "Unavailable") : "No shift scheduled")">
+                                                                        <div class="d-flex justify-content-end @($"rounded{_appSettings.Button}") @((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"bg-{Theme.Primary.ToString().ToLower()}-subtle" : $"bg-{Theme.Danger.ToString().ToLower()}") : $"bg-{Theme.Light.ToString().ToLower()}")" title="@((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"Shift scheduled for: {shift.Description}" : "Unavailable") : "No shift scheduled")">
                                                                             <div class="app-calendar-cell-day app-calendar-cell-current-day text-center p-1 fw-bold @($"rounded{_appSettings.Button}") @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
                                                                                         $"bg-{Theme.Dark.ToString().ToLower()} text-white" : $"bg-{Theme.Light.ToString().ToLower()}")">
                                                                                 @(date.Day)

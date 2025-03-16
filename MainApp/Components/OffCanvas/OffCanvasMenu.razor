@@ -29,7 +29,7 @@
                     <NavLink class="nav-link app-nav-link app-outline-none" href="@EndPoint.Setup" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-columns-gap pe-1"></i>@Label.AppMenuSetup<i class="bi bi-chevron-down ps-2"></i>
                     </NavLink>
-                    <ul class="dropdown-menu app-dropdown-menu border-@Theme.Dark.ToString().ToLower()-subtle bg-@Theme.Light.ToString().ToLower()-subtle shadow-sm" aria-labelledby="navbarDropdownSettingsLink">
+                    <ul class="dropdown-menu app-dropdown-menu border-@Theme.Light.ToString().ToLower()-subtle bg-@Theme.Light.ToString().ToLower()-subtle @("shadow"+_appSettings.Shadow)" aria-labelledby="navbarDropdownSettingsLink">
                         <li class="px-2">
                             <NavLink class="dropdown-item rounded" href="@EndPoint.SetupBank">
                                 @Label.AppMenuSetupFinancialInstitution
@@ -69,7 +69,7 @@
                     <NavLink class="nav-link app-nav-link app-outline-none" href="@EndPoint.Admin" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi  bi-grid-3x3-gap pe-1"></i>@Label.AppMenuAdmin<i class="bi bi-chevron-down ps-2"></i>
                     </NavLink>
-                    <ul class="dropdown-menu app-dropdown-menu border-@Theme.Dark.ToString().ToLower()-subtle bg-@Theme.Light.ToString().ToLower()-subtle shadow-sm" aria-labelledby="navbarDropdownSettingsLink">
+                    <ul class="dropdown-menu app-dropdown-menu border-@Theme.Light.ToString().ToLower()-subtle bg-@Theme.Light.ToString().ToLower()-subtle @("shadow"+_appSettings.Shadow)" aria-labelledby="navbarDropdownSettingsLink">
                         <li class="px-2">
                             <NavLink class="dropdown-item rounded" href="@EndPoint.AdminExpenses">
                                 <i class="bi bi-cart4 pe-1"></i>@Label.AppMenuAdminExpense

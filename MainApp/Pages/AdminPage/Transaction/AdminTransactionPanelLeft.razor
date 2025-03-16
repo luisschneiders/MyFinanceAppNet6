@@ -94,7 +94,7 @@
                             @onclick="() => OpenCalculatorAsync()" title="Calculator">
                         <i class="bi bi-calculator"></i>
                     </button>
-                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Dark.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => AddRecordAsync(DateTime.Now)">
                         <i class="bi bi-plus-lg pe-1"></i>New transaction
                     </button>
@@ -102,16 +102,16 @@
                 <div class="d-block d-lg-none">
                     <DropdownActions DropdownPosition="Position.End"
                                      ButtonSize="Size.Sm"
-                                     ButtonColor="Theme.Dark">
-                        <li class="px-2 d-block d-lg-none">
-                            <button class="dropdown-item text-@(Theme.Secondary.ToString().ToLower())-emphasis rounded"
+                                     ButtonColor="Theme.Secondary">
+                        <li class="p-1 rounded">
+                            <button class="dropdown-item rounded"
                                     @onclick="() => OpenCalculatorAsync()">
                                 <i class="bi bi-calculator pe-1"></i>Calculator
                             </button>
                         </li>
 
-                        <li class="px-2 d-block d-lg-none">
-                            <button class="dropdown-item text-@(Theme.Secondary.ToString().ToLower())-emphasis rounded"
+                        <li class="p-1 rounded">
+                            <button class="dropdown-item rounded"
                                     @onclick="() => AddRecordAsync(DateTime.Now)">
                                 <i class="bi bi-plus-lg pe-1"></i>New transaction
                             </button>

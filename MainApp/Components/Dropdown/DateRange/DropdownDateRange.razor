@@ -7,10 +7,10 @@
                 data-bs-auto-close="inside"
                 aria-expanded="false">
             <i class="bi bi-calendar3"></i>
-            @DropdownLabel
+            <span class="pe-1">@DropdownLabel</span>
             <i class="bi bi-chevron-down"></i>
         </button>
-        <ul class="dropdown-menu dropdown-menu-@DropdownPosition.ToString().ToLower() bg-@Theme.Dark.ToString().ToLower()-subtle shadow-sm ps-2"
+        <ul class="dropdown-menu dropdown-menu-@DropdownPosition.ToString().ToLower() border-@Theme.Light.ToString().ToLower()-subtle bg-@Theme.Light.ToString().ToLower()-subtle @("shadow"+_appSettings.Shadow) ps-2"
             aria-labelledby="dropdownDateRange">
 
             <li class="d-flex pe-2 gap-2">

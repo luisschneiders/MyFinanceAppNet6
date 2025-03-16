@@ -8,6 +8,6 @@ public enum Truncate
     Company = LastName,
     ColumnTimesheet = LastName,
     ShortMonthName = 3,
-    ExpenseCategory = LastName,
+    ExpenseCategory = 10,
     TransactionCategory = LastName
 }
