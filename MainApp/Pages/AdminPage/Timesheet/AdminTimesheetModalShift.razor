@@ -33,7 +33,7 @@
                                             IconStart="bi-calendar-check">
                                 @foreach (var (shift, index) in _activeShifts.Select((value, index) => (value, index)))
                                 {
-                                    <li class="px-2 py-1 d-flex w-100 justify-content-between align-items-center text-nowrap">
+                                    <li class="py-1 d-flex w-100 justify-content-between align-items-center text-nowrap">
                                         @($"{shift.Description}")
                                         <a role="button" 
                                             class="btn btn-@(Theme.Danger.ToString().ToLower()) btn-@(Size.Sm.ToString().ToLower()) @("rounded"+_appSettings.Button)"
