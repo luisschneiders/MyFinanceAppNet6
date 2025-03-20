@@ -32,34 +32,34 @@
                     <ul class="dropdown-menu app-dropdown-menu border-@Theme.Light.ToString().ToLower()-subtle bg-@Theme.Light.ToString().ToLower()-subtle @("shadow"+_appSettings.Shadow)" aria-labelledby="navbarDropdownSettingsLink">
                         <li class="px-2">
                             <NavLink class="dropdown-item rounded" href="@EndPoint.SetupBank">
-                                @Label.AppMenuSetupFinancialInstitution
+                                <i class="bi bi-bank2 pe-1"></i>@Label.AppMenuSetupFinancialInstitution
                             </NavLink>
                         </li>
                         <li class="px-2">
                             <NavLink class="dropdown-item rounded" href="@EndPoint.SetupCompany">
-                                @Label.AppMenuSetupCompany
+                                <i class="bi bi-building pe-1"></i>@Label.AppMenuSetupCompany
                             </NavLink>
                         </li>
                         <li class="px-2">
                             <NavLink class="dropdown-item rounded" href="@EndPoint.SetupVehicle">
-                                @Label.AppMenuSetupVehicle
+                                <i class="bi bi-truck pe-1"></i>@Label.AppMenuSetupVehicle
                             </NavLink>
                         </li>
                         <li class="px-2">
                             <hr />
                             <NavLink class="dropdown-item rounded" href="@EndPoint.SetupExpense">
-                                @Label.AppMenuSetupExpense
+                                <i class="bi bi-cart4 pe-1"></i>@Label.AppMenuSetupExpense
                             </NavLink>
                         </li>
                         <li class="px-2">
                             <NavLink class="dropdown-item rounded" href="@EndPoint.SetupTransaction">
-                                @Label.AppMenuSetupTransaction
+                                <i class="bi bi-currency-exchange pe-1"></i>@Label.AppMenuSetupTransaction
                             </NavLink>
                         </li>
                         <li class="px-2">
                             <hr />
                             <NavLink class="dropdown-item rounded" href="@EndPoint.SetupTax">
-                                @Label.AppMenuSetupTax
+                                <i class="bi bi-receipt pe-1"></i>@Label.AppMenuSetupTax
                             </NavLink>
                         </li>
 

@@ -11,7 +11,7 @@
         <DataAnnotationsValidator />
         <div class="row align-items-center">
             <div class="col my-4">
-                <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing transaction...")" />
+                <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing {Label.AppMenuAdminTransaction}...")" />
             </div>
         </div>
         <div class="row pb-4">
@@ -19,10 +19,10 @@
                 <div class="form-floating pb-2">
                     <InputDate id="TDate"
                                @attributes="_inputFormAttributes.Control"
-                               placeholder="Date"
+                               placeholder="@Label.AppAdminTransactionFieldDate"
                                @bind-Value="_transactionModel.TDate"
                                Type="InputDateType.Date" />
-                    <label for="TDate">Date</label>
+                    <label for="TDate">@Label.AppAdminTransactionFieldDate</label>
                 </div>
                 <div class="form-floating pb-2">
                     @if (_isLoading)
@@ -41,7 +41,7 @@
                                 <option value="@action.Id"> @($"{action.Description}") </option>
                             }
                         </InputSelect>
-                        <label for="TCategoryId">Action</label>
+                        <label for="TCategoryId">@Label.AppAdminTransactionFieldAction</label>
                     }
                 </div>
                 <div class="form-floating pb-2">
@@ -61,7 +61,7 @@
                                 <option value="@bank.Id"> @($"{bank.Description} - {bank.CurrentBalance.ToString("C")}") </option>
                             }
                         </InputSelect>
-                        <label for="FromBank">From Financial Institution</label>
+                        <label for="FromBank">@($"{Label.AppAdminTransactionFieldFrom} {Label.AppAdminTransactionFieldFinancialInstitution}")</label>
                     }
                 </div>
                 @if (_actionType == TransactionActionType.T.ToString())
@@ -83,25 +83,25 @@
                                     <option value="@bank.Id"> @($"{bank.Description} - {bank.CurrentBalance.ToString("C")}") </option>
                                 }
                             </InputSelect>
-                            <label for="ToBank">To Financial Institution</label>
+                            <label for="ToBank">@($"{Label.AppAdminTransactionFieldTo} {Label.AppAdminTransactionFieldFinancialInstitution}")</label>
                         }
                     </div>
                 }
                 <div class="form-floating pb-2">
                     <InputText id="Comments"
                                @attributes="(_actionType == TransactionActionType.T.ToString() ? _inputFormAttributes.Disabled : _inputFormAttributes.Control)"
-                               placeholder="Comments"
+                               placeholder="@Label.AppAdminTransactionFieldComments"
                                readonly="@((_actionType == TransactionActionType.T.ToString()) ? true: false)"
                                @bind-Value="_transactionModel.Comments" />
-                    <label for="Comments">Comments</label>
+                    <label for="Comments">@Label.AppAdminTransactionFieldComments</label>
                 </div>
                 <div class="form-floating">
                     <InputNumber id="Amount"
                                  @attributes="_inputFormAttributes.Control"
                                  min="0"
-                                 placeholder="Amount"
+                                 placeholder="@Label.AppAdminTransactionFieldAmount"
                                  @bind-Value="_transactionModel.Amount" />
-                    <label for="Amount">Amount</label>
+                    <label for="Amount">@Label.AppAdminTransactionFieldAmount</label>
                 </div>
             </div>
         </div>
@@ -117,7 +117,7 @@
             <div class="col-6">
                 <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
                         @onclick="() => CloseOffCanvasAsync()">
-                    Cancel
+                    @Label.AppButtonCancel
                 </button>
             </div>
             <div class="col-6">

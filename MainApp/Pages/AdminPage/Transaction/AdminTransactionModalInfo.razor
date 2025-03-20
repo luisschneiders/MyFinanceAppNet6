@@ -4,15 +4,15 @@
        Size="Size.Md">
     <Title>
         <span class="text-secondary">
-            Heads up!
+            @Label.AppHeadsUp
         </span>
     </Title>
     <Body>
         <div class="d-flex justify-content-center text-center">
             <div>
-                <i class="bi bi-info-square-fill fs-2 text-info"></i>
-                <h3 class="fs-5 pb-3">Expenses cannot be archived from here</h3>
-                <p  class="pb-3">Please visit page <a href="@EndPoint.AdminExpenses">Expenses</a>.</p>
+                <i class="bi bi-info-circle-fill fs-2 text-@(Theme.Warning.ToString().ToLower())"></i>
+                <h3 class="fs-5 pb-3">@Label.AppAdminTransactionInfoMessage1</h3>
+                <p  class="pb-3">@Label.AppAdminTransactionInfoMessage2 <a href="@EndPoint.AdminExpenses">@Label.AppMenuAdminExpense</a>.</p>
             </div>
         </div>
     </Body>
@@ -23,7 +23,7 @@
                         class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary @("rounded"+_appSettings.Button)"
                         data-dismiss="modal"
                         @onclick="() => CloseModalAsync()">
-                    Close
+                    @Label.AppButtonClose
                 </button>
             </div>
         </div>

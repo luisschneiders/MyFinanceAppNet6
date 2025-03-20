@@ -67,6 +67,7 @@ public static class Label
     public const string AppMenuSetupTax = "Tax";
     public const string AppMenuSetting = "Settings";
     public const string AppMenuTools = "Tools";
+    public const string AppCalculator = "Calculator";
 
 
     // Dashboard
@@ -198,6 +199,21 @@ public static class Label
     public const string AppAdminExpensePeriodMessage2 = "expenses for the period";
     public const string AppAdminExpensePeriodMessage3 = "All transactions linked to this record will be archived too.";
 
+    // Page transactions
+    public const string AppAdminTransaction = "Transaction";
+    public const string AppAdminTransactionButtonNew = "New Transaction";
+    public const string AppAdminTransactionFieldAmount = "Amount";
+    public const string AppAdminTransactionFieldAction = "Action";
+    public const string AppAdminTransactionFieldComments = "Comments";
+    public const string AppAdminTransactionFieldDate = "Date";
+    public const string AppAdminTransactionFieldFinancialInstitution = "Financial Institution";
+    public const string AppAdminTransactionFieldFrom = "From";
+    public const string AppAdminTransactionFieldTo = "To";
+    public const string AppAdminTransactionInfoMessage1 = "Expenses cannot be archived from here";
+    public const string AppAdminTransactionInfoMessage2 = "Please visit page";
+    public const string AppAdminTransactionInfoMessage3 = "All transactions linked to this record will be archived too.";
+
+
 
     // Components section
     public const string AppComponentAllAccountsTitle = "All Accounts";
@@ -243,6 +259,7 @@ public static class Label
     public const string AppButtonClose = "Close";
     public const string AppButtonEdit = "Edit";
     public const string AppButtonFilter = "Filters";
+    public const string AppButtonInfo = "Info";
     public const string AppButtonMoreAction = "More Actions";
     public const string AppButtonNext = "Next";
     public const string AppButtonPrevious = "Previous";

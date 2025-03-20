@@ -17,7 +17,7 @@
                     <div class="container-lg">
                         <PageTopWrapper>
                             <div class="d-flex align-items-baseline">
-                                <i class="bi bi-columns-gap text-info-emphasis pe-1 fs-5" /><PageTopTitle Title="@Label.AppMenuSetup" />
+                                <i class="bi bi-columns-gap text-@Theme.Dark.ToString().ToLower()-emphasis pe-1 fs-5" /><PageTopTitle Title="@Label.AppMenuSetup" />
                             </div>
                         </PageTopWrapper>
                     </div>
@@ -34,7 +34,7 @@
                                                 <div class="d-grid gap-3">
                                                     <NavLink href="@EndPoint.SetupBank">
                                                         <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                            <i class="bi bi-bank text-info-emphasis fs-5"></i>
+                                                            <i class="bi bi-bank2 text-info-emphasis fs-5"></i>
                                                             <div class="w-100 text-start ps-3 pe-2">
                                                                 <span class="mb-1">@Label.AppMenuSetupFinancialInstitution</span>
                                                                 <div class="text-secondary pb-2">

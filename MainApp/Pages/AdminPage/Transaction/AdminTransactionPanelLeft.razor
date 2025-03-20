@@ -91,12 +91,12 @@
             <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
                 <div class="d-none d-lg-block">
                     <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
-                            @onclick="() => OpenCalculatorAsync()" title="Calculator">
+                            @onclick="() => OpenCalculatorAsync()" title="@Label.AppCalculator">
                         <i class="bi bi-calculator"></i>
                     </button>
                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => AddRecordAsync(DateTime.Now)">
-                        <i class="bi bi-plus-lg pe-1"></i>New transaction
+                        <i class="bi bi-plus-lg pe-1"></i>@Label.AppAdminTransactionButtonNew
                     </button>
                 </div>
                 <div class="d-block d-lg-none">
@@ -106,14 +106,14 @@
                         <li class="p-1 rounded">
                             <button class="dropdown-item rounded"
                                     @onclick="() => OpenCalculatorAsync()">
-                                <i class="bi bi-calculator pe-1"></i>Calculator
+                                <i class="bi bi-calculator pe-1"></i>@Label.AppCalculator
                             </button>
                         </li>
 
                         <li class="p-1 rounded">
                             <button class="dropdown-item rounded"
                                     @onclick="() => AddRecordAsync(DateTime.Now)">
-                                <i class="bi bi-plus-lg pe-1"></i>New transaction
+                                <i class="bi bi-plus-lg pe-1"></i>@Label.AppAdminTransactionButtonNew
                             </button>
                         </li>
                     </DropdownActions>
@@ -225,22 +225,24 @@
                                                     <table class="table table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th class="col-2">
-                                                                    Date
+                                                                <th>
+                                                                    @Label.AppAdminTransactionFieldDate
                                                                 </th>
-                                                                <th class="col-1 text-center">
-                                                                    Action
+                                                                <th>
+                                                                    @Label.AppAdminTransaction
                                                                 </th>
-                                                                <th class="col-3">
-                                                                    Bank
+                                                                <th>
+                                                                    @Label.AppAdminTransactionFieldFinancialInstitution
                                                                 </th>
-                                                                <th class="col-4">
-                                                                    Comments
+                                                                <th>
+                                                                    @Label.AppAdminTransactionFieldComments
                                                                 </th>
-                                                                <th class="col-2 text-end">
-                                                                    Amount
+                                                                <th class="text-end">
+                                                                    @Label.AppAdminTransactionFieldAmount
                                                                 </th>
-                                                                <th></th>
+                                                                <th class="text-center">
+                                                                    @Label.AppActions
+                                                                </th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -291,9 +293,9 @@
                                                                         @if (record.TCategoryId != 0)
                                                                         {
                                                                             <td class="text-center">
-                                                                                <button class="btn btn-link p-0 text-danger"
+                                                                                <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Danger.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                                                                         type="button"
-                                                                                        title="Archive"
+                                                                                        title="@Label.AppButtonArchive"
                                                                                         @onclick="() => ArchiveRecordAsync(record)">
                                                                                     <i class="bi bi-archive"></i>
                                                                                 </button>
@@ -302,11 +304,11 @@
                                                                         else
                                                                         {
                                                                             <td class="text-center">
-                                                                                <button class="btn btn-link p-0 text-info"
+                                                                                <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Warning.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                                                                         type="button"
-                                                                                        title="Info"
+                                                                                        title="@Label.AppButtonInfo"
                                                                                         @onclick="() => InfoRecordAsync()">
-                                                                                    <i class="bi bi-info-square-fill"></i>
+                                                                                    <i class="bi bi-info-lg"></i>
                                                                                 </button>
                                                                             </td>
                                                                         }
