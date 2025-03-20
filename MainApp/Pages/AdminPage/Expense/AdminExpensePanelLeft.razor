@@ -34,7 +34,7 @@
                         <div class="ps-2">
                             <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                     @onclick="() => PreviousPeriodAsync(_dateCalendar)"
-                                    title="Previous"
+                                    title="@Label.AppButtonPrevious"
                                     disabled="@(_isLoadingCalendar ? true : false)">
                                 <i class="bi bi-chevron-left"></i>
                             </button>
@@ -45,7 +45,7 @@
                                                 OnSubmitSuccess="data => RefreshDropdownDateMonthYear(data)" />
                             <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                     @onclick="() => NextPeriodAsync(_dateCalendar)"
-                                    title="Next"
+                                    title="@Label.AppButtonNext"
                                     disabled="@(_isLoadingCalendar ? true : false)">
                                 <i class="bi bi-chevron-right"></i>
                             </button>
@@ -65,11 +65,11 @@
                         <div class="btn-group btn-outline-@(Theme.Secondary.ToString().ToLower()) border border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
                             <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-0 @("rounded"+_appSettings.Button)"
                                     @onclick="() => ApplyFiltersAsync()">
-                                <i class="bi bi-sliders2 pe-1"></i>Filters
+                                <i class="bi bi-sliders2 pe-1"></i>@Label.AppButtonFilter
                                 @if(IsFilterApplied())
                                 {
                                     <sup class="ps-1">
-                                        <Badge BackgroundColor="@Theme.Info" Message="Applied" />
+                                        <Badge BackgroundColor="@Theme.Info" Message="@Label.AppApplied" />
                                     </sup>
                                 }
                             </button>
@@ -92,7 +92,7 @@
                 <div class="d-none d-lg-block">
                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => AddRecordAsync(DateTime.Now)">
-                        <i class="bi bi-plus-lg pe-1"></i>New expense
+                        <i class="bi bi-plus-lg pe-1"></i>@Label.AppAdminExpenseButtonNew
                     </button>
                 </div>
                 <div class="d-block d-lg-none">
@@ -102,7 +102,7 @@
                         <li class="p-1 rounded">
                             <button class="dropdown-item rounded"
                                     @onclick="() => AddRecordAsync(DateTime.Now)">
-                                <i class="bi bi-plus-lg pe-1"></i>New expense
+                                <i class="bi bi-plus-lg pe-1"></i>@Label.AppAdminExpenseButtonNew
                             </button>
                         </li>
                     </DropdownActions>
@@ -125,7 +125,7 @@
                                     <CalendarSubHeaderWrapper>
                                         <div class="d-flex justify-content-end border-bottom px-2">
                                             <div class="d-flex pe-1">
-                                                Total<span class="d-none d-lg-block ps-1">expenses for the period:</span>
+                                                @Label.AppAdminExpensePeriodMessage1<span class="d-none d-lg-block ps-1">@Label.AppAdminExpensePeriodMessage2:</span>
                                             </div>
                                             <span class="app-expense-sum-me fw-semibold px-1 @("rounded"+_appSettings.Button)">
                                                 @_expensesTotal.ToString("C")
@@ -212,7 +212,7 @@
                                 <div class="accordion d-flex justify-content-between p-3 fw-semibold
                                             bg-@(Theme.Secondary.ToString().ToLower())-subtle">
                                     <div class="d-flex">
-                                        Total<span class="d-none d-lg-block ps-1">expenses for the period</span>
+                                        @Label.AppAdminExpensePeriodMessage1<span class="d-none d-lg-block ps-1">@Label.AppAdminExpensePeriodMessage2</span>
                                     </div>
                                     <span class="pe-5 app-expense-sum-me">
                                         @_expensesTotal.ToString("C")
@@ -235,21 +235,23 @@
                                                         <thead>
                                                             <tr>
                                                                 <th class="col-1">
-                                                                    Date
+                                                                    @Label.AppAdminExpenseFieldDate
                                                                 </th>
                                                                 <th class="col-3">
-                                                                    Debit from
+                                                                    @Label.AppAdminExpenseFieldFinancialInstitution
                                                                 </th>
                                                                 <th class="col-4">
-                                                                    Comments
+                                                                    @Label.AppAdminExpenseFieldComments
                                                                 </th>
                                                                 <th class="col-2 text-end">
-                                                                    Tax amount
+                                                                    @Label.AppAdminExpenseFieldTaxAmount
                                                                 </th>
                                                                 <th class="col-2 text-end">
-                                                                    Amount
+                                                                    @Label.AppAdminExpenseFieldAmount
                                                                 </th>
-                                                                <th></th>
+                                                                <th class="text-center">
+                                                                    @Label.AppActions
+                                                                </th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -284,7 +286,7 @@
                                                                             @record.Amount.ToString("C")
                                                                         </td>
                                                                         <td class="text-center">
-                                                                            <button class="btn btn-link p-0 text-danger"
+                                                                            <button class="btn btn-sm btn-@(Theme.Danger.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                                                                     type="button"
                                                                                     title="Archive"
                                                                                     @onclick="() => ArchiveRecordAsync(record)">

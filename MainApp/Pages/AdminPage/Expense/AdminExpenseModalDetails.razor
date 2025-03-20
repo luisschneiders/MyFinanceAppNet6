@@ -28,7 +28,7 @@
                         <div class="text-center w-100 p-5 bg-@Theme.Light.ToString().ToLower()-subtle rounded">
                             <i class="bi bi-card-image fs-2 text-@(Theme.Danger.ToString().ToLower())-emphasis"></i>
                             <div>
-                                @Label.NoImageAvailable
+                                @Label.AppNoImageAvailable
                             </div>
                         </div>
                     }
@@ -38,20 +38,20 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th class="col-2">
-                                        Expense
+                                    <th class="col-3">
+                                        @Label.AppAdminExpenseFieldCategory
                                     </th>
                                     <th class="col-2">
-                                        Location
+                                        @Label.AppAdminExpenseFieldAddress
+                                    </th>
+                                    <th class="col-3">
+                                        @Label.AppAdminExpenseFieldFinancialInstitution
                                     </th>
                                     <th class="col-2">
-                                        Debit from
-                                    </th>
-                                    <th class="col-6">
-                                        Comments
+                                        @Label.AppAdminExpenseFieldComments
                                     </th>
                                     <th class="col-2 text-end">
-                                        Amount
+                                        @Label.AppAdminExpenseFieldAmount
                                     </th>
                                 </tr>
                             </thead>
@@ -102,7 +102,7 @@
             <div class="col-auto">
                 <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
                         @onclick="AddRecordAsync">
-                    <i class="bi bi-plus-lg pe-1"></i>New expense
+                    <i class="bi bi-plus-lg pe-1"></i>@Label.AppAdminExpenseButtonNew
                 </button>
             </div>
             <div class="col-auto">
@@ -110,7 +110,7 @@
                         class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
                         data-dismiss="modal"
                         @onclick="CloseModalAsync">
-                    Close
+                    @Label.AppButtonClose
                 </button>
             </div>
         </div>

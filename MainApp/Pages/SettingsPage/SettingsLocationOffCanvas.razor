@@ -48,13 +48,13 @@
                         @if (_isVerifying)
                         {
                             <span>
-                                @Label.AppSettingLocationVerifyWithGoogle
+                                @Label.AppButtonVerifyingAddress
                             </span>
                         }
                         else
                         {
                             <span>
-                                <i class="bi bi-check2-circle pe-1"></i>@Label.AppSettingLocationVerifyAddress
+                                <i class="bi bi-check2-circle pe-1"></i>@Label.AppButtonVerifyAddress
                             </span>
                         }
                     </button>
@@ -64,7 +64,7 @@
                 <div class="col-12">
                     @if (_locationlist.Count > 0)
                     {
-                        <span class="text-secondary fw-semibold">@Label.AppSettingLocationSelectAddress</span>
+                        <span class="text-secondary fw-semibold">@Label.AppSelectAddress</span>
                         <ul class="list-group @("rounded"+_appSettings.Form)">
                             @foreach (var (item, index) in _locationlist.Select((value, index) => (value, index)))
                             {

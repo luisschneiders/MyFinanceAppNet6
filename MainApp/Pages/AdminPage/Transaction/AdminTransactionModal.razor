@@ -4,7 +4,7 @@
        Size="Size.Md">
     <Title>
         <span class="text-secondary">
-            Confirm Action
+            @Label.AppConfirmAction
         </span>
     </Title>
     <Body>
@@ -35,7 +35,7 @@
                         disabled="@(_isProcessing ? true : false)"
                         type="submit"
                         form="ModalForm">
-                    @(_isProcessing ? "Archiving..." : "Yes, archive")
+                    @(_isProcessing ? Label.AppButtonArchiving : Label.AppButtonArchiveConfirmation)
                 </button>
             </div>
         </div>

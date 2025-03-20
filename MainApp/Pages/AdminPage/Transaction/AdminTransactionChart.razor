@@ -16,7 +16,7 @@
                 ModalContentStyle="main">
                 <Title>
                     <span class="text-secondary">
-                        Charts
+                        @Label.AppChart
                     </span>
                 </Title>
                 <Body>
@@ -34,7 +34,7 @@
                         <div class="col-sm-12 col-lg-6">
                             <CardView Styles="w-100 border-0 mb-4">
                                 <CardMiddle>
-                                    <h3 class="fs-5">Monthly</h3>
+                                    <h3 class="fs-5">@Label.AppMonthly</h3>
                                     <ChartTransactionIOByMonth ChartType="ChartType.bar" />
                                 </CardMiddle>
                             </CardView>
@@ -48,7 +48,7 @@
                                     class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary @("rounded"+_appSettings.Button)"
                                     data-dismiss="modal"
                                     @onclick="() => CloseModalAsync()">
-                                Close
+                                @Label.AppButtonClose
                             </button>
                         </div>
                     </div>

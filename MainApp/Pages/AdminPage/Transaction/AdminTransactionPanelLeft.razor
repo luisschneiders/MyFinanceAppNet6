@@ -34,7 +34,7 @@
                         <div class="ps-2">
                             <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                     @onclick="() => PreviousPeriodAsync(_dateCalendar)"
-                                    title="Previous"
+                                    title="@Label.AppButtonPrevious"
                                     disabled="@(_isLoadingCalendar ? true : false)">
                                 <i class="bi bi-chevron-left"></i>
                             </button>
@@ -45,7 +45,7 @@
                                                 OnSubmitSuccess="data => RefreshDropdownDateMonthYear(data)" />
                             <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                     @onclick="() => NextPeriodAsync(_dateCalendar)"
-                                    title="Next"
+                                    title="@Label.AppButtonNext"
                                     disabled="@(_isLoadingCalendar ? true : false)">
                                 <i class="bi bi-chevron-right"></i>
                             </button>
@@ -65,11 +65,11 @@
                         <div class="btn-group btn-outline-@(Theme.Secondary.ToString().ToLower()) border border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
                             <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-0 @("rounded"+_appSettings.Button)"
                                     @onclick="() => ApplyFiltersAsync()">
-                                <i class="bi bi-sliders2 pe-1"></i>Filters
+                                <i class="bi bi-sliders2 pe-1"></i>@Label.AppButtonFilter
                                 @if(IsFilterApplied())
                                 {
                                     <sup class="ps-1">
-                                        <Badge BackgroundColor="@Theme.Info" Message="Applied" />
+                                        <Badge BackgroundColor="@Theme.Info" Message="@Label.AppApplied" />
                                     </sup>
                                 }
                             </button>

@@ -14,7 +14,6 @@ public static class Label
     public const string NoDateAssigned = "No Date Assigned!";
     public const string NoFilterAssigned = "No Filter Assigned!";
     public const string NotSpecified = "Not Specified";
-    public const string NoImageAvailable = "No Image Available";
     public const string Status = "Filter By Status";
     public const string ShiftToday = "Today's assigned shift";
     public const string TimesheetDate = "Date";
@@ -39,6 +38,17 @@ public static class Label
     public const string AppArchived = "Archived!";
     public const string AppNoRecordFound = "No record found!";
     public const string AppActions = "Actions";
+    public const string AppApplied = "Applied";
+    public const string AppSelectAddress = "Select one from the list:";
+    public const string AppApplyFilter = "Apply filters";
+    public const string AppNoImageAvailable = "No image available";
+    public const string AppConfirmAction = "Confirm action";
+    public const string AppHeadsUp = "Heads up!";
+    public const string AppChart = "Charts";
+    public const string AppAccessDeniedMessage = "To access this page, please login.";
+    public const string AppAccessDeniedTitle = "Access restricted!";
+    public const string AppMonthly = "Monthly";
+
 
 
     // Menubar
@@ -96,10 +106,7 @@ public static class Label
     public const string AppSettingLocationMessageListRequired = "Please select address from the list.";
     public const string AppSettingLocationMessageResultsProvidedBy = "Results provided by:";
     public const string AppSettingLocationParagraph = "Set your location for personalized content.";
-    public const string AppSettingLocationSelectAddress = "Select one from the list:";
     public const string AppSettingLocationTitle = "Set your location";
-    public const string AppSettingLocationVerifyAddress = "Verify address";
-    public const string AppSettingLocationVerifyWithGoogle = "Verifying with Google...";
     public const string AppSettingReloadTitle = "Reload the app";
     public const string AppSettingReloadParagraph = "Please reload the app to view the latest changes. Thank you!";
 
@@ -160,7 +167,7 @@ public static class Label
     public const string AppSetupTaxFieldStatus = AppFieldStatus;
 
 
-    // Page transaction
+    // Page transaction category
     public const string AppSetupTransactionButtonNew = "New Transaction";
     public const string AppSetupTransactionFieldAction = "Action Type";
     public const string AppSetupTransactionFieldDescription = "Description";
@@ -174,6 +181,22 @@ public static class Label
     public const string AppSetupVehicleFieldPlate = "Plate";
     public const string AppSetupVehicleFieldYear = "Year";
     public const string AppSetupVehicleFieldStatus = AppFieldStatus;
+
+    // Page expenses
+    public const string AppAdminExpenseButtonNew = "New Expense";
+    public const string AppAdminExpenseFieldAddress = "Address";
+    public const string AppAdminExpenseFieldAddressMessage = "The Address field is required.";
+    public const string AppAdminExpenseFieldAmount = "Amount";
+    public const string AppAdminExpenseFieldComments = "Comments";
+    public const string AppAdminExpenseFieldDate = "Date";
+    public const string AppAdminExpenseFieldCategory = "Expense";
+    public const string AppAdminExpenseFieldFinancialInstitution = "Financial Institution";
+    public const string AppAdminExpenseFieldTax = "Tax";
+    public const string AppAdminExpenseFieldTaxAmount = "Tax Amount";
+    public const string AppAdminExpenseFieldTaxMessage = "If selected, it will display the claimable tax applied to the purchase";
+    public const string AppAdminExpensePeriodMessage1 = "Total";
+    public const string AppAdminExpensePeriodMessage2 = "expenses for the period";
+    public const string AppAdminExpensePeriodMessage3 = "All transactions linked to this record will be archived too.";
 
 
     // Components section
@@ -214,15 +237,23 @@ public static class Label
     // Standard buttons
     public const string AppButtonActive = "Active?";
     public const string AppButtonArchive = "Archive";
+    public const string AppButtonArchiving = "Archiving...";
+    public const string AppButtonArchiveConfirmation = "Yes, archive!";
     public const string AppButtonCancel = "Cancel";
     public const string AppButtonClose = "Close";
     public const string AppButtonEdit = "Edit";
+    public const string AppButtonFilter = "Filters";
     public const string AppButtonMoreAction = "More Actions";
+    public const string AppButtonNext = "Next";
+    public const string AppButtonPrevious = "Previous";
     public const string AppButtonReload = "Reload";
     public const string AppButtonSave = "Save";
     public const string AppButtonSaving = "Saving...";
     public const string AppButtonSearch = "Search";
+    public const string AppButtonVerifyAddress = "Verify Address";
+    public const string AppButtonVerifyingAddress = "Verifying Address...";
     public const string AppButtonViewDetails = "View";
+    public const string AppButtonViewMoreChart = "View more charts";
 
 
     // Standard fields

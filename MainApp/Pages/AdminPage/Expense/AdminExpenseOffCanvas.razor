@@ -6,7 +6,7 @@
 <OffCanvas @ref="_offCanvasService.OffCanvas" PositionX="Position.End">
     <div class="row align-items-center">
         <div class="col my-4">
-            <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing expense...")" />
+            <Badge BackgroundColor="@_offCanvasService.GetOffCanvasBadge()" Message="@($"{_offCanvasService.GetOffCanvasViewType()}ing {Label.AppMenuAdminExpense}...")" />
         </div>
     </div>
     <div class="row justify-content-between pb-2">
@@ -15,9 +15,9 @@
                 <input type="text"
                        id="Address"
                        class="@(_formIsInvalid ? "invalid" : "") form-control @("rounded"+_appSettings.Form)"
-                       placeholder="Address"
+                       placeholder="@Label.AppAdminExpenseFieldAddress"
                        @bind-value="_locationModel.Address" />
-                <label for="Address">Address</label>
+                <label for="Address">@Label.AppAdminExpenseFieldAddress</label>
             </div>
         </div>
     </div>
@@ -25,18 +25,18 @@
         <div class="col-12 d-flex justify-content-end">
             <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary @("rounded"+_appSettings.Button)"
                     disabled="@(_isProcessing ? true : false)"
-                    title="Verify address"
+                    title="@Label.AppButtonVerifyAddress"
                     @onclick="VerifyAddress">
                 @if (_isVerifying)
                 {
                     <span>
-                        Verifying with Google...
+                        @Label.AppButtonVerifyingAddress
                     </span>
                 }
                 else
                 {
                     <span>
-                        <i class="bi bi-check2-circle pe-1"></i>Verify address
+                        <i class="bi bi-check2-circle pe-1"></i>@Label.AppButtonVerifyAddress
                     </span>
                 }
             </button>
@@ -45,7 +45,7 @@
 
     @if (_locationlist.Count > 0)
     {
-        <span class="text-secondary fw-semibold">Select one from the list:</span>
+        <span class="text-secondary fw-semibold">@Label.AppSelectAddress</span>
         <ul class="list-group @("rounded"+_appSettings.Form)">
             @foreach (var (item, index) in _locationlist.Select((value, index) => (value, index)))
             {
@@ -71,10 +71,10 @@
                 <div class="form-floating pb-2">
                     <InputDate id="EDate"
                                @attributes="_inputFormAttributes.Control"
-                               placeholder="Date"
+                               placeholder="@Label.AppAdminExpenseFieldDate"
                                @bind-Value="_expenseModel.EDate"
                                Type="InputDateType.Date" />
-                    <label for="EDate">Date</label>
+                    <label for="EDate">@Label.AppAdminExpenseFieldDate</label>
                 </div>
                 <div class="form-floating pb-2">
                     @if (_isLoading)
@@ -93,7 +93,7 @@
                                 <option value="@bank.Id"> @($"{bank.Description} - {bank.CurrentBalance.ToString("C")}") </option>
                             }
                         </InputSelect>
-                        <label for="BankId">Financial Institution</label>
+                        <label for="BankId">@Label.AppAdminExpenseFieldFinancialInstitution</label>
                     }
                 </div>
                 <div class="form-floating pb-2">
@@ -113,7 +113,7 @@
                                 <option value="@action.Id"> @($"{action.Description}") </option>
                             }
                         </InputSelect>
-                        <label for="ECategoryId">Expense</label>
+                        <label for="ECategoryId">@Label.AppAdminExpenseFieldCategory</label>
                     }
                 </div>
                 @if (_activeTaxCategories.Count > 0)
@@ -129,7 +129,7 @@
                                         @attributes="_inputFormAttributes.Select"
                                         @oninput="OnValueChangedTaxCategory"
                                         @bind-Value="_expenseModel.TaxCategoryId"
-                                        title="If selected, it will display the claimable tax applied to the purchase">
+                                        title="@Label.AppAdminExpenseFieldTaxMessage">
                                 <option value="0">@Label.AppFieldSelect</option>
                                 @foreach (var (tax, index) in _activeTaxCategories.Select((value, index) => (value, index)))
                                 {
@@ -137,7 +137,7 @@
                                 }
                             </InputSelect>
                             <label for="TaxCategoryId">
-                                Tax
+                                @Label.AppAdminExpenseFieldTax
                                 <sup><i class="bi bi-info-circle-fill text-info-emphasis"></i></sup>
                             </label>
                         }
@@ -146,17 +146,17 @@
                 <div class="form-floating pb-2">
                     <InputText id="Comments"
                                @attributes="_inputFormAttributes.Control"
-                               placeholder="Comments"
+                               placeholder="@Label.AppAdminExpenseFieldComments"
                                @bind-Value="_expenseModel.Comments" />
-                    <label for="Comments">Comments</label>
+                    <label for="Comments">@Label.AppAdminExpenseFieldComments</label>
                 </div>
                 <div class="form-floating">
                     <InputNumber id="Amount"
                                  @attributes="_inputFormAttributes.Control"
                                  min="0"
-                                 placeholder="Amount"
+                                 placeholder="@Label.AppAdminExpenseFieldAmount"
                                  @bind-Value="_expenseModel.Amount" />
-                    <label for="Amount">Amount</label>
+                    <label for="Amount">@Label.AppAdminExpenseFieldAmount</label>
                 </div>
             </div>
         </div>
@@ -174,7 +174,7 @@
             <div class="row">
                 <div class="col-12">
                     <ul class="validation-errors">
-                        <li class="validation-message">The Address field is required.</li>
+                        <li class="validation-message">@Label.AppAdminExpenseFieldAddressMessage</li>
                     </ul>
                 </div>
             </div>
@@ -184,7 +184,7 @@
             <div class="col-6">
                 <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
                         @onclick="() => CloseOffCanvasAsync()">
-                    Cancel
+                    @Label.AppButtonCancel
                 </button>
             </div>
             <div class="col-6">

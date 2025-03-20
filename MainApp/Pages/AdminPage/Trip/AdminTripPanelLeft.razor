@@ -22,11 +22,11 @@
                     <div class="btn-group btn-outline-@(Theme.Secondary.ToString().ToLower()) border border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
                         <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-0 @("rounded"+_appSettings.Button)"
                                 @onclick="() => ApplyFiltersAsync()">
-                            <i class="bi bi-sliders2 pe-1"></i>Filters
+                            <i class="bi bi-sliders2 pe-1"></i>@Label.AppButtonFilter
                             @if(IsFilterApplied())
                             {
                                 <sup class="ps-1">
-                                    <Badge BackgroundColor="@Theme.Info" Message="Applied" />
+                                    <Badge BackgroundColor="@Theme.Info" Message="@Label.AppApplied" />
                                 </sup>
                             }
                         </button>
