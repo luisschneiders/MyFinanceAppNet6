@@ -343,16 +343,16 @@ public class TimesheetService : ITimesheetService<TimesheetModel>
         {
             List<TableColumn> tableColumns = new()
             {
-                new TableColumn { Id = 1, Description = Label.TimesheetDate, IsChecked = true, IsDisabled = true, CssClass = "col text-nowrap", Colspan = "" },
-                new TableColumn { Id = 2, Description = Label.TimesheetClockIn, IsChecked = true, IsDisabled = true, CssClass = "col text-nowrap", Colspan = "" },
-                new TableColumn { Id = 3, Description = Label.TimesheetBreak, IsChecked = true, IsDisabled = false, CssClass = "col text-nowrap", Colspan = "" },
-                new TableColumn { Id = 4, Description = Label.TimesheetClockOut, IsChecked = true, IsDisabled = true, CssClass = "col text-nowrap", Colspan = "" },
-                new TableColumn { Id = 5, Description = Label.TimesheetWorkHours, IsChecked = true, IsDisabled = true, CssClass = "col text-nowrap", Colspan = "" },
-                new TableColumn { Id = 6, Description = Label.TimesheetOvertime, IsChecked = true, IsDisabled = false, CssClass = "col text-nowrap", Colspan = "" },
-                new TableColumn { Id = 7, Description = Label.TimesheetTotal, IsChecked = true, IsDisabled = false, CssClass = "col text-nowrap text-end", Colspan = "" },
-                new TableColumn { Id = 8, Description = Label.TimesheetPayStatus, IsChecked = true, IsDisabled = false, CssClass = "col text-nowrap", Colspan = "" },
-                new TableColumn { Id = 9, Description = Label.TimesheetEdit, IsChecked = true, IsDisabled = true, CssClass = "col text-nowrap text-center", Colspan = "" },
-                new TableColumn { Id = 10, Description = Label.TimesheetComments, IsChecked = true, IsDisabled = false, CssClass = "col text-nowrap", Colspan = "" }
+                new TableColumn { Id = 1, Description = Label.AppAdminTimesheetDate, IsChecked = true, IsDisabled = true, CssClass = "col text-nowrap", Colspan = "" },
+                new TableColumn { Id = 2, Description = Label.AppAdminTimesheetClockIn, IsChecked = true, IsDisabled = true, CssClass = "col text-nowrap", Colspan = "" },
+                new TableColumn { Id = 3, Description = Label.AppAdminTimesheetBreak, IsChecked = true, IsDisabled = false, CssClass = "col text-nowrap", Colspan = "" },
+                new TableColumn { Id = 4, Description = Label.AppAdminTimesheetClockOut, IsChecked = true, IsDisabled = true, CssClass = "col text-nowrap", Colspan = "" },
+                new TableColumn { Id = 5, Description = Label.AppAdminTimesheetWorkHours, IsChecked = true, IsDisabled = true, CssClass = "col text-nowrap", Colspan = "" },
+                new TableColumn { Id = 6, Description = Label.AppAdminTimesheetOvertime, IsChecked = true, IsDisabled = false, CssClass = "col text-nowrap", Colspan = "" },
+                new TableColumn { Id = 7, Description = Label.AppAdminTimesheetTotal, IsChecked = true, IsDisabled = false, CssClass = "col text-nowrap text-end", Colspan = "" },
+                new TableColumn { Id = 8, Description = Label.AppAdminTimesheetPayStatus, IsChecked = true, IsDisabled = false, CssClass = "col text-nowrap", Colspan = "" },
+                new TableColumn { Id = 9, Description = Label.AppButtonEdit, IsChecked = true, IsDisabled = true, CssClass = "col text-nowrap text-center", Colspan = "" },
+                new TableColumn { Id = 10, Description = Label.AppAdminTimesheetComments, IsChecked = true, IsDisabled = false, CssClass = "col text-nowrap", Colspan = "" }
             };
 
             await _localStorageService.SetAsync<List<TableColumn>>(LocalStorage.AppTimesheetTableColumn, tableColumns);

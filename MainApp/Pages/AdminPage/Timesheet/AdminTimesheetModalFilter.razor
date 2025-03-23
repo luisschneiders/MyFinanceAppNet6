@@ -7,9 +7,7 @@
        ModalBodyStyle="vh-100"
        IsCloseButtonVisible="false">
     <Title>
-        <span class="text-secondary">
-            @Label.AppApplyFilter
-        </span>
+        @Label.AppApplyFilter
     </Title>
     <Body>
         <div class="d-flex">
@@ -70,7 +68,7 @@
                         class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary @("rounded"+_appSettings.Button)"
                         data-dismiss="modal"
                         @onclick="() => CloseModalAsync()">
-                    Close
+                    @Label.AppButtonClose
                 </button>
             </div>
         </div>

@@ -446,28 +446,4 @@ h1:focus {
     .flex-container {
         grid-template-columns: 40% auto;
     }
-
-    .app-main-shapes:before {
-        position: absolute;
-        width: 40px;
-        height: 30px;
-        content: "";
-        top: 86px;
-        left: 0;
-        background-color: rgba(153, 102, 255, 0.2);
-        border-bottom-right-radius: var(--bs-border-radius-pill) !important;
-        border-top-right-radius: var(--bs-border-radius-pill) !important;
-    }
-
-    .app-main-shapes:after {
-        position: absolute;
-        width: 40px;
-        height: 20px;
-        content: "";
-        bottom: 120px;
-        right: 0;
-        background-color: rgba(255, 159, 64, 0.2);
-        border-bottom-left-radius: var(--bs-border-radius-pill) !important;
-        border-top-left-radius: var(--bs-border-radius-pill) !important;
-    }
 }

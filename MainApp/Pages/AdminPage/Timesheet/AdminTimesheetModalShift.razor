@@ -7,9 +7,7 @@
        Size="Size.Md"
        IsCloseButtonVisible="false">
     <Title>
-        <span class="text-secondary">
-            @($"{_shiftModel.SDate.ToString("ddd, d MMM yyyy")}")
-        </span>
+        @($"{_shiftModel.SDate.ToString("ddd, d MMM yyyy")}")
     </Title>
     <Body>
         <EditForm Model="@_shiftModel"
@@ -27,7 +25,7 @@
                         else
                         {
                             <DropdownMultiSelect ButtonSize="Size.Sm"
-                                            DropdownLabel="@Label.ShiftToday"
+                                            DropdownLabel="@Label.AppAdminShiftToday"
                                             DropdownPosition="Position.Start"
                                             IconEnd="bi-chevron-down"
                                             IconStart="bi-calendar-check">
@@ -37,7 +35,7 @@
                                         @($"{shift.Description}")
                                         <a role="button" 
                                             class="btn btn-@(Theme.Danger.ToString().ToLower()) btn-@(Size.Sm.ToString().ToLower()) @("rounded"+_appSettings.Button)"
-                                            title="Remove"
+                                            title="@Label.AppButtonRemove"
                                             @onclick="() => ArchiveRecord(ConverteModelAsync(shift))">
                                             <i class="bi bi-archive"></i>
                                         </a>
@@ -53,11 +51,11 @@
                     <div class="form-floating pb-2">
                         <InputDate id="SDate"
                                 @attributes="_inputFormAttributes.Control"
-                                placeholder="Date"
+                                placeholder="@Label.AppAdminShiftDate"
                                 @bind-Value="_shiftModel.SDate"
                                 Type="InputDateType.Date"
                                 @oninput="OnInputDateChanged" />
-                        <label for="SDate">Date</label>
+                        <label for="SDate">@Label.AppAdminShiftDate</label>
                     </div>
                 </div>
                 <div class="col-12">
@@ -77,15 +75,15 @@
                                     <option value="@company.Id"> @($"{company.Description}") </option>
                                 }
                             </InputSelect>
-                            <label for="CompanyId">Company</label>
+                            <label for="CompanyId">@Label.AppAdminShiftCompany</label>
                         }
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="form-control @("rounded"+_appSettings.Form)">
-                        <label class="app-form-floating-label">Availability status</label>
+                        <label class="app-form-floating-label">@Label.AppAdminShiftAvailability</label>
                         <div class="form-check form-switch">
-                            <label class="form-check-label" for="IsAvailable">@(_shiftModel.IsAvailable is true ? "Available" : "Unavailable")</label>
+                            <label class="form-check-label" for="IsAvailable">@(_shiftModel.IsAvailable is true ? @Label.AppAvailable : @Label.AppUnavailable)</label>
                             <InputCheckbox class="form-check-input"
                                         type="checkbox"
                                         role="switch"
@@ -114,14 +112,14 @@
                         class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) w-100 @("rounded"+_appSettings.Button)"
                         data-dismiss="modal"
                         @onclick="CloseModalAsync">
-                    Close
+                    @Label.AppButtonClose
                 </button>
                 <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) w-100 @("rounded"+_appSettings.Button)"
                         disabled="@(_isProcessing ? true : false)"
                         type="submit"
                         form="TimesheetModalShift">
                     <i class="bi bi-calendar4-week pe-1"></i>
-                    @(_isProcessing ? "Saving..." : "Save shift")
+                    @(_isProcessing ? @Label.AppButtonSaving : @Label.AppAdminShiftButtonSave)
                 </button>
             </div>
         </div>

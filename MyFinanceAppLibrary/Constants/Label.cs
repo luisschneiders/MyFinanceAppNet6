@@ -2,7 +2,7 @@
 
 public static class Label
 {
-    public const string AppTableColumns = "Columns";
+
     public const string FilterByBank = "Filter By Financial Institution";
     public const string FilterByCompany = "Filter By Company";
     public const string FilterByExpenseCategory = "Filter By Expense";
@@ -15,17 +15,6 @@ public static class Label
     public const string NoFilterAssigned = "No Filter Assigned!";
     public const string NotSpecified = "Not Specified";
     public const string Status = "Filter By Status";
-    public const string ShiftToday = "Today's assigned shift";
-    public const string TimesheetDate = "Date";
-    public const string TimesheetClockIn = "Clock in";
-    public const string TimesheetBreak = "Break";
-    public const string TimesheetClockOut = "Clock out";
-    public const string TimesheetWorkHours = "Work hours";
-    public const string TimesheetOvertime = "Overtime";
-    public const string TimesheetTotal = "Total";
-    public const string TimesheetPayStatus = "Pay status";
-    public const string TimesheetEdit = "Edit";
-    public const string TimesheetComments = "Comments";
 
 
     // Use below labels:
@@ -48,6 +37,10 @@ public static class Label
     public const string AppAccessDeniedMessage = "To access this page, please login.";
     public const string AppAccessDeniedTitle = "Access restricted!";
     public const string AppMonthly = "Monthly";
+    public const string AppAvailable = "Available";
+    public const string AppUnavailable = "Unavailable";
+    public const string AppActive = "Active";
+    public const string AppInactive = "Inactive";
 
 
 
@@ -214,6 +207,33 @@ public static class Label
     public const string AppAdminTransactionInfoMessage3 = "All transactions linked to this record will be archived too.";
 
 
+    // Page timesheet and shift
+    public const string AppAdminShiftButtonNew = "Add shift";
+    public const string AppAdminShiftButtonSave = "Save shift";
+    public const string AppAdminShiftAvailability = "Availability status";
+    public const string AppAdminShiftCompany = "Company";
+    public const string AppAdminShiftDate = "Date";
+    public const string AppAdminShiftScheduledFor = "Shift scheduled for:";
+    public const string AppAdminShiftNotScheduled = "No shift scheduled";
+    public const string AppAdminShiftToday = "Today's assigned shift";
+    public const string AppAdminTimesheetButtonNew = "New timesheet";
+    public const string AppAdminTimesheetBreak = "Break (in minutes)";
+    public const string AppAdminTimesheetClockIn = "Clock in";
+    public const string AppAdminTimesheetClockOut = "Clock out";
+    public const string AppAdminTimesheetComments = "Comments";
+    public const string AppAdminTimesheetCompany = "Company";
+    public const string AppAdminTimesheetDate = "Date";
+    public const string AppAdminTimesheetHourRate = "Hour rate";
+    public const string AppAdminTimesheetPH = "Public holiday or different rate?";
+    public const string AppAdminTimesheetPeriodMessage1 = "Total";
+    public const string AppAdminTimesheetPeriodMessage2 = "amount for the period";
+
+    public const string AppAdminTimesheetWorkHours = "Work hours";
+    public const string AppAdminTimesheetOvertime = "Overtime";
+    public const string AppAdminTimesheetTotal = "Total";
+    public const string AppAdminTimesheetPayStatus = AppFieldStatus;
+
+
 
     // Components section
     public const string AppComponentAllAccountsTitle = "All Accounts";
@@ -257,6 +277,7 @@ public static class Label
     public const string AppButtonArchiveConfirmation = "Yes, archive!";
     public const string AppButtonCancel = "Cancel";
     public const string AppButtonClose = "Close";
+    public const string AppButtonColumns = "Columns";
     public const string AppButtonEdit = "Edit";
     public const string AppButtonFilter = "Filters";
     public const string AppButtonInfo = "Info";
@@ -264,6 +285,7 @@ public static class Label
     public const string AppButtonNext = "Next";
     public const string AppButtonPrevious = "Previous";
     public const string AppButtonReload = "Reload";
+    public const string AppButtonRemove = "Remove";
     public const string AppButtonSave = "Save";
     public const string AppButtonSaving = "Saving...";
     public const string AppButtonSearch = "Search";

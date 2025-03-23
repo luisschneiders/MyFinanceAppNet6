@@ -96,7 +96,7 @@
                             <DropdownMultiSelect 
                                             ButtonSize="Size.Sm"
                                             ButtonColor="Theme.Secondary"
-                                            DropdownLabel="@Label.AppTableColumns"
+                                            DropdownLabel="@Label.AppButtonColumns"
                                             DropdownPosition="Position.Start"
                                             IconEnd="bi-chevron-down"
                                             IconStart="bi-layout-three-columns">
@@ -130,11 +130,11 @@
                     </button>
                     <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => UpdateShiftAsync(DateTime.Today)">
-                        <i class="bi bi-calendar4-week pe-1"></i>Add shift
+                        <i class="bi bi-calendar4-week pe-1"></i>@Label.AppAdminShiftButtonNew
                     </button>
                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => AddRecordAsync()">
-                        <i class="bi bi-plus-lg pe-1"></i>New timesheet
+                        <i class="bi bi-plus-lg pe-1"></i>@Label.AppAdminTimesheetButtonNew
                     </button>
                 </div>
                 <div class="d-block d-lg-none">
@@ -150,13 +150,13 @@
                         <li class="p-1 rounded">
                             <button class="dropdown-item rounded"
                                     @onclick="() => UpdateShiftAsync(DateTime.Today)">
-                                <i class="bi bi-calendar4-week pe-1"></i>Add shift
+                                <i class="bi bi-calendar4-week pe-1"></i>@Label.AppAdminShiftButtonNew
                             </button>
                         </li>
                         <li class="p-1 rounded">
                             <button class="dropdown-item rounded"
                                     @onclick="() => AddRecordAsync()">
-                                <i class="bi bi-plus-lg pe-1"></i>New timesheet
+                                <i class="bi bi-plus-lg pe-1"></i>@Label.AppAdminTimesheetButtonNew
                             </button>
                         </li>
                     </DropdownActions>
@@ -179,7 +179,7 @@
                                     <CalendarSubHeaderWrapper>
                                         <div class="d-flex justify-content-end border-bottom px-2">
                                             <div class="d-flex pe-1">
-                                                Total<span class="d-none d-lg-block ps-1">amount for the period:</span>
+                                                @Label.AppAdminTimesheetPeriodMessage1<span class="d-none d-lg-block ps-1">@Label.AppAdminTimesheetPeriodMessage2:</span>
                                             </div>
                                             <span class="app-expense-sum-me fw-semibold px-1 @("rounded"+_appSettings.Button)">
                                                 @_timesheetTotal.Amount.ToString("C")
@@ -215,7 +215,10 @@
                                                                 {
                                                                     <a role="button" class="btn w-100 h-100 p-0"
                                                                         @onclick="() => UpdateShiftAsync(date)">
-                                                                        <div class="d-flex justify-content-end @($"rounded{_appSettings.Button}") @((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"bg-{Theme.Primary.ToString().ToLower()}-subtle" : $"bg-{Theme.Danger.ToString().ToLower()}") : $"bg-{Theme.Light.ToString().ToLower()}")" title="@((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"Shift scheduled for: {shift.Description}" : "Unavailable") : "No shift scheduled")">
+                                                                        <div class="d-flex justify-content-end
+                                                                                    @($"rounded{_appSettings.Button}")
+                                                                                    @((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"bg-{Theme.Primary.ToString().ToLower()}-subtle" : $"bg-{Theme.Danger.ToString().ToLower()}") : $"bg-{Theme.Light.ToString().ToLower()}")"
+                                                                                title="@((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"{Label.AppAdminShiftScheduledFor} {shift.Description}" : @Label.AppUnavailable) : Label.AppAdminShiftNotScheduled)">
                                                                             <div class="app-calendar-cell-day app-calendar-cell-current-day text-center p-1 fw-bold @($"rounded{_appSettings.Button}") @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
                                                                                         $"bg-{Theme.Dark.ToString().ToLower()} text-white" : $"bg-{Theme.Light.ToString().ToLower()}")">
                                                                                 @(date.Day)
@@ -267,7 +270,7 @@
                                 <div class="accordion d-flex justify-content-between p-3 fw-semibold
                                             bg-@(Theme.Secondary.ToString().ToLower())-subtle">
                                     <div class="d-flex">
-                                        Total<span class="d-none d-lg-block ps-1">amount for the period</span>
+                                        @Label.AppAdminTimesheetPeriodMessage1<span class="d-none d-lg-block ps-1">@Label.AppAdminTimesheetPeriodMessage2</span>
                                     </div>
                                     <span class="pe-5 app-trip-sum-me">
                                         @_timesheetTotal.Amount.ToString("C")
@@ -306,7 +309,7 @@
                                                         <tbody>
                                                             @if (_timesheetListView.Count <= 0)
                                                             {
-                                                                <tr class="bg-light-subtle">
+                                                                <tr class="bg-@(Theme.Light.ToString().ToLower())-subtle">
                                                                     <td class="text-center" colspan="8">
                                                                         <div>
                                                                             @Label.AppNoRecordFound
@@ -318,34 +321,34 @@
                                                                 foreach (var record in _timesheetListView[index].Timesheets)
                                                                 {
                                                                     <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetDate)!.IsChecked ? "":"d-none")">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetDate)!.IsChecked ? "":"d-none")">
                                                                             @record.TimeIn.ToString("ddd, dd/MM/yy")
                                                                         </td>
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetClockIn)!.IsChecked ? "":"d-none")">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetClockIn)!.IsChecked ? "":"d-none")">
                                                                             @record.TimeIn.ToString("t")
                                                                         </td>
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetBreak)!.IsChecked ? "":"d-none")">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetBreak)!.IsChecked ? "":"d-none")">
                                                                             @($"{record.TimeBreak}m")
                                                                         </td>
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetClockOut)!.IsChecked ? "":"d-none")">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetClockOut)!.IsChecked ? "":"d-none")">
                                                                             @record.TimeOut.ToString("t")
                                                                         </td>
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetWorkHours)!.IsChecked ? "":"d-none")">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetWorkHours)!.IsChecked ? "":"d-none")">
                                                                             @record.HoursWorked.ToString("h'h 'm'm '")
                                                                             @if (record.IsActive == false)
                                                                             {
                                                                                 <sup class="text-uppercase">
-                                                                                    <Badge BackgroundColor="Theme.Info" Message="Inactive" />
+                                                                                    <Badge BackgroundColor="Theme.Info" Message="@Label.AppInactive" />
                                                                                 </sup>
                                                                             }
                                                                         </td>
-                                                                        <td class="@(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetOvertime)!.IsChecked ? "":"d-none")">
+                                                                        <td class="@(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetOvertime)!.IsChecked ? "":"d-none")">
                                                                             @record.Overtime.ToString("h'h 'm'm '")
                                                                         </td>
-                                                                        <td class="text-nowrap text-end @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetTotal)!.IsChecked ? "":"d-none")">
+                                                                        <td class="text-nowrap text-end @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetTotal)!.IsChecked ? "":"d-none")">
                                                                             @record.TotalAmount.ToString("C")
                                                                         </td>
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetPayStatus)!.IsChecked ? "":"d-none")">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetPayStatus)!.IsChecked ? "":"d-none")">
                                                                             <DropdownActions Title="@UpdatePayStatusTitle(record.PayStatus)"
                                                                                             ButtonSize="Size.Sm"
                                                                                             IconEnd="bi-chevron-down"
@@ -365,15 +368,15 @@
                                                                                 }
                                                                             </DropdownActions>
                                                                         </td>
-                                                                        <td class="text-center @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetEdit)!.IsChecked ? "":"d-none")">
-                                                                            <button class="btn btn-link p-0 text-danger"
+                                                                        <td class="text-center @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppButtonEdit)!.IsChecked ? "":"d-none")">
+                                                                            <button class="btn btn-sm btn-@(Theme.Light.ToString().ToLower()) text-@(Theme.Danger.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                                                                     type="button"
                                                                                     title="@Label.AppButtonEdit"
                                                                                     @onclick="() => EditRecordAsync(record)">
                                                                                 <i class="bi bi-pencil"></i>
                                                                             </button>
                                                                         </td>
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetComments)!.IsChecked ? "":"d-none")">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetComments)!.IsChecked ? "":"d-none")">
                                                                             @record.Comments
                                                                         </td>
                                                                     </tr>
