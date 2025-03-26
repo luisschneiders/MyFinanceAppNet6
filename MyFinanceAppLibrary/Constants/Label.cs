@@ -61,6 +61,7 @@ public static class Label
     public const string AppMenuSetting = "Settings";
     public const string AppMenuTools = "Tools";
     public const string AppCalculator = "Calculator";
+    public const string AppSelectAll = "Select All";
 
 
     // Dashboard

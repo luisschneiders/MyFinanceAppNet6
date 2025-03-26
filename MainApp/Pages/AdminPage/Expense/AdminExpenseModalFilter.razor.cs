@@ -29,6 +29,18 @@ public partial class AdminExpenseModalFilter : ComponentBase
     private List<CheckboxItemModel> _banks { get; set; } = new();
     private Modal _modal { get; set; } = new();
     private Guid _modalTarget { get; set; }
+    private string _searchQueryExpense = string.Empty;
+    private string _searchQueryInstitution = string.Empty;
+    private bool _selectAllCheckedExpense = false;
+    private bool _selectAllCheckedInstitution = false;
+    private List<CheckboxItemModel> _filteredExpenseCategories => 
+        string.IsNullOrWhiteSpace(_searchQueryExpense) 
+            ? _expenseCategories 
+            : _expenseCategories.Where(ec => ec.Description.Contains(_searchQueryExpense, StringComparison.OrdinalIgnoreCase)).ToList();
+    private List<CheckboxItemModel> _filteredInstitutions => 
+        string.IsNullOrWhiteSpace(_searchQueryInstitution) 
+            ? _banks 
+            : _banks.Where(ec => ec.Description.Contains(_searchQueryInstitution, StringComparison.OrdinalIgnoreCase)).ToList();
 
     public AdminExpenseModalFilter()
     {
@@ -103,26 +115,6 @@ public partial class AdminExpenseModalFilter : ComponentBase
         await Task.CompletedTask;
     }
 
-    // private async Task RemoveDropdownFilterBank()
-    // {
-    //     _multiFilterExpenseDTO.BankId = new();
-    //     _banks = await _dropDownMultiSelectService.UncheckAll(_banks);
-
-    //     await OnSubmitFilterSuccess.InvokeAsync(_multiFilterExpenseDTO);
-
-    //     await Task.CompletedTask;
-    // }
-
-    // private async Task RemoveDropdownFilterExpenseCategory()
-    // {
-    //     _multiFilterExpenseDTO.ECategoryId = new();
-    //     _expenseCategories = await _dropDownMultiSelectService.UncheckAll(_expenseCategories);
-
-    //     await OnSubmitFilterSuccess.InvokeAsync(_multiFilterExpenseDTO);
-
-    //     await Task.CompletedTask;
-    // }
-
     private async Task UncheckAll()
     {
         _banks = await _dropDownMultiSelectService.UncheckAll(_banks);
@@ -177,5 +169,48 @@ public partial class AdminExpenseModalFilter : ComponentBase
 
         await OnSubmitFilterSuccess.InvokeAsync(_multiFilterExpenseDTO);
         await Task.CompletedTask;
+    }
+
+    private async void ToggleSelectAllExpense(ChangeEventArgs e)
+    {
+        _selectAllCheckedExpense = (bool)e.Value!;
+        foreach (var expenseCategory in _expenseCategories)
+        {
+            expenseCategory.IsChecked = _selectAllCheckedExpense;
+
+            if (e.Value is true)
+            {
+                _multiFilterExpenseDTO.ECategoryId.Add(expenseCategory.Id);
+                expenseCategory.IsChecked = true;
+            }
+            else if (e.Value is false)
+            {
+                _multiFilterExpenseDTO.ECategoryId.Remove(expenseCategory.Id);
+                expenseCategory.IsChecked = false;
+            }
+
+        }
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterExpenseDTO);
+    }
+    private async void ToggleSelectAllInstitution(ChangeEventArgs e)
+    {
+        _selectAllCheckedInstitution = (bool)e.Value!;
+        foreach (var bank in _banks)
+        {
+            bank.IsChecked = _selectAllCheckedInstitution;
+
+            if (e.Value is true)
+            {
+                _multiFilterExpenseDTO.ECategoryId.Add(bank.Id);
+                bank.IsChecked = true;
+            }
+            else if (e.Value is false)
+            {
+                _multiFilterExpenseDTO.ECategoryId.Remove(bank.Id);
+                bank.IsChecked = false;
+            }
+
+        }
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterExpenseDTO);
     }
 }
