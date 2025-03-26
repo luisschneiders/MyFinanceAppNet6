@@ -4,61 +4,79 @@
 @using MainApp.Components.Loader
 @using MainApp.Components.Shared
 
-<SharedHeader Title="Total expense by period"
+<SharedHeader Title="@Label.AppComponentExpenseByPeriodTitle"
               Icon="@_chartIcon"
               IconColor="Theme.Info"
               BadgeBackgroundColor="Theme.Danger"
-              BadgeTitle="New chart" />
+              BadgeTitle="@Label.AppNewChart" />
 @if (_isLoading)
 {
     <Loader />
 }
 else
 {
-    <div class="row text-center align-items-center">
-        <div class="col-12 d-flex align-items-center">
-            <div class="d-flex me-2">
-                <DropdownDateRange ButtonSize="Size.Sm"
-                                DateTimeRange="@_dateTimeRange"
-                                DropdownLabel="@_dropdownLabelDate"
-                                PeriodRange="PeriodRange.Year"
-                                OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
+    <div class="row">
+        <div class="col-auto pb-2">
+            <DropdownDateRange ButtonSize="Size.Sm"
+                            DateTimeRange="@_dateTimeRange"
+                            DropdownLabel="@_dropdownLabelDate"
+                            PeriodRange="PeriodRange.Year"
+                            OnSubmitSuccess="data => DropdownDateRangeRefresh(data)" />
 
-            </div>
-            <div class="d-flex">
-                <DropdownMultiSelect ButtonSize="Size.Sm"
-                                DropdownLabel="@Label.FilterByExpenseCategory"
-                                DropdownPosition="Position.Start"
-                                IconEnd="bi-chevron-down"
-                                IconStart="bi-cart4">
-                    @foreach (var (expenseCategory, index) in _expenseCategories.Select((value, index) => (value, index)))
-                    {
-                        <li class="px-2 py-1 dropdown-item rounded">
-                            <div class="form-check">
-                                <input class="form-check-input" 
-                                        type="checkbox"
-                                        checked="@expenseCategory.IsChecked"
-                                        id="@($"expense-category-{expenseCategory.Id}")"
-                                        value="@(expenseCategory.Id)"
-                                        @onchange="(e) => OnCheckboxChangedExpense(e, expenseCategory.Id)" />
-                                <label class="form-check-label" for="@($"expense-category-{expenseCategory.Id}")" title="@expenseCategory.Description">
-                                    @($"{expenseCategory.Description.Truncate((int)Truncate.ExpenseCategory)}")
-                                </label>
-                            </div>
-                        </li>
-                    }
-                </DropdownMultiSelect>
-                @if (_multiFilterExpenseByMonthDTO.ECategoryId.Count > 0)
-                {
-                    <div class="d-flex align-items-center">
-                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) text-@(Theme.Dark.ToString().ToLower())-emphasis"
-                                title="Clear filter"
-                                @onclick="RemoveDropdownFilterExpenseCategory">
-                                <Badge BackgroundColor="@Theme.Light" Message="Clear Filter" />
-                        </button>
+        </div>
+        <div class="col-sm-12 col-lg-6 pb-2">
+            <DropdownMultiSelect ButtonSize="Size.Sm"
+                            DropdownLabel="@Label.AppFilterByExpenseCategory"
+                            DropdownPosition="Position.Start"
+                            IconEnd="bi-chevron-down"
+                            IconStart="bi-cart4">
+                <!-- Search Input -->
+                <li class="px-2 py-1">
+                    <input type="text"
+                            class="form-control @("rounded"+_appSettings.Form)"
+                            placeholder="@Label.AppFieldSearch"
+                            @bind-Value="_searchQueryExpense"
+                            @bind-Value:event="oninput" />
+                </li>
+                <!-- Select All Checkbox -->
+                <li class="px-2 py-1 dropdown-item rounded">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="select-all-expense" @onchange="ToggleSelectAllExpense" />
+                        <label class="form-check-label" for="select-all-expense">
+                            <strong>
+                                @Label.AppSelectAll
+                            </strong>
+                        </label>
                     </div>
+                </li>
+                @foreach (var (expenseCategory, index) in _filteredExpenseCategories.Select((value, index) => (value, index)))
+                {
+                    <li class="px-2 py-1 dropdown-item rounded">
+                        <div class="form-check">
+                            <input class="form-check-input" 
+                                    type="checkbox"
+                                    checked="@expenseCategory.IsChecked"
+                                    disabled="@(_isDisabled)"
+                                    id="@($"expense-category-{expenseCategory.Id}")"
+                                    value="@(expenseCategory.Id)"
+                                    @onchange="(e) => OnCheckboxChangedExpense(e, expenseCategory.Id)" />
+                            <label class="form-check-label" for="@($"expense-category-{expenseCategory.Id}")" title="@expenseCategory.Description">
+                                @($"{expenseCategory.Description.Truncate((int)Truncate.ExpenseCategory)}")
+                            </label>
+                        </div>
+                    </li>
                 }
-            </div>
+            </DropdownMultiSelect>
+            @if (_multiFilterExpenseByMonthDTO.ECategoryId.Count > 0)
+            {
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) text-@(Theme.Dark.ToString().ToLower())-emphasis"
+                            title="Clear filter"
+                            @onclick="RemoveDropdownFilterExpenseCategory">
+                            <Badge BackgroundColor="@Theme.Light" Message="Clear Filter" />
+                    </button>
+                </div>
+            }
         </div>
     </div>
     <Chart Id="ExpenseByMonth"

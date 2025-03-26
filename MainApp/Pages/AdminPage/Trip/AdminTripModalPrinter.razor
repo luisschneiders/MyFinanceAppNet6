@@ -31,7 +31,7 @@
                         </button>
                     </div>
                     <div class="col-auto">
-                        <span>Total distance @_printTripDTO.SumByDateRange Km</span>
+                        <span>@Label.AppAdminTripPrintMessage @_printTripDTO.SumByDateRange @Label.AppKm</span>
                     </div>
                 </div>
                 <Accordion Id="TripsReport">
@@ -43,7 +43,7 @@
                                     @record.Description
                                 </div>
                                 <div>
-                                    Total @record.Total Km
+                                    @Label.AppAdminTripInfoMessage1 @record.Total @Label.AppKm
                                 </div>
                             </AccordionHeader>
                             <AccordionBody Id="@index.ToString()" IsAlwaysOpen=true>
@@ -52,19 +52,19 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-nowrap">
-                                                    Date
+                                                    @Label.AppAdminTripFieldDate
                                                 </th>
                                                 <th class="text-nowrap">
-                                                    Category
+                                                    @Label.AppAdminTripFieldCategory
                                                 </th>
                                                 <th class="text-end text-nowrap">
-                                                    Start Odometer
+                                                    @Label.AppAdminTripFieldStartOdo
                                                 </th>
                                                 <th class="text-end text-nowrap">
-                                                    End Odometer
+                                                    @Label.AppAdminTripFieldEndOdo
                                                 </th>
                                                 <th class="text-end text-nowrap">
-                                                    Distance (Km)
+                                                    @Label.AppAdminTripFieldDistance
                                                 </th>
                                             </tr>
                                         </thead>
@@ -119,7 +119,7 @@
                         class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary @("rounded"+_appSettings.Button)"
                         data-dismiss="modal"
                         @onclick="() => CloseModalAsync()">
-                    Close
+                    @Label.AppButtonClose
                 </button>
             </div>
             <div class="col-auto">
@@ -127,7 +127,7 @@
                         class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
                         data-dismiss="modal"
                         @onclick="() => PrintAsync()">
-                    <i class="bi bi-printer pe-1"></i>Print
+                    <i class="bi bi-printer pe-1"></i>@Label.AppButtonPrint
                 </button>
             </div>
         </div>

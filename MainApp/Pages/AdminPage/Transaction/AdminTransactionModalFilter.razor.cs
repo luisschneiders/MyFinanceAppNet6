@@ -174,19 +174,19 @@ public partial class AdminTransactionModalFilter : ComponentBase
     private async void ToggleSelectAllTransaction(ChangeEventArgs e)
     {
         _selectAllCheckedTransaction = (bool)e.Value!;
-        foreach (var expenseCategory in _transactionCategories)
+        foreach (var transactionCategory in _transactionCategories)
         {
-            expenseCategory.IsChecked = _selectAllCheckedTransaction;
+            transactionCategory.IsChecked = _selectAllCheckedTransaction;
 
             if (e.Value is true)
             {
-                _multiFilterTransactionDTO.TCategoryId.Add(expenseCategory.Id);
-                expenseCategory.IsChecked = true;
+                _multiFilterTransactionDTO.TCategoryId.Add(transactionCategory.Id);
+                transactionCategory.IsChecked = true;
             }
             else if (e.Value is false)
             {
-                _multiFilterTransactionDTO.TCategoryId.Remove(expenseCategory.Id);
-                expenseCategory.IsChecked = false;
+                _multiFilterTransactionDTO.TCategoryId.Remove(transactionCategory.Id);
+                transactionCategory.IsChecked = false;
             }
 
         }

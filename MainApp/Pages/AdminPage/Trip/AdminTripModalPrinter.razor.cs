@@ -86,7 +86,7 @@ public partial class AdminTripModalPrinter : ComponentBase
         string? title;
         if (id == (int)TripCategory.NotSpecified)
         {
-            title = Label.NotSpecified;
+            title = Label.AppNotSpecified;
         }
         else
         {

@@ -32,7 +32,7 @@ public partial class DropdownFilter : ComponentBase
     public string IconEnd { get; set; } = "bi-chevron-down";
 
     [Parameter]
-    public string DropdownLabel { get; set; } = Label.NoFilterAssigned;
+    public string DropdownLabel { get; set; } = Label.AppNoFilterAssigned;
 
     [Parameter]
     public Position DropdownPosition { get; set; } = Position.Start;

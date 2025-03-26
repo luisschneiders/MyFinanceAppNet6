@@ -44,8 +44,8 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private List<TransactionCalendarDTO> _transactionsCalendarView { get; set; } = new();
     private MultiFilterTransactionDTO _multiFilterTransactionDTO { get; set; } = new();
     private string _viewType { get; set; } = ViewType.Calendar.ToString();
-    private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
-    private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
+    private string _dropdownDateRangeLabel { get; set; } = Label.AppNoDateAssigned;
+    private string _dropdownDateCalendarLabel { get; set; } = Label.AppNoDateAssigned;
     private DateTime[][] _weeks { get; set; } = default!;
     private bool _isLoading { get; set; } = true;
     private bool _isLoadingCalendar { get; set; } = true;

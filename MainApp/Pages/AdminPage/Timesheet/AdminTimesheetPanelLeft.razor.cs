@@ -43,7 +43,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     private DateTimeRange _dateRange { get; set; } = new();
     // private TimesheetStateContainerDTO _timesheetStateContainerDTO { get; set; } = new();
     private PayStatus[] _payStatuses { get; set; } = default!;
-    private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
+    private string _dropdownDateRangeLabel { get; set; } = Label.AppNoDateAssigned;
     private bool _isLoading { get; set; } = true;
     private AdminTimesheetModalFilter _setupFilterModal { get; set; } = new();
     private AdminTimesheetModalShift _setupShiftModal { get; set; } = new();
@@ -54,7 +54,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     private List<ShiftListDTO> _shiftCalendarView { get; set; } = new();
     private DateTimeRange _dateCalendar { get; set; } = new();
     private string _viewType { get; set; } = ViewType.Calendar.ToString();
-    private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
+    private string _dropdownDateCalendarLabel { get; set; } = Label.AppNoDateAssigned;
     private DateTime[][] _weeks { get; set; } = default!;
     private TimesheetTotal _timesheetTotal{ get; set; } = new();
     private List<TableColumn> _tableColumns { get; set;} = new();

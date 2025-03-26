@@ -40,8 +40,8 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private List<ExpenseCalendarDTO> _expensesCalendarView { get; set; } = new();
     private MultiFilterExpenseDTO _multiFilterExpenseDTO { get; set; } = new();
     private string _viewType { get; set; } = ViewType.Calendar.ToString();
-    private string _dropdownDateRangeLabel { get; set; } = Label.NoDateAssigned;
-    private string _dropdownDateCalendarLabel { get; set; } = Label.NoDateAssigned;
+    private string _dropdownDateRangeLabel { get; set; } = Label.AppNoDateAssigned;
+    private string _dropdownDateCalendarLabel { get; set; } = Label.AppNoDateAssigned;
     private DateTime[][] _weeks { get; set; } = default!;
     private decimal _expensesTotal { get; set; } = 0;
     private bool _isLoading { get; set; } = true;

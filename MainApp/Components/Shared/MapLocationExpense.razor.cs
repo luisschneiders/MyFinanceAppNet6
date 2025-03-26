@@ -43,7 +43,7 @@ public partial class MapLocationExpense : ComponentBase
     private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
 
     private DateTimeRange _dateTimeRange { get; set; } = new();
-    private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
+    private string _dropdownLabel { get; set; } = Label.AppNoDateAssigned;
 
     private string _imageURL { get; set; } = string.Empty;
     private bool _isLoading { get; set; } = true;

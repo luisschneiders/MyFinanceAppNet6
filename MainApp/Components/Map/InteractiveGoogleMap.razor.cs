@@ -25,9 +25,9 @@ public partial class InteractiveGoogleMap : ComponentBase
         {
             _currentLocation = await _locationService.GetRecordById();
 
-            await _mapService.InitializeMap(Label.MapInteractiveGoogle, _currentLocation, 12);
-            await _mapService.AddMarker(Label.MapInteractiveGoogle, Locations);
-            await _mapService.FitMarkerToView(Label.MapInteractiveGoogle, Locations);
+            await _mapService.InitializeMap(Label.AppMapInteractiveGoogle, _currentLocation, 12);
+            await _mapService.AddMarker(Label.AppMapInteractiveGoogle, Locations);
+            await _mapService.FitMarkerToView(Label.AppMapInteractiveGoogle, Locations);
         }
 
         await Task.CompletedTask;

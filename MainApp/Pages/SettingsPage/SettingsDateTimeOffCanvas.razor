@@ -21,7 +21,7 @@
                                  ButtonInnerStyles="d-flex justify-content-between">
                     @foreach (var (weekDay, index) in _dayNames.Select((value, index) => (value, index)))
                     {
-                        <li class="p-1 rounded">
+                        <li class="p-1">
                             @*Only enable Sunday and Monday*@
                             <button class="dropdown-item rounded"
                                     disabled="@(index > 1)"

@@ -3,7 +3,7 @@
 <Modal @ref="_modal"
        Size="Size.Md">
     <Title>
-        @Label.AppConfirmAction
+        @Label.AppHeadsUp
     </Title>
     <Body>
         <EditForm Model="@_tripModel"
@@ -14,8 +14,12 @@
             <div class="d-flex justify-content-center text-center">
                 <div>
                     <i class="bi bi-exclamation-diamond fs-2 text-danger"></i>
-                    <h3 class="fs-5 pb-3">@Label.AppHeadsUp</h3>
-                    <p  class="pb-3">This action cannot be undone.</p>
+                    <h3 class="fs-5 pb-3">
+                        @Label.AppConfirmAction
+                    </h3>
+                    <p  class="pb-3">
+                        @Label.AppCannotBeUndone
+                    </p>
                 </div>
             </div>
         </EditForm>
@@ -27,7 +31,7 @@
                         class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary w-100 @("rounded"+_appSettings.Button)"
                         data-dismiss="modal"
                         @onclick="() => CloseModalAsync()">
-                    Cancel
+                    @Label.AppButtonCancel
                 </button>
                 <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-danger w-100 @("rounded"+_appSettings.Button)"
                         disabled="@(_isProcessing ? true : false)"

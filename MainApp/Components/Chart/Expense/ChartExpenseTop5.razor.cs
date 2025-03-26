@@ -32,7 +32,7 @@ public partial class ChartExpenseTop5 : ComponentBase
     private DateTimeRange _dateTimeRange { get; set; } = new();
 
     private string _chartIcon { get; set; } = string.Empty;
-    private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
+    private string _dropdownLabel { get; set; } = Label.AppNoDateAssigned;
     private bool _isLoading { get; set; } = true;
 
     private IJSObjectReference _chartObjectReference = default!;

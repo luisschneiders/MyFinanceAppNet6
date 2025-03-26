@@ -36,7 +36,7 @@ public partial class DropdownDateRange : ComponentBase
     public Position DropdownPosition { get; set; } = Position.Start;
 
     [Parameter]
-    public string DropdownLabel { get; set; } = Label.NoDateAssigned;
+    public string DropdownLabel { get; set; } = Label.AppNoDateAssigned;
 
     [Parameter]
     public PeriodRange PeriodRange { get; set; } = PeriodRange.Month;

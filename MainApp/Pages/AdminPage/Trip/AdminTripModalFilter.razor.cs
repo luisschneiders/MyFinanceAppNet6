@@ -31,6 +31,12 @@ public partial class AdminTripModalFilter : ComponentBase
     private Modal _modal { get; set; } = new();
     private Guid _modalTarget { get; set; }
     private TripCategory[] _tripCategories { get; set; } = default!;
+    private string _searchQueryVehicle = string.Empty;
+    private bool _selectAllCheckedVehicle = false;
+    private List<CheckboxItemModel> _filteredVehicles => 
+        string.IsNullOrWhiteSpace(_searchQueryVehicle) 
+            ? _vehicles 
+            : _vehicles.Where(ec => ec.Description.Contains(_searchQueryVehicle, StringComparison.OrdinalIgnoreCase)).ToList();
 
     public AdminTripModalFilter()
     {
@@ -114,26 +120,6 @@ public partial class AdminTripModalFilter : ComponentBase
         await Task.CompletedTask;
     }
 
-    // private async Task RemoveDropdownFilterVehicle()
-    // {
-    //     _multiFilterTripDTO.VehicleId = new();
-    //     _vehicles = await _dropDownMultiSelectService.UncheckAll(_vehicles);
-        
-    //     await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTripDTO);
-
-    //     await Task.CompletedTask;
-    // }
-
-    // private async Task RemoveDropdownFilterTripCategory()
-    // {
-    //     _multiFilterTripDTO.TCategoryId = new();
-    //     _tripCategoryDTOs = await _dropDownMultiSelectService.UncheckAll(_tripCategoryDTOs);
-
-    //     await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTripDTO);
-
-    //     await Task.CompletedTask;
-    // }
-
     private async Task UncheckAll()
     {
         _vehicles = await _dropDownMultiSelectService.UncheckAll(_vehicles);
@@ -189,4 +175,27 @@ public partial class AdminTripModalFilter : ComponentBase
         await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTripDTO);
         await Task.CompletedTask;
     }
+
+    private async void ToggleSelectAllVehicle(ChangeEventArgs e)
+    {
+        _selectAllCheckedVehicle = (bool)e.Value!;
+        foreach (var vehicle in _vehicles)
+        {
+            vehicle.IsChecked = _selectAllCheckedVehicle;
+
+            if (e.Value is true)
+            {
+                _multiFilterTripDTO.VehicleId.Add(vehicle.Id);
+                vehicle.IsChecked = true;
+            }
+            else if (e.Value is false)
+            {
+                _multiFilterTripDTO.VehicleId.Remove(vehicle.Id);
+                vehicle.IsChecked = false;
+            }
+
+        }
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTripDTO);
+    }
+
 }

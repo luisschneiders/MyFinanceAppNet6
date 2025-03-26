@@ -38,7 +38,7 @@ public partial class AdminTripPanelLeft : ComponentBase
     private AdminTripModalFilter _setupFilterModal { get; set; } = new();
     private AdminTripModalPrinter _setupPrinterModal { get; set; } = new();
 
-    private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
+    private string _dropdownLabel { get; set; } = Label.AppNoDateAssigned;
     private bool _isLoading { get; set; } = true;
 
     public AdminTripPanelLeft()
@@ -215,7 +215,7 @@ public partial class AdminTripPanelLeft : ComponentBase
 
         if (id == (int)TripCategory.NotSpecified)
         {
-            title = Label.NotSpecified;
+            title = Label.AppNotSpecified;
         }
         else
         {

@@ -3,21 +3,18 @@
 public static class Label
 {
 
-    public const string FilterByBank = "Filter By Financial Institution";
-    public const string FilterByCompany = "Filter By Company";
-    public const string FilterByExpenseCategory = "Filter By Expense";
-    public const string FilterByTransactionCategory = "Filter By Transaction";
-    public const string FilterByTripCategory = "Filter By Category";
-    public const string FilterByVehicle = "Filter By Vehicle";
-    public const string Loading = "Loading...";
-    public const string MapInteractiveGoogle = "google-interactive-map";
-    public const string NoDateAssigned = "No Date Assigned!";
-    public const string NoFilterAssigned = "No Filter Assigned!";
-    public const string NotSpecified = "Not Specified";
-    public const string Status = "Filter By Status";
-
-
-    // Use below labels:
+    public const string AppFilterByBank = "Filter By Financial Institution";
+    public const string AppFilterByCompany = "Filter By Company";
+    public const string AppFilterByExpenseCategory = "Filter By Expense";
+    public const string AppFilterByTransactionCategory = "Filter By Transaction";
+    public const string AppFilterByTripCategory = "Filter By Category";
+    public const string AppFilterStatus = "Filter By Status";
+    public const string AppFilterByVehicle = "Filter By Vehicle";
+    public const string AppLoading = "Loading...";
+    public const string AppMapInteractiveGoogle = "google-interactive-map";
+    public const string AppNoDateAssigned = "No Date Assigned!";
+    public const string AppNoFilterAssigned = "No Filter Assigned!";
+    public const string AppNotSpecified = "Not Specified";
     public const string AppTitle = "My Finance";
     public const string AppGreeting = "G'day,";
     public const string AppAccount = "Account";
@@ -41,6 +38,9 @@ public static class Label
     public const string AppUnavailable = "Unavailable";
     public const string AppActive = "Active";
     public const string AppInactive = "Inactive";
+    public const string AppKm = "Km";
+    public const string AppCannotBeUndone = "This action cannot be undone.";
+    public const string AppNewChart = "New chart";
 
 
 
@@ -228,16 +228,31 @@ public static class Label
     public const string AppAdminTimesheetPH = "Public holiday or different rate?";
     public const string AppAdminTimesheetPeriodMessage1 = "Total";
     public const string AppAdminTimesheetPeriodMessage2 = "amount for the period";
-
     public const string AppAdminTimesheetWorkHours = "Work hours";
     public const string AppAdminTimesheetOvertime = "Overtime";
     public const string AppAdminTimesheetTotal = "Total";
     public const string AppAdminTimesheetPayStatus = AppFieldStatus;
 
 
+    // Page trip
+    public const string AppAdminTrip = "Trip";
+    public const string AppAdminTripButtonNew = "New Trip";
+    public const string AppAdminTripFieldCategory = "Category";
+    public const string AppAdminTripFieldDate = "Date";
+    public const string AppAdminTripFieldDistance = "Distance (Km)";
+    public const string AppAdminTripFieldEndOdo = "End Odometer";
+    public const string AppAdminTripFieldStartOdo = "Start Odometer";
+    public const string AppAdminTripFieldVehicle = "Vehicle";
+    public const string AppAdminTripInfoMessage1 = "Total";
+    public const string AppAdminTripInfoMessage2 = "distance for the period";
+    public const string AppAdminTripPrintMessage = "Total distance";
+    public const string AppAdminTripPayStatus = AppFieldStatus;
+
+
 
     // Components section
     public const string AppComponentAllAccountsTitle = "All Accounts";
+    public const string AppComponentExpenseByPeriodTitle = "Total expense by period";
     public const string AppComponentInteractiveMapTitle = "Interactive map";
     public const string AppComponentIRTitle = "Investment returns";
     public const string AppComponentIRAnnualizedTitle = "Annualized percentage";
@@ -285,6 +300,7 @@ public static class Label
     public const string AppButtonMoreAction = "More Actions";
     public const string AppButtonNext = "Next";
     public const string AppButtonPrevious = "Previous";
+    public const string AppButtonPrint = "Print";
     public const string AppButtonReload = "Reload";
     public const string AppButtonRemove = "Remove";
     public const string AppButtonSave = "Save";

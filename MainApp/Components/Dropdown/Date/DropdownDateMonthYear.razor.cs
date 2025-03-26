@@ -32,7 +32,7 @@ public partial class DropdownDateMonthYear : ComponentBase
     public Position DropdownPosition { get; set; } = Position.Start;
 
     [Parameter]
-    public string DropdownLabel { get; set; } = Label.NoDateAssigned;
+    public string DropdownLabel { get; set; } = Label.AppNoDateAssigned;
 
     public DropdownDateMonthYear()
     {

@@ -78,7 +78,7 @@
                                 <div class="d-flex align-items-center">
                                     <div class="vr my-1 text-@(Theme.Dark.ToString().ToLower())-emphasis"></div>
                                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Light.ToString().ToLower()) border-0 rounded-5"
-                                            title="Remove"
+                                            title="@Label.AppButtonRemove"
                                             @onclick="ResetAllFilters">
                                         <i class="bi bi-x-lg text-@(Theme.Secondary.ToString().ToLower())-emphasis"></i>
                                     </button>
@@ -99,7 +99,7 @@
                     <DropdownActions DropdownPosition="Position.End"
                                      ButtonSize="Size.Sm"
                                      ButtonColor="Theme.Secondary">
-                        <li class="p-1 rounded">
+                        <li class="p-1">
                             <button class="dropdown-item rounded"
                                     @onclick="() => AddRecordAsync(DateTime.Now)">
                                 <i class="bi bi-plus-lg pe-1"></i>@Label.AppAdminExpenseButtonNew
@@ -288,7 +288,7 @@
                                                                         <td class="text-center">
                                                                             <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Danger.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                                                                     type="button"
-                                                                                    title="Archive"
+                                                                                    title="@Label.AppButtonArchive"
                                                                                     @onclick="() => ArchiveRecordAsync(record)">
                                                                                 <i class="bi bi-archive"></i>
                                                                             </button>
