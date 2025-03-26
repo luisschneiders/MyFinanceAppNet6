@@ -10,14 +10,33 @@
         @Label.AppApplyFilter
     </Title>
     <Body>
-        <div class="d-flex">
-            <div class="d-flex me-2">
+        <div class="row">
+            <div class="col-sm-12 col-lg-6 pb-2">
                 <DropdownMultiSelect ButtonSize="Size.Sm"
                                 DropdownLabel="@Label.FilterByCompany"
                                 DropdownPosition="Position.Start"
                                 IconEnd="bi-chevron-down"
                                 IconStart="bi-building">
-                    @foreach (var (company, index) in _companies.Select((value, index) => (value, index)))
+                    <!-- Search Input -->
+                    <li class="px-2 py-1">
+                        <input type="text"
+                                class="form-control @("rounded"+_appSettings.Form)"
+                                placeholder="@Label.AppFieldSearch"
+                                @bind-Value="_searchQueryCompany"
+                                @bind-Value:event="oninput" />
+                    </li>
+                    <!-- Select All Checkbox -->
+                    <li class="px-2 py-1 dropdown-item rounded">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="select-all-company" @onchange="ToggleSelectAllCompany" />
+                            <label class="form-check-label" for="select-all-company">
+                                <strong>
+                                    @Label.AppSelectAll
+                                </strong>
+                            </label>
+                        </div>
+                    </li>
+                    @foreach (var (company, index) in _filteredCompanies.Select((value, index) => (value, index)))
                     {
                         <li class="px-2 py-1 dropdown-item rounded">
                             <div class="form-check">
@@ -35,7 +54,7 @@
                     }
                 </DropdownMultiSelect>
             </div>
-            <div class="d-flex me-2">
+            <div class="col-sm-12 col-lg-6 pb-2">
                 <DropdownMultiSelect ButtonSize="Size.Sm"
                                 DropdownLabel="@Label.Status"
                                 DropdownPosition="Position.Start"

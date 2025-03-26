@@ -192,6 +192,7 @@ public partial class AdminExpenseModalFilter : ComponentBase
         }
         await OnSubmitFilterSuccess.InvokeAsync(_multiFilterExpenseDTO);
     }
+
     private async void ToggleSelectAllInstitution(ChangeEventArgs e)
     {
         _selectAllCheckedInstitution = (bool)e.Value!;
@@ -201,12 +202,12 @@ public partial class AdminExpenseModalFilter : ComponentBase
 
             if (e.Value is true)
             {
-                _multiFilterExpenseDTO.ECategoryId.Add(bank.Id);
+                _multiFilterExpenseDTO.BankId.Add(bank.Id);
                 bank.IsChecked = true;
             }
             else if (e.Value is false)
             {
-                _multiFilterExpenseDTO.ECategoryId.Remove(bank.Id);
+                _multiFilterExpenseDTO.BankId.Remove(bank.Id);
                 bank.IsChecked = false;
             }
 

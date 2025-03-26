@@ -28,6 +28,13 @@ public partial class AdminTimesheetModalFilter : ComponentBase
     private List<CheckboxItemModel> _statuses { get; set; } = new();
     private Modal _modal { get; set; } = new();
     private Guid _modalTarget { get; set; }
+    private string _searchQueryCompany = string.Empty;
+    private bool _selectAllCheckedCompany = false;
+    private List<CheckboxItemModel> _filteredCompanies => 
+        string.IsNullOrWhiteSpace(_searchQueryCompany) 
+            ? _companies 
+            : _companies.Where(ec => ec.Description.Contains(_searchQueryCompany, StringComparison.OrdinalIgnoreCase)).ToList();
+
 
     public AdminTimesheetModalFilter()
     {
@@ -174,5 +181,27 @@ public partial class AdminTimesheetModalFilter : ComponentBase
 
         await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTimesheetDTO);
         await Task.CompletedTask;
+    }
+
+    private async void ToggleSelectAllCompany(ChangeEventArgs e)
+    {
+        _selectAllCheckedCompany = (bool)e.Value!;
+        foreach (var company in _companies)
+        {
+            company.IsChecked = _selectAllCheckedCompany;
+
+            if (e.Value is true)
+            {
+                _multiFilterTimesheetDTO.CompanyId.Add(company.Id);
+                company.IsChecked = true;
+            }
+            else if (e.Value is false)
+            {
+                _multiFilterTimesheetDTO.CompanyId.Remove(company.Id);
+                company.IsChecked = false;
+            }
+
+        }
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTimesheetDTO);
     }
 }

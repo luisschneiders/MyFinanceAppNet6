@@ -27,9 +27,20 @@ public partial class AdminTransactionModalFilter : ComponentBase
     private MultiFilterTransactionDTO _multiFilterTransactionDTO { get; set; } = new();
     private List<CheckboxItemModel> _transactionCategories { get; set; } = new();
     private List<CheckboxItemModel> _banks { get; set; } = new();
-
     private Modal _modal { get; set; } = new();
     private Guid _modalTarget { get; set; }
+    private string _searchQueryTransaction = string.Empty;
+    private string _searchQueryInstitution = string.Empty;
+    private bool _selectAllCheckedTransaction = false;
+    private bool _selectAllCheckedInstitution = false;
+    private List<CheckboxItemModel> _filteredTransactionCategories => 
+        string.IsNullOrWhiteSpace(_searchQueryTransaction) 
+            ? _transactionCategories 
+            : _transactionCategories.Where(ec => ec.Description.Contains(_searchQueryTransaction, StringComparison.OrdinalIgnoreCase)).ToList();
+    private List<CheckboxItemModel> _filteredInstitutions => 
+        string.IsNullOrWhiteSpace(_searchQueryInstitution) 
+            ? _banks 
+            : _banks.Where(ec => ec.Description.Contains(_searchQueryInstitution, StringComparison.OrdinalIgnoreCase)).ToList();
 
     public AdminTransactionModalFilter()
     {
@@ -104,28 +115,6 @@ public partial class AdminTransactionModalFilter : ComponentBase
         await Task.CompletedTask;
     }
 
-    // private async Task RemoveDropdownFilterBank()
-    // {
-    //     _multiFilterTransactionDTO.FromBank = new();
-    //     _banks = await _dropDownMultiSelectService.UncheckAll(_banks);
-        
-    //     await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTransactionDTO);
-
-
-    //     await Task.CompletedTask;
-    // }
-
-    // private async Task RemoveDropdownFilterTransactionCategory()
-    // {
-    //     _multiFilterTransactionDTO.TCategoryId = new();
-    //     _transactionCategories = await _dropDownMultiSelectService.UncheckAll(_transactionCategories);
-        
-    //     await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTransactionDTO);
-
-
-    //     await Task.CompletedTask;
-    // }
-
     private async Task UncheckAll()
     {
         _banks = await _dropDownMultiSelectService.UncheckAll(_banks);
@@ -180,5 +169,49 @@ public partial class AdminTransactionModalFilter : ComponentBase
 
         await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTransactionDTO);
         await Task.CompletedTask;
+    }
+
+    private async void ToggleSelectAllTransaction(ChangeEventArgs e)
+    {
+        _selectAllCheckedTransaction = (bool)e.Value!;
+        foreach (var expenseCategory in _transactionCategories)
+        {
+            expenseCategory.IsChecked = _selectAllCheckedTransaction;
+
+            if (e.Value is true)
+            {
+                _multiFilterTransactionDTO.TCategoryId.Add(expenseCategory.Id);
+                expenseCategory.IsChecked = true;
+            }
+            else if (e.Value is false)
+            {
+                _multiFilterTransactionDTO.TCategoryId.Remove(expenseCategory.Id);
+                expenseCategory.IsChecked = false;
+            }
+
+        }
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTransactionDTO);
+    }
+
+    private async void ToggleSelectAllInstitution(ChangeEventArgs e)
+    {
+        _selectAllCheckedInstitution = (bool)e.Value!;
+        foreach (var bank in _banks)
+        {
+            bank.IsChecked = _selectAllCheckedInstitution;
+
+            if (e.Value is true)
+            {
+                _multiFilterTransactionDTO.FromBank.Add(bank.Id);
+                bank.IsChecked = true;
+            }
+            else if (e.Value is false)
+            {
+                _multiFilterTransactionDTO.FromBank.Remove(bank.Id);
+                bank.IsChecked = false;
+            }
+
+        }
+        await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTransactionDTO);
     }
 }
