@@ -7,7 +7,7 @@ namespace MainApp.Components.Shared;
 public partial class MapLocationExpense : ComponentBase
 {
     [Parameter]
-    public MapMarkerColor Color { get; set; } = MapMarkerColor.Orange;
+    public MapMarkerColor Color { get; set; } = MapMarkerColor.Red;
 
     [Parameter]
     public MapSize Width { get; set; } = MapSize.Width400;
@@ -109,7 +109,7 @@ public partial class MapLocationExpense : ComponentBase
     {
         _dateTimeRange = dateTimeRange;
         _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
-        _toastService.ShowToast("Date range has changed!", Theme.Info);
+        _toastService.ShowToast(@Label.AppMessageDateRangeChanged, Theme.Info);
 
         await FetchDataAsync();
 

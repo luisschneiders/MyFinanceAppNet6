@@ -80,7 +80,7 @@ public partial class AdminExpenseModalDetails : ComponentBase
 
             if (_expenseList.Count > 0)
             {
-                _googleMapStatic = await _expenseService.GetLocationExpense(_dateTimeRange, MapMarkerColor.Brown, MapSize.Width800, MapSize.Height250, MapScale.Desktop);
+                _googleMapStatic = await _expenseService.GetLocationExpense(_dateTimeRange, MapMarkerColor.Red, MapSize.Width800, MapSize.Height250, MapScale.Desktop);
                 _response = await _googleService.GetMapStaticImage(_googleMapStatic);
 
                 if (_response.Success is false)
