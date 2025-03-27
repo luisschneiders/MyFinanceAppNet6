@@ -63,7 +63,7 @@ public partial class AdminTripModal : ComponentBase
 
             await _tripService.ArchiveRecord(_tripModel);
 
-            _toastService.ShowToast("Trip archived!", Theme.Success);
+            _toastService.ShowToast(Label.AppAdminTrip+" "+Label.AppArchived, Theme.Success);
 
             await OnSubmitSuccess.InvokeAsync();
             await Task.Delay((int)Delay.DataSuccess);

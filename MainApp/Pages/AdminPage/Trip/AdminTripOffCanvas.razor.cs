@@ -136,7 +136,7 @@ public partial class AdminTripOffCanvas : ComponentBase
             await _tripService.CreateRecord(_tripModel);
 
             _isProcessing = false;
-            _toastService.ShowToast("Trip added!", Theme.Success);
+            _toastService.ShowToast(Label.AppAdminTrip+" "+Label.AppAdded, Theme.Success);
 
             await OnSubmitSuccess.InvokeAsync();
             await Task.Delay((int)Delay.DataSuccess);

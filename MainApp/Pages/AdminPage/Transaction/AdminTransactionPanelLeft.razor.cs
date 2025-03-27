@@ -260,7 +260,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     {
         _dateRange = dateTimeRange;
         _dropdownDateRangeLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
-        _toastService.ShowToast(@Label.AppMessageDateRangeChanged, Theme.Info);
+        _toastService.ShowToast(Label.AppMessageDateRangeChanged, Theme.Info);
 
         await RefreshList();
         await Task.CompletedTask;
@@ -270,7 +270,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     {
         _dateCalendar = dateTimeRange;
         _dropdownDateCalendarLabel = await _dropdownDateMonthYearService.UpdateLabel(dateTimeRange);
-        _toastService.ShowToast(@Label.AppMessageDateRangeChanged, Theme.Info);
+        _toastService.ShowToast(Label.AppMessageDateRangeChanged, Theme.Info);
 
         await RefreshList();
         await Task.CompletedTask;

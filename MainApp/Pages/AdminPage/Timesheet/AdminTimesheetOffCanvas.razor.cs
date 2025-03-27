@@ -181,15 +181,15 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
             {
                 case OffCanvasViewType.Add:
                     await _timesheetService.CreateRecord(_timesheetModel);
-                    _toastService.ShowToast("Timesheet added!", Theme.Success);
+                    _toastService.ShowToast(Label.AppAdminTimesheet+" "+Label.AppAdded, Theme.Success);
                     break;
                 case OffCanvasViewType.Edit:
                     await _timesheetService.UpdateRecord(_timesheetModel);
-                    _toastService.ShowToast("Timesheet updated!", Theme.Success);
+                    _toastService.ShowToast(Label.AppAdminTimesheet+" "+Label.AppUpdated, Theme.Success);
                     break;
                 case OffCanvasViewType.Archive:
                     await _timesheetService.ArchiveRecord(_timesheetModel);
-                    _toastService.ShowToast("Timesheet archived!", Theme.Success);
+                    _toastService.ShowToast(Label.AppAdminTimesheet+" "+Label.AppArchived, Theme.Success);
                     break;
             }
 

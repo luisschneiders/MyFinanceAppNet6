@@ -200,7 +200,7 @@ public partial class AdminExpenseOffCanvas : ComponentBase
             await _expenseService.CreateRecord(_expenseModel);
 
             _isProcessing = false;
-            _toastService.ShowToast("Expense added!", Theme.Success);
+            _toastService.ShowToast(Label.AppAdminExpense+" "+Label.AppAdded, Theme.Success);
 
             await OnSubmitSuccess.InvokeAsync();
             await Task.Delay((int)Delay.DataSuccess);

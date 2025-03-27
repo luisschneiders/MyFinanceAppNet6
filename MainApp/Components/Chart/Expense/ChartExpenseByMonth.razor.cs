@@ -130,7 +130,7 @@ public partial class ChartExpenseByMonth : ComponentBase
         await ResetChartDefaults();
         await RefreshChart();
 
-        _toastService.ShowToast(@Label.AppMessageDateRangeChanged, Theme.Info);
+        _toastService.ShowToast(Label.AppMessageDateRangeChanged, Theme.Info);
 
         await Task.CompletedTask;
     }

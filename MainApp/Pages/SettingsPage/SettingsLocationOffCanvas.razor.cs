@@ -140,7 +140,7 @@ public partial class SettingsLocationOffCanvas : ComponentBase
 
             await _locationService.SaveRecord(_userLocationModel);
 
-            _toastService.ShowToast("Location saved!", Theme.Success);
+            _toastService.ShowToast(Label.AppSettingLocation+" "+Label.AppSaved, Theme.Success);
 
             await Task.Delay((int)Delay.DataSuccess);
             await ResetDefaults();

@@ -145,7 +145,7 @@ public partial class AdminTransactionOffCanvas : ComponentBase
             }
 
             _isProcessing = false;
-            _toastService.ShowToast("Transaction added!", Theme.Success);
+            _toastService.ShowToast(Label.AppAdminTransaction+" "+Label.AppAdded, Theme.Success);
 
             if (_transactionModel.TransactionCategoryModel.ActionType == TransactionActionType.C.ToString())
             {

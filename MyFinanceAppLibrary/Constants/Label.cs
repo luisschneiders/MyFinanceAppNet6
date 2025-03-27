@@ -20,6 +20,7 @@ public static class Label
     public const string AppLogout = "Logout";
     public const string AppAdded = "Added!";
     public const string AppUpdated = "Updated!";
+    public const string AppSaved = "Saved!";
     public const string AppArchived = "Archived!";
     public const string AppNoRecordFound = "No record found!";
     public const string AppActions = "Actions";
@@ -178,6 +179,7 @@ public static class Label
 
 
     // Page expenses
+    public const string AppAdminExpense = "Expense";
     public const string AppAdminExpenseButtonNew = "New Expense";
     public const string AppAdminExpenseFieldAddress = "Address";
     public const string AppAdminExpenseFieldAddressMessage = "The Address field is required.";
@@ -210,6 +212,7 @@ public static class Label
 
 
     // Page timesheet and shift
+    public const string AppAdminTimesheet = "Timesheet";
     public const string AppAdminShiftButtonNew = "Add shift";
     public const string AppAdminShiftButtonSave = "Save shift";
     public const string AppAdminShiftAvailability = "Availability status";

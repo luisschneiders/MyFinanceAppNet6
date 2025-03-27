@@ -63,7 +63,7 @@ public partial class AdminTransactionModal : ComponentBase
 
             await _transactionService.ArchiveRecord(_transactionModel);
 
-            _toastService.ShowToast("Transaction archived!", Theme.Success);
+            _toastService.ShowToast(Label.AppAdminTransaction+" "+Label.AppArchived, Theme.Success);
 
             await OnSubmitSuccess.InvokeAsync();
             await Task.Delay((int)Delay.DataSuccess);
