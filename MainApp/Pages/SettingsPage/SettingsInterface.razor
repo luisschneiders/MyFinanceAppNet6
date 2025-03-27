@@ -4,12 +4,12 @@
     <CardMiddle Styles="p-0">
         <div @onclick="SetSettingsButtonsForms">
             <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+Radius)">
-                <i class="bi bi-ui-checks-grid text-info-emphasis fs-5"></i>
+                <i class="bi bi-ui-checks-grid text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
                 <div class="w-100 text-start ps-3 pe-2">
                     <span class="d-block mb-1">@Label.AppSettingInterface</span>
-                    <small class="text-secondary">@Label.AppSettingInterfaceParagraph</small>
+                    <small class="text-@(Theme.Secondary.ToString().ToLower())">@Label.AppSettingInterfaceParagraph</small>
                 </div>
-                <div class="text-secondary">
+                <div class="text-@(Theme.Secondary.ToString().ToLower())">
                     <i class="bi bi-chevron-right"></i>
                 </div>
             </div>

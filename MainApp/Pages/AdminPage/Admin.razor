@@ -34,56 +34,68 @@
                                                 <div class="d-grid gap-3">
                                                     <NavLink href="@EndPoint.AdminExpenses">
                                                         <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                            <i class="bi bi-cart4 text-info-emphasis fs-5"></i>
+                                                            <i class="bi bi-cart4 text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
                                                             <div class="w-100 text-start ps-3 pe-2">
-                                                                <span class="mb-1">Expenses</span>
-                                                                <div class="text-secondary pb-2">
-                                                                    <small class="text-wrap d-none d-lg-flex">Control and visualize your expenses using calendar or list views. <br />See map locations based on your purchases.</small>
+                                                                <span class="mb-1">@Label.AppMenuAdminExpense</span>
+                                                                <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
+                                                                    <small class="text-wrap d-none d-xl-flex">
+                                                                        @Label.AppPageAdminFinancialInstitutionParagraph1
+                                                                        <br />
+                                                                        @Label.AppPageAdminFinancialInstitutionParagraph2
+                                                                    </small>
                                                                 </div>
                                                             </div>
-                                                            <div class="text-secondary">
+                                                            <div class="text-@(Theme.Secondary.ToString().ToLower())">
                                                                 <i class="bi bi-chevron-right"></i>
                                                             </div>
                                                         </div>
                                                     </NavLink>
                                                     <NavLink href="@EndPoint.AdminTransactions">
                                                         <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                            <i class="bi bi-currency-exchange text-info-emphasis fs-5"></i>
+                                                            <i class="bi bi-currency-exchange text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
                                                             <div class="w-100 text-start ps-3 pe-2">
-                                                                <span class="mb-1">Transactions</span>
-                                                                <div class="text-secondary pb-2">
-                                                                    <small class="text-wrap d-none d-lg-flex">Create records between banks and visualize graphs comparing income & outcomes from previous months.</small>
+                                                                <span class="mb-1">@Label.AppMenuAdminTransaction</span>
+                                                                <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
+                                                                    <small class="text-wrap d-none d-xl-flex">
+                                                                        @Label.AppPageAdminTransactionParagraph1
+                                                                    </small>
                                                                 </div>
                                                             </div>
-                                                            <div class="text-secondary">
+                                                            <div class="text-@(Theme.Secondary.ToString().ToLower())">
                                                                 <i class="bi bi-chevron-right"></i>
                                                             </div>
                                                         </div>
                                                     </NavLink>
                                                     <NavLink href="@EndPoint.AdminTimesheet">
                                                         <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                            <i class="bi bi-clock-history text-info-emphasis fs-5"></i>
+                                                            <i class="bi bi-clock-history text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
                                                             <div class="w-100 text-start ps-3 pe-2">
-                                                                <span class="mb-1">Timesheet</span>
-                                                                <div class="text-secondary pb-2">
-                                                                    <small class="text-wrap d-none d-lg-flex">Keep records of your timesheets across the companies you work. <br />Use the calculator tool for rates estimate.</small>
+                                                                <span class="mb-1">@Label.AppMenuAdminTimesheet</span>
+                                                                <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
+                                                                    <small class="text-wrap d-none d-xl-flex">
+                                                                        @Label.AppPageAdminTimesheetParagraph1 
+                                                                        <br />
+                                                                        @Label.AppPageAdminTimesheetParagraph2
+                                                                    </small>
                                                                 </div>
                                                             </div>
-                                                            <div class="text-secondary">
+                                                            <div class="text-@(Theme.Secondary.ToString().ToLower())">
                                                                 <i class="bi bi-chevron-right"></i>
                                                             </div>
                                                         </div>
                                                     </NavLink>
                                                     <NavLink href="@EndPoint.AdminTrips">
                                                         <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                            <i class="bi bi-pin-map text-info-emphasis fs-5"></i>
+                                                            <i class="bi bi-pin-map text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
                                                             <div class="w-100 text-start ps-3 pe-2">
-                                                                <span class="mb-1">Trips</span>
-                                                                <div class="text-secondary pb-2">
-                                                                    <small class="text-wrap d-none d-lg-flex">Keep track of your trips based on the cars you drive.</small>
+                                                                <span class="mb-1">@Label.AppMenuAdminTrip</span>
+                                                                <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
+                                                                    <small class="text-wrap d-none d-xl-flex">
+                                                                        @Label.AppPageAdminTripParagraph1
+                                                                    </small>
                                                                 </div>
                                                             </div>
-                                                            <div class="text-secondary">
+                                                            <div class="text-@(Theme.Secondary.ToString().ToLower())">
                                                                 <i class="bi bi-chevron-right"></i>
                                                             </div>
                                                         </div>
@@ -107,7 +119,7 @@
                                 <div class="col-sm-12 col-md-6 d-flex flex-sm-column flex-md-row justify-content-center">
                                     <CardView Styles="w-100 border-0">
                                         <CardMiddle>
-                                            <h3 class="fs-5">Expenses</h3>
+                                            <h3 class="fs-5">@Label.AppMenuAdminExpense</h3>
                                             <ChartExpenseLast3Months />
                                         </CardMiddle>
                                     </CardView>
@@ -115,7 +127,7 @@
                                 <div class="col-sm-12 col-md-6 d-flex flex-sm-column flex-md-row justify-content-center">
                                     <CardView Styles="w-100 border-0">
                                         <CardMiddle>
-                                            <h3 class="fs-5">Transactions</h3>
+                                            <h3 class="fs-5">@Label.AppMenuAdminTransaction</h3>
                                             <ChartTransactionLast3Months />
                                         </CardMiddle>
                                     </CardView>

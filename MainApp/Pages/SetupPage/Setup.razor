@@ -34,84 +34,96 @@
                                                 <div class="d-grid gap-3">
                                                     <NavLink href="@EndPoint.SetupBank">
                                                         <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                            <i class="bi bi-bank2 text-info-emphasis fs-5"></i>
+                                                            <i class="bi bi-bank2 text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
                                                             <div class="w-100 text-start ps-3 pe-2">
                                                                 <span class="mb-1">@Label.AppMenuSetupFinancialInstitution</span>
-                                                                <div class="text-secondary pb-2">
-                                                                    <small class="text-wrap d-none d-lg-flex">@Label.AppPageSetupFinancialInstitutionParagraph</small>
+                                                                <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
+                                                                    <small class="text-wrap d-none d-xl-flex">
+                                                                        @Label.AppPageSetupFinancialInstitutionParagraph
+                                                                    </small>
                                                                 </div>
                                                             </div>
-                                                            <div class="text-secondary">
+                                                            <div class="text-@(Theme.Secondary.ToString().ToLower())">
                                                                 <i class="bi bi-chevron-right"></i>
                                                             </div>
                                                         </div>
                                                     </NavLink>
                                                     <NavLink href="@EndPoint.SetupCompany">
                                                         <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                            <i class="bi bi-building text-info-emphasis fs-5"></i>
+                                                            <i class="bi bi-building text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
                                                             <div class="w-100 text-start ps-3 pe-2">
                                                                 <span class="mb-1">@Label.AppMenuSetupCompany</span>
-                                                                <div class="text-secondary pb-2">
-                                                                    <small class="text-wrap d-none d-lg-flex">@Label.AppPageSetupCompanyParagraph</small>
+                                                                <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
+                                                                    <small class="text-wrap d-none d-xl-flex">
+                                                                        @Label.AppPageSetupCompanyParagraph
+                                                                    </small>
                                                                 </div>
                                                             </div>
-                                                            <div class="text-secondary">
+                                                            <div class="text-@(Theme.Secondary.ToString().ToLower())">
                                                                 <i class="bi bi-chevron-right"></i>
                                                             </div>
                                                         </div>
                                                     </NavLink>
                                                     <NavLink href="@EndPoint.SetupExpense">
                                                         <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                            <i class="bi bi-cart4 text-info-emphasis fs-5"></i>
+                                                            <i class="bi bi-cart4 text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
                                                             <div class="w-100 text-start ps-3 pe-2">
                                                                 <span class="mb-1">@Label.AppMenuSetupExpense</span>
-                                                                <div class="text-secondary pb-2">
-                                                                    <small class="text-wrap d-none d-lg-flex">@Label.AppPageSetupExpenseParagraph</small>
+                                                                <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
+                                                                    <small class="text-wrap d-none d-xl-flex">
+                                                                        @Label.AppPageSetupExpenseParagraph
+                                                                    </small>
                                                                 </div>
                                                             </div>
-                                                            <div class="text-secondary ps-3 pe-2">
+                                                            <div class="text-@(Theme.Secondary.ToString().ToLower()) ps-3 pe-2">
                                                                 <i class="bi bi-chevron-right"></i>
                                                             </div>
                                                         </div>
                                                     </NavLink>
                                                     <NavLink href="@EndPoint.SetupTax">
                                                         <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                            <i class="bi bi-receipt text-info-emphasis fs-5"></i>
+                                                            <i class="bi bi-receipt text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
                                                             <div class="w-100 text-start ps-3 pe-2">
                                                                 <span class="mb-1">@Label.AppMenuSetupTax</span>
-                                                                <div class="text-secondary pb-2">
-                                                                    <small class="text-wrap d-none d-lg-flex">@Label.AppPageSetupTaxParagraph</small>
+                                                                <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
+                                                                    <small class="text-wrap d-none d-xl-flex">
+                                                                        @Label.AppPageSetupTaxParagraph
+                                                                    </small>
                                                                 </div>
                                                             </div>
-                                                            <div class="text-secondary">
+                                                            <div class="text-@(Theme.Secondary.ToString().ToLower())">
                                                                 <i class="bi bi-chevron-right"></i>
                                                             </div>
                                                         </div>
                                                     </NavLink>
                                                     <NavLink href="@EndPoint.SetupTransaction">
                                                         <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                            <i class="bi bi-currency-exchange text-info-emphasis fs-5"></i>
+                                                            <i class="bi bi-currency-exchange text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
                                                             <div class="w-100 text-start ps-3 pe-2">
                                                                 <span class="mb-1">@Label.AppMenuSetupTransaction</span>
-                                                                <div class="text-secondary pb-2">
-                                                                    <small class="text-wrap d-none d-lg-flex">@Label.AppPageSetupTransactionParagraph</small>
+                                                                <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
+                                                                    <small class="text-wrap d-none d-xl-flex">
+                                                                        @Label.AppPageSetupTransactionParagraph
+                                                                    </small>
                                                                 </div>
                                                             </div>
-                                                            <div class="text-secondary">
+                                                            <div class="text-@(Theme.Secondary.ToString().ToLower())">
                                                                 <i class="bi bi-chevron-right"></i>
                                                             </div>
                                                         </div>
                                                     </NavLink>
                                                     <NavLink href="@EndPoint.SetupVehicle">
                                                         <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                            <i class="bi bi-truck text-info-emphasis fs-5"></i>
+                                                            <i class="bi bi-truck text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
                                                             <div class="w-100 text-start ps-3 pe-2">
                                                                 <span class="mb-1">@Label.AppMenuSetupVehicle</span>
-                                                                <div class="text-secondary pb-2">
-                                                                    <small class="text-wrap d-none d-lg-flex">@Label.AppPageSetupVehicleParagraph</small>
+                                                                <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
+                                                                    <small class="text-wrap d-none d-xl-flex">
+                                                                        @Label.AppPageSetupVehicleParagraph
+                                                                    </small>
                                                                 </div>
                                                             </div>
-                                                            <div class="text-secondary">
+                                                            <div class="text-@(Theme.Secondary.ToString().ToLower())">
                                                                 <i class="bi bi-chevron-right"></i>
                                                             </div>
                                                         </div>

@@ -29,7 +29,7 @@
                     <li class="px-2 py-1 dropdown-item rounded">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="select-all-company" @onchange="ToggleSelectAllCompany" />
-                            <label class="form-check-label" for="select-all-company">
+                            <label class="form-check-label w-100" for="select-all-company">
                                 <strong>
                                     @Label.AppSelectAll
                                 </strong>
@@ -46,7 +46,7 @@
                                         id="@($"company{company.Id}")"
                                         value="@(company.Id)"
                                         @onchange="(e) => OnCheckboxChangedCompany(e, company.Id)" />
-                                <label class="form-check-label" for="@($"company{company.Id}")" title="@company.Description">
+                                <label class="form-check-label w-100" for="@($"company{company.Id}")" title="@company.Description">
                                     @($"{company.Description.Truncate((int)Truncate.Company)}")
                                 </label>
                             </div>
@@ -70,7 +70,7 @@
                                         id="@($"status{status.Id}")"
                                         value="@(status.Id)"
                                         @onchange="(e) => OnCheckboxChangedStatus(e, status.Id)" />
-                                <label class="form-check-label" for="@($"status{status.Id}")" title="@status.Description">
+                                <label class="form-check-label w-100" for="@($"status{status.Id}")" title="@status.Description">
                                     @($"{status.Description}")
                                 </label>
                             </div>

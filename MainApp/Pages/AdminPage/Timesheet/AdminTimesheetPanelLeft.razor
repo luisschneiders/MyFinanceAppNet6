@@ -111,7 +111,7 @@
                                                     id="@($"timesheet-column-{column.Id}")"
                                                     value="@(column.Id)"
                                                     @onchange="(e) => OnCheckboxChangedColumns(e, column.Id)" />
-                                            <label class="form-check-label" for="@($"timesheet-column-{column.Id}")" title="@column.Description">
+                                            <label class="form-check-label w-100" for="@($"timesheet-column-{column.Id}")" title="@column.Description">
                                                 @($"{column.Description.Truncate((int)Truncate.ColumnTimesheet)}")
                                             </label>
                                         </div>

@@ -109,25 +109,6 @@ public partial class AdminTimesheetModalFilter : ComponentBase
         await Task.CompletedTask;
     }
 
-    // private async Task RemoveDropdownFilterCompany()
-    // {
-    //     _multiFilterTimesheetDTO.CompanyId = new();
-    //     _companies = await _dropDownMultiSelectService.UncheckAll(_companies);
-
-    //     await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTimesheetDTO);
-
-    //     await Task.CompletedTask;
-    // }
-    // private async Task RemoveDropdownFilterStatus()
-    // {
-    //     _multiFilterTimesheetDTO.StatusId = new();
-    //     _statuses = await _dropDownMultiSelectService.UncheckAll(_statuses);
-
-    //     await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTimesheetDTO);
-
-    //     await Task.CompletedTask;
-    // }
-
     private async Task UncheckAll()
     {
         _companies = await _dropDownMultiSelectService.UncheckAll(_companies);
@@ -186,6 +167,7 @@ public partial class AdminTimesheetModalFilter : ComponentBase
     private async void ToggleSelectAllCompany(ChangeEventArgs e)
     {
         _selectAllCheckedCompany = (bool)e.Value!;
+
         foreach (var company in _companies)
         {
             company.IsChecked = _selectAllCheckedCompany;
@@ -202,6 +184,12 @@ public partial class AdminTimesheetModalFilter : ComponentBase
             }
 
         }
+
+        if (_selectAllCheckedCompany is false)
+        {
+            _multiFilterTimesheetDTO.CompanyId = new();
+        }
+
         await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTimesheetDTO);
     }
 }

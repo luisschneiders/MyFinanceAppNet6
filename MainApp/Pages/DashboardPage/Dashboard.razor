@@ -60,7 +60,7 @@
                                             <div class="d-grid gap-3">
                                                 <NavLink href="@EndPoint.Admin">
                                                     <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                        <i class="bi  bi-grid-3x3-gap text-info-emphasis fs-5"></i>
+                                                        <i class="bi  bi-grid-3x3-gap text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
                                                         <div class="w-100 text-start ps-3 pe-2">
                                                             <span class="mb-1">
                                                                 @Label.AppMenuAdmin
@@ -69,36 +69,36 @@
                                                                 </sup>
                                                             </span>
                                                         </div>
-                                                        <div class="text-secondary">
+                                                        <div class="text-@(Theme.Secondary.ToString().ToLower())">
                                                             <i class="bi bi-chevron-right"></i>
                                                         </div>
                                                     </div>
                                                 </NavLink>
                                                 <NavLink href="@EndPoint.AdminExpenses">
                                                     <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                        <i class="bi bi-cart4 text-info-emphasis fs-5"></i>
+                                                        <i class="bi bi-cart4 text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
                                                         <div class="w-100 text-start ps-3 pe-2">
                                                             <span class="mb-1">@Label.AppMenuAdminExpense</span>
                                                         </div>
-                                                        <div class="text-secondary">
+                                                        <div class="text-@(Theme.Secondary.ToString().ToLower())">
                                                             <i class="bi bi-chevron-right"></i>
                                                         </div>
                                                     </div>
                                                 </NavLink>
                                                 <NavLink href="@EndPoint.Settings">
                                                     <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                        <i class="bi bi-sliders text-info-emphasis fs-5"></i>
+                                                        <i class="bi bi-sliders text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
                                                         <div class="w-100 text-start ps-3 pe-2">
                                                             <span class="mb-1">@Label.AppMenuSetting</span>
                                                         </div>
-                                                        <div class="text-secondary">
+                                                        <div class="text-@(Theme.Secondary.ToString().ToLower())">
                                                             <i class="bi bi-chevron-right"></i>
                                                         </div>
                                                     </div>
                                                 </NavLink>
                                                 <NavLink href="@EndPoint.Setup">
                                                     <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                        <i class="bi bi-columns-gap text-info-emphasis fs-5"></i>
+                                                        <i class="bi bi-columns-gap text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
                                                         <div class="w-100 text-start ps-3 pe-2">
                                                             <span class="mb-1">
                                                                 @Label.AppMenuSetup
@@ -107,29 +107,29 @@
                                                                 </sup>
                                                             </span>
                                                         </div>
-                                                        <div class="text-secondary">
+                                                        <div class="text-@(Theme.Secondary.ToString().ToLower())">
                                                             <i class="bi bi-chevron-right"></i>
                                                         </div>
                                                     </div>
                                                 </NavLink>
                                                 <NavLink href="@EndPoint.AdminTimesheet">
                                                     <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                        <i class="bi bi-clock-history text-info-emphasis fs-5"></i>
+                                                        <i class="bi bi-clock-history text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
                                                         <div class="w-100 text-start ps-3 pe-2">
                                                             <span class="mb-1">@Label.AppMenuAdminTimesheet</span>
                                                         </div>
-                                                        <div class="text-secondary">
+                                                        <div class="text-@(Theme.Secondary.ToString().ToLower())">
                                                             <i class="bi bi-chevron-right"></i>
                                                         </div>
                                                     </div>
                                                 </NavLink>
                                                 <NavLink href="@EndPoint.AdminTransactions">
                                                     <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                        <i class="bi bi-currency-exchange text-info-emphasis fs-5"></i>
+                                                        <i class="bi bi-currency-exchange text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
                                                         <div class="w-100 text-start ps-3 pe-2">
                                                             <span class="mb-1">@Label.AppMenuAdminTransaction</span>
                                                         </div>
-                                                        <div class="text-secondary">
+                                                        <div class="text-@(Theme.Secondary.ToString().ToLower())">
                                                             <i class="bi bi-chevron-right"></i>
                                                         </div>
                                                     </div>

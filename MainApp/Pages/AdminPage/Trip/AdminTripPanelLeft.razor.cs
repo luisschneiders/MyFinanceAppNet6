@@ -195,7 +195,7 @@ public partial class AdminTripPanelLeft : ComponentBase
     {
         _dateTimeRange = dateTimeRange;
         _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
-        _toastService.ShowToast("Date range has changed!", Theme.Info);
+        _toastService.ShowToast(@Label.AppMessageDateRangeChanged, Theme.Info);
 
         await RefreshList();
 

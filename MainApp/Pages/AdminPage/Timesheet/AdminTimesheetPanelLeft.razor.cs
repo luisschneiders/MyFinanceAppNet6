@@ -293,7 +293,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     {
         _dateRange = dateTimeRange;
         _dropdownDateRangeLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
-        _toastService.ShowToast("Date range has changed!", Theme.Info);
+        _toastService.ShowToast(@Label.AppMessageDateRangeChanged, Theme.Info);
 
         await RefreshList();
 
@@ -304,7 +304,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     {
         _dateCalendar = dateTimeRange;
         _dropdownDateCalendarLabel = await _dropdownDateMonthYearService.UpdateLabel(dateTimeRange);
-        _toastService.ShowToast("Date range has changed!", Theme.Info);
+        _toastService.ShowToast(@Label.AppMessageDateRangeChanged, Theme.Info);
 
         await RefreshList();
         await Task.CompletedTask;

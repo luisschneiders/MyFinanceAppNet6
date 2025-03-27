@@ -174,6 +174,7 @@ public partial class AdminTransactionModalFilter : ComponentBase
     private async void ToggleSelectAllTransaction(ChangeEventArgs e)
     {
         _selectAllCheckedTransaction = (bool)e.Value!;
+
         foreach (var transactionCategory in _transactionCategories)
         {
             transactionCategory.IsChecked = _selectAllCheckedTransaction;
@@ -188,14 +189,20 @@ public partial class AdminTransactionModalFilter : ComponentBase
                 _multiFilterTransactionDTO.TCategoryId.Remove(transactionCategory.Id);
                 transactionCategory.IsChecked = false;
             }
-
         }
+
+        if (_selectAllCheckedTransaction is false)
+        {
+            _multiFilterTransactionDTO.TCategoryId = new();
+        }
+
         await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTransactionDTO);
     }
 
     private async void ToggleSelectAllInstitution(ChangeEventArgs e)
     {
         _selectAllCheckedInstitution = (bool)e.Value!;
+
         foreach (var bank in _banks)
         {
             bank.IsChecked = _selectAllCheckedInstitution;
@@ -210,8 +217,13 @@ public partial class AdminTransactionModalFilter : ComponentBase
                 _multiFilterTransactionDTO.FromBank.Remove(bank.Id);
                 bank.IsChecked = false;
             }
-
         }
+
+        if (_selectAllCheckedInstitution is false)
+        {
+            _multiFilterTransactionDTO.FromBank = new();
+        }
+
         await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTransactionDTO);
     }
 }

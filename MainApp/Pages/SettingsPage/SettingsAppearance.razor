@@ -4,12 +4,12 @@
     <CardMiddle Styles="p-0">
         <div @onclick="SetSettingsAppearance">
             <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+Radius)">
-                <i class="bi bi-moon-stars-fill text-info-emphasis fs-5"></i>
+                <i class="bi bi-moon-stars-fill text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
                 <div class="w-100 text-start ps-3 pe-2">
                     <span class="d-block mb-1">@Label.AppSettingAppearance</span>
-                    <small class="text-secondary">@Label.AppSettingAppearanceParagraph</small>
+                    <small class="text-@(Theme.Secondary.ToString().ToLower())">@Label.AppSettingAppearanceParagraph</small>
                 </div>
-                <div class="text-secondary">
+                <div class="text-@(Theme.Secondary.ToString().ToLower())">
                     <i class="bi bi-chevron-right"></i>
                 </div>
             </div>

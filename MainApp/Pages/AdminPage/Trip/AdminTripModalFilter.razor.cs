@@ -179,6 +179,7 @@ public partial class AdminTripModalFilter : ComponentBase
     private async void ToggleSelectAllVehicle(ChangeEventArgs e)
     {
         _selectAllCheckedVehicle = (bool)e.Value!;
+
         foreach (var vehicle in _vehicles)
         {
             vehicle.IsChecked = _selectAllCheckedVehicle;
@@ -193,9 +194,13 @@ public partial class AdminTripModalFilter : ComponentBase
                 _multiFilterTripDTO.VehicleId.Remove(vehicle.Id);
                 vehicle.IsChecked = false;
             }
-
         }
+
+        if (_selectAllCheckedVehicle is false)
+        {
+            _multiFilterTripDTO.VehicleId = new();
+        }
+
         await OnSubmitFilterSuccess.InvokeAsync(_multiFilterTripDTO);
     }
-
 }

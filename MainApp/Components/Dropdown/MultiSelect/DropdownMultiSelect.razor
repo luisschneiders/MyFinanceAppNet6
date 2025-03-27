@@ -1,5 +1,5 @@
-﻿<div class="w-100 btn-group btn-outline-@(ButtonColor.ToString().ToLower()) border border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
-    <div class="w-100 dropdown @(IsDisplayLargeNone ? "d-lg-none" : "")">
+﻿<div class="w-100 btn-group border border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
+    <div class="w-100 @(IsDisplayLargeNone ? "d-lg-none" : "")">
         <button class="w-100 btn @("btn-" + ButtonSize.ToString().ToLower()) @("btn-outline-" + ButtonColor.ToString().ToLower() ) border-0 text-nowrap @("rounded"+_appSettings.Button)"
                 title="Click dropdown to expand"
                 id="dropdownMultiSelect"

@@ -2,7 +2,6 @@
 
 public static class Label
 {
-
     public const string AppFilterByBank = "Filter By Financial Institution";
     public const string AppFilterByCompany = "Filter By Company";
     public const string AppFilterByExpenseCategory = "Filter By Expense";
@@ -41,7 +40,7 @@ public static class Label
     public const string AppKm = "Km";
     public const string AppCannotBeUndone = "This action cannot be undone.";
     public const string AppNewChart = "New chart";
-
+    public const string AppMessageDateRangeChanged = "Date range has changed!";
 
 
     // Menubar
@@ -113,7 +112,7 @@ public static class Label
     public const string AppPageAdminTimesheetParagraph1 = "Keep records of your timesheets across the companies you work.";
     public const string AppPageAdminTimesheetParagraph2 = "Use the calculator tool for rates estimate.";
     public const string AppPageAdminTripParagraph1 = "Keep track of your trips based on the cars you drive.";
-    public const string AppPageAdminFinancialInstitution = "Keep track of your trips based on the cars you drive.";
+
 
     // Page setup section
     public const string AppPageSetupFinancialInstitutionParagraph  = "Add, update and view list of financial institutions.";
@@ -177,6 +176,7 @@ public static class Label
     public const string AppSetupVehicleFieldYear = "Year";
     public const string AppSetupVehicleFieldStatus = AppFieldStatus;
 
+
     // Page expenses
     public const string AppAdminExpenseButtonNew = "New Expense";
     public const string AppAdminExpenseFieldAddress = "Address";
@@ -192,6 +192,7 @@ public static class Label
     public const string AppAdminExpensePeriodMessage1 = "Total";
     public const string AppAdminExpensePeriodMessage2 = "expenses for the period";
     public const string AppAdminExpensePeriodMessage3 = "All transactions linked to this record will be archived too.";
+
 
     // Page transactions
     public const string AppAdminTransaction = "Transaction";
@@ -249,7 +250,6 @@ public static class Label
     public const string AppAdminTripPayStatus = AppFieldStatus;
 
 
-
     // Components section
     public const string AppComponentAllAccountsTitle = "All Accounts";
     public const string AppComponentExpenseByPeriodTitle = "Total expense by period";
@@ -292,6 +292,7 @@ public static class Label
     public const string AppButtonArchiving = "Archiving...";
     public const string AppButtonArchiveConfirmation = "Yes, archive!";
     public const string AppButtonCancel = "Cancel";
+    public const string AppButtonClearFilter = "Clear filter";
     public const string AppButtonClose = "Close";
     public const string AppButtonColumns = "Columns";
     public const string AppButtonEdit = "Edit";
@@ -316,6 +317,4 @@ public static class Label
     public const string AppFieldSearch = "Search here...";
     public const string AppFieldSelect = "-- Select --";
     public const string AppFieldStatus = "Status";
-
-
 }
