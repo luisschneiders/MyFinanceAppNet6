@@ -27,7 +27,7 @@
 
                 <PageMiddleView>
                     <PageMiddleWrapper>
-                        <div class="app-page-background-secondary mb-5 pb-5">
+                        <div class="app-page-background-@(Theme.Dark.ToString().ToLower()) mb-5 pb-5">
                             <div class="container-lg">
                                 <div class="row gy-5">
                                     <div class="col-12 col-md-8 d-flex flex-sm-column flex-md-row justify-content-center">
@@ -151,25 +151,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="app-page-background-secondary">
-                            <div class="container-lg">
-                                <div class="row gy-5 app-footer-gap">
-                                    <div class="col-sm-12 col-md-8 d-flex flex-sm-column flex-md-row justify-content-center">
-                                        <CardView Styles="w-100 border-0">
-                                            <CardMiddle>
-                                                <ChartTransactionIOByDay ChartType="ChartType.line"
-                                                                         DateRange="@_dateTimeRange"
-                                                                         PeriodRange="PeriodRange.Year" />
-                                            </CardMiddle>
-                                        </CardView>
-                                    </div>
-                                    <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
-                                        <CardView Styles="w-100 border-0">
-                                            <CardMiddle>
-                                                <ChartExpenseLast5Years />
-                                            </CardMiddle>
-                                        </CardView>
-                                    </div>
+                        <div class="container-lg">
+                            <div class="row gy-5 app-footer-gap">
+                                <div class="col-sm-12 col-md-8 d-flex flex-sm-column flex-md-row justify-content-center">
+                                    <CardView Styles="w-100 border-0">
+                                        <CardMiddle>
+                                            <ChartTransactionIOByDay ChartType="ChartType.line"
+                                                                        DateRange="@_dateTimeRange"
+                                                                        PeriodRange="PeriodRange.Year" />
+                                        </CardMiddle>
+                                    </CardView>
+                                </div>
+                                <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
+                                    <CardView Styles="w-100 border-0">
+                                        <CardMiddle>
+                                            <ChartExpenseLast5Years />
+                                        </CardMiddle>
+                                    </CardView>
                                 </div>
                             </div>
                         </div>

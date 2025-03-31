@@ -336,7 +336,8 @@ h1:focus {
 }
 
 [data-bs-theme=light] .app-page-responsive-height th {
-    background-color: #f8f8f8;
+    background-color: #eeece5;
+    /* background-color: #f8f8f8; */
 }
 
 [data-bs-theme=dark] .main {
@@ -344,7 +345,8 @@ h1:focus {
 }
 
 [data-bs-theme=light] .main {
-    background-color: #f8f8f8;
+    background-color: #eeece5;
+    /* background-color: #f8f8f8; */
 }
 
 [data-bs-theme=dark] .app-footer {
@@ -407,17 +409,17 @@ h1:focus {
 }
 
 @media (min-width: 992px) {
-    .app-navbar {
-        backdrop-filter: blur(2px);
-        -webkit-backdrop-filter: blur(2px);
-    }
-
     [data-bs-theme=light] .app-navbar {
         background-color: #fcfcfd88;
     }
 
     [data-bs-theme=dark] .app-navbar {
         background-color: #343a4088;
+    }
+
+    .app-navbar {
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
     }
 
     .content {
