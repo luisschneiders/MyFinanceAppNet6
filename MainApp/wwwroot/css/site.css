@@ -331,6 +331,10 @@ h1:focus {
     transform: scale(.85) translateY(-.5rem) translateX(-.6rem);
 }
 
+[data-bs-theme=light] body {
+    background-color: #eeece5;
+}
+
 [data-bs-theme=dark] .app-page-responsive-height th {
     background-color: #252a2e;
 }

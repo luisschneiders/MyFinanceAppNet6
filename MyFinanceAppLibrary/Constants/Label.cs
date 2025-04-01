@@ -45,6 +45,7 @@ public static class Label
 
 
     // Menubar
+    public const string AppMenu = "Menu";
     public const string AppMenuDashboard = "Dashboard";
     public const string AppMenuAdmin = "Admin";
     public const string AppMenuAdminExpense = "Expense";
@@ -60,6 +61,7 @@ public static class Label
     public const string AppMenuSetupTax = "Tax";
     public const string AppMenuSetting = "Settings";
     public const string AppMenuTools = "Tools";
+    public const string AppMenuToolsExplore = "Explore";
     public const string AppCalculator = "Calculator";
     public const string AppSelectAll = "Select All";
 
