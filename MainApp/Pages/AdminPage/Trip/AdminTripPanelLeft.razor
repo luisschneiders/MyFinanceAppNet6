@@ -34,7 +34,7 @@
                             {
                                 <div class="d-flex align-items-center">
                                     <div class="vr my-1 text-@(Theme.Dark.ToString().ToLower())-emphasis"></div>
-                                    <button class="btn btn-outline-@(Theme.Light.ToString().ToLower()) btn-@(Size.Sm.ToString().ToLower()) border-0 rounded-5"
+                                    <button class="btn btn-outline-@(Theme.Light.ToString().ToLower()) btn-@(Size.Sm.ToString().ToLower()) border-0 @("rounded"+_appSettings.Button)"
                                             title="@Label.AppButtonRemove"
                                             @onclick="ResetAllFilters">
                                         <i class="bi bi-x-lg text-@(Theme.Secondary.ToString().ToLower())"></i>

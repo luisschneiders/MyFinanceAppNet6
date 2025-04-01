@@ -46,7 +46,7 @@
     {
         <div class="d-flex align-items-center">
             <div class="vr my-1 text-@(ButtonColor.ToString().ToLower())-emphasis"></div>
-            <a class="btn btn-outline-@(Theme.Light.ToString().ToLower()) btn-@(Size.Sm.ToString().ToLower()) border-0 rounded-5"
+            <a class="btn btn-outline-@(Theme.Light.ToString().ToLower()) btn-@(Size.Sm.ToString().ToLower()) border-0 @("rounded"+_appSettings.Button)"
                     title="@Label.AppButtonRemove"
                     @onclick="ResetDateTimeRange">
                 <i class="bi bi-x-lg text-@(Theme.Secondary.ToString().ToLower())"></i>

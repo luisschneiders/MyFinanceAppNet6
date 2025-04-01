@@ -2,8 +2,8 @@
 @using Microsoft.Extensions.Hosting
 @using MainApp.Components.OffCanvas
 
-<nav class="navbar navbar-expand-lg fixed-top app-navbar shadow-sm container-lg @("rounded"+_appSettings.Menu) mt-1">
-    <div class="container-lg">
+<nav class="navbar navbar-expand-lg fixed-top app-navbar shadow-sm container-fluid">
+    <div class="container-fluid">
         <AuthorizeView>
             <NotAuthorized>
                 <a class="navbar-brand d-flex align-items-center" href="@EndPoint.Home">

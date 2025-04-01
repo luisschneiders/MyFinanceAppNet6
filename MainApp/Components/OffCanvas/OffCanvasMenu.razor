@@ -17,14 +17,14 @@
             @*Only user with role "Admin" have access - start*@
             <AuthorizeView Policy="Admin">
                 <li class="nav-item dropdown">
-                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Dark.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-grid-3x3-gap"></i> <span class="d-lg-none">@Label.AppMenu</span>
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Dark.ToString().ToLower() ) border-0 @("rounded"+_appSettings.Button)" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-grid-3x3-gap fs-6"></i> <span class="d-lg-none">@Label.AppMenu</span>
                     </button>
                     <ul class="dropdown-menu app-dropdown-menu border-@Theme.Light.ToString().ToLower()-subtle bg-@Theme.Light.ToString().ToLower()-subtle @("shadow"+_appSettings.Shadow)" aria-labelledby="navbarDropdownSettingsLink1">
                     <div class="px-3 py-2">
                         <div class="d-flex flex-lg-nowrap row">
-                            <div class="col-12">
-                                <li class="p-2">
+                            <div class="col-12 px-4">
+                                <li class="py-2">
                                     <NavLink class="dropdown-item rounded" href="@EndPoint.Dashboard" Match="NavLinkMatch.All">
                                         <i class="bi bi-house pe-1"></i>@Label.AppMenuDashboard
                                     </NavLink>
@@ -33,71 +33,71 @@
                             </div>
                         </div>
                         <div class="d-flex flex-lg-nowrap row">
-                            <div class="col-auto">
-                                <li class="fs-4">
+                            <div class="col-auto px-4">
+                                <li class="fs-5">
                                     @Label.AppMenuSetup
                                 </li>
-                                <li class="p-2">
+                                <li class="py-2">
                                     <NavLink class="dropdown-item rounded" href="@EndPoint.SetupBank">
                                         <i class="bi bi-bank2 pe-1"></i>@Label.AppMenuSetupFinancialInstitution
                                     </NavLink>
                                 </li>
-                                <li class="p-2">
+                                <li class="py-2">
                                     <NavLink class="dropdown-item rounded" href="@EndPoint.SetupCompany">
                                         <i class="bi bi-building pe-1"></i>@Label.AppMenuSetupCompany
                                     </NavLink>
                                 </li>
-                                <li class="p-2">
+                                <li class="py-2">
                                     <NavLink class="dropdown-item rounded" href="@EndPoint.SetupVehicle">
                                         <i class="bi bi-truck pe-1"></i>@Label.AppMenuSetupVehicle
                                     </NavLink>
                                 </li>
-                                <li class="p-2">
+                                <li class="py-2">
                                     <NavLink class="dropdown-item rounded" href="@EndPoint.SetupExpense">
                                         <i class="bi bi-cart4 pe-1"></i>@Label.AppMenuSetupExpense
                                     </NavLink>
                                 </li>
-                                <li class="p-2">
+                                <li class="py-2">
                                     <NavLink class="dropdown-item rounded" href="@EndPoint.SetupTransaction">
                                         <i class="bi bi-currency-exchange pe-1"></i>@Label.AppMenuSetupTransaction
                                     </NavLink>
                                 </li>
-                                <li class="p-2">
+                                <li class="py-2">
                                     <NavLink class="dropdown-item rounded" href="@EndPoint.SetupTax">
                                         <i class="bi bi-receipt pe-1"></i>@Label.AppMenuSetupTax
                                     </NavLink>
                                 </li>
                             </div>
-                            <div class="col-auto">
-                                <li class="fs-4">
+                            <div class="col-auto px-4">
+                                <li class="fs-5">
                                     @Label.AppMenuAdmin
                                 </li>
-                                <li class="p-2">
+                                <li class="py-2">
                                     <NavLink class="dropdown-item rounded" href="@EndPoint.AdminExpenses">
                                         <i class="bi bi-cart4 pe-1"></i>@Label.AppMenuAdminExpense
                                     </NavLink>
                                 </li>
-                                <li class="p-2">
+                                <li class="py-2">
                                     <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTransactions">
                                         <i class="bi bi-currency-exchange pe-1"></i>@Label.AppMenuAdminTransaction
                                     </NavLink>
                                 </li>
-                                <li class="p-2">
+                                <li class="py-2">
                                     <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTimesheet">
                                         <i class="bi bi-clock-history pe-1"></i>@Label.AppMenuAdminTimesheet
                                     </NavLink>
                                 </li>
-                                <li class="p-2">
+                                <li class="py-2">
                                     <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTrips">
                                         <i class="bi bi-pin-map pe-1"></i>@Label.AppMenuAdminTrip
                                     </NavLink>
                                 </li>
                             </div>
-                            <div class="col-auto">
-                                <li class="fs-4">
+                            <div class="col-auto px-4">
+                                <li class="fs-5">
                                     @Label.AppMenuToolsExplore
                                 </li>
-                                <li class="p-2">
+                                <li class="py-2">
                                     <NavLink class="dropdown-item rounded" href="@EndPoint.Tools">
                                         <i class="bi bi-boxes pe-1"></i>@Label.AppMenuTools
                                     </NavLink>
