@@ -40,7 +40,7 @@ public static class Label
     public const string AppInactive = "Inactive";
     public const string AppKm = "Km";
     public const string AppCannotBeUndone = "This action cannot be undone.";
-    public const string AppNewChart = "New chart";
+    public const string AppNewChart = "New Chart";
     public const string AppMessageDateRangeChanged = "Date range has changed!";
 
 
@@ -223,7 +223,7 @@ public static class Label
     public const string AppAdminShiftScheduledFor = "Shift scheduled for:";
     public const string AppAdminShiftNotScheduled = "No shift scheduled";
     public const string AppAdminShiftToday = "Today's assigned shift";
-    public const string AppAdminTimesheetButtonNew = "New timesheet";
+    public const string AppAdminTimesheetButtonNew = "New Timesheet";
     public const string AppAdminTimesheetBreak = "Break (in minutes)";
     public const string AppAdminTimesheetClockIn = "Clock in";
     public const string AppAdminTimesheetClockOut = "Clock out";

@@ -12,7 +12,7 @@
 <CardView Styles="border-0">
     <CardMiddle>
         <div class="row pb-2">
-            <div class="col-10 col-lg-9 pb-2 d-flex align-items-center">
+            <div class="col-10 col-lg-8 pb-2 d-flex align-items-center">
                 @if (_isLoading)
                 {
                     <Loader />
@@ -88,7 +88,7 @@
                     </div>
                 }
             </div>
-            <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
+            <div class="col-2 col-lg-4 pb-2 d-flex justify-content-end">
                 <div class="d-none d-lg-block">
                     <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => OpenCalculatorAsync()" title="@Label.AppCalculator">
