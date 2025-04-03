@@ -46,6 +46,7 @@ public static class Label
 
     // Menubar
     public const string AppMenu = "Menu";
+    public const string AppProfile = "Profile";
     public const string AppMenuDashboard = "Dashboard";
     public const string AppMenuAdmin = "Admin";
     public const string AppMenuAdminExpense = "Expense";

@@ -1,25 +1,26 @@
 ﻿<AuthorizeView>
     <Authorized>
         <div class="dropdown">
-            <a class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@Theme.Dark.ToString().ToLower() @("rounded"+_appSettings.Button)" id="dropdownMenuUser" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
-                @Label.AppGreeting @context.User.Identity?.Name &#x1F60A<i class="bi bi-chevron-down ps-2"></i>
-            </a>
-            <ul class="w-100 dropdown-menu dropdown-menu-lg-end border-@Theme.Light.ToString().ToLower()-subtle @("shadow"+_appSettings.Shadow)" aria-labelledby="dropdownMenuUser">
-                <li class="px-2">
-                    <a class="dropdown-item rounded" href="MicrosoftIdentity/Account/EditProfile">
+            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@Theme.Dark.ToString().ToLower() border-0 @("rounded"+_appSettings.Button)" id="dropdownMenuUser" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-fill fs-6"></i> <span class="d-lg-none">@Label.AppProfile</span>
+                @* @Label.AppGreeting @context.User.Identity?.Name &#x1F60A<i class="bi bi-chevron-down ps-2"></i> *@
+            </button>
+            <ul class="w-100 dropdown-menu dropdown-menu-lg-end px-4 bg-@Theme.Light.ToString().ToLower()-subtle border-@Theme.Light.ToString().ToLower() shadow-lg @("rounded"+_appSettings.Menu)" aria-labelledby="dropdownMenuUser">
+                <li class="py-2">
+                    <NavLink class="dropdown-item rounded" href="MicrosoftIdentity/Account/EditProfile">
                         <i class="bi bi-person pe-1"></i>@Label.AppAccount
-                    </a>
+                    </NavLink>
                 </li>
-                <li class="px-2">
+                <li class="py-2">
                     <NavLink class="dropdown-item rounded" href="@EndPoint.Settings" Match="NavLinkMatch.All">
                         <i class="bi bi-sliders pe-1"></i>@Label.AppMenuSetting
                     </NavLink>
                 </li>
                 <li><hr class="dropdown-divider"></li>
-                <li class="px-2">
-                    <a class="dropdown-item rounded" href="MicrosoftIdentity/Account/SignOut">
+                <li class="py-2">
+                    <NavLink class="dropdown-item rounded" href="MicrosoftIdentity/Account/SignOut">
                         <i class="bi bi-box-arrow-left pe-1"></i>@Label.AppLogout
-                    </a>
+                    </NavLink>
                 </li>
             </ul>
         </div>

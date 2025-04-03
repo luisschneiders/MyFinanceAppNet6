@@ -1,11 +1,9 @@
-﻿.navbar-toggler {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid #afc6e9;
-    color: #afc6e9;
-    padding: 0.25rem;
+﻿[data-bs-theme=dark] .navbar-toggler {
+    background-color: #252a2e;
 }
-.navbar-toggler:focus {
-    box-shadow: 0 0 0 0.05rem;
+
+[data-bs-theme=light] .navbar-toggler {
+    background-color: #eeece5;
 }
 
 @media (min-width: 992px) {
