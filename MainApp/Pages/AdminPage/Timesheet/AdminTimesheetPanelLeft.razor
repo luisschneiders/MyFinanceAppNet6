@@ -229,7 +229,7 @@
                                                                             {
                                                                                 if (item.TDate.Day == date.Day)
                                                                                 {
-                                                                                    <small class="d-block app-calendar-text text-light-emphasis" title="@($"{item.TotalAmount.ToString("C")} ({UpdatePayStatusTitle(item.PayStatus)})" )">
+                                                                                    <small class="d-none d-sm-block app-calendar-text text-light-emphasis" title="@($"{item.TotalAmount.ToString("C")} ({UpdatePayStatusTitle(item.PayStatus)})" )">
                                                                                         <BadgeColor RGBColor="@($"{(item.PayStatus == 0 ? StatusColor.Warning : StatusColor.Paid)}")"
                                                                                                     Description="@($"{item.CompanyDescription}")" />
                                                                                     </small>

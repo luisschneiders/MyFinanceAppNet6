@@ -153,7 +153,7 @@ h1:focus {
 * The component Virtualize won't work if we don't set a fix height for tables
 */
 .app-page-responsive-height {
-    height: calc(100vh - (2.5rem + 112px));
+    height: calc(100vh - (2.5rem + 114px));
     overflow-y: auto;
 }
 
@@ -318,8 +318,9 @@ h1:focus {
     color: var(--bs-danger);
 }
 
+/* Remove it in the new App version */
 .app-page-top-title {
-    margin-top: -18px;
+    margin-top: -16px;
 }
 
 .app-breadcrumb {
@@ -415,7 +416,7 @@ h1:focus {
 
 @media (min-width: 768px) { 
     .app-page-responsive-height {
-        height: calc(100vh - (1.5rem + 172px));
+        height: calc(100vh - (1.5rem + 174px));
     }
 }
 
