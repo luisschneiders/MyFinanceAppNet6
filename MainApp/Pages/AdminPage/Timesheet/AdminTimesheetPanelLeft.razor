@@ -13,7 +13,7 @@
 <CardView Styles="border-0">
     <CardMiddle>
         <div class="row pb-2">
-            <div class="col-10 col-lg-8 pb-2 d-flex align-items-center">
+            <div class="col-10 col-lg-9 pb-2 d-flex align-items-center">
                 @if (_isLoading)
                 {
                     <Loader />
@@ -121,8 +121,8 @@
                     }
                 }
             </div>
-            <div class="col-2 col-lg-4 pb-2 d-flex justify-content-end">
-                <div class="d-none d-lg-block">
+            <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
+                @* <div class="d-none d-lg-block">
                     <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => OpenCalculatorAsync()" title="@Label.AppCalculator">
                         <i class="bi bi-calculator"></i>
@@ -135,17 +135,11 @@
                             @onclick="() => AddRecordAsync()">
                         <i class="bi bi-plus-lg pe-1"></i>@Label.AppAdminTimesheetButtonNew
                     </button>
-                </div>
-                <div class="d-block d-lg-none">
+                </div> *@
+                <div class="d-block">
                     <DropdownActions DropdownPosition="Position.End"
                                      ButtonSize="Size.Sm"
                                      ButtonColor="Theme.Secondary">
-                        <li class="p-1">
-                            <button class="dropdown-item rounded"
-                                    @onclick="() => OpenCalculatorAsync()">
-                                <i class="bi bi-calculator pe-1"></i>@Label.AppCalculator
-                            </button>
-                        </li>
                         <li class="p-1">
                             <button class="dropdown-item rounded"
                                     @onclick="() => UpdateShiftAsync(DateTime.Today)">
@@ -156,6 +150,12 @@
                             <button class="dropdown-item rounded"
                                     @onclick="() => AddRecordAsync()">
                                 <i class="bi bi-plus-lg pe-1"></i>@Label.AppAdminTimesheetButtonNew
+                            </button>
+                        </li>
+                        <li class="p-1 d-block d-lg-none">
+                            <button class="dropdown-item rounded"
+                                    @onclick="() => OpenCalculatorAsync()">
+                                <i class="bi bi-calculator pe-1"></i>@Label.AppCalculator
                             </button>
                         </li>
                     </DropdownActions>
