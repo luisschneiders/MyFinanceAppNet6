@@ -17,7 +17,10 @@
             @*Only user with role "Admin" have access - start*@
             <AuthorizeView Policy="Admin">
                 <li class="nav-item dropdown">
-                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Dark.ToString().ToLower() ) border-0 @("rounded"+_appSettings.Button)" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Dark.ToString().ToLower() ) border-0 @("rounded"+_appSettings.Button)"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            title="@Label.AppMenu">
                         <i class="bi bi-grid-3x3-gap fs-6"></i> <span class="d-lg-none">@Label.AppMenu</span>
                     </button>
                     <ul class="dropdown-menu app-dropdown-menu border-@Theme.Light.ToString().ToLower() bg-@Theme.Light.ToString().ToLower()-subtle shadow-lg @("rounded"+_appSettings.Menu)" aria-labelledby="navbarDropdownSettingsLink1">
