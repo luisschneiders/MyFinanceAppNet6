@@ -49,16 +49,19 @@
                                @bind-Value="_bankModel.Account" />
                     <label for="BankAccount">@Label.AppSetupFinancialInstitutionFieldAccount</label>
                 </div>
-                <div class="form-floating pb-2">
-                    <InputNumber @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
-                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
-                                 id="BankCurrentBalance"
-                                 min="0.00"
-                                 placeholder="@Label.AppSetupFinancialInstitutionFieldCurrentBalance"
-                                 readonly="@(_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ? true: false)"
-                                 @bind-Value="_bankModel.CurrentBalance" />
-                    <label for="BankCurrentBalance">@Label.AppSetupFinancialInstitutionFieldCurrentBalance</label>
-                </div>
+                @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View || _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)
+                {
+                    <div class="form-floating pb-2">
+                        <InputNumber @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
+                                    id="BankCurrentBalance"
+                                    min="0.00"
+                                    placeholder="@Label.AppSetupFinancialInstitutionFieldCurrentBalance"
+                                    readonly="@(_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ? true: false)"
+                                    @bind-Value="_bankModel.CurrentBalance" />
+                        <label for="BankCurrentBalance">@Label.AppSetupFinancialInstitutionFieldCurrentBalance</label>
+                    </div>
+                }
             </div>
         </div>
         @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit)

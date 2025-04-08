@@ -147,6 +147,7 @@ public partial class SetupBankOffCanvas : ComponentBase
             if (offCanvasViewType == OffCanvasViewType.Add)
             {
                 // Set the initial balance equal to current balance for new records
+                _bankModel.CurrentBalance = 0;
                 _bankModel.InitialBalance = _bankModel.CurrentBalance;
 
                 await _bankService.CreateRecord(_bankModel);
