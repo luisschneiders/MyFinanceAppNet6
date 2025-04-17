@@ -7,21 +7,38 @@
        ModalBodyStyle="vh-100"
        IsCloseButtonVisible="false">
     <Title>
-        <span class="text-secondary">
-            Apply filters
-        </span>
+        @Label.AppApplyFilter
     </Title>
     <Body>
-        <div class="d-flex">
-            <div class="d-flex me-2">
+        <div class="row">
+            <div class="col-sm-12 col-lg-6 pb-2">
                 <DropdownMultiSelect ButtonSize="Size.Sm"
-                                DropdownLabel="@Label.FilterByExpenseCategory"
+                                DropdownLabel="@Label.AppFilterByExpenseCategory"
                                 DropdownPosition="Position.Start"
                                 IconEnd="bi-chevron-down"
                                 IconStart="bi-cart4">
-                    @foreach (var (expenseCategory, index) in _expenseCategories.Select((value, index) => (value, index)))
+                    <!-- Search Input -->
+                    <li class="px-2 py-1">
+                        <input type="text"
+                                class="form-control @("rounded"+_appSettings.Form)"
+                                placeholder="@Label.AppFieldSearch"
+                                @bind-Value="_searchQueryExpense"
+                                @bind-Value:event="oninput" />
+                    </li>
+                    <!-- Select All Checkbox -->
+                    <li class="px-2 py-1 dropdown-item rounded">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="select-all-expense" @onchange="ToggleSelectAllExpense" />
+                            <label class="form-check-label w-100" for="select-all-expense">
+                                <strong>
+                                    @Label.AppSelectAll
+                                </strong>
+                            </label>
+                        </div>
+                    </li>
+                    @foreach (var (expenseCategory, index) in _filteredExpenseCategories.Select((value, index) => (value, index)))
                     {
-                        <li class="px-2 py-1">
+                        <li class="px-2 py-1 dropdown-item rounded">
                             <div class="form-check">
                                 <input class="form-check-input" 
                                         type="checkbox"
@@ -29,7 +46,7 @@
                                         id="@($"expense-category-{expenseCategory.Id}")"
                                         value="@(expenseCategory.Id)"
                                         @onchange="(e) => OnCheckboxChangedExpense(e, expenseCategory.Id)" />
-                                <label class="form-check-label" for="@($"expense-category-{expenseCategory.Id}")" title="@expenseCategory.Description">
+                                <label class="form-check-label w-100" for="@($"expense-category-{expenseCategory.Id}")" title="@expenseCategory.Description">
                                     @($"{expenseCategory.Description.Truncate((int)Truncate.ExpenseCategory)}")
                                 </label>
                             </div>
@@ -37,15 +54,34 @@
                     }
                 </DropdownMultiSelect>
             </div>
-            <div class="d-flex me-2">
+            <div class="col-sm-12 col-lg-6 pb-2">
                 <DropdownMultiSelect ButtonSize="Size.Sm"
-                                DropdownLabel="@Label.FilterByBank"
+                                DropdownLabel="@Label.AppFilterByBank"
                                 DropdownPosition="Position.Start"
                                 IconEnd="bi-chevron-down"
-                                IconStart="bi-bank">
-                    @foreach (var (bank, index) in _banks.Select((value, index) => (value, index)))
+                                IconStart="bi-bank2">
+                    <!-- Search Input -->
+                    <li class="px-2 py-1">
+                        <input type="text"
+                                class="form-control @("rounded"+_appSettings.Form)"
+                                placeholder="@Label.AppFieldSearch"
+                                @bind-Value="_searchQueryInstitution"
+                                @bind-Value:event="oninput" />
+                    </li>
+                    <!-- Select All Checkbox -->
+                    <li class="px-2 py-1 dropdown-item rounded">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="select-all-institution" @onchange="ToggleSelectAllInstitution" />
+                            <label class="form-check-label w-100" for="select-all-institution">
+                                <strong>
+                                    @Label.AppSelectAll
+                                </strong>
+                            </label>
+                        </div>
+                    </li>
+                    @foreach (var (bank, index) in _filteredInstitutions.Select((value, index) => (value, index)))
                     {
-                        <li class="px-2 py-1">
+                        <li class="px-2 py-1 dropdown-item rounded">
                             <div class="form-check">
                                 <input class="form-check-input" 
                                         type="checkbox"
@@ -53,8 +89,8 @@
                                         id="@($"bank-{bank.Id}")"
                                         value="@(bank.Id)"
                                         @onchange="(e) => OnCheckboxChangedBank(e, bank.Id)" />
-                                <label class="form-check-label" for="@($"bank-{bank.Id}")" title="@bank.Description">
-                                    @($"{bank.Description}")
+                                <label class="form-check-label w-100" for="@($"bank-{bank.Id}")" title="@bank.Description">
+                                    @($"{bank.Description.Truncate((int)Truncate.Bank)}")
                                 </label>
                             </div>
                         </li>
@@ -70,7 +106,7 @@
                         class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary @("rounded"+_appSettings.Button)"
                         data-dismiss="modal"
                         @onclick="() => CloseModalAsync()">
-                    Close
+                    @Label.AppButtonClose
                 </button>
             </div>
         </div>

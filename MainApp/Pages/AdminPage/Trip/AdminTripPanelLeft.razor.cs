@@ -38,7 +38,7 @@ public partial class AdminTripPanelLeft : ComponentBase
     private AdminTripModalFilter _setupFilterModal { get; set; } = new();
     private AdminTripModalPrinter _setupPrinterModal { get; set; } = new();
 
-    private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
+    private string _dropdownLabel { get; set; } = Label.AppNoDateAssigned;
     private bool _isLoading { get; set; } = true;
 
     public AdminTripPanelLeft()
@@ -195,7 +195,7 @@ public partial class AdminTripPanelLeft : ComponentBase
     {
         _dateTimeRange = dateTimeRange;
         _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
-        _toastService.ShowToast("Date range has changed!", Theme.Info);
+        _toastService.ShowToast(Label.AppMessageDateRangeChanged, Theme.Info);
 
         await RefreshList();
 
@@ -215,7 +215,7 @@ public partial class AdminTripPanelLeft : ComponentBase
 
         if (id == (int)TripCategory.NotSpecified)
         {
-            title = Label.NotSpecified;
+            title = Label.AppNotSpecified;
         }
         else
         {

@@ -14,6 +14,11 @@ input[disabled] {
     cursor: not-allowed;
 }
 
+.form-control, .form-control:focus, .form-select, .form-select:focus {
+    outline: none;
+    box-shadow: none;
+}
+
 .form-select:disabled {
     background-color: transparent;
     border: none;
@@ -110,6 +115,10 @@ h1:focus {
     background-image: linear-gradient( 0, var(--bs-warning-bg-subtle) 50%, transparent 50% );
 }
 
+.app-text-background-secondary {
+    background-image: linear-gradient( 0, var(--bs-secondary-bg-subtle) 50%, transparent 50% );
+}
+
 .app-calendar {
     border-style: hidden;
 }
@@ -144,7 +153,7 @@ h1:focus {
 * The component Virtualize won't work if we don't set a fix height for tables
 */
 .app-page-responsive-height {
-    height: calc(100vh - (2.5rem + 232px));
+    height: calc(100vh - (2.5rem + 114px));
     overflow-y: auto;
 }
 
@@ -184,8 +193,11 @@ h1:focus {
     position: sticky;
     top: 0;
     z-index: 10;
+}
+
+.app-calendar-table thead tr th {
     width: 14.28%; /* 100% divided by 7 days */
-    white-space: nowrap; /* Prevents wrapping */
+    white-space: nowrap; /* Prevents wrapping */    
 }
 
 #blazor-error-ui {
@@ -299,11 +311,20 @@ h1:focus {
 }
 
 .app-main-top {
-    padding-top: 42px;
+    padding-top: 26px;
 }
 
 .validation-message {
     color: var(--bs-danger);
+}
+
+/* Remove it in the new App version */
+.app-page-top-title {
+    margin-top: -16px;
+}
+
+.app-breadcrumb {
+    z-index: 1045;
 }
 
 .app-dropdown-filter {
@@ -319,12 +340,17 @@ h1:focus {
     transform: scale(.85) translateY(-.5rem) translateX(-.6rem);
 }
 
+[data-bs-theme=light] body {
+    background-color: #eeece5;
+}
+
 [data-bs-theme=dark] .app-page-responsive-height th {
     background-color: #252a2e;
 }
 
 [data-bs-theme=light] .app-page-responsive-height th {
-    background-color: #f8f8f8;
+    background-color: #eeece5;
+    /* background-color: #f8f8f8; */
 }
 
 [data-bs-theme=dark] .main {
@@ -332,7 +358,8 @@ h1:focus {
 }
 
 [data-bs-theme=light] .main {
-    background-color: #f8f8f8;
+    background-color: #eeece5;
+    /* background-color: #f8f8f8; */
 }
 
 [data-bs-theme=dark] .app-footer {
@@ -340,8 +367,7 @@ h1:focus {
 }
 
 [data-bs-theme=light] .app-footer {
-    background: #dde0e6;
-    background: linear-gradient(180deg, #dde0e6 0%, rgba(243,248,255,1) 100%);
+    background: #f1f2f1;
 }
 
 @media (max-width: 640.98px) {
@@ -360,9 +386,21 @@ h1:focus {
     .app-shift-bg-success {
         background-color: var(--bs-success-bg-subtle) !important;
     }
+    .app-shift-bg-dark {
+        background-color: var(--bs-dark-bg-subtle) !important;
+    }
+    .app-shift-bg-secondary {
+        background-color: var(--bs-secondary-bg-subtle) !important;
+    }
+    .app-shift-bg-tertiary {
+        background-color: var(--bs-tertiary-color) !important;
+    }
+    .app-shift-bg-warning {
+        background-color: var(--bs-warning-bg-subtle) !important;
+    }
 }
 
-@media (min-width: 641px) {
+@media (min-width: 576px) {
     .app-footer {
         position: fixed;
         right: 0;
@@ -376,6 +414,12 @@ h1:focus {
     }
 }
 
+@media (min-width: 768px) { 
+    .app-page-responsive-height {
+        height: calc(100vh - (1.5rem + 174px));
+    }
+}
+
 @media (max-width: 991.98px) {
     .app-navbar {
         background-color: var(--bs-light-bg-subtle);
@@ -383,17 +427,17 @@ h1:focus {
 }
 
 @media (min-width: 992px) {
-    .app-navbar {
-        backdrop-filter: blur(2px);
-        -webkit-backdrop-filter: blur(2px);
-    }
-
     [data-bs-theme=light] .app-navbar {
         background-color: #fcfcfd88;
     }
 
     [data-bs-theme=dark] .app-navbar {
         background-color: #343a4088;
+    }
+
+    .app-navbar {
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
     }
 
     .content {
@@ -412,38 +456,10 @@ h1:focus {
     .app-main-top-reverse {
         margin-top: -46px;
     }
-
-    .app-page-responsive-height {
-        height: calc(100vh - (1.5rem + 236px));
-    }
 }
 
 @media (min-width: 1200px) {
     .flex-container {
         grid-template-columns: 40% auto;
-    }
-
-    .app-main-shapes:before {
-        position: absolute;
-        width: 40px;
-        height: 30px;
-        content: "";
-        top: 86px;
-        left: 0;
-        background-color: rgba(153, 102, 255, 0.2);
-        border-bottom-right-radius: var(--bs-border-radius-pill) !important;
-        border-top-right-radius: var(--bs-border-radius-pill) !important;
-    }
-
-    .app-main-shapes:after {
-        position: absolute;
-        width: 40px;
-        height: 20px;
-        content: "";
-        bottom: 120px;
-        right: 0;
-        background-color: rgba(255, 159, 64, 0.2);
-        border-bottom-left-radius: var(--bs-border-radius-pill) !important;
-        border-top-left-radius: var(--bs-border-radius-pill) !important;
     }
 }

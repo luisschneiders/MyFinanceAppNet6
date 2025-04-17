@@ -32,7 +32,7 @@ public partial class ChartExpenseTop5 : ComponentBase
     private DateTimeRange _dateTimeRange { get; set; } = new();
 
     private string _chartIcon { get; set; } = string.Empty;
-    private string _dropdownLabel { get; set; } = Label.NoDateAssigned;
+    private string _dropdownLabel { get; set; } = Label.AppNoDateAssigned;
     private bool _isLoading { get; set; } = true;
 
     private IJSObjectReference _chartObjectReference = default!;
@@ -100,7 +100,7 @@ public partial class ChartExpenseTop5 : ComponentBase
         await SetChartConfigDataAsync();
         await _chartService.UpdateData(_chartObjectReference, _chartConfigData);
 
-        _toastService.ShowToast("Date range has changed!", Theme.Info);
+        _toastService.ShowToast(Label.AppMessageDateRangeChanged, Theme.Info);
 
         await Task.CompletedTask;
     }

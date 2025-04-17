@@ -4,10 +4,10 @@ public enum Truncate
 {
     FirstName = 8,
     LastName = 12,
-    Bank = 15,
+    Bank = 30,
     Company = Bank,
-    ColumnTimesheet = Bank,
+    ColumnTimesheet = LastName,
     ShortMonthName = 3,
-    ExpenseCategory = 20,
-    TransactionCategory = ExpenseCategory
+    ExpenseCategory = Bank,
+    TransactionCategory = Bank
 }

@@ -55,7 +55,7 @@ BEGIN
 			transactionCreatedAt,
 			transactionUpdatedAt
 		);
-	
+	CALL spBankTransactionHistory_GenerateById(transactionUpdatedBy, transactionFromBank);
     COMMIT;
     
 END$$

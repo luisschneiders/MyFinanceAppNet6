@@ -1,6 +1,6 @@
 ﻿@media (min-width: 641px) {
     .mountain, .mountain-two, .mountain-three, .mountain-four {
-        right: 3rem;
+        right: 1rem;
         bottom: 0;
         position: absolute;
         border-left: 15px solid transparent;
@@ -10,7 +10,7 @@
     }
 
     .mountain-two {
-        right: 4rem;
+        right: 2rem;
         border-left: 15px solid transparent;
         border-right: 15px solid transparent;
         border-bottom: 30px solid #C5EADB;
@@ -18,7 +18,7 @@
     }
 
     .mountain-three {
-        right: 5rem;
+        right: 3rem;
         border-left: 10px solid transparent;
         border-right: 10px solid transparent;
         border-bottom: 35px solid #70c1a3;
@@ -26,7 +26,7 @@
     }
 
     .mountain-four {
-        right: 6rem;
+        right: 4rem;
         border-left: 8px solid transparent;
         border-right: 8px solid transparent;
         border-bottom: 25px solid #93d1ba;
@@ -37,7 +37,7 @@
         position: absolute;
         width: 45px;
         height: 20px;
-        background: #f8f8f8;
+        background: #FFF;
         -webkit-border-radius: 80px / 40px;
         border-radius: 80px / 40px;
     }
@@ -62,19 +62,19 @@
     .cloud {
         z-index: 2;
         bottom: 10px;
-        right: 4.5rem;
+        right: 2.5rem;
     }
 
     .fog {
         position: absolute;
         width: 100px;
         height: 15px;
-        background: #f8f8f8c9;
+        background: #ffffffc9;
         -webkit-border-radius: 80px / 40px;
         border-radius: 80px / 40px;
         z-index: 2;
         bottom: 5px;
-        right: 3rem;
+        right: 1rem;
     }
 
     .rain-drops-1, .rain-drops-2, .rain-drops-3, .rain-drops-4 {
@@ -114,7 +114,7 @@
     .sun {
         position: absolute;
         bottom: 10px;
-        right: 7rem;
+        right: 5rem;
         margin: auto;
         width: 30px;
         height: 30px;
@@ -138,7 +138,7 @@
     .moon {
         position: absolute;
         bottom: 18px;
-        right: 7.5rem;
+        right: 5.5rem;
         margin: auto;
         width: 30px;
         height: 30px;

@@ -2,14 +2,9 @@
 @using Microsoft.Extensions.Hosting
 @using MainApp.Components.OffCanvas
 
-<nav class="navbar navbar-expand-lg fixed-top app-navbar shadow-sm container-lg @("rounded"+_appSettings.Menu) mt-1">
-    <div class="container-lg">
+<nav class="navbar navbar-expand-lg fixed-top container-fluid pb-0">
+    <div class="container-fluid">
         <AuthorizeView>
-            <Authorized>
-                <a class="navbar-brand d-flex align-items-center" href="@EndPoint.Dashboard">
-                    <img src="@Images.Logo" alt="logo" width="28" height="28" class="rounded zoom">
-                </a>
-            </Authorized>
             <NotAuthorized>
                 <a class="navbar-brand d-flex align-items-center" href="@EndPoint.Home">
                     <img src="@Images.Logo" alt="logo" width="28" height="28" class="rounded zoom">
@@ -17,7 +12,7 @@
             </NotAuthorized>
         </AuthorizeView>
 
-        <button class="navbar-toggler"
+        <button class="navbar-toggler p-1 @("rounded"+_appSettings.Button)"
                 type="button"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasLeft"

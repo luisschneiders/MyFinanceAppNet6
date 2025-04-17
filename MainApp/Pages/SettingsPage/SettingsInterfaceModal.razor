@@ -4,13 +4,11 @@
        Size="Size.Sm"
        IsCloseButtonVisible="false">
     <Title>
-        <span class="text-secondary">
-            Reload the app
-        </span>
+        @Label.AppSettingReloadTitle
     </Title>
     <Body>
         <div class="d-flex justify-content-center text-center">
-            <p class="p-3">Please reload the app to view the latest changes. Thank you!</p>
+            <p class="p-3">@Label.AppSettingReloadParagraph</p>
         </div>
     </Body>
     <Footer>
@@ -20,7 +18,7 @@
                         class="btn btn-@(Size.Sm.ToString().ToLower()) btn-primary w-100 @("rounded"+_appSettings.Button)"
                         data-dismiss="modal"
                         @onclick="() => ReloadAppAsync()">
-                    Reload
+                    @Label.AppButtonReload
                 </button>
             </div>
         </div>

@@ -23,7 +23,7 @@ public static class EndPoint
     public const string IdentityAccountManagePersonalData = $"{IdentityAccountManage}/PersonalData";
 
     public const string Setup = "/setup";
-    public const string SetupBank = $"{Setup}/bank";
+    public const string SetupBank = $"{Setup}/financial-institution";
     public const string SetupCompany = $"{Setup}/company";
     public const string SetupExpense = $"{Setup}/expense";
     public const string SetupTax = $"{Setup}/tax";

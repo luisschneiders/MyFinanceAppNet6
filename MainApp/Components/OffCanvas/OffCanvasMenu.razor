@@ -1,4 +1,4 @@
-﻿<div class="offcanvas-lg offcanvas-start flex-grow-1"
+﻿<div class="offcanvas offcanvas-lg offcanvas-start flex-grow-1"
      id="offcanvasLeft"
      aria-labelledby="offcanvasLeftLabel"
      data-bs-scroll="false">
@@ -14,93 +14,101 @@
     <div class="offcanvas-body p-4 pt-0 p-lg-0 align-items-center">
         <hr class="d-lg-none">
         <ul class="navbar-nav me-auto justify-content-end gap-3">
-            <AuthorizeView>
-                <Authorized>
-                    <li class="nav-item col-12 col-lg-auto">
-                        <NavLink class="nav-link app-nav-link" href="@EndPoint.Dashboard" Match="NavLinkMatch.All">
-                            @Label.AppTitleDashboard
-                        </NavLink>
-                    </li>
-                </Authorized>
-            </AuthorizeView>
             @*Only user with role "Admin" have access - start*@
             <AuthorizeView Policy="Admin">
                 <li class="nav-item dropdown">
-                    <NavLink class="nav-link app-nav-link app-outline-none" href="@EndPoint.Setup" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-columns-gap pe-1"></i>@Label.AppTitleSetup<i class="bi bi-chevron-down ps-2"></i>
-                    </NavLink>
-                    <ul class="dropdown-menu app-dropdown-menu border-@Theme.Dark.ToString().ToLower()-subtle bg-@Theme.Light.ToString().ToLower()-subtle shadow-sm" aria-labelledby="navbarDropdownSettingsLink">
-                        <li class="px-2">
-                            <NavLink class="dropdown-item rounded" href="@EndPoint.SetupBank">
-                                @Label.AppTitleBank
-                            </NavLink>
-                        </li>
-                        <li class="px-2">
-                            <NavLink class="dropdown-item rounded" href="@EndPoint.SetupCompany">
-                                @Label.AppTitleCompany
-                            </NavLink>
-                        </li>
-                        <li class="px-2">
-                            <NavLink class="dropdown-item rounded" href="@EndPoint.SetupVehicle">
-                                @Label.AppTitleVehicle
-                            </NavLink>
-                        </li>
-                        <li class="px-2">
-                            <hr />
-                            <NavLink class="dropdown-item rounded" href="@EndPoint.SetupExpense">
-                                @Label.AppTitleExpense
-                            </NavLink>
-                        </li>
-                        <li class="px-2">
-                            <NavLink class="dropdown-item rounded" href="@EndPoint.SetupTransaction">
-                                @Label.AppTitleTransaction
-                            </NavLink>
-                        </li>
-                        <li class="px-2">
-                            <hr />
-                            <NavLink class="dropdown-item rounded" href="@EndPoint.SetupTax">
-                                @Label.AppTitleTax
-                            </NavLink>
-                        </li>
-
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Dark.ToString().ToLower() ) border-0 @("rounded"+_appSettings.Button)"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            title="@Label.AppMenu">
+                        <i class="bi bi-grid-3x3-gap fs-6"></i> <span class="d-lg-none">@Label.AppMenu</span>
+                    </button>
+                    <ul class="dropdown-menu app-dropdown-menu border-@Theme.Light.ToString().ToLower() bg-@Theme.Light.ToString().ToLower()-subtle shadow-lg @("rounded"+_appSettings.Menu)" aria-labelledby="navbarDropdownSettingsLink1">
+                        <div class="px-3 py-2">
+                            <div class="d-flex flex-lg-nowrap row">
+                                <div class="col-auto px-4">
+                                    <li class="py-2">
+                                        <NavLink class="dropdown-item rounded" href="@EndPoint.Dashboard" Match="NavLinkMatch.All">
+                                            <i class="bi bi-house pe-1"></i>@Label.AppMenuDashboard
+                                        </NavLink>
+                                    </li>
+                                </div>
+                            </div>
+                            <hr class="d-none d-lg-block">
+                            <div class="d-flex flex-lg-nowrap row">
+                                <div class="col-auto px-4">
+                                    <li class="fs-5">
+                                        @Label.AppMenuSetup
+                                    </li>
+                                    <li class="py-2">
+                                        <NavLink class="dropdown-item rounded" href="@EndPoint.SetupBank">
+                                            <i class="bi bi-bank2 pe-1"></i>@Label.AppMenuSetupFinancialInstitution
+                                        </NavLink>
+                                    </li>
+                                    <li class="py-2">
+                                        <NavLink class="dropdown-item rounded" href="@EndPoint.SetupCompany">
+                                            <i class="bi bi-building pe-1"></i>@Label.AppMenuSetupCompany
+                                        </NavLink>
+                                    </li>
+                                    <li class="py-2">
+                                        <NavLink class="dropdown-item rounded" href="@EndPoint.SetupVehicle">
+                                            <i class="bi bi-truck pe-1"></i>@Label.AppMenuSetupVehicle
+                                        </NavLink>
+                                    </li>
+                                    <li class="py-2">
+                                        <NavLink class="dropdown-item rounded" href="@EndPoint.SetupExpense">
+                                            <i class="bi bi-cart4 pe-1"></i>@Label.AppMenuSetupExpense
+                                        </NavLink>
+                                    </li>
+                                    <li class="py-2">
+                                        <NavLink class="dropdown-item rounded" href="@EndPoint.SetupTransaction">
+                                            <i class="bi bi-currency-exchange pe-1"></i>@Label.AppMenuSetupTransaction
+                                        </NavLink>
+                                    </li>
+                                    <li class="py-2">
+                                        <NavLink class="dropdown-item rounded" href="@EndPoint.SetupTax">
+                                            <i class="bi bi-receipt pe-1"></i>@Label.AppMenuSetupTax
+                                        </NavLink>
+                                    </li>
+                                </div>
+                                <div class="col-auto px-4">
+                                    <li class="fs-5">
+                                        @Label.AppMenuAdmin
+                                    </li>
+                                    <li class="py-2">
+                                        <NavLink class="dropdown-item rounded" href="@EndPoint.AdminExpenses">
+                                            <i class="bi bi-cart4 pe-1"></i>@Label.AppMenuAdminExpense
+                                        </NavLink>
+                                    </li>
+                                    <li class="py-2">
+                                        <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTransactions">
+                                            <i class="bi bi-currency-exchange pe-1"></i>@Label.AppMenuAdminTransaction
+                                        </NavLink>
+                                    </li>
+                                    <li class="py-2">
+                                        <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTimesheet">
+                                            <i class="bi bi-clock-history pe-1"></i>@Label.AppMenuAdminTimesheet
+                                        </NavLink>
+                                    </li>
+                                    <li class="py-2">
+                                        <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTrips">
+                                            <i class="bi bi-pin-map pe-1"></i>@Label.AppMenuAdminTrip
+                                        </NavLink>
+                                    </li>
+                                </div>
+                                <div class="col-auto px-4">
+                                    <li class="fs-5">
+                                        @Label.AppMenuToolsExplore
+                                    </li>
+                                    <li class="py-2">
+                                        <NavLink class="dropdown-item rounded" href="@EndPoint.Tools">
+                                            <i class="bi bi-boxes pe-1"></i>@Label.AppMenuTools
+                                        </NavLink>
+                                    </li>
+                                </div>
+                            </div>
+                        </div>
                     </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <NavLink class="nav-link app-nav-link app-outline-none" href="@EndPoint.Admin" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi  bi-grid-3x3-gap pe-1"></i>@Label.AppTitleAdmin<i class="bi bi-chevron-down ps-2"></i>
-                    </NavLink>
-                    <ul class="dropdown-menu app-dropdown-menu border-@Theme.Dark.ToString().ToLower()-subtle bg-@Theme.Light.ToString().ToLower()-subtle shadow-sm" aria-labelledby="navbarDropdownSettingsLink">
-                        <li class="px-2">
-                            <NavLink class="dropdown-item rounded" href="@EndPoint.AdminExpenses">
-                                <i class="bi bi-cart4 pe-1"></i>@Label.AppTitleExpense
-                            </NavLink>
-                        </li>
-                        <li class="px-2">
-                            <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTransactions">
-                                <i class="bi bi-currency-exchange pe-1"></i>@Label.AppTitleTransaction
-                            </NavLink>
-                        </li>
-                        <li class="px-2">
-                            <hr />
-                            <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTimesheet">
-                                <i class="bi bi-clock-history pe-1"></i>@Label.AppTitleTimesheet
-                            </NavLink>
-                        </li>
-                        <li class="px-2">
-                            <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTrips">
-                                <i class="bi bi-pin-map pe-1"></i>@Label.AppTitleTrip
-                            </NavLink>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item col-12 col-lg-auto">
-                    <div class="vr d-none d-lg-flex h-100 mx-lg-0"></div>
-                    <hr class="d-lg-none m-0 p-0">
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="@EndPoint.Tools">
-                        @Label.AppTitleTools
-                    </NavLink>
                     <hr class="d-lg-none">
                 </li>
             </AuthorizeView>

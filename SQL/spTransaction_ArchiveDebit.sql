@@ -1,26 +1,26 @@
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spTransaction_ArchiveDebit`(
-	IN transactionId int,
+    IN transactionId int,
 	IN transactionIsActive bool,
-	IN transactionIsArchived bool,
-	IN transactionUpdatedBy varchar(28),
-	IN transactionUpdatedAt datetime
+    IN transactionIsArchived bool,
+    IN transactionUpdatedBy varchar(28),
+    IN transactionUpdatedAt datetime
 )
 BEGIN
 	DECLARE rowCountTransaction int default 0;
 	DECLARE rowCountBank int default 0;
 	DECLARE varFromBank int default 0;
-	DECLARE varAmount decimal(10,2) default 0;
-	DECLARE varCurrentBalance decimal(10,2) default 0;
+    DECLARE varAmount decimal(10,2) default 0;
+    DECLARE varCurrentBalance decimal(10,2) default 0;
     
 	START TRANSACTION;
 		SELECT
-			FromBank,
+            FromBank,
 			Amount
 		INTO varFromBank, varAmount
-		FROM Transaction
-		WHERE Id = transactionId
-			AND UpdatedBy = transactionUpdatedBy;
+        FROM Transaction
+        WHERE Id = transactionId
+        AND UpdatedBy = transactionUpdatedBy;
         
 	/* Revert Debit Transaction */
 		UPDATE `myfinancedb`.`Transaction`
@@ -30,7 +30,7 @@ BEGIN
 			`UpdatedBy` = transactionUpdatedBy,
 			`UpdatedAt` = transactionUpdatedAt
 		WHERE `Id` = transactionId;
-        	SET rowCountTransaction = ROW_COUNT();
+        SET rowCountTransaction = ROW_COUNT();
         
 		IF rowCountTransaction > 0 THEN
 			SELECT
@@ -45,13 +45,14 @@ BEGIN
 				`UpdatedBy` = transactionUpdatedBy,
 				`UpdatedAt` = transactionUpdatedAt
 			WHERE (`Id` = varFromBank);
-            		SET rowCountBank = ROW_COUNT();
+            SET rowCountBank = ROW_COUNT();
 		END IF;
 		
         IF (rowCountTransaction > 0 AND rowCountBank > 0) THEN
-		COMMIT;
-	ELSE
-		ROLLBACK;
-	END IF;
+			CALL spBankTransactionHistory_GenerateById(transactionUpdatedBy, varFromBank);
+			COMMIT;
+		ELSE
+			ROLLBACK;
+		END IF;
 END$$
 DELIMITER ;

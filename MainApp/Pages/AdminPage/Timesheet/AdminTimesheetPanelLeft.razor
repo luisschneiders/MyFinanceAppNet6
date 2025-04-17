@@ -13,7 +13,7 @@
 <CardView Styles="border-0">
     <CardMiddle>
         <div class="row pb-2">
-            <div class="col-10 col-lg-8 pb-2 d-flex align-items-center">
+            <div class="col-10 col-lg-9 pb-2 d-flex align-items-center">
                 @if (_isLoading)
                 {
                     <Loader />
@@ -25,28 +25,29 @@
                          aria-label="Radio toggle button group"
                          title="Change view">
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value="@_viewType" @onclick="() => UpdateUIVIew(ViewType.Calendar)">
-                        <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Light.ToString().ToLower() ) border-0 @("rounded-start"+_appSettings.Button) @(_viewType == @ViewType.Calendar.ToString() ? "active" : "")" for="btnradio1"><i class="bi bi-calendar3"></i></label>
+                        <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded-start"+_appSettings.Button) @(_viewType == @ViewType.Calendar.ToString() ? "active" : "")" for="btnradio1"><i class="bi bi-calendar3"></i></label>
 
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value="@_viewType" @onclick="() => UpdateUIVIew(ViewType.List)">
-                        <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Light.ToString().ToLower() ) border-0 @("rounded-end"+_appSettings.Button) @(_viewType == @ViewType.List.ToString() ? "active" : "")" for="btnradio2"><i class="bi bi-list-ul"></i></label>
+                        <label class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded-end"+_appSettings.Button) @(_viewType == @ViewType.List.ToString() ? "active" : "")" for="btnradio2"><i class="bi bi-list-ul"></i></label>
                     </div>
                     @if (_viewType == ViewType.Calendar.ToString())
                     {
                         <div class="ps-2">
-                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                     @onclick="() => PreviousPeriodAsync(_dateCalendar)"
-                                    title="Previous"
+                                    title="@Label.AppButtonPrevious"
                                     disabled="@(_isLoadingCalendar ? true : false)">
                                 <i class="bi bi-chevron-left"></i>
                             </button>
                             <DropdownDateMonthYear 
                                                 ButtonSize="Size.Sm"
+                                                ButtonColor="Theme.Secondary"
                                                 DateTimeRange="@_dateCalendar"
                                                 DropdownLabel="@_dropdownDateCalendarLabel"
                                                 OnSubmitSuccess="data => RefreshDropdownDateMonthYear(data)" />
-                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                     @onclick="() => NextPeriodAsync(_dateCalendar)"
-                                    title="Next"
+                                    title="@Label.AppButtonNext"
                                     disabled="@(_isLoadingCalendar ? true : false)">
                                 <i class="bi bi-chevron-right"></i>
                             </button>
@@ -55,7 +56,9 @@
                     else
                     {
                         <div class="ps-2">
-                            <DropdownDateRange ButtonSize="Size.Sm"
+                            <DropdownDateRange 
+                                            ButtonSize="Size.Sm"
+                                            ButtonColor="Theme.Secondary"
                                             DateTimeRange="@_dateRange"
                                             DropdownLabel="@_dropdownDateRangeLabel"
                                             PeriodRange="PeriodRange.Month"
@@ -63,14 +66,14 @@
                         </div>
                     }
                     <div class="ps-2 d-none d-lg-flex">
-                        <div class="btn-group bg-@(Theme.Dark.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
-                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) bg-@(Theme.Dark.ToString().ToLower())-subtle text-@(Theme.Dark.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)"
+                        <div class="btn-group btn-outline-@(Theme.Secondary.ToString().ToLower()) border border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
+                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-0 @("rounded"+_appSettings.Button)"
                                     @onclick="() => ApplyFiltersAsync()">
-                                <i class="bi bi-sliders2 pe-1"></i>Filters
+                                <i class="bi bi-sliders2 pe-1"></i>@Label.AppButtonFilter
                                 @if(IsFilterApplied())
                                 {
                                     <sup class="ps-1">
-                                        <Badge BackgroundColor="@Theme.Light" Message="Applied" />
+                                        <Badge BackgroundColor="@Theme.Info" Message="@Label.AppApplied" />
                                     </sup>
                                 }
                             </button>
@@ -78,10 +81,10 @@
                             {
                                 <div class="d-flex align-items-center">
                                     <div class="vr my-1 text-@(Theme.Dark.ToString().ToLower())-emphasis"></div>
-                                    <button class="btn btn-@(Size.Sm.ToString().ToLower())"
-                                            title="Remove"
+                                    <button class="btn btn-outline-@(Theme.Light.ToString().ToLower()) btn-@(Size.Sm.ToString().ToLower()) border-0 @("rounded"+_appSettings.Button)"
+                                            title="@Label.AppButtonRemove"
                                             @onclick="ResetAllFilters">
-                                        <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
+                                        <i class="bi bi-x-lg text-@(Theme.Secondary.ToString().ToLower())-emphasis"></i>
                                     </button>
                                 </div>
                             }
@@ -91,13 +94,14 @@
                     {
                         <div class="ps-2 d-none d-lg-flex">
                             <DropdownMultiSelect ButtonSize="Size.Sm"
-                                            DropdownLabel="@Label.AppTableColumns"
+                                            ButtonColor="Theme.Secondary"
+                                            DropdownLabel="@Label.AppButtonColumns"
                                             DropdownPosition="Position.Start"
                                             IconEnd="bi-chevron-down"
                                             IconStart="bi-layout-three-columns">
                                 @foreach (var (column, index) in _tableColumns.Select((value, index) => (value, index)))
                                 {
-                                    <li class="px-2 py-1">
+                                    <li class="px-2 py-1 dropdown-item rounded">
                                         <div class="form-check">
                                             <input class="form-check-input"
                                                     type="checkbox"
@@ -106,7 +110,7 @@
                                                     id="@($"timesheet-column-{column.Id}")"
                                                     value="@(column.Id)"
                                                     @onchange="(e) => OnCheckboxChangedColumns(e, column.Id)" />
-                                            <label class="form-check-label" for="@($"timesheet-column-{column.Id}")" title="@column.Description">
+                                            <label class="form-check-label w-100" for="@($"timesheet-column-{column.Id}")" title="@column.Description">
                                                 @($"{column.Description.Truncate((int)Truncate.ColumnTimesheet)}")
                                             </label>
                                         </div>
@@ -117,40 +121,41 @@
                     }
                 }
             </div>
-            <div class="col-2 col-lg-4 pb-2 d-flex justify-content-end">
-                <div class="d-none d-lg-block">
-                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
-                            @onclick="() => OpenCalculatorAsync()" title="Calculator">
+            <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
+                @* <div class="d-none d-lg-block">
+                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                            @onclick="() => OpenCalculatorAsync()" title="@Label.AppCalculator">
                         <i class="bi bi-calculator"></i>
                     </button>
-                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => UpdateShiftAsync(DateTime.Today)">
-                        <i class="bi bi-calendar4-week pe-1"></i>Add shift
+                        <i class="bi bi-calendar4-week pe-1"></i>@Label.AppAdminShiftButtonNew
                     </button>
-                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => AddRecordAsync()">
-                        <i class="bi bi-plus-lg pe-1"></i>New timesheet
+                        <i class="bi bi-plus-lg pe-1"></i>@Label.AppAdminTimesheetButtonNew
                     </button>
-                </div>
-                <div class="d-block d-lg-none">
+                </div> *@
+                <div class="d-block">
                     <DropdownActions DropdownPosition="Position.End"
-                                     ButtonSize="Size.Sm">
-                        <li class="px-2 d-block d-lg-none">
-                            <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
-                                    @onclick="() => OpenCalculatorAsync()">
-                                <i class="bi bi-calculator pe-1"></i>Calculator
-                            </button>
-                        </li>
-                        <li class="px-2 d-block d-lg-none">
-                            <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
+                                     ButtonSize="Size.Sm"
+                                     ButtonColor="Theme.Secondary">
+                        <li class="p-1">
+                            <button class="dropdown-item rounded"
                                     @onclick="() => UpdateShiftAsync(DateTime.Today)">
-                                <i class="bi bi-calendar4-week pe-1"></i>Add shift
+                                <i class="bi bi-calendar4-week pe-1"></i>@Label.AppAdminShiftButtonNew
                             </button>
                         </li>
-                        <li class="px-2 d-block d-lg-none">
-                            <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
+                        <li class="p-1">
+                            <button class="dropdown-item rounded"
                                     @onclick="() => AddRecordAsync()">
-                                <i class="bi bi-plus-lg pe-1"></i>New timesheet
+                                <i class="bi bi-plus-lg pe-1"></i>@Label.AppAdminTimesheetButtonNew
+                            </button>
+                        </li>
+                        <li class="p-1 d-block d-lg-none">
+                            <button class="dropdown-item rounded"
+                                    @onclick="() => OpenCalculatorAsync()">
+                                <i class="bi bi-calculator pe-1"></i>@Label.AppCalculator
                             </button>
                         </li>
                     </DropdownActions>
@@ -159,7 +164,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="app-page-responsive-height @(_viewType == ViewType.Calendar.ToString() ? "rounded"+_appSettings.Card : "")">
+                <div class="app-page-responsive-height app-calendar-table @(_viewType == ViewType.Calendar.ToString() ? "rounded"+_appSettings.Card : "")">
                     @if (_isLoading)
                     {
                         <Loader />
@@ -173,9 +178,9 @@
                                     <CalendarSubHeaderWrapper>
                                         <div class="d-flex justify-content-end border-bottom px-2">
                                             <div class="d-flex pe-1">
-                                                Total<span class="d-none d-lg-block ps-1">amount for the period</span>
+                                                @Label.AppAdminTimesheetPeriodMessage1<span class="d-none d-lg-block ps-1">@Label.AppAdminTimesheetPeriodMessage2:</span>
                                             </div>
-                                            <span class="app-expense-sum-me fw-semibold px-1 text-@(Theme.Info.ToString().ToLower())-emphasis @("rounded"+_appSettings.Button)">
+                                            <span class="app-expense-sum-me fw-semibold px-1 @("rounded"+_appSettings.Button)">
                                                 @_timesheetTotal.Amount.ToString("C")
                                             </span>
                                         </div>
@@ -204,14 +209,17 @@
                                                         @foreach (var date in week)
                                                         {
                                                             ShiftListDTO shift = _shiftCalendarView.Find(s => s.SDate.Day == date.Day)!;
-                                                            <td class="@((date.Year == 1 && date.Day == 1) ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "app-calendar-cell") @((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"app-shift-bg-{Theme.Info.ToString().ToLower()}" : $"app-shift-bg-{Theme.Danger.ToString().ToLower()}") : "")">
+                                                            <td class="@((date.Year == 1 && date.Day == 1) ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "app-calendar-cell") @((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"app-shift-bg-{Theme.Primary.ToString().ToLower()}" : $"app-shift-bg-{Theme.Danger.ToString().ToLower()}") : "")">
                                                                 @if ((date.Year != 1 && date.Day >= 1))
                                                                 {
                                                                     <a role="button" class="btn w-100 h-100 p-0"
                                                                         @onclick="() => UpdateShiftAsync(date)">
-                                                                        <div class="d-flex justify-content-end @($"rounded{_appSettings.Button}") @((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"bg-{Theme.Info.ToString().ToLower()}" : $"bg-{Theme.Danger.ToString().ToLower()}") : $"bg-{Theme.Light.ToString().ToLower()}")" title="@((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"Shift scheduled for: {shift.Description}" : "Unavailable") : "No shift scheduled")">
+                                                                        <div class="d-flex justify-content-end
+                                                                                    @($"rounded{_appSettings.Button}")
+                                                                                    @((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"bg-{Theme.Primary.ToString().ToLower()}-subtle" : $"bg-{Theme.Danger.ToString().ToLower()}") : $"bg-{Theme.Light.ToString().ToLower()}")"
+                                                                                title="@((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"{Label.AppAdminShiftScheduledFor} {shift.Description}" : @Label.AppUnavailable) : Label.AppAdminShiftNotScheduled)">
                                                                             <div class="app-calendar-cell-day app-calendar-cell-current-day text-center p-1 fw-bold @($"rounded{_appSettings.Button}") @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
-                                                                                        $"bg-{Theme.Secondary.ToString().ToLower()} text-white" : $"bg-{Theme.Light.ToString().ToLower()}")">
+                                                                                        $"bg-{Theme.Dark.ToString().ToLower()} text-white" : $"bg-{Theme.Light.ToString().ToLower()}")">
                                                                                 @(date.Day)
                                                                             </div>
                                                                         </div>
@@ -221,7 +229,7 @@
                                                                             {
                                                                                 if (item.TDate.Day == date.Day)
                                                                                 {
-                                                                                    <small class="d-block app-calendar-text text-secondary-emphasis" title="@($"{item.TotalAmount.ToString("C")} ({UpdatePayStatusTitle(item.PayStatus)})" )">
+                                                                                    <small class="d-none d-sm-block app-calendar-text text-light-emphasis" title="@($"{item.TotalAmount.ToString("C")} ({UpdatePayStatusTitle(item.PayStatus)})" )">
                                                                                         <BadgeColor RGBColor="@($"{(item.PayStatus == 0 ? StatusColor.Warning : StatusColor.Paid)}")"
                                                                                                     Description="@($"{item.CompanyDescription}")" />
                                                                                     </small>
@@ -253,15 +261,15 @@
                             @if (_timesheetListView.Count <= 0)
                             {
                                 <div class="text-center">
-                                    @Label.NoRecordFound
+                                    @Label.AppNoRecordFound
                                 </div>
                             }
                             else
                             {
-                                <div class="accordion d-flex justify-content-between p-3 fw-semibold
+                                <div class="accordion d-flex justify-content-between p-2 fw-semibold
                                             bg-@(Theme.Secondary.ToString().ToLower())-subtle">
                                     <div class="d-flex">
-                                        Total<span class="d-none d-lg-block ps-1">amount for the period</span>
+                                        @Label.AppAdminTimesheetPeriodMessage1<span class="d-none d-lg-block ps-1">@Label.AppAdminTimesheetPeriodMessage2</span>
                                     </div>
                                     <span class="pe-5 app-trip-sum-me">
                                         @_timesheetTotal.Amount.ToString("C")
@@ -300,10 +308,10 @@
                                                         <tbody>
                                                             @if (_timesheetListView.Count <= 0)
                                                             {
-                                                                <tr class="bg-light-subtle">
+                                                                <tr class="bg-@(Theme.Light.ToString().ToLower())-subtle">
                                                                     <td class="text-center" colspan="8">
                                                                         <div>
-                                                                            @Label.NoRecordFound
+                                                                            @Label.AppNoRecordFound
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -312,34 +320,34 @@
                                                                 foreach (var record in _timesheetListView[index].Timesheets)
                                                                 {
                                                                     <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetDate)!.IsChecked ? "":"d-none")">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetDate)!.IsChecked ? "":"d-none")">
                                                                             @record.TimeIn.ToString("ddd, dd/MM/yy")
                                                                         </td>
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetClockIn)!.IsChecked ? "":"d-none")">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetClockIn)!.IsChecked ? "":"d-none")">
                                                                             @record.TimeIn.ToString("t")
                                                                         </td>
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetBreak)!.IsChecked ? "":"d-none")">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetBreak)!.IsChecked ? "":"d-none")">
                                                                             @($"{record.TimeBreak}m")
                                                                         </td>
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetClockOut)!.IsChecked ? "":"d-none")">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetClockOut)!.IsChecked ? "":"d-none")">
                                                                             @record.TimeOut.ToString("t")
                                                                         </td>
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetWorkHours)!.IsChecked ? "":"d-none")">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetWorkHours)!.IsChecked ? "":"d-none")">
                                                                             @record.HoursWorked.ToString("h'h 'm'm '")
                                                                             @if (record.IsActive == false)
                                                                             {
                                                                                 <sup class="text-uppercase">
-                                                                                    <Badge BackgroundColor="Theme.Info" Message="Inactive" />
+                                                                                    <Badge BackgroundColor="Theme.Info" Message="@Label.AppInactive" />
                                                                                 </sup>
                                                                             }
                                                                         </td>
-                                                                        <td class="@(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetOvertime)!.IsChecked ? "":"d-none")">
+                                                                        <td class="@(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetOvertime)!.IsChecked ? "":"d-none")">
                                                                             @record.Overtime.ToString("h'h 'm'm '")
                                                                         </td>
-                                                                        <td class="text-nowrap text-end @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetTotal)!.IsChecked ? "":"d-none")">
+                                                                        <td class="text-nowrap text-end @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetTotal)!.IsChecked ? "":"d-none")">
                                                                             @record.TotalAmount.ToString("C")
                                                                         </td>
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetPayStatus)!.IsChecked ? "":"d-none")">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetPayStatus)!.IsChecked ? "":"d-none")">
                                                                             <DropdownActions Title="@UpdatePayStatusTitle(record.PayStatus)"
                                                                                             ButtonSize="Size.Sm"
                                                                                             IconEnd="bi-chevron-down"
@@ -350,8 +358,8 @@
                                                                                 {
                                                                                     int statusValue = index;
 
-                                                                                    <li class="px-2">
-                                                                                        <button class="dropdown-item"
+                                                                                    <li class="p-1">
+                                                                                        <button class="dropdown-item rounded"
                                                                                                 @onclick="() => UpdatePayStatusAsync(record, statusValue)">
                                                                                             @($"{status}")
                                                                                         </button>
@@ -359,15 +367,15 @@
                                                                                 }
                                                                             </DropdownActions>
                                                                         </td>
-                                                                        <td class="text-center @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetEdit)!.IsChecked ? "":"d-none")">
-                                                                            <button class="btn btn-link p-0 text-danger"
+                                                                        <td class="text-center @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppButtonEdit)!.IsChecked ? "":"d-none")">
+                                                                            <button class="btn btn-sm btn-@(Theme.Light.ToString().ToLower()) text-@(Theme.Danger.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                                                                     type="button"
-                                                                                    title="Edit"
+                                                                                    title="@Label.AppButtonEdit"
                                                                                     @onclick="() => EditRecordAsync(record)">
                                                                                 <i class="bi bi-pencil"></i>
                                                                             </button>
                                                                         </td>
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.TimesheetComments)!.IsChecked ? "":"d-none")">
+                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetComments)!.IsChecked ? "":"d-none")">
                                                                             @record.Comments
                                                                         </td>
                                                                     </tr>

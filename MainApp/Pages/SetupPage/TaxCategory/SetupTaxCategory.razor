@@ -1,10 +1,11 @@
 ﻿@page "/setup/tax"
 
-@using MainApp.Components.Page
+@using MainApp.Components.Badge
+@using MainApp.Components.Breadcrumb
 @using MainApp.Components.Card
 @using MainApp.Components.Message
-@using MainApp.Components.Breadcrumb
-@using MainApp.Components.Badge
+@using MainApp.Components.Page
+@using MainApp.Components.Shared
 
 <div class="container-lg">
     <AuthorizeView Policy="Admin">
@@ -14,7 +15,7 @@
                 <PageTopView>
                     <PageTopWrapper>
                         <div class="d-flex align-items-baseline">
-                            <i class="bi bi-receipt text-info-emphasis pe-1 fs-5" /><PageTopTitle Title="@(Label.AppTitleSetup + " " + Label.AppTitleTax)" />
+                            <PageTopTitle Title="@(Label.AppMenuSetup + " " + Label.AppMenuSetupTax)" />
                         </div>
                         <Breadcrumb AppPageLink="@EndPoint.SetupTax" />
                     </PageTopWrapper>
@@ -25,6 +26,13 @@
                         <div class="row">
                             <div class="col-12 col-lg-9">
                                 <SetupTaxCategoryPanelLeft />
+                            </div>
+                            <div class="col-12 col-lg-3 d-none d-lg-block">
+                                <CardView Styles="w-100 border-0">
+                                    <CardMiddle>
+                                        <FinnhubNews />
+                                    </CardMiddle>
+                                </CardView>
                             </div>
                         </div>
                     </PageMiddleWrapper>

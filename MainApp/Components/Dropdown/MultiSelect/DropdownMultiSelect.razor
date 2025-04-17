@@ -1,20 +1,22 @@
-﻿<div class="btn-group bg-@(ButtonColor.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
-    <div class="dropdown @(IsDisplayLargeNone ? "d-lg-none" : "")">
-        <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + Theme.Dark.ToString().ToLower() + "-emphasis") text-nowrap @("rounded"+_appSettings.Button)"
+﻿<div class="w-100 btn-group border border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
+    <div class="w-100 @(IsDisplayLargeNone ? "d-lg-none" : "")">
+        <button class="w-100 btn @("btn-" + ButtonSize.ToString().ToLower()) @("btn-outline-" + ButtonColor.ToString().ToLower() ) border-0 text-nowrap @("rounded"+_appSettings.Button)"
                 title="Click dropdown to expand"
                 id="dropdownMultiSelect"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
                 data-bs-auto-close="@(AutoClose.ToString().ToLower())">
             <div class="d-flex w-100 justify-content-between">
-                @if (IconStart is not null && IconStart.Length > 0)
-                {
-                    <i class="bi @IconStart text-@IconStartColor.ToString().ToLower()-emphasis pe-1"></i>
-                }
-                @if (DropdownLabel is not null && DropdownLabel.Length > 0)
-                {
-                    <span class="pe-1">@DropdownLabel</span>
-                }
+                <div>
+                    @if (IconStart is not null && IconStart.Length > 0)
+                    {
+                        <i class="bi @IconStart pe-1"></i>
+                    }
+                    @if (DropdownLabel is not null && DropdownLabel.Length > 0)
+                    {
+                        <span class="pe-2">@DropdownLabel</span>
+                    }
+                </div>
                 @if (IconEnd.Length > 0)
                 {
                     <i class="bi @IconEnd"></i>
@@ -22,12 +24,12 @@
             </div>
         </button>
         <ul class="dropdown-menu dropdown-menu-@DropdownPosition.ToString().ToLower()
-                    bg-@ButtonColor.ToString().ToLower()-subtle
-                    border-@ButtonColor.ToString().ToLower()-subtle
+                    border-@(Theme.Light.ToString().ToLower())-subtle
                     app-dropdown-filter
                     overflow-y-scroll
-                    shadow-sm
-                    w-100"
+                    @("shadow"+_appSettings.Shadow)
+                    w-100
+                    p-2"
             aria-labelledby="dropdownMultiSelect">
             @ChildContent
         </ul>

@@ -15,7 +15,7 @@ BEGIN
     DECLARE rowCountExpense int default 0;
     DECLARE varCurrentBalance decimal(10,2) default 0;
     DECLARE locationExpenseExists int;
-    DECLARE expenseLocationId int;
+    DECLARE expenseLocationId int default 0;
     
     START TRANSACTION;
     
@@ -67,6 +67,7 @@ BEGIN
 	IF (rowCountBank > 0 AND
 		rowCountTransaction > 0 AND
         rowCountExpense > 0) THEN
+        CALL spBankTransactionHistory_GenerateById(expenseUpdatedBy, expenseBankId);
 		COMMIT;
 	ELSE
 		ROLLBACK;

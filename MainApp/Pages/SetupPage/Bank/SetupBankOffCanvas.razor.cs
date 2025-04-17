@@ -27,10 +27,7 @@ public partial class SetupBankOffCanvas : ComponentBase
 
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
-
-    private Dictionary<string, object> _inputFormControlAttributes = default!;
-    private Dictionary<string, object> _inputFormControlPlainTextAttributes = default!;
-
+    private InputFormAttributes _inputFormAttributes{ get; set; } = new();
     private BankModel _bankModel { get; set; } = new();
 
     public SetupBankOffCanvas()
@@ -43,13 +40,13 @@ public partial class SetupBankOffCanvas : ComponentBase
         {
             try
             {
-                _inputFormControlAttributes = new()
+                _inputFormAttributes.Control = new()
                 {
                     {
                         "class", $"form-control rounded{AppSettings.Form}"
                     }
                 };
-                _inputFormControlPlainTextAttributes = new()
+                _inputFormAttributes.PlainText = new()
                 {
                     {
                         "class", $"form-control-plaintext"
@@ -84,7 +81,7 @@ public partial class SetupBankOffCanvas : ComponentBase
             else
             {
                 _bankModel = new();
-                _toastService.ShowToast("No record found!", Theme.Danger);
+                _toastService.ShowToast(Label.AppNoRecordFound, Theme.Danger);
             }
         }
         catch (Exception ex)
@@ -107,7 +104,7 @@ public partial class SetupBankOffCanvas : ComponentBase
             else
             {
                 _bankModel = new();
-                _toastService.ShowToast("No record found!", Theme.Danger);
+                _toastService.ShowToast(Label.AppNoRecordFound, Theme.Danger);
             }
         }
         catch (Exception ex)
@@ -150,22 +147,23 @@ public partial class SetupBankOffCanvas : ComponentBase
             if (offCanvasViewType == OffCanvasViewType.Add)
             {
                 // Set the initial balance equal to current balance for new records
+                _bankModel.CurrentBalance = 0;
                 _bankModel.InitialBalance = _bankModel.CurrentBalance;
 
                 await _bankService.CreateRecord(_bankModel);
 
                 _bankModel.Id = await _bankService.GetLastInsertedId();
-                _toastService.ShowToast("Bank added!", Theme.Success);
+                _toastService.ShowToast(Label.AppMenuSetupFinancialInstitution+" "+Label.AppAdded, Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Edit)
             {
                 await _bankService.UpdateRecord(_bankModel);
-                _toastService.ShowToast("Bank updated!", Theme.Success);
+                _toastService.ShowToast(Label.AppMenuSetupFinancialInstitution+" "+Label.AppUpdated, Theme.Success);
             }
             else if (offCanvasViewType == OffCanvasViewType.Archive)
             {
                 await _bankService.ArchiveRecord(_bankModel);
-                _toastService.ShowToast("Bank archived!", Theme.Success);
+                _toastService.ShowToast(Label.AppMenuSetupFinancialInstitution+" "+Label.AppArchived, Theme.Success);
             }
 
             _isProcessing = false;

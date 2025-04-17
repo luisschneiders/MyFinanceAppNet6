@@ -14,7 +14,7 @@
                 <PageTopView>
                     <PageTopWrapper>
                         <div class="d-flex align-items-baseline">
-                            <i class="bi bi-clock-history text-info-emphasis pe-1 fs-5" /><PageTopTitle Title="@(Label.AppTitleTimesheet)" />
+                            <PageTopTitle Title="@(Label.AppMenuAdminTimesheet)" />
                         </div>
                         <Breadcrumb AppPageLink="@EndPoint.AdminTimesheet" />
                     </PageTopWrapper>
@@ -23,10 +23,14 @@
                 <PageMiddleView>
                     <PageMiddleWrapper>
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-12 col-lg-9">
                                 @* <AdminTimesheetPanelLeft OnStateContainerSetValue="DisplayPanelRight" /> *@
                                 <AdminTimesheetPanelLeft />
                             </div>
+                            <div class="col-12 col-lg-3 d-none d-lg-block">
+                                <AdminTimesheetPanelRight />
+                            </div>
+
                         </div>
                     </PageMiddleWrapper>
                 </PageMiddleView>

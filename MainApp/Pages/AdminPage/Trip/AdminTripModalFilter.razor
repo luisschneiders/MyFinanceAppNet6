@@ -7,21 +7,38 @@
        ModalBodyStyle="vh-100"
        IsCloseButtonVisible="false">
     <Title>
-        <span class="text-secondary">
-            Apply filters
-        </span>
+        @Label.AppApplyFilter
     </Title>
     <Body>
-        <div class="d-flex">
-            <div class="d-flex me-2">
+        <div class="row">
+            <div class="col-sm-12 col-lg-6 pb-2">
                 <DropdownMultiSelect ButtonSize="Size.Sm"
-                                DropdownLabel="@Label.FilterByVehicle"
+                                DropdownLabel="@Label.AppFilterByVehicle"
                                 DropdownPosition="Position.Start"
                                 IconEnd="bi-chevron-down"
                                 IconStart="bi-truck">
-                    @foreach (var (vehicle, index) in _vehicles.Select((value, index) => (value, index)))
+                    <!-- Search Input -->
+                    <li class="px-2 py-1">
+                        <input type="text"
+                                class="form-control @("rounded"+_appSettings.Form)"
+                                placeholder="@Label.AppFieldSearch"
+                                @bind-Value="_searchQueryVehicle"
+                                @bind-Value:event="oninput" />
+                    </li>
+                    <!-- Select All Checkbox -->
+                    <li class="px-2 py-1 dropdown-item rounded">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="select-all-vehicle" @onchange="ToggleSelectAllVehicle" />
+                            <label class="form-check-label w-100" for="select-all-vehicle">
+                                <strong>
+                                    @Label.AppSelectAll
+                                </strong>
+                            </label>
+                        </div>
+                    </li>
+                    @foreach (var (vehicle, index) in _filteredVehicles.Select((value, index) => (value, index)))
                     {
-                        <li class="px-2 py-1">
+                        <li class="px-2 py-1 dropdown-item rounded">
                             <div class="form-check">
                                 <input class="form-check-input" 
                                         type="checkbox"
@@ -29,33 +46,23 @@
                                         id="@($"vehicle-{vehicle.Id}")"
                                         value="@(vehicle.Id)"
                                         @onchange="(e) => OnCheckboxChangedVehicle(e, vehicle.Id)" />
-                                <label class="form-check-label" for="@($"vehicle-{vehicle.Id}")" title="@vehicle.Description">
+                                <label class="form-check-label w-100" for="@($"vehicle-{vehicle.Id}")" title="@vehicle.Description">
                                     @($"{vehicle.Description}")
                                 </label>
                             </div>
                         </li>
                     }
                 </DropdownMultiSelect>
-                @* @if (_multiFilterTripDTO.VehicleId.Count > 0)
-                {
-                    <div class="d-flex align-items-center">
-                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) text-@(Theme.Dark.ToString().ToLower())-emphasis"
-                                title="Clear filter"
-                                @onclick="RemoveDropdownFilterVehicle">
-                                <Badge BackgroundColor="@Theme.Light" Message="Clear Filter" />
-                        </button>
-                    </div>
-                } *@
             </div>
-            <div class="d-flex me-2">
+            <div class="col-sm-12 col-lg-6 pb-2">
                 <DropdownMultiSelect ButtonSize="Size.Sm"
-                                DropdownLabel="@Label.FilterByTripCategory"
+                                DropdownLabel="@Label.AppFilterByTripCategory"
                                 DropdownPosition="Position.Start"
                                 IconEnd="bi-chevron-down"
                                 IconStart="bi-tag">
                     @foreach (var (tripCategory, index) in _tripCategoryDTOs.Select((value, index) => (value, index)))
                     {
-                        <li class="px-2 py-1">
+                        <li class="px-2 py-1 dropdown-item rounded">
                             <div class="form-check">
                                 <input class="form-check-input" 
                                         type="checkbox"
@@ -63,23 +70,13 @@
                                         id="@($"trip-category-{tripCategory.Id}")"
                                         value="@(tripCategory.Id)"
                                         @onchange="(e) => OnCheckboxChangedTripCategory(e, tripCategory.Id)" />
-                                <label class="form-check-label" for="@($"trip-category-{tripCategory.Id}")" title="@tripCategory.Description">
+                                <label class="form-check-label w-100" for="@($"trip-category-{tripCategory.Id}")" title="@tripCategory.Description">
                                     @($"{tripCategory.Description}")
                                 </label>
                             </div>
                         </li>
                     }
                 </DropdownMultiSelect>
-                @* @if (_multiFilterTripDTO.TCategoryId.Count > 0)
-                {
-                    <div class="d-flex align-items-center">
-                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) text-@(Theme.Dark.ToString().ToLower())-emphasis"
-                                title="Clear filter"
-                                @onclick="RemoveDropdownFilterTripCategory">
-                                <Badge BackgroundColor="@Theme.Light" Message="Clear Filter" />
-                        </button>
-                    </div>
-                } *@
             </div>
         </div>
     </Body>
@@ -90,7 +87,7 @@
                         class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary @("rounded"+_appSettings.Button)"
                         data-dismiss="modal"
                         @onclick="() => CloseModalAsync()">
-                    Close
+                    @Label.AppButtonClose
                 </button>
             </div>
         </div>

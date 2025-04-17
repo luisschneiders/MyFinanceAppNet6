@@ -30,13 +30,9 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
     private bool _isDifferentRate { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
     private bool _isLoading { get; set; } = true;
-
     private TimesheetModel _timesheetModel { get; set; } = new();
     private List<CompanyModel> _activeCompanies { get; set; } = new();
-
-    private Dictionary<string, object> _inputFormControlAttributes = default!;
-    private Dictionary<string, object> _inputFormSelectAttributes = default!;
-    private Dictionary<string, object> _inputFormControlAttributesPlainText = default!;
+    private InputFormAttributes _inputFormAttributes{ get; set; } = new();
 
     public AdminTimesheetOffCanvas()
     {
@@ -50,19 +46,21 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
             {
                 await FetchDataAsync();
 
-                _inputFormControlAttributes = new()
+                _inputFormAttributes.Control = new()
                 {
                     {
                         "class", $"form-control rounded{_appSettings.Form}"
                     }
                 };
-                _inputFormSelectAttributes = new()
+
+                _inputFormAttributes.Select = new()
                 {
                     {
                         "class", $"form-select rounded{_appSettings.Form}"
                     }
                 };
-                _inputFormControlAttributesPlainText = new()
+
+                _inputFormAttributes.PlainText = new()
                 {
                     {
                         "class", $"form-control-plaintext"
@@ -101,7 +99,7 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
             else
             {
                 _timesheetModel = new();
-                _toastService.ShowToast("No record found!", Theme.Danger);
+                _toastService.ShowToast(Label.AppNoRecordFound, Theme.Danger);
             }
         }
         catch (Exception ex)
@@ -123,7 +121,7 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
             else
             {
                 _timesheetModel = new();
-                _toastService.ShowToast("No record found!", Theme.Danger);
+                _toastService.ShowToast(Label.AppNoRecordFound, Theme.Danger);
             }
         }
         catch (Exception ex)
@@ -183,15 +181,15 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
             {
                 case OffCanvasViewType.Add:
                     await _timesheetService.CreateRecord(_timesheetModel);
-                    _toastService.ShowToast("Timesheet added!", Theme.Success);
+                    _toastService.ShowToast(Label.AppAdminTimesheet+" "+Label.AppAdded, Theme.Success);
                     break;
                 case OffCanvasViewType.Edit:
                     await _timesheetService.UpdateRecord(_timesheetModel);
-                    _toastService.ShowToast("Timesheet updated!", Theme.Success);
+                    _toastService.ShowToast(Label.AppAdminTimesheet+" "+Label.AppUpdated, Theme.Success);
                     break;
                 case OffCanvasViewType.Archive:
                     await _timesheetService.ArchiveRecord(_timesheetModel);
-                    _toastService.ShowToast("Timesheet archived!", Theme.Success);
+                    _toastService.ShowToast(Label.AppAdminTimesheet+" "+Label.AppArchived, Theme.Success);
                     break;
             }
 

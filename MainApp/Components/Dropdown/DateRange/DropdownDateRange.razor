@@ -1,26 +1,26 @@
-﻿<div class="btn-group bg-@(ButtonColor.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
+﻿<div class="btn-group btn-outline-@(ButtonColor.ToString().ToLower()) border border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
     <div class="dropdown @(IsDisplayLargeNone ? "d-lg-none" : "") ">
-        <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + Theme.Dark.ToString().ToLower() + "-emphasis") text-nowrap @("rounded"+_appSettings.Button)"
+        <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("btn-outline-" + ButtonColor.ToString().ToLower() ) border-0 text-nowrap @("rounded"+_appSettings.Button)"
                 title="Change date range"
                 id="dropdownDateRange"
                 data-bs-toggle="dropdown"
                 data-bs-auto-close="inside"
                 aria-expanded="false">
-            <i class="bi bi-calendar3 text-@IconColor.ToString().ToLower()-emphasis"></i>
-            @DropdownLabel
+            <i class="bi bi-calendar3"></i>
+            <span class="pe-1">@DropdownLabel</span>
             <i class="bi bi-chevron-down"></i>
         </button>
-        <ul class="dropdown-menu dropdown-menu-@DropdownPosition.ToString().ToLower() border-@Theme.Dark.ToString().ToLower()-subtle bg-@Theme.Dark.ToString().ToLower()-subtle shadow-sm ps-2"
+        <ul class="dropdown-menu dropdown-menu-@DropdownPosition.ToString().ToLower() border-@Theme.Light.ToString().ToLower()-subtle bg-@Theme.Light.ToString().ToLower()-subtle @("shadow"+_appSettings.Shadow) ps-2"
             aria-labelledby="dropdownDateRange">
 
             <li class="d-flex pe-2 gap-2">
-                <input class="form-control form-control-@(Size.Sm.ToString().ToLower()) @("rounded"+_appSettings.Button)"
+                <input class="form-control form-control-@(Size.Sm.ToString().ToLower()) @("rounded"+_appSettings.Form)"
                        id="Start"
                        type="date"
                        placeholder="Start date"
                        @bind-value="DateTimeRange.Start" />
 
-                <input class="form-control form-control-@(Size.Sm.ToString().ToLower()) @("rounded"+_appSettings.Button)"
+                <input class="form-control form-control-@(Size.Sm.ToString().ToLower()) @("rounded"+_appSettings.Form)"
                        id="End"
                        type="date"
                        placeholder="End date"
@@ -46,11 +46,11 @@
     {
         <div class="d-flex align-items-center">
             <div class="vr my-1 text-@(ButtonColor.ToString().ToLower())-emphasis"></div>
-            <button class="btn btn-@(Size.Sm.ToString().ToLower())"
-                    title="Remove"
+            <a class="btn btn-outline-@(Theme.Light.ToString().ToLower()) btn-@(Size.Sm.ToString().ToLower()) border-0 @("rounded"+_appSettings.Button)"
+                    title="@Label.AppButtonRemove"
                     @onclick="ResetDateTimeRange">
-                <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
-            </button>
+                <i class="bi bi-x-lg text-@(Theme.Secondary.ToString().ToLower())"></i>
+            </a>
         </div>
     }
 </div>

@@ -1,6 +1,6 @@
-﻿<div class="btn-group bg-@(ButtonColor.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
+﻿<div class="btn-group btn-outline-@(ButtonColor.ToString().ToLower()) border border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button)" role="group">
     <div class="dropdown @(IsDisplayLargeNone ? "d-lg-none" : "")">
-        <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("bg-" + ButtonColor.ToString().ToLower() + "-subtle") @("text-" + Theme.Dark.ToString().ToLower() + "-emphasis") text-nowrap @("rounded"+_appSettings.Button)"
+        <button class="btn @("btn-" + ButtonSize.ToString().ToLower()) @("btn-outline-" + ButtonColor.ToString().ToLower() ) border-0  text-nowrap @("rounded"+_appSettings.Button)"
                 title="Click dropdown to expand"
                 id="dropdownMenuOptions"
                 data-bs-toggle="dropdown"
@@ -25,7 +25,9 @@
                     border-@Theme.Dark.ToString().ToLower()-subtle
                     app-dropdown-filter
                     overflow-y-scroll
-                    shadow-sm"
+                    @("shadow"+_appSettings.Shadow)
+                    w-100
+                    p-2"
             aria-labelledby="dropdownMenuOptions">
             @ChildContent
         </ul>
@@ -35,9 +37,9 @@
         <div class="d-flex align-items-center">
             <div class="vr my-1 text-@(ButtonColor.ToString().ToLower())-emphasis"></div>
             <button class="btn btn-@(Size.Sm.ToString().ToLower())"
-                    title="Remove"
+                    title="@Label.AppButtonRemove"
                     @onclick="ResetFilter">
-                <i class="bi bi-x-circle text-@(Theme.Dark.ToString().ToLower())-emphasis"></i>
+                <i class="bi bi-x-lg text-@(Theme.Dark.ToString().ToLower())"></i>
             </button>
         </div>
     }

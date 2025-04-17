@@ -40,11 +40,17 @@ public partial class ChartExpenseByMonth : ComponentBase
     private List<CheckboxItemModel> _expenseCategories { get; set; } = new();
     private MultiFilterExpenseByMonthDTO _multiFilterExpenseByMonthDTO { get; set; } = new();
     private string _chartIcon { get; set; } = string.Empty;
-    private string _dropdownLabelDate { get; set; } = Label.NoDateAssigned;
+    private string _dropdownLabelDate { get; set; } = Label.AppNoDateAssigned;
+    private bool _isDisabled { get; set; } = false;
     private bool _isLoading { get; set; } = true;
-
     private IJSObjectReference _chartObjectReference = default!;
-    
+    private string _searchQueryExpense = string.Empty;
+    private bool _selectAllCheckedExpense = false;
+    private List<CheckboxItemModel> _filteredExpenseCategories => 
+        string.IsNullOrWhiteSpace(_searchQueryExpense) 
+            ? _expenseCategories 
+            : _expenseCategories.Where(ec => ec.Description.Contains(_searchQueryExpense, StringComparison.OrdinalIgnoreCase)).ToList();
+
     public ChartExpenseByMonth()
     {
     }
@@ -124,7 +130,7 @@ public partial class ChartExpenseByMonth : ComponentBase
         await ResetChartDefaults();
         await RefreshChart();
 
-        _toastService.ShowToast("Date range has changed!", Theme.Info);
+        _toastService.ShowToast(Label.AppMessageDateRangeChanged, Theme.Info);
 
         await Task.CompletedTask;
     }
@@ -138,6 +144,8 @@ public partial class ChartExpenseByMonth : ComponentBase
 
     private async void OnCheckboxChangedExpense(ChangeEventArgs e, ulong id)
     {
+        _isDisabled = true;
+
         CheckboxItemModel expense = _expenseCategories.FirstOrDefault(i => i.Id == id)!;
 
         if (e.Value is true)
@@ -154,6 +162,10 @@ public partial class ChartExpenseByMonth : ComponentBase
         _multiFilterExpenseByMonthDTO.IsFilterChanged = true;
 
         await RefreshChart();
+
+        _isDisabled = false;
+
+        await InvokeAsync(StateHasChanged);
 
         await Task.CompletedTask;
     }
@@ -172,5 +184,39 @@ public partial class ChartExpenseByMonth : ComponentBase
     {
         await SetChartConfigDataAsync();
         await _chartService.UpdateData(_chartObjectReference, _chartConfigData);
+    }
+
+    private async void ToggleSelectAllExpense(ChangeEventArgs e)
+    {
+        _isDisabled = true;
+
+        _selectAllCheckedExpense = (bool)e.Value!;
+
+        foreach (var expenseCategory in _expenseCategories)
+        {
+            expenseCategory.IsChecked = _selectAllCheckedExpense;
+
+            if (e.Value is true)
+            {
+                _multiFilterExpenseByMonthDTO.ECategoryId.Add(expenseCategory.Id);
+                expenseCategory.IsChecked = true;
+            }
+            else if (e.Value is false)
+            {
+                _multiFilterExpenseByMonthDTO.ECategoryId.Remove(expenseCategory.Id);
+                expenseCategory.IsChecked = false;
+            }
+
+        }
+
+        _multiFilterExpenseByMonthDTO.IsFilterChanged = true;
+
+        await RefreshChart();
+        
+        _isDisabled = false;
+
+        await InvokeAsync(StateHasChanged);
+
+        await Task.CompletedTask;
     }
 }

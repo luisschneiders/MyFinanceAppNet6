@@ -4,21 +4,20 @@
 @using MainApp.Components.Modal
 
 <Modal @ref="_modal"
-       Size="Size.Sm"
+       Size="Size.Md"
        IsCloseButtonVisible="false">
     <Title>
-        <span class="text-secondary">
-            @($"{_shiftModel.SDate.ToString("ddd, d MMM yyyy")}")
-        </span>
+        @($"{_shiftModel.SDate.ToString("ddd, d MMM yyyy")}")
     </Title>
     <Body>
         <EditForm Model="@_shiftModel"
                 OnValidSubmit="@HandleValidSubmitAsync"
                 OnInvalidSubmit="@HandleInvalidSubmitAsync"
-                autocomplete="off">
+                autocomplete="off"
+                id="TimesheetModalShift">
             <DataAnnotationsValidator />
             <div class="row pb-2">
-                <div class="col-12 d-flex justify-content-center">
+                <div class="col-sm-12 col-lg-6 d-flex justify-content-end">
                         @if (_isLoadingShift)
                         {
                             <Loader />
@@ -26,18 +25,17 @@
                         else
                         {
                             <DropdownMultiSelect ButtonSize="Size.Sm"
-                                            ButtonColor="Theme.Info"
-                                            DropdownLabel="@Label.ShiftToday"
+                                            DropdownLabel="@Label.AppAdminShiftToday"
                                             DropdownPosition="Position.Start"
                                             IconEnd="bi-chevron-down"
                                             IconStart="bi-calendar-check">
                                 @foreach (var (shift, index) in _activeShifts.Select((value, index) => (value, index)))
                                 {
-                                    <li class="px-2 py-1 d-flex w-100 justify-content-between align-items-center text-nowrap">
+                                    <li class="py-1 d-flex w-100 justify-content-between align-items-center text-nowrap">
                                         @($"{shift.Description}")
                                         <a role="button" 
-                                            class="btn btn-link btn-@(Size.Sm.ToString().ToLower()) text-@(Theme.Danger.ToString().ToLower()) @("rounded"+_appSettings.Button)"
-                                            title="Remove"
+                                            class="btn btn-@(Theme.Danger.ToString().ToLower()) btn-@(Size.Sm.ToString().ToLower()) @("rounded"+_appSettings.Button)"
+                                            title="@Label.AppButtonRemove"
                                             @onclick="() => ArchiveRecord(ConverteModelAsync(shift))">
                                             <i class="bi bi-archive"></i>
                                         </a>
@@ -52,12 +50,12 @@
                 <div class="col-12">
                     <div class="form-floating pb-2">
                         <InputDate id="SDate"
-                                @attributes="_inputFormControlAttributes"
-                                placeholder="Date"
+                                @attributes="_inputFormAttributes.Control"
+                                placeholder="@Label.AppAdminShiftDate"
                                 @bind-Value="_shiftModel.SDate"
                                 Type="InputDateType.Date"
                                 @oninput="OnInputDateChanged" />
-                        <label for="SDate">Date</label>
+                        <label for="SDate">@Label.AppAdminShiftDate</label>
                     </div>
                 </div>
                 <div class="col-12">
@@ -69,23 +67,23 @@
                         else
                         {
                             <InputSelect id="CompanyId"
-                                            @attributes="_inputFormSelectAttributes"
+                                            @attributes="_inputFormAttributes.Select"
                                             @bind-Value="_shiftModel.CompanyId">
-                                <option value="0">-- Select Company --</option>
+                                <option value="0">@Label.AppFieldSelect</option>
                                 @foreach (var (company, index) in _activeCompanies.Select((value, index) => (value, index)))
                                 {
                                     <option value="@company.Id"> @($"{company.Description}") </option>
                                 }
                             </InputSelect>
-                            <label for="CompanyId">Company</label>
+                            <label for="CompanyId">@Label.AppAdminShiftCompany</label>
                         }
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="form-control @("rounded"+_appSettings.Form)">
-                        <label class="app-form-floating-label">Availability status</label>
+                        <label class="app-form-floating-label">@Label.AppAdminShiftAvailability</label>
                         <div class="form-check form-switch">
-                            <label class="form-check-label" for="IsAvailable">@(_shiftModel.IsAvailable is true ? "Available" : "Unavailable")</label>
+                            <label class="form-check-label" for="IsAvailable">@(_shiftModel.IsAvailable is true ? @Label.AppAvailable : @Label.AppUnavailable)</label>
                             <InputCheckbox class="form-check-input"
                                         type="checkbox"
                                         role="switch"
@@ -104,26 +102,26 @@
                     </div>
                 </div>
             }
-            <div class="row justify-content-between">
-                <div class="col-6">
-                    <button type="button"
-                            class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) w-100 @("rounded"+_appSettings.Button)"
-                            data-dismiss="modal"
-                            @onclick="CloseModalAsync">
-                        Close
-                    </button>
-                </div>
-                <div class="col-6">
-                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) w-100 @("rounded"+_appSettings.Button)"
-                            disabled="@(_isProcessing ? true : false)"
-                            type="submit">
-                        <i class="bi bi-calendar4-week pe-1"></i>
-                        @(_isProcessing ? "Saving..." : "Save shift")
-                    </button>
-                </div>
-            </div>
+
         </EditForm>
     </Body>
     <Footer>
+        <div class="row w-100 justify-content-end">
+            <div class="col-sm-12 col-md-8 d-flex gap-2 g-0">
+                <button type="button"
+                        class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) w-100 @("rounded"+_appSettings.Button)"
+                        data-dismiss="modal"
+                        @onclick="CloseModalAsync">
+                    @Label.AppButtonClose
+                </button>
+                <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) w-100 @("rounded"+_appSettings.Button)"
+                        disabled="@(_isProcessing ? true : false)"
+                        type="submit"
+                        form="TimesheetModalShift">
+                    <i class="bi bi-calendar4-week pe-1"></i>
+                    @(_isProcessing ? @Label.AppButtonSaving : @Label.AppAdminShiftButtonSave)
+                </button>
+            </div>
+        </div>
     </Footer>
 </Modal>

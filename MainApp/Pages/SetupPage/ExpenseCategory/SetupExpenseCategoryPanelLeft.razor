@@ -8,18 +8,19 @@
         <div class="row flex-row-reverse justify-content-between pb-2">
             <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
                 <div class="d-none d-lg-block">
-                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => AddRecordAsync()">
-                        <i class="bi bi-plus-lg pe-1"></i>New Expense
+                        <i class="bi bi-plus-lg pe-1"></i>@Label.AppSetupExpenseButtonNew
                     </button>
                 </div>
                 <div class="d-block d-lg-none">
                     <DropdownActions DropdownPosition="Position.End"
-                                     ButtonSize="Size.Sm">
-                        <li class="px-2 d-block d-lg-none">
-                            <button class="dropdown-item text-@(Theme.Primary.ToString().ToLower())-emphasis rounded"
+                                     ButtonSize="Size.Sm"
+                                     ButtonColor="Theme.Secondary">
+                        <li class="p-1">
+                            <button class="dropdown-item rounded"
                                     @onclick="() => AddRecordAsync()">
-                                <i class="bi bi-plus-lg pe-1"></i>New Expense
+                                <i class="bi bi-plus-lg pe-1"></i>@Label.AppSetupExpenseButtonNew
                             </button>
                         </li>
                     </DropdownActions>
@@ -30,22 +31,20 @@
                     <div class="col-8 col-md-8">
                         <input type="text"
                                class="form-control form-control-@(Size.Sm.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
-                               placeholder="Search here..."
+                               placeholder="@Label.AppFieldSearch"
                                aria-label="search"
                                @bind-value="_searchTerm"
                                @oninput="SearchTermAsync">
 
                     </div>
                     <div class="col-2">
-                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-primary @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                 @onclick="() => SearchAsync()"
                                 disabled="@(_searchButtonEnabled ? false : true)">
                             <span class="d-md-none">
                                 <i class="bi bi-search"></i>
                             </span>
-                            <span class="d-none d-md-block">
-                                Search
-                            </span>
+                            <span class="d-none d-md-block">@Label.AppButtonSearch</span>
                         </button>
                     </div>
                 </div>
@@ -57,26 +56,28 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th class="col-4">
-                                    Description
+                                <th class="col-3">
+                                    @Label.AppSetupExpenseFieldDescription
                                 </th>
                                 <th class="text-end col-2">
                                     <i class="bi bi-graph-up-arrow pe-1"></i>
-                                    Highest
-                                    <sup><i class="bi bi-info-circle-fill text-info-emphasis" title="The highest transaction"></i></sup>
+                                    @Label.AppSetupExpenseFieldHighest
+                                    <sup><i class="bi bi-info-circle-fill text-info-emphasis" title="@Label.AppSetupExpenseHighestMessage"></i></sup>
                                 </th>
                                 <th class="text-end col-2">
                                     <i class="bi bi-graph-down-arrow pe-1"></i>
-                                    Lowest
-                                    <sup><i class="bi bi-info-circle-fill text-info-emphasis" title="The lowest transaction"></i></sup>
+                                    @Label.AppSetupExpenseFieldLowest
+                                    <sup><i class="bi bi-info-circle-fill text-info-emphasis" title="@Label.AppSetupExpenseLowestMessage"></i></sup>
                                 </th>
                                 <th class="text-end col-2">
-                                    Total
-                                    <sup><i class="bi bi-info-circle-fill text-info-emphasis" title="Total amount up to date"></i></sup>
+                                    @Label.AppSetupExpenseFieldTotal
+                                    <sup><i class="bi bi-info-circle-fill text-info-emphasis" title="@Label.AppSetupExpenseTotalMessage"></i></sup>
                                 </th>
-                                <th class="col" colspan="3">
-                                    Status
+                                <th class="col">
+                                    @Label.AppSetupExpenseFieldStatus
                                 </th>
+                                <th class="col-1 text-center">@Label.AppButtonViewDetails</th>
+                                <th class="col-1 text-center">@Label.AppButtonEdit</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -114,18 +115,17 @@
                                             </div>
                                         </td>
                                         <td class="text-center">
-                                            <button class="btn btn-link p-0 text-info"
+                                            <button class="btn btn-sm btn-@(Theme.Light.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                                     type="button"
-                                                    title="View details"
+                                                    title="@Label.AppButtonViewDetails"
                                                     @onclick="() => ViewRecordAsync(record)">
                                                 <i class="bi bi-eye-fill"></i>
-
                                             </button>
                                         </td>
                                         <td class="text-center">
-                                            <button class="btn btn-link p-0 text-danger"
+                                            <button class="btn btn-sm btn-@(Theme.Light.ToString().ToLower()) text-@(Theme.Danger.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                                     type="button"
-                                                    title="Edit"
+                                                    title="@Label.AppButtonEdit"
                                                     @onclick="() => EditRecordAsync(record)">
                                                 <i class="bi bi-pencil"></i>
                                             </button>
@@ -150,7 +150,7 @@
                                         <tr>
                                             <td class="text-center" colspan="5">
                                                 <div>
-                                                    @Label.NoRecordFound
+                                                    @Label.AppNoRecordFound
                                                 </div>
                                             </td>
                                         </tr>
@@ -189,18 +189,17 @@
                                                     </div>
                                                 </td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-link p-0 text-info"
+                                                    <button class="btn btn-sm btn-@(Theme.Light.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                                             type="button"
-                                                            title="View details"
+                                                            title="@Label.AppButtonViewDetails"
                                                             @onclick="() => ViewRecordAsync(record)">
                                                         <i class="bi bi-eye-fill"></i>
-
                                                     </button>
                                                 </td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-link p-0 text-danger"
+                                                    <button class="btn btn-sm btn-@(Theme.Light.ToString().ToLower()) text-@(Theme.Danger.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                                             type="button"
-                                                            title="Edit"
+                                                            title="@Label.AppButtonEdit"
                                                             @onclick="() => EditRecordAsync(record)">
                                                         <i class="bi bi-pencil"></i>
                                                     </button>

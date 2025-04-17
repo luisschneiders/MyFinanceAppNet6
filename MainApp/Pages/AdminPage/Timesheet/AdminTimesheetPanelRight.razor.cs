@@ -1,14 +1,42 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using MainApp.Components.Toast;
+using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Pages.AdminPage.Timesheet;
 
 public partial class AdminTimesheetPanelRight : ComponentBase
 {
-    // private TimesheetStateContainerDTO _timesheetStateContainerDTO { get; set; } = new();
+    [Inject]
+    private ToastService _toastService { get; set; } = default!;
+
+    [CascadingParameter(Name = "AppSettings")]
+    protected IAppSettings _appSettings { get; set; } = default!;
+
+    private InputFormAttributes _inputFormAttributes{ get; set; } = new();
 
     public AdminTimesheetPanelRight()
     {
     }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _inputFormAttributes.Control = new()
+            {
+                {
+                    "class", $"form-control rounded{_appSettings.Form}"
+                }
+            };
+
+
+            await Task.CompletedTask;
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;    }
 
     // protected override async Task OnInitializedAsync()
     // {

@@ -5,7 +5,7 @@ namespace MainApp.Components.Loader;
 public partial class Loader : ComponentBase
 {
     [Parameter]
-    public string Message { get; set; } = Label.Loading;
+    public string Message { get; set; } = Label.AppLoading;
 
     [Parameter]
     public Size Size { get; set; } = Size.Sm;

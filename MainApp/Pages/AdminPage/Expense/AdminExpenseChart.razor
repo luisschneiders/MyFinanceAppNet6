@@ -15,9 +15,7 @@
                 IsModalDialogBordered="false"
                 ModalContentStyle="main">
                 <Title>
-                    <span class="text-secondary">
-                        Charts
-                    </span>
+                    @Label.AppChart
                 </Title>
                 <Body>
                     <div class="row">
@@ -31,8 +29,7 @@
                         <div class="col-sm-12 col-lg-6 d-flex flex-sm-column flex-md-row justify-content-center">
                             <CardView Styles="w-100 border-0 mb-4">
                                 <CardMiddle>
-                                    <MapLocationExpense Color="MapMarkerColor.Brown"
-                                                        Width="MapSize.Width800"
+                                    <MapLocationExpense Width="MapSize.Width800"
                                                         Height="MapSize.Height250"
                                                         Scale="MapScale.Desktop"
                                                         PeriodRange="PeriodRange.Month"
@@ -65,7 +62,7 @@
                                     class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary @("rounded"+_appSettings.Button)"
                                     data-dismiss="modal"
                                     @onclick="() => CloseModalAsync()">
-                                Close
+                                @Label.AppButtonClose
                             </button>
                         </div>
                     </div>

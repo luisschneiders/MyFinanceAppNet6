@@ -63,7 +63,7 @@ public partial class AdminExpenseModal : ComponentBase
 
             await _expenseService.ArchiveRecord(_expenseModel);
 
-            _toastService.ShowToast("Expense archived!", Theme.Success);
+            _toastService.ShowToast(Label.AppAdminExpense+" "+Label.AppArchived, Theme.Success);
 
             await OnSubmitSuccess.InvokeAsync();
             await Task.Delay((int)Delay.DataSuccess);

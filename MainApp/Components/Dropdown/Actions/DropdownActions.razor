@@ -19,7 +19,10 @@
             }
         </div>
     </button>
-    <ul class="dropdown-menu dropdown-menu-@DropdownPosition.ToString().ToLower() border-0 bg-@ButtonColor.ToString().ToLower()-subtle shadow-sm"
+    <ul class="dropdown-menu dropdown-menu-@DropdownPosition.ToString().ToLower()
+                border-0
+                @("shadow"+_appSettings.Shadow)
+                p-1"
         aria-labelledby="dropdownMenuOptions">
         @ChildContent
     </ul>
