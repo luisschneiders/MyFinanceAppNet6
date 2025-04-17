@@ -28,7 +28,10 @@ BEGIN
     -- Delete all history (with safety)
     DELETE FROM BankTransactionHistory
     WHERE Id > 0;
-
+	
+    -- Reset Auto Increment
+    ALTER TABLE BankTransactionHistory AUTO_INCREMENT = 1;
+    
     OPEN cur;
 
     read_loop: LOOP

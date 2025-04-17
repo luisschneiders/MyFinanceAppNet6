@@ -26,15 +26,15 @@
                     <ul class="dropdown-menu app-dropdown-menu border-@Theme.Light.ToString().ToLower() bg-@Theme.Light.ToString().ToLower()-subtle shadow-lg @("rounded"+_appSettings.Menu)" aria-labelledby="navbarDropdownSettingsLink1">
                         <div class="px-3 py-2">
                             <div class="d-flex flex-lg-nowrap row">
-                                <div class="col-12 px-4">
+                                <div class="col-auto px-4">
                                     <li class="py-2">
                                         <NavLink class="dropdown-item rounded" href="@EndPoint.Dashboard" Match="NavLinkMatch.All">
                                             <i class="bi bi-house pe-1"></i>@Label.AppMenuDashboard
                                         </NavLink>
                                     </li>
-                                    <hr class="d-none d-lg-block">
                                 </div>
                             </div>
+                            <hr class="d-none d-lg-block">
                             <div class="d-flex flex-lg-nowrap row">
                                 <div class="col-auto px-4">
                                     <li class="fs-5">

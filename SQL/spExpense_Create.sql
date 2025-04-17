@@ -118,6 +118,7 @@ BEGIN
 		IF (rowCountBankDebit > 0 AND
 			rowCountTransactionDebit > 0 AND 
 			rowCountExpense > 0) THEN
+            CALL spBankTransactionHistory_GenerateById(expenseUpdatedBy, expenseBankId);
 			COMMIT;
 		ELSE
 			ROLLBACK;

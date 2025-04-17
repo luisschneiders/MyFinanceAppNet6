@@ -109,7 +109,8 @@ BEGIN
 				transactionCreatedAt,
 				transactionUpdatedAt
 			);
-		
+		CALL spBankTransactionHistory_GenerateById(transactionUpdatedBy, transactionFromBank);
+        CALL spBankTransactionHistory_GenerateById(transactionUpdatedBy, transactionToBank);
 		COMMIT;
 	ELSE
 		ROLLBACK;
