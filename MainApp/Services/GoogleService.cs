@@ -5,10 +5,12 @@ namespace MainApp.Services;
 
 public class GoogleService : IGoogleService
 {
+    private readonly IConfiguration _config;
     private readonly IEssentialsAPIService _essentialsAPIService;
-    private string _token { get; set;} = string.Empty;
-    public GoogleService(IEssentialsAPIService essentialsAPIService)
+
+    public GoogleService(IEssentialsAPIService essentialsAPIService, IConfiguration config)
     {
+        _config = config;
         _essentialsAPIService = essentialsAPIService;
     }
 
@@ -93,6 +95,19 @@ public class GoogleService : IGoogleService
         }
     }
 
+    public async Task<string> GetMapIdInteractive()
+    {
+        try
+        {
+            string mapId = _config.GetValue<string>("GoogleApi:InteractiveMapId");
+            return await Task.FromResult(mapId);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
     private async Task<string> GetToken()
     {
         Response<string> response = await _essentialsAPIService.GetTokenWithBasicAuthAsync();

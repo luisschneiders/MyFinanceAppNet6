@@ -9,11 +9,11 @@ public class LocationExpenseData : ILocationExpenseData<LocationExpenseModel>
         _dataAccess = dataAccess;
     }
 
-    public async Task<List<LocationExpenseDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange)
+    public async Task<List<LocationModel>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange)
     {
         try
         {
-            var results = await _dataAccess.LoadData<LocationExpenseDTO, dynamic>(
+            var results = await _dataAccess.LoadData<LocationModel, dynamic>(
                 "myfinancedb.spLocationExpense_GetRecordsByDateRange",
                 new
                 {

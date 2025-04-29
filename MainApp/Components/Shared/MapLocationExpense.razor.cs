@@ -43,9 +43,8 @@ public partial class MapLocationExpense : ComponentBase
     private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
 
     private DateTimeRange _dateTimeRange { get; set; } = new();
+    private List<LocationModel> _locations = new();
     private string _dropdownLabel { get; set; } = Label.AppNoDateAssigned;
-
-    private string _imageURL { get; set; } = string.Empty;
     private bool _isLoading { get; set; } = true;
 
     public MapLocationExpense()
@@ -83,17 +82,7 @@ public partial class MapLocationExpense : ComponentBase
     {
         try
         {
-            GoogleMapStaticModel model = await _expenseService.GetLocationExpense(_dateTimeRange, Color, Width, Height, Scale);
-            Response<string> response = await _googleService.GetMapStaticImage(model);
-
-            if (response.Success is false)
-            {
-                _toastService.ShowToast($"{response.ErrorMessage}", Theme.Danger);
-            }
-            else{
-                _imageURL = response.Data;
-            }
-            
+            _locations = await _expenseService.GetLocationExpenseList(_dateTimeRange);
             _isLoading = false;
         }
         catch (Exception ex)
@@ -107,12 +96,15 @@ public partial class MapLocationExpense : ComponentBase
 
     private async Task DropdownDateRangeRefresh(DateTimeRange dateTimeRange)
     {
+        _isLoading = true;
+
+        await Task.Delay((int)Delay.DataLoading);
+
         _dateTimeRange = dateTimeRange;
         _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
         _toastService.ShowToast(Label.AppMessageDateRangeChanged, Theme.Info);
 
         await FetchDataAsync();
-
         await Task.CompletedTask;
     }
 }

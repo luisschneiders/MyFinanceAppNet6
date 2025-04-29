@@ -1,11 +1,12 @@
 (() => {
     'use strict'
 
-    window.initializeGoogleMap = (mapdId, center, zoom) => {
+    window.initializeGoogleMap = (mapdId, center, zoom, googleMapdId) => {
         window[mapdId] = new google.maps.Map(document.getElementById(mapdId), {
             center,
             zoom,
-            mapId: "DEMO_MAP_ID"
+            mapId: googleMapdId
+            // mapId: "DEMO_MAP_ID"
         });
     }
 

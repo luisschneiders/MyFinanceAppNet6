@@ -24,12 +24,12 @@ public class LocationExpenseService : ILocationExpenseService<LocationExpenseMod
         _authProvider = authProvider;
     }
 
-    public async Task<List<LocationExpenseDTO>> GetRecordsByDateRange(DateTimeRange dateTimeRange)
+    public async Task<List<LocationModel>> GetRecordsByDateRange(DateTimeRange dateTimeRange)
     {
         try
         {
             UserModel user = await GetLoggedInUser();
-            List<LocationExpenseDTO> results = await _locationExpenseData.GetRecordsByDateRange(user.Id, dateTimeRange);
+            List<LocationModel> results = await _locationExpenseData.GetRecordsByDateRange(user.Id, dateTimeRange);
             return results;
         }
         catch (Exception ex)
