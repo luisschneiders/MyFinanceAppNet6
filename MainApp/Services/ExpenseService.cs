@@ -262,7 +262,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
     {
         try
         {
-            List<LocationExpenseDTO> results = await _locationExpenseService.GetRecordsByDateRange(dateTimeRange);
+            List<LocationModel> results = await _locationExpenseService.GetRecordsByDateRange(dateTimeRange);
 
             string location = await BuildLocation(results);
 
@@ -281,6 +281,21 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         {
             Console.WriteLine("An exception occurred: " + ex.Message);
             throw;
+        }
+    }
+
+    public async Task<List<LocationModel>> GetLocationExpenseList(DateTimeRange dateTimeRange)
+    {
+        try
+        {
+            List<LocationModel> results = await _locationExpenseService.GetRecordsByDateRange(dateTimeRange);
+            return results;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+
         }
     }
 
@@ -347,7 +362,7 @@ public class ExpenseService : IExpenseService<ExpenseModel>
         return await _authProvider.GetUserFromAuth(_userData);
     }
 
-    private static Task<string> BuildLocation(List<LocationExpenseDTO> locations)
+    private static Task<string> BuildLocation(List<LocationModel> locations)
     {
         StringBuilder sb = new StringBuilder();
         foreach (var location in locations)

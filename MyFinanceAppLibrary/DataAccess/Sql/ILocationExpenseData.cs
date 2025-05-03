@@ -2,5 +2,5 @@
 
 public interface ILocationExpenseData<T>
 {
-    public Task<List<LocationExpenseDTO>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange);
+    public Task<List<LocationModel>> GetRecordsByDateRange(string userId, DateTimeRange dateTimeRange);
 }

@@ -8,8 +8,12 @@ public class MapService : IMapService
     [Inject]
     private IJSRuntime _jsRuntime { get; set; } = default!;
 
+    [Inject]
+    private IGoogleService _googleService { get; set; } = default!;
+
     public MapService(IJSRuntime jSRuntime, IGoogleService googleService)
     {
+        _googleService = googleService;
         _jsRuntime = jSRuntime;
     }
 
@@ -17,7 +21,8 @@ public class MapService : IMapService
     {
         try
         {
-            await _jsRuntime.InvokeVoidAsync("initializeGoogleMap", mapId, new { lat = location.Latitude, lng = location.Longitude }, zoom);
+            string googleMapId = await _googleService.GetMapIdInteractive();
+            await _jsRuntime.InvokeVoidAsync("initializeGoogleMap", mapId, new { lat = location.Latitude, lng = location.Longitude }, zoom, googleMapId);
         }
         catch (Exception ex)
         {

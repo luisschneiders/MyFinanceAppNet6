@@ -25,121 +25,121 @@
 
                 <PageMiddleView>
                     <PageMiddleWrapper>
-                        <div class="app-page-background-@(Theme.Dark.ToString().ToLower()) pb-5">
-                            <div class="container-lg">
-                                <div class="row gy-5">
-                                    <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
-                                        <CardView Styles="w-100 border-0">
-                                            <CardMiddle>
-                                                <div class="d-grid gap-3">
-                                                    <NavLink href="@EndPoint.SetupBank">
-                                                        <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                            <i class="bi bi-bank2 text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
-                                                            <div class="w-100 text-start ps-3 pe-2">
-                                                                <span class="mb-1">@Label.AppMenuSetupFinancialInstitution</span>
-                                                                <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
-                                                                    <small class="text-wrap d-none d-xl-flex">
-                                                                        @Label.AppPageSetupFinancialInstitutionParagraph
-                                                                    </small>
-                                                                </div>
-                                                            </div>
-                                                            <div class="text-@(Theme.Secondary.ToString().ToLower())">
-                                                                <i class="bi bi-chevron-right"></i>
+                        @* <div class="app-page-background-@(Theme.Dark.ToString().ToLower()) pb-5"> *@
+                        <div class="container-lg">
+                            <div class="row gy-5">
+                                <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
+                                    <CardView Styles="w-100 border-0">
+                                        <CardMiddle>
+                                            <div class="d-grid gap-3">
+                                                <NavLink href="@EndPoint.SetupBank">
+                                                    <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
+                                                        <i class="bi bi-bank2 text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
+                                                        <div class="w-100 text-start ps-3 pe-2">
+                                                            <span class="mb-1">@Label.AppMenuSetupFinancialInstitution</span>
+                                                            <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
+                                                                <small class="text-wrap d-none d-xl-flex">
+                                                                    @Label.AppPageSetupFinancialInstitutionParagraph
+                                                                </small>
                                                             </div>
                                                         </div>
-                                                    </NavLink>
-                                                    <NavLink href="@EndPoint.SetupCompany">
-                                                        <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                            <i class="bi bi-building text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
-                                                            <div class="w-100 text-start ps-3 pe-2">
-                                                                <span class="mb-1">@Label.AppMenuSetupCompany</span>
-                                                                <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
-                                                                    <small class="text-wrap d-none d-xl-flex">
-                                                                        @Label.AppPageSetupCompanyParagraph
-                                                                    </small>
-                                                                </div>
-                                                            </div>
-                                                            <div class="text-@(Theme.Secondary.ToString().ToLower())">
-                                                                <i class="bi bi-chevron-right"></i>
+                                                        <div class="text-@(Theme.Secondary.ToString().ToLower())">
+                                                            <i class="bi bi-chevron-right"></i>
+                                                        </div>
+                                                    </div>
+                                                </NavLink>
+                                                <NavLink href="@EndPoint.SetupCompany">
+                                                    <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
+                                                        <i class="bi bi-building text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
+                                                        <div class="w-100 text-start ps-3 pe-2">
+                                                            <span class="mb-1">@Label.AppMenuSetupCompany</span>
+                                                            <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
+                                                                <small class="text-wrap d-none d-xl-flex">
+                                                                    @Label.AppPageSetupCompanyParagraph
+                                                                </small>
                                                             </div>
                                                         </div>
-                                                    </NavLink>
-                                                    <NavLink href="@EndPoint.SetupExpense">
-                                                        <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                            <i class="bi bi-cart4 text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
-                                                            <div class="w-100 text-start ps-3 pe-2">
-                                                                <span class="mb-1">@Label.AppMenuSetupExpense</span>
-                                                                <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
-                                                                    <small class="text-wrap d-none d-xl-flex">
-                                                                        @Label.AppPageSetupExpenseParagraph
-                                                                    </small>
-                                                                </div>
-                                                            </div>
-                                                            <div class="text-@(Theme.Secondary.ToString().ToLower()) ps-3 pe-2">
-                                                                <i class="bi bi-chevron-right"></i>
+                                                        <div class="text-@(Theme.Secondary.ToString().ToLower())">
+                                                            <i class="bi bi-chevron-right"></i>
+                                                        </div>
+                                                    </div>
+                                                </NavLink>
+                                                <NavLink href="@EndPoint.SetupExpense">
+                                                    <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
+                                                        <i class="bi bi-cart4 text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
+                                                        <div class="w-100 text-start ps-3 pe-2">
+                                                            <span class="mb-1">@Label.AppMenuSetupExpense</span>
+                                                            <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
+                                                                <small class="text-wrap d-none d-xl-flex">
+                                                                    @Label.AppPageSetupExpenseParagraph
+                                                                </small>
                                                             </div>
                                                         </div>
-                                                    </NavLink>
-                                                    <NavLink href="@EndPoint.SetupTax">
-                                                        <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                            <i class="bi bi-receipt text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
-                                                            <div class="w-100 text-start ps-3 pe-2">
-                                                                <span class="mb-1">@Label.AppMenuSetupTax</span>
-                                                                <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
-                                                                    <small class="text-wrap d-none d-xl-flex">
-                                                                        @Label.AppPageSetupTaxParagraph
-                                                                    </small>
-                                                                </div>
-                                                            </div>
-                                                            <div class="text-@(Theme.Secondary.ToString().ToLower())">
-                                                                <i class="bi bi-chevron-right"></i>
+                                                        <div class="text-@(Theme.Secondary.ToString().ToLower()) ps-3 pe-2">
+                                                            <i class="bi bi-chevron-right"></i>
+                                                        </div>
+                                                    </div>
+                                                </NavLink>
+                                                <NavLink href="@EndPoint.SetupTax">
+                                                    <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
+                                                        <i class="bi bi-receipt text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
+                                                        <div class="w-100 text-start ps-3 pe-2">
+                                                            <span class="mb-1">@Label.AppMenuSetupTax</span>
+                                                            <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
+                                                                <small class="text-wrap d-none d-xl-flex">
+                                                                    @Label.AppPageSetupTaxParagraph
+                                                                </small>
                                                             </div>
                                                         </div>
-                                                    </NavLink>
-                                                    <NavLink href="@EndPoint.SetupTransaction">
-                                                        <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                            <i class="bi bi-currency-exchange text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
-                                                            <div class="w-100 text-start ps-3 pe-2">
-                                                                <span class="mb-1">@Label.AppMenuSetupTransaction</span>
-                                                                <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
-                                                                    <small class="text-wrap d-none d-xl-flex">
-                                                                        @Label.AppPageSetupTransactionParagraph
-                                                                    </small>
-                                                                </div>
-                                                            </div>
-                                                            <div class="text-@(Theme.Secondary.ToString().ToLower())">
-                                                                <i class="bi bi-chevron-right"></i>
+                                                        <div class="text-@(Theme.Secondary.ToString().ToLower())">
+                                                            <i class="bi bi-chevron-right"></i>
+                                                        </div>
+                                                    </div>
+                                                </NavLink>
+                                                <NavLink href="@EndPoint.SetupTransaction">
+                                                    <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
+                                                        <i class="bi bi-currency-exchange text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
+                                                        <div class="w-100 text-start ps-3 pe-2">
+                                                            <span class="mb-1">@Label.AppMenuSetupTransaction</span>
+                                                            <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
+                                                                <small class="text-wrap d-none d-xl-flex">
+                                                                    @Label.AppPageSetupTransactionParagraph
+                                                                </small>
                                                             </div>
                                                         </div>
-                                                    </NavLink>
-                                                    <NavLink href="@EndPoint.SetupVehicle">
-                                                        <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                            <i class="bi bi-truck text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
-                                                            <div class="w-100 text-start ps-3 pe-2">
-                                                                <span class="mb-1">@Label.AppMenuSetupVehicle</span>
-                                                                <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
-                                                                    <small class="text-wrap d-none d-xl-flex">
-                                                                        @Label.AppPageSetupVehicleParagraph
-                                                                    </small>
-                                                                </div>
-                                                            </div>
-                                                            <div class="text-@(Theme.Secondary.ToString().ToLower())">
-                                                                <i class="bi bi-chevron-right"></i>
+                                                        <div class="text-@(Theme.Secondary.ToString().ToLower())">
+                                                            <i class="bi bi-chevron-right"></i>
+                                                        </div>
+                                                    </div>
+                                                </NavLink>
+                                                <NavLink href="@EndPoint.SetupVehicle">
+                                                    <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
+                                                        <i class="bi bi-truck text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
+                                                        <div class="w-100 text-start ps-3 pe-2">
+                                                            <span class="mb-1">@Label.AppMenuSetupVehicle</span>
+                                                            <div class="text-@(Theme.Secondary.ToString().ToLower()) pb-2">
+                                                                <small class="text-wrap d-none d-xl-flex">
+                                                                    @Label.AppPageSetupVehicleParagraph
+                                                                </small>
                                                             </div>
                                                         </div>
-                                                    </NavLink>
-                                                </div>
-                                            </CardMiddle>
-                                        </CardView>
-                                    </div>
-                                    <div class="col-sm-12 col-md-8 d-flex flex-sm-column flex-md-row justify-content-center">
-                                        <img src="/img/clean-organized-desk.jpg"
-                                             alt="clean organized desk"
-                                             class="img-fluid rounded-pill" />
-                                    </div>
+                                                        <div class="text-@(Theme.Secondary.ToString().ToLower())">
+                                                            <i class="bi bi-chevron-right"></i>
+                                                        </div>
+                                                    </div>
+                                                </NavLink>
+                                            </div>
+                                        </CardMiddle>
+                                    </CardView>
+                                </div>
+                                <div class="col-sm-12 col-md-8 d-flex flex-sm-column flex-md-row justify-content-center">
+                                    <img src="/img/clean-organized-desk.jpg"
+                                            alt="clean organized desk"
+                                            class="img-fluid rounded-pill" />
                                 </div>
                             </div>
                         </div>
+                        @* </div> *@
                     </PageMiddleWrapper>
                 </PageMiddleView>
                 <PageBottomView />
