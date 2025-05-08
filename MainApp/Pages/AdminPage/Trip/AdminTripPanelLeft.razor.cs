@@ -23,7 +23,7 @@ public partial class AdminTripPanelLeft : ComponentBase
     [CascadingParameter(Name = "AppSettings")]
     protected IAppSettings _appSettings { get; set; } = default!;
 
-    private DateTimeRange _dateTimeRange { get; set; } = new();
+    private DateTimeRange _dateRange { get; set; } = new();
     private List<TripByVehicleGroupDTO> _tripsByGroup { get; set; } = new();
     private MultiFilterTripDTO _multiFilterTripDTO { get; set; } = new();
     private PayStatus[] _payStatuses { get; set; } = default!;
@@ -38,8 +38,9 @@ public partial class AdminTripPanelLeft : ComponentBase
     private AdminTripModalFilter _setupFilterModal { get; set; } = new();
     private AdminTripModalPrinter _setupPrinterModal { get; set; } = new();
 
-    private string _dropdownLabel { get; set; } = Label.AppNoDateAssigned;
+    private string _dropdownDateRangeLabel { get; set; } = Label.AppNoDateAssigned;
     private bool _isLoading { get; set; } = true;
+    private bool _isLoadingView { get; set; } = true;
 
     public AdminTripPanelLeft()
     {
@@ -49,8 +50,8 @@ public partial class AdminTripPanelLeft : ComponentBase
 
     protected async override Task OnInitializedAsync()
     {
-        _dateTimeRange = _dateTimeService.GetCurrentMonth();
-        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(_dateTimeRange);
+        _dateRange = _dateTimeService.GetCurrentMonth();
+        _dropdownDateRangeLabel = await _dropdownDateRangeService.UpdateLabel(_dateRange);
 
         await Task.CompletedTask;
     }
@@ -79,14 +80,16 @@ public partial class AdminTripPanelLeft : ComponentBase
     {
         try
         {
-            _multiFilterTripDTO.DateTimeRange = _dateTimeRange;
+            _multiFilterTripDTO.DateTimeRange = _dateRange;
             _tripsByGroup = await _tripService.GetRecordsListView(_multiFilterTripDTO);
             _sumByDateRange = await _tripService.GetSumByDateRange();
             _isLoading = false;
+            _isLoadingView = false;
         }
         catch (Exception ex)
         {
             _isLoading = false;
+            _isLoadingView = false;
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 
@@ -105,7 +108,7 @@ public partial class AdminTripPanelLeft : ComponentBase
         {
             PrintTripDTO printTripDTO = new ()
             {
-                DateTimeRange = _dateTimeRange,
+                DateTimeRange = _dateRange,
                 TripsByGroup = _tripsByGroup,
                 SumByDateRange = _sumByDateRange,
             };
@@ -193,8 +196,8 @@ public partial class AdminTripPanelLeft : ComponentBase
 
     private async Task DropdownDateRangeRefresh(DateTimeRange dateTimeRange)
     {
-        _dateTimeRange = dateTimeRange;
-        _dropdownLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
+        _dateRange = dateTimeRange;
+        _dropdownDateRangeLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
         _toastService.ShowToast(Label.AppMessageDateRangeChanged, Theme.Info);
 
         await RefreshList();
@@ -278,4 +281,75 @@ public partial class AdminTripPanelLeft : ComponentBase
             return false;
         }
     }
+
+    private async Task PreviousPeriodAsync(DateTimeRange date, ViewType viewType)
+    {
+        try
+        {
+            _isLoadingView = true;
+
+            DateTimeRange previousDate = new();
+
+            previousDate = _dateTimeService.GetPreviousMonth(date);
+
+            switch (viewType)
+            {
+                case ViewType.List:
+                    await RefreshDropdownDateRange(previousDate);
+                    break;
+                default:
+                    break;
+            }
+
+            _isLoadingView = false;
+        }
+        catch (Exception ex)
+        {
+            _isLoadingView = false;
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+        
+        await Task.CompletedTask;
+    }
+
+    private async Task NextPeriodAsync(DateTimeRange date, ViewType viewType)
+    {
+        try
+        {
+            _isLoadingView = true;
+
+            DateTimeRange nextDate = new();
+
+            nextDate = _dateTimeService.GetNextMonth(date);
+
+            switch (viewType)
+            {
+                case ViewType.List:
+                    await RefreshDropdownDateRange(nextDate);
+                    break;
+                default:
+                    break;
+            }
+
+            _isLoadingView = false;
+        }
+        catch (Exception ex)
+        {
+            _isLoadingView = false;
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;
+    }
+
+    private async Task RefreshDropdownDateRange(DateTimeRange dateTimeRange)
+    {
+        _dateRange = dateTimeRange;
+        _dropdownDateRangeLabel = await _dropdownDateRangeService.UpdateLabel(dateTimeRange);
+        _toastService.ShowToast(Label.AppMessageDateRangeChanged, Theme.Info);
+
+        await RefreshList();
+        await Task.CompletedTask;
+    }
+
 }
