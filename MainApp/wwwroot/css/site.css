@@ -51,14 +51,6 @@ h1:focus {
     box-shadow: none;
 }
 
-.accordion .app-expense-sum-me {
-    margin-right: 24px;
-}
-
-.accordion .app-trip-sum-me {
-    margin-right: 22px;
-}
-
 .app-outline-none {
     outline: none;
 }

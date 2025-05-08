@@ -221,7 +221,7 @@ public static class Label
     public const string AppAdminShiftAvailability = "Availability status";
     public const string AppAdminShiftCompany = "Company";
     public const string AppAdminShiftDate = "Date";
-    public const string AppAdminShiftScheduledFor = "Shift scheduled for:";
+    public const string AppAdminShiftScheduledForAtLeastOne = "Shift scheduled for at least one employer";
     public const string AppAdminShiftNotScheduled = "No shift scheduled";
     public const string AppAdminShiftToday = "Today's assigned shift";
     public const string AppAdminTimesheetButtonNew = "New Timesheet";

@@ -58,7 +58,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     private DateTime[][] _weeks { get; set; } = default!;
     private TimesheetTotal _timesheetTotal{ get; set; } = new();
     private List<TableColumn> _tableColumns { get; set;} = new();
-    private bool _isLoadingCalendar { get; set; } = true;
+    private bool _isLoadingView { get; set; } = true;
     
     public AdminTimesheetPanelLeft()
     {
@@ -121,7 +121,6 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
                 _timesheetCalendarView = await _timesheetService.GetRecordsCalendarView(_multiFilterTimesheetDTO);
                 _shiftCalendarView = await _shiftService.GetRecordsByDateRange(_multiFilterTimesheetDTO.DateTimeRange);
                 _weeks = await _calendarViewService.Build(_dateCalendar);
-                _isLoadingCalendar = false;
             }
             else if (_viewType == ViewType.List.ToString())
             {
@@ -143,6 +142,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
             // await OnStateContainerSetValue.InvokeAsync();
 
             _timesheetTotal = await _timesheetService.GetTotals();
+            _isLoadingView = false;
             _isLoading = false;
         }
         catch (Exception ex)
@@ -249,40 +249,62 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-    private async Task PreviousPeriodAsync(DateTimeRange date)
+    private async Task PreviousPeriodAsync(DateTimeRange date, ViewType viewType)
     {
         try
         {
-            _isLoadingCalendar = true;
+            _isLoadingView = true;
+
             DateTimeRange previousDate = new();
+
             previousDate = _dateTimeService.GetPreviousMonth(date);
 
-            await RefreshDropdownDateMonthYear(previousDate);
-            _isLoadingCalendar = false;
+            switch (viewType)
+            {
+                case ViewType.Calendar:
+                    await RefreshDropdownDateMonthYear(previousDate);
+                    break;
+                case ViewType.List:
+                    await RefreshDropdownDateRange(previousDate);
+                    break;
+            }
+
+            _isLoadingView = false;
         }
         catch (Exception ex)
         {
-            _isLoadingCalendar = false;
+            _isLoadingView = false;
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
         
         await Task.CompletedTask;
     }
 
-    private async Task NextPeriodAsync(DateTimeRange date)
+    private async Task NextPeriodAsync(DateTimeRange date, ViewType viewType)
     {
         try
         {
-            _isLoadingCalendar = true;
+            _isLoadingView = true;
+
             DateTimeRange nextDate = new();
+
             nextDate = _dateTimeService.GetNextMonth(date);
 
-            await RefreshDropdownDateMonthYear(nextDate);
-            _isLoadingCalendar = false;
+            switch (viewType)
+            {
+                case ViewType.Calendar:
+                    await RefreshDropdownDateMonthYear(nextDate);
+                    break;
+                case ViewType.List:
+                    await RefreshDropdownDateRange(nextDate);
+                    break;
+            }
+
+            _isLoadingView = false;
         }
         catch (Exception ex)
         {
-            _isLoadingCalendar = false;
+            _isLoadingView = false;
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 

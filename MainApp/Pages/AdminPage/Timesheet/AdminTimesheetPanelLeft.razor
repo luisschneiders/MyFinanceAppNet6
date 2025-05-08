@@ -13,14 +13,14 @@
 <CardView Styles="border-0">
     <CardMiddle>
         <div class="row pb-2">
-            <div class="col-10 col-lg-9 pb-2 d-flex align-items-center">
+            <div class="col-10 pb-2 d-flex align-items-center">
                 @if (_isLoading)
                 {
                     <Loader />
                 }
                 else
                 {
-                    <div class="btn-group align-items-center @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                    <div class="btn-group @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                          role="group"
                          aria-label="Radio toggle button group"
                          title="Change view">
@@ -34,9 +34,9 @@
                     {
                         <div class="ps-2">
                             <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
-                                    @onclick="() => PreviousPeriodAsync(_dateCalendar)"
+                                    @onclick="() => PreviousPeriodAsync(_dateCalendar, ViewType.Calendar)"
                                     title="@Label.AppButtonPrevious"
-                                    disabled="@(_isLoadingCalendar ? true : false)">
+                                    disabled="@(_isLoadingView ? true : false)">
                                 <i class="bi bi-chevron-left"></i>
                             </button>
                             <DropdownDateMonthYear 
@@ -46,9 +46,9 @@
                                                 DropdownLabel="@_dropdownDateCalendarLabel"
                                                 OnSubmitSuccess="data => RefreshDropdownDateMonthYear(data)" />
                             <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
-                                    @onclick="() => NextPeriodAsync(_dateCalendar)"
+                                    @onclick="() => NextPeriodAsync(_dateCalendar, ViewType.Calendar)"
                                     title="@Label.AppButtonNext"
-                                    disabled="@(_isLoadingCalendar ? true : false)">
+                                    disabled="@(_isLoadingView ? true : false)">
                                 <i class="bi bi-chevron-right"></i>
                             </button>
                         </div>
@@ -56,6 +56,12 @@
                     else
                     {
                         <div class="ps-2">
+                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow) d-none d-md-inline"
+                                    @onclick="() => PreviousPeriodAsync(_dateRange, ViewType.List)"
+                                    title="@Label.AppButtonPrevious"
+                                    disabled="@(_isLoadingView ? true : false)">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
                             <DropdownDateRange 
                                             ButtonSize="Size.Sm"
                                             ButtonColor="Theme.Secondary"
@@ -63,6 +69,12 @@
                                             DropdownLabel="@_dropdownDateRangeLabel"
                                             PeriodRange="PeriodRange.Month"
                                             OnSubmitSuccess="data => RefreshDropdownDateRange(data)" />
+                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow) d-none d-md-inline"
+                                    @onclick="() => NextPeriodAsync(_dateRange, ViewType.List)"
+                                    title="@Label.AppButtonNext"
+                                    disabled="@(_isLoadingView ? true : false)">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
                         </div>
                     }
                     <div class="ps-2 d-none d-lg-flex">
@@ -121,21 +133,7 @@
                     }
                 }
             </div>
-            <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
-                @* <div class="d-none d-lg-block">
-                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
-                            @onclick="() => OpenCalculatorAsync()" title="@Label.AppCalculator">
-                        <i class="bi bi-calculator"></i>
-                    </button>
-                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
-                            @onclick="() => UpdateShiftAsync(DateTime.Today)">
-                        <i class="bi bi-calendar4-week pe-1"></i>@Label.AppAdminShiftButtonNew
-                    </button>
-                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
-                            @onclick="() => AddRecordAsync()">
-                        <i class="bi bi-plus-lg pe-1"></i>@Label.AppAdminTimesheetButtonNew
-                    </button>
-                </div> *@
+            <div class="col-2 pb-2 d-flex justify-content-end">
                 <div class="d-block">
                     <DropdownActions DropdownPosition="Position.End"
                                      ButtonSize="Size.Sm"
@@ -191,7 +189,7 @@
                                 </CalendarHeaderView>
                                 <CalendarBodyView>
                                     <CalendarBodyWrapper>
-                                        @if (_isLoadingCalendar is true)
+                                        @if (_isLoadingView is true)
                                         {
                                             <tr>
                                                 <td colspan="7">
@@ -217,7 +215,7 @@
                                                                         <div class="d-flex justify-content-end
                                                                                     @($"rounded{_appSettings.Button}")
                                                                                     @((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"bg-{Theme.Primary.ToString().ToLower()}-subtle" : $"bg-{Theme.Danger.ToString().ToLower()}") : $"bg-{Theme.Light.ToString().ToLower()}")"
-                                                                                title="@((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"{Label.AppAdminShiftScheduledFor} {shift.Description}" : @Label.AppUnavailable) : Label.AppAdminShiftNotScheduled)">
+                                                                                title="@((shift?.SDate == date) ? (shift?.IsAvailable is true ? $"{Label.AppAdminShiftScheduledForAtLeastOne}" : @Label.AppUnavailable) : Label.AppAdminShiftNotScheduled)">
                                                                             <div class="app-calendar-cell-day app-calendar-cell-current-day text-center p-1 fw-bold @($"rounded{_appSettings.Button}") @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
                                                                                         $"bg-{Theme.Dark.ToString().ToLower()} text-white" : $"bg-{Theme.Light.ToString().ToLower()}")">
                                                                                 @(date.Day)
@@ -256,7 +254,7 @@
                                 </CalendarBodyView>
                             </CalendarWrapper>
                         }
-                        else
+                        else if (_viewType == ViewType.List.ToString())
                         {
                             @if (_timesheetListView.Count <= 0)
                             {
@@ -266,128 +264,134 @@
                             }
                             else
                             {
-                                <div class="accordion d-flex justify-content-between p-2 fw-semibold
-                                            bg-@(Theme.Secondary.ToString().ToLower())-subtle">
-                                    <div class="d-flex">
-                                        @Label.AppAdminTimesheetPeriodMessage1<span class="d-none d-lg-block ps-1">@Label.AppAdminTimesheetPeriodMessage2</span>
+                                @if (_isLoadingView is true)
+                                {
+                                    <Loader />
+                                }
+                                else{
+                                    <div class="accordion d-flex justify-content-between p-2 fw-semibold
+                                                bg-@(Theme.Secondary.ToString().ToLower())-subtle">
+                                        <div class="d-flex">
+                                            @Label.AppAdminTimesheetPeriodMessage1<span class="d-none d-lg-block ps-1">@Label.AppAdminTimesheetPeriodMessage2</span>
+                                        </div>
+                                        <span>
+                                            @_timesheetTotal.Amount.ToString("C")
+                                        </span>
                                     </div>
-                                    <span class="pe-5 app-trip-sum-me">
-                                        @_timesheetTotal.Amount.ToString("C")
-                                    </span>
-                                </div>
-                                <Accordion Id="Timesheets">
-                                    @foreach (var (record, index) in _timesheetListView.Select((value, index) => (value, index)))
-                                    {
-                                        <AccordionItem>
-                                            <AccordionHeader Id="@index.ToString()" IsAlwaysOpen=true>
-                                                <div>
-                                                    @record.Description
-                                                </div>
-                                                <div>
-                                                    <span class="pe-4">
-                                                        <Badge BackgroundColor="@Theme.Warning" Message="@FormatTimeSpan(TimeSpan.FromHours(record.TotalWorkHours))" />
-                                                    </span>
-                                                    <span>
-                                                        <Badge BackgroundColor="@Theme.Light" Message="@record.TotalAmount.ToString("C")" />
-                                                    </span>
-                                                </div>
-                                            </AccordionHeader>
-                                            <AccordionBody Id="@index.ToString()" IsAlwaysOpen=true>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                @foreach (var (column, index) in _tableColumns.Select((value, index) => (value, index)))
-                                                                {
-                                                                    <th class="@(column.CssClass) @(column.IsChecked ? "":"d-none")" colspan="@(column.Colspan)">
-                                                                        @column.Description
-                                                                    </th>
-                                                                }
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @if (_timesheetListView.Count <= 0)
-                                                            {
-                                                                <tr class="bg-@(Theme.Light.ToString().ToLower())-subtle">
-                                                                    <td class="text-center" colspan="8">
-                                                                        <div>
-                                                                            @Label.AppNoRecordFound
-                                                                        </div>
-                                                                    </td>
+                                    <Accordion Id="Timesheets">
+                                        @foreach (var (record, index) in _timesheetListView.Select((value, index) => (value, index)))
+                                        {
+                                            <AccordionItem>
+                                                <AccordionHeader Id="@index.ToString()" IsAlwaysOpen=true>
+                                                    <div>
+                                                        @record.Description
+                                                    </div>
+                                                    <div>
+                                                        <span class="pe-4">
+                                                            <Badge BackgroundColor="@Theme.Warning" Message="@FormatTimeSpan(TimeSpan.FromHours(record.TotalWorkHours))" />
+                                                        </span>
+                                                        <span>
+                                                            <Badge BackgroundColor="@Theme.Light" Message="@record.TotalAmount.ToString("C")" />
+                                                        </span>
+                                                    </div>
+                                                </AccordionHeader>
+                                                <AccordionBody Id="@index.ToString()" IsAlwaysOpen=true>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    @foreach (var (column, index) in _tableColumns.Select((value, index) => (value, index)))
+                                                                    {
+                                                                        <th class="@(column.CssClass) @(column.IsChecked ? "":"d-none")" colspan="@(column.Colspan)">
+                                                                            @column.Description
+                                                                        </th>
+                                                                    }
                                                                 </tr>
-                                                            }
-                                                            else{
-                                                                foreach (var record in _timesheetListView[index].Timesheets)
+                                                            </thead>
+                                                            <tbody>
+                                                                @if (_timesheetListView.Count <= 0)
                                                                 {
-                                                                    <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetDate)!.IsChecked ? "":"d-none")">
-                                                                            @record.TimeIn.ToString("ddd, dd/MM/yy")
-                                                                        </td>
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetClockIn)!.IsChecked ? "":"d-none")">
-                                                                            @record.TimeIn.ToString("t")
-                                                                        </td>
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetBreak)!.IsChecked ? "":"d-none")">
-                                                                            @($"{record.TimeBreak}m")
-                                                                        </td>
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetClockOut)!.IsChecked ? "":"d-none")">
-                                                                            @record.TimeOut.ToString("t")
-                                                                        </td>
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetWorkHours)!.IsChecked ? "":"d-none")">
-                                                                            @record.HoursWorked.ToString("h'h 'm'm '")
-                                                                            @if (record.IsActive == false)
-                                                                            {
-                                                                                <sup class="text-uppercase">
-                                                                                    <Badge BackgroundColor="Theme.Info" Message="@Label.AppInactive" />
-                                                                                </sup>
-                                                                            }
-                                                                        </td>
-                                                                        <td class="@(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetOvertime)!.IsChecked ? "":"d-none")">
-                                                                            @record.Overtime.ToString("h'h 'm'm '")
-                                                                        </td>
-                                                                        <td class="text-nowrap text-end @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetTotal)!.IsChecked ? "":"d-none")">
-                                                                            @record.TotalAmount.ToString("C")
-                                                                        </td>
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetPayStatus)!.IsChecked ? "":"d-none")">
-                                                                            <DropdownActions Title="@UpdatePayStatusTitle(record.PayStatus)"
-                                                                                            ButtonSize="Size.Sm"
-                                                                                            IconEnd="bi-chevron-down"
-                                                                                            ButtonColor="@UpdatePayStatusButton(record.PayStatus)"
-                                                                                            ButtonCssClass="w-100"
-                                                                                            ButtonInnerStyles="d-flex justify-content-between">
-                                                                                @foreach (var (status, index) in _payStatuses.Select((value, index) => (value, index)))
-                                                                                {
-                                                                                    int statusValue = index;
-
-                                                                                    <li class="p-1">
-                                                                                        <button class="dropdown-item rounded"
-                                                                                                @onclick="() => UpdatePayStatusAsync(record, statusValue)">
-                                                                                            @($"{status}")
-                                                                                        </button>
-                                                                                    </li>
-                                                                                }
-                                                                            </DropdownActions>
-                                                                        </td>
-                                                                        <td class="text-center @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppButtonEdit)!.IsChecked ? "":"d-none")">
-                                                                            <button class="btn btn-sm btn-@(Theme.Light.ToString().ToLower()) text-@(Theme.Danger.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
-                                                                                    type="button"
-                                                                                    title="@Label.AppButtonEdit"
-                                                                                    @onclick="() => EditRecordAsync(record)">
-                                                                                <i class="bi bi-pencil"></i>
-                                                                            </button>
-                                                                        </td>
-                                                                        <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetComments)!.IsChecked ? "":"d-none")">
-                                                                            @record.Comments
+                                                                    <tr class="bg-@(Theme.Light.ToString().ToLower())-subtle">
+                                                                        <td class="text-center" colspan="8">
+                                                                            <div>
+                                                                                @Label.AppNoRecordFound
+                                                                            </div>
                                                                         </td>
                                                                     </tr>
                                                                 }
-                                                            }
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </AccordionBody>
-                                        </AccordionItem>
-                                    }
-                                </Accordion>
+                                                                else{
+                                                                    foreach (var record in _timesheetListView[index].Timesheets)
+                                                                    {
+                                                                        <tr class="@(record.IsActive == false ? "text-secondary text-opacity-25" : "" )">
+                                                                            <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetDate)!.IsChecked ? "":"d-none")">
+                                                                                @record.TimeIn.ToString("ddd, dd/MM/yy")
+                                                                            </td>
+                                                                            <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetClockIn)!.IsChecked ? "":"d-none")">
+                                                                                @record.TimeIn.ToString("t")
+                                                                            </td>
+                                                                            <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetBreak)!.IsChecked ? "":"d-none")">
+                                                                                @($"{record.TimeBreak}m")
+                                                                            </td>
+                                                                            <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetClockOut)!.IsChecked ? "":"d-none")">
+                                                                                @record.TimeOut.ToString("t")
+                                                                            </td>
+                                                                            <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetWorkHours)!.IsChecked ? "":"d-none")">
+                                                                                @record.HoursWorked.ToString("h'h 'm'm '")
+                                                                                @if (record.IsActive == false)
+                                                                                {
+                                                                                    <sup class="text-uppercase">
+                                                                                        <Badge BackgroundColor="Theme.Info" Message="@Label.AppInactive" />
+                                                                                    </sup>
+                                                                                }
+                                                                            </td>
+                                                                            <td class="@(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetOvertime)!.IsChecked ? "":"d-none")">
+                                                                                @record.Overtime.ToString("h'h 'm'm '")
+                                                                            </td>
+                                                                            <td class="text-nowrap text-end @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetTotal)!.IsChecked ? "":"d-none")">
+                                                                                @record.TotalAmount.ToString("C")
+                                                                            </td>
+                                                                            <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetPayStatus)!.IsChecked ? "":"d-none")">
+                                                                                <DropdownActions Title="@UpdatePayStatusTitle(record.PayStatus)"
+                                                                                                ButtonSize="Size.Sm"
+                                                                                                IconEnd="bi-chevron-down"
+                                                                                                ButtonColor="@UpdatePayStatusButton(record.PayStatus)"
+                                                                                                ButtonCssClass="w-100"
+                                                                                                ButtonInnerStyles="d-flex justify-content-between">
+                                                                                    @foreach (var (status, index) in _payStatuses.Select((value, index) => (value, index)))
+                                                                                    {
+                                                                                        int statusValue = index;
+
+                                                                                        <li class="p-1">
+                                                                                            <button class="dropdown-item rounded"
+                                                                                                    @onclick="() => UpdatePayStatusAsync(record, statusValue)">
+                                                                                                @($"{status}")
+                                                                                            </button>
+                                                                                        </li>
+                                                                                    }
+                                                                                </DropdownActions>
+                                                                            </td>
+                                                                            <td class="text-center @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppButtonEdit)!.IsChecked ? "":"d-none")">
+                                                                                <button class="btn btn-sm btn-@(Theme.Light.ToString().ToLower()) text-@(Theme.Danger.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                                                                                        type="button"
+                                                                                        title="@Label.AppButtonEdit"
+                                                                                        @onclick="() => EditRecordAsync(record)">
+                                                                                    <i class="bi bi-pencil"></i>
+                                                                                </button>
+                                                                            </td>
+                                                                            <td class="text-nowrap @(_tableColumns.FirstOrDefault(c => c.Description == Label.AppAdminTimesheetComments)!.IsChecked ? "":"d-none")">
+                                                                                @record.Comments
+                                                                            </td>
+                                                                        </tr>
+                                                                    }
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </AccordionBody>
+                                            </AccordionItem>
+                                        }
+                                    </Accordion>
+                                }
                             }
                         }
                     }
