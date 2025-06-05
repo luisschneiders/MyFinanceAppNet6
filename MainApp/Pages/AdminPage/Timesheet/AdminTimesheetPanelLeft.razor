@@ -138,10 +138,10 @@
                     <DropdownActions DropdownPosition="Position.End"
                                      ButtonSize="Size.Sm"
                                      ButtonColor="Theme.Secondary">
-                        <li class="p-1">
+                        <li class="p-1 d-block d-lg-none">
                             <button class="dropdown-item rounded"
-                                    @onclick="() => UpdateShiftAsync(DateTime.Today)">
-                                <i class="bi bi-calendar4-week pe-1"></i>@Label.AppAdminShiftButtonNew
+                                    @onclick="() => OpenCalculatorAsync()">
+                                <i class="bi bi-calculator pe-1"></i>@Label.AppCalculator
                             </button>
                         </li>
                         <li class="p-1">
@@ -150,10 +150,16 @@
                                 <i class="bi bi-plus-lg pe-1"></i>@Label.AppAdminTimesheetButtonNew
                             </button>
                         </li>
-                        <li class="p-1 d-block d-lg-none">
+                        <li class="p-1">
                             <button class="dropdown-item rounded"
-                                    @onclick="() => OpenCalculatorAsync()">
-                                <i class="bi bi-calculator pe-1"></i>@Label.AppCalculator
+                                    @onclick="() => UpdateAvailabilityAsync(DateTime.Today)">
+                                <i class="bi bi-calendar-check pe-1"></i>@Label.AppAdminAvailabilityButtonNew
+                            </button>
+                        </li>
+                        <li class="p-1">
+                            <button class="dropdown-item rounded"
+                                    @onclick="() => UpdateShiftAsync(DateTime.Today)">
+                                <i class="bi bi-calendar4-week pe-1"></i>@Label.AppAdminShiftButtonNew
                             </button>
                         </li>
                     </DropdownActions>
