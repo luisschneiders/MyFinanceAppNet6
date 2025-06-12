@@ -186,6 +186,20 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
+// TODO
+    private async Task UpdateAvailabilityAsync(DateTime date)
+    {
+        try
+        {
+            // await _setupShiftModal.OpenModalAsync(date);
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger); ;
+        }
+
+        await Task.CompletedTask;
+    }
     private async Task UpdateShiftAsync(DateTime date)
     {
         try

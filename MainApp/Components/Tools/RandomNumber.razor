@@ -1,81 +1,108 @@
 ﻿@using MainApp.Components.Badge
 @using MainApp.Components.Card
+@using MainApp.Components.Loader
 @using MainApp.Components.Shared
 
 <CardView Styles="w-100 border-0">
     <CardMiddle>
         <SharedHeader 
-            Title="Random numbers"
+            Title="@Label.AppComponentRandomNumberTitle"
             Icon="bi bi-shuffle"
             IconColor="Theme.Info" />
-        <p class="text-center text-wrap py-3">
-            Generate random numbers from a giving range set of numbers.
-        </p>
+        <h5 class="text-center text-wrap py-3">
+            @Label.AppComponentRandomNumberMessage1
+        </h5>
         <div class="row">
-            <div class="col-sm-12 col-lg-5">
-                <div class="row pb-3">
+            <div class="col-sm-12 col-lg-6">
+                <div class="row">
                     <div class="col">
-                        <div class="form-floating">
-                            <input type="number" 
-                                id="StartRange"
-                                class="form-control @("rounded"+_appSettings.Button)"
-                                min="1"
-                                placeholder="Min"
-                                @bind-value="_randonNumberMin" />
-                            <label for="StartRange">Min</label>
-                        </div>
+                        <label>@Label.AppComponentRandomNumberParagraph1:</label>
                     </div>
-                    <div class="col-auto d-flex align-items-center"> - </div>
-                    <div class="col">
-                        <div class="form-floating">
-                            <input type="number"
-                                id="EndRange"
-                                class="form-control @("rounded"+_appSettings.Button)"
-                                min="1"
-                                placeholder="Max"
-                                @bind-value="_randonNumberMax" />
-                            <label for="EndRange">Max</label>
-                        </div>
+                </div>
+                <div class="row pb-3">
+                    <div class="col-sm-12">
+                        @foreach (var item in Enumerable.Range(1, _maxNumber))
+                        {
+                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) @(_randomNumbers.Contains(item) ? $"btn-{Theme.Secondary.ToString().ToLower()}" : $"btn-outline-{Theme.Secondary.ToString().ToLower()}") @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow) m-2"
+                                    @onclick="() => AddNumberAsync(item)"
+                                    type="button">
+                                <div class="app-calendar-cell-day app-calendar-cell-current-day text-center p-1 fw-bold @($"rounded{_appSettings.Button}")">
+                                    @(item)
+                                </div>
+                            </button>
+                        }
                     </div>
                 </div>
                 <div class="row pb-5">
-                    <div class="col-12 d-flex justify-content-end">
-                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-primary w-100 @("rounded"+_appSettings.Button)"
+                    <div class="col-sm-12 d-flex justify-content-between">
+                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
                                 type="button"
-                                disabled="@(_isProcessing ? true : false)"
+                                disabled="@(_isLoading ? true : false)"
+                                @onclick="ClearAsync">
+                            @Label.AppButtonClearSelection
+                        </button>
+                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
+                                type="button"
+                                disabled="@(_isLoading ? true : false)"
                                 @onclick="GenerateAsync">
-                            @(_isProcessing ? "Generating..." : "Generate")
+                            @(_isLoading ? @Label.AppButtonGenerating : @Label.AppButtonGenerate)
                         </button>
                     </div>
                 </div>
 
             </div>
-            <div class="col-2 d-flex justify-content-center">
+            @* <div class="col d-flex justify-content-center">
                 <div class="vr d-none d-lg-flex h-100 mx-lg-0"></div>
-            </div>
-            <div class="col-sm-12 col-lg-5">
+            </div> *@
+            <div class="col-sm-12 col-lg-6">
+                <div class="row">
+                    <div class="col">
+                        <label>@Label.AppComponentRandomNumberParagraph2:</label>
+                    </div>
+                </div>
+
                 <div class="row d-flex align-items-center pb-3">
                     <div class="col-12">
-                        <p class="pb-3">Results:</p>
-                        @foreach (var (item, index) in _randomNumbers.Select((value, index) => (value, index)))
+                        @if (_isLoading is true)
                         {
-                            <span class="btn btn-@(Size.Md.ToString().ToLower()) bg-success-subtle text-success-emphasis me-1 mb-2 @("rounded"+_appSettings.Button)">
-                                @item
-                                <sup class="fw-light">
-                                    <Badge BackgroundColor="Theme.Warning" Message="@((index + 1).ToString())" />
-                                </sup>
-                            </span>
+                            <Loader />
                         }
-                        @if(_randomNumbers.Count > 0)
+                        else
                         {
-                            <hr />
-                            <div class="d-flex justify-content-end py-2">
-                                <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-danger w-50 @("rounded"+_appSettings.Button)"
-                                    type="button"
-                                    @onclick="ClearAsync">
-                                    Clear
-                                </button>
+                            <div class="table-responsive app-table-random-number">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-6">@Label.AppComponentRandomNumberSet</th>
+                                            <th class="col-6">@Label.AppComponentRandomNumberSequence</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var (item, index) in _uniqueSets.Select((value, index) => (value, index)))
+                                        {
+                                            <tr class="bg-light-subtle">
+                                                <td class="col-6">@(index + 1)</td>
+                                                <td class="col-6">@item</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
+                        }
+                        @if(_uniqueSets.Count > 0)
+                        {
+                            @if (_isLoading is false)
+                            {
+                                <hr />
+                                <div class="d-flex justify-content-end py-2">
+                                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
+                                        type="button"
+                                        disabled="@(_isExporting ? true : false)"
+                                        @onclick="ExportAsync">
+                                        @(_isExporting ? @Label.AppButtonExporting : @Label.AppButtonExport)
+                                    </button>
+                                </div>
+                            }
                         }
                     </div>
                 </div>

@@ -6,6 +6,7 @@ using MainApp.Components.Toast;
 using MainApp.Components.Chart;
 using MainApp.Components.OffCanvas;
 using MainApp.Components.Map;
+using MainApp.Components.Tools;
 
 namespace MainApp;
 
@@ -96,6 +97,7 @@ public static class RegisterServices
         builder.Services.AddScoped<IDropdownMultiSelectService, DropdownMultiSelectService>();
         builder.Services.AddScoped<IMapService, MapService>();
         builder.Services.AddScoped<IOffCanvasService, OffCanvasService>();
+        builder.Services.AddScoped<IRandomNumberService, RandomNumberService>();
         builder.Services.AddScoped<ISpinnerService, SpinnerService>();
 
 //      Data

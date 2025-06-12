@@ -192,6 +192,10 @@ h1:focus {
     white-space: nowrap; /* Prevents wrapping */    
 }
 
+.app-table-random-number {
+    height: 269px;
+}
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;

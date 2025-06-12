@@ -216,7 +216,8 @@ public static class Label
 
     // Page timesheet and shift
     public const string AppAdminTimesheet = "Timesheet";
-    public const string AppAdminShiftButtonNew = "Add shift";
+    public const string AppAdminAvailabilityButtonNew = "Set Availability";
+    public const string AppAdminShiftButtonNew = "Set Shift";
     public const string AppAdminShiftButtonSave = "Save shift";
     public const string AppAdminShiftAvailability = "Availability status";
     public const string AppAdminShiftCompany = "Company";
@@ -290,6 +291,13 @@ public static class Label
     public const string AppComponentTokenCheckerIsExpired = "Is token expired?";
     public const string AppComponentTokenCheckerExpired = "Token is expired!";
     public const string AppComponentTokenCheckerNotExpired = "Token is not expired!";
+    public const string AppComponentRandomNumberTitle = "Random numbers";
+    public const string AppComponentRandomNumberMessage1 = "Generate random set of numbers";
+    public const string AppComponentRandomNumberMessage2 = "CSV saved to Downloads";
+    public const string AppComponentRandomNumberParagraph1 = "Select your numbers";
+    public const string AppComponentRandomNumberParagraph2 = "Results";
+    public const string AppComponentRandomNumberSequence = "Numbers";
+    public const string AppComponentRandomNumberSet = "Set";
 
 
     // Standard buttons
@@ -299,11 +307,16 @@ public static class Label
     public const string AppButtonArchiveConfirmation = "Yes, archive!";
     public const string AppButtonCancel = "Cancel";
     public const string AppButtonClearFilter = "Clear filter";
+    public const string AppButtonClearSelection = "Clear selection";
     public const string AppButtonClose = "Close";
     public const string AppButtonColumns = "Columns";
     public const string AppButtonEdit = "Edit";
+    public const string AppButtonExport = "Export";
+    public const string AppButtonExporting = "Exporting...";
     public const string AppButtonFilter = "Filters";
     public const string AppButtonInfo = "Info";
+    public const string AppButtonGenerate = "Generate";
+    public const string AppButtonGenerating = "Generating...";
     public const string AppButtonMoreAction = "More Actions";
     public const string AppButtonNext = "Next";
     public const string AppButtonPrevious = "Previous";
