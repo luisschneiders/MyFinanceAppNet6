@@ -13,10 +13,10 @@
             @Label.AppComponentRandomNumberMessage1
         </h5>
         <div class="row">
-            <div class="col-sm-12 col-lg-5">
+            <div class="col-sm-12 col-lg-6">
                 <div class="row">
                     <div class="col">
-                        <span>@Label.AppComponentRandomNumberSelectNumbers:</span>
+                        <label>@Label.AppComponentRandomNumberParagraph1:</label>
                     </div>
                 </div>
                 <div class="row pb-3">
@@ -37,47 +37,51 @@
                     <div class="col-sm-12 d-flex justify-content-between">
                         <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
                                 type="button"
-                                disabled="@(_isProcessing ? true : false)"
+                                disabled="@(_isLoading ? true : false)"
                                 @onclick="ClearAsync">
                             @Label.AppButtonClearSelection
                         </button>
                         <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
                                 type="button"
-                                disabled="@(_isProcessing ? true : false)"
+                                disabled="@(_isLoading ? true : false)"
                                 @onclick="GenerateAsync">
-                            @(_isProcessing ? @Label.AppButtonGenerating : @Label.AppButtonGenerate)
+                            @(_isLoading ? @Label.AppButtonGenerating : @Label.AppButtonGenerate)
                         </button>
                     </div>
                 </div>
 
             </div>
-            <div class="col d-flex justify-content-center">
+            @* <div class="col d-flex justify-content-center">
                 <div class="vr d-none d-lg-flex h-100 mx-lg-0"></div>
-            </div>
-            <div class="col-sm-12 col-lg-5">
+            </div> *@
+            <div class="col-sm-12 col-lg-6">
+                <div class="row">
+                    <div class="col">
+                        <label>@Label.AppComponentRandomNumberParagraph2:</label>
+                    </div>
+                </div>
+
                 <div class="row d-flex align-items-center pb-3">
                     <div class="col-12">
-                        <div>@Label.AppComponentRandomNumberResults:</div>
-                        @if (_isProcessing)
+                        @if (_isLoading is true)
                         {
                             <Loader />
                         }
                         else
                         {
-                            <div class="table-responsive">
+                            <div class="table-responsive app-table-random-number">
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th class="col-6 text-center">@Label.AppComponentRandomNumberSequence</th>
                                             <th class="col-6">@Label.AppComponentRandomNumberSet</th>
+                                            <th class="col-6">@Label.AppComponentRandomNumberSequence</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach (var (item, index) in _uniqueSets.Select((value, index) => (value, index)))
                                         {
-
                                             <tr class="bg-light-subtle">
-                                                <td class="col-6 text-center">@(index + 1)</td>
+                                                <td class="col-6">@(index + 1)</td>
                                                 <td class="col-6">@item</td>
                                             </tr>
                                         }
@@ -87,15 +91,18 @@
                         }
                         @if(_uniqueSets.Count > 0)
                         {
-                            <hr />
-                            <div class="d-flex justify-content-end py-2">
-                                <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
-                                    type="button"
-                                    disabled="@(_isProcessing ? true : false)"
-                                    @onclick="ExportAsync">
-                                    @(_isProcessing ? @Label.AppButtonExporting : @Label.AppButtonExport)
-                                </button>
-                            </div>
+                            @if (_isLoading is false)
+                            {
+                                <hr />
+                                <div class="d-flex justify-content-end py-2">
+                                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
+                                        type="button"
+                                        disabled="@(_isExporting ? true : false)"
+                                        @onclick="ExportAsync">
+                                        @(_isExporting ? @Label.AppButtonExporting : @Label.AppButtonExport)
+                                    </button>
+                                </div>
+                            }
                         }
                     </div>
                 </div>

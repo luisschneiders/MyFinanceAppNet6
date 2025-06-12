@@ -11,21 +11,53 @@ public partial class RandomNumber : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = new();
 
+    [Inject]
+    private IRandomNumberService _randomNumberService{ get; set; } = default!;
+
     private int _maxNumber { get; set; } = 44;
     private HashSet<int> _randomNumbers { get; set; } = new();
     private HashSet<string> _uniqueSets { get; set; } = new();
-    private bool _isProcessing { get; set; } = false;
+    private bool _isLoading { get; set; } = false;
+    private bool _isExporting { get; set; } = false;
 
     public RandomNumber()
     {
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                HashSet<int> randomNumbers = await _randomNumberService.GetLocalStorageRandomNumber();
+
+                if (randomNumbers is not null && randomNumbers.Count > 0)
+                {
+                    _randomNumbers = randomNumbers;
+                }
+            }
+            catch (Exception ex)
+            {
+                _isLoading = false;
+                _toastService.ShowToast(ex.Message, Theme.Danger);
+            }
+
+            await InvokeAsync(StateHasChanged);
+        }
+
+        await Task.CompletedTask;
+    }
+
+
     private async Task AddNumberAsync(int number)
     {
         if (!_randomNumbers.Add(number))
         {
-            _randomNumbers.Remove(number); // Toggle off
+            _randomNumbers.Remove(number); // Unselect it
         }
+
+        await _randomNumberService.SetLocalStorageRandomNumber(_randomNumbers);
 
         await Task.CompletedTask;
     }
@@ -36,7 +68,8 @@ public partial class RandomNumber : ComponentBase
         {
             if (_randomNumbers.Count >= 14)
             {
-                _isProcessing = true;
+                _isLoading = true;
+
                 _uniqueSets = new();
 
                 Random rand = new();
@@ -50,8 +83,9 @@ public partial class RandomNumber : ComponentBase
 
                     _uniqueSets.Add(setKey);
                 }
+                await Task.Delay((int)Delay.DataLoading);
 
-                _isProcessing = false;
+                _isLoading = false;
 
                 await InvokeAsync(StateHasChanged);
 
@@ -73,13 +107,15 @@ public partial class RandomNumber : ComponentBase
     {
         _randomNumbers = new();
         _uniqueSets = new();
+
+        await _randomNumberService.SetLocalStorageRandomNumber(_randomNumbers);
         await Task.CompletedTask;
     }
     private async Task ExportAsync()
     {
         try
         {
-            _isProcessing = true;
+            _isExporting = true;
 
             // Ensure downloads directory exists
             string downloadsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
@@ -106,7 +142,11 @@ public partial class RandomNumber : ComponentBase
 
             _toastService.ShowToast($"{Label.AppComponentRandomNumberMessage2}", Theme.Success);
 
-            _isProcessing = false;
+            await Task.Delay((int)Delay.DataLoading);
+
+            _isExporting = false;
+
+            await InvokeAsync(StateHasChanged);
         }
         catch (Exception ex)
         {

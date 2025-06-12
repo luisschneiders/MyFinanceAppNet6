@@ -292,11 +292,11 @@ public static class Label
     public const string AppComponentTokenCheckerExpired = "Token is expired!";
     public const string AppComponentTokenCheckerNotExpired = "Token is not expired!";
     public const string AppComponentRandomNumberTitle = "Random numbers";
-    public const string AppComponentRandomNumberMessage1 = "Generate random numbers from a giving range set of numbers";
+    public const string AppComponentRandomNumberMessage1 = "Generate random set of numbers";
     public const string AppComponentRandomNumberMessage2 = "CSV saved to Downloads";
-    public const string AppComponentRandomNumberResults = "Results";
-    public const string AppComponentRandomNumberSelectNumbers = "Select your numbers";
-    public const string AppComponentRandomNumberSequence = "Sequence";
+    public const string AppComponentRandomNumberParagraph1 = "Select your numbers";
+    public const string AppComponentRandomNumberParagraph2 = "Results";
+    public const string AppComponentRandomNumberSequence = "Numbers";
     public const string AppComponentRandomNumberSet = "Set";
 
 
