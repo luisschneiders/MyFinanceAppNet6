@@ -38,7 +38,42 @@
                             <div class="d-flex flex-lg-nowrap row">
                                 <div class="col-auto px-4">
                                     <li class="fs-5">
-                                        @Label.AppMenuSetup
+                                        <a class="btn btn-outline-@Theme.Secondary.ToString().ToLower() border-0 fs-5" href="@EndPoint.Admin">@Label.AppMenuAdmin</a>
+                                    </li>
+                                    <li class="py-2">
+                                        <NavLink class="dropdown-item rounded" href="@EndPoint.AdminExpenses">
+                                            <i class="bi bi-cart4 pe-1"></i>@Label.AppMenuAdminExpense
+                                        </NavLink>
+                                    </li>
+                                    <li class="py-2">
+                                        <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTransactions">
+                                            <i class="bi bi-currency-exchange pe-1"></i>@Label.AppMenuAdminTransaction
+                                        </NavLink>
+                                    </li>
+                                    <li class="py-2">
+                                        <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTimesheet">
+                                            <i class="bi bi-clock-history pe-1"></i>@Label.AppMenuAdminTimesheet
+                                        </NavLink>
+                                    </li>
+                                    <li class="py-2">
+                                        <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTrips">
+                                            <i class="bi bi-pin-map pe-1"></i>@Label.AppMenuAdminTrip
+                                        </NavLink>
+                                    </li>
+                                </div>
+                                <div class="col-auto px-4">
+                                    <li class="fs-5">
+                                        <a class="btn btn-outline-@Theme.Secondary.ToString().ToLower() border-0 fs-5" href="@EndPoint.Tools">@Label.AppMenuToolsExplore</a>
+                                    </li>
+                                    <li class="py-2">
+                                        <NavLink class="dropdown-item rounded" href="@EndPoint.Tools">
+                                            <i class="bi bi-boxes pe-1"></i>@Label.AppMenuTools
+                                        </NavLink>
+                                    </li>
+                                </div>
+                                <div class="col-auto px-4">
+                                    <li class="fs-5">
+                                        <a class="btn btn-outline-@Theme.Secondary.ToString().ToLower() border-0 fs-5" href="@EndPoint.Setup">@Label.AppMenuSetup</a>
                                     </li>
                                     <li class="py-2">
                                         <NavLink class="dropdown-item rounded" href="@EndPoint.SetupBank">
@@ -68,41 +103,6 @@
                                     <li class="py-2">
                                         <NavLink class="dropdown-item rounded" href="@EndPoint.SetupTax">
                                             <i class="bi bi-receipt pe-1"></i>@Label.AppMenuSetupTax
-                                        </NavLink>
-                                    </li>
-                                </div>
-                                <div class="col-auto px-4">
-                                    <li class="fs-5">
-                                        @Label.AppMenuAdmin
-                                    </li>
-                                    <li class="py-2">
-                                        <NavLink class="dropdown-item rounded" href="@EndPoint.AdminExpenses">
-                                            <i class="bi bi-cart4 pe-1"></i>@Label.AppMenuAdminExpense
-                                        </NavLink>
-                                    </li>
-                                    <li class="py-2">
-                                        <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTransactions">
-                                            <i class="bi bi-currency-exchange pe-1"></i>@Label.AppMenuAdminTransaction
-                                        </NavLink>
-                                    </li>
-                                    <li class="py-2">
-                                        <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTimesheet">
-                                            <i class="bi bi-clock-history pe-1"></i>@Label.AppMenuAdminTimesheet
-                                        </NavLink>
-                                    </li>
-                                    <li class="py-2">
-                                        <NavLink class="dropdown-item rounded" href="@EndPoint.AdminTrips">
-                                            <i class="bi bi-pin-map pe-1"></i>@Label.AppMenuAdminTrip
-                                        </NavLink>
-                                    </li>
-                                </div>
-                                <div class="col-auto px-4">
-                                    <li class="fs-5">
-                                        @Label.AppMenuToolsExplore
-                                    </li>
-                                    <li class="py-2">
-                                        <NavLink class="dropdown-item rounded" href="@EndPoint.Tools">
-                                            <i class="bi bi-boxes pe-1"></i>@Label.AppMenuTools
                                         </NavLink>
                                     </li>
                                 </div>
