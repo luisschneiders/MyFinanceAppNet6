@@ -42,6 +42,7 @@ public static class Label
     public const string AppCannotBeUndone = "This action cannot be undone.";
     public const string AppNewChart = "New Chart";
     public const string AppMessageDateRangeChanged = "Date range has changed!";
+    public const string AppMessageConfettiNotDefined = "Confetti is not defined, please check console for more info.";
 
 
     // Menubar
