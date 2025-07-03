@@ -297,6 +297,7 @@ public static class Label
     public const string AppComponentRandomNumberMessage2 = "CSV saved to Downloads";
     public const string AppComponentRandomNumberParagraph1 = "Select your numbers";
     public const string AppComponentRandomNumberParagraph2 = "Results";
+    public const string AppComponentRandomNumberParagraph3 = "Select number of sets";
     public const string AppComponentRandomNumberSequence = "Numbers";
     public const string AppComponentRandomNumberSet = "Set";
 

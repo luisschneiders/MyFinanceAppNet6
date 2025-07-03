@@ -14,6 +14,29 @@
         </h5>
         <div class="row">
             <div class="col-sm-12 col-lg-6">
+
+                <div class="row pb-3">
+                    <div class="col-auto">
+                        <label>@Label.AppComponentRandomNumberParagraph3:</label>
+                    </div>
+                    <div class="col">
+                        @foreach (var (numberSet, index) in _numberSets.Select((value, index) => (value, index)))
+                        {
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                        type="radio"
+                                        name="numberSets"
+                                        id="@numberSet"
+                                        value="@((int)numberSet)"
+                                        @onchange="@(() => _numberSet = (RandomNumberSet)numberSet)"
+                                        checked="@(_numberSet == (RandomNumberSet)numberSet)">
+                                <label class="form-check-label" for="@numberSet">
+                                    @((int)numberSet)
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col">
                         <label>@Label.AppComponentRandomNumberParagraph1:</label>

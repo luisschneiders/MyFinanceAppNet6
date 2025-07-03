@@ -14,6 +14,10 @@ public partial class RandomNumber : ComponentBase
     [Inject]
     private IRandomNumberService _randomNumberService{ get; set; } = default!;
 
+    private RandomNumberSet[] _numberSets { get; set; } = default!;
+
+    private RandomNumberSet _numberSet = RandomNumberSet.Fifty;
+
     private int _maxNumber { get; set; } = 44;
     private HashSet<int> _randomNumbers { get; set; } = new();
     private HashSet<string> _uniqueSets { get; set; } = new();
@@ -22,6 +26,7 @@ public partial class RandomNumber : ComponentBase
 
     public RandomNumber()
     {
+        _numberSets = (RandomNumberSet[])Enum.GetValues(typeof(RandomNumberSet));
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -74,7 +79,7 @@ public partial class RandomNumber : ComponentBase
 
                 Random rand = new();
 
-                while (_uniqueSets.Count < 100)
+                while (_uniqueSets.Count < (int)_numberSet)
                 {
                     List<int> shuffled = _randomNumbers.OrderBy(x => rand.Next()).ToList();
                     List<int> set = shuffled.Take(7).OrderBy(x => x).ToList();
