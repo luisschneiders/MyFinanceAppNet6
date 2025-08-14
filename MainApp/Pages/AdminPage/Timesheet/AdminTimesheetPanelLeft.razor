@@ -177,9 +177,9 @@
                     {
                         @if (_viewType == ViewType.Calendar.ToString())
                         {
-                            <CalendarWrapper CalendarHasSubheader="true">
+                            <CalendarWrapper CalendarHasSubheader="false">
                                 <CalendarSubHeaderView>
-                                    <CalendarSubHeaderWrapper>
+                                    @* <CalendarSubHeaderWrapper>
                                         <div class="d-flex justify-content-end border-bottom px-2">
                                             <div class="d-flex pe-1">
                                                 @Label.AppAdminTimesheetPeriodMessage1<span class="d-none d-lg-block ps-1">@Label.AppAdminTimesheetPeriodMessage2:</span>
@@ -188,7 +188,7 @@
                                                 @_timesheetTotal.Amount.ToString("C")
                                             </span>
                                         </div>
-                                    </CalendarSubHeaderWrapper>
+                                    </CalendarSubHeaderWrapper> *@
                                 </CalendarSubHeaderView>
                                 <CalendarHeaderView>
                                     <CalendarHeaderWrapper />
