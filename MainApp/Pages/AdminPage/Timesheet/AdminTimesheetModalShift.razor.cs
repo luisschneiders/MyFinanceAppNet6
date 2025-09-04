@@ -134,7 +134,7 @@ public partial class AdminTimesheetModalShift : ComponentBase
             _isProcessing = true;
             _displayErrorMessages = false;
 
-            await _shiftService.SaveRecord(_shiftModel);
+            await _shiftService.SaveShift(_shiftModel);
             await Task.Delay((int)Delay.DataSuccess);
 
             await FetchShiftDataAsync();
@@ -180,7 +180,7 @@ public partial class AdminTimesheetModalShift : ComponentBase
                 Id = shiftListDTO.Id
             };
 
-            return  shift;
+            return shift;
         }
         catch (Exception ex)
         {

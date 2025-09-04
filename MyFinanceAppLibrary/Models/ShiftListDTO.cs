@@ -11,7 +11,7 @@ public class ShiftListDTO
 
     public bool IsAvailable { get; }
 
-    public string Description { get; }
+    public string CompanyDescription { get; }
 
 #nullable enable
 }

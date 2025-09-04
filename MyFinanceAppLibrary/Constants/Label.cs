@@ -219,12 +219,13 @@ public static class Label
     public const string AppAdminTimesheet = "Timesheet";
     public const string AppAdminAvailabilityButtonNew = "Set Availability";
     public const string AppAdminShiftButtonNew = "Set Shift";
+    public const string AppAdminAvailabilityButtonSave = "Save availability";
     public const string AppAdminShiftButtonSave = "Save shift";
     public const string AppAdminShiftAvailability = "Availability status";
     public const string AppAdminShiftCompany = "Company";
     public const string AppAdminShiftDate = "Date";
-    public const string AppAdminShiftScheduledForAtLeastOne = "Shift scheduled for at least one employer";
-    public const string AppAdminShiftNotScheduled = "No shift scheduled";
+    public const string AppAdminShiftScheduledForAtLeastOne = "Availability or shift scheduled";
+    public const string AppAdminShiftNotScheduled = "No availability or shift scheduled";
     public const string AppAdminShiftToday = "Today's assigned shift";
     public const string AppAdminTimesheetButtonNew = "New Timesheet";
     public const string AppAdminTimesheetBreak = "Break (in minutes)";
