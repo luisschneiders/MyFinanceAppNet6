@@ -111,21 +111,4 @@ public partial class AdminTimesheetModalAvailability : ComponentBase
         _displayErrorMessages = true;
         await Task.CompletedTask;
     }
-    
-    private async Task OnInputDateChanged(ChangeEventArgs e)
-    {
-        // TODO: Create method to validate object||string in IDateTimeService
-        if (!string.IsNullOrWhiteSpace(e.Value?.ToString()))
-        {
-            DateTime dateTime = DateTime.Parse((string)e.Value!);
-
-            if (dateTime is DateTime date)
-            {
-                _dateTimeRange.Start = date;
-                _dateTimeRange.End = date;
-
-                // await FetchShiftDataAsync();
-            }
-        }
-    }
 }
