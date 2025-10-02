@@ -210,6 +210,9 @@ public static class Label
     public const string AppAdminTransactionFieldFinancialInstitution = "Financial Institution";
     public const string AppAdminTransactionFieldFrom = "From";
     public const string AppAdminTransactionFieldTo = "To";
+    public const string AppAdminTransactionPeriodMessage1 = "Total balance";
+    public const string AppAdminTransactionPeriodMessage2 = "for the period";
+    public const string AppAdminTransactionPlaceholderBalance = "$---,---.--";
     public const string AppAdminTransactionInfoMessage1 = "Expenses cannot be archived from here";
     public const string AppAdminTransactionInfoMessage2 = "Please visit page";
     public const string AppAdminTransactionInfoMessage3 = "All transactions linked to this record will be archived too.";
