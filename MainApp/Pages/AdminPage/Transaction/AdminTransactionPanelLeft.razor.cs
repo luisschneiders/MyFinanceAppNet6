@@ -46,6 +46,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private string _viewType { get; set; } = ViewType.Calendar.ToString();
     private string _dropdownDateRangeLabel { get; set; } = Label.AppNoDateAssigned;
     private string _dropdownDateCalendarLabel { get; set; } = Label.AppNoDateAssigned;
+    private decimal _totalBalance = 0;
     private DateTime[][] _weeks { get; set; } = default!;
     private bool _isLoading { get; set; } = true;
     private bool _isLoadingView { get; set; } = true;
@@ -108,6 +109,9 @@ public partial class AdminTransactionPanelLeft : ComponentBase
                 _multiFilterTransactionDTO.DateTimeRange = _dateRange;
                 _transactionsListView = await _transactionService.GetRecordsListView(_multiFilterTransactionDTO);
             }
+
+            _totalBalance = await _transactionService.GetTotalBalance();
+
             _isLoadingView = false;
             _isLoading = false;
         }

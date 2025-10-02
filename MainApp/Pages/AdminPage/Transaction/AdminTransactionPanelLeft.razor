@@ -143,7 +143,26 @@
                     {
                         @if (_viewType == ViewType.Calendar.ToString())
                         {
-                            <CalendarWrapper CalendarHasSubheader="false">
+                            <CalendarWrapper CalendarHasSubheader="true">
+                                <CalendarSubHeaderView>
+                                    <CalendarSubHeaderWrapper>
+                                        <div class="d-flex justify-content-end border-bottom px-2">
+                                            <div class="d-flex">
+                                                @Label.AppAdminTransactionPeriodMessage1<span class="d-none d-lg-block ps-1">@Label.AppAdminTransactionPeriodMessage2:</span>
+                                            </div>
+                                            <span class="app-expense-sum-me fw-semibold ps-1 @("rounded"+_appSettings.Button)">
+                                                @if (_isLoadingView is true)
+                                                {
+                                                    @Label.AppAdminTransactionPlaceholderBalance
+                                                }
+                                                else
+                                                {
+                                                    @_totalBalance.ToString("C")
+                                                }
+                                            </span>
+                                        </div>
+                                    </CalendarSubHeaderWrapper>
+                                </CalendarSubHeaderView>
                                 <CalendarHeaderView>
                                     <CalendarHeaderWrapper />
                                 </CalendarHeaderView>
@@ -226,6 +245,15 @@
                                 }
                                 else
                                 {
+                                    <div class="accordion d-flex justify-content-between p-2 fw-semibold
+                                                bg-@(Theme.Secondary.ToString().ToLower())-subtle">
+                                        <div class="d-flex">
+                                            @Label.AppAdminTransactionPeriodMessage1<span class="d-none d-lg-block ps-1">@Label.AppAdminTransactionPeriodMessage2</span>
+                                        </div>
+                                        <span>
+                                            @_totalBalance.ToString("C")
+                                        </span>
+                                    </div>
                                     <Accordion Id="Transactions">
                                         @foreach (var (record, index) in _transactionsListView.Select((value, index) => (value, index)))
                                         {
