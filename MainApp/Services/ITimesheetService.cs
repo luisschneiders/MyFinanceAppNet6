@@ -4,6 +4,8 @@ public interface ITimesheetService<T> : IBaseService<T>
 {
     public Task<List<TimesheetByCompanyGroupDTO>> GetRecordsListView(MultiFilterTimesheetDTO filter);
     public Task<List<TimesheetCalendarDTO>> GetRecordsCalendarView(MultiFilterTimesheetDTO filter);
+
+    // TODO: Make method GetTotals private
     public Task<TimesheetTotal> GetTotals();
     public Task UpdateRecordPayStatus(T model);
     public Task<List<CheckboxItemModel>> GetRecordsForFilter();

@@ -105,7 +105,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
                 _multiFilterExpenseDTO.DateTimeRange = _dateRange;
                 _expensesListView = await _expenseService.GetRecordsListView(_multiFilterExpenseDTO);
             }
-// TODO: Make method GetRecordsByDateRangeSum private
+
             _expensesTotal = await _expenseService.GetRecordsByDateRangeSum();
             _isLoadingView = false;
             _isLoading = false;

@@ -2,6 +2,7 @@
 
 public interface IExpenseService<T> : IBaseService<T>
 {
+    // TODO: Make method GetRecordsByDateRangeSum private
     public Task<decimal> GetRecordsByDateRangeSum();
     public Task<List<ExpenseByCategoryGroupDTO>> GetRecordsListView(MultiFilterExpenseDTO filter);
     public Task<List<ExpenseCalendarDTO>> GetRecordsCalendarView(MultiFilterExpenseDTO filter);
