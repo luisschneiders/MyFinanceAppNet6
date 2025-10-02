@@ -109,9 +109,8 @@ public partial class AdminTransactionPanelLeft : ComponentBase
                 _multiFilterTransactionDTO.DateTimeRange = _dateRange;
                 _transactionsListView = await _transactionService.GetRecordsListView(_multiFilterTransactionDTO);
             }
-
+// TODO: Make method GetTotalBalance private
             _totalBalance = await _transactionService.GetTotalBalance();
-
             _isLoadingView = false;
             _isLoading = false;
         }
