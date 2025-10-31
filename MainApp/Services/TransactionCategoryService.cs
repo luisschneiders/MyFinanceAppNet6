@@ -14,11 +14,19 @@ public class TransactionCategoryService : ITransactionCategoryService<Transactio
     [Inject]
     private IUserData _userData { get; set; } = default!;
 
-    public TransactionCategoryService(ITransactionCategoryData<TransactionCategoryModel> transactionCategoryData, IUserData userData, AuthenticationStateProvider authProvider)
+    [Inject]
+    private IEnumHelper _enumHelper { get; set; } = default!;
+
+    public TransactionCategoryService(
+        ITransactionCategoryData<TransactionCategoryModel> transactionCategoryData,
+        IUserData userData,
+        AuthenticationStateProvider authProvider,
+        IEnumHelper enumHelper)
     {
         _transactionCategoryData = transactionCategoryData;
         _userData = userData;
         _authProvider = authProvider;
+        _enumHelper = enumHelper;
     }
 
     // TODO: Add pagination capabilities
@@ -51,7 +59,7 @@ public class TransactionCategoryService : ITransactionCategoryService<Transactio
                 CheckboxItemModel filterItem = new()
                 {
                     Id = item.Id,
-                    Description = item.Description,
+                    Description = $"{item.Description} ({_enumHelper.GetDescription((TransactionActionType)Enum.Parse(typeof(TransactionActionType), item.ActionType))})",
                 };
                 filter.Add(filterItem);
             }

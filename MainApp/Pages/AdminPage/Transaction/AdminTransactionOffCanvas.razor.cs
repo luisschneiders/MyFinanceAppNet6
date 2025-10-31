@@ -27,6 +27,8 @@ public partial class AdminTransactionOffCanvas : ComponentBase
     [Inject]
     private IAnimationService _animationService { get; set; } = default!;
 
+    [Inject]
+    private IEnumHelper _enumHelper { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
     protected IAppSettings _appSettings { get; set; } = default!;

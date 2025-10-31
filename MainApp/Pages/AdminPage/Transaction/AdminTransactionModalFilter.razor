@@ -47,7 +47,7 @@
                                         value="@(transactionCategory.Id)"
                                         @onchange="(e) => OnCheckboxChangedTransaction(e, transactionCategory.Id)" />
                                 <label class="form-check-label w-100" for="@($"transaction-category{transactionCategory.Id}")" title="@transactionCategory.Description">
-                                    @($"{transactionCategory.Description.Truncate((int)Truncate.TransactionCategory)}")
+                                    @($"{transactionCategory.Description}")
                                 </label>
                             </div>
                         </li>
