@@ -68,8 +68,12 @@ h1:focus {
     text-shadow: 1px 1px 2px #fff;
 }
 
-.app-offcanvas-backdrop {
-    background-color: rgb(0 0 0 / 28%);
+.app-modal-shadow {
+    box-shadow: 0px 1rem 8rem 8px rgba(var(--bs-body-color-rgb), .175) !important;
+}
+
+.app-offcanvas-backdrop, .app-modal-backdrop {
+    background-color: rgba(182, 182, 182, 0.18);
 }
 
 .app-offcanvas-backdrop.show {

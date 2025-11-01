@@ -76,13 +76,13 @@ public static class RegisterServices
 
     public static void AddScopedServices(this WebApplicationBuilder builder)
     {
-//      Browser
+        //Browser
         builder.Services.AddScoped<IAppSettingsService, AppSettingsService>();
         builder.Services.AddScoped<IBrowserService, BrowserService>();
         builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
         builder.Services.AddScoped<ISessionStorageService, SessionStorageService>();
 
-//      Components
+        //Components
         builder.Services.AddScoped<ToastService>();
         builder.Services.AddScoped<IAnimationService, AnimationService>();
         builder.Services.AddScoped<ICalendarViewService, CalendarViewService>();
@@ -100,7 +100,7 @@ public static class RegisterServices
         builder.Services.AddScoped<IRandomNumberService, RandomNumberService>();
         builder.Services.AddScoped<ISpinnerService, SpinnerService>();
 
-//      Data
+        //Data
         builder.Services.AddScoped<IBankService<BankModel>, BankService>();
         builder.Services.AddScoped<ICompanyService<CompanyModel>, CompanyService>();
         builder.Services.AddScoped<IExpenseService<ExpenseModel>, ExpenseService>();
@@ -115,7 +115,7 @@ public static class RegisterServices
         builder.Services.AddScoped<ITripService<TripModel>, TripService>();
         builder.Services.AddScoped<IVehicleService<VehicleModel>, VehicleService>();
 
-//      APIs
+        //APIs
         builder.Services.AddScoped<IEssentialsAPIService, EssentialsAPIService>();
         builder.Services.AddScoped<IFinnhubService, FinnhubService>();
         builder.Services.AddScoped<IGoogleService, GoogleService>();
