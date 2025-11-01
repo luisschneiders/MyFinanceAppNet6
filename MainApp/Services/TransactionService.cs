@@ -17,6 +17,9 @@ public class TransactionService : ITransactionService<TransactionModel>
     [Inject]
     ILocalStorageService _localStorageService{ get; set; } = default!;
 
+    [Inject]
+    private IEnumHelper _enumHelper { get; set; } = default!;
+
     private List<TransactionListDTO> _recordsByDateRange { get; set; } = new();
 
     private decimal _totalBalance = 0;
@@ -25,12 +28,14 @@ public class TransactionService : ITransactionService<TransactionModel>
         ITransactionData<TransactionModel> transactionData,
         IUserData userData,
         AuthenticationStateProvider authProvider,
-        ILocalStorageService localStorageService)
+        ILocalStorageService localStorageService,
+        IEnumHelper enumHelper)
     {
         _transactionData = transactionData;
         _userData = userData;
         _authProvider = authProvider;
         _localStorageService = localStorageService;
+        _enumHelper = enumHelper;
     }
 
     public async Task ArchiveRecord(TransactionModel model)
@@ -443,15 +448,15 @@ public class TransactionService : ITransactionService<TransactionModel>
             throw;
         }
     }
-    private static async Task<List<TransactionByCategoryGroupDTO>> SetRecordsListView(List<TransactionListDTO> records)
+    private async Task<List<TransactionByCategoryGroupDTO>> SetRecordsListView(List<TransactionListDTO> records)
     {
         try
         {
-            var resultsByGroup = records.GroupBy(tc => tc.TCategoryDescription);
+            var resultsByGroup = records.GroupBy(tc => (tc.TCategoryDescription, tc.Action));
 
             var results = resultsByGroup.Select(tcGroup => new TransactionByCategoryGroupDTO()
             {
-                Description = tcGroup.Key,
+                Description = $"{tcGroup.Key.TCategoryDescription} ({_enumHelper.GetDescription((TransactionActionType)Enum.Parse(typeof(TransactionActionType), tcGroup.Key.Action))})",
                 Total = tcGroup.Sum(a => a.Amount),
                 Transactions = tcGroup.ToList()
             }).ToList();
