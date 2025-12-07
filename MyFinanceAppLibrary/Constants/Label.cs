@@ -265,6 +265,7 @@ public static class Label
     // Components section
     public const string AppComponentAllAccountsTitle = "All Accounts";
     public const string AppComponentExpenseByPeriodTitle = "Total expense by period";
+    public const string AppComponentInteractiveMapLocationNotFound = "Interactive Map requires a location, please set yours in Settings.";
     public const string AppComponentInteractiveMapTitle = "Interactive map";
     public const string AppComponentIRTitle = "Investment returns";
     public const string AppComponentIRAnnualizedTitle = "Annualized percentage";
