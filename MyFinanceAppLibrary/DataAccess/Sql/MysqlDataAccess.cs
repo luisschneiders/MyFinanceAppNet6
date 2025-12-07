@@ -1,7 +1,6 @@
 ﻿using System.Data;
 using Dapper;
 using Microsoft.Extensions.Configuration;
-using MyFinanceAppLibrary.Models;
 using MySql.Data.MySqlClient;
 
 namespace MyFinanceAppLibrary.DataAccess.Sql;

@@ -42,6 +42,7 @@ public static class Label
     public const string AppCannotBeUndone = "This action cannot be undone.";
     public const string AppNewChart = "New Chart";
     public const string AppMessageDateRangeChanged = "Date range has changed!";
+    public const string AppMessageConfettiNotDefined = "Confetti is not defined, please check console for more info.";
 
 
     // Menubar
@@ -209,6 +210,9 @@ public static class Label
     public const string AppAdminTransactionFieldFinancialInstitution = "Financial Institution";
     public const string AppAdminTransactionFieldFrom = "From";
     public const string AppAdminTransactionFieldTo = "To";
+    public const string AppAdminTransactionPeriodMessage1 = "Total balance";
+    public const string AppAdminTransactionPeriodMessage2 = "for the period";
+    public const string AppAdminTransactionPlaceholderBalance = "$---,---.--";
     public const string AppAdminTransactionInfoMessage1 = "Expenses cannot be archived from here";
     public const string AppAdminTransactionInfoMessage2 = "Please visit page";
     public const string AppAdminTransactionInfoMessage3 = "All transactions linked to this record will be archived too.";
@@ -216,13 +220,15 @@ public static class Label
 
     // Page timesheet and shift
     public const string AppAdminTimesheet = "Timesheet";
-    public const string AppAdminShiftButtonNew = "Add shift";
+    public const string AppAdminAvailabilityButtonNew = "Set Availability";
+    public const string AppAdminShiftButtonNew = "Set Shift";
+    public const string AppAdminAvailabilityButtonSave = "Save availability";
     public const string AppAdminShiftButtonSave = "Save shift";
     public const string AppAdminShiftAvailability = "Availability status";
     public const string AppAdminShiftCompany = "Company";
     public const string AppAdminShiftDate = "Date";
-    public const string AppAdminShiftScheduledForAtLeastOne = "Shift scheduled for at least one employer";
-    public const string AppAdminShiftNotScheduled = "No shift scheduled";
+    public const string AppAdminShiftScheduledForAtLeastOne = "Availability or shift scheduled";
+    public const string AppAdminShiftNotScheduled = "No availability or shift scheduled";
     public const string AppAdminShiftToday = "Today's assigned shift";
     public const string AppAdminTimesheetButtonNew = "New Timesheet";
     public const string AppAdminTimesheetBreak = "Break (in minutes)";
@@ -259,6 +265,7 @@ public static class Label
     // Components section
     public const string AppComponentAllAccountsTitle = "All Accounts";
     public const string AppComponentExpenseByPeriodTitle = "Total expense by period";
+    public const string AppComponentInteractiveMapLocationNotFound = "Interactive Map requires a location, please set yours in Settings.";
     public const string AppComponentInteractiveMapTitle = "Interactive map";
     public const string AppComponentIRTitle = "Investment returns";
     public const string AppComponentIRAnnualizedTitle = "Annualized percentage";
@@ -290,6 +297,14 @@ public static class Label
     public const string AppComponentTokenCheckerIsExpired = "Is token expired?";
     public const string AppComponentTokenCheckerExpired = "Token is expired!";
     public const string AppComponentTokenCheckerNotExpired = "Token is not expired!";
+    public const string AppComponentRandomNumberTitle = "Random numbers";
+    public const string AppComponentRandomNumberMessage1 = "Generate random set of numbers";
+    public const string AppComponentRandomNumberMessage2 = "CSV saved to Downloads";
+    public const string AppComponentRandomNumberParagraph1 = "Select your numbers";
+    public const string AppComponentRandomNumberParagraph2 = "Results";
+    public const string AppComponentRandomNumberParagraph3 = "Select number of sets";
+    public const string AppComponentRandomNumberSequence = "Numbers";
+    public const string AppComponentRandomNumberSet = "Set";
 
 
     // Standard buttons
@@ -299,11 +314,16 @@ public static class Label
     public const string AppButtonArchiveConfirmation = "Yes, archive!";
     public const string AppButtonCancel = "Cancel";
     public const string AppButtonClearFilter = "Clear filter";
+    public const string AppButtonClearSelection = "Clear selection";
     public const string AppButtonClose = "Close";
     public const string AppButtonColumns = "Columns";
     public const string AppButtonEdit = "Edit";
+    public const string AppButtonExport = "Export";
+    public const string AppButtonExporting = "Exporting...";
     public const string AppButtonFilter = "Filters";
     public const string AppButtonInfo = "Info";
+    public const string AppButtonGenerate = "Generate";
+    public const string AppButtonGenerating = "Generating...";
     public const string AppButtonMoreAction = "More Actions";
     public const string AppButtonNext = "Next";
     public const string AppButtonPrevious = "Previous";
@@ -313,6 +333,7 @@ public static class Label
     public const string AppButtonSave = "Save";
     public const string AppButtonSaving = "Saving...";
     public const string AppButtonSearch = "Search";
+    public const string AppButtonSignIn = "Sign In";
     public const string AppButtonVerifyAddress = "Verify Address";
     public const string AppButtonVerifyingAddress = "Verifying Address...";
     public const string AppButtonViewDetails = "View";

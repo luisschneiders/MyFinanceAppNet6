@@ -10,6 +10,9 @@ public interface ITransactionService<T> : IBaseService<T>
     public Task<List<TransactionByCategoryGroupDTO>> GetRecordsListView(MultiFilterTransactionDTO filter);
     public Task<List<TransactionCalendarDTO>> GetRecordsCalendarView(MultiFilterTransactionDTO filter);
     public Task<List<TransactionDetailsDTO>> GetRecordsDateView(DateTimeRange dateTimeRange);
+
+    // TODO: Make method GetTotalBalance private
+    public Task<decimal> GetTotalBalance();
     public Task<List<TransactionIOLast3MonthsGraphDTO>> GetRecordsLast3Months();
     public Task<string> GetLocalStorageViewType();
     public Task SetLocalStorageViewType(string view);

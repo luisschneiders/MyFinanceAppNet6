@@ -1,4 +1,5 @@
 ﻿
+using MainApp.Components.Toast;
 using Microsoft.JSInterop;
 
 namespace MainApp.Services;
@@ -6,10 +7,12 @@ namespace MainApp.Services;
 public class AnimationService : IAnimationService
 {
     private readonly IJSRuntime _jsRuntime;
+    private ToastService _toastService { get; set; } = default!;
 
-    public AnimationService(IJSRuntime jSRuntime)
+    public AnimationService(IJSRuntime jSRuntime, ToastService toastService)
     {
         _jsRuntime = jSRuntime;
+        _toastService = toastService;
     }
     public async Task ConfettiTransaction()
     {
@@ -20,7 +23,7 @@ public class AnimationService : IAnimationService
         catch (Exception ex)
         {
             Console.WriteLine("An exception occurred: " + ex.Message);
-            throw;
+            _toastService.ShowToast(Label.AppMessageConfettiNotDefined, Theme.Danger);
         }
     }
 }

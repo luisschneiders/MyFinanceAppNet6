@@ -38,7 +38,7 @@
                             <option value="0">@Label.AppFieldSelect</option>
                             @foreach (var (action, index) in _activeTransactionCategories.Select((value, index) => (value, index)))
                             {
-                                <option value="@action.Id"> @($"{action.Description}") </option>
+                                <option value="@action.Id"> @($"{action.Description} ({_enumHelper.GetDescription((TransactionActionType)Enum.Parse(typeof(TransactionActionType), action.ActionType))})") </option>
                             }
                         </InputSelect>
                         <label for="TCategoryId">@Label.AppAdminTransactionFieldAction</label>

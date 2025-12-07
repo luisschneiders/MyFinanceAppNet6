@@ -17,19 +17,25 @@ public class TransactionService : ITransactionService<TransactionModel>
     [Inject]
     ILocalStorageService _localStorageService{ get; set; } = default!;
 
+    [Inject]
+    private IEnumHelper _enumHelper { get; set; } = default!;
 
     private List<TransactionListDTO> _recordsByDateRange { get; set; } = new();
+
+    private decimal _totalBalance = 0;
 
     public TransactionService(
         ITransactionData<TransactionModel> transactionData,
         IUserData userData,
         AuthenticationStateProvider authProvider,
-        ILocalStorageService localStorageService)
+        ILocalStorageService localStorageService,
+        IEnumHelper enumHelper)
     {
         _transactionData = transactionData;
         _userData = userData;
         _authProvider = authProvider;
         _localStorageService = localStorageService;
+        _enumHelper = enumHelper;
     }
 
     public async Task ArchiveRecord(TransactionModel model)
@@ -215,6 +221,19 @@ public class TransactionService : ITransactionService<TransactionModel>
         }
     }
 
+    public async Task<decimal> GetTotalBalance()
+    {
+        try
+        {
+            return await Task.FromResult(_totalBalance);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
     public async Task<List<TransactionByCategoryGroupDTO>> GetRecordsListView(MultiFilterTransactionDTO filter)
     {
         try
@@ -227,10 +246,12 @@ public class TransactionService : ITransactionService<TransactionModel>
             {
                 recordsFiltered = await SetRecordsFilter(filter);
                 results = await SetRecordsListView(recordsFiltered);
+                _totalBalance = await SetTotalBalance(recordsFiltered);
             }
             else
             {
                 results = await SetRecordsListView(records);
+                _totalBalance = await SetTotalBalance(records);
             }
 
             return await Task.FromResult(results);
@@ -249,15 +270,17 @@ public class TransactionService : ITransactionService<TransactionModel>
             List<TransactionListDTO> records = await GetRecordsByDateRange(filter.DateTimeRange);
             List<TransactionListDTO> recordsFiltered = new();
             List<TransactionCalendarDTO> calendarData = new();
-            
+
             if (filter.IsFilterChanged is true)
             {
                 recordsFiltered = await SetRecordsFilter(filter);
                 calendarData = await SetRecordsCalendarView(recordsFiltered);
+                _totalBalance = await SetTotalBalance(recordsFiltered);
             }
             else
             {
                 calendarData = await SetRecordsCalendarView(records);
+                _totalBalance = await SetTotalBalance(records);
             }
 
             return calendarData;
@@ -402,14 +425,38 @@ public class TransactionService : ITransactionService<TransactionModel>
         }
     }
 
-    private static async Task<List<TransactionByCategoryGroupDTO>> SetRecordsListView(List<TransactionListDTO> records)
+    private static async Task<decimal> SetTotalBalance(List<TransactionListDTO> records)
     {
         try
-        {            
-            var resultsByGroup = records.GroupBy(tc => tc.TCategoryDescription);
+        {
+            decimal sumCredits = 0;
+            decimal sumDebits = 0;
+            decimal balance = 0;
+
+            IEnumerable<TransactionListDTO> totalCredits = records.Where(r => r.Label == TransactionActionType.C.ToString());
+            IEnumerable<TransactionListDTO> totalDebits = records.Where(r => r.Label == TransactionActionType.D.ToString());
+
+            sumCredits = totalCredits.Sum(c => c.Amount);
+            sumDebits = totalDebits.Sum(c => c.Amount);
+            balance = sumCredits - sumDebits;
+
+            return await Task.FromResult(balance);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+    private async Task<List<TransactionByCategoryGroupDTO>> SetRecordsListView(List<TransactionListDTO> records)
+    {
+        try
+        {
+            var resultsByGroup = records.GroupBy(tc => (tc.TCategoryDescription, tc.Action));
+
             var results = resultsByGroup.Select(tcGroup => new TransactionByCategoryGroupDTO()
             {
-                Description = tcGroup.Key,
+                Description = $"{tcGroup.Key.TCategoryDescription} ({_enumHelper.GetDescription((TransactionActionType)Enum.Parse(typeof(TransactionActionType), tcGroup.Key.Action))})",
                 Total = tcGroup.Sum(a => a.Amount),
                 Transactions = tcGroup.ToList()
             }).ToList();

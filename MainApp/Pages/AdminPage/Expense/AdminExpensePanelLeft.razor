@@ -141,10 +141,10 @@
                                 <CalendarSubHeaderView>
                                     <CalendarSubHeaderWrapper>
                                         <div class="d-flex justify-content-end border-bottom px-2">
-                                            <div class="d-flex pe-1">
+                                            <div class="d-flex">
                                                 @Label.AppAdminExpensePeriodMessage1<span class="d-none d-lg-block ps-1">@Label.AppAdminExpensePeriodMessage2:</span>
                                             </div>
-                                            <span class="app-expense-sum-me fw-semibold px-1 @("rounded"+_appSettings.Button)">
+                                            <span class="app-expense-sum-me fw-semibold ps-1 @("rounded"+_appSettings.Button)">
                                                 @_expensesTotal.ToString("C")
                                             </span>
                                         </div>
@@ -253,7 +253,7 @@
                                                     </div>
                                                 </AccordionHeader>
                                                 <AccordionBody Id="@index.ToString()">
-                                                    <div class="table-responsive">
+                                                    <div class="table-responsive pb-5">
                                                         <table class="table table-hover">
                                                             <thead>
                                                                 <tr>

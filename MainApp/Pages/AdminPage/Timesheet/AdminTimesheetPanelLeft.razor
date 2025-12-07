@@ -138,10 +138,10 @@
                     <DropdownActions DropdownPosition="Position.End"
                                      ButtonSize="Size.Sm"
                                      ButtonColor="Theme.Secondary">
-                        <li class="p-1">
+                        <li class="p-1 d-block d-lg-none">
                             <button class="dropdown-item rounded"
-                                    @onclick="() => UpdateShiftAsync(DateTime.Today)">
-                                <i class="bi bi-calendar4-week pe-1"></i>@Label.AppAdminShiftButtonNew
+                                    @onclick="() => OpenCalculatorAsync()">
+                                <i class="bi bi-calculator pe-1"></i>@Label.AppCalculator
                             </button>
                         </li>
                         <li class="p-1">
@@ -150,10 +150,16 @@
                                 <i class="bi bi-plus-lg pe-1"></i>@Label.AppAdminTimesheetButtonNew
                             </button>
                         </li>
-                        <li class="p-1 d-block d-lg-none">
+                        <li class="p-1">
                             <button class="dropdown-item rounded"
-                                    @onclick="() => OpenCalculatorAsync()">
-                                <i class="bi bi-calculator pe-1"></i>@Label.AppCalculator
+                                    @onclick="() => UpdateAvailabilityAsync(DateTime.Today)">
+                                <i class="bi bi-calendar-check pe-1"></i>@Label.AppAdminAvailabilityButtonNew
+                            </button>
+                        </li>
+                        <li class="p-1">
+                            <button class="dropdown-item rounded"
+                                    @onclick="() => UpdateShiftAsync(DateTime.Today)">
+                                <i class="bi bi-calendar4-week pe-1"></i>@Label.AppAdminShiftButtonNew
                             </button>
                         </li>
                     </DropdownActions>
@@ -174,13 +180,13 @@
                             <CalendarWrapper CalendarHasSubheader="true">
                                 <CalendarSubHeaderView>
                                     <CalendarSubHeaderWrapper>
-                                        <div class="d-flex justify-content-end border-bottom px-2">
-                                            <div class="d-flex pe-1">
-                                                @Label.AppAdminTimesheetPeriodMessage1<span class="d-none d-lg-block ps-1">@Label.AppAdminTimesheetPeriodMessage2:</span>
+                                        <div class="px-2 d-none d-lg-block">
+                                            <div class="d-flex justify-content-end">
+                                                @Label.AppAdminTimesheetPeriodMessage1<span class="ps-1">@Label.AppAdminTimesheetPeriodMessage2:</span>
+                                                <span class="app-expense-sum-me fw-semibold ps-1 @("rounded"+_appSettings.Button)">
+                                                    @_timesheetTotal.Amount.ToString("C")
+                                                </span>
                                             </div>
-                                            <span class="app-expense-sum-me fw-semibold px-1 @("rounded"+_appSettings.Button)">
-                                                @_timesheetTotal.Amount.ToString("C")
-                                            </span>
                                         </div>
                                     </CalendarSubHeaderWrapper>
                                 </CalendarSubHeaderView>
@@ -296,7 +302,7 @@
                                                     </div>
                                                 </AccordionHeader>
                                                 <AccordionBody Id="@index.ToString()" IsAlwaysOpen=true>
-                                                    <div class="table-responsive">
+                                                    <div class="table-responsive pb-5">
                                                         <table class="table table-hover">
                                                             <thead>
                                                                 <tr>
@@ -402,5 +408,6 @@
 </CardView>
 <AdminTimesheetOffCanvas @ref="_setupOffCanvas" OnSubmitSuccess="RefreshList" />
 <AdminTimesheetModalFilter @ref="_setupFilterModal" OnSubmitFilterSuccess="filter => RefreshFilterList(filter)" />
+<AdminTimesheetModalAvailability @ref="_setupAvailabilityModal" OnSubmitSuccess="RefreshList" />
 <AdminTimesheetModalShift @ref="_setupShiftModal" OnSubmitSuccess="RefreshList" />
 <AdminTimesheetModalCalculator @ref="_setupCalculatorModal"/>

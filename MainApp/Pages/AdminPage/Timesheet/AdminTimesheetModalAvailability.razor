@@ -1,0 +1,74 @@
+﻿@using MainApp.Components.Badge.Color
+@using MainApp.Components.Dropdown.MultiSelect
+@using MainApp.Components.Loader
+@using MainApp.Components.Modal
+
+<Modal @ref="_modal"
+       Size="Size.Md"
+       IsCloseButtonVisible="false">
+    <Title>
+        @($"{_shiftModel.SDate.ToString("ddd, d MMM yyyy")}")
+    </Title>
+    <Body>
+        <EditForm Model="@_shiftModel"
+                OnValidSubmit="@HandleValidSubmitAsync"
+                OnInvalidSubmit="@HandleInvalidSubmitAsync"
+                autocomplete="off"
+                id="TimesheetModalAvailability">
+            <DataAnnotationsValidator />
+            <div class="row pb-2">
+                <div class="col-12">
+                    <div class="form-floating pb-2">
+                        <InputDate id="SDate"
+                                @attributes="_inputFormAttributes.Control"
+                                placeholder="@Label.AppAdminShiftDate"
+                                @bind-Value="_shiftModel.SDate"
+                                Type="InputDateType.Date" />
+                        <label for="SDate">@Label.AppAdminShiftDate</label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-control @("rounded"+_appSettings.Form)">
+                        <label class="app-form-floating-label">@Label.AppAdminShiftAvailability</label>
+                        <div class="form-check form-switch">
+                            <label class="form-check-label" for="IsAvailable">@(_shiftModel.IsAvailable is true ? @Label.AppAvailable : @Label.AppUnavailable)</label>
+                            <InputCheckbox class="form-check-input"
+                                        type="checkbox"
+                                        role="switch"
+                                        id="IsAvailable"
+                                        @bind-Value="_shiftModel.IsAvailable" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (_displayErrorMessages)
+            {
+                <div class="row">
+                    <div class="col-12">
+                        <ValidationSummary />
+                    </div>
+                </div>
+            }
+
+        </EditForm>
+    </Body>
+    <Footer>
+        <div class="row w-100 justify-content-end">
+            <div class="col-sm-12 col-md-8 d-flex gap-2 g-0">
+                <button type="button"
+                        class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) w-100 @("rounded"+_appSettings.Button)"
+                        data-dismiss="modal"
+                        @onclick="CloseModalAsync">
+                    @Label.AppButtonClose
+                </button>
+                <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) w-100 @("rounded"+_appSettings.Button)"
+                        disabled="@(_isProcessing ? true : false)"
+                        type="submit"
+                        form="TimesheetModalAvailability">
+                    <i class="bi bi-calendar-check pe-1"></i>
+                    @(_isProcessing ? @Label.AppButtonSaving : @Label.AppAdminAvailabilityButtonSave)
+                </button>
+            </div>
+        </div>
+    </Footer>
+</Modal>

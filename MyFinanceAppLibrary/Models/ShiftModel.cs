@@ -10,7 +10,7 @@ public class ShiftModel : BaseModel
     public DateTime SDate { get; set; }
 
     [Required]
-    [Range(1, int.MaxValue, ErrorMessage = "Please select a company.")]
+    [Range(0, int.MaxValue, ErrorMessage = "Please select a company.")]
     public ulong CompanyId { get; set; }
 
     public bool IsAvailable { get; set; } = true; 

@@ -9,11 +9,14 @@ BEGIN
 		s.Id,
         s.CompanyId,
         s.IsAvailable,
-		c.Description,
+		CASE
+			WHEN s.CompanyId = 0 THEN 'Company not assigned'
+			ELSE c.Description
+		END AS CompanyDescription,
 		s.SDate,
 		s.IsActive
 	FROM Shift s
-	JOIN Company c ON c.Id = s.CompanyId
+	LEFT JOIN Company c ON c.Id = s.CompanyId
 	WHERE s.UpdatedBy = userId
 		AND s.IsActive = TRUE
 		AND s.IsArchived = FALSE

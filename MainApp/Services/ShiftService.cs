@@ -84,12 +84,33 @@ public class ShiftService : IShiftService<ShiftModel>
         throw new NotImplementedException();
     }
 
-    public async Task SaveRecord(ShiftModel model)
+    public async Task SaveAvailability(ShiftModel model)
     {
         try
         {
             UserModel user = await GetLoggedInUser();
 
+            // No company is assigned for availability
+            model.CompanyId = 0;
+            model.UpdatedBy = user.Id;
+
+            await _shiftData.SaveRecord(model);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    public async Task SaveShift(ShiftModel model)
+    {
+        try
+        {
+            UserModel user = await GetLoggedInUser();
+
+            // When assigning a shift, the default availability is true
+            model.IsAvailable = true;
             model.UpdatedBy = user.Id;
 
             await _shiftData.SaveRecord(model);
