@@ -135,26 +135,29 @@
                                                     <table class="table table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th class="col-1 text-nowrap">
+                                                                <th class="col text-nowrap">
                                                                     @Label.AppAdminTripFieldDate
                                                                 </th>
-                                                                <th class="col-1 text-nowrap">
+                                                                <th class="col text-nowrap">
                                                                     @Label.AppAdminTripFieldCategory
                                                                 </th>
-                                                                <th class="col-1 text-end text-nowrap">
+                                                                <th class="col text-end text-nowrap">
                                                                     @Label.AppAdminTripFieldStartOdo
                                                                 </th>
-                                                                <th class="col-1 text-end text-nowrap">
+                                                                <th class="col text-end text-nowrap">
                                                                     @Label.AppAdminTripFieldEndOdo
                                                                 </th>
-                                                                <th class="col-1 text-end text-nowrap">
+                                                                <th class="col text-end text-nowrap">
                                                                     @Label.AppAdminTripFieldDistance
                                                                 </th>
-                                                                <th class="col-1 text-nowrap">
+                                                                <th class="col text-nowrap">
                                                                     @Label.AppAdminTripPayStatus
                                                                 </th>
-                                                                <th class="col-1 text-center">
-                                                                    @Label.AppActions
+                                                                <th class="col text-center">
+                                                                    @Label.AppButtonEdit
+                                                                </th>
+                                                                <th class="col text-nowrap">
+                                                                    @Label.AppAdminTripComments
                                                                 </th>
                                                             </tr>
                                                         </thead>
@@ -225,12 +228,15 @@
                                                                             </DropdownActions>
                                                                         </td>
                                                                         <td class="text-center">
-                                                                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Danger.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                                                                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Light.ToString().ToLower()) text-@(Theme.Danger.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                                                                     type="button"
-                                                                                    title="@Label.AppButtonArchive"
-                                                                                    @onclick="() => ArchiveRecordAsync(record)">
-                                                                                <i class="bi bi-archive"></i>
+                                                                                    title="@Label.AppButtonEdit"
+                                                                                    @onclick="() => EditRecordAsync(record)">
+                                                                                <i class="bi bi-pencil"></i>
                                                                             </button>
+                                                                        </td>
+                                                                        <td class="text-nowrap">
+                                                                            @record.Comments
                                                                         </td>
                                                                     </tr>
                                                                 }

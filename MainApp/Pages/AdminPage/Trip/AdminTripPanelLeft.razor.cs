@@ -101,12 +101,26 @@ public partial class AdminTripPanelLeft : ComponentBase
         await _setupOffCanvas.AddRecordOffCanvasAsync();
         await Task.CompletedTask;
     }
+    
+    private async Task EditRecordAsync(TripListDTO tripModel)
+    {
+        try
+        {
+            await _setupOffCanvas.EditRecordOffCanvasAsync(tripModel.Id.ToString());
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;
+    }
 
     private async Task PrintAsync()
     {
         try
         {
-            PrintTripDTO printTripDTO = new ()
+            PrintTripDTO printTripDTO = new()
             {
                 DateTimeRange = _dateRange,
                 TripsByGroup = _tripsByGroup,

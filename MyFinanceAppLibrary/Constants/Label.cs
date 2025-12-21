@@ -253,6 +253,7 @@ public static class Label
     public const string AppAdminTripFieldCategory = "Category";
     public const string AppAdminTripFieldDate = "Date";
     public const string AppAdminTripFieldDistance = "Distance (Km)";
+    public const string AppAdminTripComments = "Comments";
     public const string AppAdminTripFieldEndOdo = "End Odometer";
     public const string AppAdminTripFieldStartOdo = "Start Odometer";
     public const string AppAdminTripFieldVehicle = "Vehicle";

@@ -7,9 +7,11 @@ BEGIN
 	SELECT
 		Id,
         TDate,
+        VehicleId,
         StartOdometer,
         EndOdometer,
 		Distance,
+        Comments,
         PayStatus,
         TCategoryId,
         IsActive

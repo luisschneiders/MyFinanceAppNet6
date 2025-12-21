@@ -139,9 +139,23 @@ public class TripService : ITripService<TripModel>
         throw new NotImplementedException();
     }
 
-    public Task UpdateRecord(TripModel model)
+    public async Task UpdateRecord(TripModel model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            UserModel user = await GetLoggedInUser();
+
+            model.UpdatedBy = user.Id;
+            model.UpdatedAt = DateTime.Now;
+
+            await _tripData.UpdateRecord(model);
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public Task UpdateRecordStatus(TripModel model)

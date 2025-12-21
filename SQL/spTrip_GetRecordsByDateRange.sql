@@ -15,6 +15,7 @@ BEGIN
         t.StartOdometer,
         t.EndOdometer,
 		t.Distance,
+        t.Comments,
         t.PayStatus,
         t.TCategoryId,
 		t.IsActive

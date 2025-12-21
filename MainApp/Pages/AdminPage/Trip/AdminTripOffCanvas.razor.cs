@@ -109,6 +109,28 @@ public partial class AdminTripOffCanvas : ComponentBase
         await Task.CompletedTask;
     }
 
+    public async Task EditRecordOffCanvasAsync(string id)
+    {
+        try
+        {
+            _tripModel = await _tripService.GetRecordById(id);
+            if (_tripModel is not null)
+            {
+                await _offCanvasService.EditRecordAsync(id);
+            }
+            else
+            {
+                _tripModel = new();
+                _toastService.ShowToast(Label.AppNoRecordFound, Theme.Danger);
+            }
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+        await Task.CompletedTask;
+    }
+
     private async Task FetchDataAsync()
     {
         try
@@ -133,15 +155,29 @@ public partial class AdminTripOffCanvas : ComponentBase
             _displayErrorMessages = false;
             _isProcessing = true;
 
-            await _tripService.CreateRecord(_tripModel);
+            var offCanvasViewType = _offCanvasService.GetOffCanvasViewType();
+
+            if (offCanvasViewType == OffCanvasViewType.Add)
+            {
+                await _tripService.CreateRecord(_tripModel);
+                _toastService.ShowToast(Label.AppAdminTrip + " " + Label.AppAdded, Theme.Success);
+            }
+            else if (offCanvasViewType == OffCanvasViewType.Edit)
+            {
+                await _tripService.UpdateRecord(_tripModel);
+                _toastService.ShowToast(Label.AppAdminTrip + " " + Label.AppUpdated, Theme.Success);
+            }
+            else if (offCanvasViewType == OffCanvasViewType.Archive)
+            {
+                await _tripService.ArchiveRecord(_tripModel);
+                _toastService.ShowToast(Label.AppAdminTrip + " " + Label.AppArchived, Theme.Success);
+            }
 
             _isProcessing = false;
-            _toastService.ShowToast(Label.AppAdminTrip+" "+Label.AppAdded, Theme.Success);
 
             await OnSubmitSuccess.InvokeAsync();
             await Task.Delay((int)Delay.DataSuccess);
             await CloseOffCanvasAsync();
-
         }
         catch (Exception ex)
         {

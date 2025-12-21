@@ -14,5 +14,6 @@ public class TripListDTO : BaseModel
     public string VehicleDescription { get; }
     public string VehicleYear { get; }
     public string VehiclePlate { get; }
+    public string Comments { get; set; }
 #nullable enable
 }

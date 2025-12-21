@@ -45,6 +45,7 @@ public class TripData : ITripData<TripModel>
                     tripStartOdometer = model.StartOdometer,
                     tripEndOdometer = model.EndOdometer,
                     tripDistance = model.Distance,
+                    tripComments = model.Comments,
                     tripPayStatus = model.PayStatus,
                     tripTCategoryId = model.TCategoryId,
                     tripUpdatedBy = model.UpdatedBy,
@@ -121,9 +122,32 @@ public class TripData : ITripData<TripModel>
         throw new NotImplementedException();
     }
 
-    public Task UpdateRecord(TripModel model)
+    public async Task UpdateRecord(TripModel model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            await _dataAccess.SaveData<dynamic>(
+                "myfinancedb.spTrip_Update",
+                new
+                {
+                    tripId = model.Id,
+                    tripTDate = model.TDate,
+                    tripStartOdometer = model.StartOdometer,
+                    tripEndOdometer = model.EndOdometer,
+                    tripDistance = model.Distance,
+                    tripComments = model.Comments,
+                    tripPayStatus = model.PayStatus,
+                    tripTCategoryId = model.TCategoryId,
+                    tripUpdatedBy = model.UpdatedBy,
+                    tripUpdatedAt = model.UpdatedAt,
+                },
+                "Mysql");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public async Task UpdateRecordPayStatus(TripModel model)
