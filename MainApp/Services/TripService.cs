@@ -14,17 +14,22 @@ public class TripService : ITripService<TripModel>
     [Inject]
     private IUserData _userData { get; set; } = default!;
 
+    [Inject]
+    ILocalStorageService _localStorageService{ get; set; } = default!;
+
     private List<TripListDTO> _recordsByDateRange { get; set; } = new();
     private decimal _tripDistanceByDateRangeSum { get; set; } = 0;
 
     public TripService(
         ITripData<TripModel> tripData,
         IUserData userData,
-        AuthenticationStateProvider authProvider)
+        AuthenticationStateProvider authProvider,
+        ILocalStorageService localStorageService)
     {
         _tripData = tripData;
         _userData = userData;
         _authProvider = authProvider;
+        _localStorageService = localStorageService;
     }
 
     public async Task ArchiveRecord(TripModel model)
@@ -121,6 +126,32 @@ public class TripService : ITripService<TripModel>
         }
     }
 
+    public async Task<List<TripCalendarDTO>> GetRecordsCalendarView(MultiFilterTripDTO filter)
+    {
+        try
+        {
+            List<TripListDTO> records = await GetRecordsByDateRange(filter.DateTimeRange);
+            List<TripListDTO> recordsFiltered = new();
+            List<TripCalendarDTO> calendarData = new();
+
+            if (filter.IsFilterChanged is true)
+            {
+                recordsFiltered = await SetRecordsFilter(filter);
+                calendarData = await SetRecordsCalendarView(recordsFiltered);
+            }
+            else
+            {
+                calendarData = await SetRecordsCalendarView(records);
+            }
+
+            return calendarData;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
     public async Task<decimal> GetSumByDateRange()
     {
         try
@@ -137,6 +168,21 @@ public class TripService : ITripService<TripModel>
     public Task<List<TripModel>> GetSearchResults(string search)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<string> GetLocalStorageViewType()
+    {
+        try
+        {
+            string? localStorage = await _localStorageService.GetAsync<string>(LocalStorage.AppTripView);
+
+            return await Task.FromResult(localStorage!);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
     }
 
     public async Task UpdateRecord(TripModel model)
@@ -198,6 +244,19 @@ public class TripService : ITripService<TripModel>
             throw;
         }
     }
+    
+    public async Task SetLocalStorageViewType(string view)
+    {
+        try
+        {
+            await _localStorageService.SetAsync<string>(LocalStorage.AppTripView, view);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
 
     private static async Task<List<TripByVehicleGroupDTO>> SetRecordsListView(List<TripListDTO> records)
     {
@@ -212,7 +271,42 @@ public class TripService : ITripService<TripModel>
             }).ToList();
 
             return await Task.FromResult(results);
-            
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
+
+    private static async Task<List<TripCalendarDTO>> SetRecordsCalendarView(List<TripListDTO> records)
+    {
+        try
+        {
+            List<TripCalendarDTO> results = new();
+
+            foreach (var record in records)
+            {
+                TripCalendarDTO tripCalendarDTO = new();
+
+                var result = results.Find(t => t.VehicleDescription == record.VehicleDescription &&
+                                               t.TDate.Date == record.TDate.Date);
+
+                if (result is not null)
+                {
+                    result.Distance += record.Distance;
+                }
+                else
+                {
+                    tripCalendarDTO.TDate = record.TDate;
+                    tripCalendarDTO.VehicleDescription = $"{record.VehicleDescription} - {record.VehiclePlate} ({record.VehicleYear})";
+                    tripCalendarDTO.Distance = record.Distance;
+                    results.Add(tripCalendarDTO);
+                }
+            }
+
+            return await Task.FromResult(results);
         }
         catch (Exception ex)
         {
@@ -239,7 +333,7 @@ public class TripService : ITripService<TripModel>
                 }
                 else // Filter by Vehicle and Trip Category
                 {
-                    recordsFiltered = _recordsByDateRange.Where(t => filter.VehicleId.Contains(t.VehicleId) && 
+                    recordsFiltered = _recordsByDateRange.Where(t => filter.VehicleId.Contains(t.VehicleId) &&
                                                          filter.TCategoryId.Contains(t.TCategoryId)).ToList();
                 }
 

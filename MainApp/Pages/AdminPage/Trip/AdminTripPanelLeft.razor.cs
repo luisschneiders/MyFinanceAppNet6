@@ -15,6 +15,9 @@ public partial class AdminTripPanelLeft : ComponentBase
     private IDropdownDateRangeService _dropdownDateRangeService { get; set; } = default!;
 
     [Inject]
+    private IDropdownDateMonthYearService _dropdownDateMonthYearService { get; set; } = default!;
+
+    [Inject]
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
     [Inject]
@@ -25,7 +28,12 @@ public partial class AdminTripPanelLeft : ComponentBase
 
     private DateTimeRange _dateRange { get; set; } = new();
     private List<TripByVehicleGroupDTO> _tripsByGroup { get; set; } = new();
+    private List<TripByVehicleGroupDTO> _tripListView { get; set; } = new();
+    private List<TripCalendarDTO> _tripCalendarView { get; set; } = new();
     private MultiFilterTripDTO _multiFilterTripDTO { get; set; } = new();
+    private DateTimeRange _dateCalendar { get; set; } = new();
+    private string _viewType { get; set; } = ViewType.Calendar.ToString();
+    private string _dropdownDateCalendarLabel { get; set; } = Label.AppNoDateAssigned;
     private PayStatus[] _payStatuses { get; set; } = default!;
     private TripCategory[] _tripCategories { get; set; } = default!;
     private decimal _sumByDateRange { get; set; }
@@ -53,6 +61,9 @@ public partial class AdminTripPanelLeft : ComponentBase
         _dateRange = _dateTimeService.GetCurrentMonth();
         _dropdownDateRangeLabel = await _dropdownDateRangeService.UpdateLabel(_dateRange);
 
+        _dateCalendar = _dateTimeService.GetCurrentMonth();
+        _dropdownDateCalendarLabel = await _dropdownDateMonthYearService.UpdateLabel(_dateCalendar);
+
         await Task.CompletedTask;
     }
 
@@ -62,6 +73,13 @@ public partial class AdminTripPanelLeft : ComponentBase
         {
             try
             {
+                string tripView = await _tripService.GetLocalStorageViewType();
+
+                if (string.IsNullOrEmpty(tripView) == false)
+                {
+                    _viewType = tripView;
+                }
+
                 await FetchDataAsync();
             }
             catch (Exception ex)
@@ -94,6 +112,17 @@ public partial class AdminTripPanelLeft : ComponentBase
         }
 
         await Task.CompletedTask;
+    }
+
+    private async void UpdateUIVIew(ViewType viewType)
+    {
+        _viewType = viewType.ToString();
+
+        await _tripService.SetLocalStorageViewType(_viewType);
+
+        await FetchDataAsync();
+
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task AddRecordAsync()
@@ -365,5 +394,13 @@ public partial class AdminTripPanelLeft : ComponentBase
         await RefreshList();
         await Task.CompletedTask;
     }
+    private async Task RefreshDropdownDateMonthYear(DateTimeRange dateTimeRange)
+    {
+        _dateCalendar = dateTimeRange;
+        _dropdownDateCalendarLabel = await _dropdownDateMonthYearService.UpdateLabel(dateTimeRange);
+        _toastService.ShowToast(Label.AppMessageDateRangeChanged, Theme.Info);
 
+        await RefreshList();
+        await Task.CompletedTask;
+    }
 }

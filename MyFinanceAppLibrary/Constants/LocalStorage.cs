@@ -9,6 +9,7 @@ public static class LocalStorage
     public const string AppTimesheetTableColumn = "AppTimesheetTableColumn";
     public const string AppTimesheetView = "AppTimesheetView";
     public const string AppTransactionView = "AppTransactionView";
+    public const string AppTripView = "AppTripView";
     public const string AppInterfaceShape = "AppInterfaceShape";
     public const string AppInterfaceShadow = "AppInterfaceShadow";
 }
