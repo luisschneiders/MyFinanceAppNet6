@@ -116,6 +116,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         }
         catch (Exception ex)
         {
+            _isLoadingView = false;
             _isLoading = false;
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }

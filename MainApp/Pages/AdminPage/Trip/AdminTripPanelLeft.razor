@@ -2,6 +2,7 @@
 @using MainApp.Components.Badge
 @using MainApp.Components.Badge.Color
 @using MainApp.Components.Card
+@using MainApp.Components.CalendarView
 @using MainApp.Components.Dropdown.Actions
 @using MainApp.Components.Dropdown.Date
 @using MainApp.Components.Dropdown.DateRange
@@ -10,7 +11,7 @@
 <CardView Styles="border-0">
     <CardMiddle>
         <div class="row pb-2">
-            <div class="col-10 pb-2 d-flex align-items-center">
+            <div class="col-10 col-lg-8 pb-2 d-flex align-items-center">
                 @if (_isLoading)
                 {
                     <Loader />
@@ -71,7 +72,6 @@
                                 <i class="bi bi-chevron-right"></i>
                             </button>
                         </div>
-
                     }
                     <div class="ps-2 d-none d-lg-flex">
                         <div class="btn-group btn-outline-@(Theme.Secondary.ToString().ToLower()) border border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)" role="group">
@@ -100,7 +100,7 @@
                     </div>
                 }
             </div>
-            <div class="col-2 pb-2 d-flex justify-content-end">
+            <div class="col-2 col-lg-4 pb-2 d-flex justify-content-end">
                 <div class="d-none d-lg-block">
                     @if (_viewType == ViewType.List.ToString())
                     {
@@ -124,179 +124,272 @@
                                 <i class="bi bi-plus-lg pe-1"></i>@Label.AppAdminTripButtonNew
                             </button>
                         </li>
-                        <li class="p-1">
-                            <button class="dropdown-item rounded"
-                                    @onclick="() => PrintAsync()">
-                                <i class="bi bi-printer pe-1"></i>@Label.AppButtonPrint
-                            </button>
-                        </li>
+                        @if (_viewType == ViewType.List.ToString())
+                        {
+                            <li class="p-1">
+                                <button class="dropdown-item rounded"
+                                        @onclick="() => PrintAsync()">
+                                    <i class="bi bi-printer pe-1"></i>@Label.AppButtonPrint
+                                </button>
+                            </li>
+                        }
                     </DropdownActions>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="app-page-responsive-height">
+                <div class="app-page-responsive-height app-calendar-table @(_viewType == ViewType.Calendar.ToString() ? "rounded"+_appSettings.Card : "")">
                     @if (_isLoading)
                     {
                         <Loader />
                     }
                     else
                     {
-                        @if (_tripsByGroup.Count <= 0)
+                        @if (_viewType == ViewType.Calendar.ToString())
                         {
-                            <div class="text-center">
-                                @Label.AppNoRecordFound
-                            </div>
+                            <CalendarWrapper CalendarHasSubheader="true">
+                                <CalendarSubHeaderView>
+                                    <CalendarSubHeaderWrapper>
+                                        <div class="d-flex justify-content-end border-bottom px-2">
+                                            <div class="d-flex">
+                                                @Label.AppAdminTripInfoMessage1<span class="d-none d-lg-block ps-1">@Label.AppAdminTripInfoMessage2:</span>
+                                            </div>
+                                            <span class="app-expense-sum-me fw-semibold ps-1 @("rounded"+_appSettings.Button)">
+                                                @if (_isLoadingView is true)
+                                                {
+                                                    @Label.AppAdminTripPlaceholderBalance
+                                                }
+                                                else
+                                                {
+                                                    @($"{_sumByDateRange} {Label.AppKm}")
+                                                }
+                                            </span>
+                                        </div>
+                                    </CalendarSubHeaderWrapper>
+                                </CalendarSubHeaderView>
+                                <CalendarHeaderView>
+                                    <CalendarHeaderWrapper />
+                                </CalendarHeaderView>
+                                <CalendarBodyView>
+                                    <CalendarBodyWrapper>
+                                        @if (_isLoadingView is true)
+                                        {
+                                            <tr>
+                                                <td colspan="7">
+                                                    <Loader />
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            @if (_weeks is not null)
+                                            {
+                                                @foreach (var week in _weeks)
+                                                {
+                                                    <tr>
+                                                        @foreach (var date in week)
+                                                        {
+                                                            <td class="@((date.Year == 1 && date.Day == 1) ? $"bg-{Theme.Light.ToString().ToLower()}-subtle" : "app-calendar-cell")">
+                                                                @if ((date.Year != 1 && date.Day >= 1))
+                                                                {
+                                                                    <div class="w-100 h-100 p-0">
+                                                                        <div class="d-flex justify-content-end">
+                                                                            <div class="app-calendar-cell-day app-calendar-cell-current-day text-center p-1 fw-bold @($"rounded{_appSettings.Button}") @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
+                                                                                        $"bg-{Theme.Dark.ToString().ToLower()} text-white" : $"bg-{Theme.Light.ToString().ToLower()}")">
+                                                                                @(date.Day)
+                                                                            </div>
+                                                                        </div>
+                                                                        @if ((date.Year != 1 && date.Day >= 1))
+                                                                        {
+                                                                            @foreach(var (item, index) in _tripsCalendarView.Select((value, index) => (value, index)))
+                                                                            {
+                                                                                if (item.TDate.Day == date.Day)
+                                                                                {
+                                                                                    <small class="d-block app-calendar-text text-secondary-emphasis" title="@($"{item.VehicleDescription} ({UpdatePayStatusTitle(item.PayStatus)})")">
+                                                                                        <BadgeColor RGBColor="@($"{(item.PayStatus == 0 ? StatusColor.Warning : StatusColor.Paid)}")"
+                                                                                                    Description="@($"{item.Distance} {Label.AppKm}")" />
+                                                                                    </small>
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class="d-flex justify-content-end">
+                                                                        <div class="app-calendar-cell-day text-center p-1">
+                                                                            @(string.Empty)
+                                                                        </div>
+                                                                    </div>
+                                                                }
+                                                            </td>
+                                                        }
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </CalendarBodyWrapper>
+                                </CalendarBodyView>
+                            </CalendarWrapper>
                         }
-                        else
+                        else if (_viewType == ViewType.List.ToString())
                         {
-                            @if (_isLoadingView is true)
+                            @if (_tripsListView.Count <= 0)
                             {
-                                <Loader />
+                                <div class="text-center">
+                                    @Label.AppNoRecordFound
+                                </div>
                             }
                             else
                             {
-                                <div class="accordion d-flex justify-content-between p-2 fw-semibold
-                                            bg-@(Theme.Secondary.ToString().ToLower())-subtle">
-                                    <div class="d-flex">
-                                        @Label.AppAdminTripInfoMessage1<span class="d-none d-lg-block ps-1">@Label.AppAdminTripInfoMessage2</span>
+                                @if (_isLoadingView is true)
+                                {
+                                    <Loader />
+                                }
+                                else
+                                {
+                                    <div class="accordion d-flex justify-content-between p-2 fw-semibold
+                                                bg-@(Theme.Secondary.ToString().ToLower())-subtle">
+                                        <div class="d-flex">
+                                            @Label.AppAdminTripInfoMessage1<span class="d-none d-lg-block ps-1">@Label.AppAdminTripInfoMessage2</span>
+                                        </div>
+                                        <span>
+                                            @($"{_sumByDateRange} {@Label.AppKm}") 
+                                        </span>
                                     </div>
-                                    <span>
-                                        @_sumByDateRange @Label.AppKm
-                                    </span>
-                                </div>
-                                <Accordion Id="Trips">
-                                    @foreach (var (record, index) in _tripsByGroup.Select((value, index) => (value, index)))
-                                    {
-                                        <AccordionItem>
-                                            <AccordionHeader Id="@index.ToString()" IsAlwaysOpen=true>
-                                                <div>
-                                                    @record.Description
-                                                </div>
-                                                <div>
-                                                    <Badge BackgroundColor="@Theme.Light" Message="@($"{record.Total.ToString()} {Label.AppKm}")" />
-                                                </div>
-                                            </AccordionHeader>
-                                            <AccordionBody Id="@index.ToString()" IsAlwaysOpen=true>
-                                                <div class="table-responsive pb-5">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="col text-nowrap">
-                                                                    @Label.AppAdminTripFieldDate
-                                                                </th>
-                                                                <th class="col text-nowrap">
-                                                                    @Label.AppAdminTripFieldCategory
-                                                                </th>
-                                                                <th class="col text-end text-nowrap">
-                                                                    @Label.AppAdminTripFieldStartOdo
-                                                                </th>
-                                                                <th class="col text-end text-nowrap">
-                                                                    @Label.AppAdminTripFieldEndOdo
-                                                                </th>
-                                                                <th class="col text-end text-nowrap">
-                                                                    @Label.AppAdminTripFieldDistance
-                                                                </th>
-                                                                <th class="col text-nowrap">
-                                                                    @Label.AppAdminTripPayStatus
-                                                                </th>
-                                                                <th class="col text-center">
-                                                                    @Label.AppButtonEdit
-                                                                </th>
-                                                                <th class="col-3 text-nowrap">
-                                                                    @Label.AppAdminTripComments
-                                                                </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @if (_tripsByGroup.Count <= 0)
-                                                            {
-                                                                <tr class="bg-light-subtle">
-                                                                    <td class="text-center" colspan="7">
-                                                                        <div>
-                                                                            @Label.AppNoRecordFound
-                                                                        </div>
-                                                                    </td>
+                                    <Accordion Id="Trips">
+                                        @foreach (var (record, index) in _tripsListView.Select((value, index) => (value, index)))
+                                        {
+                                            <AccordionItem>
+                                                <AccordionHeader Id="@index.ToString()" IsAlwaysOpen=true>
+                                                    <div>
+                                                        @record.Description
+                                                    </div>
+                                                    <div>
+                                                        <Badge BackgroundColor="@Theme.Light" Message="@($"{record.Total.ToString()} {Label.AppKm}")" />
+                                                    </div>
+                                                </AccordionHeader>
+                                                <AccordionBody Id="@index.ToString()" IsAlwaysOpen=true>
+                                                    <div class="table-responsive pb-5">
+                                                        <table class="table table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="col text-nowrap">
+                                                                        @Label.AppAdminTripFieldDate
+                                                                    </th>
+                                                                    <th class="col text-nowrap">
+                                                                        @Label.AppAdminTripFieldCategory
+                                                                    </th>
+                                                                    <th class="col text-end text-nowrap">
+                                                                        @Label.AppAdminTripFieldStartOdo
+                                                                    </th>
+                                                                    <th class="col text-end text-nowrap">
+                                                                        @Label.AppAdminTripFieldEndOdo
+                                                                    </th>
+                                                                    <th class="col text-end text-nowrap">
+                                                                        @Label.AppAdminTripFieldDistance
+                                                                    </th>
+                                                                    <th class="col text-nowrap">
+                                                                        @Label.AppAdminTripPayStatus
+                                                                    </th>
+                                                                    <th class="col text-center">
+                                                                        @Label.AppButtonEdit
+                                                                    </th>
+                                                                    <th class="col text-nowrap">
+                                                                        @Label.AppAdminTripComments
+                                                                    </th>
                                                                 </tr>
-                                                            }
-                                                            else
-                                                            {
-                                                                foreach (var record in _tripsByGroup[index].Trips)
+                                                            </thead>
+                                                            <tbody>
+                                                                @if (_tripsListView.Count <= 0)
                                                                 {
                                                                     <tr class="bg-light-subtle">
-                                                                        <td class="col text-nowrap">
-                                                                            @record.TDate.ToString("ddd, dd/MM/yy")
-                                                                        </td>
-                                                                        <td class="col text-nowrap">
-                                                                            <DropdownActions Title="@UpdateTripCategoryTitle(record.TCategoryId)"
-                                                                                            ButtonSize="Size.Sm"
-                                                                                            IconEnd="bi-chevron-down"
-                                                                                            ButtonColor="@UpdateTripCategoryButton(record.TCategoryId)"
-                                                                                            ButtonCssClass="w-100"
-                                                                                            ButtonInnerStyles="d-flex justify-content-between">
-                                                                                @foreach (var (status, index) in _tripCategories.Select((value, index) => (value, index)))
-                                                                                {
-                                                                                    <li class="p-1">
-                                                                                        <button class="dropdown-item rounded"
-                                                                                                @onclick="() => UpdateTripCategoryAsync(record, (ulong)index)">
-                                                                                            @($"{_enumHelper.GetDescription(status)}")
-                                                                                        </button>
-                                                                                    </li>
-                                                                                }
-                                                                            </DropdownActions>
-                                                                        </td>
-                                                                        <td class="col text-end text-nowrap">
-                                                                            @(record.StartOdometer <= 0 ? "--" : record.StartOdometer)
-                                                                        </td>
-                                                                        <td class="col text-end text-nowrap">
-                                                                            @(record.EndOdometer <= 0 ? "--" : record.EndOdometer)
-                                                                        </td>
-                                                                        <td class="col text-end text-nowrap">
-                                                                            @record.Distance
-                                                                        </td>
-                                                                        <td class="col text-nowrap">
-                                                                            <DropdownActions Title="@UpdatePayStatusTitle(record.PayStatus)"
-                                                                                            ButtonSize="Size.Sm"
-                                                                                            IconEnd="bi-chevron-down"
-                                                                                            ButtonColor="@UpdatePayStatusButton(record.PayStatus)"
-                                                                                            ButtonCssClass="w-100"
-                                                                                            ButtonInnerStyles="d-flex justify-content-between">
-                                                                                @foreach (var (status, index) in _payStatuses.Select((value, index) => (value, index)))
-                                                                                {
-                                                                                    int statusValue = index;
-
-                                                                                    <li class="p-1">
-                                                                                        <button class="dropdown-item rounded"
-                                                                                                @onclick="() => UpdatePayStatusAsync(record, statusValue)">
-                                                                                            @($"{status}")
-                                                                                        </button>
-                                                                                    </li>
-                                                                                }
-                                                                            </DropdownActions>
-                                                                        </td>
-                                                                        <td class="col text-center">
-                                                                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Light.ToString().ToLower()) text-@(Theme.Danger.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
-                                                                                    type="button"
-                                                                                    title="@Label.AppButtonEdit"
-                                                                                    @onclick="() => EditRecordAsync(record)">
-                                                                                <i class="bi bi-pencil"></i>
-                                                                            </button>
-                                                                        </td>
-                                                                        <td class="col-3 text-nowrap">
-                                                                            @record.Comments
+                                                                        <td class="text-center" colspan="7">
+                                                                            <div>
+                                                                                @Label.AppNoRecordFound
+                                                                            </div>
                                                                         </td>
                                                                     </tr>
                                                                 }
-                                                            }
-                                                        </tbody>
-                                                    </table>
+                                                                else
+                                                                {
+                                                                    foreach (var record in _tripsListView[index].Trips)
+                                                                    {
+                                                                        <tr class="bg-light-subtle">
+                                                                            <td class="col text-nowrap">
+                                                                                @record.TDate.ToString("ddd, dd/MM/yy")
+                                                                            </td>
+                                                                            <td class="col text-nowrap">
+                                                                                <DropdownActions Title="@UpdateTripCategoryTitle(record.TCategoryId)"
+                                                                                                ButtonSize="Size.Sm"
+                                                                                                IconEnd="bi-chevron-down"
+                                                                                                ButtonColor="@UpdateTripCategoryButton(record.TCategoryId)"
+                                                                                                ButtonCssClass="w-100"
+                                                                                                ButtonInnerStyles="d-flex justify-content-between">
+                                                                                    @foreach (var (status, index) in _tripCategories.Select((value, index) => (value, index)))
+                                                                                    {
+                                                                                        <li class="p-1">
+                                                                                            <button class="dropdown-item rounded"
+                                                                                                    @onclick="() => UpdateTripCategoryAsync(record, (ulong)index)">
+                                                                                                @($"{_enumHelper.GetDescription(status)}")
+                                                                                            </button>
+                                                                                        </li>
+                                                                                    }
+                                                                                </DropdownActions>
+                                                                            </td>
+                                                                            <td class="col text-end text-nowrap">
+                                                                                @(record.StartOdometer <= 0 ? "--" : record.StartOdometer)
+                                                                            </td>
+                                                                            <td class="col text-end text-nowrap">
+                                                                                @(record.EndOdometer <= 0 ? "--" : record.EndOdometer)
+                                                                            </td>
+                                                                            <td class="col text-end text-nowrap">
+                                                                                @record.Distance
+                                                                            </td>
+                                                                            <td class="col text-nowrap">
+                                                                                <DropdownActions Title="@UpdatePayStatusTitle(record.PayStatus)"
+                                                                                                ButtonSize="Size.Sm"
+                                                                                                IconEnd="bi-chevron-down"
+                                                                                                ButtonColor="@UpdatePayStatusButton(record.PayStatus)"
+                                                                                                ButtonCssClass="w-100"
+                                                                                                ButtonInnerStyles="d-flex justify-content-between">
+                                                                                    @foreach (var (status, index) in _payStatuses.Select((value, index) => (value, index)))
+                                                                                    {
+                                                                                        int statusValue = index;
 
-                                                </div>
-                                            </AccordionBody>
-                                        </AccordionItem>
-                                    }
-                                </Accordion>
+                                                                                        <li class="p-1">
+                                                                                            <button class="dropdown-item rounded"
+                                                                                                    @onclick="() => UpdatePayStatusAsync(record, statusValue)">
+                                                                                                @($"{status}")
+                                                                                            </button>
+                                                                                        </li>
+                                                                                    }
+                                                                                </DropdownActions>
+                                                                            </td>
+                                                                            <td class="col text-center">
+                                                                                <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Light.ToString().ToLower()) text-@(Theme.Danger.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                                                                                        type="button"
+                                                                                        title="@Label.AppButtonEdit"
+                                                                                        @onclick="() => EditRecordAsync(record)">
+                                                                                    <i class="bi bi-pencil"></i>
+                                                                                </button>
+                                                                            </td>
+                                                                            <td class="col text-nowrap">
+                                                                                @record.Comments
+                                                                            </td>
+                                                                        </tr>
+                                                                    }
+                                                                }
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+                                                </AccordionBody>
+                                            </AccordionItem>
+                                        }
+                                    </Accordion>
+                                }
                             }
                         }
                     }

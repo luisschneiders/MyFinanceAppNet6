@@ -21,22 +21,13 @@ public partial class AdminTripPanelLeft : ComponentBase
     private IDateTimeService _dateTimeService { get; set; } = default!;
 
     [Inject]
+    private ICalendarViewService _calendarViewService { get; set; } = default!;
+
+    [Inject]
     private IEnumHelper _enumHelper { get; set; } = default!;
 
     [CascadingParameter(Name = "AppSettings")]
     protected IAppSettings _appSettings { get; set; } = default!;
-
-    private DateTimeRange _dateRange { get; set; } = new();
-    private List<TripByVehicleGroupDTO> _tripsByGroup { get; set; } = new();
-    private List<TripByVehicleGroupDTO> _tripListView { get; set; } = new();
-    private List<TripCalendarDTO> _tripCalendarView { get; set; } = new();
-    private MultiFilterTripDTO _multiFilterTripDTO { get; set; } = new();
-    private DateTimeRange _dateCalendar { get; set; } = new();
-    private string _viewType { get; set; } = ViewType.Calendar.ToString();
-    private string _dropdownDateCalendarLabel { get; set; } = Label.AppNoDateAssigned;
-    private PayStatus[] _payStatuses { get; set; } = default!;
-    private TripCategory[] _tripCategories { get; set; } = default!;
-    private decimal _sumByDateRange { get; set; }
 
     /*
      * Add component reference
@@ -46,6 +37,17 @@ public partial class AdminTripPanelLeft : ComponentBase
     private AdminTripModalFilter _setupFilterModal { get; set; } = new();
     private AdminTripModalPrinter _setupPrinterModal { get; set; } = new();
 
+    private DateTimeRange _dateRange { get; set; } = new();
+    private List<TripByVehicleGroupDTO> _tripsListView { get; set; } = new();
+    private List<TripCalendarDTO> _tripsCalendarView { get; set; } = new();
+    private MultiFilterTripDTO _multiFilterTripDTO { get; set; } = new();
+    private DateTimeRange _dateCalendar { get; set; } = new();
+    private string _viewType { get; set; } = ViewType.Calendar.ToString();
+    private string _dropdownDateCalendarLabel { get; set; } = Label.AppNoDateAssigned;
+    private PayStatus[] _payStatuses { get; set; } = default!;
+    private TripCategory[] _tripCategories { get; set; } = default!;
+    private decimal _sumByDateRange { get; set; }
+    private DateTime[][] _weeks { get; set; } = default!;
     private string _dropdownDateRangeLabel { get; set; } = Label.AppNoDateAssigned;
     private bool _isLoading { get; set; } = true;
     private bool _isLoadingView { get; set; } = true;
@@ -98,16 +100,26 @@ public partial class AdminTripPanelLeft : ComponentBase
     {
         try
         {
-            _multiFilterTripDTO.DateTimeRange = _dateRange;
-            _tripsByGroup = await _tripService.GetRecordsListView(_multiFilterTripDTO);
+            if (_viewType == ViewType.Calendar.ToString())
+            {
+                _multiFilterTripDTO.DateTimeRange = _dateCalendar;
+                _tripsCalendarView = await _tripService.GetRecordsCalendarView(_multiFilterTripDTO);
+                _weeks = await _calendarViewService.Build(_dateCalendar);
+            }
+            else if (_viewType == ViewType.List.ToString())
+            {
+                _multiFilterTripDTO.DateTimeRange = _dateRange;
+                _tripsListView = await _tripService.GetRecordsListView(_multiFilterTripDTO);
+            }
+
             _sumByDateRange = await _tripService.GetSumByDateRange();
-            _isLoading = false;
             _isLoadingView = false;
+            _isLoading = false;
         }
         catch (Exception ex)
         {
-            _isLoading = false;
             _isLoadingView = false;
+            _isLoading = false;
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 
@@ -152,7 +164,7 @@ public partial class AdminTripPanelLeft : ComponentBase
             PrintTripDTO printTripDTO = new()
             {
                 DateTimeRange = _dateRange,
-                TripsByGroup = _tripsByGroup,
+                TripsByGroup = _tripsListView,
                 SumByDateRange = _sumByDateRange,
             };
 
@@ -337,10 +349,11 @@ public partial class AdminTripPanelLeft : ComponentBase
 
             switch (viewType)
             {
+                case ViewType.Calendar:
+                    await RefreshDropdownDateMonthYear(previousDate);
+                    break;
                 case ViewType.List:
                     await RefreshDropdownDateRange(previousDate);
-                    break;
-                default:
                     break;
             }
 
@@ -351,7 +364,7 @@ public partial class AdminTripPanelLeft : ComponentBase
             _isLoadingView = false;
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
-        
+
         await Task.CompletedTask;
     }
 
@@ -367,10 +380,11 @@ public partial class AdminTripPanelLeft : ComponentBase
 
             switch (viewType)
             {
+                case ViewType.Calendar:
+                    await RefreshDropdownDateMonthYear(nextDate);
+                    break;
                 case ViewType.List:
                     await RefreshDropdownDateRange(nextDate);
-                    break;
-                default:
                     break;
             }
 

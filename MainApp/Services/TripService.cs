@@ -301,6 +301,7 @@ public class TripService : ITripService<TripModel>
                 {
                     tripCalendarDTO.TDate = record.TDate;
                     tripCalendarDTO.VehicleDescription = $"{record.VehicleDescription} - {record.VehiclePlate} ({record.VehicleYear})";
+                    tripCalendarDTO.PayStatus = record.PayStatus;
                     tripCalendarDTO.Distance = record.Distance;
                     results.Add(tripCalendarDTO);
                 }
