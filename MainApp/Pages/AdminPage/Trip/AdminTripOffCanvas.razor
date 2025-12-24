@@ -92,10 +92,9 @@
                                     disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                             _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                     @bind-Value="_tripModel.TCategoryId">
-                            <option value="">@Label.AppFieldSelect</option>
                             @foreach (var (category, index) in _tripCategoryDTOs.Select((value, index) => (value, index)))
                             {
-                                <option value="@category.Id">@($"{category.Description}")</option>
+                                <option value="@category.Id">@(category.Id == 0 ? @Label.AppFieldSelect : category.Description)</option>
                             }
                         </InputSelect>
                         <label for="TCategoryId">@Label.AppAdminTripFieldCategory</label>
