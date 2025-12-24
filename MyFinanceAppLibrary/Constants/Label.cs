@@ -260,7 +260,7 @@ public static class Label
     public const string AppAdminTripInfoMessage1 = "Total";
     public const string AppAdminTripInfoMessage2 = "distance for the period";
     public const string AppAdminTripPayStatus = AppFieldStatus;
-    public const string AppAdminTripPlaceholderBalance = "---,---,---.--";
+    public const string AppAdminTripPlaceholderBalance = "---,---.--";
     public const string AppAdminTripPrintMessage = "Total distance";
 
 
