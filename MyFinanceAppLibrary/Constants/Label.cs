@@ -216,6 +216,7 @@ public static class Label
     public const string AppAdminTransactionInfoMessage1 = "Expenses cannot be archived from here";
     public const string AppAdminTransactionInfoMessage2 = "Please visit page";
     public const string AppAdminTransactionInfoMessage3 = "All transactions linked to this record will be archived too.";
+    public const string AppAdminTransactionHistory = "Financial History";
 
 
     // Page timesheet and shift

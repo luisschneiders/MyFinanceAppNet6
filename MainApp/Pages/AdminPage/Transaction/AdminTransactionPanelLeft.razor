@@ -101,12 +101,23 @@
                 }
             </div>
             <div class="col-2 col-lg-4 pb-2 d-flex justify-content-end">
-                <div class="d-none d-lg-block">
-                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
-                            @onclick="() => OpenCalculatorAsync()" title="@Label.AppCalculator">
-                        <i class="bi bi-calculator"></i>
-                    </button>
-                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                <div class="d-none d-lg-inline-flex">
+                    <DropdownActions DropdownPosition="Position.End"
+                                     ButtonSize="Size.Sm">
+                        <li class="p-1">
+                            <button class="dropdown-item rounded"
+                                    @onclick="() => OpenCalculatorAsync()">
+                                <i class="bi bi-calculator pe-1"></i>@Label.AppCalculator
+                            </button>
+                        </li>
+                        <li class="p-1">
+                            <button class="dropdown-item rounded"
+                                    @onclick="() => OpenCalculatorAsync()">
+                                <i class="bi bi-clock-history pe-1"></i>@Label.AppAdminTransactionHistory
+                            </button>
+                        </li>
+                    </DropdownActions>
+                    <button class="ms-2 btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => AddRecordAsync(DateTime.Now)">
                         <i class="bi bi-plus-lg pe-1"></i>@Label.AppAdminTransactionButtonNew
                     </button>
@@ -121,7 +132,12 @@
                                 <i class="bi bi-calculator pe-1"></i>@Label.AppCalculator
                             </button>
                         </li>
-
+                        <li class="p-1">
+                            <button class="dropdown-item rounded"
+                                    @onclick="() => OpenCalculatorAsync()">
+                                <i class="bi bi-clock-history pe-1"></i>@Label.AppAdminTransactionHistory
+                            </button>
+                        </li>
                         <li class="p-1">
                             <button class="dropdown-item rounded"
                                     @onclick="() => AddRecordAsync(DateTime.Now)">
