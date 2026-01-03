@@ -57,6 +57,7 @@ public static class RegisterServices
         //Mysql
         builder.Services.AddSingleton<IDataAccess, MysqlDataAccess>();
         builder.Services.AddSingleton<IBankData<BankModel>, BankData>();
+        builder.Services.AddSingleton<IBankTransactionHistoryData<BankTransactionHistoryModel>, BankTransactionHistoryData>();
         builder.Services.AddSingleton<ICompanyData<CompanyModel>, CompanyData>();
         builder.Services.AddSingleton<IExpenseData<ExpenseModel>, ExpenseData>();
         builder.Services.AddSingleton<IExpenseCategoryData<ExpenseCategoryModel>, ExpenseCategoryData>();

@@ -112,7 +112,7 @@
                         </li>
                         <li class="p-1">
                             <button class="dropdown-item rounded"
-                                    @onclick="() => OpenCalculatorAsync()">
+                                    @onclick="() => OpenTransactionHistoryAsync()">
                                 <i class="bi bi-clock-history pe-1"></i>@Label.AppAdminTransactionHistory
                             </button>
                         </li>
@@ -134,7 +134,7 @@
                         </li>
                         <li class="p-1">
                             <button class="dropdown-item rounded"
-                                    @onclick="() => OpenCalculatorAsync()">
+                                    @onclick="() => OpenTransactionHistoryAsync()">
                                 <i class="bi bi-clock-history pe-1"></i>@Label.AppAdminTransactionHistory
                             </button>
                         </li>
@@ -398,4 +398,5 @@
 <AdminTransactionModalInfo @ref="_setupModalInfo" />
 <AdminTransactionModalFilter @ref="_setupModalFilter" OnSubmitFilterSuccess="filterTransaction => RefreshFilterList(filterTransaction)" />
 <AdminTransactionModalDetails @ref="_setupModalTransactionDetails" OnSubmitSuccess="dateTime => OpenSetupOffCanvas(dateTime)" />
+<AdminTransactionModalTransactionHistory @ref="_setupModalTransactionHistory"/>
 <AdminTransactionModalCalculator @ref="_setupModalCalculator"/>

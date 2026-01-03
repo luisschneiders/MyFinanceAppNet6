@@ -1,0 +1,16 @@
+﻿@using MainApp.Components.Modal
+
+<Modal @ref="_modal"
+       Size="Size.Fullscreen"
+       IsCloseButtonVisible="true"
+       ModalContentStyle="@($"bg-{Theme.Light.ToString().ToLower()}-subtle")"
+       ModalBodyStyle="py-0">
+    
+    <Body>
+        <div class="d-flex justify-content-center h-100 align-items-center">
+            <p class="display-4">@Label.AppMessageComingSoon &#x1F38A</p>
+        </div>
+    </Body>
+    <Footer>
+    </Footer>
+</Modal>

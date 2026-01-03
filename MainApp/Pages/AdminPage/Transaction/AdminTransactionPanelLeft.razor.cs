@@ -36,6 +36,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private AdminTransactionModal _setupModal { get; set; } = new();
     private AdminTransactionModalFilter _setupModalFilter { get; set; } = new();
     private AdminTransactionModalDetails _setupModalTransactionDetails { get; set; } = new();
+    private AdminTransactionModalTransactionHistory _setupModalTransactionHistory { get; set; } = new();
     private AdminTransactionModalCalculator _setupModalCalculator { get; set; } = new();
     private AdminTransactionModalInfo _setupModalInfo { get; set; } = new();
     private DateTimeRange _dateRange { get; set; } = new();
@@ -245,6 +246,20 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         catch (Exception ex)
         {
             _toastService.ShowToast(ex.Message, Theme.Danger);;
+        }
+
+        await Task.CompletedTask;
+    }
+
+    private async Task OpenTransactionHistoryAsync()
+    {
+        try
+        {
+            await _setupModalTransactionHistory.OpenModalAsync();
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger); ;
         }
 
         await Task.CompletedTask;
