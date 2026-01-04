@@ -1,16 +1,61 @@
-﻿@using MainApp.Components.Modal
+﻿@using MainApp.Components.Loader
+@using MainApp.Components.Modal
 
 <Modal @ref="_modal"
        Size="Size.Fullscreen"
-       IsCloseButtonVisible="true"
-       ModalContentStyle="@($"bg-{Theme.Light.ToString().ToLower()}-subtle")"
-       ModalBodyStyle="py-0">
-    
+       IsCloseButtonVisible="false"
+       ModalContentStyle="@($"bg-{Theme.Light.ToString().ToLower()}-subtle")">
+    <Title>
+        @Label.AppAdminTransactionHistory
+    </Title>
     <Body>
-        <div class="d-flex justify-content-center h-100 align-items-center">
-            <p class="display-4">@Label.AppMessageComingSoon &#x1F38A</p>
+        @* Group results by Date *@
+
+        <div class="row pb-2 align-items-center">
+            @if (_isLoading)
+            {
+                <div class="col-auto">
+                    <Loader />
+                </div>
+            }
+            else
+            {
+                <div class="col-auto">
+                    <label for="FromBank" class="col-form-label">@Label.AppAdminTransactionFieldFinancialInstitution</label>
+                </div>
+                <div class="d-flex col-auto align-items-center">
+                    <select id="FromBank"
+                            @attributes="_inputFormAttributes.Select"
+                            @bind="_bankTransactionHistoryModel.BankId">
+                        <option value="0">@Label.AppFieldSelect</option>
+                        @foreach (var (bank, index) in _activeBanks.Select((value, index) => (value, index)))
+                        {
+                            <option value="@bank.Id"> @($"{bank.Description} - {bank.CurrentBalance.ToString("C")}") </option>
+                        }
+                    </select>
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Secondary.ToString().ToLower()) @("rounded"+_appSettings.Button) border-0 ms-2 d-inline"
+                            disabled="@(_isProcessing || _bankTransactionHistoryModel.BankId == 0)"
+                            @onclick="() => SearchAsync()">
+                            @(_isProcessing ? Label.AppButtonSearching : Label.AppButtonSearch)
+                    </button>
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-sm-8"></div>
+            <div class="col-sm-2"></div>
         </div>
     </Body>
     <Footer>
+        <div class="row">
+            <div class="col-auto">
+                <button type="button"
+                        class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary @("rounded"+_appSettings.Button)"
+                        data-dismiss="modal"
+                        @onclick="() => CloseModalAsync()">
+                    @Label.AppButtonClose
+                </button>
+            </div>
+        </div>
     </Footer>
 </Modal>

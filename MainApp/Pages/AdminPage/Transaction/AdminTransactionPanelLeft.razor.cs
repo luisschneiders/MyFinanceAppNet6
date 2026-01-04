@@ -169,7 +169,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
             _isLoadingView = false;
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
-        
+
         await Task.CompletedTask;
     }
 
@@ -245,7 +245,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         }
         catch (Exception ex)
         {
-            _toastService.ShowToast(ex.Message, Theme.Danger);;
+            _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 
         await Task.CompletedTask;
@@ -259,7 +259,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         }
         catch (Exception ex)
         {
-            _toastService.ShowToast(ex.Message, Theme.Danger); ;
+            _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 
         await Task.CompletedTask;
@@ -330,7 +330,8 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         {
             return true;
         }
-        else{
+        else
+        {
             return false;
         }
     }

@@ -337,6 +337,7 @@ public static class Label
     public const string AppButtonSave = "Save";
     public const string AppButtonSaving = "Saving...";
     public const string AppButtonSearch = "Search";
+    public const string AppButtonSearching = "Searching...";
     public const string AppButtonSignIn = "Sign In";
     public const string AppButtonVerifyAddress = "Verify Address";
     public const string AppButtonVerifyingAddress = "Verifying Address...";
