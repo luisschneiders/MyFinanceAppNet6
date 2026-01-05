@@ -25,7 +25,7 @@ public partial class AdminTransactionModalTransactionHistory : ComponentBase
     private Guid _modalTarget { get; set; }
     private InputFormAttributes _inputFormAttributes { get; set; } = new();
     private DateTimeRange _dateRange { get; set; } = new();
-    private List<BankModel> _activeBanks { get; set; } = new();
+    private List<BankModel> _banks { get; set; } = new();
     private List<BankTransactionHistoryByDateGroupDTO> _bankTransactionHistoryListView { get; set; } = new();
     private BankTransactionHistoryModel _bankTransactionHistoryModel { get; set; } = new();
     private MultiFilterBankTransactionHistoryDTO _multiFilterBankTransactionHistoryDTO { get; set; } = new();
@@ -45,7 +45,7 @@ public partial class AdminTransactionModalTransactionHistory : ComponentBase
 
         try
         {
-            _activeBanks = await _bankService.GetRecordsActive();
+            _banks = await _bankService.GetRecords();
         }
         catch (Exception ex)
         {

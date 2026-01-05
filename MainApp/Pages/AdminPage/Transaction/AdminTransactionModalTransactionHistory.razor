@@ -29,7 +29,7 @@
                             @attributes="_inputFormAttributes.Select"
                             @bind="_bankTransactionHistoryModel.BankId">
                         <option value="0">@Label.AppFieldSelect</option>
-                        @foreach (var (bank, index) in _activeBanks.Select((value, index) => (value, index)))
+                        @foreach (var (bank, index) in _banks.Select((value, index) => (value, index)))
                         {
                             <option value="@bank.Id"> @($"{bank.Description} - {bank.CurrentBalance.ToString("C")}") </option>
                         }
