@@ -2,5 +2,5 @@ namespace MainApp.Services;
 
 public interface IBankTransactionHistoryService<T> : IBaseService<T>
 {
-    public Task<List<BankTransactionHistoryListDTO>> GetRecordsByDateRange(string bankId, DateTimeRange dateTimeRange);
+    public Task<List<BankTransactionHistoryByDateGroupDTO>> GetRecordsListView(MultiFilterBankTransactionHistoryDTO filter);
 }

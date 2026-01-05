@@ -39,18 +39,19 @@ public class BankTransactionHistoryData : IBankTransactionHistoryData<BankTransa
         throw new NotImplementedException();
     }
 
-    public async Task<List<BankTransactionHistoryListDTO>> GetRecordsByDateRange(string userId, string bankId, DateTimeRange dateTimeRange)
+    public async Task<List<BankTransactionHistoryListDTO>> GetRecordsByBankLoadMore(string userId, ulong bankId, DateTimeRange dateTimeRange, LoadMore loadMore)
     {
         try
         {
             var results = await _dataAccess.LoadData<BankTransactionHistoryListDTO, dynamic>(
-                "myfinancedb.spBankTransactionHistory_GetRecordsByDateRange",
+                "myfinancedb.spBankTransactionHistory_GetRecordsByBank_LoadMore",
                 new
                 {
                     userId,
                     bankId,
-                    startDate = dateTimeRange.Start,
-                    endDate = dateTimeRange.End
+                    lastBDate = dateTimeRange?.Start,
+                    lastCreatedAt = dateTimeRange?.End,
+                    loadMore
                 },
                 "Mysql");
 
