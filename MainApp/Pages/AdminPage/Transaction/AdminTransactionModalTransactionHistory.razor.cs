@@ -12,14 +12,23 @@ public partial class AdminTransactionModalTransactionHistory : ComponentBase
     [Inject]
     private IBankService<BankModel> _bankService { get; set; } = default!;
 
+    [Inject]
+    private IDateTimeService _dateTimeService { get; set; } = default!;
+
+    [Inject]
+    private IBankTransactionHistoryService<BankTransactionHistoryModel> _bankTransactionHistoryService { get; set; } = default!;
+
     [CascadingParameter(Name = "AppSettings")]
     protected IAppSettings _appSettings { get; set; } = default!;
 
     private Modal _modal { get; set; } = new();
     private Guid _modalTarget { get; set; }
     private InputFormAttributes _inputFormAttributes { get; set; } = new();
+    private DateTimeRange _dateRange { get; set; } = new();
     private List<BankModel> _activeBanks { get; set; } = new();
+    private List<BankTransactionHistoryByDateGroupDTO> _bankTransactionHistoryListView { get; set; } = new();
     private BankTransactionHistoryModel _bankTransactionHistoryModel { get; set; } = new();
+    private MultiFilterBankTransactionHistoryDTO _multiFilterBankTransactionHistoryDTO { get; set; } = new();
     private bool _isLoading { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
 
@@ -52,14 +61,30 @@ public partial class AdminTransactionModalTransactionHistory : ComponentBase
 
     private async Task SearchAsync()
     {
-        Console.WriteLine($"LFS - bank id {_bankTransactionHistoryModel.BankId}");
+
+        _multiFilterBankTransactionHistoryDTO.DateTimeRange = null;
+        _multiFilterBankTransactionHistoryDTO.BankId = _bankTransactionHistoryModel.BankId;
+        _multiFilterBankTransactionHistoryDTO.LoadMore = LoadMore.BankTransactionHistory;
+
         _isProcessing = true;
 
-        await Task.Delay((int)Delay.DataSuccess);
+        StateHasChanged();
 
-        _isProcessing = false;
+        try
+        {
+            _bankTransactionHistoryListView = await _bankTransactionHistoryService.GetRecordsListView(_multiFilterBankTransactionHistoryDTO);
+            await Task.Delay((int)Delay.DataLoading);
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+        finally
+        {
+            _isProcessing = false;
 
-        await Task.CompletedTask;
+            StateHasChanged();
+        }
     }
 
     public async Task OpenModalAsync()

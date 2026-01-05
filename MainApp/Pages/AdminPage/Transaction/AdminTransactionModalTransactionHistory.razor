@@ -1,17 +1,18 @@
-﻿@using MainApp.Components.Loader
+﻿@using MainApp.Components.Accordion
+@using MainApp.Components.Badge
+@using MainApp.Components.Loader
 @using MainApp.Components.Modal
 
 <Modal @ref="_modal"
-       Size="Size.Fullscreen"
+       Size="Size.Lg"
        IsCloseButtonVisible="false"
        ModalContentStyle="@($"bg-{Theme.Light.ToString().ToLower()}-subtle")">
     <Title>
-        @Label.AppAdminTransactionHistory
+        @Label.AppAdminBankTransactionHistoryTitle
     </Title>
     <Body>
-        @* Group results by Date *@
-
-        <div class="row pb-2 align-items-center">
+        <div class="row pb-4 align-items-center">
+            <p class="h5">@Label.AppAdminBankTransactionHistoryMessage1</p>
             @if (_isLoading)
             {
                 <div class="col-auto">
@@ -21,10 +22,10 @@
             else
             {
                 <div class="col-auto">
-                    <label for="FromBank" class="col-form-label">@Label.AppAdminTransactionFieldFinancialInstitution</label>
+                    <label for="FinancialInstitution" class="col-form-label">@Label.AppAdminBankTransactionHistoryFieldFinancialInstitution</label>
                 </div>
                 <div class="d-flex col-auto align-items-center">
-                    <select id="FromBank"
+                    <select id="FinancialInstitution"
                             @attributes="_inputFormAttributes.Select"
                             @bind="_bankTransactionHistoryModel.BankId">
                         <option value="0">@Label.AppFieldSelect</option>
@@ -42,8 +43,89 @@
             }
         </div>
         <div class="row">
-            <div class="col-sm-8"></div>
-            <div class="col-sm-2"></div>
+            <div class="col-sm-12">
+                @if (_isProcessing)
+                {
+                    <Loader />
+                }
+                else
+                {
+                    @foreach (var (item, index) in _bankTransactionHistoryListView.Select((value, index) => (value, index)))
+                    {
+                        <div class="row border-bottom mb-2">
+                            <div class="col-12">
+                                <p class="h5">
+                                    <Badge BackgroundColor="@Theme.Dark" Message="@($"{item.BDate.ToString("dddd, d MMM yyyy")}")" />
+                                </p>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-auto">
+                                                @Label.AppAdminBankTransactionHistoryColumnAction
+                                            </th>
+                                            <th class="col-3 text-end">
+                                                @Label.AppAdminBankTransactionHistoryColumnAmount
+                                            </th>
+                                            <th class="col-3 text-end">
+                                                @Label.AppAdminBankTransactionHistoryColumnCurrentBalance
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (_bankTransactionHistoryListView.Count <= 0)
+                                        {
+                                            <tr>
+                                                <td class="text-center" colspan="5">
+                                                    <div>
+                                                        @Label.AppNoRecordFound
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            foreach (var record in _bankTransactionHistoryListView[index].Transactions)
+                                            {
+                                                <tr>
+                                                    @if (record.Action == TransactionActionType.D.ToString())
+                                                    {
+                                                        <td>
+                                                            <Badge BackgroundColor="@Theme.Danger" Message="@record.ActionDescription" />
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>
+                                                            <Badge BackgroundColor="@Theme.Primary" Message="@record.ActionDescription" />
+                                                        </td>
+                                                    }
+                                                    @if (record.Action == TransactionActionType.D.ToString())
+                                                    {
+                                                        <td class="text-end text-@(Theme.Danger.ToString().ToLower())">
+                                                            @record.Amount.ToString("C")
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="text-end text-@(Theme.Primary.ToString().ToLower())">
+                                                            @record.Amount.ToString("C")
+                                                        </td>
+                                                    }
+                                                    <td class="text-end">
+                                                        @record.CurrentBalance.ToString("C")
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
         </div>
     </Body>
     <Footer>
