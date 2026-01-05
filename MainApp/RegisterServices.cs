@@ -103,6 +103,7 @@ public static class RegisterServices
 
         //Data
         builder.Services.AddScoped<IBankService<BankModel>, BankService>();
+        builder.Services.AddScoped<IBankTransactionHistoryService<BankTransactionHistoryModel>, BankTransactionHistoryService>();
         builder.Services.AddScoped<ICompanyService<CompanyModel>, CompanyService>();
         builder.Services.AddScoped<IExpenseService<ExpenseModel>, ExpenseService>();
         builder.Services.AddScoped<IExpenseCategoryService<ExpenseCategoryModel>, ExpenseCategoryService>();
