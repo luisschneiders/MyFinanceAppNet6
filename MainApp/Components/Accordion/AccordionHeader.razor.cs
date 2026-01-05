@@ -12,6 +12,8 @@ public partial class AccordionHeader : ComponentBase
 
     [Parameter]
     public bool IsAlwaysOpen { get; set; } = false;
+    [Parameter]
+    public string AccordionHeaderCSS { get; set; } = string.Empty;
 
     public AccordionHeader()
     {

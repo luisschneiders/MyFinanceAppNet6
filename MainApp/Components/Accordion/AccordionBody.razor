@@ -1,7 +1,7 @@
 ﻿<div id="accordion-collapse-@(Id)"
      class="accordion-collapse collapse @(IsAlwaysOpen ? "show" : "")"
      aria-labelledby="playground-heading-@(Id)">
-    <div class="accordion-body">
+    <div class="accordion-body @(AccordionBodyCSS)">
         <div class="row">
             <div class="col-12">
                 @ChildContent
