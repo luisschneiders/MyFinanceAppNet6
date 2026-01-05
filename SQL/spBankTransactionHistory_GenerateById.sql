@@ -73,7 +73,7 @@ BEGIN
             CreatedAt,
             UpdatedAt
         ) VALUES (
-            v_TDate,
+            DATE(v_TDate),
             v_BankId,
             v_TransactionId,
             v_Action,
