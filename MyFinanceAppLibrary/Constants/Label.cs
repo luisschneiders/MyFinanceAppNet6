@@ -21,6 +21,7 @@ public static class Label
     public const string AppAdded = "Added!";
     public const string AppUpdated = "Updated!";
     public const string AppSaved = "Saved!";
+    public const string AppSelect = "Select";
     public const string AppArchived = "Archived!";
     public const string AppNoRecordFound = "No record found!";
     public const string AppActions = "Actions";
@@ -217,7 +218,13 @@ public static class Label
     public const string AppAdminTransactionInfoMessage1 = "Expenses cannot be archived from here";
     public const string AppAdminTransactionInfoMessage2 = "Please visit page";
     public const string AppAdminTransactionInfoMessage3 = "All transactions linked to this record will be archived too.";
-    public const string AppAdminTransactionHistory = "Financial History";
+    public const string AppAdminBankTransactionHistoryTitle = "Financial History";
+    public const string AppAdminBankTransactionHistoryFieldFinancialInstitution = "Financial Institution";
+    public const string AppAdminBankTransactionHistoryColumnAction = "Action";
+    public const string AppAdminBankTransactionHistoryColumnPreviousBalance = "Previous Balance";
+    public const string AppAdminBankTransactionHistoryColumnAmount = "Amount";
+    public const string AppAdminBankTransactionHistoryColumnCurrentBalance = "Current Balance";
+    public const string AppAdminBankTransactionHistoryMessage1 = "Select a financial institution to display transaction history";
 
 
     // Page timesheet and shift
