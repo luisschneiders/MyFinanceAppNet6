@@ -106,7 +106,7 @@ public class BankTransactionHistoryService : IBankTransactionHistoryService<Bank
         {
             UserModel user = await GetLoggedInUser();
 
-            _recordsByDateRange = await _bankTransactionHistoryData.GetRecordsByBankLoadMore(user.Id, filter.BankId, filter.DateTimeRange, filter.LoadMore);
+            _recordsByDateRange = await _bankTransactionHistoryData.GetRecordsByBankLoadMore(user.Id, filter.BankId, filter.LastId, filter.LoadMore);
 
             return _recordsByDateRange;
         }

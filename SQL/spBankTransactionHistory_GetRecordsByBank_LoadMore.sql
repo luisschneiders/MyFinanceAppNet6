@@ -2,12 +2,12 @@ DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spBankTransactionHistory_GetRecordsByBank_LoadMore`(
 	IN userId VARCHAR(28),
     IN bankId INT,
-    IN lastBDate DATETIME,        -- NULL for first load
-    IN lastCreatedAt DATETIME,    -- NULL for first load
+    IN lastId INT,			-- NULL for first load
     IN loadMore INT
 )
 BEGIN
 	SELECT
+		bt.Id,
 		bt.BDate,
 		b.Description AS BankDescription,
         bt.Action,
@@ -26,13 +26,10 @@ BEGIN
 	WHERE bt.BankId = bankId
       AND bt.UpdatedBy = userId
       AND (
-            lastBDate IS NULL
-            OR (
-                bt.BDate < lastBDate
-                OR (bt.BDate = lastBDate AND bt.CreatedAt < lastCreatedAt)
-            )
+            lastId IS NULL
+            OR bt.Id < lastId
           )
-    ORDER BY bt.BDate DESC, bt.CreatedAt DESC
+    ORDER BY bt.Id DESC, bt.BDate DESC, bt.CreatedAt DESC
     LIMIT loadMore;    
 END$$
 DELIMITER ;

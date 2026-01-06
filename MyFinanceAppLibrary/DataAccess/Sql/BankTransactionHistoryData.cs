@@ -39,7 +39,7 @@ public class BankTransactionHistoryData : IBankTransactionHistoryData<BankTransa
         throw new NotImplementedException();
     }
 
-    public async Task<List<BankTransactionHistoryListDTO>> GetRecordsByBankLoadMore(string userId, ulong bankId, DateTimeRange dateTimeRange, LoadMore loadMore)
+    public async Task<List<BankTransactionHistoryListDTO>> GetRecordsByBankLoadMore(string userId, ulong bankId, ulong? lastId, LoadMore loadMore)
     {
         try
         {
@@ -49,8 +49,7 @@ public class BankTransactionHistoryData : IBankTransactionHistoryData<BankTransa
                 {
                     userId,
                     bankId,
-                    lastBDate = dateTimeRange?.Start,
-                    lastCreatedAt = dateTimeRange?.End,
+                    lastId,
                     loadMore
                 },
                 "Mysql");

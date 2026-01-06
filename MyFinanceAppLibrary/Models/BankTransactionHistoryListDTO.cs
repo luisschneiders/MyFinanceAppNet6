@@ -3,6 +3,7 @@ namespace MyFinanceAppLibrary.Models;
 public class BankTransactionHistoryListDTO
 {
 #nullable disable
+    public ulong? Id { get; set; }
     public DateTime BDate { get; }
     public string BankDescription { get; }
     public string Action { get; }

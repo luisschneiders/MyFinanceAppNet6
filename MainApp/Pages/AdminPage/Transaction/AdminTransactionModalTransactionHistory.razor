@@ -1,10 +1,11 @@
 ﻿@using MainApp.Components.Accordion
 @using MainApp.Components.Badge
+@using MainApp.Components.Card
 @using MainApp.Components.Loader
 @using MainApp.Components.Modal
 
 <Modal @ref="_modal"
-       Size="Size.Lg"
+       Size="Size.Md"
        IsCloseButtonVisible="false"
        ModalContentStyle="@($"bg-{Theme.Light.ToString().ToLower()}-subtle")">
     <Title>
@@ -42,7 +43,7 @@
                 </div>
             }
         </div>
-        <div class="row">
+        <div class="row p-2">
             <div class="col-sm-12">
                 @if (_isProcessing)
                 {
@@ -52,87 +53,87 @@
                 {
                     @foreach (var (item, index) in _bankTransactionHistoryListView.Select((value, index) => (value, index)))
                     {
-                        <div class="row border-bottom mb-2">
+                        <div class="row pb-3">
                             <div class="col-12">
-                                <p class="h5">
-                                    <Badge BackgroundColor="@Theme.Dark" Message="@($"{item.BDate.ToString("dddd, d MMM yyyy")}")" />
-                                </p>
+                                <span class="text-@(Theme.Secondary.ToString().ToLower())">
+                                    @($"{item.BDate.ToString("dddd, d MMM yyyy")}")
+                                </span>
                             </div>
-                            <div class="table-responsive">
-                                <table class="table table-borderless">
-                                    <thead>
-                                        <tr>
-                                            <th class="col-auto">
-                                                @Label.AppAdminBankTransactionHistoryColumnAction
-                                            </th>
-                                            <th class="col-3 text-end">
-                                                @Label.AppAdminBankTransactionHistoryColumnAmount
-                                            </th>
-                                            <th class="col-3 text-end">
-                                                @Label.AppAdminBankTransactionHistoryColumnCurrentBalance
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @if (_bankTransactionHistoryListView.Count <= 0)
-                                        {
-                                            <tr>
-                                                <td class="text-center" colspan="5">
-                                                    <div>
-                                                        @Label.AppNoRecordFound
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        }
-                                        else
-                                        {
-                                            foreach (var record in _bankTransactionHistoryListView[index].Transactions)
-                                            {
+                            <CardView Styles="border-0 shadow-sm bg-secondary-subtle">
+                                <CardMiddle Styles="p-0">
+                                    <div class="table-responsive">
+                                        <table class="table table-borderless">
+                                            <thead>
                                                 <tr>
-                                                    @if (record.Action == TransactionActionType.D.ToString())
-                                                    {
-                                                        <td>
-                                                            <Badge BackgroundColor="@Theme.Danger" Message="@record.ActionDescription" />
-                                                        </td>
-                                                    }
-                                                    else
-                                                    {
-                                                        <td>
-                                                            <Badge BackgroundColor="@Theme.Primary" Message="@record.ActionDescription" />
-                                                        </td>
-                                                    }
-                                                    @if (record.Action == TransactionActionType.D.ToString())
-                                                    {
-                                                        <td class="text-end text-@(Theme.Danger.ToString().ToLower())">
-                                                            @record.Amount.ToString("C")
-                                                        </td>
-                                                    }
-                                                    else
-                                                    {
-                                                        <td class="text-end text-@(Theme.Primary.ToString().ToLower())">
-                                                            @record.Amount.ToString("C")
-                                                        </td>
-                                                    }
-                                                    <td class="text-end">
-                                                        @record.CurrentBalance.ToString("C")
-                                                    </td>
+                                                    <th class="col-auto" colspan="3">
+                                                    </th>
                                                 </tr>
-                                            }
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
+                                            </thead>
+                                            <tbody>
+                                                @if (_bankTransactionHistoryListView.Count <= 0)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center" colspan="3">
+                                                            <div>
+                                                                @Label.AppNoRecordFound
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    foreach (var record in _bankTransactionHistoryListView[index].Transactions)
+                                                    {
+                                                        <tr>
+                                                            <td colspan="3"></td>
+                                                            <td class="text-end p-0">
+                                                                <sub>
+                                                                    @($"{Label.AppAdminBankTransactionHistoryColumnCurrentBalance} {record.CurrentBalance.ToString("C")}")
+                                                                </sub>
+                                                                @if (record.Action == TransactionActionType.D.ToString())
+                                                                {
+                                                                    <div class="text-end text-@(Theme.Danger.ToString().ToLower())">
+                                                                        @record.Amount.ToString("C")
+                                                                    </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class="text-end text-@(Theme.Primary.ToString().ToLower())">
+                                                                        @record.Amount.ToString("C")
+                                                                    </div>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </CardMiddle>
+                            </CardView>
                         </div>
                     }
                 }
             </div>
         </div>
+        @if (_hasMore)
+        {
+            <div class="row p-2">
+                <div class="col-12 d-flex justify-content-center">
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
+                        disabled="@(_isProcessingLoad || _bankTransactionHistoryModel.BankId == 0)"
+                        @onclick="() => LoadMoreAsync()">
+                        @(_isProcessingLoad ? Label.AppButtonLoading : Label.AppButtonLoadMore)
+                    </button>
+                </div>
+            </div>
+        }
     </Body>
     <Footer>
         <div class="row">
             <div class="col-auto">
                 <button type="button"
-                        class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-secondary @("rounded"+_appSettings.Button)"
+                        class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
                         data-dismiss="modal"
                         @onclick="() => CloseModalAsync()">
                     @Label.AppButtonClose

@@ -223,7 +223,7 @@ public static class Label
     public const string AppAdminBankTransactionHistoryColumnAction = "Action";
     public const string AppAdminBankTransactionHistoryColumnPreviousBalance = "Previous Balance";
     public const string AppAdminBankTransactionHistoryColumnAmount = "Amount";
-    public const string AppAdminBankTransactionHistoryColumnCurrentBalance = "Current Balance";
+    public const string AppAdminBankTransactionHistoryColumnCurrentBalance = "Balance";
     public const string AppAdminBankTransactionHistoryMessage1 = "Select a financial institution to display transaction history";
 
 
@@ -335,6 +335,8 @@ public static class Label
     public const string AppButtonInfo = "Info";
     public const string AppButtonGenerate = "Generate";
     public const string AppButtonGenerating = "Generating...";
+    public const string AppButtonLoadMore = "Load More";
+    public const string AppButtonLoading = "Loading...";
     public const string AppButtonMoreAction = "More Actions";
     public const string AppButtonNext = "Next";
     public const string AppButtonPrevious = "Previous";
