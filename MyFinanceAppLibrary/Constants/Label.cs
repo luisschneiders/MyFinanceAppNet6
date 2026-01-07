@@ -218,7 +218,8 @@ public static class Label
     public const string AppAdminTransactionInfoMessage1 = "Expenses cannot be archived from here";
     public const string AppAdminTransactionInfoMessage2 = "Please visit page";
     public const string AppAdminTransactionInfoMessage3 = "All transactions linked to this record will be archived too.";
-    public const string AppAdminBankTransactionHistoryTitle = "Financial History";
+    public const string AppAdminBankTransactionHistoryButton = "Financial History";
+    public const string AppAdminBankTransactionHistoryTitle = "Transaction History";
     public const string AppAdminBankTransactionHistoryFieldFinancialInstitution = "Financial Institution";
     public const string AppAdminBankTransactionHistoryColumnAction = "Action";
     public const string AppAdminBankTransactionHistoryColumnPreviousBalance = "Previous Balance";

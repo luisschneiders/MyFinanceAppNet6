@@ -13,7 +13,7 @@
     </Title>
     <Body>
         <div class="row pb-4 align-items-center">
-            <p class="h5">@Label.AppAdminBankTransactionHistoryMessage1</p>
+            <p class="h6">@Label.AppAdminBankTransactionHistoryMessage1</p>
             @if (_isLoading)
             {
                 <div class="col-auto">
@@ -35,7 +35,7 @@
                             <option value="@bank.Id"> @($"{bank.Description} - {bank.CurrentBalance.ToString("C")}") </option>
                         }
                     </select>
-                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Secondary.ToString().ToLower()) @("rounded"+_appSettings.Button) border-0 ms-2 d-inline"
+                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) border-0 ms-2 d-inline"
                             disabled="@(_isProcessing || _bankTransactionHistoryModel.BankId == 0)"
                             @onclick="() => SearchAsync()">
                             @(_isProcessing ? Label.AppButtonSearching : Label.AppButtonSearch)
@@ -55,9 +55,16 @@
                     {
                         <div class="row pb-3">
                             <div class="col-12">
-                                <span class="text-@(Theme.Secondary.ToString().ToLower())">
-                                    @($"{item.BDate.ToString("dddd, d MMM yyyy")}")
-                                </span>
+                                <sub class="text-@(Theme.Secondary.ToString().ToLower())">
+                                    @if (item.BDate.Year == DateTime.Now.Year)
+                                    {
+                                        @($"{item.BDate.ToString("dddd, d MMM")}")
+                                    }
+                                    else
+                                    {
+                                        @($"{item.BDate.ToString("dddd, d MMM yyyy")}")
+                                    }
+                                </sub>
                             </div>
                             <CardView Styles="border-0 shadow-sm bg-secondary-subtle">
                                 <CardMiddle Styles="p-0">
@@ -87,19 +94,19 @@
                                                         <tr>
                                                             <td colspan="3"></td>
                                                             <td class="text-end p-0">
-                                                                <sub>
+                                                                <sub class="text-@(Theme.Secondary.ToString().ToLower())">
                                                                     @($"{Label.AppAdminBankTransactionHistoryColumnCurrentBalance} {record.CurrentBalance.ToString("C")}")
                                                                 </sub>
                                                                 @if (record.Action == TransactionActionType.D.ToString())
                                                                 {
-                                                                    <div class="text-end text-@(Theme.Danger.ToString().ToLower())">
-                                                                        @record.Amount.ToString("C")
+                                                                    <div class="text-end">
+                                                                        @($"- {record.Amount.ToString("C")}")
                                                                     </div>
                                                                 }
                                                                 else
                                                                 {
-                                                                    <div class="text-end text-@(Theme.Primary.ToString().ToLower())">
-                                                                        @record.Amount.ToString("C")
+                                                                    <div class="text-end">
+                                                                        @($"+ {record.Amount.ToString("C")}")
                                                                     </div>
                                                                 }
                                                             </td>
