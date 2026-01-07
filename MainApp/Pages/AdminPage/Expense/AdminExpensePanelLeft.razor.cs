@@ -1,4 +1,5 @@
-﻿using MainApp.Components.Toast;
+﻿using MainApp.Shared;
+using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Pages.AdminPage.Expense;
@@ -33,7 +34,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private AdminExpenseModal _setupModal { get; set; } = new();
     private AdminExpenseModalFilter _setupFilterModal { get; set; } = new();
     private AdminExpenseModalDetails _setupExpenseModalDetails { get; set; } = new();
-
+    private TransactionHistory _setupModalTransactionHistory { get; set; } = new();
     private DateTimeRange _dateRange { get; set; } = new();
     private DateTimeRange _dateCalendar { get; set; } = new();
     private List<ExpenseByCategoryGroupDTO> _expensesListView { get; set; } = new();
@@ -163,7 +164,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
             _isLoadingView = false;
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
-        
+
         await Task.CompletedTask;
     }
 
@@ -289,7 +290,8 @@ public partial class AdminExpensePanelLeft : ComponentBase
         {
             return true;
         }
-        else{
+        else
+        {
             return false;
         }
     }
@@ -297,6 +299,20 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private async Task OpenSetupOffCanvas(DateTime date)
     {
         await AddRecordAsync(date);
+        await Task.CompletedTask;
+    }
+    
+    private async Task OpenTransactionHistoryAsync()
+    {
+        try
+        {
+            await _setupModalTransactionHistory.OpenModalAsync();
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
         await Task.CompletedTask;
     }
 }

@@ -106,8 +106,17 @@
                 }
             </div>
             <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
-                <div class="d-none d-lg-block">
-                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                <div class="d-none d-lg-inline-flex">
+                    <DropdownActions DropdownPosition="Position.End"
+                                     ButtonSize="Size.Sm">
+                        <li class="p-1">
+                            <button class="dropdown-item rounded"
+                                    @onclick="() => OpenTransactionHistoryAsync()">
+                                <i class="bi bi-clock-history pe-1"></i>@Label.AppAdminBankTransactionHistoryButton
+                            </button>
+                        </li>
+                    </DropdownActions>
+                    <button class="ms-2 btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => AddRecordAsync(DateTime.Now)">
                         <i class="bi bi-plus-lg pe-1"></i>@Label.AppAdminExpenseButtonNew
                     </button>
@@ -116,6 +125,12 @@
                     <DropdownActions DropdownPosition="Position.End"
                                      ButtonSize="Size.Sm"
                                      ButtonColor="Theme.Secondary">
+                        <li class="p-1">
+                            <button class="dropdown-item rounded"
+                                    @onclick="() => OpenTransactionHistoryAsync()">
+                                <i class="bi bi-clock-history pe-1"></i>@Label.AppAdminBankTransactionHistoryButton
+                            </button>
+                        </li>
                         <li class="p-1">
                             <button class="dropdown-item rounded"
                                     @onclick="() => AddRecordAsync(DateTime.Now)">
@@ -339,3 +354,4 @@
 <AdminExpenseModal @ref="_setupModal" OnSubmitSuccess="RefreshList" />
 <AdminExpenseModalDetails @ref="_setupExpenseModalDetails" OnSubmitSuccess="dateTime => OpenSetupOffCanvas(dateTime)" />
 <AdminExpenseModalFilter @ref="_setupFilterModal" OnSubmitFilterSuccess="filterExpense => RefreshFilterList(filterExpense)" />
+<TransactionHistory @ref="_setupModalTransactionHistory"/>

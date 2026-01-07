@@ -1,4 +1,5 @@
-﻿using MainApp.Components.Toast;
+﻿using MainApp.Shared;
+using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Pages.AdminPage.Transaction;
@@ -36,7 +37,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private AdminTransactionModal _setupModal { get; set; } = new();
     private AdminTransactionModalFilter _setupModalFilter { get; set; } = new();
     private AdminTransactionModalDetails _setupModalTransactionDetails { get; set; } = new();
-    private AdminTransactionModalTransactionHistory _setupModalTransactionHistory { get; set; } = new();
+    private TransactionHistory _setupModalTransactionHistory { get; set; } = new();
     private AdminTransactionModalCalculator _setupModalCalculator { get; set; } = new();
     private AdminTransactionModalInfo _setupModalInfo { get; set; } = new();
     private DateTimeRange _dateRange { get; set; } = new();

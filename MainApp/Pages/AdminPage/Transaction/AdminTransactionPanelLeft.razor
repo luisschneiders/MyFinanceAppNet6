@@ -12,7 +12,7 @@
 <CardView Styles="border-0">
     <CardMiddle>
         <div class="row pb-2">
-            <div class="col-10 col-lg-8 pb-2 d-flex align-items-center">
+            <div class="col-10 col-lg-9 pb-2 d-flex align-items-center">
                 @if (_isLoading)
                 {
                     <Loader />
@@ -100,7 +100,7 @@
                     </div>
                 }
             </div>
-            <div class="col-2 col-lg-4 pb-2 d-flex justify-content-end">
+            <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
                 <div class="d-none d-lg-inline-flex">
                     <DropdownActions DropdownPosition="Position.End"
                                      ButtonSize="Size.Sm">
@@ -398,5 +398,5 @@
 <AdminTransactionModalInfo @ref="_setupModalInfo" />
 <AdminTransactionModalFilter @ref="_setupModalFilter" OnSubmitFilterSuccess="filterTransaction => RefreshFilterList(filterTransaction)" />
 <AdminTransactionModalDetails @ref="_setupModalTransactionDetails" OnSubmitSuccess="dateTime => OpenSetupOffCanvas(dateTime)" />
-<AdminTransactionModalTransactionHistory @ref="_setupModalTransactionHistory"/>
 <AdminTransactionModalCalculator @ref="_setupModalCalculator"/>
+<TransactionHistory @ref="_setupModalTransactionHistory"/>

@@ -2,9 +2,9 @@ using MainApp.Components.Modal;
 using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 
-namespace MainApp.Pages.AdminPage.Transaction;
+namespace MainApp.Shared;
 
-public partial class AdminTransactionModalTransactionHistory : ComponentBase
+public partial class TransactionHistory : ComponentBase
 {
     [Inject]
     private ToastService _toastService { get; set; } = default!;
@@ -30,7 +30,7 @@ public partial class AdminTransactionModalTransactionHistory : ComponentBase
     private bool _isProcessingLoad { get; set; } = false;
     private bool _hasMore { get; set; } = false;
 
-    public AdminTransactionModalTransactionHistory()
+    public TransactionHistory()
     {
     }
 
