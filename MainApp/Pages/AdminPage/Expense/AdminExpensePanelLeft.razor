@@ -37,45 +37,56 @@
                     @if (_viewType == ViewType.Calendar.ToString())
                     {
                         <div class="ps-2">
-                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
-                                    @onclick="() => PreviousPeriodAsync(_dateCalendar, ViewType.Calendar)"
-                                    title="@Label.AppButtonPrevious"
-                                    disabled="@(_isLoadingView ? true : false)">
-                                <i class="bi bi-chevron-left"></i>
-                            </button>
+                            <div class="btn-group @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                                role="group"
+                                aria-label="Past and future"
+                                title="Change view">
+                                <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded-start"+_appSettings.Button)"
+                                        @onclick="() => PreviousPeriodAsync(_dateCalendar, ViewType.Calendar)"
+                                        title="@Label.AppButtonPrevious"
+                                        disabled="@(_isLoadingView ? true : false)">
+                                    <i class="bi bi-chevron-left"></i>
+                                </button>
+                                <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded-end"+_appSettings.Button)"
+                                        @onclick="() => NextPeriodAsync(_dateCalendar, ViewType.Calendar)"
+                                        title="@Label.AppButtonNext"
+                                        disabled="@(_isLoadingView ? true : false)">
+                                    <i class="bi bi-chevron-right"></i>
+                                </button>
+
+                            </div>
                             <DropdownDateMonthYear 
                                                 ButtonSize="Size.Sm"
                                                 DateTimeRange="@_dateCalendar"
                                                 DropdownLabel="@_dropdownDateCalendarLabel"
                                                 OnSubmitSuccess="data => RefreshDropdownDateMonthYear(data)" />
-                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
-                                    @onclick="() => NextPeriodAsync(_dateCalendar, ViewType.Calendar)"
-                                    title="@Label.AppButtonNext"
-                                    disabled="@(_isLoadingView ? true : false)">
-                                <i class="bi bi-chevron-right"></i>
-                            </button>
                         </div>
                     }
                     else
                     {
                         <div class="ps-2">
-                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow) d-none d-md-inline"
-                                    @onclick="() => PreviousPeriodAsync(_dateRange, ViewType.List)"
-                                    title="@Label.AppButtonPrevious"
-                                    disabled="@(_isLoadingView ? true : false)">
-                                <i class="bi bi-chevron-left"></i>
-                            </button>
+                            <div class="btn-group @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                                role="group"
+                                aria-label="Past and future"
+                                title="Change view">
+                                <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded-start"+_appSettings.Button) d-none d-md-inline"
+                                        @onclick="() => PreviousPeriodAsync(_dateRange, ViewType.List)"
+                                        title="@Label.AppButtonPrevious"
+                                        disabled="@(_isLoadingView ? true : false)">
+                                    <i class="bi bi-chevron-left"></i>
+                                </button>
+                                <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded-end"+_appSettings.Button) d-none d-md-inline"
+                                        @onclick="() => NextPeriodAsync(_dateRange, ViewType.List)"
+                                        title="@Label.AppButtonNext"
+                                        disabled="@(_isLoadingView ? true : false)">
+                                    <i class="bi bi-chevron-right"></i>
+                                </button>
+                            </div>
                             <DropdownDateRange ButtonSize="Size.Sm"
                                                DateTimeRange="@_dateRange"
                                                DropdownLabel="@_dropdownDateRangeLabel"
                                                PeriodRange="PeriodRange.Month"
                                                OnSubmitSuccess="data => RefreshDropdownDateRange(data)" />
-                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow) d-none d-md-inline"
-                                    @onclick="() => NextPeriodAsync(_dateRange, ViewType.List)"
-                                    title="@Label.AppButtonNext"
-                                    disabled="@(_isLoadingView ? true : false)">
-                                <i class="bi bi-chevron-right"></i>
-                            </button>
                         </div>
                     }
                     <div class="ps-2 d-none d-lg-flex">
