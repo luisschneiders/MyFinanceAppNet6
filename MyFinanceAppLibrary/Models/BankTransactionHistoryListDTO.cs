@@ -6,6 +6,7 @@ public class BankTransactionHistoryListDTO
     public ulong? Id { get; set; }
     public DateTime BDate { get; }
     public string BankDescription { get; }
+    public string ExpenseDescription { get; }
     public string Action { get; }
     public string ActionDescription { get; }
     public decimal PreviousBalance { get; }

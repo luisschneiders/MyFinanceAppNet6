@@ -10,6 +10,7 @@ BEGIN
 		bt.Id,
 		bt.BDate,
 		b.Description AS BankDescription,
+        ec.Description AS ExpenseDescription,
         bt.Action,
 		CASE
 			WHEN bt.Action = 'D' THEN 'Debit'
@@ -23,6 +24,8 @@ BEGIN
 		bt.UpdatedAt
 	FROM BankTransactionHistory bt
 	LEFT JOIN Bank b ON b.Id = bt.BankId
+    LEFT JOIN Expense e ON e.TransactionId = bt.TransactionId
+	LEFT JOIN ExpenseCategory ec ON ec.Id = e.ECategoryId
 	WHERE bt.BankId = bankId
       AND bt.UpdatedBy = userId
       AND (
