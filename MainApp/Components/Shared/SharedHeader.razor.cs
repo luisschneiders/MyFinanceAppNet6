@@ -8,13 +8,13 @@ public partial class SharedHeader : ComponentBase
     public string Title { get; set; } = string.Empty;
 
     [Parameter]
-    public Theme TitleColor { get; set; } = Theme.Secondary;
+    public Theme TitleColor { get; set; } = Theme.Dark;
 
     [Parameter]
     public string Icon { get; set; } = string.Empty;
 
     [Parameter]
-    public Theme IconColor { get; set; } = Theme.Primary;
+    public Theme IconColor { get; set; } = Theme.Info;
 
     [Parameter]
     public Theme BadgeBackgroundColor { get; set; } = Theme.Primary;
