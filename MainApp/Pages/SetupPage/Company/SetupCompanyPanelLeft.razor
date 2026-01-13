@@ -27,7 +27,7 @@
             </div>
             <div class="col-10 col-lg-9 pb-2">
                 <div class="row">
-                    <div class="col-8 col-md-8">
+                    <div class="col-7 col-md-7">
                         <input type="text"
                                class="form-control form-control-@(Size.Sm.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                placeholder="@Label.AppFieldSearch"
@@ -36,15 +36,15 @@
                                @oninput="SearchTermAsync">
 
                     </div>
-                    <div class="col-2">
-                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                    <div class="col-3">
+                        <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                                 @onclick="() => SearchAsync()"
                                 disabled="@(_searchButtonEnabled ? false : true)">
                             <span class="d-md-none">
                                 <i class="bi bi-search"></i>
                             </span>
                             <span class="d-none d-md-block">
-                                @Label.AppButtonSearch
+                                <i class="bi bi-search pe-1"></i>@Label.AppButtonSearch
                             </span>
                         </button>
                     </div>
