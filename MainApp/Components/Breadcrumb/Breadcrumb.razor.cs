@@ -12,6 +12,9 @@ namespace MainApp.Components.Breadcrumb;
     [Parameter]
     public string AppPageLink { get; set; }
 
+    [CascadingParameter(Name = "AppSettings")]
+    protected IAppSettings _appSettings { get; set; } = default!;
+
     private string[] _appPageLink { get; set; } = default!;
 
     private BreadcrumbLink _breadcrumbLink { get; set; }

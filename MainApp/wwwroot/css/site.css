@@ -73,7 +73,7 @@ h1:focus {
 }
 
 .app-offcanvas-backdrop, .app-modal-backdrop {
-    background-color: rgba(182, 182, 182, 0.18);
+    background-color: rgba(88, 88, 88, 0.18);
 }
 
 .app-offcanvas-backdrop.show {
