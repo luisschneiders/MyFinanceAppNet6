@@ -18,6 +18,9 @@ public partial class OffCanvas : ComponentBase
     [Parameter]
     public string Title { get; set; } = Label.AppTitle;
 
+    [CascadingParameter(Name = "AppSettings")]
+    protected IAppSettings _appSettings { get; set; } = default!;
+
     private string _offCanvasId { get; set; } = string.Empty;
     private string _offCanvasClass { get; set; } = string.Empty;
     private bool _showBackdrop { get; set; } = false;
