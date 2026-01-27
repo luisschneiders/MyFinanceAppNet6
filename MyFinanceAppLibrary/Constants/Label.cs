@@ -75,19 +75,21 @@ public static class Label
 
 
     // Settings
+    public const string AppSettingTitle = "App Customization";
+    public const string AppSettingParagraph = "Customize the app’s design and layout to fit your needs. From visual styling to interface preferences, you’re in control of how the app looks and feels.";
     public const string AppSettingAppearance = "Appearance";
     public const string AppSettingAppearanceCurrentMoveView = "Your current mode view is";
     public const string AppSettingAppearanceMoveView = "App mode view";
     public const string AppSettingAppearanceMoveViewDark = "Dark";
     public const string AppSettingAppearanceMoveViewLight = "Light";
-    public const string AppSettingAppearanceParagraph = "Choose dark or light mode.";
+    public const string AppSettingAppearanceParagraph = "Switch between light and dark themes to suit your preference.";
     public const string AppSettingDateTime = "Date & Time";
     public const string AppSettingDateTimeCalendarView = "Calendar view";
     public const string AppSettingDateTimeCurrentCalendarView = "Your current start of the week is";
     public const string AppSettingDateTimeMessageFieldRequired = "Start of the week field is required.";
-    public const string AppSettingDateTimeParagraph = "Configure views and functionalities.";
+    public const string AppSettingDateTimeParagraph = "Adjust date and time formats and related display settings.";
     public const string AppSettingInterface = "Interface";
-    public const string AppSettingInterfaceParagraph = "Configure buttons, components and forms.";
+    public const string AppSettingInterfaceParagraph = "Customize buttons, components, and form layouts.";
     public const string AppSettingInterfaceShadow = "Shadows";
     public const string AppSettingInterfaceShadowLarge = "Large";
     public const string AppSettingInterfaceShadowMedium = "Medium";
@@ -113,21 +115,23 @@ public static class Label
 
 
     // Page admin section
-    public const string AppPageAdminFinancialInstitutionParagraph1 = "Control and visualize your expenses using calendar or list views.";
-    public const string AppPageAdminFinancialInstitutionParagraph2 = "See map locations based on your purchases.";
-    public const string AppPageAdminTransactionParagraph1 = "Create records between banks and visualize graphs comparing income & outcomes from previous months.";
-    public const string AppPageAdminTimesheetParagraph1 = "Keep records of your timesheets across the companies you work.";
-    public const string AppPageAdminTimesheetParagraph2 = "Use the calculator tool for rates estimate.";
-    public const string AppPageAdminTripParagraph1 = "Keep track of your trips based on the cars you drive.";
+    public const string AppPageAdminTitle = "Stay on Top of Your Money, Time & Travel";
+    public const string AppPageAdminParagraph = "Manage your expenses, transactions, timesheets, and trips in one unified platform. Visualise historical and current data using calendar, list, map, and graph views, apply powerful filters, and generate reports to gain clear insights into your finances, work hours, and travel activity.";
+    public const string AppPageAdminExpenseParagraph1 = "Track and visualise your current and past expenses using calendar or list views. View purchase locations on a map and apply filters to quickly find what you need.";
+    public const string AppPageAdminTransactionParagraph1 = "Create and manage transaction records between financial institutions. Visualise current and past transactions, apply filters, and view graphs comparing income and expenses across previous months.";
+    public const string AppPageAdminTimesheetParagraph1 = "Manage timesheets across the companies you work for. Visualise current and past entries using calendar or list views, apply filters, set availability and shifts, and estimate rates using the built-in calculator.";
+    public const string AppPageAdminTripParagraph1 = "Log and manage trips for the vehicles you drive. Visualise current and past trips using calendar or list views, apply filters, and generate printable reports.";
 
 
     // Page setup section
-    public const string AppPageSetupFinancialInstitutionParagraph  = "Add, update and view list of financial institutions.";
-    public const string AppPageSetupCompanyParagraph  = "Add, update and view list of companies.";
-    public const string AppPageSetupExpenseParagraph  = "Add, update and view list of expense categories.";
-    public const string AppPageSetupTaxParagraph  = "Add, update and view list of tax categories.";
-    public const string AppPageSetupTransactionParagraph  = "Add, update and view list of transaction categories.";
-    public const string AppPageSetupVehicleParagraph  = "Add, update and view list of vehicles.";
+    public const string AppPageSetupTitle = "Application features overview";
+    public const string AppPageSetupParagraph = "This application allows you to easily manage essential business and financial information in one place. The following features help you organize and maintain accurate records for daily operations.";
+    public const string AppPageSetupFinancialInstitutionParagraph = "Manage financial institutions used within the app. Users can add new institutions, update existing details, and view a complete list for easy reference.";
+    public const string AppPageSetupCompanyParagraph  = "Maintain company records in one place. Users can add new companies, edit company information, and view the list of registered companies.";
+    public const string AppPageSetupExpenseParagraph  = "Organize expense tracking with customizable categories. Users can add, update, and view expense categories to ensure accurate classification of expenses.";
+    public const string AppPageSetupTaxParagraph  = "Manage tax classifications efficiently. Users can add new tax categories, update existing ones, and view all available tax options for financial records.";
+    public const string AppPageSetupTransactionParagraph  = "Define and manage transaction categories. Users can add, update, and view transaction types to support consistent transaction tracking and reporting.";
+    public const string AppPageSetupVehicleParagraph  = "Keep track of vehicles associated with the app. Users can add vehicle details, update information, and view the full list of registered vehicles.";
 
 
     // Page financial institution
@@ -353,6 +357,8 @@ public static class Label
     public const string AppButtonVerifyingAddress = "Verifying Address...";
     public const string AppButtonViewDetails = "View";
     public const string AppButtonViewMoreChart = "View more charts";
+    public const string AppButtonVisitPage = "Visit page";
+    public const string AppButtonCustomise = "Customise";
 
 
     // Standard fields
