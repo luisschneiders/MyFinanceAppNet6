@@ -4,44 +4,44 @@
 @using MainApp.Components.Message
 @using MainApp.Components.Breadcrumb
 
-<div class="container-fluid px-0">
-    <AuthorizeView>
+<div class="container-lg">
+    <AuthorizeView Policy="Admin">
         <Authorized>
             <PageWrapper>
 
                 <PageTopView>
-                    <div class="container-lg">
-                        <PageTopWrapper>
-                            <div class="d-flex align-items-baseline">
-                                <PageTopTitle Title="@Label.AppMenuSetting" />
-                            </div>
-                        </PageTopWrapper>
-                    </div>
+                    <PageTopWrapper>
+                        <div class="d-flex align-items-baseline">
+                            <PageTopTitle Title="@Label.AppMenuSetting" />
+                        </div>
+                    </PageTopWrapper>
                 </PageTopView>
 
                 <PageMiddleView>
                     <PageMiddleWrapper>
-                        <div class="container-lg">
-                            <div class="row gy-5">
-                                <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
-                                    <CardView Styles="border-0 w-100 bg-light-subtle">
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-6">
+                                <div class="app-sticky-cardview">
+                                    <CardView Styles="border-0 app-bg-animation mb-3">
                                         <CardMiddle>
-                                            <div class="d-grid gap-3">
-                                                <SettingsAppearance Radius="@_appSettings.Card" OnClickSuccess="OpenAppearanceOffCanvas" />
-                                                <SettingsDateTime Radius="@_appSettings.Card" OnClickSuccess="OpenDateTimeOffCanvas" />
-                                                <SettingsInterface Radius="@_appSettings.Card" OnClickSuccess="OpenInterfaceOffCanvas" />
-                                                <SettingsLocation Radius="@_appSettings.Card" OnClickSuccess="OpenLocationOffCanvas" />
+                                        <div class="row">
+                                            <div class="col-auto d-flex align-items-center">
+                                                <div class="flex-grow-1 p-5 @($"text-{Theme.Dark.ToString().ToLower()}")">
+                                                    <h3 class="fs-1 mb-5">@Label.AppSettingTitle</h3>
+                                                    <p class="fs-5">@Label.AppSettingParagraph</p>
+                                                </div>
                                             </div>
+                                        </div>
                                         </CardMiddle>
                                     </CardView>
+
                                 </div>
-                                <div class="col-sm-12 col-md-8">
-                                    <div class="text-center">
-                                        <img src="/img/settings-light.jpg"
-                                            class="img-fluid rounded-pill"
-                                            alt="settings">
-                                    </div>
-                                </div>
+                            </div>
+                            <div class="col-sm-12 col-lg-6 pb-4">
+                                <SettingsAppearance Radius="@_appSettings.Card" OnClickSuccess="OpenAppearanceOffCanvas" />
+                                <SettingsDateTime Radius="@_appSettings.Card" OnClickSuccess="OpenDateTimeOffCanvas" />
+                                <SettingsInterface Radius="@_appSettings.Card" OnClickSuccess="OpenInterfaceOffCanvas" />
+                                <SettingsLocation Radius="@_appSettings.Card" OnClickSuccess="OpenLocationOffCanvas" />
                             </div>
                         </div>
                     </PageMiddleWrapper>

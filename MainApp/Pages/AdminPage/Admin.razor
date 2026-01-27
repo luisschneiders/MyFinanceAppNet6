@@ -8,130 +8,121 @@
 @using MainApp.Components.Message
 @using MainApp.Components.Shared
 
-<div class="container-fluid px-0">
-    <AuthorizeView>
+<div class="container-lg">
+    <AuthorizeView Policy="Admin">
         <Authorized>
             <PageWrapper>
-
                 <PageTopView>
-                    <div class="container-lg">
-                        <PageTopWrapper>
-                            <div class="d-flex align-items-baseline">
-                                <PageTopTitle Title="@(Label.AppMenuAdmin)" />
-                            </div>
-                        </PageTopWrapper>
-                    </div>
+                    <PageTopWrapper>
+                        <div class="d-flex align-items-baseline">
+                            <PageTopTitle Title="@(Label.AppMenuAdmin)" />
+                        </div>
+                    </PageTopWrapper>
                 </PageTopView>
-
                 <PageMiddleView>
                     <PageMiddleWrapper>
-                        @* <div class="app-page-background-@(Theme.Dark.ToString().ToLower()) pb-5"> *@
-                        <div class="container-lg">
-                            <div class="row gy-5">
-                                <div class="col-sm-12 col-md-4 d-flex flex-sm-column flex-md-row justify-content-center">
-                                    <CardView Styles="w-100 border-0 bg-light-subtle">
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-6">
+                                <div class="app-sticky-cardview">
+                                    <CardView Styles="border-0 app-bg-animation mb-3">
                                         <CardMiddle>
-                                            <div class="d-grid gap-3">
-                                                <NavLink href="@EndPoint.AdminExpenses">
-                                                    <div class="btn btn-@(Theme.Dark.ToString().ToLower()) d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                        <i class="bi bi-cart4 fs-5"></i>
-                                                        <div class="w-100 text-start ps-3 pe-2">
-                                                            <span class="mb-1">@Label.AppMenuAdminExpense</span>
-                                                            <div class="pb-2">
-                                                                <small class="text-wrap d-none d-xl-flex">
-                                                                    @Label.AppPageAdminFinancialInstitutionParagraph1
-                                                                    <br />
-                                                                    @Label.AppPageAdminFinancialInstitutionParagraph2
-                                                                </small>
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <i class="bi bi-chevron-right"></i>
-                                                        </div>
-                                                    </div>
-                                                </NavLink>
-                                                <NavLink href="@EndPoint.AdminTransactions">
-                                                    <div class="btn btn-@(Theme.Dark.ToString().ToLower()) d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                        <i class="bi bi-currency-exchange fs-5"></i>
-                                                        <div class="w-100 text-start ps-3 pe-2">
-                                                            <span class="mb-1">@Label.AppMenuAdminTransaction</span>
-                                                            <div class="pb-2">
-                                                                <small class="text-wrap d-none d-xl-flex">
-                                                                    @Label.AppPageAdminTransactionParagraph1
-                                                                </small>
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <i class="bi bi-chevron-right"></i>
-                                                        </div>
-                                                    </div>
-                                                </NavLink>
-                                                <NavLink href="@EndPoint.AdminTimesheet">
-                                                    <div class="btn btn-@(Theme.Dark.ToString().ToLower()) d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                        <i class="bi bi-clock-history fs-5"></i>
-                                                        <div class="w-100 text-start ps-3 pe-2">
-                                                            <span class="mb-1">@Label.AppMenuAdminTimesheet</span>
-                                                            <div class="pb-2">
-                                                                <small class="text-wrap d-none d-xl-flex">
-                                                                    @Label.AppPageAdminTimesheetParagraph1 
-                                                                    <br />
-                                                                    @Label.AppPageAdminTimesheetParagraph2
-                                                                </small>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-@(Theme.Secondary.ToString().ToLower())">
-                                                            <i class="bi bi-chevron-right"></i>
-                                                        </div>
-                                                    </div>
-                                                </NavLink>
-                                                <NavLink href="@EndPoint.AdminTrips">
-                                                    <div class="btn btn-@(Theme.Dark.ToString().ToLower()) d-flex w-100 align-items-center @("rounded"+_appSettings.Card)">
-                                                        <i class="bi bi-pin-map fs-5"></i>
-                                                        <div class="w-100 text-start ps-3 pe-2">
-                                                            <span class="mb-1">@Label.AppMenuAdminTrip</span>
-                                                            <div class="pb-2">
-                                                                <small class="text-wrap d-none d-xl-flex">
-                                                                    @Label.AppPageAdminTripParagraph1
-                                                                </small>
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <i class="bi bi-chevron-right"></i>
-                                                        </div>
-                                                    </div>
-                                                </NavLink>
+                                        <div class="row">
+                                            <div class="col-auto d-flex align-items-center">
+                                                <div class="flex-grow-1 p-5 @($"text-{Theme.Dark.ToString().ToLower()}")">
+                                                    <h3 class="fs-1 mb-5">@Label.AppPageAdminTitle</h3>
+                                                    <p class="fs-5">@Label.AppPageAdminParagraph</p>
+                                                </div>
                                             </div>
-                                        </CardMiddle>
-                                    </CardView>
-                                </div>
-                                <div class="col-sm-12 col-md-8 d-flex flex-sm-column flex-md-row justify-content-center">
-                                    <CardView Styles="w-100 border-0">
-                                        <CardMiddle>
-                                            <ChartTransactionIOByMonth ChartType="ChartType.line" />
+                                        </div>
                                         </CardMiddle>
                                     </CardView>
                                 </div>
                             </div>
-                        </div>
-                        @* </div> *@
-                        <div class="container-lg py-5 app-footer-gap">
-                            <div class="row gy-5">
-                                <div class="col-sm-12 col-md-6 d-flex flex-sm-column flex-md-row justify-content-center">
-                                    <CardView Styles="w-100 border-0">
-                                        <CardMiddle>
-                                            <h3 class="fs-5">@Label.AppMenuAdminExpense</h3>
-                                            <ChartExpenseLast3Months />
-                                        </CardMiddle>
-                                    </CardView>
-                                </div>
-                                <div class="col-sm-12 col-md-6 d-flex flex-sm-column flex-md-row justify-content-center">
-                                    <CardView Styles="w-100 border-0">
-                                        <CardMiddle>
-                                            <h3 class="fs-5">@Label.AppMenuAdminTransaction</h3>
-                                            <ChartTransactionLast3Months />
-                                        </CardMiddle>
-                                    </CardView>
-                                </div>
+                            <div class="col-sm-12 col-lg-6 pb-4">
+                                <CardView Styles="border-0 mb-3">
+                                    <CardMiddle>
+                                        <div class="row g-0">
+                                            <div class="col-md-4 d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-cart4 fs-1 py-3 px-4"></i>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <h3 class="fs-5 text-body-emphasis">@Label.AppMenuAdminExpense</h3>
+                                                <p class="fs-6 @($"text-{Theme.Secondary.ToString().ToLower()}")">
+                                                    @Label.AppPageAdminExpenseParagraph1
+                                                </p>
+                                                <div class="d-flex justify-content-end">
+                                                    <a href="@EndPoint.AdminExpenses" class="d-flex btn btn-sm @($"btn-outline-{Theme.Primary.ToString().ToLower()}") @("rounded"+_appSettings.Button)">
+                                                        @Label.AppButtonVisitPage
+                                                        <i class="bi bi-chevron-right"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </CardMiddle>
+                                </CardView>
+                                <CardView Styles="border-0 mb-3">
+                                    <CardMiddle>
+                                        <div class="row g-0">
+                                            <div class="col-md-4 d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-clock-history fs-1 py-3 px-4"></i>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <h3 class="fs-5 text-body-emphasis">@Label.AppMenuAdminTimesheet</h3>
+                                                <p class="fs-6 @($"text-{Theme.Secondary.ToString().ToLower()}")">
+                                                    @Label.AppPageAdminTimesheetParagraph1 
+                                                </p>
+                                                <div class="d-flex justify-content-end">
+                                                    <a href="@EndPoint.AdminTimesheet"class="btn btn-sm @($"btn-outline-{Theme.Primary.ToString().ToLower()}") @("rounded"+_appSettings.Button)">
+                                                        @Label.AppButtonVisitPage
+                                                        <i class="bi bi-chevron-right"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </CardMiddle>
+                                </CardView>
+                                <CardView Styles="border-0 mb-3">
+                                    <CardMiddle>
+                                        <div class="row g-0">
+                                            <div class="col-md-4 d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-currency-exchange fs-1 py-3 px-4"></i>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <h3 class="fs-5 text-body-emphasis">@Label.AppMenuAdminTransaction</h3>
+                                                <p class="fs-6 @($"text-{Theme.Secondary.ToString().ToLower()}")">
+                                                    @Label.AppPageAdminTransactionParagraph1
+                                                </p>
+                                                <div class="d-flex justify-content-end">
+                                                    <a href="@EndPoint.AdminTransactions" class="btn btn-sm @($"btn-outline-{Theme.Primary.ToString().ToLower()}") @("rounded"+_appSettings.Button)">
+                                                        @Label.AppButtonVisitPage
+                                                        <i class="bi bi-chevron-right"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </CardMiddle>
+                                </CardView>
+                                <CardView Styles="border-0 mb-3">
+                                    <CardMiddle>
+                                        <div class="row g-0">
+                                            <div class="col-md-4 d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-pin-map fs-1 py-3 px-4"></i>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <h3 class="fs-5 text-body-emphasis">@Label.AppMenuAdminTrip</h3>
+                                                <p class="fs-6 @($"text-{Theme.Secondary.ToString().ToLower()}")">
+                                                    @Label.AppPageAdminTripParagraph1
+                                                </p>
+                                                <div class="d-flex justify-content-end">
+                                                    <a href="@EndPoint.AdminTrips"class="btn btn-sm @($"btn-outline-{Theme.Primary.ToString().ToLower()}") @("rounded"+_appSettings.Button)">
+                                                        @Label.AppButtonVisitPage
+                                                        <i class="bi bi-chevron-right"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </CardMiddle>
+                                </CardView>
                             </div>
                         </div>
                     </PageMiddleWrapper>
