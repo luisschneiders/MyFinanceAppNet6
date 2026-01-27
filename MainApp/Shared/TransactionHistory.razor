@@ -32,7 +32,7 @@
                         <option value="0">@Label.AppFieldSelect</option>
                         @foreach (var (bank, index) in _banks.Select((value, index) => (value, index)))
                         {
-                            <option value="@bank.Id"> @($"{bank.Description} - {bank.CurrentBalance.ToString("C")}") </option>
+                            <option value="@bank.Id"> @($"{bank.Description}") </option>
                         }
                     </select>
                     <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button) border-0 ms-2 d-inline"
