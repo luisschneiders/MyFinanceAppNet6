@@ -73,6 +73,17 @@
                     <label for="CompanyRate">@Label.AppSetupCompanyFieldRate</label>
                 </div>
                 <div class="form-floating pb-2">
+                    <InputNumber @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
+                                 id="CompanyCPK"
+                                 min="0.00"
+                                 placeholder="@Label.AppSetupCompanyFieldCPK"
+                                 readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                          _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive)? true: false)"
+                                 @bind-Value="_companyModel.CPK" />
+                    <label for="CompanyCPK">@Label.AppSetupCompanyFieldCPK</label>
+                </div>
+                <div class="form-floating pb-2">
                     <InputSelect @attributes="_inputFormAttributes.Select"
                                  id="CompanyCType"
                                  disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||

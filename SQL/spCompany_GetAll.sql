@@ -9,6 +9,7 @@ BEGIN
         Position,
         StandardHours,
         Rate,
+        CPK,
         CType,
         IsActive
 	FROM Company

@@ -149,6 +149,8 @@ public static class Label
     public const string AppSetupCompanyFieldDescription = "Description";
     public const string AppSetupCompanyFieldPosition = "Position";
     public const string AppSetupCompanyFieldRate = "Rate";
+    public const string AppSetupCompanyFieldCPK = "Cents per Kilometre (CPK)";
+    public const string AppSetupCompanyFieldCPKShortLabel = "CPK";
     public const string AppSetupCompanyFieldStandardHours = "Standard Hours";
     public const string AppSetupCompanyFieldStatus = AppFieldStatus;
 

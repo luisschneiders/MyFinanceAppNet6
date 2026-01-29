@@ -69,6 +69,9 @@
                                 <th class="col text-end">
                                     @Label.AppSetupCompanyFieldRate
                                 </th>
+                                <th class="col text-end">
+                                    @Label.AppSetupCompanyFieldCPKShortLabel
+                                </th>
                                 <th class="col-2">
                                     @Label.AppSetupCompanyFieldCompanyType
                                 </th>
@@ -97,6 +100,9 @@
                                         </td>
                                         <td class="text-end">
                                             @record.Rate.ToString("C")
+                                        </td>
+                                        <td class="text-end">
+                                            @record.CPK
                                         </td>
                                         <td class="">
                                             @_companyTypes[record.CType - 1] (@record.CType)
@@ -181,6 +187,9 @@
                                                 </td>
                                                 <td class="text-end">
                                                     @record.Rate.ToString("C")
+                                                </td>
+                                                <td class="text-end">
+                                                    @record.CPK
                                                 </td>
                                                 <td class="">
                                                     @_companyTypes[record.CType - 1] (@record.CType)

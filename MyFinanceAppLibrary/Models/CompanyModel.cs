@@ -15,12 +15,14 @@ public class CompanyModel : BaseModel
     public string Position { get; set; }
 
     [Required]
+    [Range(1, 12, ErrorMessage = "The Standard Hours field is required.")]
+    public int StandardHours { get; set; }
+
+    [Required]
     [RegularExpression(@"^\d+(.\d{1,2})?$", ErrorMessage = "Invalid value")]
     public decimal Rate { get; set; }
 
-    [Required]
-    [Range(1, 12, ErrorMessage = "The Standard Hours field is required.")]
-    public int StandardHours { get; set; }
+    public decimal CPK { get; set; }
 
     [Required]
     [Range(1, 3, ErrorMessage = "The Company Type field is required.")]
