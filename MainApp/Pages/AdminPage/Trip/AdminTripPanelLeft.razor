@@ -337,7 +337,7 @@
                                                                                 @record.TDate.ToString("ddd, dd/MM/yy")
                                                                             </td>
                                                                             <td class="col text-nowrap">
-                                                                                <span class="btn btn-sm btn-@(record.TCategoryId == (int)TripCategory.NotSpecified ? Theme.Warning.ToString().ToLower() : Theme.Secondary.ToString().ToLower()) @("rounded"+_appSettings.Button)">
+                                                                                <span class="pe-none btn btn-sm btn-@(record.TCategoryId == (int)TripCategory.NotSpecified ? Theme.Warning.ToString().ToLower() : Theme.Secondary.ToString().ToLower()) @("rounded"+_appSettings.Button)">
                                                                                     @(_enumHelper.GetDescription(_tripCategories[record.TCategoryId]))
                                                                                 </span>
                                                                             </td>
