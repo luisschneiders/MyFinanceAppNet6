@@ -9,6 +9,7 @@ public class TripListDTO : BaseModel
     public decimal Distance { get; }
     public decimal StartOdometer { get; }
     public decimal EndOdometer { get; }
+    public decimal CPK { get; }
     public int PayStatus { get; set; }
     public ulong TCategoryId { get; }
     public string VehicleDescription { get; }

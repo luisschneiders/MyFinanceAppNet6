@@ -11,6 +11,7 @@ BEGIN
         StartOdometer,
         EndOdometer,
 		Distance,
+        CPK,
         Comments,
         PayStatus,
         TCategoryId,

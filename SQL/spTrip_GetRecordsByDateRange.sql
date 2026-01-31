@@ -15,6 +15,7 @@ BEGIN
         t.StartOdometer,
         t.EndOdometer,
 		t.Distance,
+        t.CPK,
         t.Comments,
         t.PayStatus,
         t.TCategoryId,

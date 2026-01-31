@@ -286,19 +286,25 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th class="col text-nowrap">
-                                                                        @Label.AppAdminTripFieldDate
+                                                                        @Label.AppAdminTripDate
                                                                     </th>
                                                                     <th class="col text-nowrap">
-                                                                        @Label.AppAdminTripFieldCategory
+                                                                        @Label.AppAdminTripCategory
                                                                     </th>
                                                                     <th class="col text-end text-nowrap">
-                                                                        @Label.AppAdminTripFieldStartOdo
+                                                                        @Label.AppAdminTripStartOdo
                                                                     </th>
                                                                     <th class="col text-end text-nowrap">
-                                                                        @Label.AppAdminTripFieldEndOdo
+                                                                        @Label.AppAdminTripEndOdo
                                                                     </th>
                                                                     <th class="col text-end text-nowrap">
-                                                                        @Label.AppAdminTripFieldDistance
+                                                                        @Label.AppAdminTripDistance
+                                                                    </th>
+                                                                    <th class="col text-end text-nowrap">
+                                                                        @Label.AppAdminTripCPK
+                                                                    </th>
+                                                                    <th class="col text-end text-nowrap">
+                                                                        @Label.AppAdminTripTotal
                                                                     </th>
                                                                     <th class="col text-nowrap">
                                                                         @Label.AppAdminTripPayStatus
@@ -331,22 +337,9 @@
                                                                                 @record.TDate.ToString("ddd, dd/MM/yy")
                                                                             </td>
                                                                             <td class="col text-nowrap">
-                                                                                <DropdownActions Title="@UpdateTripCategoryTitle(record.TCategoryId)"
-                                                                                                ButtonSize="Size.Sm"
-                                                                                                IconEnd="bi-chevron-down"
-                                                                                                ButtonColor="@UpdateTripCategoryButton(record.TCategoryId)"
-                                                                                                ButtonCssClass="w-100"
-                                                                                                ButtonInnerStyles="d-flex justify-content-between">
-                                                                                    @foreach (var (status, index) in _tripCategories.Select((value, index) => (value, index)))
-                                                                                    {
-                                                                                        <li class="p-1">
-                                                                                            <button class="dropdown-item rounded"
-                                                                                                    @onclick="() => UpdateTripCategoryAsync(record, (ulong)index)">
-                                                                                                @($"{_enumHelper.GetDescription(status)}")
-                                                                                            </button>
-                                                                                        </li>
-                                                                                    }
-                                                                                </DropdownActions>
+                                                                                <span class="btn btn-sm btn-@(record.TCategoryId == (int)TripCategory.NotSpecified ? Theme.Warning.ToString().ToLower() : Theme.Secondary.ToString().ToLower()) @("rounded"+_appSettings.Button)">
+                                                                                    @(_enumHelper.GetDescription(_tripCategories[record.TCategoryId]))
+                                                                                </span>
                                                                             </td>
                                                                             <td class="col text-end text-nowrap">
                                                                                 @(record.StartOdometer <= 0 ? "--" : record.StartOdometer)
@@ -356,6 +349,12 @@
                                                                             </td>
                                                                             <td class="col text-end text-nowrap">
                                                                                 @record.Distance
+                                                                            </td>
+                                                                            <td class="col text-end text-nowrap">
+                                                                                @record.CPK
+                                                                            </td>
+                                                                            <td class="col text-end text-nowrap">
+                                                                                @((record.Distance * record.CPK).ToString("C"))
                                                                             </td>
                                                                             <td class="col text-nowrap">
                                                                                 <DropdownActions Title="@UpdatePayStatusTitle(record.PayStatus)"

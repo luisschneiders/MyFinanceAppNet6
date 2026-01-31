@@ -266,13 +266,15 @@ public static class Label
     // Page trip
     public const string AppAdminTrip = "Trip";
     public const string AppAdminTripButtonNew = "New Trip";
-    public const string AppAdminTripFieldCategory = "Category";
-    public const string AppAdminTripFieldDate = "Date";
-    public const string AppAdminTripFieldDistance = "Distance (Km)";
+    public const string AppAdminTripCategory = "Category";
+    public const string AppAdminTripDate = "Date";
+    public const string AppAdminTripDistance = "Distance (Km)";
+    public const string AppAdminTripCPK = "CPK";
     public const string AppAdminTripComments = "Comments";
-    public const string AppAdminTripFieldEndOdo = "End Odometer";
-    public const string AppAdminTripFieldStartOdo = "Start Odometer";
-    public const string AppAdminTripFieldVehicle = "Vehicle";
+    public const string AppAdminTripEndOdo = "End Odometer";
+    public const string AppAdminTripStartOdo = "Start Odometer";
+    public const string AppAdminTripTotal = "Total";
+    public const string AppAdminTripVehicle = "Vehicle";
     public const string AppAdminTripInfoMessage1 = "Total";
     public const string AppAdminTripInfoMessage2 = "distance for the period";
     public const string AppAdminTripPayStatus = AppFieldStatus;
