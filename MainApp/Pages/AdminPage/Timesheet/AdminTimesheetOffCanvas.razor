@@ -74,7 +74,7 @@
                                             _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
                                             _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                placeholder="@Label.AppAdminTimesheetClockIn"
-                               readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                               disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
                                @bind-Value="_timesheetModel.TimeIn"
@@ -89,7 +89,7 @@
                                  placeholder="@Label.AppAdminTimesheetBreak"
                                  min="0"
                                  max="60"
-                                 readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                                 disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                              _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
                                              _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit ) ? true: false)"
                                  @bind-Value="_timesheetModel.TimeBreak" />
@@ -101,7 +101,7 @@
                                             _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
                                             _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                placeholder="@Label.AppAdminTimesheetClockOut"
-                               readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                               disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Edit) ? true: false)"
                                @bind-Value="_timesheetModel.TimeOut"
@@ -113,7 +113,7 @@
                                @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                placeholder="Comments"
-                               readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                               disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                @bind-Value="_timesheetModel.Comments" />
                     <label for="Comments">@Label.AppAdminTimesheetComments</label>

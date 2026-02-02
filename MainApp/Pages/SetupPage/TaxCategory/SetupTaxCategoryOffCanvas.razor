@@ -34,7 +34,7 @@
                                         _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                id="TaxCategoryDescription"
                                placeholder="@Label.AppSetupTaxFieldDescription"
-                               readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                               disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                @bind-Value="_taxCategoryModel.Description" />
                     <label for="TaxCategoryDescription">@Label.AppSetupTaxFieldDescription</label>
@@ -45,7 +45,7 @@
                                  id="Rate"
                                  min="0.00"
                                  placeholder="@Label.AppSetupTaxFieldRate"
-                                 readonly="@(_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ? true: false)"
+                                 disabled="@(_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ? true: false)"
                                  @bind-Value="_taxCategoryModel.Rate" />
                     <label for="Rate">@Label.AppSetupTaxFieldRate</label>
                 </div>

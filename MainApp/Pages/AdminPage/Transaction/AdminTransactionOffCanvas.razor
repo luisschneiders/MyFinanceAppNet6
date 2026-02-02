@@ -91,7 +91,7 @@
                     <InputText id="Comments"
                                @attributes="(_actionType == TransactionActionType.T.ToString() ? _inputFormAttributes.Disabled : _inputFormAttributes.Control)"
                                placeholder="@Label.AppAdminTransactionFieldComments"
-                               readonly="@((_actionType == TransactionActionType.T.ToString()) ? true: false)"
+                               disabled="@((_actionType == TransactionActionType.T.ToString()) ? true: false)"
                                @bind-Value="_transactionModel.Comments" />
                     <label for="Comments">@Label.AppAdminTransactionFieldComments</label>
                 </div>
