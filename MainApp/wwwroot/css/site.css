@@ -88,7 +88,7 @@ h1:focus {
 
 .app-sticky-cardview {
     position: sticky;
-    top: .7rem;              /* spacing from top */
+    top: .5rem;              /* spacing from top */
     align-self: flex-start; /* important for Bootstrap rows */
 }
 
