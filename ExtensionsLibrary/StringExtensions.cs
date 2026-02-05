@@ -2,8 +2,22 @@
 
 public static class StringExtensions
 {
-    public static string? Truncate(this string? value, int maxLength, string suffix = "...")
+    public static string Truncate(this string value, int maxLength, string suffix = "...")
     {
-        return value?.Length > maxLength ? value.Substring(0, maxLength) + suffix : value;
+        if (string.IsNullOrEmpty(value))
+            return value;
+
+        return value.Length > maxLength
+            ? value[..maxLength] + suffix
+            : value;
+    }
+
+    public static string EscapeCsv(this string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return string.Empty;
+
+        var escaped = value.Replace("\"", "\"\"");
+        return $"\"{escaped}\"";
     }
 }
