@@ -47,6 +47,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
     private decimal _expensesTotal { get; set; } = 0;
     private bool _isLoading { get; set; } = true;
     private bool _isLoadingView { get; set; } = true;
+    private bool _isExporting { get; set; } = false;
 
     public AdminExpensePanelLeft()
     {
@@ -301,7 +302,7 @@ public partial class AdminExpensePanelLeft : ComponentBase
         await AddRecordAsync(date);
         await Task.CompletedTask;
     }
-    
+
     private async Task OpenTransactionHistoryAsync()
     {
         try
@@ -312,6 +313,47 @@ public partial class AdminExpensePanelLeft : ComponentBase
         {
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
+
+        await Task.CompletedTask;
+    }
+
+    private async Task ExportAsync()
+    {
+
+        _isExporting = true;
+
+        try
+        {
+            string downloadsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+
+            DateTime now = DateTime.Now;
+            string dateStr = now.ToString("yyyyMMddHHmmss");
+
+            // File path
+            string filePath = Path.Combine(downloadsPath, $"{dateStr}_Expenses.csv");
+
+            // Write CSV file
+            using StreamWriter sw = new(filePath);
+            {
+                sw.WriteLine($"Yes/No,Expense,Amount");
+
+                foreach (var expense in _expensesListView)
+                {
+                    sw.WriteLine($"{true},{expense.Description.EscapeCsv()},{expense.Total}");
+                }
+            }
+
+            _toastService.ShowToast($"{Label.AppAdminExpenseExportMessage}", Theme.Success);
+
+            await Task.Delay((int)Delay.DataLoading);
+
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        _isExporting = false;
 
         await Task.CompletedTask;
     }

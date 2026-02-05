@@ -274,13 +274,22 @@
                                 else
                                 {
                                     <div class="accordion d-flex justify-content-between p-2 fw-semibold
-                                                bg-@(Theme.Secondary.ToString().ToLower())-subtle">
+                                                bg-@(Theme.Secondary.ToString().ToLower())-subtle align-items-center">
                                         <div class="d-flex">
                                             @Label.AppAdminTransactionPeriodMessage1<span class="d-none d-lg-block ps-1">@Label.AppAdminTransactionPeriodMessage2</span>
                                         </div>
-                                        <span>
-                                            @_totalBalance.ToString("C")
-                                        </span>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span>
+                                                @_totalBalance.ToString("C")
+                                            </span>
+                                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
+                                                type="button"
+                                                disabled="@(_isExporting ? true : false)"
+                                                title="@Label.AppButtonExport"
+                                                @onclick="ExportAsync">
+                                                <i class="bi bi-file-earmark-arrow-down pe-1"></i>@(_isExporting ? @Label.AppButtonExporting : @Label.AppButtonExport)
+                                            </button>
+                                        </div>
                                     </div>
                                     <Accordion Id="Transactions">
                                         @foreach (var (record, index) in _transactionsListView.Select((value, index) => (value, index)))

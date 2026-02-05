@@ -52,6 +52,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private DateTime[][] _weeks { get; set; } = default!;
     private bool _isLoading { get; set; } = true;
     private bool _isLoadingView { get; set; } = true;
+    private bool _isExporting { get; set; } = false;
 
     public AdminTransactionPanelLeft()
     {
@@ -340,6 +341,47 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private async Task OpenSetupOffCanvas(DateTime date)
     {
         await AddRecordAsync(date);
+        await Task.CompletedTask;
+    }
+
+    private async Task ExportAsync()
+    {
+
+        _isExporting = true;
+
+        try
+        {
+            string downloadsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+
+            DateTime now = DateTime.Now;
+            string dateStr = now.ToString("yyyyMMddHHmmss");
+
+            // File path
+            string filePath = Path.Combine(downloadsPath, $"{dateStr}_Transactions.csv");
+
+            // Write CSV file
+            using StreamWriter sw = new(filePath);
+            {
+                sw.WriteLine($"Yes/No,Transaction,Amount");
+
+                foreach (var transaction in _transactionsListView)
+                {
+                    sw.WriteLine($"{true},{transaction.Description.EscapeCsv()},{transaction.Total}");
+                }
+            }
+
+            _toastService.ShowToast($"{Label.AppAdminTransactionExportMessage}", Theme.Success);
+
+            await Task.Delay((int)Delay.DataLoading);
+
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        _isExporting = false;
+
         await Task.CompletedTask;
     }
 }
