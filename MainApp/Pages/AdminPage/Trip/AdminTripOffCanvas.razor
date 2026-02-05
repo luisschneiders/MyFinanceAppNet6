@@ -49,12 +49,12 @@
                     <InputDate id="TDate"
                                @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                         _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
-                               placeholder="@Label.AppAdminTripDate"
+                               placeholder="@Label.AppAdminTripFieldDate"
                                disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                @bind-Value="_tripModel.TDate"
                                Type="InputDateType.Date" />
-                    <label for="TDate">@Label.AppAdminTripDate</label>
+                    <label for="TDate">@Label.AppAdminTripFieldDate</label>
                 </div>
                 @if (_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Add)
                 {
@@ -76,7 +76,7 @@
                                     <option value="@vehicle.Id">@($"{vehicle.Description} - {vehicle.Plate} ({vehicle.Year})") </option>
                                 }
                             </InputSelect>
-                            <label for="VehicleId">@Label.AppAdminTripVehicle</label>
+                            <label for="VehicleId">@Label.AppAdminTripFieldVehicle</label>
                         }
                     </div>
                 }
@@ -98,7 +98,7 @@
                                 <option value="@category.Id">@(category.Id == 0 ? @Label.AppFieldSelect : category.Description)</option>
                             }
                         </InputSelect>
-                        <label for="TCategoryId">@Label.AppAdminTripCategory</label>
+                        <label for="TCategoryId">@Label.AppAdminTripFieldCategory</label>
                     }
                 </div>
 
@@ -130,11 +130,11 @@
                                             _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                     id="TripCPK"
                                     min="0.0000"
-                                    placeholder="@Label.AppAdminTripCPK"
+                                    placeholder="@Label.AppAdminTripFieldCPK"
                                     disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                             _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive)? true: false)"
                                     @bind-Value="_tripModel.CPK" />
-                        <label for="TripCPK">@Label.AppAdminTripCPK</label>
+                        <label for="TripCPK">@Label.AppAdminTripFieldCPK</label>
                     </div>
                 }
                 else
@@ -147,45 +147,45 @@
                                  @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                  min="0"
-                                 placeholder="@Label.AppAdminTripStartOdo"
+                                 placeholder="@Label.AppAdminTripFieldStartOdo"
                                  disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                  @bind-Value="_tripModel.StartOdometer"
                                  @oninput="OnValueChangedStartOdometer" />
-                    <label for="StartOdometer">@Label.AppAdminTripStartOdo</label>
+                    <label for="StartOdometer">@Label.AppAdminTripFieldStartOdo</label>
                 </div>
                 <div class="form-floating pb-2">
                     <InputNumber id="EndOdometer"
                                  @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                  min="0"
-                                 placeholder="@Label.AppAdminTripEndOdo"
+                                 placeholder="@Label.AppAdminTripFieldEndOdo"
                                  disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                  @bind-Value="_tripModel.EndOdometer"
                                  @oninput="OnValueChangedEndOdometer" />
-                    <label for="EndOdometer">@Label.AppAdminTripEndOdo</label>
+                    <label for="EndOdometer">@Label.AppAdminTripFieldEndOdo</label>
                 </div>
                 <div class="form-floating pb-2">
                     <InputNumber id="Distance"
                                  @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                  min="0"
-                                 placeholder="@Label.AppAdminTripDistance"
+                                 placeholder="@Label.AppAdminTripFieldDistance"
                                  disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                  @bind-Value="_tripModel.Distance" />
-                    <label for="Distance">@Label.AppAdminTripDistance</label>
+                    <label for="Distance">@Label.AppAdminTripFieldDistance</label>
                 </div>
                 <div class="form-floating">
-                    <InputText id="@Label.AppAdminTripComments"
+                    <InputText id="@Label.AppAdminTripFieldComments"
                                @attributes="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                           _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                placeholder="Comments"
                                disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                @bind-Value="_tripModel.Comments" />
-                    <label for="Comments">@Label.AppAdminTripComments</label>
+                    <label for="Comments">@Label.AppAdminTripFieldComments</label>
                 </div>
             </div>
         </div>

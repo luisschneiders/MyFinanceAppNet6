@@ -206,6 +206,7 @@ public static class Label
     public const string AppAdminExpensePeriodMessage1 = "Total";
     public const string AppAdminExpensePeriodMessage2 = "expenses for the period";
     public const string AppAdminExpensePeriodMessage3 = "All transactions linked to this record will be archived too.";
+    public const string AppAdminExpenseExportMessage = "Expense report saved to Downloads";
 
 
     // Page transactions
@@ -232,6 +233,7 @@ public static class Label
     public const string AppAdminBankTransactionHistoryColumnAmount = "Amount";
     public const string AppAdminBankTransactionHistoryColumnCurrentBalance = "Balance";
     public const string AppAdminBankTransactionHistoryMessage1 = "Select a financial institution to display transaction history";
+    public const string AppAdminTransactionExportMessage = "Transaction report saved to Downloads";
 
 
     // Page timesheet and shift
@@ -266,15 +268,15 @@ public static class Label
     // Page trip
     public const string AppAdminTrip = "Trip";
     public const string AppAdminTripButtonNew = "New Trip";
-    public const string AppAdminTripCategory = "Category";
-    public const string AppAdminTripDate = "Date";
-    public const string AppAdminTripDistance = "Distance (Km)";
-    public const string AppAdminTripCPK = "CPK";
-    public const string AppAdminTripComments = "Comments";
-    public const string AppAdminTripEndOdo = "End Odometer";
-    public const string AppAdminTripStartOdo = "Start Odometer";
-    public const string AppAdminTripTotal = "Total";
-    public const string AppAdminTripVehicle = "Vehicle";
+    public const string AppAdminTripFieldCategory = "Category";
+    public const string AppAdminTripFieldDate = "Date";
+    public const string AppAdminTripFieldDistance = "Distance (Km)";
+    public const string AppAdminTripFieldCPK = "CPK";
+    public const string AppAdminTripFieldComments = "Comments";
+    public const string AppAdminTripFieldEndOdo = "End Odometer";
+    public const string AppAdminTripFieldStartOdo = "Start Odometer";
+    public const string AppAdminTripFieldTotal = "Total";
+    public const string AppAdminTripFieldVehicle = "Vehicle";
     public const string AppAdminTripInfoMessage1 = "Total";
     public const string AppAdminTripInfoMessage2 = "distance for the period";
     public const string AppAdminTripPayStatus = AppFieldStatus;
