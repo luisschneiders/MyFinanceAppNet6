@@ -193,7 +193,8 @@
                                         <div class="px-2 d-none d-lg-block">
                                             <div class="d-flex justify-content-end">
                                                 @Label.AppAdminTimesheetPeriodMessage1<span class="ps-1">@Label.AppAdminTimesheetPeriodMessage2:</span>
-                                                <span class="app-expense-sum-me fw-semibold ps-1 @("rounded"+_appSettings.Button)">
+                                                <span class="app-expense-sum-me fw-semibold ps-1 @("rounded"+_appSettings.Button) app-sensitive @(_isBlurred ? "app-blurred" : "")"
+                                                    @onclick="ToggleBlur">
                                                     @_timesheetTotal.Amount.ToString("C")
                                                 </span>
                                             </div>
@@ -290,7 +291,8 @@
                                         <div class="d-flex">
                                             @Label.AppAdminTimesheetPeriodMessage1<span class="d-none d-lg-block ps-1">@Label.AppAdminTimesheetPeriodMessage2</span>
                                         </div>
-                                        <span>
+                                        <span class="app-sensitive @(_isBlurred ? "app-blurred" : "")"
+                                                @onclick="ToggleBlur">
                                             @_timesheetTotal.Amount.ToString("C")
                                         </span>
                                     </div>
@@ -306,7 +308,7 @@
                                                         <span class="pe-4">
                                                             <Badge BackgroundColor="@Theme.Warning" Message="@FormatTimeSpan(TimeSpan.FromHours(record.TotalWorkHours))" />
                                                         </span>
-                                                        <span>
+                                                        <span class="@(_isBlurred ? "app-blurred" : "")">
                                                             <Badge BackgroundColor="@Theme.Light" Message="@record.TotalAmount.ToString("C")" />
                                                         </span>
                                                     </div>

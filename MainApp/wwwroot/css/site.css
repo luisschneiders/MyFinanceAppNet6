@@ -82,6 +82,17 @@ h1:focus {
     -webkit-backdrop-filter: blur(2px);
 }
 
+.app-sensitive {
+    cursor: pointer;
+    transition: filter 0.3s ease;
+}
+
+.app-blurred {
+    filter: blur(6px);
+    transition: filter 0.3s ease;
+    user-select: none;
+}
+
 .app-calendar-text {
     font-size: 0.6rem;
 }
