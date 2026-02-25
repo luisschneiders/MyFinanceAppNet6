@@ -120,6 +120,19 @@
                 <div class="d-none d-lg-inline-flex">
                     <DropdownActions DropdownPosition="Position.End"
                                      ButtonSize="Size.Sm">
+                        @if (_viewType == ViewType.List.ToString())
+                        {
+                            <li class="p-1">
+                                <button class="dropdown-item rounded text-@(Theme.Primary.ToString().ToLower())"
+                                        disabled="@(_isExporting ? true : false)"
+                                        @onclick="ExportAsync">
+                                    <i class="bi bi-file-earmark-arrow-down pe-1"></i>@(_isExporting ? @Label.AppButtonExporting : @Label.AppButtonExport)
+                                    <sup class="ps-1">
+                                        <Badge BackgroundColor="@Theme.Danger" Message="@Label.AppNewFeature" />
+                                    </sup>
+                                </button>
+                            </li>
+                        }
                         <li class="p-1">
                             <button class="dropdown-item rounded"
                                     @onclick="() => OpenTransactionHistoryAsync()">
@@ -136,6 +149,19 @@
                     <DropdownActions DropdownPosition="Position.End"
                                      ButtonSize="Size.Sm"
                                      ButtonColor="Theme.Secondary">
+                        @if (_viewType == ViewType.List.ToString())
+                        {
+                            <li class="p-1">
+                                <button class="dropdown-item rounded text-@(Theme.Primary.ToString().ToLower())"
+                                        disabled="@(_isExporting ? true : false)"
+                                        @onclick="ExportAsync">
+                                    <i class="bi bi-file-earmark-arrow-down pe-1"></i>@(_isExporting ? @Label.AppButtonExporting : @Label.AppButtonExport)
+                                    <sup class="ps-1">
+                                        <Badge BackgroundColor="@Theme.Danger" Message="@Label.AppNewFeature" />
+                                    </sup>
+                                </button>
+                            </li>
+                        }
                         <li class="p-1">
                             <button class="dropdown-item rounded"
                                     @onclick="() => OpenTransactionHistoryAsync()">
@@ -263,17 +289,8 @@
                                         <div class="d-flex">
                                             @Label.AppAdminExpensePeriodMessage1<span class="d-none d-lg-block ps-1">@Label.AppAdminExpensePeriodMessage2</span>
                                         </div>
-                                        <div class="d-flex align-items-center gap-2">
-                                            <span>
-                                                @_expensesTotal.ToString("C")
-                                            </span>
-                                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Primary.ToString().ToLower()) @("rounded"+_appSettings.Button)"
-                                                type="button"
-                                                disabled="@(_isExporting ? true : false)"
-                                                title="@Label.AppButtonExport"
-                                                @onclick="ExportAsync">
-                                                <i class="bi bi-file-earmark-arrow-down pe-1"></i>@(_isExporting ? @Label.AppButtonExporting : @Label.AppButtonExport)
-                                            </button>
+                                        <div class="d-flex">
+                                            @_expensesTotal.ToString("C")
                                         </div>
                                     </div>
                                     <Accordion Id="Expenses">
