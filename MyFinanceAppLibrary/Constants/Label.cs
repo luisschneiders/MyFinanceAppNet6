@@ -80,9 +80,10 @@ public static class Label
     public const string AppSettingParagraph = "Customize the app’s design and layout to fit your needs. From visual styling to interface preferences, you’re in control of how the app looks and feels.";
     public const string AppSettingAppearance = "Appearance";
     public const string AppSettingAppearanceCurrentMoveView = "Your current mode view is";
-    public const string AppSettingAppearanceMoveView = "App mode view";
-    public const string AppSettingAppearanceMoveViewDark = "Dark";
-    public const string AppSettingAppearanceMoveViewLight = "Light";
+    public const string AppSettingAppearanceModeView = "App mode view";
+    public const string AppSettingAppearanceModeViewAuto = "Auto";
+    public const string AppSettingAppearanceModeViewDark = "Dark";
+    public const string AppSettingAppearanceModeViewLight = "Light";
     public const string AppSettingAppearanceParagraph = "Switch between light and dark themes to suit your preference.";
     public const string AppSettingDateTime = "Date & Time";
     public const string AppSettingDateTimeCalendarView = "Calendar view";

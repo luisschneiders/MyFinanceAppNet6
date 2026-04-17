@@ -6,52 +6,71 @@
  */
 
 (() => {
-    'use strict'
+    'use strict';
 
     const key = "AppTheme";
 
-    const storedTheme = localStorage.getItem(key);
+    // --- Helpers ---
+    const getStoredTheme = () => {
+        try {
+            const value = localStorage.getItem(key);
+            return value ? JSON.parse(value) : null;
+        } catch {
+            return null;
+        }
+    };
+
+    const getSystemTheme = () => {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light';
+    };
 
     const getPreferredTheme = () => {
-        if (storedTheme) {
-            let theme = JSON.parse(storedTheme);
-            return theme;
+        const stored = getStoredTheme();
+
+        if (stored && ['light', 'dark', 'auto'].includes(stored.toLowerCase())) {
+            return stored.toLowerCase();
         }
 
-        var mode = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-
-        return capitalizeWord(mode);
+        return 'auto';
     };
 
-    const setTheme = function (theme) {
-        var color = theme;
-        if (color.toLowerCase() === 'auto' && window.matchMedia('(prefers-color-scheme: light)').matches) {
-            document.documentElement.setAttribute('data-bs-theme', 'light')
-            localStorage.setItem(key, JSON.stringify(theme));
-        } else {
-            document.documentElement.setAttribute('data-bs-theme', color.toLowerCase())
-            localStorage.setItem(key, JSON.stringify(theme));
-        }
+    const applyTheme = (theme) => {
+        const resolvedTheme =
+            theme === 'auto'
+                ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+                : theme;
+
+        document.documentElement.setAttribute('data-bs-theme', resolvedTheme);
     };
 
-    const capitalizeWord = function (str) {
-        return str
-            .toLowerCase() // Convert the string to lowercase
-            .split(' ') // Split the string into words
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
-            .join(' '); // Join the words back together
-    }
+    const setTheme = (theme) => {
+        const normalized = theme.toLowerCase();
 
-    setTheme(getPreferredTheme());
+        localStorage.setItem(key, JSON.stringify(theme));
+        applyTheme(normalized);
+    };
 
-    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
-        if (storedTheme !== "light" || storedTheme !== "dark") {
-            setTheme(getPreferredTheme())
+    // --- Init ---
+    applyTheme(getPreferredTheme());
+
+    // --- React to system changes ---
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+    mediaQuery.addEventListener('change', () => {
+        const stored = getStoredTheme();
+
+        if (!stored || stored === 'auto') {
+            requestAnimationFrame(() => {
+                applyTheme('auto');
+            });
         }
     });
 
+    // --- Public API ---
     window.updateColorMode = (theme) => {
         setTheme(theme);
     };
 
-})()
+})();
