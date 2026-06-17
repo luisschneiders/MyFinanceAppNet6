@@ -57,6 +57,7 @@ public static class RegisterServices
         //Mysql
         builder.Services.AddSingleton<IDataAccess, MysqlDataAccess>();
         builder.Services.AddSingleton<IBankData<BankModel>, BankData>();
+        builder.Services.AddSingleton<IBankTransactionHistoryData<BankTransactionHistoryModel>, BankTransactionHistoryData>();
         builder.Services.AddSingleton<ICompanyData<CompanyModel>, CompanyData>();
         builder.Services.AddSingleton<IExpenseData<ExpenseModel>, ExpenseData>();
         builder.Services.AddSingleton<IExpenseCategoryData<ExpenseCategoryModel>, ExpenseCategoryData>();
@@ -102,6 +103,7 @@ public static class RegisterServices
 
         //Data
         builder.Services.AddScoped<IBankService<BankModel>, BankService>();
+        builder.Services.AddScoped<IBankTransactionHistoryService<BankTransactionHistoryModel>, BankTransactionHistoryService>();
         builder.Services.AddScoped<ICompanyService<CompanyModel>, CompanyService>();
         builder.Services.AddScoped<IExpenseService<ExpenseModel>, ExpenseService>();
         builder.Services.AddScoped<IExpenseCategoryService<ExpenseCategoryModel>, ExpenseCategoryService>();

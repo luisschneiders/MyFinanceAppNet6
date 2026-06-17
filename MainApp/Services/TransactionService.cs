@@ -452,12 +452,12 @@ public class TransactionService : ITransactionService<TransactionModel>
     {
         try
         {
-            var resultsByGroup = records.GroupBy(tc => (tc.TCategoryDescription, tc.Action));
+            var resultsByGroup = records.GroupBy(tc => (tc.TCategoryDescription, tc.Action, tc.Label));
 
             var results = resultsByGroup.Select(tcGroup => new TransactionByCategoryGroupDTO()
             {
-                Description = $"{tcGroup.Key.TCategoryDescription} ({_enumHelper.GetDescription((TransactionActionType)Enum.Parse(typeof(TransactionActionType), tcGroup.Key.Action))})",
-                Total = tcGroup.Sum(a => a.Amount),
+                Description = $"{tcGroup.Key.TCategoryDescription} ({_enumHelper.GetDescription((TransactionActionType)Enum.Parse(typeof(TransactionActionType), tcGroup.Key.Label))})",
+                Total = tcGroup.Sum(a => a.Action == TransactionActionType.C.ToString() ? a.Amount : -a.Amount),
                 Transactions = tcGroup.ToList()
             }).ToList();
 

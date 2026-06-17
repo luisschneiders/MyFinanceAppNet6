@@ -6,7 +6,7 @@
 
 <OffCanvas @ref="_offCanvas" PositionX="Position.End" Title="@Label.AppSettingAppearance">
     <fieldset class="py-5">
-        <legend><i class="bi bi-moon-stars-fill text-info-emphasis fs-5 pe-2"></i>@Label.AppSettingAppearanceMoveView</legend>
+        <legend><i class="bi bi-moon-stars-fill text-info-emphasis fs-5 pe-2"></i>@Label.AppSettingAppearanceModeView</legend>
         <div class="row align-items-center">
             <div class="col-auto pe-0">
                 <small class="text-secondary">
@@ -21,14 +21,20 @@
                                  ButtonInnerStyles="d-flex justify-content-between">
                     <li class="p-1">
                         <button class="dropdown-item rounded"
+                                @onclick="() => UpdateThemeAsync(ColorMode.Auto)">
+                            @Label.AppSettingAppearanceModeViewAuto
+                        </button>
+                    </li>
+                    <li class="p-1">
+                        <button class="dropdown-item rounded"
                                 @onclick="() => UpdateThemeAsync(ColorMode.Dark)">
-                            @Label.AppSettingAppearanceMoveViewDark
+                            @Label.AppSettingAppearanceModeViewDark
                         </button>
                     </li>
                     <li class="p-1">
                         <button class="dropdown-item rounded"
                                 @onclick="() => UpdateThemeAsync(ColorMode.Light)">
-                            @Label.AppSettingAppearanceMoveViewLight
+                            @Label.AppSettingAppearanceModeViewLight
                         </button>
                     </li>
                 </DropdownActions>

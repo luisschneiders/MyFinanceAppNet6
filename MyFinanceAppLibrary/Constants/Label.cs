@@ -21,6 +21,7 @@ public static class Label
     public const string AppAdded = "Added!";
     public const string AppUpdated = "Updated!";
     public const string AppSaved = "Saved!";
+    public const string AppSelect = "Select";
     public const string AppArchived = "Archived!";
     public const string AppNoRecordFound = "No record found!";
     public const string AppActions = "Actions";
@@ -41,8 +42,10 @@ public static class Label
     public const string AppKm = "Km";
     public const string AppCannotBeUndone = "This action cannot be undone.";
     public const string AppNewChart = "New Chart";
+    public const string AppNewFeature = "New Feature";
     public const string AppMessageDateRangeChanged = "Date range has changed!";
     public const string AppMessageConfettiNotDefined = "Confetti is not defined, please check console for more info.";
+    public const string AppMessageComingSoon = "Coming soon!";
 
 
     // Menubar
@@ -73,19 +76,22 @@ public static class Label
 
 
     // Settings
+    public const string AppSettingTitle = "App Customization";
+    public const string AppSettingParagraph = "Customize the app’s design and layout to fit your needs. From visual styling to interface preferences, you’re in control of how the app looks and feels.";
     public const string AppSettingAppearance = "Appearance";
     public const string AppSettingAppearanceCurrentMoveView = "Your current mode view is";
-    public const string AppSettingAppearanceMoveView = "App mode view";
-    public const string AppSettingAppearanceMoveViewDark = "Dark";
-    public const string AppSettingAppearanceMoveViewLight = "Light";
-    public const string AppSettingAppearanceParagraph = "Choose dark or light mode.";
+    public const string AppSettingAppearanceModeView = "App mode view";
+    public const string AppSettingAppearanceModeViewAuto = "Auto";
+    public const string AppSettingAppearanceModeViewDark = "Dark";
+    public const string AppSettingAppearanceModeViewLight = "Light";
+    public const string AppSettingAppearanceParagraph = "Switch between light and dark themes to suit your preference.";
     public const string AppSettingDateTime = "Date & Time";
     public const string AppSettingDateTimeCalendarView = "Calendar view";
     public const string AppSettingDateTimeCurrentCalendarView = "Your current start of the week is";
     public const string AppSettingDateTimeMessageFieldRequired = "Start of the week field is required.";
-    public const string AppSettingDateTimeParagraph = "Configure views and functionalities.";
+    public const string AppSettingDateTimeParagraph = "Adjust date and time formats and related display settings.";
     public const string AppSettingInterface = "Interface";
-    public const string AppSettingInterfaceParagraph = "Configure buttons, components and forms.";
+    public const string AppSettingInterfaceParagraph = "Customize buttons, components, and form layouts.";
     public const string AppSettingInterfaceShadow = "Shadows";
     public const string AppSettingInterfaceShadowLarge = "Large";
     public const string AppSettingInterfaceShadowMedium = "Medium";
@@ -111,21 +117,23 @@ public static class Label
 
 
     // Page admin section
-    public const string AppPageAdminFinancialInstitutionParagraph1 = "Control and visualize your expenses using calendar or list views.";
-    public const string AppPageAdminFinancialInstitutionParagraph2 = "See map locations based on your purchases.";
-    public const string AppPageAdminTransactionParagraph1 = "Create records between banks and visualize graphs comparing income & outcomes from previous months.";
-    public const string AppPageAdminTimesheetParagraph1 = "Keep records of your timesheets across the companies you work.";
-    public const string AppPageAdminTimesheetParagraph2 = "Use the calculator tool for rates estimate.";
-    public const string AppPageAdminTripParagraph1 = "Keep track of your trips based on the cars you drive.";
+    public const string AppPageAdminTitle = "Stay on Top of Your Money, Time & Travel";
+    public const string AppPageAdminParagraph = "Manage your expenses, transactions, timesheets, and trips in one unified platform. Visualise historical and current data using calendar, list, map, and graph views, apply powerful filters, and generate reports to gain clear insights into your finances, work hours, and travel activity.";
+    public const string AppPageAdminExpenseParagraph1 = "Track and visualise your current and past expenses using calendar or list views. View purchase locations on a map and apply filters to quickly find what you need.";
+    public const string AppPageAdminTransactionParagraph1 = "Create and manage transaction records between financial institutions. Visualise current and past transactions, apply filters, and view graphs comparing income and expenses across previous months.";
+    public const string AppPageAdminTimesheetParagraph1 = "Manage timesheets across the companies you work for. Visualise current and past entries using calendar or list views, apply filters, set availability and shifts, and estimate rates using the built-in calculator.";
+    public const string AppPageAdminTripParagraph1 = "Log and manage trips for the vehicles you drive. Visualise current and past trips using calendar or list views, apply filters, and generate printable reports.";
 
 
     // Page setup section
-    public const string AppPageSetupFinancialInstitutionParagraph  = "Add, update and view list of financial institutions.";
-    public const string AppPageSetupCompanyParagraph  = "Add, update and view list of companies.";
-    public const string AppPageSetupExpenseParagraph  = "Add, update and view list of expense categories.";
-    public const string AppPageSetupTaxParagraph  = "Add, update and view list of tax categories.";
-    public const string AppPageSetupTransactionParagraph  = "Add, update and view list of transaction categories.";
-    public const string AppPageSetupVehicleParagraph  = "Add, update and view list of vehicles.";
+    public const string AppPageSetupTitle = "Application features overview";
+    public const string AppPageSetupParagraph = "This application allows you to easily manage essential business and financial information in one place. The following features help you organize and maintain accurate records for daily operations.";
+    public const string AppPageSetupFinancialInstitutionParagraph = "Manage financial institutions used within the app. Users can add new institutions, update existing details, and view a complete list for easy reference.";
+    public const string AppPageSetupCompanyParagraph  = "Maintain company records in one place. Users can add new companies, edit company information, and view the list of registered companies.";
+    public const string AppPageSetupExpenseParagraph  = "Organize expense tracking with customizable categories. Users can add, update, and view expense categories to ensure accurate classification of expenses.";
+    public const string AppPageSetupTaxParagraph  = "Manage tax classifications efficiently. Users can add new tax categories, update existing ones, and view all available tax options for financial records.";
+    public const string AppPageSetupTransactionParagraph  = "Define and manage transaction categories. Users can add, update, and view transaction types to support consistent transaction tracking and reporting.";
+    public const string AppPageSetupVehicleParagraph  = "Keep track of vehicles associated with the app. Users can add vehicle details, update information, and view the full list of registered vehicles.";
 
 
     // Page financial institution
@@ -143,6 +151,8 @@ public static class Label
     public const string AppSetupCompanyFieldDescription = "Description";
     public const string AppSetupCompanyFieldPosition = "Position";
     public const string AppSetupCompanyFieldRate = "Rate";
+    public const string AppSetupCompanyFieldCPK = "Cents per Kilometre (CPK)";
+    public const string AppSetupCompanyFieldCPKShortLabel = "CPK";
     public const string AppSetupCompanyFieldStandardHours = "Standard Hours";
     public const string AppSetupCompanyFieldStatus = AppFieldStatus;
 
@@ -198,6 +208,7 @@ public static class Label
     public const string AppAdminExpensePeriodMessage1 = "Total";
     public const string AppAdminExpensePeriodMessage2 = "expenses for the period";
     public const string AppAdminExpensePeriodMessage3 = "All transactions linked to this record will be archived too.";
+    public const string AppAdminExpenseExportMessage = "Expense report saved to Downloads";
 
 
     // Page transactions
@@ -216,6 +227,15 @@ public static class Label
     public const string AppAdminTransactionInfoMessage1 = "Expenses cannot be archived from here";
     public const string AppAdminTransactionInfoMessage2 = "Please visit page";
     public const string AppAdminTransactionInfoMessage3 = "All transactions linked to this record will be archived too.";
+    public const string AppAdminBankTransactionHistoryButton = "Financial History";
+    public const string AppAdminBankTransactionHistoryTitle = "Transaction History";
+    public const string AppAdminBankTransactionHistoryFieldFinancialInstitution = "Financial Institution";
+    public const string AppAdminBankTransactionHistoryColumnAction = "Action";
+    public const string AppAdminBankTransactionHistoryColumnPreviousBalance = "Previous Balance";
+    public const string AppAdminBankTransactionHistoryColumnAmount = "Amount";
+    public const string AppAdminBankTransactionHistoryColumnCurrentBalance = "Balance";
+    public const string AppAdminBankTransactionHistoryMessage1 = "Select a financial institution to display transaction history";
+    public const string AppAdminTransactionExportMessage = "Transaction report saved to Downloads";
 
 
     // Page timesheet and shift
@@ -253,13 +273,17 @@ public static class Label
     public const string AppAdminTripFieldCategory = "Category";
     public const string AppAdminTripFieldDate = "Date";
     public const string AppAdminTripFieldDistance = "Distance (Km)";
+    public const string AppAdminTripFieldCPK = "CPK";
+    public const string AppAdminTripFieldComments = "Comments";
     public const string AppAdminTripFieldEndOdo = "End Odometer";
     public const string AppAdminTripFieldStartOdo = "Start Odometer";
+    public const string AppAdminTripFieldTotal = "Total";
     public const string AppAdminTripFieldVehicle = "Vehicle";
     public const string AppAdminTripInfoMessage1 = "Total";
     public const string AppAdminTripInfoMessage2 = "distance for the period";
-    public const string AppAdminTripPrintMessage = "Total distance";
     public const string AppAdminTripPayStatus = AppFieldStatus;
+    public const string AppAdminTripPlaceholderBalance = "---,---.--";
+    public const string AppAdminTripPrintMessage = "Total distance";
 
 
     // Components section
@@ -324,6 +348,8 @@ public static class Label
     public const string AppButtonInfo = "Info";
     public const string AppButtonGenerate = "Generate";
     public const string AppButtonGenerating = "Generating...";
+    public const string AppButtonLoadMore = "Load More";
+    public const string AppButtonLoading = "Loading...";
     public const string AppButtonMoreAction = "More Actions";
     public const string AppButtonNext = "Next";
     public const string AppButtonPrevious = "Previous";
@@ -333,11 +359,14 @@ public static class Label
     public const string AppButtonSave = "Save";
     public const string AppButtonSaving = "Saving...";
     public const string AppButtonSearch = "Search";
+    public const string AppButtonSearching = "Searching...";
     public const string AppButtonSignIn = "Sign In";
     public const string AppButtonVerifyAddress = "Verify Address";
     public const string AppButtonVerifyingAddress = "Verifying Address...";
     public const string AppButtonViewDetails = "View";
     public const string AppButtonViewMoreChart = "View more charts";
+    public const string AppButtonVisitPage = "Visit page";
+    public const string AppButtonCustomise = "Customise";
 
 
     // Standard fields

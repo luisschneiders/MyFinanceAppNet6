@@ -57,10 +57,11 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
     private string _viewType { get; set; } = ViewType.Calendar.ToString();
     private string _dropdownDateCalendarLabel { get; set; } = Label.AppNoDateAssigned;
     private DateTime[][] _weeks { get; set; } = default!;
-    private TimesheetTotal _timesheetTotal{ get; set; } = new();
-    private List<TableColumn> _tableColumns { get; set;} = new();
+    private TimesheetTotal _timesheetTotal { get; set; } = new();
+    private List<TableColumn> _tableColumns { get; set; } = new();
     private bool _isLoadingView { get; set; } = true;
-    
+    private bool _isBlurred { get; set; } = false;
+
     public AdminTimesheetPanelLeft()
     {
         _payStatuses = (PayStatus[])Enum.GetValues(typeof(PayStatus));
@@ -187,7 +188,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         await Task.CompletedTask;
     }
 
-// TODO
+    // TODO
     private async Task UpdateAvailabilityAsync(DateTime date)
     {
         try
@@ -196,7 +197,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         }
         catch (Exception ex)
         {
-            _toastService.ShowToast(ex.Message, Theme.Danger); ;
+            _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 
         await Task.CompletedTask;
@@ -209,7 +210,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         }
         catch (Exception ex)
         {
-            _toastService.ShowToast(ex.Message, Theme.Danger);;
+            _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 
         await Task.CompletedTask;
@@ -223,7 +224,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         }
         catch (Exception ex)
         {
-            _toastService.ShowToast(ex.Message, Theme.Danger);;
+            _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 
         await Task.CompletedTask;
@@ -291,7 +292,7 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
             _isLoadingView = false;
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
-        
+
         await Task.CompletedTask;
     }
 
@@ -391,7 +392,8 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         {
             return true;
         }
-        else{
+        else
+        {
             return false;
         }
     }
@@ -418,6 +420,11 @@ public partial class AdminTimesheetPanelLeft : ComponentBase
         await _timesheetService.SetLocalStorageTableColumns(_tableColumns);
 
         await Task.CompletedTask;
+    }
+
+    private void ToggleBlur()
+    {
+        _isBlurred = !_isBlurred;
     }
 
     // public void Dispose()

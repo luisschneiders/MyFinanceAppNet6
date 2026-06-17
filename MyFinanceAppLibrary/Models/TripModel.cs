@@ -15,20 +15,25 @@ public class TripModel : BaseModel
     public ulong VehicleId { get; set; }
 
     [Required]
-    [Range(1, int.MaxValue, ErrorMessage = "The Category field is required.")]
+    [Range(0, int.MaxValue, ErrorMessage = "The Category field is required.")]
     public ulong TCategoryId { get; set; }
 
     [Required]
     [RegularExpression(@"^\d+(.\d{1,2})?$", ErrorMessage = "Invalid value")]
-    [Range(0.01, int.MaxValue, ErrorMessage = "The Distance must be greater than 0.00.")]
+    [Range(0.01, int.MaxValue, ErrorMessage = "The Distance must be greater than 0.00")]
     public decimal Distance { get; set; }
 
-    public decimal StartOdometer { get; set ; } = 0;
+    public decimal StartOdometer { get; set; } = 0;
 
-    public decimal EndOdometer { get; set ; } = 0;
+    public decimal EndOdometer { get; set; } = 0;
+
+    public decimal CPK { get; set; }
 
     [Required]
     public int PayStatus { get; set; } = 0;
+    
+    [MaxLength(45, ErrorMessage = "Max length is 45 characteres.")]
+    public string Comments { get; set; }
 
 #nullable enable
 }

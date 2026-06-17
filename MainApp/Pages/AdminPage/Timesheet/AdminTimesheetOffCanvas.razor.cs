@@ -20,6 +20,9 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
     [Inject]
     private ToastService _toastService { get; set; } = default!;
 
+    [Inject]
+    private IAnimationService _animationService { get; set; } = default!;
+
     [CascadingParameter(Name = "AppSettings")]
     protected IAppSettings _appSettings { get; set; } = default!;
 
@@ -181,6 +184,7 @@ public partial class AdminTimesheetOffCanvas : ComponentBase
             {
                 case OffCanvasViewType.Add:
                     await _timesheetService.CreateRecord(_timesheetModel);
+                    await _animationService.ConfettiTransaction();
                     _toastService.ShowToast(Label.AppAdminTimesheet+" "+Label.AppAdded, Theme.Success);
                     break;
                 case OffCanvasViewType.Edit:

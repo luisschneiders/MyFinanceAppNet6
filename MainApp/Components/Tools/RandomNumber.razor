@@ -119,7 +119,7 @@
                                         type="button"
                                         disabled="@(_isExporting ? true : false)"
                                         @onclick="ExportAsync">
-                                        @(_isExporting ? @Label.AppButtonExporting : @Label.AppButtonExport)
+                                        <i class="bi bi-file-earmark-arrow-down pe-1"></i>@(_isExporting ? @Label.AppButtonExporting : @Label.AppButtonExport)
                                     </button>
                                 </div>
                             }

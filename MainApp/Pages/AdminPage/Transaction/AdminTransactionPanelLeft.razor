@@ -12,7 +12,7 @@
 <CardView Styles="border-0">
     <CardMiddle>
         <div class="row pb-2">
-            <div class="col-10 col-lg-8 pb-2 d-flex align-items-center">
+            <div class="col-10 col-lg-9 pb-2 d-flex align-items-center">
                 @if (_isLoading)
                 {
                     <Loader />
@@ -32,45 +32,57 @@
                     @if (_viewType == ViewType.Calendar.ToString())
                     {
                         <div class="ps-2">
-                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
-                                    @onclick="() => PreviousPeriodAsync(_dateCalendar, ViewType.Calendar)"
-                                    title="@Label.AppButtonPrevious"
-                                    disabled="@(_isLoadingView ? true : false)">
-                                <i class="bi bi-chevron-left"></i>
-                            </button>
+                            <div class="btn-group @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                                role="group"
+                                aria-label="Past and future"
+                                title="Change view">
+
+                                <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded-start"+_appSettings.Button)"
+                                        @onclick="() => PreviousPeriodAsync(_dateCalendar, ViewType.Calendar)"
+                                        title="@Label.AppButtonPrevious"
+                                        disabled="@(_isLoadingView ? true : false)">
+                                    <i class="bi bi-chevron-left"></i>
+                                </button>
+                                <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded-end"+_appSettings.Button)"
+                                        @onclick="() => NextPeriodAsync(_dateCalendar, ViewType.Calendar)"
+                                        title="@Label.AppButtonNext"
+                                        disabled="@(_isLoadingView ? true : false)">
+                                    <i class="bi bi-chevron-right"></i>
+                                </button>
+                            </div>
+
                             <DropdownDateMonthYear 
                                                 ButtonSize="Size.Sm"
                                                 DateTimeRange="@_dateCalendar"
                                                 DropdownLabel="@_dropdownDateCalendarLabel"
                                                 OnSubmitSuccess="data => RefreshDropdownDateMonthYear(data)" />
-                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
-                                    @onclick="() => NextPeriodAsync(_dateCalendar, ViewType.Calendar)"
-                                    title="@Label.AppButtonNext"
-                                    disabled="@(_isLoadingView ? true : false)">
-                                <i class="bi bi-chevron-right"></i>
-                            </button>
                         </div>
                     }
                     else
                     {
                         <div class="ps-2">
-                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow) d-none d-md-inline"
-                                    @onclick="() => PreviousPeriodAsync(_dateRange, ViewType.List)"
-                                    title="@Label.AppButtonPrevious"
-                                    disabled="@(_isLoadingView ? true : false)">
-                                <i class="bi bi-chevron-left"></i>
-                            </button>
+                            <div class="btn-group @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+                                role="group"
+                                aria-label="Past and future"
+                                title="Change view">
+                                <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded-start"+_appSettings.Button) d-none d-md-inline"
+                                        @onclick="() => PreviousPeriodAsync(_dateRange, ViewType.List)"
+                                        title="@Label.AppButtonPrevious"
+                                        disabled="@(_isLoadingView ? true : false)">
+                                    <i class="bi bi-chevron-left"></i>
+                                </button>
+                                <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded-end"+_appSettings.Button) d-none d-md-inline"
+                                        @onclick="() => NextPeriodAsync(_dateRange, ViewType.List)"
+                                        title="@Label.AppButtonNext"
+                                        disabled="@(_isLoadingView ? true : false)">
+                                    <i class="bi bi-chevron-right"></i>
+                                </button>
+                            </div>
                             <DropdownDateRange ButtonSize="Size.Sm"
                                             DateTimeRange="@_dateRange"
                                             DropdownLabel="@_dropdownDateRangeLabel"
                                             PeriodRange="PeriodRange.Month"
                                             OnSubmitSuccess="data => RefreshDropdownDateRange(data)" />
-                            <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower() ) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow) d-none d-md-inline"
-                                    @onclick="() => NextPeriodAsync(_dateRange, ViewType.List)"
-                                    title="@Label.AppButtonNext"
-                                    disabled="@(_isLoadingView ? true : false)">
-                                <i class="bi bi-chevron-right"></i>
-                            </button>
                         </div>
                     }
                     <div class="ps-2 d-none d-lg-flex">
@@ -100,13 +112,37 @@
                     </div>
                 }
             </div>
-            <div class="col-2 col-lg-4 pb-2 d-flex justify-content-end">
-                <div class="d-none d-lg-block">
-                    <button class="me-1 btn btn-@(Size.Sm.ToString().ToLower()) btn-outline-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
-                            @onclick="() => OpenCalculatorAsync()" title="@Label.AppCalculator">
-                        <i class="bi bi-calculator"></i>
-                    </button>
-                    <button class="btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
+            <div class="col-2 col-lg-3 pb-2 d-flex justify-content-end">
+                <div class="d-none d-lg-inline-flex">
+                    <DropdownActions DropdownPosition="Position.End"
+                                     ButtonSize="Size.Sm">
+                        <li class="p-1">
+                            <button class="dropdown-item rounded"
+                                    @onclick="() => OpenCalculatorAsync()">
+                                <i class="bi bi-calculator pe-1"></i>@Label.AppCalculator
+                            </button>
+                        </li>
+                        @if (_viewType == ViewType.List.ToString())
+                        {
+                            <li class="p-1">
+                                <button class="dropdown-item rounded text-@(Theme.Primary.ToString().ToLower())"
+                                        disabled="@(_isExporting ? true : false)"
+                                        @onclick="ExportAsync">
+                                    <i class="bi bi-file-earmark-arrow-down pe-1"></i>@(_isExporting ? @Label.AppButtonExporting : @Label.AppButtonExport)
+                                    <sup class="ps-1">
+                                        <Badge BackgroundColor="@Theme.Danger" Message="@Label.AppNewFeature" />
+                                    </sup>
+                                </button>
+                            </li>
+                        }
+                        <li class="p-1">
+                            <button class="dropdown-item rounded"
+                                    @onclick="() => OpenTransactionHistoryAsync()">
+                                <i class="bi bi-clock-history pe-1"></i>@Label.AppAdminBankTransactionHistoryButton
+                            </button>
+                        </li>
+                    </DropdownActions>
+                    <button class="ms-2 btn btn-@(Size.Sm.ToString().ToLower()) btn-@(Theme.Secondary.ToString().ToLower()) border-@(Theme.Light.ToString().ToLower())-subtle @("rounded"+_appSettings.Button) @("shadow"+_appSettings.Shadow)"
                             @onclick="() => AddRecordAsync(DateTime.Now)">
                         <i class="bi bi-plus-lg pe-1"></i>@Label.AppAdminTransactionButtonNew
                     </button>
@@ -121,7 +157,25 @@
                                 <i class="bi bi-calculator pe-1"></i>@Label.AppCalculator
                             </button>
                         </li>
-
+                        @if (_viewType == ViewType.List.ToString())
+                        {
+                            <li class="p-1">
+                                <button class="dropdown-item rounded text-@(Theme.Primary.ToString().ToLower())"
+                                        disabled="@(_isExporting ? true : false)"
+                                        @onclick="ExportAsync">
+                                    <i class="bi bi-file-earmark-arrow-down pe-1"></i>@(_isExporting ? @Label.AppButtonExporting : @Label.AppButtonExport)
+                                    <sup class="ps-1">
+                                        <Badge BackgroundColor="@Theme.Danger" Message="@Label.AppNewFeature" />
+                                    </sup>
+                                </button>
+                            </li>
+                        }
+                        <li class="p-1">
+                            <button class="dropdown-item rounded"
+                                    @onclick="() => OpenTransactionHistoryAsync()">
+                                <i class="bi bi-clock-history pe-1"></i>@Label.AppAdminBankTransactionHistoryButton
+                            </button>
+                        </li>
                         <li class="p-1">
                             <button class="dropdown-item rounded"
                                     @onclick="() => AddRecordAsync(DateTime.Now)">
@@ -192,7 +246,7 @@
                                                                         @onclick="() => ViewTransactionsDetailsAsync(date)">
                                                                         <div class="d-flex justify-content-end">
                                                                             <div class="app-calendar-cell-day app-calendar-cell-current-day text-center p-1 fw-bold @($"rounded{_appSettings.Button}") @((DateTime.Now.Day == date.Day && DateTime.Now.Month == _dateCalendar.Start.Month) ?
-                                                                                        $"bg-{Theme.Dark.ToString().ToLower()} text-white" : $"bg-{Theme.Light.ToString().ToLower()}")">
+                                                                                        $"bg-{Theme.Danger.ToString().ToLower()} text-white" : $"bg-{Theme.Light.ToString().ToLower()}")">
                                                                                 @(date.Day)
                                                                             </div>
                                                                         </div>
@@ -246,13 +300,13 @@
                                 else
                                 {
                                     <div class="accordion d-flex justify-content-between p-2 fw-semibold
-                                                bg-@(Theme.Secondary.ToString().ToLower())-subtle">
+                                                bg-@(Theme.Secondary.ToString().ToLower())-subtle align-items-center">
                                         <div class="d-flex">
                                             @Label.AppAdminTransactionPeriodMessage1<span class="d-none d-lg-block ps-1">@Label.AppAdminTransactionPeriodMessage2</span>
                                         </div>
-                                        <span>
+                                        <div class="d-flex">
                                             @_totalBalance.ToString("C")
-                                        </span>
+                                        </div>
                                     </div>
                                     <Accordion Id="Transactions">
                                         @foreach (var (record, index) in _transactionsListView.Select((value, index) => (value, index)))
@@ -383,3 +437,4 @@
 <AdminTransactionModalFilter @ref="_setupModalFilter" OnSubmitFilterSuccess="filterTransaction => RefreshFilterList(filterTransaction)" />
 <AdminTransactionModalDetails @ref="_setupModalTransactionDetails" OnSubmitSuccess="dateTime => OpenSetupOffCanvas(dateTime)" />
 <AdminTransactionModalCalculator @ref="_setupModalCalculator"/>
+<TransactionHistory @ref="_setupModalTransactionHistory"/>

@@ -34,7 +34,7 @@
                                         _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                id="VehicleDescription"
                                placeholder="@Label.AppSetupVehicleFieldDescription"
-                               readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                               disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                @bind-Value="_vehicleModel.Description" />
                     <label for="VehicleDescription">@Label.AppSetupVehicleFieldDescription</label>
@@ -46,7 +46,7 @@
                                placeholder="@Label.AppSetupVehicleFieldYear"
                                min="1900"
                                max="@_currentYear.Year"
-                               readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                               disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                @bind-Value="_vehicleModel.Year" />
                     <label for="VehicleYear">@Label.AppSetupVehicleFieldYear</label>
@@ -56,7 +56,7 @@
                                         _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                id="VehicleCarmaker"
                                placeholder="@Label.AppSetupVehicleFieldCarmaker"
-                               readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                               disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                @bind-Value="_vehicleModel.Carmaker" />
                     <label for="VehicleCarmaker">@Label.AppSetupVehicleFieldCarmaker</label>
@@ -66,7 +66,7 @@
                                         _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? _inputFormAttributes.PlainText : _inputFormAttributes.Control)"
                                id="VehiclePlate"
                                placeholder="@Label.AppSetupVehicleFieldPlate"
-                               readonly="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
+                               disabled="@((_offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.View ||
                                            _offCanvasService.GetOffCanvasViewType() == OffCanvasViewType.Archive) ? true: false)"
                                @bind-Value="_vehicleModel.Plate" />
                     <label for="VehiclePlate">@Label.AppSetupVehicleFieldPlate</label>

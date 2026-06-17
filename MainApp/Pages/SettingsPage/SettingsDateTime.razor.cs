@@ -10,6 +10,9 @@ public partial class SettingsDateTime : ComponentBase
     [Parameter]
     public string Radius { get; set; } = string.Empty;
 
+    [CascadingParameter(Name = "AppSettings")]
+    protected IAppSettings _appSettings { get; set; } = default!;
+
     public SettingsDateTime()
     {
     }

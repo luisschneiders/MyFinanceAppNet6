@@ -1,7 +1,7 @@
 ﻿@if (IsVisible)
 {
-    <nav class="app-breadcrumb d-flex d-none d-lg-flex align-items-center @(_appPageLink.Length > 0 ? "breadcrumb-divider" : "breadcrumb-no-divider" )" aria-label="breadcrumb">
-        <ol class="breadcrumb mb-0 text-capitalize">
+    <nav class="app-breadcrumb card border-0 @("rounded"+_appSettings.Card) px-2 d-flex d-none d-lg-flex align-items-center @(_appPageLink.Length > 0 ? "breadcrumb-divider" : "breadcrumb-no-divider" )" aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0 text-capitalize lead">
 
             @foreach (var breadcrumb in _breadcrumbLinks.Select((x, i) => new { Value = x, Index = i }))
             {

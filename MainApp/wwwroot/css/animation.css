@@ -1,4 +1,36 @@
-﻿@media (min-width: 641px) {
+﻿.app-bg-animation {
+    background: rgb(190,208,244);
+    background: radial-gradient(circle, rgba(190,208,244,1) 0%, rgb(202, 169, 199) 80%);
+    background-size: 200% 200%;
+
+    -webkit-animation: AppBGAnimation 30s ease infinite;
+    -moz-animation: AppBGAnimation 30s ease infinite;
+    -o-animation: AppBGAnimation 30s ease infinite;
+    animation: AppBGAnimation 30s ease infinite;
+}
+
+@-webkit-keyframes AppBGAnimation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes AppBGAnimation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-o-keyframes AppBGAnimation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes AppBGAnimation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+@media (min-width: 641px) {
     .mountain, .mountain-two, .mountain-three, .mountain-four {
         right: 1rem;
         bottom: 0;

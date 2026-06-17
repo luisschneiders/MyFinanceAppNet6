@@ -60,7 +60,7 @@ public class TimesheetModel : BaseModel, IValidatableObject
 
         if (TimeIn >= TimeOut)
         {
-            results.Add(new ValidationResult("Punch out must be greater that Punch in", new[] { nameof(TimeOut) } ));
+            results.Add(new ValidationResult("Punch out must be greater than Punch in", new[] { nameof(TimeOut) } ));
         }
 
         return results;

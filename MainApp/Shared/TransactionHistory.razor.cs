@@ -1,0 +1,172 @@
+using MainApp.Components.Modal;
+using MainApp.Components.Toast;
+using Microsoft.AspNetCore.Components;
+
+namespace MainApp.Shared;
+
+public partial class TransactionHistory : ComponentBase
+{
+    [Inject]
+    private ToastService _toastService { get; set; } = default!;
+
+    [Inject]
+    private IBankService<BankModel> _bankService { get; set; } = default!;
+
+    [Inject]
+    private IBankTransactionHistoryService<BankTransactionHistoryModel> _bankTransactionHistoryService { get; set; } = default!;
+
+    [CascadingParameter(Name = "AppSettings")]
+    protected IAppSettings _appSettings { get; set; } = default!;
+
+    private Modal _modal { get; set; } = new();
+    private Guid _modalTarget { get; set; }
+    private InputFormAttributes _inputFormAttributes { get; set; } = new();
+    private List<BankModel> _banks { get; set; } = new();
+    private List<BankTransactionHistoryByDateGroupDTO> _bankTransactionHistoryListView { get; set; } = new();
+    private BankTransactionHistoryModel _bankTransactionHistoryModel { get; set; } = new();
+    private MultiFilterBankTransactionHistoryDTO _multiFilterBankTransactionHistoryDTO { get; set; } = new();
+    private bool _isLoading { get; set; } = false;
+    private bool _isProcessing { get; set; } = false;
+    private bool _isProcessingLoad { get; set; } = false;
+    private bool _hasMore { get; set; } = false;
+
+    public TransactionHistory()
+    {
+    }
+
+    public async Task OpenModalAsync()
+    {
+        try
+        {
+            _modalTarget = Guid.NewGuid();
+
+            _inputFormAttributes.Control = new()
+            {
+                {
+                    "class", $"form-control rounded{_appSettings.Form}"
+                }
+            };
+
+            _inputFormAttributes.Select = new()
+            {
+                {
+                    "class", $"form-select form-select-sm rounded{_appSettings.Form}"
+                }
+            };
+
+            await _modal.Open(_modalTarget);
+
+            await FetchDataAsync();
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+    }
+
+    private async Task FetchDataAsync()
+    {
+
+        _isLoading = true;
+
+        StateHasChanged();
+
+        try
+        {
+            _banks = await _bankService.GetRecords();
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+        finally
+        {
+            _isLoading = false;
+
+            StateHasChanged();
+        }
+    }
+
+    private async Task SearchAsync()
+    {
+
+        _multiFilterBankTransactionHistoryDTO.LastId = null;
+        _multiFilterBankTransactionHistoryDTO.BankId = _bankTransactionHistoryModel.BankId;
+        _multiFilterBankTransactionHistoryDTO.LoadMore = LoadMore.BankTransactionHistory;
+
+        _isProcessing = true;
+
+        StateHasChanged();
+
+        try
+        {
+            _bankTransactionHistoryListView = await _bankTransactionHistoryService.GetRecordsListView(_multiFilterBankTransactionHistoryDTO);
+            _hasMore = true;
+            await Task.Delay((int)Delay.DataLoading);
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+        finally
+        {
+            _isProcessing = false;
+
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadMoreAsync()
+    {
+        _isProcessingLoad = true;
+
+        StateHasChanged();
+
+        try
+        {
+            BankTransactionHistoryListDTO lastRecord = _bankTransactionHistoryListView.LastOrDefault()?
+                                .Transactions.LastOrDefault()!;
+
+            _multiFilterBankTransactionHistoryDTO.LastId = lastRecord!.Id;
+
+            List<BankTransactionHistoryByDateGroupDTO> bankTransactionHistoryListView = new();
+
+            bankTransactionHistoryListView = await _bankTransactionHistoryService.GetRecordsListView(_multiFilterBankTransactionHistoryDTO);
+
+            if (bankTransactionHistoryListView.Count is 0)
+            {
+                _hasMore = false;
+            }
+            else
+            {
+                _bankTransactionHistoryListView.AddRange(bankTransactionHistoryListView);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+        finally
+        {
+            _isProcessingLoad = false;
+
+            StateHasChanged();
+        }
+    }
+
+    private async Task CloseModalAsync()
+    {
+        await ResetAsync();
+        await Task.FromResult(_modal.Close(_modalTarget));
+        await Task.CompletedTask;
+    }
+
+    private async Task ResetAsync()
+    {
+        _bankTransactionHistoryListView = new();
+        _multiFilterBankTransactionHistoryDTO = new();
+        _hasMore = false;
+        await Task.CompletedTask;
+    }
+}

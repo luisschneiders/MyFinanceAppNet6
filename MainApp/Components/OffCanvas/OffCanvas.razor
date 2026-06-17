@@ -1,9 +1,9 @@
-﻿<div class="offcanvas offcanvas-@PositionX.ToString().ToLower() flex-grow-1 @_offCanvasClass"
+﻿<div class="offcanvas offcanvas-@(PositionX.ToString().ToLower()) flex-grow-1 @(_offCanvasClass) @($"rounded-start{_appSettings.Card}")"
      id="@($"offcanvasRight{_offCanvasId}")"
      aria-labelledby="@($"offcanvasRightLabel{_offCanvasId}")"
      data-bs-scroll="false">
     <div class="offcanvas-header px-4 border-bottom">
-        <h5 class="offcanvas-title" id="@($"offcanvasRightLabel{_offCanvasId}")">@Title</h5>
+        <h5 class="offcanvas-title" id="@($"offcanvasRightLabel{_offCanvasId}")">@(Title)</h5>
     </div>
     <div class="offcanvas-body p-4 pt-0">
         @ChildContent
@@ -11,5 +11,5 @@
 </div>
 @if (_showBackdrop)
 {
-    <div class="offcanvas-backdrop app-offcanvas-backdrop fade @_offCanvasClass"></div>
+    <div class="offcanvas-backdrop app-offcanvas-backdrop fade @(_offCanvasClass)"></div>
 }

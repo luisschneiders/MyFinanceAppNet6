@@ -23,7 +23,7 @@ public partial class DropdownActions : ComponentBase
     public string IconEnd { get; set; } = "bi-three-dots";
 
     [Parameter]
-    public Theme ButtonColor { get; set; } = Theme.Primary;
+    public Theme ButtonColor { get; set; } = Theme.Secondary;
 
     [Parameter]
     public string ButtonCssClass { get; set; } = string.Empty;

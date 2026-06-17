@@ -21,22 +21,26 @@ public partial class AdminTripOffCanvas : ComponentBase
     [Inject]
     private IEnumHelper _enumHelper { get; set; } = default!;
 
+    [Inject]
+    private ICompanyService<CompanyModel> _companyService { get; set; } = default!;
+
     [CascadingParameter(Name = "AppSettings")]
     protected IAppSettings _appSettings { get; set; } = default!;
 
     [Parameter]
     public EventCallback OnSubmitSuccess { get; set; }
-
     private TripModel _tripModel { get; set; } = new();
     private List<VehicleModel> _activeVehicles { get; set; } = new();
     private TripCategory[] _tripCategories { get; set; } = default!;
     private List<TripCategoryDTO> _tripCategoryDTOs { get; set; } = new();
+    private List<CompanyModel> _activeCompanies { get; set; } = new();
     private TripCategoryDTO _tripCategory { get; set; } = new();
     private bool _shouldRender { get; set; } = true;
     private bool _displayErrorMessages { get; set; } = false;
     private bool _isProcessing { get; set; } = false;
     private bool _isLoading { get; set; } = true;
-    private InputFormAttributes _inputFormAttributes{ get; set; } = new();
+    private bool _isLoadingCompany { get; set; } = false;
+    private InputFormAttributes _inputFormAttributes { get; set; } = new();
 
     public AdminTripOffCanvas()
     {
@@ -51,7 +55,8 @@ public partial class AdminTripOffCanvas : ComponentBase
             {
                 foreach (var (item, index) in _tripCategories.Select((value, index) => (value, index)))
                 {
-                    _tripCategory = new() {
+                    _tripCategory = new()
+                    {
                         Id = (ulong)index,
                         Description = _enumHelper.GetDescription(item),
                     };
@@ -109,12 +114,36 @@ public partial class AdminTripOffCanvas : ComponentBase
         await Task.CompletedTask;
     }
 
+    public async Task EditRecordOffCanvasAsync(string id)
+    {
+        try
+        {
+            _tripModel = await _tripService.GetRecordById(id);
+            if (_tripModel is not null)
+            {
+                _activeCompanies = await _companyService.GetRecordsActive();
+                await _offCanvasService.EditRecordAsync(id);
+            }
+            else
+            {
+                _tripModel = new();
+                _toastService.ShowToast(Label.AppNoRecordFound, Theme.Danger);
+            }
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+        await Task.CompletedTask;
+    }
+
     private async Task FetchDataAsync()
     {
         try
         {
             _activeVehicles = await _vehicleService.GetRecordsActive();
             _isLoading = false;
+
             StateHasChanged();
         }
         catch (Exception ex)
@@ -133,15 +162,29 @@ public partial class AdminTripOffCanvas : ComponentBase
             _displayErrorMessages = false;
             _isProcessing = true;
 
-            await _tripService.CreateRecord(_tripModel);
+            var offCanvasViewType = _offCanvasService.GetOffCanvasViewType();
+
+            if (offCanvasViewType == OffCanvasViewType.Add)
+            {
+                await _tripService.CreateRecord(_tripModel);
+                _toastService.ShowToast(Label.AppAdminTrip + " " + Label.AppAdded, Theme.Success);
+            }
+            else if (offCanvasViewType == OffCanvasViewType.Edit)
+            {
+                await _tripService.UpdateRecord(_tripModel);
+                _toastService.ShowToast(Label.AppAdminTrip + " " + Label.AppUpdated, Theme.Success);
+            }
+            else if (offCanvasViewType == OffCanvasViewType.Archive)
+            {
+                await _tripService.ArchiveRecord(_tripModel);
+                _toastService.ShowToast(Label.AppAdminTrip + " " + Label.AppArchived, Theme.Success);
+            }
 
             _isProcessing = false;
-            _toastService.ShowToast(Label.AppAdminTrip+" "+Label.AppAdded, Theme.Success);
 
             await OnSubmitSuccess.InvokeAsync();
             await Task.Delay((int)Delay.DataSuccess);
             await CloseOffCanvasAsync();
-
         }
         catch (Exception ex)
         {
@@ -156,6 +199,7 @@ public partial class AdminTripOffCanvas : ComponentBase
     {
         _isProcessing = false;
         _displayErrorMessages = true;
+
         await Task.CompletedTask;
     }
 
@@ -193,6 +237,7 @@ public partial class AdminTripOffCanvas : ComponentBase
         if (decimal.TryParse(args.Value!.ToString(), out decimal result))
         {
             _tripModel.StartOdometer = result;
+
             CalculateDifference();
         }
 
@@ -204,6 +249,7 @@ public partial class AdminTripOffCanvas : ComponentBase
         if (decimal.TryParse(args.Value!.ToString(), out decimal result))
         {
             _tripModel.EndOdometer = result;
+
             CalculateDifference();
         }
 
@@ -213,5 +259,36 @@ public partial class AdminTripOffCanvas : ComponentBase
     private void CalculateDifference()
     {
         _tripModel.Distance = _tripModel.EndOdometer - _tripModel.StartOdometer;
+    }
+
+    private async void OnValueChangedCategory(ChangeEventArgs args)
+    {
+        _isLoadingCompany = true;
+
+        var valueChanged = args?.Value;
+
+        if (valueChanged is not null)
+        {
+            _activeCompanies = await _companyService.GetRecordsActive();
+        }
+
+        _isLoadingCompany = false;
+    }
+
+    private async void OnValueChangedCompany(ChangeEventArgs args)
+    {
+
+        var valueChanged = args?.Value;
+
+        if (valueChanged is not null)
+        {
+            ulong companyId = ulong.Parse(valueChanged.ToString()!);
+
+            if (companyId > 0)
+            {
+                _tripModel.CPK = await _companyService.GetCPK(companyId.ToString());
+                StateHasChanged();
+            }
+        }
     }
 }

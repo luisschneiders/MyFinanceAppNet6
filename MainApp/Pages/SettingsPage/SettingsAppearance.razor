@@ -1,16 +1,19 @@
 ﻿@using MainApp.Components.Card
 
-<CardView Styles="border-0">
-    <CardMiddle Styles="p-0">
-        <div @onclick="SetSettingsAppearance">
-            <div class="btn btn-light border-0 d-flex w-100 align-items-center @("rounded"+Radius)">
-                <i class="bi bi-moon-stars-fill text-@(Theme.Secondary.ToString().ToLower()) fs-5"></i>
-                <div class="w-100 text-start ps-3 pe-2">
-                    <span class="d-block mb-1">@Label.AppSettingAppearance</span>
-                    <small class="text-@(Theme.Secondary.ToString().ToLower())">@Label.AppSettingAppearanceParagraph</small>
-                </div>
-                <div class="text-@(Theme.Secondary.ToString().ToLower())">
-                    <i class="bi bi-chevron-right"></i>
+<CardView Styles="border-0 mb-3">
+    <CardMiddle>
+        <div class="row g-0">
+            <div class="col-md-4 d-flex align-items-center justify-content-center">
+                <i class="bi bi-moon-stars-fill fs-1 py-3 px-4"></i>
+            </div>
+            <div class="col-md-8">
+                <h3 class="fs-5 text-body-emphasis">@Label.AppSettingAppearance</h3>
+                <p class="fs-6 @($"text-{Theme.Secondary.ToString().ToLower()}")">@Label.AppSettingAppearanceParagraph</p>
+                <div class="d-flex justify-content-end">
+                    <a @onclick="SetSettingsAppearance" class="d-flex btn btn-sm @($"btn-outline-{Theme.Primary.ToString().ToLower()}") @("rounded"+_appSettings.Button)">
+                        @Label.AppButtonCustomise
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
                 </div>
             </div>
         </div>

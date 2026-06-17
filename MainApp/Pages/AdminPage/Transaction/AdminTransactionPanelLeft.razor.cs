@@ -1,4 +1,5 @@
-﻿using MainApp.Components.Toast;
+﻿using MainApp.Shared;
+using MainApp.Components.Toast;
 using Microsoft.AspNetCore.Components;
 
 namespace MainApp.Pages.AdminPage.Transaction;
@@ -36,6 +37,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private AdminTransactionModal _setupModal { get; set; } = new();
     private AdminTransactionModalFilter _setupModalFilter { get; set; } = new();
     private AdminTransactionModalDetails _setupModalTransactionDetails { get; set; } = new();
+    private TransactionHistory _setupModalTransactionHistory { get; set; } = new();
     private AdminTransactionModalCalculator _setupModalCalculator { get; set; } = new();
     private AdminTransactionModalInfo _setupModalInfo { get; set; } = new();
     private DateTimeRange _dateRange { get; set; } = new();
@@ -50,6 +52,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private DateTime[][] _weeks { get; set; } = default!;
     private bool _isLoading { get; set; } = true;
     private bool _isLoadingView { get; set; } = true;
+    private bool _isExporting { get; set; } = false;
 
     public AdminTransactionPanelLeft()
     {
@@ -116,6 +119,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         }
         catch (Exception ex)
         {
+            _isLoadingView = false;
             _isLoading = false;
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
@@ -167,7 +171,7 @@ public partial class AdminTransactionPanelLeft : ComponentBase
             _isLoadingView = false;
             _toastService.ShowToast(ex.Message, Theme.Danger);
         }
-        
+
         await Task.CompletedTask;
     }
 
@@ -243,7 +247,21 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         }
         catch (Exception ex)
         {
-            _toastService.ShowToast(ex.Message, Theme.Danger);;
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        await Task.CompletedTask;
+    }
+
+    private async Task OpenTransactionHistoryAsync()
+    {
+        try
+        {
+            await _setupModalTransactionHistory.OpenModalAsync();
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
         }
 
         await Task.CompletedTask;
@@ -314,7 +332,8 @@ public partial class AdminTransactionPanelLeft : ComponentBase
         {
             return true;
         }
-        else{
+        else
+        {
             return false;
         }
     }
@@ -322,6 +341,47 @@ public partial class AdminTransactionPanelLeft : ComponentBase
     private async Task OpenSetupOffCanvas(DateTime date)
     {
         await AddRecordAsync(date);
+        await Task.CompletedTask;
+    }
+
+    private async Task ExportAsync()
+    {
+
+        _isExporting = true;
+
+        try
+        {
+            string downloadsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+
+            DateTime now = DateTime.Now;
+            string dateStr = now.ToString("yyyyMMddHHmmss");
+
+            // File path
+            string filePath = Path.Combine(downloadsPath, $"{dateStr}_Transactions.csv");
+
+            // Write CSV file
+            using StreamWriter sw = new(filePath);
+            {
+                sw.WriteLine($"Yes/No,Transaction,Amount");
+
+                foreach (var transaction in _transactionsListView)
+                {
+                    sw.WriteLine($"{true},{transaction.Description.EscapeCsv()},{transaction.Total}");
+                }
+            }
+
+            _toastService.ShowToast($"{Label.AppAdminTransactionExportMessage}", Theme.Success);
+
+            await Task.Delay((int)Delay.DataLoading);
+
+        }
+        catch (Exception ex)
+        {
+            _toastService.ShowToast(ex.Message, Theme.Danger);
+        }
+
+        _isExporting = false;
+
         await Task.CompletedTask;
     }
 }

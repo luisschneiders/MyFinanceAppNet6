@@ -13,6 +13,9 @@ public partial class AccordionBody : ComponentBase
     [Parameter]
     public bool IsAlwaysOpen { get; set; } = false;
 
+    [Parameter]
+    public string AccordionBodyCSS { get; set; } = string.Empty;
+
     public AccordionBody()
     {
     }

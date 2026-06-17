@@ -209,4 +209,18 @@ public class CompanyService : ICompanyService<CompanyModel>
             throw;
         }
     }
+
+    public async Task<decimal> GetCPK(string modelId)
+    {
+        try
+        {
+            CompanyModel companyModel = await GetRecordById(modelId);
+            return companyModel.CPK;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An exception occurred: " + ex.Message);
+            throw;
+        }
+    }
 }
