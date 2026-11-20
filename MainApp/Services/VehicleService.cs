@@ -108,7 +108,7 @@ public class VehicleService : IVehicleService<VehicleModel>
                 CheckboxItemModel filterItem = new()
                 {
                     Id = item.Id,
-                    Description = item.Description,
+                    Description = $"{item.Description} ({item.Plate})",
                 };
                 filter.Add(filterItem);
             }
